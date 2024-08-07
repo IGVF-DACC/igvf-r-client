@@ -1,0 +1,50 @@
+# igvfclient::MeasurementSet
+
+Measurement set is a file set that hosts raw data files (e.g. FASTQs) resulting from sequencing of a library prepared from the nucleic acids of the sample that is the main target of the assay. For example sequencing of accessible regions in the genome, or sequencing of the transcriptome of the sample. The assay can either be bulk or single cell type. The sample specific raw sequencing results will be captured in the measurement sets. The files in the measurement sets are specific to the sample being investigated. See auxiliary sets for files that are not a direct result of sequencing the sample under investigation.
+
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**release_timestamp** | **character** | The date the object was released. | [optional] 
+**publications** | **set[character]** | The publications associated with this object. | [optional] 
+**publication_identifiers** | **set[character]** | The publication identifiers that provide more information about the object. | [optional] 
+**documents** | **set[character]** | Documents that provide additional information (not data file). | [optional] 
+**lab** | **character** | Lab associated with the submission. | [optional] 
+**award** | **character** | Grant associated with the submission. | [optional] 
+**accession** | **character** | A unique identifier to be used to reference the object prefixed with IGVF. | [optional] 
+**alternate_accessions** | **set[character]** | Accessions previously assigned to objects that have been merged with this object. | [optional] 
+**collections** | **set[character]** | Some samples are part of particular data collections. | [optional] [Enum: ] 
+**status** | **character** | The status of the metadata object. | [optional] [Enum: [in progress, released, deleted, replaced, revoked, archived]] 
+**revoke_detail** | **character** | Explanation of why an object was transitioned to the revoked status. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
+**schema_version** | **character** | The version of the JSON schema that the server uses to validate the object. | [optional] [Pattern: ^\\d+(\\.\\d+)*$] 
+**uuid** | **character** | The unique identifier associated with every object. | [optional] 
+**notes** | **character** | DACC internal notes. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
+**aliases** | **set[character]** | Lab specific identifiers to reference an object. | [optional] 
+**creation_timestamp** | **character** | The date the object was created. | [optional] 
+**submitted_by** | **character** | The user who submitted the object. | [optional] 
+**submitter_comment** | **character** | Additional information specified by the submitter to be displayed as a comment on the portal. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
+**description** | **character** | A plain text description of the object. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
+**dbxrefs** | **set[character]** | Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file sets. | [optional] 
+**samples** | **set[character]** | The sample(s) associated with this file set. | [optional] 
+**donors** | **set[character]** | The donors of the samples associated with this measurement set. | [optional] 
+**file_set_type** | **character** | The category that best describes this measurement set. | [optional] [Enum: [experimental data]] 
+**assay_term** | **character** | The assay used to produce data in this measurement set. | [optional] 
+**library_construction_platform** | **character** | The platform used to construct the library sequenced in this measurement set. | [optional] 
+**protocols** | **set[character]** | Links to the protocol(s) for conducting the assay on Protocols.io. | [optional] 
+**preferred_assay_title** | **character** | The custom lab preferred label for the experiment performed in this measurement set. | [optional] [Enum: [10x multiome, 10x multiome with MULTI-seq, AAV-MPRA, ATAC-seq, CERES-seq, Cell painting, CRISPR FlowFISH, DOGMA-seq, Histone ChIP-seq, Hi-C, lentiMPRA, MERFISH, MIAA, mN2H, MPRA, MPRA (scQer), MULTI-seq, Parse SPLiT-seq, Perturb-seq, RNA-seq, SGE, scATAC-seq, scNT-seq, scNT-seq2, scRNA-seq, semi-qY2H, SHARE-seq, smFISH, snATAC-seq, snmC-Seq2, snMCT-seq, snM3C-seq, snRNA-seq, SUPERSTARR, TAP-seq, TF ChIP-seq, VAMP-seq, Variant FlowFISH, Variant painting, Y2H, yN2H]] 
+**multiome_size** | **integer** | The number of datasets included in the multiome experiment this measurement set is a part of. | [optional] [Min: 2] 
+**control_file_sets** | **set[character]** | File sets that can serve as scientific controls for this measurement_set. | [optional] 
+**sequencing_library_types** | **set[character]** | Description of the libraries sequenced in this measurement set. | [optional] [Enum: ] 
+**auxiliary_sets** | **set[character]** | The auxiliary sets of files produced alongside raw data from this measurement set. | [optional] 
+**external_image_url** | **character** | Links to the external site where images produced by this measurement are stored. | [optional] [Pattern: ^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$] 
+**targeted_genes** | **set[character]** | A list of genes targeted in this assay. For example, TF ChIP-seq attempts to identify binding sites of a protein encoded by a specific gene. In CRISPR FlowFISH, the modified samples are sorted based on expression of a specific gene. This property differs from small_scale_gene_list in Construct Library Set, which describes genes targeted by the content integrated in the constructs (such as guide RNAs.) | [optional] 
+**@id** | **character** |  | [optional] 
+**@type** | **array[character]** |  | [optional] 
+**summary** | **character** |  | [optional] 
+**files** | **set[character]** | The files associated with this file set. | [optional] 
+**control_for** | **set[character]** | The file sets for which this file set is a control. | [optional] 
+**submitted_files_timestamp** | **character** | The timestamp the first file object in the file_set or associated auxiliary sets was created. | [optional] 
+**input_file_set_for** | **set[character]** | The file sets that use this file set as an input. | [optional] 
+**related_multiome_datasets** | **set[character]** | Related datasets included in the multiome experiment this measurement set is a part of. | [optional] 
+
+
