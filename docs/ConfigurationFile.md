@@ -27,7 +27,7 @@ Name | Type | Description | Notes
 **content_type** | **character** | The type of content in the file. | [optional] 
 **dbxrefs** | **set[character]** | Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file objects. | [optional] 
 **derived_from** | **set[character]** | The files participating as inputs into software to produce this output file. | [optional] 
-**file_format** | **character** | The file format or extension of the file. | [optional] [Enum: [yaml]] 
+**file_format** | **character** | The file format or extension of the file. | [optional] [Enum: [yaml, json]] 
 **file_format_specifications** | **set[character]** | Document that further explains the file format. | [optional] 
 **file_set** | **character** | The file set that this file belongs to. | [optional] 
 **file_size** | **integer** | File size specified in bytes. | [optional] [Min: 0] 

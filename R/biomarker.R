@@ -26,7 +26,7 @@
 #' @field gene Biomarker gene. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
-#' @field summary A summary of the object. character [optional]
+#' @field summary  character [optional]
 #' @field name_quantification A concatenation of the name and quantification of the biomarker. character [optional]
 #' @field biomarker_for The samples which have been confirmed to have this biomarker. list(character) [optional]
 #' @importFrom R6 R6Class
@@ -81,7 +81,7 @@ Biomarker <- R6::R6Class(
     #' @param gene Biomarker gene.
     #' @param @id @id
     #' @param @type @type
-    #' @param summary A summary of the object.
+    #' @param summary summary
     #' @param name_quantification A concatenation of the name and quantification of the biomarker.
     #' @param biomarker_for The samples which have been confirmed to have this biomarker.
     #' @param ... Other optional arguments.

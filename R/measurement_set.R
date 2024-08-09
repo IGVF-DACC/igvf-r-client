@@ -9,7 +9,6 @@
 #' @format An \code{R6Class} generator object
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field publications The publications associated with this object. list(character) [optional]
-#' @field publication_identifiers The publication identifiers that provide more information about the object. list(character) [optional]
 #' @field documents Documents that provide additional information (not data file). list(character) [optional]
 #' @field lab Lab associated with the submission. character [optional]
 #' @field award Grant associated with the submission. character [optional]
@@ -31,7 +30,6 @@
 #' @field donors The donors of the samples associated with this measurement set. list(character) [optional]
 #' @field file_set_type The category that best describes this measurement set. character [optional]
 #' @field assay_term The assay used to produce data in this measurement set. character [optional]
-#' @field library_construction_platform The platform used to construct the library sequenced in this measurement set. character [optional]
 #' @field protocols Links to the protocol(s) for conducting the assay on Protocols.io. list(character) [optional]
 #' @field preferred_assay_title The custom lab preferred label for the experiment performed in this measurement set. character [optional]
 #' @field multiome_size The number of datasets included in the multiome experiment this measurement set is a part of. integer [optional]
@@ -56,7 +54,6 @@ MeasurementSet <- R6::R6Class(
   public = list(
     `release_timestamp` = NULL,
     `publications` = NULL,
-    `publication_identifiers` = NULL,
     `documents` = NULL,
     `lab` = NULL,
     `award` = NULL,
@@ -78,7 +75,6 @@ MeasurementSet <- R6::R6Class(
     `donors` = NULL,
     `file_set_type` = NULL,
     `assay_term` = NULL,
-    `library_construction_platform` = NULL,
     `protocols` = NULL,
     `preferred_assay_title` = NULL,
     `multiome_size` = NULL,
@@ -102,7 +98,6 @@ MeasurementSet <- R6::R6Class(
     #'
     #' @param release_timestamp The date the object was released.
     #' @param publications The publications associated with this object.
-    #' @param publication_identifiers The publication identifiers that provide more information about the object.
     #' @param documents Documents that provide additional information (not data file).
     #' @param lab Lab associated with the submission.
     #' @param award Grant associated with the submission.
@@ -124,7 +119,6 @@ MeasurementSet <- R6::R6Class(
     #' @param donors The donors of the samples associated with this measurement set.
     #' @param file_set_type The category that best describes this measurement set.
     #' @param assay_term The assay used to produce data in this measurement set.
-    #' @param library_construction_platform The platform used to construct the library sequenced in this measurement set.
     #' @param protocols Links to the protocol(s) for conducting the assay on Protocols.io.
     #' @param preferred_assay_title The custom lab preferred label for the experiment performed in this measurement set.
     #' @param multiome_size The number of datasets included in the multiome experiment this measurement set is a part of.
@@ -143,7 +137,7 @@ MeasurementSet <- R6::R6Class(
     #' @param related_multiome_datasets Related datasets included in the multiome experiment this measurement set is a part of.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `publications` = NULL, `publication_identifiers` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `assay_term` = NULL, `library_construction_platform` = NULL, `protocols` = NULL, `preferred_assay_title` = NULL, `multiome_size` = NULL, `control_file_sets` = NULL, `sequencing_library_types` = NULL, `auxiliary_sets` = NULL, `external_image_url` = NULL, `targeted_genes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_file_set_for` = NULL, `related_multiome_datasets` = NULL, ...) {
+    initialize = function(`release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `assay_term` = NULL, `protocols` = NULL, `preferred_assay_title` = NULL, `multiome_size` = NULL, `control_file_sets` = NULL, `sequencing_library_types` = NULL, `auxiliary_sets` = NULL, `external_image_url` = NULL, `targeted_genes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_file_set_for` = NULL, `related_multiome_datasets` = NULL, ...) {
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -154,11 +148,6 @@ MeasurementSet <- R6::R6Class(
         stopifnot(is.vector(`publications`), length(`publications`) != 0)
         sapply(`publications`, function(x) stopifnot(is.character(x)))
         self$`publications` <- `publications`
-      }
-      if (!is.null(`publication_identifiers`)) {
-        stopifnot(is.vector(`publication_identifiers`), length(`publication_identifiers`) != 0)
-        sapply(`publication_identifiers`, function(x) stopifnot(is.character(x)))
-        self$`publication_identifiers` <- `publication_identifiers`
       }
       if (!is.null(`documents`)) {
         stopifnot(is.vector(`documents`), length(`documents`) != 0)
@@ -285,20 +274,14 @@ MeasurementSet <- R6::R6Class(
         }
         self$`assay_term` <- `assay_term`
       }
-      if (!is.null(`library_construction_platform`)) {
-        if (!(is.character(`library_construction_platform`) && length(`library_construction_platform`) == 1)) {
-          stop(paste("Error! Invalid data for `library_construction_platform`. Must be a string:", `library_construction_platform`))
-        }
-        self$`library_construction_platform` <- `library_construction_platform`
-      }
       if (!is.null(`protocols`)) {
         stopifnot(is.vector(`protocols`), length(`protocols`) != 0)
         sapply(`protocols`, function(x) stopifnot(is.character(x)))
         self$`protocols` <- `protocols`
       }
       if (!is.null(`preferred_assay_title`)) {
-        if (!(`preferred_assay_title` %in% c("10x multiome", "10x multiome with MULTI-seq", "AAV-MPRA", "ATAC-seq", "CERES-seq", "Cell painting", "CRISPR FlowFISH", "DOGMA-seq", "Histone ChIP-seq", "Hi-C", "lentiMPRA", "MERFISH", "MIAA", "mN2H", "MPRA", "MPRA (scQer)", "MULTI-seq", "Parse SPLiT-seq", "Perturb-seq", "RNA-seq", "SGE", "scATAC-seq", "scNT-seq", "scNT-seq2", "scRNA-seq", "semi-qY2H", "SHARE-seq", "smFISH", "snATAC-seq", "snmC-Seq2", "snMCT-seq", "snM3C-seq", "snRNA-seq", "SUPERSTARR", "TAP-seq", "TF ChIP-seq", "VAMP-seq", "Variant FlowFISH", "Variant painting", "Y2H", "yN2H"))) {
-          stop(paste("Error! \"", `preferred_assay_title`, "\" cannot be assigned to `preferred_assay_title`. Must be \"10x multiome\", \"10x multiome with MULTI-seq\", \"AAV-MPRA\", \"ATAC-seq\", \"CERES-seq\", \"Cell painting\", \"CRISPR FlowFISH\", \"DOGMA-seq\", \"Histone ChIP-seq\", \"Hi-C\", \"lentiMPRA\", \"MERFISH\", \"MIAA\", \"mN2H\", \"MPRA\", \"MPRA (scQer)\", \"MULTI-seq\", \"Parse SPLiT-seq\", \"Perturb-seq\", \"RNA-seq\", \"SGE\", \"scATAC-seq\", \"scNT-seq\", \"scNT-seq2\", \"scRNA-seq\", \"semi-qY2H\", \"SHARE-seq\", \"smFISH\", \"snATAC-seq\", \"snmC-Seq2\", \"snMCT-seq\", \"snM3C-seq\", \"snRNA-seq\", \"SUPERSTARR\", \"TAP-seq\", \"TF ChIP-seq\", \"VAMP-seq\", \"Variant FlowFISH\", \"Variant painting\", \"Y2H\", \"yN2H\".", sep = ""))
+        if (!(`preferred_assay_title` %in% c("10x multiome", "10x multiome with MULTI-seq", "AAV-MPRA", "ATAC-seq", "CERES-seq", "Cell painting", "CRISPR FlowFISH", "DOGMA-seq", "Histone ChIP-seq", "Hi-C", "HT-recruit", "lentiMPRA", "MERFISH", "MIAA", "mN2H", "MPRA", "MPRA (scQer)", "MULTI-seq", "Parse SPLiT-seq", "Perturb-seq", "RNA-seq", "SGE", "scATAC-seq", "scNT-seq", "scNT-seq2", "scRNA-seq", "semi-qY2H", "SHARE-seq", "smFISH", "snATAC-seq", "snmC-Seq2", "snMCT-seq", "snM3C-seq", "snRNA-seq", "Spatial transcriptomics", "SUPERSTARR", "TAP-seq", "TF ChIP-seq", "VAMP-seq", "Variant FlowFISH", "Variant painting", "Y2H", "yN2H"))) {
+          stop(paste("Error! \"", `preferred_assay_title`, "\" cannot be assigned to `preferred_assay_title`. Must be \"10x multiome\", \"10x multiome with MULTI-seq\", \"AAV-MPRA\", \"ATAC-seq\", \"CERES-seq\", \"Cell painting\", \"CRISPR FlowFISH\", \"DOGMA-seq\", \"Histone ChIP-seq\", \"Hi-C\", \"HT-recruit\", \"lentiMPRA\", \"MERFISH\", \"MIAA\", \"mN2H\", \"MPRA\", \"MPRA (scQer)\", \"MULTI-seq\", \"Parse SPLiT-seq\", \"Perturb-seq\", \"RNA-seq\", \"SGE\", \"scATAC-seq\", \"scNT-seq\", \"scNT-seq2\", \"scRNA-seq\", \"semi-qY2H\", \"SHARE-seq\", \"smFISH\", \"snATAC-seq\", \"snmC-Seq2\", \"snMCT-seq\", \"snM3C-seq\", \"snRNA-seq\", \"Spatial transcriptomics\", \"SUPERSTARR\", \"TAP-seq\", \"TF ChIP-seq\", \"VAMP-seq\", \"Variant FlowFISH\", \"Variant painting\", \"Y2H\", \"yN2H\".", sep = ""))
         }
         if (!(is.character(`preferred_assay_title`) && length(`preferred_assay_title`) == 1)) {
           stop(paste("Error! Invalid data for `preferred_assay_title`. Must be a string:", `preferred_assay_title`))
@@ -398,10 +381,6 @@ MeasurementSet <- R6::R6Class(
         MeasurementSetObject[["publications"]] <-
           self$`publications`
       }
-      if (!is.null(self$`publication_identifiers`)) {
-        MeasurementSetObject[["publication_identifiers"]] <-
-          self$`publication_identifiers`
-      }
       if (!is.null(self$`documents`)) {
         MeasurementSetObject[["documents"]] <-
           self$`documents`
@@ -486,10 +465,6 @@ MeasurementSet <- R6::R6Class(
         MeasurementSetObject[["assay_term"]] <-
           self$`assay_term`
       }
-      if (!is.null(self$`library_construction_platform`)) {
-        MeasurementSetObject[["library_construction_platform"]] <-
-          self$`library_construction_platform`
-      }
       if (!is.null(self$`protocols`)) {
         MeasurementSetObject[["protocols"]] <-
           self$`protocols`
@@ -572,9 +547,6 @@ MeasurementSet <- R6::R6Class(
       if (!is.null(this_object$`publications`)) {
         self$`publications` <- ApiClient$new()$deserializeObj(this_object$`publications`, "set[character]", loadNamespace("igvfclient"))
       }
-      if (!is.null(this_object$`publication_identifiers`)) {
-        self$`publication_identifiers` <- ApiClient$new()$deserializeObj(this_object$`publication_identifiers`, "set[character]", loadNamespace("igvfclient"))
-      }
       if (!is.null(this_object$`documents`)) {
         self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
       }
@@ -644,15 +616,12 @@ MeasurementSet <- R6::R6Class(
       if (!is.null(this_object$`assay_term`)) {
         self$`assay_term` <- this_object$`assay_term`
       }
-      if (!is.null(this_object$`library_construction_platform`)) {
-        self$`library_construction_platform` <- this_object$`library_construction_platform`
-      }
       if (!is.null(this_object$`protocols`)) {
         self$`protocols` <- ApiClient$new()$deserializeObj(this_object$`protocols`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`preferred_assay_title`)) {
-        if (!is.null(this_object$`preferred_assay_title`) && !(this_object$`preferred_assay_title` %in% c("10x multiome", "10x multiome with MULTI-seq", "AAV-MPRA", "ATAC-seq", "CERES-seq", "Cell painting", "CRISPR FlowFISH", "DOGMA-seq", "Histone ChIP-seq", "Hi-C", "lentiMPRA", "MERFISH", "MIAA", "mN2H", "MPRA", "MPRA (scQer)", "MULTI-seq", "Parse SPLiT-seq", "Perturb-seq", "RNA-seq", "SGE", "scATAC-seq", "scNT-seq", "scNT-seq2", "scRNA-seq", "semi-qY2H", "SHARE-seq", "smFISH", "snATAC-seq", "snmC-Seq2", "snMCT-seq", "snM3C-seq", "snRNA-seq", "SUPERSTARR", "TAP-seq", "TF ChIP-seq", "VAMP-seq", "Variant FlowFISH", "Variant painting", "Y2H", "yN2H"))) {
-          stop(paste("Error! \"", this_object$`preferred_assay_title`, "\" cannot be assigned to `preferred_assay_title`. Must be \"10x multiome\", \"10x multiome with MULTI-seq\", \"AAV-MPRA\", \"ATAC-seq\", \"CERES-seq\", \"Cell painting\", \"CRISPR FlowFISH\", \"DOGMA-seq\", \"Histone ChIP-seq\", \"Hi-C\", \"lentiMPRA\", \"MERFISH\", \"MIAA\", \"mN2H\", \"MPRA\", \"MPRA (scQer)\", \"MULTI-seq\", \"Parse SPLiT-seq\", \"Perturb-seq\", \"RNA-seq\", \"SGE\", \"scATAC-seq\", \"scNT-seq\", \"scNT-seq2\", \"scRNA-seq\", \"semi-qY2H\", \"SHARE-seq\", \"smFISH\", \"snATAC-seq\", \"snmC-Seq2\", \"snMCT-seq\", \"snM3C-seq\", \"snRNA-seq\", \"SUPERSTARR\", \"TAP-seq\", \"TF ChIP-seq\", \"VAMP-seq\", \"Variant FlowFISH\", \"Variant painting\", \"Y2H\", \"yN2H\".", sep = ""))
+        if (!is.null(this_object$`preferred_assay_title`) && !(this_object$`preferred_assay_title` %in% c("10x multiome", "10x multiome with MULTI-seq", "AAV-MPRA", "ATAC-seq", "CERES-seq", "Cell painting", "CRISPR FlowFISH", "DOGMA-seq", "Histone ChIP-seq", "Hi-C", "HT-recruit", "lentiMPRA", "MERFISH", "MIAA", "mN2H", "MPRA", "MPRA (scQer)", "MULTI-seq", "Parse SPLiT-seq", "Perturb-seq", "RNA-seq", "SGE", "scATAC-seq", "scNT-seq", "scNT-seq2", "scRNA-seq", "semi-qY2H", "SHARE-seq", "smFISH", "snATAC-seq", "snmC-Seq2", "snMCT-seq", "snM3C-seq", "snRNA-seq", "Spatial transcriptomics", "SUPERSTARR", "TAP-seq", "TF ChIP-seq", "VAMP-seq", "Variant FlowFISH", "Variant painting", "Y2H", "yN2H"))) {
+          stop(paste("Error! \"", this_object$`preferred_assay_title`, "\" cannot be assigned to `preferred_assay_title`. Must be \"10x multiome\", \"10x multiome with MULTI-seq\", \"AAV-MPRA\", \"ATAC-seq\", \"CERES-seq\", \"Cell painting\", \"CRISPR FlowFISH\", \"DOGMA-seq\", \"Histone ChIP-seq\", \"Hi-C\", \"HT-recruit\", \"lentiMPRA\", \"MERFISH\", \"MIAA\", \"mN2H\", \"MPRA\", \"MPRA (scQer)\", \"MULTI-seq\", \"Parse SPLiT-seq\", \"Perturb-seq\", \"RNA-seq\", \"SGE\", \"scATAC-seq\", \"scNT-seq\", \"scNT-seq2\", \"scRNA-seq\", \"semi-qY2H\", \"SHARE-seq\", \"smFISH\", \"snATAC-seq\", \"snmC-Seq2\", \"snMCT-seq\", \"snM3C-seq\", \"snRNA-seq\", \"Spatial transcriptomics\", \"SUPERSTARR\", \"TAP-seq\", \"TF ChIP-seq\", \"VAMP-seq\", \"Variant FlowFISH\", \"Variant painting\", \"Y2H\", \"yN2H\".", sep = ""))
         }
         self$`preferred_assay_title` <- this_object$`preferred_assay_title`
       }
@@ -723,14 +692,6 @@ MeasurementSet <- R6::R6Class(
              [%s]
           ',
           paste(unlist(lapply(self$`publications`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
-        if (!is.null(self$`publication_identifiers`)) {
-          sprintf(
-          '"publication_identifiers":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`publication_identifiers`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`documents`)) {
@@ -901,14 +862,6 @@ MeasurementSet <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`assay_term`, perl=TRUE)
           )
         },
-        if (!is.null(self$`library_construction_platform`)) {
-          sprintf(
-          '"library_construction_platform":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`library_construction_platform`, perl=TRUE)
-          )
-        },
         if (!is.null(self$`protocols`)) {
           sprintf(
           '"protocols":
@@ -1053,7 +1006,6 @@ MeasurementSet <- R6::R6Class(
       this_object <- jsonlite::fromJSON(input_json)
       self$`release_timestamp` <- this_object$`release_timestamp`
       self$`publications` <- ApiClient$new()$deserializeObj(this_object$`publications`, "set[character]", loadNamespace("igvfclient"))
-      self$`publication_identifiers` <- ApiClient$new()$deserializeObj(this_object$`publication_identifiers`, "set[character]", loadNamespace("igvfclient"))
       self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
       self$`lab` <- this_object$`lab`
       self$`award` <- this_object$`award`
@@ -1081,10 +1033,9 @@ MeasurementSet <- R6::R6Class(
       }
       self$`file_set_type` <- this_object$`file_set_type`
       self$`assay_term` <- this_object$`assay_term`
-      self$`library_construction_platform` <- this_object$`library_construction_platform`
       self$`protocols` <- ApiClient$new()$deserializeObj(this_object$`protocols`, "set[character]", loadNamespace("igvfclient"))
-      if (!is.null(this_object$`preferred_assay_title`) && !(this_object$`preferred_assay_title` %in% c("10x multiome", "10x multiome with MULTI-seq", "AAV-MPRA", "ATAC-seq", "CERES-seq", "Cell painting", "CRISPR FlowFISH", "DOGMA-seq", "Histone ChIP-seq", "Hi-C", "lentiMPRA", "MERFISH", "MIAA", "mN2H", "MPRA", "MPRA (scQer)", "MULTI-seq", "Parse SPLiT-seq", "Perturb-seq", "RNA-seq", "SGE", "scATAC-seq", "scNT-seq", "scNT-seq2", "scRNA-seq", "semi-qY2H", "SHARE-seq", "smFISH", "snATAC-seq", "snmC-Seq2", "snMCT-seq", "snM3C-seq", "snRNA-seq", "SUPERSTARR", "TAP-seq", "TF ChIP-seq", "VAMP-seq", "Variant FlowFISH", "Variant painting", "Y2H", "yN2H"))) {
-        stop(paste("Error! \"", this_object$`preferred_assay_title`, "\" cannot be assigned to `preferred_assay_title`. Must be \"10x multiome\", \"10x multiome with MULTI-seq\", \"AAV-MPRA\", \"ATAC-seq\", \"CERES-seq\", \"Cell painting\", \"CRISPR FlowFISH\", \"DOGMA-seq\", \"Histone ChIP-seq\", \"Hi-C\", \"lentiMPRA\", \"MERFISH\", \"MIAA\", \"mN2H\", \"MPRA\", \"MPRA (scQer)\", \"MULTI-seq\", \"Parse SPLiT-seq\", \"Perturb-seq\", \"RNA-seq\", \"SGE\", \"scATAC-seq\", \"scNT-seq\", \"scNT-seq2\", \"scRNA-seq\", \"semi-qY2H\", \"SHARE-seq\", \"smFISH\", \"snATAC-seq\", \"snmC-Seq2\", \"snMCT-seq\", \"snM3C-seq\", \"snRNA-seq\", \"SUPERSTARR\", \"TAP-seq\", \"TF ChIP-seq\", \"VAMP-seq\", \"Variant FlowFISH\", \"Variant painting\", \"Y2H\", \"yN2H\".", sep = ""))
+      if (!is.null(this_object$`preferred_assay_title`) && !(this_object$`preferred_assay_title` %in% c("10x multiome", "10x multiome with MULTI-seq", "AAV-MPRA", "ATAC-seq", "CERES-seq", "Cell painting", "CRISPR FlowFISH", "DOGMA-seq", "Histone ChIP-seq", "Hi-C", "HT-recruit", "lentiMPRA", "MERFISH", "MIAA", "mN2H", "MPRA", "MPRA (scQer)", "MULTI-seq", "Parse SPLiT-seq", "Perturb-seq", "RNA-seq", "SGE", "scATAC-seq", "scNT-seq", "scNT-seq2", "scRNA-seq", "semi-qY2H", "SHARE-seq", "smFISH", "snATAC-seq", "snmC-Seq2", "snMCT-seq", "snM3C-seq", "snRNA-seq", "Spatial transcriptomics", "SUPERSTARR", "TAP-seq", "TF ChIP-seq", "VAMP-seq", "Variant FlowFISH", "Variant painting", "Y2H", "yN2H"))) {
+        stop(paste("Error! \"", this_object$`preferred_assay_title`, "\" cannot be assigned to `preferred_assay_title`. Must be \"10x multiome\", \"10x multiome with MULTI-seq\", \"AAV-MPRA\", \"ATAC-seq\", \"CERES-seq\", \"Cell painting\", \"CRISPR FlowFISH\", \"DOGMA-seq\", \"Histone ChIP-seq\", \"Hi-C\", \"HT-recruit\", \"lentiMPRA\", \"MERFISH\", \"MIAA\", \"mN2H\", \"MPRA\", \"MPRA (scQer)\", \"MULTI-seq\", \"Parse SPLiT-seq\", \"Perturb-seq\", \"RNA-seq\", \"SGE\", \"scATAC-seq\", \"scNT-seq\", \"scNT-seq2\", \"scRNA-seq\", \"semi-qY2H\", \"SHARE-seq\", \"smFISH\", \"snATAC-seq\", \"snmC-Seq2\", \"snMCT-seq\", \"snM3C-seq\", \"snRNA-seq\", \"Spatial transcriptomics\", \"SUPERSTARR\", \"TAP-seq\", \"TF ChIP-seq\", \"VAMP-seq\", \"Variant FlowFISH\", \"Variant painting\", \"Y2H\", \"yN2H\".", sep = ""))
       }
       self$`preferred_assay_title` <- this_object$`preferred_assay_title`
       self$`multiome_size` <- this_object$`multiome_size`
@@ -1131,7 +1082,6 @@ MeasurementSet <- R6::R6Class(
     #' @return true if the values in all fields are valid.
     #' @export
     isValid = function() {
-
 
 
 
@@ -1188,7 +1138,6 @@ MeasurementSet <- R6::R6Class(
     #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
-
 
 
 

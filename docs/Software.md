@@ -7,7 +7,6 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **publications** | **set[character]** | The publications associated with this object. | [optional] 
-**publication_identifiers** | **set[character]** | The publication identifiers that provide more information about the object. | [optional] 
 **lab** | **character** | Lab associated with the submission. | [optional] 
 **award** | **character** | Grant associated with the submission. | [optional] 
 **status** | **character** | The status of the metadata object. | [optional] [Enum: [archived, deleted, in progress, released]] 
@@ -25,7 +24,7 @@ Name | Type | Description | Notes
 **used_by** | **set[character]** | The component(s) of the IGVF consortium that utilize this software. | [optional] [Enum: ] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
-**summary** | **character** | A summary of the object. | [optional] 
+**summary** | **character** |  | [optional] 
 **versions** | **set[character]** | A list of versions that have been released for this software. | [optional] 
 
 

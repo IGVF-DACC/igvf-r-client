@@ -10,7 +10,6 @@
 #' @field input_file_sets The file set(s) required for this analysis. list(character) [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field publications The publications associated with this object. list(character) [optional]
-#' @field publication_identifiers The publication identifiers that provide more information about the object. list(character) [optional]
 #' @field documents Documents that provide additional information (not data file). list(character) [optional]
 #' @field lab Lab associated with the submission. character [optional]
 #' @field award Grant associated with the submission. character [optional]
@@ -48,7 +47,6 @@ AnalysisSet <- R6::R6Class(
     `input_file_sets` = NULL,
     `release_timestamp` = NULL,
     `publications` = NULL,
-    `publication_identifiers` = NULL,
     `documents` = NULL,
     `lab` = NULL,
     `award` = NULL,
@@ -85,7 +83,6 @@ AnalysisSet <- R6::R6Class(
     #' @param input_file_sets The file set(s) required for this analysis.
     #' @param release_timestamp The date the object was released.
     #' @param publications The publications associated with this object.
-    #' @param publication_identifiers The publication identifiers that provide more information about the object.
     #' @param documents Documents that provide additional information (not data file).
     #' @param lab Lab associated with the submission.
     #' @param award Grant associated with the submission.
@@ -116,7 +113,7 @@ AnalysisSet <- R6::R6Class(
     #' @param assay_titles Title(s) of assays that produced data analyzed in the analysis set.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `publication_identifiers` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_file_set_for` = NULL, `assay_titles` = NULL, ...) {
+    initialize = function(`input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_file_set_for` = NULL, `assay_titles` = NULL, ...) {
       if (!is.null(`input_file_sets`)) {
         stopifnot(is.vector(`input_file_sets`), length(`input_file_sets`) != 0)
         sapply(`input_file_sets`, function(x) stopifnot(is.character(x)))
@@ -132,11 +129,6 @@ AnalysisSet <- R6::R6Class(
         stopifnot(is.vector(`publications`), length(`publications`) != 0)
         sapply(`publications`, function(x) stopifnot(is.character(x)))
         self$`publications` <- `publications`
-      }
-      if (!is.null(`publication_identifiers`)) {
-        stopifnot(is.vector(`publication_identifiers`), length(`publication_identifiers`) != 0)
-        sapply(`publication_identifiers`, function(x) stopifnot(is.character(x)))
-        self$`publication_identifiers` <- `publication_identifiers`
       }
       if (!is.null(`documents`)) {
         stopifnot(is.vector(`documents`), length(`documents`) != 0)
@@ -322,10 +314,6 @@ AnalysisSet <- R6::R6Class(
         AnalysisSetObject[["publications"]] <-
           self$`publications`
       }
-      if (!is.null(self$`publication_identifiers`)) {
-        AnalysisSetObject[["publication_identifiers"]] <-
-          self$`publication_identifiers`
-      }
       if (!is.null(self$`documents`)) {
         AnalysisSetObject[["documents"]] <-
           self$`documents`
@@ -459,9 +447,6 @@ AnalysisSet <- R6::R6Class(
       if (!is.null(this_object$`publications`)) {
         self$`publications` <- ApiClient$new()$deserializeObj(this_object$`publications`, "set[character]", loadNamespace("igvfclient"))
       }
-      if (!is.null(this_object$`publication_identifiers`)) {
-        self$`publication_identifiers` <- ApiClient$new()$deserializeObj(this_object$`publication_identifiers`, "set[character]", loadNamespace("igvfclient"))
-      }
       if (!is.null(this_object$`documents`)) {
         self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
       }
@@ -585,14 +570,6 @@ AnalysisSet <- R6::R6Class(
              [%s]
           ',
           paste(unlist(lapply(self$`publications`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
-        if (!is.null(self$`publication_identifiers`)) {
-          sprintf(
-          '"publication_identifiers":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`publication_identifiers`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`documents`)) {
@@ -836,7 +813,6 @@ AnalysisSet <- R6::R6Class(
       self$`input_file_sets` <- ApiClient$new()$deserializeObj(this_object$`input_file_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`release_timestamp` <- this_object$`release_timestamp`
       self$`publications` <- ApiClient$new()$deserializeObj(this_object$`publications`, "set[character]", loadNamespace("igvfclient"))
-      self$`publication_identifiers` <- ApiClient$new()$deserializeObj(this_object$`publication_identifiers`, "set[character]", loadNamespace("igvfclient"))
       self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
       self$`lab` <- this_object$`lab`
       self$`award` <- this_object$`award`
@@ -906,7 +882,6 @@ AnalysisSet <- R6::R6Class(
 
 
 
-
       if (!str_detect(self$`revoke_detail`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         return(FALSE)
       }
@@ -946,7 +921,6 @@ AnalysisSet <- R6::R6Class(
     #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
-
 
 
 

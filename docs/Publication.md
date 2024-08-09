@@ -6,7 +6,6 @@ A publication related to IGVF.
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **release_timestamp** | **character** | The date the object was released. | [optional] 
-**publication_identifiers** | **set[character]** | The publication identifiers that provide more information about the object. | [optional] 
 **status** | **character** | The status of the metadata object. | [optional] [Enum: [archived, deleted, in progress, released]] 
 **lab** | **character** | Lab associated with the submission. | [optional] 
 **award** | **character** | Grant associated with the submission. | [optional] 
@@ -28,6 +27,7 @@ Name | Type | Description | Notes
 **page** | **character** | Pagination of the reference | [optional] 
 **volume** | **character** | The volume of the publication. | [optional] 
 **journal** | **character** | The journal of the publication. | [optional] 
+**publication_identifiers** | **set[character]** | The publication identifiers associated with this publication object. | [optional] 
 **published_by** | **set[character]** | The affiliation of the lab with a larger organization, such as IGVF. | [optional] [Enum: ] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 

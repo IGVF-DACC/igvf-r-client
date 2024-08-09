@@ -11,7 +11,6 @@ Name | Type | Description | Notes
 **large_scale_gene_list** | **character** | The large scale list of (&gt;100 genes) this construct library was designed to target. | [optional] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **publications** | **set[character]** | The publications associated with this object. | [optional] 
-**publication_identifiers** | **set[character]** | The publication identifiers that provide more information about the object. | [optional] 
 **documents** | **set[character]** | Documents that provide additional information (not data file). | [optional] 
 **sources** | **set[character]** | The originating lab(s) or vendor(s). | [optional] 
 **lot_id** | **character** | The lot identifier provided by the originating lab or vendor. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 

@@ -7,7 +7,6 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **publications** | **set[character]** | The publications associated with this object. | [optional] 
-**publication_identifiers** | **set[character]** | The publication identifiers that provide more information about the object. | [optional] 
 **documents** | **set[character]** | Documents that provide additional information (not data file). | [optional] 
 **lab** | **character** | Lab associated with the submission. | [optional] 
 **award** | **character** | Grant associated with the submission. | [optional] 
@@ -29,9 +28,8 @@ Name | Type | Description | Notes
 **donors** | **set[character]** | The donors of the samples associated with this measurement set. | [optional] 
 **file_set_type** | **character** | The category that best describes this measurement set. | [optional] [Enum: [experimental data]] 
 **assay_term** | **character** | The assay used to produce data in this measurement set. | [optional] 
-**library_construction_platform** | **character** | The platform used to construct the library sequenced in this measurement set. | [optional] 
 **protocols** | **set[character]** | Links to the protocol(s) for conducting the assay on Protocols.io. | [optional] 
-**preferred_assay_title** | **character** | The custom lab preferred label for the experiment performed in this measurement set. | [optional] [Enum: [10x multiome, 10x multiome with MULTI-seq, AAV-MPRA, ATAC-seq, CERES-seq, Cell painting, CRISPR FlowFISH, DOGMA-seq, Histone ChIP-seq, Hi-C, lentiMPRA, MERFISH, MIAA, mN2H, MPRA, MPRA (scQer), MULTI-seq, Parse SPLiT-seq, Perturb-seq, RNA-seq, SGE, scATAC-seq, scNT-seq, scNT-seq2, scRNA-seq, semi-qY2H, SHARE-seq, smFISH, snATAC-seq, snmC-Seq2, snMCT-seq, snM3C-seq, snRNA-seq, SUPERSTARR, TAP-seq, TF ChIP-seq, VAMP-seq, Variant FlowFISH, Variant painting, Y2H, yN2H]] 
+**preferred_assay_title** | **character** | The custom lab preferred label for the experiment performed in this measurement set. | [optional] [Enum: [10x multiome, 10x multiome with MULTI-seq, AAV-MPRA, ATAC-seq, CERES-seq, Cell painting, CRISPR FlowFISH, DOGMA-seq, Histone ChIP-seq, Hi-C, HT-recruit, lentiMPRA, MERFISH, MIAA, mN2H, MPRA, MPRA (scQer), MULTI-seq, Parse SPLiT-seq, Perturb-seq, RNA-seq, SGE, scATAC-seq, scNT-seq, scNT-seq2, scRNA-seq, semi-qY2H, SHARE-seq, smFISH, snATAC-seq, snmC-Seq2, snMCT-seq, snM3C-seq, snRNA-seq, Spatial transcriptomics, SUPERSTARR, TAP-seq, TF ChIP-seq, VAMP-seq, Variant FlowFISH, Variant painting, Y2H, yN2H]] 
 **multiome_size** | **integer** | The number of datasets included in the multiome experiment this measurement set is a part of. | [optional] [Min: 2] 
 **control_file_sets** | **set[character]** | File sets that can serve as scientific controls for this measurement_set. | [optional] 
 **sequencing_library_types** | **set[character]** | Description of the libraries sequenced in this measurement set. | [optional] [Enum: ] 

@@ -8,7 +8,6 @@
 #' @description Publication Class
 #' @format An \code{R6Class} generator object
 #' @field release_timestamp The date the object was released. character [optional]
-#' @field publication_identifiers The publication identifiers that provide more information about the object. list(character) [optional]
 #' @field status The status of the metadata object. character [optional]
 #' @field lab Lab associated with the submission. character [optional]
 #' @field award Grant associated with the submission. character [optional]
@@ -30,6 +29,7 @@
 #' @field page Pagination of the reference character [optional]
 #' @field volume The volume of the publication. character [optional]
 #' @field journal The journal of the publication. character [optional]
+#' @field publication_identifiers The publication identifiers associated with this publication object. list(character) [optional]
 #' @field published_by The affiliation of the lab with a larger organization, such as IGVF. list(character) [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
@@ -51,7 +51,6 @@ Publication <- R6::R6Class(
   inherit = AnyType,
   public = list(
     `release_timestamp` = NULL,
-    `publication_identifiers` = NULL,
     `status` = NULL,
     `lab` = NULL,
     `award` = NULL,
@@ -73,6 +72,7 @@ Publication <- R6::R6Class(
     `page` = NULL,
     `volume` = NULL,
     `journal` = NULL,
+    `publication_identifiers` = NULL,
     `published_by` = NULL,
     `@id` = NULL,
     `@type` = NULL,
@@ -84,7 +84,7 @@ Publication <- R6::R6Class(
     `workflows` = NULL,
     `software` = NULL,
     `software_versions` = NULL,
-    `_field_list` = c("release_timestamp", "publication_identifiers", "status", "lab", "award", "attachment", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "title", "abstract", "authors", "date_published", "date_revised", "issue", "page", "volume", "journal", "published_by", "@id", "@type", "summary", "publication_year", "samples", "donors", "file_sets", "workflows", "software", "software_versions"),
+    `_field_list` = c("release_timestamp", "status", "lab", "award", "attachment", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "title", "abstract", "authors", "date_published", "date_revised", "issue", "page", "volume", "journal", "publication_identifiers", "published_by", "@id", "@type", "summary", "publication_year", "samples", "donors", "file_sets", "workflows", "software", "software_versions"),
     `additional_properties` = list(),
     #' Initialize a new Publication class.
     #'
@@ -92,7 +92,6 @@ Publication <- R6::R6Class(
     #' Initialize a new Publication class.
     #'
     #' @param release_timestamp The date the object was released.
-    #' @param publication_identifiers The publication identifiers that provide more information about the object.
     #' @param status The status of the metadata object.
     #' @param lab Lab associated with the submission.
     #' @param award Grant associated with the submission.
@@ -114,6 +113,7 @@ Publication <- R6::R6Class(
     #' @param page Pagination of the reference
     #' @param volume The volume of the publication.
     #' @param journal The journal of the publication.
+    #' @param publication_identifiers The publication identifiers associated with this publication object.
     #' @param published_by The affiliation of the lab with a larger organization, such as IGVF.
     #' @param @id @id
     #' @param @type @type
@@ -128,17 +128,12 @@ Publication <- R6::R6Class(
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `publication_identifiers` = NULL, `status` = NULL, `lab` = NULL, `award` = NULL, `attachment` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `title` = NULL, `abstract` = NULL, `authors` = NULL, `date_published` = NULL, `date_revised` = NULL, `issue` = NULL, `page` = NULL, `volume` = NULL, `journal` = NULL, `published_by` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `publication_year` = NULL, `samples` = NULL, `donors` = NULL, `file_sets` = NULL, `workflows` = NULL, `software` = NULL, `software_versions` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`release_timestamp` = NULL, `status` = NULL, `lab` = NULL, `award` = NULL, `attachment` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `title` = NULL, `abstract` = NULL, `authors` = NULL, `date_published` = NULL, `date_revised` = NULL, `issue` = NULL, `page` = NULL, `volume` = NULL, `journal` = NULL, `publication_identifiers` = NULL, `published_by` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `publication_year` = NULL, `samples` = NULL, `donors` = NULL, `file_sets` = NULL, `workflows` = NULL, `software` = NULL, `software_versions` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
         }
         self$`release_timestamp` <- `release_timestamp`
-      }
-      if (!is.null(`publication_identifiers`)) {
-        stopifnot(is.vector(`publication_identifiers`), length(`publication_identifiers`) != 0)
-        sapply(`publication_identifiers`, function(x) stopifnot(is.character(x)))
-        self$`publication_identifiers` <- `publication_identifiers`
       }
       if (!is.null(`status`)) {
         if (!(`status` %in% c("archived", "deleted", "in progress", "released"))) {
@@ -266,6 +261,11 @@ Publication <- R6::R6Class(
         }
         self$`journal` <- `journal`
       }
+      if (!is.null(`publication_identifiers`)) {
+        stopifnot(is.vector(`publication_identifiers`), length(`publication_identifiers`) != 0)
+        sapply(`publication_identifiers`, function(x) stopifnot(is.character(x)))
+        self$`publication_identifiers` <- `publication_identifiers`
+      }
       if (!is.null(`published_by`)) {
         stopifnot(is.vector(`published_by`), length(`published_by`) != 0)
         sapply(`published_by`, function(x) stopifnot(is.character(x)))
@@ -342,10 +342,6 @@ Publication <- R6::R6Class(
       if (!is.null(self$`release_timestamp`)) {
         PublicationObject[["release_timestamp"]] <-
           self$`release_timestamp`
-      }
-      if (!is.null(self$`publication_identifiers`)) {
-        PublicationObject[["publication_identifiers"]] <-
-          self$`publication_identifiers`
       }
       if (!is.null(self$`status`)) {
         PublicationObject[["status"]] <-
@@ -431,6 +427,10 @@ Publication <- R6::R6Class(
         PublicationObject[["journal"]] <-
           self$`journal`
       }
+      if (!is.null(self$`publication_identifiers`)) {
+        PublicationObject[["publication_identifiers"]] <-
+          self$`publication_identifiers`
+      }
       if (!is.null(self$`published_by`)) {
         PublicationObject[["published_by"]] <-
           self$`published_by`
@@ -493,9 +493,6 @@ Publication <- R6::R6Class(
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`release_timestamp`)) {
         self$`release_timestamp` <- this_object$`release_timestamp`
-      }
-      if (!is.null(this_object$`publication_identifiers`)) {
-        self$`publication_identifiers` <- ApiClient$new()$deserializeObj(this_object$`publication_identifiers`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`status`)) {
         if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("archived", "deleted", "in progress", "released"))) {
@@ -565,6 +562,9 @@ Publication <- R6::R6Class(
       if (!is.null(this_object$`journal`)) {
         self$`journal` <- this_object$`journal`
       }
+      if (!is.null(this_object$`publication_identifiers`)) {
+        self$`publication_identifiers` <- ApiClient$new()$deserializeObj(this_object$`publication_identifiers`, "set[character]", loadNamespace("igvfclient"))
+      }
       if (!is.null(this_object$`published_by`)) {
         self$`published_by` <- ApiClient$new()$deserializeObj(this_object$`published_by`, "set[character]", loadNamespace("igvfclient"))
       }
@@ -622,14 +622,6 @@ Publication <- R6::R6Class(
             "%s"
                     ',
           gsub('(?<!\\\\)\\"', '\\\\"', self$`release_timestamp`, perl=TRUE)
-          )
-        },
-        if (!is.null(self$`publication_identifiers`)) {
-          sprintf(
-          '"publication_identifiers":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`publication_identifiers`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`status`)) {
@@ -800,6 +792,14 @@ Publication <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`journal`, perl=TRUE)
           )
         },
+        if (!is.null(self$`publication_identifiers`)) {
+          sprintf(
+          '"publication_identifiers":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`publication_identifiers`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`published_by`)) {
           sprintf(
           '"published_by":
@@ -908,7 +908,6 @@ Publication <- R6::R6Class(
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`release_timestamp` <- this_object$`release_timestamp`
-      self$`publication_identifiers` <- ApiClient$new()$deserializeObj(this_object$`publication_identifiers`, "set[character]", loadNamespace("igvfclient"))
       if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("archived", "deleted", "in progress", "released"))) {
         stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"archived\", \"deleted\", \"in progress\", \"released\".", sep = ""))
       }
@@ -933,6 +932,7 @@ Publication <- R6::R6Class(
       self$`page` <- this_object$`page`
       self$`volume` <- this_object$`volume`
       self$`journal` <- this_object$`journal`
+      self$`publication_identifiers` <- ApiClient$new()$deserializeObj(this_object$`publication_identifiers`, "set[character]", loadNamespace("igvfclient"))
       self$`published_by` <- ApiClient$new()$deserializeObj(this_object$`published_by`, "set[character]", loadNamespace("igvfclient"))
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
@@ -981,7 +981,6 @@ Publication <- R6::R6Class(
     #' @return true if the values in all fields are valid.
     #' @export
     isValid = function() {
-
       if (!str_detect(self$`schema_version`, "^\\d+(\\.\\d+)*$")) {
         return(FALSE)
       }
@@ -998,6 +997,7 @@ Publication <- R6::R6Class(
       if (!str_detect(self$`description`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         return(FALSE)
       }
+
 
 
 
@@ -1017,7 +1017,6 @@ Publication <- R6::R6Class(
     #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
-
       if (!str_detect(self$`schema_version`, "^\\d+(\\.\\d+)*$")) {
         invalid_fields["schema_version"] <- "Invalid value for `schema_version`, must conform to the pattern ^\\d+(\\.\\d+)*$."
       }
@@ -1034,6 +1033,7 @@ Publication <- R6::R6Class(
       if (!str_detect(self$`description`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         invalid_fields["description"] <- "Invalid value for `description`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
+
 
 
 

@@ -9,7 +9,6 @@
 #' @format An \code{R6Class} generator object
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field publications The publications associated with this object. list(character) [optional]
-#' @field publication_identifiers The publication identifiers that provide more information about the object. list(character) [optional]
 #' @field documents Documents that provide additional information (not data file). list(character) [optional]
 #' @field lab Lab associated with the submission. character [optional]
 #' @field award Grant associated with the submission. character [optional]
@@ -31,7 +30,6 @@
 #' @field samples The sample(s) associated with this file set. list(character) [optional]
 #' @field donors The donors of the samples associated with this auxiliary set. list(character) [optional]
 #' @field file_set_type The category that best describes this auxiliary file set. character [optional]
-#' @field library_construction_platform The platform used to construct the library sequenced in this auxiliary set. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary  character [optional]
@@ -48,7 +46,6 @@ AuxiliarySet <- R6::R6Class(
   public = list(
     `release_timestamp` = NULL,
     `publications` = NULL,
-    `publication_identifiers` = NULL,
     `documents` = NULL,
     `lab` = NULL,
     `award` = NULL,
@@ -70,7 +67,6 @@ AuxiliarySet <- R6::R6Class(
     `samples` = NULL,
     `donors` = NULL,
     `file_set_type` = NULL,
-    `library_construction_platform` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -86,7 +82,6 @@ AuxiliarySet <- R6::R6Class(
     #'
     #' @param release_timestamp The date the object was released.
     #' @param publications The publications associated with this object.
-    #' @param publication_identifiers The publication identifiers that provide more information about the object.
     #' @param documents Documents that provide additional information (not data file).
     #' @param lab Lab associated with the submission.
     #' @param award Grant associated with the submission.
@@ -108,7 +103,6 @@ AuxiliarySet <- R6::R6Class(
     #' @param samples The sample(s) associated with this file set.
     #' @param donors The donors of the samples associated with this auxiliary set.
     #' @param file_set_type The category that best describes this auxiliary file set.
-    #' @param library_construction_platform The platform used to construct the library sequenced in this auxiliary set.
     #' @param @id @id
     #' @param @type @type
     #' @param summary summary
@@ -119,7 +113,7 @@ AuxiliarySet <- R6::R6Class(
     #' @param measurement_sets The measurement sets that link to this auxiliary set.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `publications` = NULL, `publication_identifiers` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `library_construction_platform` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_file_set_for` = NULL, `measurement_sets` = NULL, ...) {
+    initialize = function(`release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_file_set_for` = NULL, `measurement_sets` = NULL, ...) {
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -130,11 +124,6 @@ AuxiliarySet <- R6::R6Class(
         stopifnot(is.vector(`publications`), length(`publications`) != 0)
         sapply(`publications`, function(x) stopifnot(is.character(x)))
         self$`publications` <- `publications`
-      }
-      if (!is.null(`publication_identifiers`)) {
-        stopifnot(is.vector(`publication_identifiers`), length(`publication_identifiers`) != 0)
-        sapply(`publication_identifiers`, function(x) stopifnot(is.character(x)))
-        self$`publication_identifiers` <- `publication_identifiers`
       }
       if (!is.null(`documents`)) {
         stopifnot(is.vector(`documents`), length(`documents`) != 0)
@@ -261,12 +250,6 @@ AuxiliarySet <- R6::R6Class(
         }
         self$`file_set_type` <- `file_set_type`
       }
-      if (!is.null(`library_construction_platform`)) {
-        if (!(is.character(`library_construction_platform`) && length(`library_construction_platform`) == 1)) {
-          stop(paste("Error! Invalid data for `library_construction_platform`. Must be a string:", `library_construction_platform`))
-        }
-        self$`library_construction_platform` <- `library_construction_platform`
-      }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
           stop(paste("Error! Invalid data for `@id`. Must be a string:", `@id`))
@@ -327,10 +310,6 @@ AuxiliarySet <- R6::R6Class(
       if (!is.null(self$`publications`)) {
         AuxiliarySetObject[["publications"]] <-
           self$`publications`
-      }
-      if (!is.null(self$`publication_identifiers`)) {
-        AuxiliarySetObject[["publication_identifiers"]] <-
-          self$`publication_identifiers`
       }
       if (!is.null(self$`documents`)) {
         AuxiliarySetObject[["documents"]] <-
@@ -416,10 +395,6 @@ AuxiliarySet <- R6::R6Class(
         AuxiliarySetObject[["file_set_type"]] <-
           self$`file_set_type`
       }
-      if (!is.null(self$`library_construction_platform`)) {
-        AuxiliarySetObject[["library_construction_platform"]] <-
-          self$`library_construction_platform`
-      }
       if (!is.null(self$`@id`)) {
         AuxiliarySetObject[["@id"]] <-
           self$`@id`
@@ -469,9 +444,6 @@ AuxiliarySet <- R6::R6Class(
       }
       if (!is.null(this_object$`publications`)) {
         self$`publications` <- ApiClient$new()$deserializeObj(this_object$`publications`, "set[character]", loadNamespace("igvfclient"))
-      }
-      if (!is.null(this_object$`publication_identifiers`)) {
-        self$`publication_identifiers` <- ApiClient$new()$deserializeObj(this_object$`publication_identifiers`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`documents`)) {
         self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
@@ -542,9 +514,6 @@ AuxiliarySet <- R6::R6Class(
         }
         self$`file_set_type` <- this_object$`file_set_type`
       }
-      if (!is.null(this_object$`library_construction_platform`)) {
-        self$`library_construction_platform` <- this_object$`library_construction_platform`
-      }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
       }
@@ -594,14 +563,6 @@ AuxiliarySet <- R6::R6Class(
              [%s]
           ',
           paste(unlist(lapply(self$`publications`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
-        if (!is.null(self$`publication_identifiers`)) {
-          sprintf(
-          '"publication_identifiers":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`publication_identifiers`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`documents`)) {
@@ -772,14 +733,6 @@ AuxiliarySet <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`file_set_type`, perl=TRUE)
           )
         },
-        if (!is.null(self$`library_construction_platform`)) {
-          sprintf(
-          '"library_construction_platform":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`library_construction_platform`, perl=TRUE)
-          )
-        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -860,7 +813,6 @@ AuxiliarySet <- R6::R6Class(
       this_object <- jsonlite::fromJSON(input_json)
       self$`release_timestamp` <- this_object$`release_timestamp`
       self$`publications` <- ApiClient$new()$deserializeObj(this_object$`publications`, "set[character]", loadNamespace("igvfclient"))
-      self$`publication_identifiers` <- ApiClient$new()$deserializeObj(this_object$`publication_identifiers`, "set[character]", loadNamespace("igvfclient"))
       self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
       self$`lab` <- this_object$`lab`
       self$`award` <- this_object$`award`
@@ -888,7 +840,6 @@ AuxiliarySet <- R6::R6Class(
         stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"cell hashing\", \"cell sorting\", \"circularized RNA barcode detection\", \"gRNA sequencing\", \"oligo-conjugated lipids\", \"quantification DNA barcode sequencing\", \"variant sequencing\".", sep = ""))
       }
       self$`file_set_type` <- this_object$`file_set_type`
-      self$`library_construction_platform` <- this_object$`library_construction_platform`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
@@ -927,7 +878,6 @@ AuxiliarySet <- R6::R6Class(
     #' @return true if the values in all fields are valid.
     #' @export
     isValid = function() {
-
 
 
 
@@ -971,7 +921,6 @@ AuxiliarySet <- R6::R6Class(
     #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
-
 
 
 

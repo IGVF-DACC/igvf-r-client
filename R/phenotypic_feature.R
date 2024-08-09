@@ -25,7 +25,7 @@
 #' @field observation_date The date the feature was observed or measured. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
-#' @field summary A summary of the object. character [optional]
+#' @field summary  character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -74,7 +74,7 @@ PhenotypicFeature <- R6::R6Class(
     #' @param observation_date The date the feature was observed or measured.
     #' @param @id @id
     #' @param @type @type
-    #' @param summary A summary of the object.
+    #' @param summary summary
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(`release_timestamp` = NULL, `status` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `feature` = NULL, `quantity` = NULL, `quantity_units` = NULL, `observation_date` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, ...) {

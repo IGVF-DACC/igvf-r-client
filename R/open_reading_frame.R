@@ -28,7 +28,7 @@
 #' @field pct_coverage_orf The percentage of Ensembl protein covered by ORF. numeric [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
-#' @field summary A summary of the object. character [optional]
+#' @field summary  character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -83,7 +83,7 @@ OpenReadingFrame <- R6::R6Class(
     #' @param pct_coverage_orf The percentage of Ensembl protein covered by ORF.
     #' @param @id @id
     #' @param @type @type
-    #' @param summary A summary of the object.
+    #' @param summary summary
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(`release_timestamp` = NULL, `status` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `lab` = NULL, `award` = NULL, `orf_id` = NULL, `gene` = NULL, `protein_id` = NULL, `dbxrefs` = NULL, `pct_identical_protein` = NULL, `pct_coverage_protein` = NULL, `pct_coverage_orf` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, ...) {

@@ -7,7 +7,6 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **publications** | **set[character]** | The publications associated with this object. | [optional] 
-**publication_identifiers** | **set[character]** | The publication identifiers that provide more information about the object. | [optional] 
 **documents** | **set[character]** | Documents that provide additional information (not data file). | [optional] 
 **lab** | **character** | Lab associated with the submission. | [optional] 
 **award** | **character** | Grant associated with the submission. | [optional] 
@@ -29,7 +28,6 @@ Name | Type | Description | Notes
 **samples** | **set[character]** | The sample(s) associated with this file set. | [optional] 
 **donors** | **set[character]** | The donors of the samples associated with this auxiliary set. | [optional] 
 **file_set_type** | **character** | The category that best describes this auxiliary file set. | [optional] [Enum: [cell hashing, cell sorting, circularized RNA barcode detection, gRNA sequencing, oligo-conjugated lipids, quantification DNA barcode sequencing, variant sequencing]] 
-**library_construction_platform** | **character** | The platform used to construct the library sequenced in this auxiliary set. | [optional] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** |  | [optional] 

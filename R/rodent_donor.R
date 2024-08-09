@@ -10,7 +10,6 @@
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field taxa The species of the organism. character [optional]
 #' @field publications The publications associated with this object. list(character) [optional]
-#' @field publication_identifiers The publication identifiers that provide more information about the object. list(character) [optional]
 #' @field url An external resource with additional information. character [optional]
 #' @field sources The originating lab(s) or vendor(s). list(character) [optional]
 #' @field lot_id The lot identifier provided by the originating lab or vendor. character [optional]
@@ -52,7 +51,6 @@ RodentDonor <- R6::R6Class(
     `release_timestamp` = NULL,
     `taxa` = NULL,
     `publications` = NULL,
-    `publication_identifiers` = NULL,
     `url` = NULL,
     `sources` = NULL,
     `lot_id` = NULL,
@@ -93,7 +91,6 @@ RodentDonor <- R6::R6Class(
     #' @param release_timestamp The date the object was released.
     #' @param taxa The species of the organism.
     #' @param publications The publications associated with this object.
-    #' @param publication_identifiers The publication identifiers that provide more information about the object.
     #' @param url An external resource with additional information.
     #' @param sources The originating lab(s) or vendor(s).
     #' @param lot_id The lot identifier provided by the originating lab or vendor.
@@ -128,7 +125,7 @@ RodentDonor <- R6::R6Class(
     #' @param summary A summary of the rodent donor.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `taxa` = NULL, `publications` = NULL, `publication_identifiers` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `sex` = NULL, `phenotypic_features` = NULL, `virtual` = NULL, `strain_background` = NULL, `strain` = NULL, `genotype` = NULL, `individual_rodent` = NULL, `rodent_identifier` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, ...) {
+    initialize = function(`release_timestamp` = NULL, `taxa` = NULL, `publications` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `sex` = NULL, `phenotypic_features` = NULL, `virtual` = NULL, `strain_background` = NULL, `strain` = NULL, `genotype` = NULL, `individual_rodent` = NULL, `rodent_identifier` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, ...) {
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -148,11 +145,6 @@ RodentDonor <- R6::R6Class(
         stopifnot(is.vector(`publications`), length(`publications`) != 0)
         sapply(`publications`, function(x) stopifnot(is.character(x)))
         self$`publications` <- `publications`
-      }
-      if (!is.null(`publication_identifiers`)) {
-        stopifnot(is.vector(`publication_identifiers`), length(`publication_identifiers`) != 0)
-        sapply(`publication_identifiers`, function(x) stopifnot(is.character(x)))
-        self$`publication_identifiers` <- `publication_identifiers`
       }
       if (!is.null(`url`)) {
         if (!(is.character(`url`) && length(`url`) == 1)) {
@@ -369,10 +361,6 @@ RodentDonor <- R6::R6Class(
         RodentDonorObject[["publications"]] <-
           self$`publications`
       }
-      if (!is.null(self$`publication_identifiers`)) {
-        RodentDonorObject[["publication_identifiers"]] <-
-          self$`publication_identifiers`
-      }
       if (!is.null(self$`url`)) {
         RodentDonorObject[["url"]] <-
           self$`url`
@@ -525,9 +513,6 @@ RodentDonor <- R6::R6Class(
       if (!is.null(this_object$`publications`)) {
         self$`publications` <- ApiClient$new()$deserializeObj(this_object$`publications`, "set[character]", loadNamespace("igvfclient"))
       }
-      if (!is.null(this_object$`publication_identifiers`)) {
-        self$`publication_identifiers` <- ApiClient$new()$deserializeObj(this_object$`publication_identifiers`, "set[character]", loadNamespace("igvfclient"))
-      }
       if (!is.null(this_object$`url`)) {
         self$`url` <- this_object$`url`
       }
@@ -666,14 +651,6 @@ RodentDonor <- R6::R6Class(
              [%s]
           ',
           paste(unlist(lapply(self$`publications`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
-        if (!is.null(self$`publication_identifiers`)) {
-          sprintf(
-          '"publication_identifiers":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`publication_identifiers`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`url`)) {
@@ -952,7 +929,6 @@ RodentDonor <- R6::R6Class(
       }
       self$`taxa` <- this_object$`taxa`
       self$`publications` <- ApiClient$new()$deserializeObj(this_object$`publications`, "set[character]", loadNamespace("igvfclient"))
-      self$`publication_identifiers` <- ApiClient$new()$deserializeObj(this_object$`publication_identifiers`, "set[character]", loadNamespace("igvfclient"))
       self$`url` <- this_object$`url`
       self$`sources` <- ApiClient$new()$deserializeObj(this_object$`sources`, "set[character]", loadNamespace("igvfclient"))
       self$`lot_id` <- this_object$`lot_id`
@@ -1026,7 +1002,6 @@ RodentDonor <- R6::R6Class(
     isValid = function() {
 
 
-
       if (!str_detect(self$`lot_id`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         return(FALSE)
       }
@@ -1072,7 +1047,6 @@ RodentDonor <- R6::R6Class(
     #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
-
 
 
       if (!str_detect(self$`lot_id`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {

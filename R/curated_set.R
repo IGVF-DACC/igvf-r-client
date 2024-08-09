@@ -10,7 +10,6 @@
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field taxa The species of the organism. character [optional]
 #' @field publications The publications associated with this object. list(character) [optional]
-#' @field publication_identifiers The publication identifiers that provide more information about the object. list(character) [optional]
 #' @field documents Documents that provide additional information (not data file). list(character) [optional]
 #' @field lab Lab associated with the submission. character [optional]
 #' @field award Grant associated with the submission. character [optional]
@@ -50,7 +49,6 @@ CuratedSet <- R6::R6Class(
     `release_timestamp` = NULL,
     `taxa` = NULL,
     `publications` = NULL,
-    `publication_identifiers` = NULL,
     `documents` = NULL,
     `lab` = NULL,
     `award` = NULL,
@@ -89,7 +87,6 @@ CuratedSet <- R6::R6Class(
     #' @param release_timestamp The date the object was released.
     #' @param taxa The species of the organism.
     #' @param publications The publications associated with this object.
-    #' @param publication_identifiers The publication identifiers that provide more information about the object.
     #' @param documents Documents that provide additional information (not data file).
     #' @param lab Lab associated with the submission.
     #' @param award Grant associated with the submission.
@@ -122,7 +119,7 @@ CuratedSet <- R6::R6Class(
     #' @param transcriptome_annotations The annotation versions of the reference resource.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `taxa` = NULL, `publications` = NULL, `publication_identifiers` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_file_set_for` = NULL, `assemblies` = NULL, `transcriptome_annotations` = NULL, ...) {
+    initialize = function(`release_timestamp` = NULL, `taxa` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_file_set_for` = NULL, `assemblies` = NULL, `transcriptome_annotations` = NULL, ...) {
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -142,11 +139,6 @@ CuratedSet <- R6::R6Class(
         stopifnot(is.vector(`publications`), length(`publications`) != 0)
         sapply(`publications`, function(x) stopifnot(is.character(x)))
         self$`publications` <- `publications`
-      }
-      if (!is.null(`publication_identifiers`)) {
-        stopifnot(is.vector(`publication_identifiers`), length(`publication_identifiers`) != 0)
-        sapply(`publication_identifiers`, function(x) stopifnot(is.character(x)))
-        self$`publication_identifiers` <- `publication_identifiers`
       }
       if (!is.null(`documents`)) {
         stopifnot(is.vector(`documents`), length(`documents`) != 0)
@@ -343,10 +335,6 @@ CuratedSet <- R6::R6Class(
         CuratedSetObject[["publications"]] <-
           self$`publications`
       }
-      if (!is.null(self$`publication_identifiers`)) {
-        CuratedSetObject[["publication_identifiers"]] <-
-          self$`publication_identifiers`
-      }
       if (!is.null(self$`documents`)) {
         CuratedSetObject[["documents"]] <-
           self$`documents`
@@ -491,9 +479,6 @@ CuratedSet <- R6::R6Class(
       if (!is.null(this_object$`publications`)) {
         self$`publications` <- ApiClient$new()$deserializeObj(this_object$`publications`, "set[character]", loadNamespace("igvfclient"))
       }
-      if (!is.null(this_object$`publication_identifiers`)) {
-        self$`publication_identifiers` <- ApiClient$new()$deserializeObj(this_object$`publication_identifiers`, "set[character]", loadNamespace("igvfclient"))
-      }
       if (!is.null(this_object$`documents`)) {
         self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
       }
@@ -623,14 +608,6 @@ CuratedSet <- R6::R6Class(
              [%s]
           ',
           paste(unlist(lapply(self$`publications`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
-        if (!is.null(self$`publication_identifiers`)) {
-          sprintf(
-          '"publication_identifiers":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`publication_identifiers`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`documents`)) {
@@ -893,7 +870,6 @@ CuratedSet <- R6::R6Class(
       }
       self$`taxa` <- this_object$`taxa`
       self$`publications` <- ApiClient$new()$deserializeObj(this_object$`publications`, "set[character]", loadNamespace("igvfclient"))
-      self$`publication_identifiers` <- ApiClient$new()$deserializeObj(this_object$`publication_identifiers`, "set[character]", loadNamespace("igvfclient"))
       self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
       self$`lab` <- this_object$`lab`
       self$`award` <- this_object$`award`
@@ -964,7 +940,6 @@ CuratedSet <- R6::R6Class(
 
 
 
-
       if (!str_detect(self$`revoke_detail`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         return(FALSE)
       }
@@ -1005,7 +980,6 @@ CuratedSet <- R6::R6Class(
     #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
-
 
 
 

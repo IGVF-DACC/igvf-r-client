@@ -50,6 +50,7 @@
 #' @field sequencing_run An ordinal number indicating which sequencing run of the associated library that the file belongs to. integer [optional]
 #' @field illumina_read_type The read type of the file. Relevant only for files produced using an Illumina sequencing platform. character [optional]
 #' @field index An Illumina index associated with the file. character [optional]
+#' @field base_modifications The chemical modifications to bases in a DNA sequence that are detected in this file. list(character) [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the sequence file. character [optional]
@@ -110,6 +111,7 @@ SequenceFile <- R6::R6Class(
     `sequencing_run` = NULL,
     `illumina_read_type` = NULL,
     `index` = NULL,
+    `base_modifications` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -169,6 +171,7 @@ SequenceFile <- R6::R6Class(
     #' @param sequencing_run An ordinal number indicating which sequencing run of the associated library that the file belongs to.
     #' @param illumina_read_type The read type of the file. Relevant only for files produced using an Illumina sequencing platform.
     #' @param index An Illumina index associated with the file.
+    #' @param base_modifications The chemical modifications to bases in a DNA sequence that are detected in this file.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the sequence file.
@@ -182,7 +185,7 @@ SequenceFile <- R6::R6Class(
     #' @param seqspecs Link(s) to the associated seqspec YAML configuration file(s).
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`controlled_access` = NULL, `anvil_url` = NULL, `release_timestamp` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `flowcell_id` = NULL, `lane` = NULL, `read_count` = NULL, `minimum_read_length` = NULL, `maximum_read_length` = NULL, `mean_read_length` = NULL, `sequencing_platform` = NULL, `sequencing_kit` = NULL, `sequencing_run` = NULL, `illumina_read_type` = NULL, `index` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `seqspecs` = NULL, ...) {
+    initialize = function(`controlled_access` = NULL, `anvil_url` = NULL, `release_timestamp` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `flowcell_id` = NULL, `lane` = NULL, `read_count` = NULL, `minimum_read_length` = NULL, `maximum_read_length` = NULL, `mean_read_length` = NULL, `sequencing_platform` = NULL, `sequencing_kit` = NULL, `sequencing_run` = NULL, `illumina_read_type` = NULL, `index` = NULL, `base_modifications` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `seqspecs` = NULL, ...) {
       if (!is.null(`controlled_access`)) {
         if (!(is.logical(`controlled_access`) && length(`controlled_access`) == 1)) {
           stop(paste("Error! Invalid data for `controlled_access`. Must be a boolean:", `controlled_access`))
@@ -417,8 +420,8 @@ SequenceFile <- R6::R6Class(
         self$`sequencing_platform` <- `sequencing_platform`
       }
       if (!is.null(`sequencing_kit`)) {
-        if (!(`sequencing_kit` %in% c("HiSeq SBS Kit v4", "HiSeq SR Cluster Kit v4-cBot-HS", "HiSeq PE Cluster Kit v4-cBot-HS", "HiSeq SR Rapid Cluster Kit v2", "HiSeq PE Rapid Cluster Kit v2", "HiSeq Rapid SBS Kit v2", "HiSeq 3000/4000 SBS Kit", "HiSeq 3000/4000 SR Cluster Kit", "HiSeq 3000/4000 PE Cluster Kit", "MiSeq Reagent Kit v2", "NextSeq 500 Mid Output Kit", "NextSeq 500 High Output Kit", "NextSeq 500 Mid Output v2 Kit", "NextSeq 500 High Output v2 Kit", "NextSeq 500/550 Mid-Output v2.5 Kit", "NextSeq 500/550 High-Output v2.5 Kit", "TG NextSeq 500/550 Mid-Output Kit v2.5", "TG NextSeq 500/550 High-Output Kit v2.5", "NextSeq 1000/2000 P1 Reagent Kit", "NextSeq 1000/2000 P2 Reagent Kit", "NextSeq 1000/2000 P3 Reagent Kit", "NextSeq 1000/2000 P1 XLEAP-SBS Reagent Kit", "NextSeq 1000/2000 P2 XLEAP-SBS Reagent Kit", "NextSeq 2000 P3 XLEAP-SBS Reagent Kit", "NextSeq 2000 P4 XLEAP-SBS Reagent Kit", "NovaSeq 6000 SP Reagent Kit v1.5", "NovaSeq 6000 S1 Reagent Kit v1.5", "NovaSeq 6000 S2 Reagent Kit v1.5", "NovaSeq 6000 S4 Reagent Kit v1.5", "NovaSeq X Series 10B Reagent Kit", "ONT Ligation Sequencing Kit V14", "Sequel sequencing kit 3.0", "Sequel II sequencing kit 2.0"))) {
-          stop(paste("Error! \"", `sequencing_kit`, "\" cannot be assigned to `sequencing_kit`. Must be \"HiSeq SBS Kit v4\", \"HiSeq SR Cluster Kit v4-cBot-HS\", \"HiSeq PE Cluster Kit v4-cBot-HS\", \"HiSeq SR Rapid Cluster Kit v2\", \"HiSeq PE Rapid Cluster Kit v2\", \"HiSeq Rapid SBS Kit v2\", \"HiSeq 3000/4000 SBS Kit\", \"HiSeq 3000/4000 SR Cluster Kit\", \"HiSeq 3000/4000 PE Cluster Kit\", \"MiSeq Reagent Kit v2\", \"NextSeq 500 Mid Output Kit\", \"NextSeq 500 High Output Kit\", \"NextSeq 500 Mid Output v2 Kit\", \"NextSeq 500 High Output v2 Kit\", \"NextSeq 500/550 Mid-Output v2.5 Kit\", \"NextSeq 500/550 High-Output v2.5 Kit\", \"TG NextSeq 500/550 Mid-Output Kit v2.5\", \"TG NextSeq 500/550 High-Output Kit v2.5\", \"NextSeq 1000/2000 P1 Reagent Kit\", \"NextSeq 1000/2000 P2 Reagent Kit\", \"NextSeq 1000/2000 P3 Reagent Kit\", \"NextSeq 1000/2000 P1 XLEAP-SBS Reagent Kit\", \"NextSeq 1000/2000 P2 XLEAP-SBS Reagent Kit\", \"NextSeq 2000 P3 XLEAP-SBS Reagent Kit\", \"NextSeq 2000 P4 XLEAP-SBS Reagent Kit\", \"NovaSeq 6000 SP Reagent Kit v1.5\", \"NovaSeq 6000 S1 Reagent Kit v1.5\", \"NovaSeq 6000 S2 Reagent Kit v1.5\", \"NovaSeq 6000 S4 Reagent Kit v1.5\", \"NovaSeq X Series 10B Reagent Kit\", \"ONT Ligation Sequencing Kit V14\", \"Sequel sequencing kit 3.0\", \"Sequel II sequencing kit 2.0\".", sep = ""))
+        if (!(`sequencing_kit` %in% c("HiSeq SBS Kit v4", "HiSeq SR Cluster Kit v4-cBot-HS", "HiSeq PE Cluster Kit v4-cBot-HS", "HiSeq SR Rapid Cluster Kit v2", "HiSeq PE Rapid Cluster Kit v2", "HiSeq Rapid SBS Kit v2", "HiSeq 3000/4000 SBS Kit", "HiSeq 3000/4000 SR Cluster Kit", "HiSeq 3000/4000 PE Cluster Kit", "MiSeq Reagent Kit v2", "NextSeq 500 Mid Output Kit", "NextSeq 500 High Output Kit", "NextSeq 500 Mid Output v2 Kit", "NextSeq 500 High Output v2 Kit", "NextSeq 500/550 Mid-Output v2.5 Kit", "NextSeq 500/550 High-Output v2.5 Kit", "TG NextSeq 500/550 Mid-Output Kit v2.5", "TG NextSeq 500/550 High-Output Kit v2.5", "NextSeq 1000/2000 P1 Reagent Kit", "NextSeq 1000/2000 P2 Reagent Kit", "NextSeq 1000/2000 P3 Reagent Kit", "NextSeq 1000/2000 P1 XLEAP-SBS Reagent Kit", "NextSeq 1000/2000 P2 XLEAP-SBS Reagent Kit", "NextSeq 2000 P3 XLEAP-SBS Reagent Kit", "NextSeq 2000 P4 XLEAP-SBS Reagent Kit", "NovaSeq 6000 SP Reagent Kit v1.5", "NovaSeq 6000 S1 Reagent Kit v1.5", "NovaSeq 6000 S2 Reagent Kit v1.5", "NovaSeq 6000 S4 Reagent Kit v1.5", "NovaSeq X Series 1.5B Reagent Kit", "NovaSeq X Series 10B Reagent Kit", "NovaSeq X Series 25B Reagent Kit", "ONT Ligation Sequencing Kit V14", "Sequel sequencing kit 3.0", "Sequel II sequencing kit 2.0"))) {
+          stop(paste("Error! \"", `sequencing_kit`, "\" cannot be assigned to `sequencing_kit`. Must be \"HiSeq SBS Kit v4\", \"HiSeq SR Cluster Kit v4-cBot-HS\", \"HiSeq PE Cluster Kit v4-cBot-HS\", \"HiSeq SR Rapid Cluster Kit v2\", \"HiSeq PE Rapid Cluster Kit v2\", \"HiSeq Rapid SBS Kit v2\", \"HiSeq 3000/4000 SBS Kit\", \"HiSeq 3000/4000 SR Cluster Kit\", \"HiSeq 3000/4000 PE Cluster Kit\", \"MiSeq Reagent Kit v2\", \"NextSeq 500 Mid Output Kit\", \"NextSeq 500 High Output Kit\", \"NextSeq 500 Mid Output v2 Kit\", \"NextSeq 500 High Output v2 Kit\", \"NextSeq 500/550 Mid-Output v2.5 Kit\", \"NextSeq 500/550 High-Output v2.5 Kit\", \"TG NextSeq 500/550 Mid-Output Kit v2.5\", \"TG NextSeq 500/550 High-Output Kit v2.5\", \"NextSeq 1000/2000 P1 Reagent Kit\", \"NextSeq 1000/2000 P2 Reagent Kit\", \"NextSeq 1000/2000 P3 Reagent Kit\", \"NextSeq 1000/2000 P1 XLEAP-SBS Reagent Kit\", \"NextSeq 1000/2000 P2 XLEAP-SBS Reagent Kit\", \"NextSeq 2000 P3 XLEAP-SBS Reagent Kit\", \"NextSeq 2000 P4 XLEAP-SBS Reagent Kit\", \"NovaSeq 6000 SP Reagent Kit v1.5\", \"NovaSeq 6000 S1 Reagent Kit v1.5\", \"NovaSeq 6000 S2 Reagent Kit v1.5\", \"NovaSeq 6000 S4 Reagent Kit v1.5\", \"NovaSeq X Series 1.5B Reagent Kit\", \"NovaSeq X Series 10B Reagent Kit\", \"NovaSeq X Series 25B Reagent Kit\", \"ONT Ligation Sequencing Kit V14\", \"Sequel sequencing kit 3.0\", \"Sequel II sequencing kit 2.0\".", sep = ""))
         }
         if (!(is.character(`sequencing_kit`) && length(`sequencing_kit`) == 1)) {
           stop(paste("Error! Invalid data for `sequencing_kit`. Must be a string:", `sequencing_kit`))
@@ -445,6 +448,11 @@ SequenceFile <- R6::R6Class(
           stop(paste("Error! Invalid data for `index`. Must be a string:", `index`))
         }
         self$`index` <- `index`
+      }
+      if (!is.null(`base_modifications`)) {
+        stopifnot(is.vector(`base_modifications`), length(`base_modifications`) != 0)
+        sapply(`base_modifications`, function(x) stopifnot(is.character(x)))
+        self$`base_modifications` <- `base_modifications`
       }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
@@ -685,6 +693,10 @@ SequenceFile <- R6::R6Class(
         SequenceFileObject[["index"]] <-
           self$`index`
       }
+      if (!is.null(self$`base_modifications`)) {
+        SequenceFileObject[["base_modifications"]] <-
+          self$`base_modifications`
+      }
       if (!is.null(self$`@id`)) {
         SequenceFileObject[["@id"]] <-
           self$`@id`
@@ -868,8 +880,8 @@ SequenceFile <- R6::R6Class(
         self$`sequencing_platform` <- this_object$`sequencing_platform`
       }
       if (!is.null(this_object$`sequencing_kit`)) {
-        if (!is.null(this_object$`sequencing_kit`) && !(this_object$`sequencing_kit` %in% c("HiSeq SBS Kit v4", "HiSeq SR Cluster Kit v4-cBot-HS", "HiSeq PE Cluster Kit v4-cBot-HS", "HiSeq SR Rapid Cluster Kit v2", "HiSeq PE Rapid Cluster Kit v2", "HiSeq Rapid SBS Kit v2", "HiSeq 3000/4000 SBS Kit", "HiSeq 3000/4000 SR Cluster Kit", "HiSeq 3000/4000 PE Cluster Kit", "MiSeq Reagent Kit v2", "NextSeq 500 Mid Output Kit", "NextSeq 500 High Output Kit", "NextSeq 500 Mid Output v2 Kit", "NextSeq 500 High Output v2 Kit", "NextSeq 500/550 Mid-Output v2.5 Kit", "NextSeq 500/550 High-Output v2.5 Kit", "TG NextSeq 500/550 Mid-Output Kit v2.5", "TG NextSeq 500/550 High-Output Kit v2.5", "NextSeq 1000/2000 P1 Reagent Kit", "NextSeq 1000/2000 P2 Reagent Kit", "NextSeq 1000/2000 P3 Reagent Kit", "NextSeq 1000/2000 P1 XLEAP-SBS Reagent Kit", "NextSeq 1000/2000 P2 XLEAP-SBS Reagent Kit", "NextSeq 2000 P3 XLEAP-SBS Reagent Kit", "NextSeq 2000 P4 XLEAP-SBS Reagent Kit", "NovaSeq 6000 SP Reagent Kit v1.5", "NovaSeq 6000 S1 Reagent Kit v1.5", "NovaSeq 6000 S2 Reagent Kit v1.5", "NovaSeq 6000 S4 Reagent Kit v1.5", "NovaSeq X Series 10B Reagent Kit", "ONT Ligation Sequencing Kit V14", "Sequel sequencing kit 3.0", "Sequel II sequencing kit 2.0"))) {
-          stop(paste("Error! \"", this_object$`sequencing_kit`, "\" cannot be assigned to `sequencing_kit`. Must be \"HiSeq SBS Kit v4\", \"HiSeq SR Cluster Kit v4-cBot-HS\", \"HiSeq PE Cluster Kit v4-cBot-HS\", \"HiSeq SR Rapid Cluster Kit v2\", \"HiSeq PE Rapid Cluster Kit v2\", \"HiSeq Rapid SBS Kit v2\", \"HiSeq 3000/4000 SBS Kit\", \"HiSeq 3000/4000 SR Cluster Kit\", \"HiSeq 3000/4000 PE Cluster Kit\", \"MiSeq Reagent Kit v2\", \"NextSeq 500 Mid Output Kit\", \"NextSeq 500 High Output Kit\", \"NextSeq 500 Mid Output v2 Kit\", \"NextSeq 500 High Output v2 Kit\", \"NextSeq 500/550 Mid-Output v2.5 Kit\", \"NextSeq 500/550 High-Output v2.5 Kit\", \"TG NextSeq 500/550 Mid-Output Kit v2.5\", \"TG NextSeq 500/550 High-Output Kit v2.5\", \"NextSeq 1000/2000 P1 Reagent Kit\", \"NextSeq 1000/2000 P2 Reagent Kit\", \"NextSeq 1000/2000 P3 Reagent Kit\", \"NextSeq 1000/2000 P1 XLEAP-SBS Reagent Kit\", \"NextSeq 1000/2000 P2 XLEAP-SBS Reagent Kit\", \"NextSeq 2000 P3 XLEAP-SBS Reagent Kit\", \"NextSeq 2000 P4 XLEAP-SBS Reagent Kit\", \"NovaSeq 6000 SP Reagent Kit v1.5\", \"NovaSeq 6000 S1 Reagent Kit v1.5\", \"NovaSeq 6000 S2 Reagent Kit v1.5\", \"NovaSeq 6000 S4 Reagent Kit v1.5\", \"NovaSeq X Series 10B Reagent Kit\", \"ONT Ligation Sequencing Kit V14\", \"Sequel sequencing kit 3.0\", \"Sequel II sequencing kit 2.0\".", sep = ""))
+        if (!is.null(this_object$`sequencing_kit`) && !(this_object$`sequencing_kit` %in% c("HiSeq SBS Kit v4", "HiSeq SR Cluster Kit v4-cBot-HS", "HiSeq PE Cluster Kit v4-cBot-HS", "HiSeq SR Rapid Cluster Kit v2", "HiSeq PE Rapid Cluster Kit v2", "HiSeq Rapid SBS Kit v2", "HiSeq 3000/4000 SBS Kit", "HiSeq 3000/4000 SR Cluster Kit", "HiSeq 3000/4000 PE Cluster Kit", "MiSeq Reagent Kit v2", "NextSeq 500 Mid Output Kit", "NextSeq 500 High Output Kit", "NextSeq 500 Mid Output v2 Kit", "NextSeq 500 High Output v2 Kit", "NextSeq 500/550 Mid-Output v2.5 Kit", "NextSeq 500/550 High-Output v2.5 Kit", "TG NextSeq 500/550 Mid-Output Kit v2.5", "TG NextSeq 500/550 High-Output Kit v2.5", "NextSeq 1000/2000 P1 Reagent Kit", "NextSeq 1000/2000 P2 Reagent Kit", "NextSeq 1000/2000 P3 Reagent Kit", "NextSeq 1000/2000 P1 XLEAP-SBS Reagent Kit", "NextSeq 1000/2000 P2 XLEAP-SBS Reagent Kit", "NextSeq 2000 P3 XLEAP-SBS Reagent Kit", "NextSeq 2000 P4 XLEAP-SBS Reagent Kit", "NovaSeq 6000 SP Reagent Kit v1.5", "NovaSeq 6000 S1 Reagent Kit v1.5", "NovaSeq 6000 S2 Reagent Kit v1.5", "NovaSeq 6000 S4 Reagent Kit v1.5", "NovaSeq X Series 1.5B Reagent Kit", "NovaSeq X Series 10B Reagent Kit", "NovaSeq X Series 25B Reagent Kit", "ONT Ligation Sequencing Kit V14", "Sequel sequencing kit 3.0", "Sequel II sequencing kit 2.0"))) {
+          stop(paste("Error! \"", this_object$`sequencing_kit`, "\" cannot be assigned to `sequencing_kit`. Must be \"HiSeq SBS Kit v4\", \"HiSeq SR Cluster Kit v4-cBot-HS\", \"HiSeq PE Cluster Kit v4-cBot-HS\", \"HiSeq SR Rapid Cluster Kit v2\", \"HiSeq PE Rapid Cluster Kit v2\", \"HiSeq Rapid SBS Kit v2\", \"HiSeq 3000/4000 SBS Kit\", \"HiSeq 3000/4000 SR Cluster Kit\", \"HiSeq 3000/4000 PE Cluster Kit\", \"MiSeq Reagent Kit v2\", \"NextSeq 500 Mid Output Kit\", \"NextSeq 500 High Output Kit\", \"NextSeq 500 Mid Output v2 Kit\", \"NextSeq 500 High Output v2 Kit\", \"NextSeq 500/550 Mid-Output v2.5 Kit\", \"NextSeq 500/550 High-Output v2.5 Kit\", \"TG NextSeq 500/550 Mid-Output Kit v2.5\", \"TG NextSeq 500/550 High-Output Kit v2.5\", \"NextSeq 1000/2000 P1 Reagent Kit\", \"NextSeq 1000/2000 P2 Reagent Kit\", \"NextSeq 1000/2000 P3 Reagent Kit\", \"NextSeq 1000/2000 P1 XLEAP-SBS Reagent Kit\", \"NextSeq 1000/2000 P2 XLEAP-SBS Reagent Kit\", \"NextSeq 2000 P3 XLEAP-SBS Reagent Kit\", \"NextSeq 2000 P4 XLEAP-SBS Reagent Kit\", \"NovaSeq 6000 SP Reagent Kit v1.5\", \"NovaSeq 6000 S1 Reagent Kit v1.5\", \"NovaSeq 6000 S2 Reagent Kit v1.5\", \"NovaSeq 6000 S4 Reagent Kit v1.5\", \"NovaSeq X Series 1.5B Reagent Kit\", \"NovaSeq X Series 10B Reagent Kit\", \"NovaSeq X Series 25B Reagent Kit\", \"ONT Ligation Sequencing Kit V14\", \"Sequel sequencing kit 3.0\", \"Sequel II sequencing kit 2.0\".", sep = ""))
         }
         self$`sequencing_kit` <- this_object$`sequencing_kit`
       }
@@ -884,6 +896,9 @@ SequenceFile <- R6::R6Class(
       }
       if (!is.null(this_object$`index`)) {
         self$`index` <- this_object$`index`
+      }
+      if (!is.null(this_object$`base_modifications`)) {
+        self$`base_modifications` <- ApiClient$new()$deserializeObj(this_object$`base_modifications`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
@@ -1273,6 +1288,14 @@ SequenceFile <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`index`, perl=TRUE)
           )
         },
+        if (!is.null(self$`base_modifications`)) {
+          sprintf(
+          '"base_modifications":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`base_modifications`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -1423,8 +1446,8 @@ SequenceFile <- R6::R6Class(
       self$`maximum_read_length` <- this_object$`maximum_read_length`
       self$`mean_read_length` <- this_object$`mean_read_length`
       self$`sequencing_platform` <- this_object$`sequencing_platform`
-      if (!is.null(this_object$`sequencing_kit`) && !(this_object$`sequencing_kit` %in% c("HiSeq SBS Kit v4", "HiSeq SR Cluster Kit v4-cBot-HS", "HiSeq PE Cluster Kit v4-cBot-HS", "HiSeq SR Rapid Cluster Kit v2", "HiSeq PE Rapid Cluster Kit v2", "HiSeq Rapid SBS Kit v2", "HiSeq 3000/4000 SBS Kit", "HiSeq 3000/4000 SR Cluster Kit", "HiSeq 3000/4000 PE Cluster Kit", "MiSeq Reagent Kit v2", "NextSeq 500 Mid Output Kit", "NextSeq 500 High Output Kit", "NextSeq 500 Mid Output v2 Kit", "NextSeq 500 High Output v2 Kit", "NextSeq 500/550 Mid-Output v2.5 Kit", "NextSeq 500/550 High-Output v2.5 Kit", "TG NextSeq 500/550 Mid-Output Kit v2.5", "TG NextSeq 500/550 High-Output Kit v2.5", "NextSeq 1000/2000 P1 Reagent Kit", "NextSeq 1000/2000 P2 Reagent Kit", "NextSeq 1000/2000 P3 Reagent Kit", "NextSeq 1000/2000 P1 XLEAP-SBS Reagent Kit", "NextSeq 1000/2000 P2 XLEAP-SBS Reagent Kit", "NextSeq 2000 P3 XLEAP-SBS Reagent Kit", "NextSeq 2000 P4 XLEAP-SBS Reagent Kit", "NovaSeq 6000 SP Reagent Kit v1.5", "NovaSeq 6000 S1 Reagent Kit v1.5", "NovaSeq 6000 S2 Reagent Kit v1.5", "NovaSeq 6000 S4 Reagent Kit v1.5", "NovaSeq X Series 10B Reagent Kit", "ONT Ligation Sequencing Kit V14", "Sequel sequencing kit 3.0", "Sequel II sequencing kit 2.0"))) {
-        stop(paste("Error! \"", this_object$`sequencing_kit`, "\" cannot be assigned to `sequencing_kit`. Must be \"HiSeq SBS Kit v4\", \"HiSeq SR Cluster Kit v4-cBot-HS\", \"HiSeq PE Cluster Kit v4-cBot-HS\", \"HiSeq SR Rapid Cluster Kit v2\", \"HiSeq PE Rapid Cluster Kit v2\", \"HiSeq Rapid SBS Kit v2\", \"HiSeq 3000/4000 SBS Kit\", \"HiSeq 3000/4000 SR Cluster Kit\", \"HiSeq 3000/4000 PE Cluster Kit\", \"MiSeq Reagent Kit v2\", \"NextSeq 500 Mid Output Kit\", \"NextSeq 500 High Output Kit\", \"NextSeq 500 Mid Output v2 Kit\", \"NextSeq 500 High Output v2 Kit\", \"NextSeq 500/550 Mid-Output v2.5 Kit\", \"NextSeq 500/550 High-Output v2.5 Kit\", \"TG NextSeq 500/550 Mid-Output Kit v2.5\", \"TG NextSeq 500/550 High-Output Kit v2.5\", \"NextSeq 1000/2000 P1 Reagent Kit\", \"NextSeq 1000/2000 P2 Reagent Kit\", \"NextSeq 1000/2000 P3 Reagent Kit\", \"NextSeq 1000/2000 P1 XLEAP-SBS Reagent Kit\", \"NextSeq 1000/2000 P2 XLEAP-SBS Reagent Kit\", \"NextSeq 2000 P3 XLEAP-SBS Reagent Kit\", \"NextSeq 2000 P4 XLEAP-SBS Reagent Kit\", \"NovaSeq 6000 SP Reagent Kit v1.5\", \"NovaSeq 6000 S1 Reagent Kit v1.5\", \"NovaSeq 6000 S2 Reagent Kit v1.5\", \"NovaSeq 6000 S4 Reagent Kit v1.5\", \"NovaSeq X Series 10B Reagent Kit\", \"ONT Ligation Sequencing Kit V14\", \"Sequel sequencing kit 3.0\", \"Sequel II sequencing kit 2.0\".", sep = ""))
+      if (!is.null(this_object$`sequencing_kit`) && !(this_object$`sequencing_kit` %in% c("HiSeq SBS Kit v4", "HiSeq SR Cluster Kit v4-cBot-HS", "HiSeq PE Cluster Kit v4-cBot-HS", "HiSeq SR Rapid Cluster Kit v2", "HiSeq PE Rapid Cluster Kit v2", "HiSeq Rapid SBS Kit v2", "HiSeq 3000/4000 SBS Kit", "HiSeq 3000/4000 SR Cluster Kit", "HiSeq 3000/4000 PE Cluster Kit", "MiSeq Reagent Kit v2", "NextSeq 500 Mid Output Kit", "NextSeq 500 High Output Kit", "NextSeq 500 Mid Output v2 Kit", "NextSeq 500 High Output v2 Kit", "NextSeq 500/550 Mid-Output v2.5 Kit", "NextSeq 500/550 High-Output v2.5 Kit", "TG NextSeq 500/550 Mid-Output Kit v2.5", "TG NextSeq 500/550 High-Output Kit v2.5", "NextSeq 1000/2000 P1 Reagent Kit", "NextSeq 1000/2000 P2 Reagent Kit", "NextSeq 1000/2000 P3 Reagent Kit", "NextSeq 1000/2000 P1 XLEAP-SBS Reagent Kit", "NextSeq 1000/2000 P2 XLEAP-SBS Reagent Kit", "NextSeq 2000 P3 XLEAP-SBS Reagent Kit", "NextSeq 2000 P4 XLEAP-SBS Reagent Kit", "NovaSeq 6000 SP Reagent Kit v1.5", "NovaSeq 6000 S1 Reagent Kit v1.5", "NovaSeq 6000 S2 Reagent Kit v1.5", "NovaSeq 6000 S4 Reagent Kit v1.5", "NovaSeq X Series 1.5B Reagent Kit", "NovaSeq X Series 10B Reagent Kit", "NovaSeq X Series 25B Reagent Kit", "ONT Ligation Sequencing Kit V14", "Sequel sequencing kit 3.0", "Sequel II sequencing kit 2.0"))) {
+        stop(paste("Error! \"", this_object$`sequencing_kit`, "\" cannot be assigned to `sequencing_kit`. Must be \"HiSeq SBS Kit v4\", \"HiSeq SR Cluster Kit v4-cBot-HS\", \"HiSeq PE Cluster Kit v4-cBot-HS\", \"HiSeq SR Rapid Cluster Kit v2\", \"HiSeq PE Rapid Cluster Kit v2\", \"HiSeq Rapid SBS Kit v2\", \"HiSeq 3000/4000 SBS Kit\", \"HiSeq 3000/4000 SR Cluster Kit\", \"HiSeq 3000/4000 PE Cluster Kit\", \"MiSeq Reagent Kit v2\", \"NextSeq 500 Mid Output Kit\", \"NextSeq 500 High Output Kit\", \"NextSeq 500 Mid Output v2 Kit\", \"NextSeq 500 High Output v2 Kit\", \"NextSeq 500/550 Mid-Output v2.5 Kit\", \"NextSeq 500/550 High-Output v2.5 Kit\", \"TG NextSeq 500/550 Mid-Output Kit v2.5\", \"TG NextSeq 500/550 High-Output Kit v2.5\", \"NextSeq 1000/2000 P1 Reagent Kit\", \"NextSeq 1000/2000 P2 Reagent Kit\", \"NextSeq 1000/2000 P3 Reagent Kit\", \"NextSeq 1000/2000 P1 XLEAP-SBS Reagent Kit\", \"NextSeq 1000/2000 P2 XLEAP-SBS Reagent Kit\", \"NextSeq 2000 P3 XLEAP-SBS Reagent Kit\", \"NextSeq 2000 P4 XLEAP-SBS Reagent Kit\", \"NovaSeq 6000 SP Reagent Kit v1.5\", \"NovaSeq 6000 S1 Reagent Kit v1.5\", \"NovaSeq 6000 S2 Reagent Kit v1.5\", \"NovaSeq 6000 S4 Reagent Kit v1.5\", \"NovaSeq X Series 1.5B Reagent Kit\", \"NovaSeq X Series 10B Reagent Kit\", \"NovaSeq X Series 25B Reagent Kit\", \"ONT Ligation Sequencing Kit V14\", \"Sequel sequencing kit 3.0\", \"Sequel II sequencing kit 2.0\".", sep = ""))
       }
       self$`sequencing_kit` <- this_object$`sequencing_kit`
       self$`sequencing_run` <- this_object$`sequencing_run`
@@ -1433,6 +1456,7 @@ SequenceFile <- R6::R6Class(
       }
       self$`illumina_read_type` <- this_object$`illumina_read_type`
       self$`index` <- this_object$`index`
+      self$`base_modifications` <- ApiClient$new()$deserializeObj(this_object$`base_modifications`, "set[character]", loadNamespace("igvfclient"))
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
@@ -1561,6 +1585,7 @@ SequenceFile <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1653,6 +1678,7 @@ SequenceFile <- R6::R6Class(
       if (self$`sequencing_run` < 1) {
         invalid_fields["sequencing_run"] <- "Invalid value for `sequencing_run`, must be bigger than or equal to 1."
       }
+
 
 
 

@@ -23,6 +23,6 @@ Name | Type | Description | Notes
 **observation_date** | **character** | The date the feature was observed or measured. | [optional] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
-**summary** | **character** | A summary of the object. | [optional] 
+**summary** | **character** |  | [optional] 
 
 

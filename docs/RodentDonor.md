@@ -8,7 +8,6 @@ Name | Type | Description | Notes
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **taxa** | **character** | The species of the organism. | [optional] [Enum: [Mus musculus]] 
 **publications** | **set[character]** | The publications associated with this object. | [optional] 
-**publication_identifiers** | **set[character]** | The publication identifiers that provide more information about the object. | [optional] 
 **url** | **character** | An external resource with additional information. | [optional] 
 **sources** | **set[character]** | The originating lab(s) or vendor(s). | [optional] 
 **lot_id** | **character** | The lot identifier provided by the originating lab or vendor. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 

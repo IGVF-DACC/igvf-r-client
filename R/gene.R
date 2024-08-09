@@ -28,7 +28,7 @@
 #' @field version_number Current ENSEMBL GeneID version number of the gene. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
-#' @field summary A summary of the object. character [optional]
+#' @field summary  character [optional]
 #' @field title  character [optional]
 #' @field geneid_with_version The ENSEMBL GeneID concatenated with its version number. character [optional]
 #' @field _field_list a list of fields list(character)
@@ -92,7 +92,7 @@ Gene <- R6::R6Class(
     #' @param version_number Current ENSEMBL GeneID version number of the gene.
     #' @param @id @id
     #' @param @type @type
-    #' @param summary A summary of the object.
+    #' @param summary summary
     #' @param title title
     #' @param geneid_with_version The ENSEMBL GeneID concatenated with its version number.
     #' @param additional_properties additional properties (optional)
