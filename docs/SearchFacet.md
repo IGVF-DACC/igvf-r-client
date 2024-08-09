@@ -1,11 +1,11 @@
-# igvfclient::SearchFacet
+# igvf_client::SearchFacet
 
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**field** | **character** |  | [optional] 
-**title** | **character** |  | [optional] 
-**terms** | **array[object]** |  | [optional] 
+**var_field** | **str** |  | [optional] 
+**title** | **str** |  | [optional] 
+**terms** | **List[object]** |  | [optional] 
 
 

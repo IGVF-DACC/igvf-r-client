@@ -1,16 +1,16 @@
-# igvfclient::Attachment1
+# igvf_client::Attachment1
 
 The attached content.
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**download** | **character** |  | [optional] 
-**href** | **character** |  | [optional] 
-**type** | **character** |  | [optional] [Enum: [image/png, image/jpeg, image/gif]] 
-**md5sum** | **character** |  | [optional] 
-**size** | **integer** |  | [optional] [Min: 0] 
-**width** | **integer** |  | [optional] [Min: 0] 
-**height** | **integer** |  | [optional] [Min: 0] 
+**download** | **str** |  | [optional] 
+**href** | **str** |  | [optional] 
+**type** | **str** |  | [optional] [Enum: [image/png, image/jpeg, image/gif]] 
+**md5sum** | **str** |  | [optional] 
+**size** | **int** |  | [optional] [Min: 0] 
+**width** | **int** |  | [optional] [Min: 0] 
+**height** | **int** |  | [optional] [Min: 0] 
 
 

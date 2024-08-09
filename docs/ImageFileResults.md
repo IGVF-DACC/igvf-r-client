@@ -1,13 +1,13 @@
-# igvfclient::ImageFileResults
+# igvf_client::ImageFileResults
 
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**@graph** | [**array[ImageFile]**](ImageFile.md) |  | [optional] 
-**@id** | **character** |  | [optional] 
-**@type** | **array[character]** |  | [optional] 
-**total** | **integer** |  | [optional] 
-**facets** | [**array[SearchFacet]**](SearchFacet.md) |  | [optional] 
+**graph** | [**List[ImageFile]**](ImageFile.md) |  | [optional] 
+**id** | **str** |  | [optional] 
+**type** | **List[str]** |  | [optional] 
+**total** | **int** |  | [optional] 
+**facets** | [**List[SearchFacet]**](SearchFacet.md) |  | [optional] 
 
 

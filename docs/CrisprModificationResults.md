@@ -1,13 +1,13 @@
-# igvfclient::CrisprModificationResults
+# igvf_client::CrisprModificationResults
 
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**@graph** | [**array[CrisprModification]**](CrisprModification.md) |  | [optional] 
-**@id** | **character** |  | [optional] 
-**@type** | **array[character]** |  | [optional] 
-**total** | **integer** |  | [optional] 
-**facets** | [**array[SearchFacet]**](SearchFacet.md) |  | [optional] 
+**graph** | [**List[CrisprModification]**](CrisprModification.md) |  | [optional] 
+**id** | **str** |  | [optional] 
+**type** | **List[str]** |  | [optional] 
+**total** | **int** |  | [optional] 
+**facets** | [**List[SearchFacet]**](SearchFacet.md) |  | [optional] 
 
 

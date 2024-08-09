@@ -1,11 +1,11 @@
-# igvfclient::NoResultsResponseFacetGroupsInner
+# igvf_client::NoResultsResponseFacetGroupsInner
 
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**name** | **character** |  | [optional] 
-**title** | **character** |  | [optional] 
-**facet_fields** | **array[character]** |  | [optional] 
+**name** | **str** |  | [optional] 
+**title** | **str** |  | [optional] 
+**facet_fields** | **List[str]** |  | [optional] 
 
 

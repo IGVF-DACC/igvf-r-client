@@ -1,13 +1,13 @@
-# igvfclient::ModelSetResults
+# igvf_client::ModelSetResults
 
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**@graph** | [**array[ModelSet]**](ModelSet.md) |  | [optional] 
-**@id** | **character** |  | [optional] 
-**@type** | **array[character]** |  | [optional] 
-**total** | **integer** |  | [optional] 
-**facets** | [**array[SearchFacet]**](SearchFacet.md) |  | [optional] 
+**graph** | [**List[ModelSet]**](ModelSet.md) |  | [optional] 
+**id** | **str** |  | [optional] 
+**type** | **List[str]** |  | [optional] 
+**total** | **int** |  | [optional] 
+**facets** | [**List[SearchFacet]**](SearchFacet.md) |  | [optional] 
 
 

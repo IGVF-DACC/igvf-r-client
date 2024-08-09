@@ -1,13 +1,13 @@
-# igvfclient::ConstructLibrarySetResults
+# igvf_client::ConstructLibrarySetResults
 
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**@graph** | [**array[ConstructLibrarySet]**](ConstructLibrarySet.md) |  | [optional] 
-**@id** | **character** |  | [optional] 
-**@type** | **array[character]** |  | [optional] 
-**total** | **integer** |  | [optional] 
-**facets** | [**array[SearchFacet]**](SearchFacet.md) |  | [optional] 
+**graph** | [**List[ConstructLibrarySet]**](ConstructLibrarySet.md) |  | [optional] 
+**id** | **str** |  | [optional] 
+**type** | **List[str]** |  | [optional] 
+**total** | **int** |  | [optional] 
+**facets** | [**List[SearchFacet]**](SearchFacet.md) |  | [optional] 
 
 

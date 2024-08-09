@@ -1,13 +1,13 @@
-# igvfclient::MatrixFileResults
+# igvf_client::MatrixFileResults
 
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**@graph** | [**array[MatrixFile]**](MatrixFile.md) |  | [optional] 
-**@id** | **character** |  | [optional] 
-**@type** | **array[character]** |  | [optional] 
-**total** | **integer** |  | [optional] 
-**facets** | [**array[SearchFacet]**](SearchFacet.md) |  | [optional] 
+**graph** | [**List[MatrixFile]**](MatrixFile.md) |  | [optional] 
+**id** | **str** |  | [optional] 
+**type** | **List[str]** |  | [optional] 
+**total** | **int** |  | [optional] 
+**facets** | [**List[SearchFacet]**](SearchFacet.md) |  | [optional] 
 
 

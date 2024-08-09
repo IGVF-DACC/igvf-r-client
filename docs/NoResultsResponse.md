@@ -1,21 +1,21 @@
-# igvfclient::NoResultsResponse
+# igvf_client::NoResultsResponse
 
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**@context** | **character** |  | [optional] 
-**@graph** | [**array[AnyType]**](AnyType.md) |  | [optional] 
-**@id** | **character** |  | [optional] 
-**@type** | **array[character]** |  | [optional] 
-**clear_filters** | **character** |  | [optional] 
-**columns** | [**map(NoResultsResponseColumnsValue)**](NoResultsResponse_columns_value.md) |  | [optional] 
-**facet_groups** | [**array[NoResultsResponseFacetGroupsInner]**](NoResultsResponse_facet_groups_inner.md) |  | [optional] 
-**facets** | [**array[NoResultsResponseFacetsInner]**](NoResultsResponse_facets_inner.md) |  | [optional] 
-**filters** | [**array[NoResultsResponseFiltersInner]**](NoResultsResponse_filters_inner.md) |  | [optional] 
-**notification** | **character** |  | [optional] 
-**sort** | [**map(NoResultsResponseSortValue)**](NoResultsResponse_sort_value.md) |  | [optional] 
-**title** | **character** |  | [optional] 
-**total** | **integer** |  | [optional] 
+**context** | **str** |  | [optional] 
+**graph** | **List[object]** |  | [optional] 
+**id** | **str** |  | [optional] 
+**type** | **List[str]** |  | [optional] 
+**clear_filters** | **str** |  | [optional] 
+**columns** | [**Dict[str, NoResultsResponseColumnsValue]**](NoResultsResponseColumnsValue.md) |  | [optional] 
+**facet_groups** | [**List[NoResultsResponseFacetGroupsInner]**](NoResultsResponseFacetGroupsInner.md) |  | [optional] 
+**facets** | [**List[NoResultsResponseFacetsInner]**](NoResultsResponseFacetsInner.md) |  | [optional] 
+**filters** | [**List[NoResultsResponseFiltersInner]**](NoResultsResponseFiltersInner.md) |  | [optional] 
+**notification** | **str** |  | [optional] 
+**sort** | [**Dict[str, NoResultsResponseSortValue]**](NoResultsResponseSortValue.md) |  | [optional] 
+**title** | **str** |  | [optional] 
+**total** | **int** |  | [optional] 
 
 

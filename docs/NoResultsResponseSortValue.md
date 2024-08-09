@@ -1,10 +1,10 @@
-# igvfclient::NoResultsResponseSortValue
+# igvf_client::NoResultsResponseSortValue
 
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**order** | **character** |  | [optional] 
-**unmapped_type** | **character** |  | [optional] 
+**order** | **str** |  | [optional] 
+**unmapped_type** | **str** |  | [optional] 
 
 
