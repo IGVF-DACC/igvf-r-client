@@ -31,7 +31,6 @@ R/configuration_file.R
 R/configuration_file_results.R
 R/construct_library_set.R
 R/construct_library_set_results.R
-R/content_type.R
 R/crispr_modification.R
 R/crispr_modification_results.R
 R/curated_set.R
@@ -159,7 +158,6 @@ docs/ConfigurationFile.md
 docs/ConfigurationFileResults.md
 docs/ConstructLibrarySet.md
 docs/ConstructLibrarySetResults.md
-docs/ContentType.md
 docs/CrisprModification.md
 docs/CrisprModificationResults.md
 docs/CuratedSet.md
@@ -264,4 +262,3 @@ docs/Workflow.md
 docs/WorkflowResults.md
 git_push.sh
 tests/testthat.R
-tests/testthat/test_content_type.R

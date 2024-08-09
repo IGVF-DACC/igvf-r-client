@@ -84,7 +84,7 @@
 #' \item \emph{ @param } anvil_url list( character )
 #' \item \emph{ @param } assembly Enum < [GRCh38, GRCm39] >
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } collections Enum < [ClinGen, ENCODE, GREGoR, IGVF_catalog_beta_v0.1, IGVF_catalog_beta_v0.2, IGVF_catalog_beta_v0.3, IGVF_catalog_beta_v0.4, MaveDB, MPRAbase, Vista] >
 #' \item \emph{ @param } content_md5sum list( character )
 #' \item \emph{ @param } content_summary list( character )
@@ -171,7 +171,7 @@
 #' \item \emph{ @param } alternate_accessions list( character )
 #' \item \emph{ @param } assay_titles list( character )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } award_contact_pi_id list( character )
 #' \item \emph{ @param } award_contact_pi_title list( character )
 #' \item \emph{ @param } award_title list( character )
@@ -186,14 +186,14 @@
 #' \item \emph{ @param } donors_id list( character )
 #' \item \emph{ @param } donors_accession list( character )
 #' \item \emph{ @param } donors_aliases list( character )
-#' \item \emph{ @param } donors_sex Enum < [male, female, unspecified] >
-#' \item \emph{ @param } donors_status Enum < [in progress, released, deleted, replaced, revoked, archived] >
+#' \item \emph{ @param } donors_sex list( character )
+#' \item \emph{ @param } donors_status list( character )
 #' \item \emph{ @param } donors_taxa list( character )
 #' \item \emph{ @param } file_set_type Enum < [intermediate analysis, principal analysis] >
 #' \item \emph{ @param } files_id list( character )
 #' \item \emph{ @param } files_accession list( character )
 #' \item \emph{ @param } files_aliases list( character )
-#' \item \emph{ @param } files_content_type list( \link{ContentType} )
+#' \item \emph{ @param } files_content_type list( character )
 #' \item \emph{ @param } files_creation_timestamp list( character )
 #' \item \emph{ @param } files_file_format list( character )
 #' \item \emph{ @param } files_file_size list( integer )
@@ -201,12 +201,12 @@
 #' \item \emph{ @param } files_s3_uri list( character )
 #' \item \emph{ @param } files_sequencing_platform list( character )
 #' \item \emph{ @param } files_submitted_file_name list( character )
-#' \item \emph{ @param } files_upload_status Enum < [pending, file not found, invalidated, validated] >
+#' \item \emph{ @param } files_upload_status list( character )
 #' \item \emph{ @param } input_file_set_for list( character )
 #' \item \emph{ @param } input_file_sets_id list( character )
 #' \item \emph{ @param } input_file_sets_accession list( character )
 #' \item \emph{ @param } input_file_sets_aliases list( character )
-#' \item \emph{ @param } input_file_sets_file_set_type Enum < [pathogenicity, functional effect, protein stability, activity level, binding effect] >
+#' \item \emph{ @param } input_file_sets_file_set_type list( character )
 #' \item \emph{ @param } lab_id list( character )
 #' \item \emph{ @param } lab_title list( character )
 #' \item \emph{ @param } notes list( character )
@@ -225,14 +225,14 @@
 #' \item \emph{ @param } samples_modifications list( character )
 #' \item \emph{ @param } samples_sample_terms_id list( character )
 #' \item \emph{ @param } samples_sample_terms_aliases list( character )
-#' \item \emph{ @param } samples_sample_terms_status Enum < [archived, deleted, in progress, released] >
+#' \item \emph{ @param } samples_sample_terms_status list( character )
 #' \item \emph{ @param } samples_sample_terms_summary list( character )
 #' \item \emph{ @param } samples_sample_terms_term_name list( character )
-#' \item \emph{ @param } samples_status Enum < [in progress, released, deleted, replaced, revoked, archived] >
+#' \item \emph{ @param } samples_status list( character )
 #' \item \emph{ @param } samples_summary list( character )
 #' \item \emph{ @param } samples_targeted_sample_term_id list( character )
 #' \item \emph{ @param } samples_targeted_sample_term_term_name list( character )
-#' \item \emph{ @param } samples_taxa Enum < [Homo sapiens, Mus musculus] >
+#' \item \emph{ @param } samples_taxa list( character )
 #' \item \emph{ @param } samples_treatments list( character )
 #' \item \emph{ @param } status Enum < [in progress, released, deleted, replaced, revoked, archived] >
 #' \item \emph{ @param } submitted_by_id list( character )
@@ -287,7 +287,7 @@
 #' \item \emph{ @param } analysis_step_id list( character )
 #' \item \emph{ @param } analysis_step_name list( character )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } creation_timestamp list( character )
 #' \item \emph{ @param } description list( character )
 #' \item \emph{ @param } lab_id list( character )
@@ -347,7 +347,7 @@
 #' \item \emph{ @param } aliases list( character )
 #' \item \emph{ @param } analysis_step_types Enum < [alignment, file format conversion, signal generation] >
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } creation_timestamp list( character )
 #' \item \emph{ @param } description list( character )
 #' \item \emph{ @param } input_content_types list( character )
@@ -480,7 +480,7 @@
 #' \item \emph{ @param } aliases list( character )
 #' \item \emph{ @param } alternate_accessions list( character )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } award_contact_pi_id list( character )
 #' \item \emph{ @param } award_contact_pi_title list( character )
 #' \item \emph{ @param } award_title list( character )
@@ -495,14 +495,14 @@
 #' \item \emph{ @param } donors_id list( character )
 #' \item \emph{ @param } donors_accession list( character )
 #' \item \emph{ @param } donors_aliases list( character )
-#' \item \emph{ @param } donors_sex Enum < [male, female, unspecified] >
-#' \item \emph{ @param } donors_status Enum < [in progress, released, deleted, replaced, revoked, archived] >
+#' \item \emph{ @param } donors_sex list( character )
+#' \item \emph{ @param } donors_status list( character )
 #' \item \emph{ @param } donors_taxa list( character )
 #' \item \emph{ @param } file_set_type Enum < [cell hashing, cell sorting, circularized RNA barcode detection, gRNA sequencing, oligo-conjugated lipids, quantification DNA barcode sequencing, variant sequencing] >
 #' \item \emph{ @param } files_id list( character )
 #' \item \emph{ @param } files_accession list( character )
 #' \item \emph{ @param } files_aliases list( character )
-#' \item \emph{ @param } files_content_type list( \link{ContentType} )
+#' \item \emph{ @param } files_content_type list( character )
 #' \item \emph{ @param } files_creation_timestamp list( character )
 #' \item \emph{ @param } files_file_format list( character )
 #' \item \emph{ @param } files_file_size list( integer )
@@ -510,14 +510,14 @@
 #' \item \emph{ @param } files_s3_uri list( character )
 #' \item \emph{ @param } files_sequencing_platform list( character )
 #' \item \emph{ @param } files_submitted_file_name list( character )
-#' \item \emph{ @param } files_upload_status Enum < [pending, file not found, invalidated, validated] >
+#' \item \emph{ @param } files_upload_status list( character )
 #' \item \emph{ @param } input_file_set_for list( character )
 #' \item \emph{ @param } lab_id list( character )
 #' \item \emph{ @param } lab_title list( character )
 #' \item \emph{ @param } measurement_sets_id list( character )
 #' \item \emph{ @param } measurement_sets_accession list( character )
 #' \item \emph{ @param } measurement_sets_aliases list( character )
-#' \item \emph{ @param } measurement_sets_preferred_assay_title Enum < [10x multiome, 10x multiome with MULTI-seq, AAV-MPRA, ATAC-seq, CERES-seq, Cell painting, CRISPR FlowFISH, DOGMA-seq, Histone ChIP-seq, Hi-C, HT-recruit, lentiMPRA, MERFISH, MIAA, mN2H, MPRA, MPRA (scQer), MULTI-seq, Parse SPLiT-seq, Perturb-seq, RNA-seq, SGE, scATAC-seq, scNT-seq, scNT-seq2, scRNA-seq, semi-qY2H, SHARE-seq, smFISH, snATAC-seq, snmC-Seq2, snMCT-seq, snM3C-seq, snRNA-seq, Spatial transcriptomics, SUPERSTARR, TAP-seq, TF ChIP-seq, VAMP-seq, Variant FlowFISH, Variant painting, Y2H, yN2H] >
+#' \item \emph{ @param } measurement_sets_preferred_assay_title list( character )
 #' \item \emph{ @param } notes list( character )
 #' \item \emph{ @param } publications_id list( character )
 #' \item \emph{ @param } publications_publication_identifiers list( character )
@@ -534,14 +534,14 @@
 #' \item \emph{ @param } samples_modifications list( character )
 #' \item \emph{ @param } samples_sample_terms_id list( character )
 #' \item \emph{ @param } samples_sample_terms_aliases list( character )
-#' \item \emph{ @param } samples_sample_terms_status Enum < [archived, deleted, in progress, released] >
+#' \item \emph{ @param } samples_sample_terms_status list( character )
 #' \item \emph{ @param } samples_sample_terms_summary list( character )
 #' \item \emph{ @param } samples_sample_terms_term_name list( character )
-#' \item \emph{ @param } samples_status Enum < [in progress, released, deleted, replaced, revoked, archived] >
+#' \item \emph{ @param } samples_status list( character )
 #' \item \emph{ @param } samples_summary list( character )
 #' \item \emph{ @param } samples_targeted_sample_term_id list( character )
 #' \item \emph{ @param } samples_targeted_sample_term_term_name list( character )
-#' \item \emph{ @param } samples_taxa Enum < [Homo sapiens, Mus musculus] >
+#' \item \emph{ @param } samples_taxa list( character )
 #' \item \emph{ @param } samples_treatments list( character )
 #' \item \emph{ @param } status Enum < [in progress, released, deleted, replaced, revoked, archived] >
 #' \item \emph{ @param } submitted_by_id list( character )
@@ -696,7 +696,7 @@
 #' \item \emph{ @param } id list( character )
 #' \item \emph{ @param } aliases list( character )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } award_name list( character )
 #' \item \emph{ @param } biomarker_for list( character )
 #' \item \emph{ @param } classification Enum < [cell surface protein, marker gene] >
@@ -764,7 +764,7 @@
 #' \item \emph{ @param } alternate_accessions list( character )
 #' \item \emph{ @param } analysis_step_version list( character )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } collections Enum < [ClinGen, ENCODE, GREGoR, IGVF_catalog_beta_v0.1, IGVF_catalog_beta_v0.2, IGVF_catalog_beta_v0.3, IGVF_catalog_beta_v0.4, MaveDB, MPRAbase, Vista] >
 #' \item \emph{ @param } content_md5sum list( character )
 #' \item \emph{ @param } content_type list( character )
@@ -851,7 +851,7 @@
 #' \item \emph{ @param } applied_to_samples_disease_terms_term_name list( character )
 #' \item \emph{ @param } applied_to_samples_sample_terms_id list( character )
 #' \item \emph{ @param } applied_to_samples_sample_terms_term_name list( character )
-#' \item \emph{ @param } applied_to_samples_status Enum < [in progress, released, deleted, replaced, revoked, archived] >
+#' \item \emph{ @param } applied_to_samples_status list( character )
 #' \item \emph{ @param } applied_to_samples_summary list( character )
 #' \item \emph{ @param } associated_phenotypes_id list( character )
 #' \item \emph{ @param } associated_phenotypes_term_id list( character )
@@ -859,7 +859,7 @@
 #' \item \emph{ @param } average_guide_coverage list( numeric )
 #' \item \emph{ @param } average_insert_size list( numeric )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } collections Enum < [ClinGen, ENCODE, GREGoR, IGVF_catalog_beta_v0.1, IGVF_catalog_beta_v0.2, IGVF_catalog_beta_v0.3, IGVF_catalog_beta_v0.4, MaveDB, MPRAbase, Vista] >
 #' \item \emph{ @param } control_for_id list( character )
 #' \item \emph{ @param } control_for_accession list( character )
@@ -872,9 +872,9 @@
 #' \item \emph{ @param } files_id list( character )
 #' \item \emph{ @param } files_accession list( character )
 #' \item \emph{ @param } files_aliases list( character )
-#' \item \emph{ @param } files_content_type list( \link{ContentType} )
+#' \item \emph{ @param } files_content_type list( character )
 #' \item \emph{ @param } files_file_format list( character )
-#' \item \emph{ @param } files_upload_status Enum < [pending, file not found, invalidated, validated] >
+#' \item \emph{ @param } files_upload_status list( character )
 #' \item \emph{ @param } guide_type Enum < [sgRNA, pgRNA] >
 #' \item \emph{ @param } input_file_set_for list( character )
 #' \item \emph{ @param } integrated_content_files list( character )
@@ -966,7 +966,7 @@
 #' \item \emph{ @param } activating_agent_term_name list( character )
 #' \item \emph{ @param } aliases list( character )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } biosamples_modified list( character )
 #' \item \emph{ @param } cas Enum < [Cas9, Cas12a, Cas13, dCas9, nCas9, SpG, SpRY] >
 #' \item \emph{ @param } cas_species Enum < [Streptococcus pyogenes (Sp), Staphylococcus aureus (Sa), Campylobacter jejuni (Cj), Neisseria meningitidis (Nm)] >
@@ -1036,7 +1036,7 @@
 #' \item \emph{ @param } alternate_accessions list( character )
 #' \item \emph{ @param } assemblies list( character )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } award_contact_pi_id list( character )
 #' \item \emph{ @param } award_contact_pi_title list( character )
 #' \item \emph{ @param } award_title list( character )
@@ -1051,14 +1051,14 @@
 #' \item \emph{ @param } donors_id list( character )
 #' \item \emph{ @param } donors_accession list( character )
 #' \item \emph{ @param } donors_aliases list( character )
-#' \item \emph{ @param } donors_sex Enum < [male, female, unspecified] >
-#' \item \emph{ @param } donors_status Enum < [in progress, released, deleted, replaced, revoked, archived] >
+#' \item \emph{ @param } donors_sex list( character )
+#' \item \emph{ @param } donors_status list( character )
 #' \item \emph{ @param } donors_taxa list( character )
 #' \item \emph{ @param } file_set_type Enum < [barcodes, editing templates, elements, external data for catalog, genome, genes, guide RNAs, transcriptome, variants] >
 #' \item \emph{ @param } files_id list( character )
 #' \item \emph{ @param } files_accession list( character )
 #' \item \emph{ @param } files_aliases list( character )
-#' \item \emph{ @param } files_content_type list( \link{ContentType} )
+#' \item \emph{ @param } files_content_type list( character )
 #' \item \emph{ @param } files_creation_timestamp list( character )
 #' \item \emph{ @param } files_file_format list( character )
 #' \item \emph{ @param } files_file_size list( integer )
@@ -1066,7 +1066,7 @@
 #' \item \emph{ @param } files_s3_uri list( character )
 #' \item \emph{ @param } files_sequencing_platform list( character )
 #' \item \emph{ @param } files_submitted_file_name list( character )
-#' \item \emph{ @param } files_upload_status Enum < [pending, file not found, invalidated, validated] >
+#' \item \emph{ @param } files_upload_status list( character )
 #' \item \emph{ @param } input_file_set_for list( character )
 #' \item \emph{ @param } lab_id list( character )
 #' \item \emph{ @param } lab_title list( character )
@@ -1086,14 +1086,14 @@
 #' \item \emph{ @param } samples_modifications list( character )
 #' \item \emph{ @param } samples_sample_terms_id list( character )
 #' \item \emph{ @param } samples_sample_terms_aliases list( character )
-#' \item \emph{ @param } samples_sample_terms_status Enum < [archived, deleted, in progress, released] >
+#' \item \emph{ @param } samples_sample_terms_status list( character )
 #' \item \emph{ @param } samples_sample_terms_summary list( character )
 #' \item \emph{ @param } samples_sample_terms_term_name list( character )
-#' \item \emph{ @param } samples_status Enum < [in progress, released, deleted, replaced, revoked, archived] >
+#' \item \emph{ @param } samples_status list( character )
 #' \item \emph{ @param } samples_summary list( character )
 #' \item \emph{ @param } samples_targeted_sample_term_id list( character )
 #' \item \emph{ @param } samples_targeted_sample_term_term_name list( character )
-#' \item \emph{ @param } samples_taxa Enum < [Homo sapiens, Mus musculus] >
+#' \item \emph{ @param } samples_taxa list( character )
 #' \item \emph{ @param } samples_treatments list( character )
 #' \item \emph{ @param } status Enum < [in progress, released, deleted, replaced, revoked, archived] >
 #' \item \emph{ @param } submitted_by_id list( character )
@@ -1152,7 +1152,7 @@
 #' \item \emph{ @param } activating_agent_term_name list( character )
 #' \item \emph{ @param } aliases list( character )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } biosamples_modified list( character )
 #' \item \emph{ @param } creation_timestamp list( character )
 #' \item \emph{ @param } degron_system Enum < [AID, AlissAid, ssAID] >
@@ -1217,7 +1217,7 @@
 #' \item \emph{ @param } id list( character )
 #' \item \emph{ @param } aliases list( character )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } characterization_method Enum < [FACS, immunoblot, immunofluorescence, immunoprecipitation, mass spectrometry, PCR, restriction digest, RT-qPCR, sequencing] >
 #' \item \emph{ @param } creation_timestamp list( character )
 #' \item \emph{ @param } description list( character )
@@ -1375,7 +1375,7 @@
 #' \item \emph{ @param } analysis_step_version list( character )
 #' \item \emph{ @param } assembly Enum < [GRCh38, GRCm39] >
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } collections Enum < [ClinGen, ENCODE, GREGoR, IGVF_catalog_beta_v0.1, IGVF_catalog_beta_v0.2, IGVF_catalog_beta_v0.3, IGVF_catalog_beta_v0.4, MaveDB, MPRAbase, Vista] >
 #' \item \emph{ @param } content_md5sum list( character )
 #' \item \emph{ @param } content_type list( character )
@@ -1482,7 +1482,7 @@
 #' \item \emph{ @param } aliases list( character )
 #' \item \emph{ @param } alternate_accessions list( character )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } collections Enum < [ClinGen, ENCODE, GREGoR, IGVF_catalog_beta_v0.1, IGVF_catalog_beta_v0.2, IGVF_catalog_beta_v0.3, IGVF_catalog_beta_v0.4, MaveDB, MPRAbase, Vista] >
 #' \item \emph{ @param } creation_timestamp list( character )
 #' \item \emph{ @param } dbxrefs list( character )
@@ -1498,7 +1498,7 @@
 #' \item \emph{ @param } phenotypic_features_feature_term_id list( character )
 #' \item \emph{ @param } phenotypic_features_feature_term_name list( character )
 #' \item \emph{ @param } phenotypic_features_observation_date list( character )
-#' \item \emph{ @param } phenotypic_features_quantity_units Enum < [meter, micromole, nanogram, microgram, milligram, gram, kilogram, milli-International Unit per milliliter, picogram per milliliter, nanogram per milliliter, milligram per deciliter] >
+#' \item \emph{ @param } phenotypic_features_quantity_units list( character )
 #' \item \emph{ @param } publications_id list( character )
 #' \item \emph{ @param } publications_publication_identifiers list( character )
 #' \item \emph{ @param } related_donors_donor_id list( character )
@@ -1562,7 +1562,7 @@
 #' \item \emph{ @param } alternate_accessions list( character )
 #' \item \emph{ @param } analysis_step_version list( character )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } collections Enum < [ClinGen, ENCODE, GREGoR, IGVF_catalog_beta_v0.1, IGVF_catalog_beta_v0.2, IGVF_catalog_beta_v0.3, IGVF_catalog_beta_v0.4, MaveDB, MPRAbase, Vista] >
 #' \item \emph{ @param } content_md5sum list( character )
 #' \item \emph{ @param } content_type list( character )
@@ -1700,14 +1700,14 @@
 #' \item \emph{ @param } aliases list( character )
 #' \item \emph{ @param } alternate_accessions list( character )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } biomarkers list( character )
 #' \item \emph{ @param } cell_fate_change_protocol list( character )
 #' \item \emph{ @param } cell_fate_change_treatments_id list( character )
-#' \item \emph{ @param } cell_fate_change_treatments_purpose Enum < [activation, agonist, antagonist, control, differentiation, de-differentiation, perturbation, selection, stimulation] >
-#' \item \emph{ @param } cell_fate_change_treatments_status Enum < [archived, deleted, in progress, released] >
+#' \item \emph{ @param } cell_fate_change_treatments_purpose list( character )
+#' \item \emph{ @param } cell_fate_change_treatments_status list( character )
 #' \item \emph{ @param } cell_fate_change_treatments_summary list( character )
-#' \item \emph{ @param } cell_fate_change_treatments_treatment_type Enum < [chemical, protein, environmental] >
+#' \item \emph{ @param } cell_fate_change_treatments_treatment_type list( character )
 #' \item \emph{ @param } cellular_sub_pool list( character )
 #' \item \emph{ @param } classifications Enum < [organoid, gastruloid, embryoid, cell line, differentiated cell specimen, reprogrammed cell specimen, pooled cell specimen] >
 #' \item \emph{ @param } collections Enum < [ClinGen, ENCODE, GREGoR, IGVF_catalog_beta_v0.1, IGVF_catalog_beta_v0.2, IGVF_catalog_beta_v0.3, IGVF_catalog_beta_v0.4, MaveDB, MPRAbase, Vista] >
@@ -1728,7 +1728,7 @@
 #' \item \emph{ @param } file_sets_aliases list( character )
 #' \item \emph{ @param } file_sets_assay_term_term_name list( character )
 #' \item \emph{ @param } file_sets_lab_title list( character )
-#' \item \emph{ @param } file_sets_status Enum < [in progress, released, deleted, replaced, revoked, archived] >
+#' \item \emph{ @param } file_sets_status list( character )
 #' \item \emph{ @param } file_sets_summary list( character )
 #' \item \emph{ @param } growth_medium Enum < [DMEM with serum, DMEM without serum, SMBM with serum, SMBM without serum] >
 #' \item \emph{ @param } institutional_certificates_id list( character )
@@ -1739,7 +1739,7 @@
 #' \item \emph{ @param } lower_bound_age list( numeric )
 #' \item \emph{ @param } lower_bound_age_in_hours list( numeric )
 #' \item \emph{ @param } modifications_id list( character )
-#' \item \emph{ @param } modifications_status Enum < [archived, deleted, in progress, released] >
+#' \item \emph{ @param } modifications_status list( character )
 #' \item \emph{ @param } modifications_summary list( character )
 #' \item \emph{ @param } moi list( numeric )
 #' \item \emph{ @param } multiplexed_in_id list( character )
@@ -1782,10 +1782,10 @@
 #' \item \emph{ @param } time_post_library_delivery list( numeric )
 #' \item \emph{ @param } time_post_library_delivery_units Enum < [minute, hour, day, week, month] >
 #' \item \emph{ @param } treatments_id list( character )
-#' \item \emph{ @param } treatments_purpose Enum < [activation, agonist, antagonist, control, differentiation, de-differentiation, perturbation, selection, stimulation] >
-#' \item \emph{ @param } treatments_status Enum < [archived, deleted, in progress, released] >
+#' \item \emph{ @param } treatments_purpose list( character )
+#' \item \emph{ @param } treatments_status list( character )
 #' \item \emph{ @param } treatments_summary list( character )
-#' \item \emph{ @param } treatments_treatment_type Enum < [chemical, protein, environmental] >
+#' \item \emph{ @param } treatments_treatment_type list( character )
 #' \item \emph{ @param } upper_bound_age list( numeric )
 #' \item \emph{ @param } upper_bound_age_in_hours list( numeric )
 #' \item \emph{ @param } url list( character )
@@ -1835,7 +1835,7 @@
 #' \item \emph{ @param } id list( character )
 #' \item \emph{ @param } aliases list( character )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } certificate_identifier list( character )
 #' \item \emph{ @param } controlled_access list( character )
 #' \item \emph{ @param } creation_timestamp list( character )
@@ -1898,7 +1898,7 @@
 #' \item \emph{ @param } id list( character )
 #' \item \emph{ @param } aliases list( character )
 #' \item \emph{ @param } awards_id list( character )
-#' \item \emph{ @param } awards_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } awards_component list( character )
 #' \item \emph{ @param } awards_name list( character )
 #' \item \emph{ @param } creation_timestamp list( character )
 #' \item \emph{ @param } description list( character )
@@ -1961,7 +1961,7 @@
 #' \item \emph{ @param } alternate_accessions list( character )
 #' \item \emph{ @param } analysis_step_version list( character )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } collections Enum < [ClinGen, ENCODE, GREGoR, IGVF_catalog_beta_v0.1, IGVF_catalog_beta_v0.2, IGVF_catalog_beta_v0.3, IGVF_catalog_beta_v0.4, MaveDB, MPRAbase, Vista] >
 #' \item \emph{ @param } content_md5sum list( character )
 #' \item \emph{ @param } content_summary list( character )
@@ -2049,9 +2049,9 @@
 #' \item \emph{ @param } auxiliary_sets_id list( character )
 #' \item \emph{ @param } auxiliary_sets_accession list( character )
 #' \item \emph{ @param } auxiliary_sets_aliases list( character )
-#' \item \emph{ @param } auxiliary_sets_file_set_type Enum < [cell hashing, cell sorting, circularized RNA barcode detection, gRNA sequencing, oligo-conjugated lipids, quantification DNA barcode sequencing, variant sequencing] >
+#' \item \emph{ @param } auxiliary_sets_file_set_type list( character )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } award_contact_pi_id list( character )
 #' \item \emph{ @param } award_contact_pi_title list( character )
 #' \item \emph{ @param } award_title list( character )
@@ -2069,15 +2069,15 @@
 #' \item \emph{ @param } donors_id list( character )
 #' \item \emph{ @param } donors_accession list( character )
 #' \item \emph{ @param } donors_aliases list( character )
-#' \item \emph{ @param } donors_sex Enum < [male, female, unspecified] >
-#' \item \emph{ @param } donors_status Enum < [in progress, released, deleted, replaced, revoked, archived] >
+#' \item \emph{ @param } donors_sex list( character )
+#' \item \emph{ @param } donors_status list( character )
 #' \item \emph{ @param } donors_taxa list( character )
 #' \item \emph{ @param } external_image_url list( character )
 #' \item \emph{ @param } file_set_type Enum < [experimental data] >
 #' \item \emph{ @param } files_id list( character )
 #' \item \emph{ @param } files_accession list( character )
 #' \item \emph{ @param } files_aliases list( character )
-#' \item \emph{ @param } files_content_type list( \link{ContentType} )
+#' \item \emph{ @param } files_content_type list( character )
 #' \item \emph{ @param } files_creation_timestamp list( character )
 #' \item \emph{ @param } files_file_format list( character )
 #' \item \emph{ @param } files_file_size list( integer )
@@ -2086,7 +2086,7 @@
 #' \item \emph{ @param } files_sequencing_platform_id list( character )
 #' \item \emph{ @param } files_sequencing_platform_term_name list( character )
 #' \item \emph{ @param } files_submitted_file_name list( character )
-#' \item \emph{ @param } files_upload_status Enum < [pending, file not found, invalidated, validated] >
+#' \item \emph{ @param } files_upload_status list( character )
 #' \item \emph{ @param } input_file_set_for list( character )
 #' \item \emph{ @param } lab_id list( character )
 #' \item \emph{ @param } lab_title list( character )
@@ -2104,13 +2104,13 @@
 #' \item \emph{ @param } samples_accession list( character )
 #' \item \emph{ @param } samples_aliases list( character )
 #' \item \emph{ @param } samples_cell_fate_change_treatments_id list( character )
-#' \item \emph{ @param } samples_cell_fate_change_treatments_purpose Enum < [activation, agonist, antagonist, control, differentiation, de-differentiation, perturbation, selection, stimulation] >
+#' \item \emph{ @param } samples_cell_fate_change_treatments_purpose list( character )
 #' \item \emph{ @param } samples_cell_fate_change_treatments_summary list( character )
-#' \item \emph{ @param } samples_cell_fate_change_treatments_treatment_type Enum < [chemical, protein, environmental] >
+#' \item \emph{ @param } samples_cell_fate_change_treatments_treatment_type list( character )
 #' \item \emph{ @param } samples_classifications Enum < [organoid, gastruloid, embryoid, cell line, differentiated cell specimen, reprogrammed cell specimen, pooled cell specimen] >
 #' \item \emph{ @param } samples_construct_library_sets_id list( character )
 #' \item \emph{ @param } samples_construct_library_sets_accession list( character )
-#' \item \emph{ @param } samples_construct_library_sets_file_set_type Enum < [guide library, reporter library, expression vector library, editing template library] >
+#' \item \emph{ @param } samples_construct_library_sets_file_set_type list( character )
 #' \item \emph{ @param } samples_construct_library_sets_small_scale_gene_list_id list( character )
 #' \item \emph{ @param } samples_construct_library_sets_small_scale_gene_list_geneid list( character )
 #' \item \emph{ @param } samples_construct_library_sets_small_scale_gene_list_name list( character )
@@ -2122,18 +2122,18 @@
 #' \item \emph{ @param } samples_modifications_id list( character )
 #' \item \emph{ @param } samples_sample_terms_id list( character )
 #' \item \emph{ @param } samples_sample_terms_aliases list( character )
-#' \item \emph{ @param } samples_sample_terms_status Enum < [archived, deleted, in progress, released] >
+#' \item \emph{ @param } samples_sample_terms_status list( character )
 #' \item \emph{ @param } samples_sample_terms_summary list( character )
 #' \item \emph{ @param } samples_sample_terms_term_name list( character )
-#' \item \emph{ @param } samples_status Enum < [in progress, released, deleted, replaced, revoked, archived] >
+#' \item \emph{ @param } samples_status list( character )
 #' \item \emph{ @param } samples_summary list( character )
 #' \item \emph{ @param } samples_targeted_sample_term_id list( character )
 #' \item \emph{ @param } samples_targeted_sample_term_term_name list( character )
-#' \item \emph{ @param } samples_taxa Enum < [Homo sapiens, Mus musculus] >
+#' \item \emph{ @param } samples_taxa list( character )
 #' \item \emph{ @param } samples_treatments_id list( character )
-#' \item \emph{ @param } samples_treatments_purpose Enum < [activation, agonist, antagonist, control, differentiation, de-differentiation, perturbation, selection, stimulation] >
+#' \item \emph{ @param } samples_treatments_purpose list( character )
 #' \item \emph{ @param } samples_treatments_summary list( character )
-#' \item \emph{ @param } samples_treatments_treatment_type Enum < [chemical, protein, environmental] >
+#' \item \emph{ @param } samples_treatments_treatment_type list( character )
 #' \item \emph{ @param } sequencing_library_types Enum < [direct RNA, exome capture, mRNA enriched, rRNA depleted, polyA depleted, polyA enriched] >
 #' \item \emph{ @param } status Enum < [in progress, released, deleted, replaced, revoked, archived] >
 #' \item \emph{ @param } submitted_by_id list( character )
@@ -2195,7 +2195,7 @@
 #' \item \emph{ @param } analysis_step_version list( character )
 #' \item \emph{ @param } anvil_url list( character )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } collections Enum < [ClinGen, ENCODE, GREGoR, IGVF_catalog_beta_v0.1, IGVF_catalog_beta_v0.2, IGVF_catalog_beta_v0.3, IGVF_catalog_beta_v0.4, MaveDB, MPRAbase, Vista] >
 #' \item \emph{ @param } content_md5sum list( character )
 #' \item \emph{ @param } content_type list( character )
@@ -2277,7 +2277,7 @@
 #' \item \emph{ @param } alternate_accessions list( character )
 #' \item \emph{ @param } assessed_genes list( character )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } award_contact_pi_id list( character )
 #' \item \emph{ @param } award_contact_pi_title list( character )
 #' \item \emph{ @param } award_title list( character )
@@ -2292,14 +2292,14 @@
 #' \item \emph{ @param } donors_id list( character )
 #' \item \emph{ @param } donors_accession list( character )
 #' \item \emph{ @param } donors_aliases list( character )
-#' \item \emph{ @param } donors_sex Enum < [male, female, unspecified] >
-#' \item \emph{ @param } donors_status Enum < [in progress, released, deleted, replaced, revoked, archived] >
+#' \item \emph{ @param } donors_sex list( character )
+#' \item \emph{ @param } donors_status list( character )
 #' \item \emph{ @param } donors_taxa list( character )
 #' \item \emph{ @param } file_set_type Enum < [neural network, random forest, decision tree, support vector machine, variant binding effect] >
 #' \item \emph{ @param } files_id list( character )
 #' \item \emph{ @param } files_accession list( character )
 #' \item \emph{ @param } files_aliases list( character )
-#' \item \emph{ @param } files_content_type list( \link{ContentType} )
+#' \item \emph{ @param } files_content_type list( character )
 #' \item \emph{ @param } files_creation_timestamp list( character )
 #' \item \emph{ @param } files_file_format list( character )
 #' \item \emph{ @param } files_file_size list( integer )
@@ -2307,7 +2307,7 @@
 #' \item \emph{ @param } files_s3_uri list( character )
 #' \item \emph{ @param } files_sequencing_platform list( character )
 #' \item \emph{ @param } files_submitted_file_name list( character )
-#' \item \emph{ @param } files_upload_status Enum < [pending, file not found, invalidated, validated] >
+#' \item \emph{ @param } files_upload_status list( character )
 #' \item \emph{ @param } input_file_set_for list( character )
 #' \item \emph{ @param } input_file_sets_id list( character )
 #' \item \emph{ @param } input_file_sets_accession list( character )
@@ -2334,14 +2334,14 @@
 #' \item \emph{ @param } samples_modifications list( character )
 #' \item \emph{ @param } samples_sample_terms_id list( character )
 #' \item \emph{ @param } samples_sample_terms_aliases list( character )
-#' \item \emph{ @param } samples_sample_terms_status Enum < [archived, deleted, in progress, released] >
+#' \item \emph{ @param } samples_sample_terms_status list( character )
 #' \item \emph{ @param } samples_sample_terms_summary list( character )
 #' \item \emph{ @param } samples_sample_terms_term_name list( character )
-#' \item \emph{ @param } samples_status Enum < [in progress, released, deleted, replaced, revoked, archived] >
+#' \item \emph{ @param } samples_status list( character )
 #' \item \emph{ @param } samples_summary list( character )
 #' \item \emph{ @param } samples_targeted_sample_term_id list( character )
 #' \item \emph{ @param } samples_targeted_sample_term_term_name list( character )
-#' \item \emph{ @param } samples_taxa Enum < [Homo sapiens, Mus musculus] >
+#' \item \emph{ @param } samples_taxa list( character )
 #' \item \emph{ @param } samples_treatments list( character )
 #' \item \emph{ @param } software_version list( character )
 #' \item \emph{ @param } status Enum < [in progress, released, deleted, replaced, revoked, archived] >
@@ -2398,7 +2398,7 @@
 #' \item \emph{ @param } aliases list( character )
 #' \item \emph{ @param } alternate_accessions list( character )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } barcode_sample_map list( character )
 #' \item \emph{ @param } biomarkers list( character )
 #' \item \emph{ @param } cellular_sub_pool list( character )
@@ -2419,13 +2419,13 @@
 #' \item \emph{ @param } file_sets_aliases list( character )
 #' \item \emph{ @param } file_sets_assay_term_term_name list( character )
 #' \item \emph{ @param } file_sets_lab_title list( character )
-#' \item \emph{ @param } file_sets_status Enum < [in progress, released, deleted, replaced, revoked, archived] >
+#' \item \emph{ @param } file_sets_status list( character )
 #' \item \emph{ @param } file_sets_summary list( character )
 #' \item \emph{ @param } institutional_certificates list( character )
 #' \item \emph{ @param } lab_id list( character )
 #' \item \emph{ @param } lab_title list( character )
 #' \item \emph{ @param } modifications_id list( character )
-#' \item \emph{ @param } modifications_status Enum < [archived, deleted, in progress, released] >
+#' \item \emph{ @param } modifications_status list( character )
 #' \item \emph{ @param } modifications_summary list( character )
 #' \item \emph{ @param } moi list( numeric )
 #' \item \emph{ @param } multiplexed_in_id list( character )
@@ -2439,7 +2439,7 @@
 #' \item \emph{ @param } multiplexed_samples_donors_accession list( character )
 #' \item \emph{ @param } multiplexed_samples_sample_terms_id list( character )
 #' \item \emph{ @param } multiplexed_samples_sample_terms_term_name list( character )
-#' \item \emph{ @param } multiplexed_samples_status Enum < [in progress, released, deleted, replaced, revoked, archived] >
+#' \item \emph{ @param } multiplexed_samples_status list( character )
 #' \item \emph{ @param } multiplexed_samples_summary list( character )
 #' \item \emph{ @param } notes list( character )
 #' \item \emph{ @param } nucleic_acid_delivery Enum < [transfection, adenoviral transduction, lentiviral transduction] >
@@ -2466,10 +2466,10 @@
 #' \item \emph{ @param } time_post_library_delivery list( numeric )
 #' \item \emph{ @param } time_post_library_delivery_units Enum < [minute, hour, day, week, month] >
 #' \item \emph{ @param } treatments_id list( character )
-#' \item \emph{ @param } treatments_purpose Enum < [activation, agonist, antagonist, control, differentiation, de-differentiation, perturbation, selection, stimulation] >
-#' \item \emph{ @param } treatments_status Enum < [archived, deleted, in progress, released] >
+#' \item \emph{ @param } treatments_purpose list( character )
+#' \item \emph{ @param } treatments_status list( character )
 #' \item \emph{ @param } treatments_summary list( character )
-#' \item \emph{ @param } treatments_treatment_type Enum < [chemical, protein, environmental] >
+#' \item \emph{ @param } treatments_treatment_type list( character )
 #' \item \emph{ @param } url list( character )
 #' \item \emph{ @param } uuid list( character )
 #' \item \emph{ @param } virtual list( character )
@@ -2700,7 +2700,7 @@
 #' \item \emph{ @param } id list( character )
 #' \item \emph{ @param } aliases list( character )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } creation_timestamp list( character )
 #' \item \emph{ @param } description list( character )
 #' \item \emph{ @param } feature_id list( character )
@@ -2829,7 +2829,7 @@
 #' \item \emph{ @param } alternate_accessions list( character )
 #' \item \emph{ @param } assessed_genes list( character )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } award_contact_pi_id list( character )
 #' \item \emph{ @param } award_contact_pi_title list( character )
 #' \item \emph{ @param } award_title list( character )
@@ -2844,14 +2844,14 @@
 #' \item \emph{ @param } donors_id list( character )
 #' \item \emph{ @param } donors_accession list( character )
 #' \item \emph{ @param } donors_aliases list( character )
-#' \item \emph{ @param } donors_sex Enum < [male, female, unspecified] >
-#' \item \emph{ @param } donors_status Enum < [in progress, released, deleted, replaced, revoked, archived] >
+#' \item \emph{ @param } donors_sex list( character )
+#' \item \emph{ @param } donors_status list( character )
 #' \item \emph{ @param } donors_taxa list( character )
 #' \item \emph{ @param } file_set_type Enum < [pathogenicity, functional effect, protein stability, activity level, binding effect] >
 #' \item \emph{ @param } files_id list( character )
 #' \item \emph{ @param } files_accession list( character )
 #' \item \emph{ @param } files_aliases list( character )
-#' \item \emph{ @param } files_content_type list( \link{ContentType} )
+#' \item \emph{ @param } files_content_type list( character )
 #' \item \emph{ @param } files_creation_timestamp list( character )
 #' \item \emph{ @param } files_file_format list( character )
 #' \item \emph{ @param } files_file_size list( integer )
@@ -2859,7 +2859,7 @@
 #' \item \emph{ @param } files_s3_uri list( character )
 #' \item \emph{ @param } files_sequencing_platform list( character )
 #' \item \emph{ @param } files_submitted_file_name list( character )
-#' \item \emph{ @param } files_upload_status Enum < [pending, file not found, invalidated, validated] >
+#' \item \emph{ @param } files_upload_status list( character )
 #' \item \emph{ @param } input_file_set_for list( character )
 #' \item \emph{ @param } input_file_sets list( character )
 #' \item \emph{ @param } lab_id list( character )
@@ -2888,14 +2888,14 @@
 #' \item \emph{ @param } samples_modifications list( character )
 #' \item \emph{ @param } samples_sample_terms_id list( character )
 #' \item \emph{ @param } samples_sample_terms_aliases list( character )
-#' \item \emph{ @param } samples_sample_terms_status Enum < [archived, deleted, in progress, released] >
+#' \item \emph{ @param } samples_sample_terms_status list( character )
 #' \item \emph{ @param } samples_sample_terms_summary list( character )
 #' \item \emph{ @param } samples_sample_terms_term_name list( character )
-#' \item \emph{ @param } samples_status Enum < [in progress, released, deleted, replaced, revoked, archived] >
+#' \item \emph{ @param } samples_status list( character )
 #' \item \emph{ @param } samples_summary list( character )
 #' \item \emph{ @param } samples_targeted_sample_term_id list( character )
 #' \item \emph{ @param } samples_targeted_sample_term_term_name list( character )
-#' \item \emph{ @param } samples_taxa Enum < [Homo sapiens, Mus musculus] >
+#' \item \emph{ @param } samples_taxa list( character )
 #' \item \emph{ @param } samples_treatments list( character )
 #' \item \emph{ @param } scope Enum < [genes, loci, genome-wide] >
 #' \item \emph{ @param } small_scale_gene_list_id list( character )
@@ -2960,7 +2960,7 @@
 #' \item \emph{ @param } aliases list( character )
 #' \item \emph{ @param } alternate_accessions list( character )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } biomarkers list( character )
 #' \item \emph{ @param } cellular_sub_pool list( character )
 #' \item \emph{ @param } classifications list( character )
@@ -2980,7 +2980,7 @@
 #' \item \emph{ @param } file_sets_aliases list( character )
 #' \item \emph{ @param } file_sets_assay_term_term_name list( character )
 #' \item \emph{ @param } file_sets_lab_title list( character )
-#' \item \emph{ @param } file_sets_status Enum < [in progress, released, deleted, replaced, revoked, archived] >
+#' \item \emph{ @param } file_sets_status list( character )
 #' \item \emph{ @param } file_sets_summary list( character )
 #' \item \emph{ @param } institutional_certificates_id list( character )
 #' \item \emph{ @param } institutional_certificates_certificate_identifier list( character )
@@ -2990,7 +2990,7 @@
 #' \item \emph{ @param } lower_bound_age list( numeric )
 #' \item \emph{ @param } lower_bound_age_in_hours list( numeric )
 #' \item \emph{ @param } modifications_id list( character )
-#' \item \emph{ @param } modifications_status Enum < [archived, deleted, in progress, released] >
+#' \item \emph{ @param } modifications_status list( character )
 #' \item \emph{ @param } modifications_summary list( character )
 #' \item \emph{ @param } moi list( numeric )
 #' \item \emph{ @param } multiplexed_in_id list( character )
@@ -3029,10 +3029,10 @@
 #' \item \emph{ @param } time_post_library_delivery list( numeric )
 #' \item \emph{ @param } time_post_library_delivery_units Enum < [minute, hour, day, week, month] >
 #' \item \emph{ @param } treatments_id list( character )
-#' \item \emph{ @param } treatments_purpose Enum < [activation, agonist, antagonist, control, differentiation, de-differentiation, perturbation, selection, stimulation] >
-#' \item \emph{ @param } treatments_status Enum < [archived, deleted, in progress, released] >
+#' \item \emph{ @param } treatments_purpose list( character )
+#' \item \emph{ @param } treatments_status list( character )
 #' \item \emph{ @param } treatments_summary list( character )
-#' \item \emph{ @param } treatments_treatment_type Enum < [chemical, protein, environmental] >
+#' \item \emph{ @param } treatments_treatment_type list( character )
 #' \item \emph{ @param } upper_bound_age list( numeric )
 #' \item \emph{ @param } upper_bound_age_in_hours list( numeric )
 #' \item \emph{ @param } url list( character )
@@ -3084,7 +3084,7 @@
 #' \item \emph{ @param } aliases list( character )
 #' \item \emph{ @param } authors list( character )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } creation_timestamp list( character )
 #' \item \emph{ @param } date_published list( character )
 #' \item \emph{ @param } date_revised list( character )
@@ -3162,7 +3162,7 @@
 #' \item \emph{ @param } anvil_url list( character )
 #' \item \emph{ @param } assembly Enum < [GRCh38, hg19, GRCm39, mm10] >
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } collections Enum < [ClinGen, ENCODE, GREGoR, IGVF_catalog_beta_v0.1, IGVF_catalog_beta_v0.2, IGVF_catalog_beta_v0.3, IGVF_catalog_beta_v0.4, MaveDB, MPRAbase, Vista] >
 #' \item \emph{ @param } content_md5sum list( character )
 #' \item \emph{ @param } content_type list( character )
@@ -3292,7 +3292,7 @@
 #' \item \emph{ @param } aliases list( character )
 #' \item \emph{ @param } alternate_accessions list( character )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } collections Enum < [ClinGen, ENCODE, GREGoR, IGVF_catalog_beta_v0.1, IGVF_catalog_beta_v0.2, IGVF_catalog_beta_v0.3, IGVF_catalog_beta_v0.4, MaveDB, MPRAbase, Vista] >
 #' \item \emph{ @param } creation_timestamp list( character )
 #' \item \emph{ @param } dbxrefs list( character )
@@ -3309,7 +3309,7 @@
 #' \item \emph{ @param } phenotypic_features_feature_term_id list( character )
 #' \item \emph{ @param } phenotypic_features_feature_term_name list( character )
 #' \item \emph{ @param } phenotypic_features_observation_date list( character )
-#' \item \emph{ @param } phenotypic_features_quantity_units Enum < [meter, micromole, nanogram, microgram, milligram, gram, kilogram, milli-International Unit per milliliter, picogram per milliliter, nanogram per milliliter, milligram per deciliter] >
+#' \item \emph{ @param } phenotypic_features_quantity_units list( character )
 #' \item \emph{ @param } product_id list( character )
 #' \item \emph{ @param } publications_id list( character )
 #' \item \emph{ @param } publications_publication_identifiers list( character )
@@ -3503,7 +3503,7 @@
 #' \item \emph{ @param } analysis_step_version list( character )
 #' \item \emph{ @param } anvil_url list( character )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } base_modifications Enum < [4mC, 5hmC, 5mC, 6mA] >
 #' \item \emph{ @param } collections Enum < [ClinGen, ENCODE, GREGoR, IGVF_catalog_beta_v0.1, IGVF_catalog_beta_v0.2, IGVF_catalog_beta_v0.3, IGVF_catalog_beta_v0.4, MaveDB, MPRAbase, Vista] >
 #' \item \emph{ @param } content_md5sum list( character )
@@ -3599,7 +3599,7 @@
 #' \item \emph{ @param } analysis_step_version list( character )
 #' \item \emph{ @param } assembly Enum < [GRCh38, GRCm39] >
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } collections Enum < [ClinGen, ENCODE, GREGoR, IGVF_catalog_beta_v0.1, IGVF_catalog_beta_v0.2, IGVF_catalog_beta_v0.3, IGVF_catalog_beta_v0.4, MaveDB, MPRAbase, Vista] >
 #' \item \emph{ @param } content_md5sum list( character )
 #' \item \emph{ @param } content_summary list( character )
@@ -3684,7 +3684,7 @@
 #' \item \emph{ @param } id list( character )
 #' \item \emph{ @param } aliases list( character )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } creation_timestamp list( character )
 #' \item \emph{ @param } description list( character )
 #' \item \emph{ @param } lab_id list( character )
@@ -3748,7 +3748,7 @@
 #' \item \emph{ @param } id list( character )
 #' \item \emph{ @param } aliases list( character )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } creation_timestamp list( character )
 #' \item \emph{ @param } description list( character )
 #' \item \emph{ @param } download_id list( character )
@@ -3874,7 +3874,7 @@
 #' \item \emph{ @param } anvil_url list( character )
 #' \item \emph{ @param } assembly Enum < [GRCh38, GRCm39] >
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } collections Enum < [ClinGen, ENCODE, GREGoR, IGVF_catalog_beta_v0.1, IGVF_catalog_beta_v0.2, IGVF_catalog_beta_v0.3, IGVF_catalog_beta_v0.4, MaveDB, MPRAbase, Vista] >
 #' \item \emph{ @param } content_md5sum list( character )
 #' \item \emph{ @param } content_type list( character )
@@ -3957,7 +3957,7 @@
 #' \item \emph{ @param } aliases list( character )
 #' \item \emph{ @param } alternate_accessions list( character )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } classifications list( character )
 #' \item \emph{ @param } collections Enum < [ClinGen, ENCODE, GREGoR, IGVF_catalog_beta_v0.1, IGVF_catalog_beta_v0.2, IGVF_catalog_beta_v0.3, IGVF_catalog_beta_v0.4, MaveDB, MPRAbase, Vista] >
 #' \item \emph{ @param } construct_library_sets list( character )
@@ -3971,7 +3971,7 @@
 #' \item \emph{ @param } file_sets_aliases list( character )
 #' \item \emph{ @param } file_sets_assay_term_term_name list( character )
 #' \item \emph{ @param } file_sets_lab_title list( character )
-#' \item \emph{ @param } file_sets_status Enum < [in progress, released, deleted, replaced, revoked, archived] >
+#' \item \emph{ @param } file_sets_status list( character )
 #' \item \emph{ @param } file_sets_summary list( character )
 #' \item \emph{ @param } institutional_certificates list( character )
 #' \item \emph{ @param } lab_id list( character )
@@ -4058,7 +4058,7 @@
 #' \item \emph{ @param } aliases list( character )
 #' \item \emph{ @param } alternate_accessions list( character )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } biomarkers list( character )
 #' \item \emph{ @param } ccf_id list( character )
 #' \item \emph{ @param } cellular_sub_pool list( character )
@@ -4079,7 +4079,7 @@
 #' \item \emph{ @param } file_sets_aliases list( character )
 #' \item \emph{ @param } file_sets_assay_term_term_name list( character )
 #' \item \emph{ @param } file_sets_lab_title list( character )
-#' \item \emph{ @param } file_sets_status Enum < [in progress, released, deleted, replaced, revoked, archived] >
+#' \item \emph{ @param } file_sets_status list( character )
 #' \item \emph{ @param } file_sets_summary list( character )
 #' \item \emph{ @param } institutional_certificates_id list( character )
 #' \item \emph{ @param } institutional_certificates_certificate_identifier list( character )
@@ -4089,7 +4089,7 @@
 #' \item \emph{ @param } lower_bound_age list( numeric )
 #' \item \emph{ @param } lower_bound_age_in_hours list( numeric )
 #' \item \emph{ @param } modifications_id list( character )
-#' \item \emph{ @param } modifications_status Enum < [archived, deleted, in progress, released] >
+#' \item \emph{ @param } modifications_status list( character )
 #' \item \emph{ @param } modifications_summary list( character )
 #' \item \emph{ @param } moi list( numeric )
 #' \item \emph{ @param } multiplexed_in_id list( character )
@@ -4130,10 +4130,10 @@
 #' \item \emph{ @param } time_post_library_delivery list( numeric )
 #' \item \emph{ @param } time_post_library_delivery_units Enum < [minute, hour, day, week, month] >
 #' \item \emph{ @param } treatments_id list( character )
-#' \item \emph{ @param } treatments_purpose Enum < [activation, agonist, antagonist, control, differentiation, de-differentiation, perturbation, selection, stimulation] >
-#' \item \emph{ @param } treatments_status Enum < [archived, deleted, in progress, released] >
+#' \item \emph{ @param } treatments_purpose list( character )
+#' \item \emph{ @param } treatments_status list( character )
 #' \item \emph{ @param } treatments_summary list( character )
-#' \item \emph{ @param } treatments_treatment_type Enum < [chemical, protein, environmental] >
+#' \item \emph{ @param } treatments_treatment_type list( character )
 #' \item \emph{ @param } upper_bound_age list( numeric )
 #' \item \emph{ @param } upper_bound_age_in_hours list( numeric )
 #' \item \emph{ @param } url list( character )
@@ -4185,7 +4185,7 @@
 #' \item \emph{ @param } amount list( numeric )
 #' \item \emph{ @param } amount_units Enum < [mg/kg, mg/mL, mM, ng/mL, nM, percent, μg/kg, μg/kg, μg/mL, μM, kpa] >
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } biosamples_treated list( character )
 #' \item \emph{ @param } creation_timestamp list( character )
 #' \item \emph{ @param } depletion list( character )
@@ -4324,7 +4324,7 @@
 #' \item \emph{ @param } aliases list( character )
 #' \item \emph{ @param } alternate_accessions list( character )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } biomarkers list( character )
 #' \item \emph{ @param } cellular_sub_pool list( character )
 #' \item \emph{ @param } classifications list( character )
@@ -4344,7 +4344,7 @@
 #' \item \emph{ @param } file_sets_aliases list( character )
 #' \item \emph{ @param } file_sets_assay_term_term_name list( character )
 #' \item \emph{ @param } file_sets_lab_title list( character )
-#' \item \emph{ @param } file_sets_status Enum < [in progress, released, deleted, replaced, revoked, archived] >
+#' \item \emph{ @param } file_sets_status list( character )
 #' \item \emph{ @param } file_sets_summary list( character )
 #' \item \emph{ @param } institutional_certificates_id list( character )
 #' \item \emph{ @param } institutional_certificates_certificate_identifier list( character )
@@ -4354,7 +4354,7 @@
 #' \item \emph{ @param } lower_bound_age list( numeric )
 #' \item \emph{ @param } lower_bound_age_in_hours list( numeric )
 #' \item \emph{ @param } modifications_id list( character )
-#' \item \emph{ @param } modifications_status Enum < [archived, deleted, in progress, released] >
+#' \item \emph{ @param } modifications_status list( character )
 #' \item \emph{ @param } modifications_summary list( character )
 #' \item \emph{ @param } moi list( numeric )
 #' \item \emph{ @param } multiplexed_in_id list( character )
@@ -4392,10 +4392,10 @@
 #' \item \emph{ @param } time_post_library_delivery list( numeric )
 #' \item \emph{ @param } time_post_library_delivery_units Enum < [minute, hour, day, week, month] >
 #' \item \emph{ @param } treatments_id list( character )
-#' \item \emph{ @param } treatments_purpose Enum < [activation, agonist, antagonist, control, differentiation, de-differentiation, perturbation, selection, stimulation] >
-#' \item \emph{ @param } treatments_status Enum < [archived, deleted, in progress, released] >
+#' \item \emph{ @param } treatments_purpose list( character )
+#' \item \emph{ @param } treatments_status list( character )
 #' \item \emph{ @param } treatments_summary list( character )
-#' \item \emph{ @param } treatments_treatment_type Enum < [chemical, protein, environmental] >
+#' \item \emph{ @param } treatments_treatment_type list( character )
 #' \item \emph{ @param } upper_bound_age list( numeric )
 #' \item \emph{ @param } upper_bound_age_in_hours list( numeric )
 #' \item \emph{ @param } url list( character )
@@ -4448,7 +4448,7 @@
 #' \item \emph{ @param } alternate_accessions list( character )
 #' \item \emph{ @param } analysis_steps list( character )
 #' \item \emph{ @param } award_id list( character )
-#' \item \emph{ @param } award_component Enum < [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling] >
+#' \item \emph{ @param } award_component list( character )
 #' \item \emph{ @param } collections Enum < [ClinGen, ENCODE, GREGoR, IGVF_catalog_beta_v0.1, IGVF_catalog_beta_v0.2, IGVF_catalog_beta_v0.3, IGVF_catalog_beta_v0.4, MaveDB, MPRAbase, Vista] >
 #' \item \emph{ @param } creation_timestamp list( character )
 #' \item \emph{ @param } description list( character )
@@ -4560,7 +4560,7 @@
 #' var_anvil_url <- c("inner_example") # array[character] | Filter by anvil_url (Optional)
 #' var_assembly <- c("GRCh38") # array[character] | Filter by assembly (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_collections <- c("ClinGen") # array[character] | Filter by collections (Optional)
 #' var_content_md5sum <- c("inner_example") # array[character] | Filter by content_md5sum (Optional)
 #' var_content_summary <- c("inner_example") # array[character] | Filter by content_summary (Optional)
@@ -4627,7 +4627,7 @@
 #' var_alternate_accessions <- c("inner_example") # array[character] | Filter by alternate_accessions (Optional)
 #' var_assay_titles <- c("inner_example") # array[character] | Filter by assay_titles (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_award_contact_pi_id <- c("inner_example") # array[character] | Filter by award.contact_pi.@id (Optional)
 #' var_award_contact_pi_title <- c("inner_example") # array[character] | Filter by award.contact_pi.title (Optional)
 #' var_award_title <- c("inner_example") # array[character] | Filter by award.title (Optional)
@@ -4642,14 +4642,14 @@
 #' var_donors_id <- c("inner_example") # array[character] | Filter by donors.@id (Optional)
 #' var_donors_accession <- c("inner_example") # array[character] | Filter by donors.accession (Optional)
 #' var_donors_aliases <- c("inner_example") # array[character] | Filter by donors.aliases (Optional)
-#' var_donors_sex <- c("male") # array[character] | Filter by donors.sex (Optional)
-#' var_donors_status <- c("in progress") # array[character] | Filter by donors.status (Optional)
+#' var_donors_sex <- c("inner_example") # array[character] | Filter by donors.sex (Optional)
+#' var_donors_status <- c("inner_example") # array[character] | Filter by donors.status (Optional)
 #' var_donors_taxa <- c("inner_example") # array[character] | Filter by donors.taxa (Optional)
 #' var_file_set_type <- c("intermediate analysis") # array[character] | Filter by file_set_type (Optional)
 #' var_files_id <- c("inner_example") # array[character] | Filter by files.@id (Optional)
 #' var_files_accession <- c("inner_example") # array[character] | Filter by files.accession (Optional)
 #' var_files_aliases <- c("inner_example") # array[character] | Filter by files.aliases (Optional)
-#' var_files_content_type <- c(Content_Type$new()) # array[ContentType] | Filter by files.content_type (Optional)
+#' var_files_content_type <- c("inner_example") # array[character] | Filter by files.content_type (Optional)
 #' var_files_creation_timestamp <- c("inner_example") # array[character] | Filter by files.creation_timestamp (Optional)
 #' var_files_file_format <- c("inner_example") # array[character] | Filter by files.file_format (Optional)
 #' var_files_file_size <- c(123) # array[integer] | Filter by files.file_size (Optional)
@@ -4657,12 +4657,12 @@
 #' var_files_s3_uri <- c("inner_example") # array[character] | Filter by files.s3_uri (Optional)
 #' var_files_sequencing_platform <- c("inner_example") # array[character] | Filter by files.sequencing_platform (Optional)
 #' var_files_submitted_file_name <- c("inner_example") # array[character] | Filter by files.submitted_file_name (Optional)
-#' var_files_upload_status <- c("pending") # array[character] | Filter by files.upload_status (Optional)
+#' var_files_upload_status <- c("inner_example") # array[character] | Filter by files.upload_status (Optional)
 #' var_input_file_set_for <- c("inner_example") # array[character] | Filter by input_file_set_for (Optional)
 #' var_input_file_sets_id <- c("inner_example") # array[character] | Filter by input_file_sets.@id (Optional)
 #' var_input_file_sets_accession <- c("inner_example") # array[character] | Filter by input_file_sets.accession (Optional)
 #' var_input_file_sets_aliases <- c("inner_example") # array[character] | Filter by input_file_sets.aliases (Optional)
-#' var_input_file_sets_file_set_type <- c("pathogenicity") # array[character] | Filter by input_file_sets.file_set_type (Optional)
+#' var_input_file_sets_file_set_type <- c("inner_example") # array[character] | Filter by input_file_sets.file_set_type (Optional)
 #' var_lab_id <- c("inner_example") # array[character] | Filter by lab.@id (Optional)
 #' var_lab_title <- c("inner_example") # array[character] | Filter by lab.title (Optional)
 #' var_notes <- c("inner_example") # array[character] | Filter by notes (Optional)
@@ -4681,14 +4681,14 @@
 #' var_samples_modifications <- c("inner_example") # array[character] | Filter by samples.modifications (Optional)
 #' var_samples_sample_terms_id <- c("inner_example") # array[character] | Filter by samples.sample_terms.@id (Optional)
 #' var_samples_sample_terms_aliases <- c("inner_example") # array[character] | Filter by samples.sample_terms.aliases (Optional)
-#' var_samples_sample_terms_status <- c("archived") # array[character] | Filter by samples.sample_terms.status (Optional)
+#' var_samples_sample_terms_status <- c("inner_example") # array[character] | Filter by samples.sample_terms.status (Optional)
 #' var_samples_sample_terms_summary <- c("inner_example") # array[character] | Filter by samples.sample_terms.summary (Optional)
 #' var_samples_sample_terms_term_name <- c("inner_example") # array[character] | Filter by samples.sample_terms.term_name (Optional)
-#' var_samples_status <- c("in progress") # array[character] | Filter by samples.status (Optional)
+#' var_samples_status <- c("inner_example") # array[character] | Filter by samples.status (Optional)
 #' var_samples_summary <- c("inner_example") # array[character] | Filter by samples.summary (Optional)
 #' var_samples_targeted_sample_term_id <- c("inner_example") # array[character] | Filter by samples.targeted_sample_term.@id (Optional)
 #' var_samples_targeted_sample_term_term_name <- c("inner_example") # array[character] | Filter by samples.targeted_sample_term.term_name (Optional)
-#' var_samples_taxa <- c("Homo sapiens") # array[character] | Filter by samples.taxa (Optional)
+#' var_samples_taxa <- c("inner_example") # array[character] | Filter by samples.taxa (Optional)
 #' var_samples_treatments <- c("inner_example") # array[character] | Filter by samples.treatments (Optional)
 #' var_status <- c("in progress") # array[character] | Filter by status (Optional)
 #' var_submitted_by_id <- c("inner_example") # array[character] | Filter by submitted_by.@id (Optional)
@@ -4723,7 +4723,7 @@
 #' var_analysis_step_id <- c("inner_example") # array[character] | Filter by analysis_step.@id (Optional)
 #' var_analysis_step_name <- c("inner_example") # array[character] | Filter by analysis_step.name (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_creation_timestamp <- c("inner_example") # array[character] | Filter by creation_timestamp (Optional)
 #' var_description <- c("inner_example") # array[character] | Filter by description (Optional)
 #' var_lab_id <- c("inner_example") # array[character] | Filter by lab.@id (Optional)
@@ -4763,7 +4763,7 @@
 #' var_aliases <- c("inner_example") # array[character] | Filter by aliases (Optional)
 #' var_analysis_step_types <- c("alignment") # array[character] | Filter by analysis_step_types (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_creation_timestamp <- c("inner_example") # array[character] | Filter by creation_timestamp (Optional)
 #' var_description <- c("inner_example") # array[character] | Filter by description (Optional)
 #' var_input_content_types <- c("inner_example") # array[character] | Filter by input_content_types (Optional)
@@ -4856,7 +4856,7 @@
 #' var_aliases <- c("inner_example") # array[character] | Filter by aliases (Optional)
 #' var_alternate_accessions <- c("inner_example") # array[character] | Filter by alternate_accessions (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_award_contact_pi_id <- c("inner_example") # array[character] | Filter by award.contact_pi.@id (Optional)
 #' var_award_contact_pi_title <- c("inner_example") # array[character] | Filter by award.contact_pi.title (Optional)
 #' var_award_title <- c("inner_example") # array[character] | Filter by award.title (Optional)
@@ -4871,14 +4871,14 @@
 #' var_donors_id <- c("inner_example") # array[character] | Filter by donors.@id (Optional)
 #' var_donors_accession <- c("inner_example") # array[character] | Filter by donors.accession (Optional)
 #' var_donors_aliases <- c("inner_example") # array[character] | Filter by donors.aliases (Optional)
-#' var_donors_sex <- c("male") # array[character] | Filter by donors.sex (Optional)
-#' var_donors_status <- c("in progress") # array[character] | Filter by donors.status (Optional)
+#' var_donors_sex <- c("inner_example") # array[character] | Filter by donors.sex (Optional)
+#' var_donors_status <- c("inner_example") # array[character] | Filter by donors.status (Optional)
 #' var_donors_taxa <- c("inner_example") # array[character] | Filter by donors.taxa (Optional)
 #' var_file_set_type <- c("cell hashing") # array[character] | Filter by file_set_type (Optional)
 #' var_files_id <- c("inner_example") # array[character] | Filter by files.@id (Optional)
 #' var_files_accession <- c("inner_example") # array[character] | Filter by files.accession (Optional)
 #' var_files_aliases <- c("inner_example") # array[character] | Filter by files.aliases (Optional)
-#' var_files_content_type <- c(Content_Type$new()) # array[ContentType] | Filter by files.content_type (Optional)
+#' var_files_content_type <- c("inner_example") # array[character] | Filter by files.content_type (Optional)
 #' var_files_creation_timestamp <- c("inner_example") # array[character] | Filter by files.creation_timestamp (Optional)
 #' var_files_file_format <- c("inner_example") # array[character] | Filter by files.file_format (Optional)
 #' var_files_file_size <- c(123) # array[integer] | Filter by files.file_size (Optional)
@@ -4886,14 +4886,14 @@
 #' var_files_s3_uri <- c("inner_example") # array[character] | Filter by files.s3_uri (Optional)
 #' var_files_sequencing_platform <- c("inner_example") # array[character] | Filter by files.sequencing_platform (Optional)
 #' var_files_submitted_file_name <- c("inner_example") # array[character] | Filter by files.submitted_file_name (Optional)
-#' var_files_upload_status <- c("pending") # array[character] | Filter by files.upload_status (Optional)
+#' var_files_upload_status <- c("inner_example") # array[character] | Filter by files.upload_status (Optional)
 #' var_input_file_set_for <- c("inner_example") # array[character] | Filter by input_file_set_for (Optional)
 #' var_lab_id <- c("inner_example") # array[character] | Filter by lab.@id (Optional)
 #' var_lab_title <- c("inner_example") # array[character] | Filter by lab.title (Optional)
 #' var_measurement_sets_id <- c("inner_example") # array[character] | Filter by measurement_sets.@id (Optional)
 #' var_measurement_sets_accession <- c("inner_example") # array[character] | Filter by measurement_sets.accession (Optional)
 #' var_measurement_sets_aliases <- c("inner_example") # array[character] | Filter by measurement_sets.aliases (Optional)
-#' var_measurement_sets_preferred_assay_title <- c("10x multiome") # array[character] | Filter by measurement_sets.preferred_assay_title (Optional)
+#' var_measurement_sets_preferred_assay_title <- c("inner_example") # array[character] | Filter by measurement_sets.preferred_assay_title (Optional)
 #' var_notes <- c("inner_example") # array[character] | Filter by notes (Optional)
 #' var_publications_id <- c("inner_example") # array[character] | Filter by publications.@id (Optional)
 #' var_publications_publication_identifiers <- c("inner_example") # array[character] | Filter by publications.publication_identifiers (Optional)
@@ -4910,14 +4910,14 @@
 #' var_samples_modifications <- c("inner_example") # array[character] | Filter by samples.modifications (Optional)
 #' var_samples_sample_terms_id <- c("inner_example") # array[character] | Filter by samples.sample_terms.@id (Optional)
 #' var_samples_sample_terms_aliases <- c("inner_example") # array[character] | Filter by samples.sample_terms.aliases (Optional)
-#' var_samples_sample_terms_status <- c("archived") # array[character] | Filter by samples.sample_terms.status (Optional)
+#' var_samples_sample_terms_status <- c("inner_example") # array[character] | Filter by samples.sample_terms.status (Optional)
 #' var_samples_sample_terms_summary <- c("inner_example") # array[character] | Filter by samples.sample_terms.summary (Optional)
 #' var_samples_sample_terms_term_name <- c("inner_example") # array[character] | Filter by samples.sample_terms.term_name (Optional)
-#' var_samples_status <- c("in progress") # array[character] | Filter by samples.status (Optional)
+#' var_samples_status <- c("inner_example") # array[character] | Filter by samples.status (Optional)
 #' var_samples_summary <- c("inner_example") # array[character] | Filter by samples.summary (Optional)
 #' var_samples_targeted_sample_term_id <- c("inner_example") # array[character] | Filter by samples.targeted_sample_term.@id (Optional)
 #' var_samples_targeted_sample_term_term_name <- c("inner_example") # array[character] | Filter by samples.targeted_sample_term.term_name (Optional)
-#' var_samples_taxa <- c("Homo sapiens") # array[character] | Filter by samples.taxa (Optional)
+#' var_samples_taxa <- c("inner_example") # array[character] | Filter by samples.taxa (Optional)
 #' var_samples_treatments <- c("inner_example") # array[character] | Filter by samples.treatments (Optional)
 #' var_status <- c("in progress") # array[character] | Filter by status (Optional)
 #' var_submitted_by_id <- c("inner_example") # array[character] | Filter by submitted_by.@id (Optional)
@@ -5013,7 +5013,7 @@
 #' var_id <- c("inner_example") # array[character] | Filter by @id (Optional)
 #' var_aliases <- c("inner_example") # array[character] | Filter by aliases (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_award_name <- c("inner_example") # array[character] | Filter by award.name (Optional)
 #' var_biomarker_for <- c("inner_example") # array[character] | Filter by biomarker_for (Optional)
 #' var_classification <- c("cell surface protein") # array[character] | Filter by classification (Optional)
@@ -5061,7 +5061,7 @@
 #' var_alternate_accessions <- c("inner_example") # array[character] | Filter by alternate_accessions (Optional)
 #' var_analysis_step_version <- c("inner_example") # array[character] | Filter by analysis_step_version (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_collections <- c("ClinGen") # array[character] | Filter by collections (Optional)
 #' var_content_md5sum <- c("inner_example") # array[character] | Filter by content_md5sum (Optional)
 #' var_content_type <- c("inner_example") # array[character] | Filter by content_type (Optional)
@@ -5128,7 +5128,7 @@
 #' var_applied_to_samples_disease_terms_term_name <- c("inner_example") # array[character] | Filter by applied_to_samples.disease_terms.term_name (Optional)
 #' var_applied_to_samples_sample_terms_id <- c("inner_example") # array[character] | Filter by applied_to_samples.sample_terms.@id (Optional)
 #' var_applied_to_samples_sample_terms_term_name <- c("inner_example") # array[character] | Filter by applied_to_samples.sample_terms.term_name (Optional)
-#' var_applied_to_samples_status <- c("in progress") # array[character] | Filter by applied_to_samples.status (Optional)
+#' var_applied_to_samples_status <- c("inner_example") # array[character] | Filter by applied_to_samples.status (Optional)
 #' var_applied_to_samples_summary <- c("inner_example") # array[character] | Filter by applied_to_samples.summary (Optional)
 #' var_associated_phenotypes_id <- c("inner_example") # array[character] | Filter by associated_phenotypes.@id (Optional)
 #' var_associated_phenotypes_term_id <- c("inner_example") # array[character] | Filter by associated_phenotypes.term_id (Optional)
@@ -5136,7 +5136,7 @@
 #' var_average_guide_coverage <- c(123) # array[numeric] | Filter by average_guide_coverage (Optional)
 #' var_average_insert_size <- c(123) # array[numeric] | Filter by average_insert_size (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_collections <- c("ClinGen") # array[character] | Filter by collections (Optional)
 #' var_control_for_id <- c("inner_example") # array[character] | Filter by control_for.@id (Optional)
 #' var_control_for_accession <- c("inner_example") # array[character] | Filter by control_for.accession (Optional)
@@ -5149,9 +5149,9 @@
 #' var_files_id <- c("inner_example") # array[character] | Filter by files.@id (Optional)
 #' var_files_accession <- c("inner_example") # array[character] | Filter by files.accession (Optional)
 #' var_files_aliases <- c("inner_example") # array[character] | Filter by files.aliases (Optional)
-#' var_files_content_type <- c(Content_Type$new()) # array[ContentType] | Filter by files.content_type (Optional)
+#' var_files_content_type <- c("inner_example") # array[character] | Filter by files.content_type (Optional)
 #' var_files_file_format <- c("inner_example") # array[character] | Filter by files.file_format (Optional)
-#' var_files_upload_status <- c("pending") # array[character] | Filter by files.upload_status (Optional)
+#' var_files_upload_status <- c("inner_example") # array[character] | Filter by files.upload_status (Optional)
 #' var_guide_type <- c("sgRNA") # array[character] | Filter by guide_type (Optional)
 #' var_input_file_set_for <- c("inner_example") # array[character] | Filter by input_file_set_for (Optional)
 #' var_integrated_content_files <- c("inner_example") # array[character] | Filter by integrated_content_files (Optional)
@@ -5223,7 +5223,7 @@
 #' var_activating_agent_term_name <- c("inner_example") # array[character] | Filter by activating_agent_term_name (Optional)
 #' var_aliases <- c("inner_example") # array[character] | Filter by aliases (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_biosamples_modified <- c("inner_example") # array[character] | Filter by biosamples_modified (Optional)
 #' var_cas <- c("Cas9") # array[character] | Filter by cas (Optional)
 #' var_cas_species <- c("Streptococcus pyogenes (Sp)") # array[character] | Filter by cas_species (Optional)
@@ -5273,7 +5273,7 @@
 #' var_alternate_accessions <- c("inner_example") # array[character] | Filter by alternate_accessions (Optional)
 #' var_assemblies <- c("inner_example") # array[character] | Filter by assemblies (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_award_contact_pi_id <- c("inner_example") # array[character] | Filter by award.contact_pi.@id (Optional)
 #' var_award_contact_pi_title <- c("inner_example") # array[character] | Filter by award.contact_pi.title (Optional)
 #' var_award_title <- c("inner_example") # array[character] | Filter by award.title (Optional)
@@ -5288,14 +5288,14 @@
 #' var_donors_id <- c("inner_example") # array[character] | Filter by donors.@id (Optional)
 #' var_donors_accession <- c("inner_example") # array[character] | Filter by donors.accession (Optional)
 #' var_donors_aliases <- c("inner_example") # array[character] | Filter by donors.aliases (Optional)
-#' var_donors_sex <- c("male") # array[character] | Filter by donors.sex (Optional)
-#' var_donors_status <- c("in progress") # array[character] | Filter by donors.status (Optional)
+#' var_donors_sex <- c("inner_example") # array[character] | Filter by donors.sex (Optional)
+#' var_donors_status <- c("inner_example") # array[character] | Filter by donors.status (Optional)
 #' var_donors_taxa <- c("inner_example") # array[character] | Filter by donors.taxa (Optional)
 #' var_file_set_type <- c("barcodes") # array[character] | Filter by file_set_type (Optional)
 #' var_files_id <- c("inner_example") # array[character] | Filter by files.@id (Optional)
 #' var_files_accession <- c("inner_example") # array[character] | Filter by files.accession (Optional)
 #' var_files_aliases <- c("inner_example") # array[character] | Filter by files.aliases (Optional)
-#' var_files_content_type <- c(Content_Type$new()) # array[ContentType] | Filter by files.content_type (Optional)
+#' var_files_content_type <- c("inner_example") # array[character] | Filter by files.content_type (Optional)
 #' var_files_creation_timestamp <- c("inner_example") # array[character] | Filter by files.creation_timestamp (Optional)
 #' var_files_file_format <- c("inner_example") # array[character] | Filter by files.file_format (Optional)
 #' var_files_file_size <- c(123) # array[integer] | Filter by files.file_size (Optional)
@@ -5303,7 +5303,7 @@
 #' var_files_s3_uri <- c("inner_example") # array[character] | Filter by files.s3_uri (Optional)
 #' var_files_sequencing_platform <- c("inner_example") # array[character] | Filter by files.sequencing_platform (Optional)
 #' var_files_submitted_file_name <- c("inner_example") # array[character] | Filter by files.submitted_file_name (Optional)
-#' var_files_upload_status <- c("pending") # array[character] | Filter by files.upload_status (Optional)
+#' var_files_upload_status <- c("inner_example") # array[character] | Filter by files.upload_status (Optional)
 #' var_input_file_set_for <- c("inner_example") # array[character] | Filter by input_file_set_for (Optional)
 #' var_lab_id <- c("inner_example") # array[character] | Filter by lab.@id (Optional)
 #' var_lab_title <- c("inner_example") # array[character] | Filter by lab.title (Optional)
@@ -5323,14 +5323,14 @@
 #' var_samples_modifications <- c("inner_example") # array[character] | Filter by samples.modifications (Optional)
 #' var_samples_sample_terms_id <- c("inner_example") # array[character] | Filter by samples.sample_terms.@id (Optional)
 #' var_samples_sample_terms_aliases <- c("inner_example") # array[character] | Filter by samples.sample_terms.aliases (Optional)
-#' var_samples_sample_terms_status <- c("archived") # array[character] | Filter by samples.sample_terms.status (Optional)
+#' var_samples_sample_terms_status <- c("inner_example") # array[character] | Filter by samples.sample_terms.status (Optional)
 #' var_samples_sample_terms_summary <- c("inner_example") # array[character] | Filter by samples.sample_terms.summary (Optional)
 #' var_samples_sample_terms_term_name <- c("inner_example") # array[character] | Filter by samples.sample_terms.term_name (Optional)
-#' var_samples_status <- c("in progress") # array[character] | Filter by samples.status (Optional)
+#' var_samples_status <- c("inner_example") # array[character] | Filter by samples.status (Optional)
 #' var_samples_summary <- c("inner_example") # array[character] | Filter by samples.summary (Optional)
 #' var_samples_targeted_sample_term_id <- c("inner_example") # array[character] | Filter by samples.targeted_sample_term.@id (Optional)
 #' var_samples_targeted_sample_term_term_name <- c("inner_example") # array[character] | Filter by samples.targeted_sample_term.term_name (Optional)
-#' var_samples_taxa <- c("Homo sapiens") # array[character] | Filter by samples.taxa (Optional)
+#' var_samples_taxa <- c("inner_example") # array[character] | Filter by samples.taxa (Optional)
 #' var_samples_treatments <- c("inner_example") # array[character] | Filter by samples.treatments (Optional)
 #' var_status <- c("in progress") # array[character] | Filter by status (Optional)
 #' var_submitted_by_id <- c("inner_example") # array[character] | Filter by submitted_by.@id (Optional)
@@ -5369,7 +5369,7 @@
 #' var_activating_agent_term_name <- c("inner_example") # array[character] | Filter by activating_agent_term_name (Optional)
 #' var_aliases <- c("inner_example") # array[character] | Filter by aliases (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_biosamples_modified <- c("inner_example") # array[character] | Filter by biosamples_modified (Optional)
 #' var_creation_timestamp <- c("inner_example") # array[character] | Filter by creation_timestamp (Optional)
 #' var_degron_system <- c("AID") # array[character] | Filter by degron_system (Optional)
@@ -5414,7 +5414,7 @@
 #' var_id <- c("inner_example") # array[character] | Filter by @id (Optional)
 #' var_aliases <- c("inner_example") # array[character] | Filter by aliases (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_characterization_method <- c("FACS") # array[character] | Filter by characterization_method (Optional)
 #' var_creation_timestamp <- c("inner_example") # array[character] | Filter by creation_timestamp (Optional)
 #' var_description <- c("inner_example") # array[character] | Filter by description (Optional)
@@ -5520,7 +5520,7 @@
 #' var_analysis_step_version <- c("inner_example") # array[character] | Filter by analysis_step_version (Optional)
 #' var_assembly <- c("GRCh38") # array[character] | Filter by assembly (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_collections <- c("ClinGen") # array[character] | Filter by collections (Optional)
 #' var_content_md5sum <- c("inner_example") # array[character] | Filter by content_md5sum (Optional)
 #' var_content_type <- c("inner_example") # array[character] | Filter by content_type (Optional)
@@ -5601,7 +5601,7 @@
 #' var_aliases <- c("inner_example") # array[character] | Filter by aliases (Optional)
 #' var_alternate_accessions <- c("inner_example") # array[character] | Filter by alternate_accessions (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_collections <- c("ClinGen") # array[character] | Filter by collections (Optional)
 #' var_creation_timestamp <- c("inner_example") # array[character] | Filter by creation_timestamp (Optional)
 #' var_dbxrefs <- c("inner_example") # array[character] | Filter by dbxrefs (Optional)
@@ -5617,7 +5617,7 @@
 #' var_phenotypic_features_feature_term_id <- c("inner_example") # array[character] | Filter by phenotypic_features.feature.term_id (Optional)
 #' var_phenotypic_features_feature_term_name <- c("inner_example") # array[character] | Filter by phenotypic_features.feature.term_name (Optional)
 #' var_phenotypic_features_observation_date <- c("inner_example") # array[character] | Filter by phenotypic_features.observation_date (Optional)
-#' var_phenotypic_features_quantity_units <- c("meter") # array[character] | Filter by phenotypic_features.quantity_units (Optional)
+#' var_phenotypic_features_quantity_units <- c("inner_example") # array[character] | Filter by phenotypic_features.quantity_units (Optional)
 #' var_publications_id <- c("inner_example") # array[character] | Filter by publications.@id (Optional)
 #' var_publications_publication_identifiers <- c("inner_example") # array[character] | Filter by publications.publication_identifiers (Optional)
 #' var_related_donors_donor_id <- c("inner_example") # array[character] | Filter by related_donors.donor.@id (Optional)
@@ -5661,7 +5661,7 @@
 #' var_alternate_accessions <- c("inner_example") # array[character] | Filter by alternate_accessions (Optional)
 #' var_analysis_step_version <- c("inner_example") # array[character] | Filter by analysis_step_version (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_collections <- c("ClinGen") # array[character] | Filter by collections (Optional)
 #' var_content_md5sum <- c("inner_example") # array[character] | Filter by content_md5sum (Optional)
 #' var_content_type <- c("inner_example") # array[character] | Filter by content_type (Optional)
@@ -5759,14 +5759,14 @@
 #' var_aliases <- c("inner_example") # array[character] | Filter by aliases (Optional)
 #' var_alternate_accessions <- c("inner_example") # array[character] | Filter by alternate_accessions (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_biomarkers <- c("inner_example") # array[character] | Filter by biomarkers (Optional)
 #' var_cell_fate_change_protocol <- c("inner_example") # array[character] | Filter by cell_fate_change_protocol (Optional)
 #' var_cell_fate_change_treatments_id <- c("inner_example") # array[character] | Filter by cell_fate_change_treatments.@id (Optional)
-#' var_cell_fate_change_treatments_purpose <- c("activation") # array[character] | Filter by cell_fate_change_treatments.purpose (Optional)
-#' var_cell_fate_change_treatments_status <- c("archived") # array[character] | Filter by cell_fate_change_treatments.status (Optional)
+#' var_cell_fate_change_treatments_purpose <- c("inner_example") # array[character] | Filter by cell_fate_change_treatments.purpose (Optional)
+#' var_cell_fate_change_treatments_status <- c("inner_example") # array[character] | Filter by cell_fate_change_treatments.status (Optional)
 #' var_cell_fate_change_treatments_summary <- c("inner_example") # array[character] | Filter by cell_fate_change_treatments.summary (Optional)
-#' var_cell_fate_change_treatments_treatment_type <- c("chemical") # array[character] | Filter by cell_fate_change_treatments.treatment_type (Optional)
+#' var_cell_fate_change_treatments_treatment_type <- c("inner_example") # array[character] | Filter by cell_fate_change_treatments.treatment_type (Optional)
 #' var_cellular_sub_pool <- c("inner_example") # array[character] | Filter by cellular_sub_pool (Optional)
 #' var_classifications <- c("organoid") # array[character] | Filter by classifications (Optional)
 #' var_collections <- c("ClinGen") # array[character] | Filter by collections (Optional)
@@ -5787,7 +5787,7 @@
 #' var_file_sets_aliases <- c("inner_example") # array[character] | Filter by file_sets.aliases (Optional)
 #' var_file_sets_assay_term_term_name <- c("inner_example") # array[character] | Filter by file_sets.assay_term.term_name (Optional)
 #' var_file_sets_lab_title <- c("inner_example") # array[character] | Filter by file_sets.lab.title (Optional)
-#' var_file_sets_status <- c("in progress") # array[character] | Filter by file_sets.status (Optional)
+#' var_file_sets_status <- c("inner_example") # array[character] | Filter by file_sets.status (Optional)
 #' var_file_sets_summary <- c("inner_example") # array[character] | Filter by file_sets.summary (Optional)
 #' var_growth_medium <- c("DMEM with serum") # array[character] | Filter by growth_medium (Optional)
 #' var_institutional_certificates_id <- c("inner_example") # array[character] | Filter by institutional_certificates.@id (Optional)
@@ -5798,7 +5798,7 @@
 #' var_lower_bound_age <- c(123) # array[numeric] | Filter by lower_bound_age (Optional)
 #' var_lower_bound_age_in_hours <- c(123) # array[numeric] | Filter by lower_bound_age_in_hours (Optional)
 #' var_modifications_id <- c("inner_example") # array[character] | Filter by modifications.@id (Optional)
-#' var_modifications_status <- c("archived") # array[character] | Filter by modifications.status (Optional)
+#' var_modifications_status <- c("inner_example") # array[character] | Filter by modifications.status (Optional)
 #' var_modifications_summary <- c("inner_example") # array[character] | Filter by modifications.summary (Optional)
 #' var_moi <- c(123) # array[numeric] | Filter by moi (Optional)
 #' var_multiplexed_in_id <- c("inner_example") # array[character] | Filter by multiplexed_in.@id (Optional)
@@ -5841,10 +5841,10 @@
 #' var_time_post_library_delivery <- c(123) # array[numeric] | Filter by time_post_library_delivery (Optional)
 #' var_time_post_library_delivery_units <- c("minute") # array[character] | Filter by time_post_library_delivery_units (Optional)
 #' var_treatments_id <- c("inner_example") # array[character] | Filter by treatments.@id (Optional)
-#' var_treatments_purpose <- c("activation") # array[character] | Filter by treatments.purpose (Optional)
-#' var_treatments_status <- c("archived") # array[character] | Filter by treatments.status (Optional)
+#' var_treatments_purpose <- c("inner_example") # array[character] | Filter by treatments.purpose (Optional)
+#' var_treatments_status <- c("inner_example") # array[character] | Filter by treatments.status (Optional)
 #' var_treatments_summary <- c("inner_example") # array[character] | Filter by treatments.summary (Optional)
-#' var_treatments_treatment_type <- c("chemical") # array[character] | Filter by treatments.treatment_type (Optional)
+#' var_treatments_treatment_type <- c("inner_example") # array[character] | Filter by treatments.treatment_type (Optional)
 #' var_upper_bound_age <- c(123) # array[numeric] | Filter by upper_bound_age (Optional)
 #' var_upper_bound_age_in_hours <- c(123) # array[numeric] | Filter by upper_bound_age_in_hours (Optional)
 #' var_url <- c("inner_example") # array[character] | Filter by url (Optional)
@@ -5874,7 +5874,7 @@
 #' var_id <- c("inner_example") # array[character] | Filter by @id (Optional)
 #' var_aliases <- c("inner_example") # array[character] | Filter by aliases (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_certificate_identifier <- c("inner_example") # array[character] | Filter by certificate_identifier (Optional)
 #' var_controlled_access <- c("inner_example") # array[character] | Filter by controlled_access (Optional)
 #' var_creation_timestamp <- c("inner_example") # array[character] | Filter by creation_timestamp (Optional)
@@ -5917,7 +5917,7 @@
 #' var_id <- c("inner_example") # array[character] | Filter by @id (Optional)
 #' var_aliases <- c("inner_example") # array[character] | Filter by aliases (Optional)
 #' var_awards_id <- c("inner_example") # array[character] | Filter by awards.@id (Optional)
-#' var_awards_component <- c("affiliate") # array[character] | Filter by awards.component (Optional)
+#' var_awards_component <- c("inner_example") # array[character] | Filter by awards.component (Optional)
 #' var_awards_name <- c("inner_example") # array[character] | Filter by awards.name (Optional)
 #' var_creation_timestamp <- c("inner_example") # array[character] | Filter by creation_timestamp (Optional)
 #' var_description <- c("inner_example") # array[character] | Filter by description (Optional)
@@ -5960,7 +5960,7 @@
 #' var_alternate_accessions <- c("inner_example") # array[character] | Filter by alternate_accessions (Optional)
 #' var_analysis_step_version <- c("inner_example") # array[character] | Filter by analysis_step_version (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_collections <- c("ClinGen") # array[character] | Filter by collections (Optional)
 #' var_content_md5sum <- c("inner_example") # array[character] | Filter by content_md5sum (Optional)
 #' var_content_summary <- c("inner_example") # array[character] | Filter by content_summary (Optional)
@@ -6028,9 +6028,9 @@
 #' var_auxiliary_sets_id <- c("inner_example") # array[character] | Filter by auxiliary_sets.@id (Optional)
 #' var_auxiliary_sets_accession <- c("inner_example") # array[character] | Filter by auxiliary_sets.accession (Optional)
 #' var_auxiliary_sets_aliases <- c("inner_example") # array[character] | Filter by auxiliary_sets.aliases (Optional)
-#' var_auxiliary_sets_file_set_type <- c("cell hashing") # array[character] | Filter by auxiliary_sets.file_set_type (Optional)
+#' var_auxiliary_sets_file_set_type <- c("inner_example") # array[character] | Filter by auxiliary_sets.file_set_type (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_award_contact_pi_id <- c("inner_example") # array[character] | Filter by award.contact_pi.@id (Optional)
 #' var_award_contact_pi_title <- c("inner_example") # array[character] | Filter by award.contact_pi.title (Optional)
 #' var_award_title <- c("inner_example") # array[character] | Filter by award.title (Optional)
@@ -6048,15 +6048,15 @@
 #' var_donors_id <- c("inner_example") # array[character] | Filter by donors.@id (Optional)
 #' var_donors_accession <- c("inner_example") # array[character] | Filter by donors.accession (Optional)
 #' var_donors_aliases <- c("inner_example") # array[character] | Filter by donors.aliases (Optional)
-#' var_donors_sex <- c("male") # array[character] | Filter by donors.sex (Optional)
-#' var_donors_status <- c("in progress") # array[character] | Filter by donors.status (Optional)
+#' var_donors_sex <- c("inner_example") # array[character] | Filter by donors.sex (Optional)
+#' var_donors_status <- c("inner_example") # array[character] | Filter by donors.status (Optional)
 #' var_donors_taxa <- c("inner_example") # array[character] | Filter by donors.taxa (Optional)
 #' var_external_image_url <- c("inner_example") # array[character] | Filter by external_image_url (Optional)
 #' var_file_set_type <- c("experimental data") # array[character] | Filter by file_set_type (Optional)
 #' var_files_id <- c("inner_example") # array[character] | Filter by files.@id (Optional)
 #' var_files_accession <- c("inner_example") # array[character] | Filter by files.accession (Optional)
 #' var_files_aliases <- c("inner_example") # array[character] | Filter by files.aliases (Optional)
-#' var_files_content_type <- c(Content_Type$new()) # array[ContentType] | Filter by files.content_type (Optional)
+#' var_files_content_type <- c("inner_example") # array[character] | Filter by files.content_type (Optional)
 #' var_files_creation_timestamp <- c("inner_example") # array[character] | Filter by files.creation_timestamp (Optional)
 #' var_files_file_format <- c("inner_example") # array[character] | Filter by files.file_format (Optional)
 #' var_files_file_size <- c(123) # array[integer] | Filter by files.file_size (Optional)
@@ -6065,7 +6065,7 @@
 #' var_files_sequencing_platform_id <- c("inner_example") # array[character] | Filter by files.sequencing_platform.@id (Optional)
 #' var_files_sequencing_platform_term_name <- c("inner_example") # array[character] | Filter by files.sequencing_platform.term_name (Optional)
 #' var_files_submitted_file_name <- c("inner_example") # array[character] | Filter by files.submitted_file_name (Optional)
-#' var_files_upload_status <- c("pending") # array[character] | Filter by files.upload_status (Optional)
+#' var_files_upload_status <- c("inner_example") # array[character] | Filter by files.upload_status (Optional)
 #' var_input_file_set_for <- c("inner_example") # array[character] | Filter by input_file_set_for (Optional)
 #' var_lab_id <- c("inner_example") # array[character] | Filter by lab.@id (Optional)
 #' var_lab_title <- c("inner_example") # array[character] | Filter by lab.title (Optional)
@@ -6083,13 +6083,13 @@
 #' var_samples_accession <- c("inner_example") # array[character] | Filter by samples.accession (Optional)
 #' var_samples_aliases <- c("inner_example") # array[character] | Filter by samples.aliases (Optional)
 #' var_samples_cell_fate_change_treatments_id <- c("inner_example") # array[character] | Filter by samples.cell_fate_change_treatments.@id (Optional)
-#' var_samples_cell_fate_change_treatments_purpose <- c("activation") # array[character] | Filter by samples.cell_fate_change_treatments.purpose (Optional)
+#' var_samples_cell_fate_change_treatments_purpose <- c("inner_example") # array[character] | Filter by samples.cell_fate_change_treatments.purpose (Optional)
 #' var_samples_cell_fate_change_treatments_summary <- c("inner_example") # array[character] | Filter by samples.cell_fate_change_treatments.summary (Optional)
-#' var_samples_cell_fate_change_treatments_treatment_type <- c("chemical") # array[character] | Filter by samples.cell_fate_change_treatments.treatment_type (Optional)
+#' var_samples_cell_fate_change_treatments_treatment_type <- c("inner_example") # array[character] | Filter by samples.cell_fate_change_treatments.treatment_type (Optional)
 #' var_samples_classifications <- c("organoid") # array[character] | Filter by samples.classifications (Optional)
 #' var_samples_construct_library_sets_id <- c("inner_example") # array[character] | Filter by samples.construct_library_sets.@id (Optional)
 #' var_samples_construct_library_sets_accession <- c("inner_example") # array[character] | Filter by samples.construct_library_sets.accession (Optional)
-#' var_samples_construct_library_sets_file_set_type <- c("guide library") # array[character] | Filter by samples.construct_library_sets.file_set_type (Optional)
+#' var_samples_construct_library_sets_file_set_type <- c("inner_example") # array[character] | Filter by samples.construct_library_sets.file_set_type (Optional)
 #' var_samples_construct_library_sets_small_scale_gene_list_id <- c("inner_example") # array[character] | Filter by samples.construct_library_sets.small_scale_gene_list.@id (Optional)
 #' var_samples_construct_library_sets_small_scale_gene_list_geneid <- c("inner_example") # array[character] | Filter by samples.construct_library_sets.small_scale_gene_list.geneid (Optional)
 #' var_samples_construct_library_sets_small_scale_gene_list_name <- c("inner_example") # array[character] | Filter by samples.construct_library_sets.small_scale_gene_list.name (Optional)
@@ -6101,18 +6101,18 @@
 #' var_samples_modifications_id <- c("inner_example") # array[character] | Filter by samples.modifications.@id (Optional)
 #' var_samples_sample_terms_id <- c("inner_example") # array[character] | Filter by samples.sample_terms.@id (Optional)
 #' var_samples_sample_terms_aliases <- c("inner_example") # array[character] | Filter by samples.sample_terms.aliases (Optional)
-#' var_samples_sample_terms_status <- c("archived") # array[character] | Filter by samples.sample_terms.status (Optional)
+#' var_samples_sample_terms_status <- c("inner_example") # array[character] | Filter by samples.sample_terms.status (Optional)
 #' var_samples_sample_terms_summary <- c("inner_example") # array[character] | Filter by samples.sample_terms.summary (Optional)
 #' var_samples_sample_terms_term_name <- c("inner_example") # array[character] | Filter by samples.sample_terms.term_name (Optional)
-#' var_samples_status <- c("in progress") # array[character] | Filter by samples.status (Optional)
+#' var_samples_status <- c("inner_example") # array[character] | Filter by samples.status (Optional)
 #' var_samples_summary <- c("inner_example") # array[character] | Filter by samples.summary (Optional)
 #' var_samples_targeted_sample_term_id <- c("inner_example") # array[character] | Filter by samples.targeted_sample_term.@id (Optional)
 #' var_samples_targeted_sample_term_term_name <- c("inner_example") # array[character] | Filter by samples.targeted_sample_term.term_name (Optional)
-#' var_samples_taxa <- c("Homo sapiens") # array[character] | Filter by samples.taxa (Optional)
+#' var_samples_taxa <- c("inner_example") # array[character] | Filter by samples.taxa (Optional)
 #' var_samples_treatments_id <- c("inner_example") # array[character] | Filter by samples.treatments.@id (Optional)
-#' var_samples_treatments_purpose <- c("activation") # array[character] | Filter by samples.treatments.purpose (Optional)
+#' var_samples_treatments_purpose <- c("inner_example") # array[character] | Filter by samples.treatments.purpose (Optional)
 #' var_samples_treatments_summary <- c("inner_example") # array[character] | Filter by samples.treatments.summary (Optional)
-#' var_samples_treatments_treatment_type <- c("chemical") # array[character] | Filter by samples.treatments.treatment_type (Optional)
+#' var_samples_treatments_treatment_type <- c("inner_example") # array[character] | Filter by samples.treatments.treatment_type (Optional)
 #' var_sequencing_library_types <- c("direct RNA") # array[character] | Filter by sequencing_library_types (Optional)
 #' var_status <- c("in progress") # array[character] | Filter by status (Optional)
 #' var_submitted_by_id <- c("inner_example") # array[character] | Filter by submitted_by.@id (Optional)
@@ -6154,7 +6154,7 @@
 #' var_analysis_step_version <- c("inner_example") # array[character] | Filter by analysis_step_version (Optional)
 #' var_anvil_url <- c("inner_example") # array[character] | Filter by anvil_url (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_collections <- c("ClinGen") # array[character] | Filter by collections (Optional)
 #' var_content_md5sum <- c("inner_example") # array[character] | Filter by content_md5sum (Optional)
 #' var_content_type <- c("inner_example") # array[character] | Filter by content_type (Optional)
@@ -6216,7 +6216,7 @@
 #' var_alternate_accessions <- c("inner_example") # array[character] | Filter by alternate_accessions (Optional)
 #' var_assessed_genes <- c("inner_example") # array[character] | Filter by assessed_genes (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_award_contact_pi_id <- c("inner_example") # array[character] | Filter by award.contact_pi.@id (Optional)
 #' var_award_contact_pi_title <- c("inner_example") # array[character] | Filter by award.contact_pi.title (Optional)
 #' var_award_title <- c("inner_example") # array[character] | Filter by award.title (Optional)
@@ -6231,14 +6231,14 @@
 #' var_donors_id <- c("inner_example") # array[character] | Filter by donors.@id (Optional)
 #' var_donors_accession <- c("inner_example") # array[character] | Filter by donors.accession (Optional)
 #' var_donors_aliases <- c("inner_example") # array[character] | Filter by donors.aliases (Optional)
-#' var_donors_sex <- c("male") # array[character] | Filter by donors.sex (Optional)
-#' var_donors_status <- c("in progress") # array[character] | Filter by donors.status (Optional)
+#' var_donors_sex <- c("inner_example") # array[character] | Filter by donors.sex (Optional)
+#' var_donors_status <- c("inner_example") # array[character] | Filter by donors.status (Optional)
 #' var_donors_taxa <- c("inner_example") # array[character] | Filter by donors.taxa (Optional)
 #' var_file_set_type <- c("neural network") # array[character] | Filter by file_set_type (Optional)
 #' var_files_id <- c("inner_example") # array[character] | Filter by files.@id (Optional)
 #' var_files_accession <- c("inner_example") # array[character] | Filter by files.accession (Optional)
 #' var_files_aliases <- c("inner_example") # array[character] | Filter by files.aliases (Optional)
-#' var_files_content_type <- c(Content_Type$new()) # array[ContentType] | Filter by files.content_type (Optional)
+#' var_files_content_type <- c("inner_example") # array[character] | Filter by files.content_type (Optional)
 #' var_files_creation_timestamp <- c("inner_example") # array[character] | Filter by files.creation_timestamp (Optional)
 #' var_files_file_format <- c("inner_example") # array[character] | Filter by files.file_format (Optional)
 #' var_files_file_size <- c(123) # array[integer] | Filter by files.file_size (Optional)
@@ -6246,7 +6246,7 @@
 #' var_files_s3_uri <- c("inner_example") # array[character] | Filter by files.s3_uri (Optional)
 #' var_files_sequencing_platform <- c("inner_example") # array[character] | Filter by files.sequencing_platform (Optional)
 #' var_files_submitted_file_name <- c("inner_example") # array[character] | Filter by files.submitted_file_name (Optional)
-#' var_files_upload_status <- c("pending") # array[character] | Filter by files.upload_status (Optional)
+#' var_files_upload_status <- c("inner_example") # array[character] | Filter by files.upload_status (Optional)
 #' var_input_file_set_for <- c("inner_example") # array[character] | Filter by input_file_set_for (Optional)
 #' var_input_file_sets_id <- c("inner_example") # array[character] | Filter by input_file_sets.@id (Optional)
 #' var_input_file_sets_accession <- c("inner_example") # array[character] | Filter by input_file_sets.accession (Optional)
@@ -6273,14 +6273,14 @@
 #' var_samples_modifications <- c("inner_example") # array[character] | Filter by samples.modifications (Optional)
 #' var_samples_sample_terms_id <- c("inner_example") # array[character] | Filter by samples.sample_terms.@id (Optional)
 #' var_samples_sample_terms_aliases <- c("inner_example") # array[character] | Filter by samples.sample_terms.aliases (Optional)
-#' var_samples_sample_terms_status <- c("archived") # array[character] | Filter by samples.sample_terms.status (Optional)
+#' var_samples_sample_terms_status <- c("inner_example") # array[character] | Filter by samples.sample_terms.status (Optional)
 #' var_samples_sample_terms_summary <- c("inner_example") # array[character] | Filter by samples.sample_terms.summary (Optional)
 #' var_samples_sample_terms_term_name <- c("inner_example") # array[character] | Filter by samples.sample_terms.term_name (Optional)
-#' var_samples_status <- c("in progress") # array[character] | Filter by samples.status (Optional)
+#' var_samples_status <- c("inner_example") # array[character] | Filter by samples.status (Optional)
 #' var_samples_summary <- c("inner_example") # array[character] | Filter by samples.summary (Optional)
 #' var_samples_targeted_sample_term_id <- c("inner_example") # array[character] | Filter by samples.targeted_sample_term.@id (Optional)
 #' var_samples_targeted_sample_term_term_name <- c("inner_example") # array[character] | Filter by samples.targeted_sample_term.term_name (Optional)
-#' var_samples_taxa <- c("Homo sapiens") # array[character] | Filter by samples.taxa (Optional)
+#' var_samples_taxa <- c("inner_example") # array[character] | Filter by samples.taxa (Optional)
 #' var_samples_treatments <- c("inner_example") # array[character] | Filter by samples.treatments (Optional)
 #' var_software_version <- c("inner_example") # array[character] | Filter by software_version (Optional)
 #' var_status <- c("in progress") # array[character] | Filter by status (Optional)
@@ -6317,7 +6317,7 @@
 #' var_aliases <- c("inner_example") # array[character] | Filter by aliases (Optional)
 #' var_alternate_accessions <- c("inner_example") # array[character] | Filter by alternate_accessions (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_barcode_sample_map <- c("inner_example") # array[character] | Filter by barcode_sample_map (Optional)
 #' var_biomarkers <- c("inner_example") # array[character] | Filter by biomarkers (Optional)
 #' var_cellular_sub_pool <- c("inner_example") # array[character] | Filter by cellular_sub_pool (Optional)
@@ -6338,13 +6338,13 @@
 #' var_file_sets_aliases <- c("inner_example") # array[character] | Filter by file_sets.aliases (Optional)
 #' var_file_sets_assay_term_term_name <- c("inner_example") # array[character] | Filter by file_sets.assay_term.term_name (Optional)
 #' var_file_sets_lab_title <- c("inner_example") # array[character] | Filter by file_sets.lab.title (Optional)
-#' var_file_sets_status <- c("in progress") # array[character] | Filter by file_sets.status (Optional)
+#' var_file_sets_status <- c("inner_example") # array[character] | Filter by file_sets.status (Optional)
 #' var_file_sets_summary <- c("inner_example") # array[character] | Filter by file_sets.summary (Optional)
 #' var_institutional_certificates <- c("inner_example") # array[character] | Filter by institutional_certificates (Optional)
 #' var_lab_id <- c("inner_example") # array[character] | Filter by lab.@id (Optional)
 #' var_lab_title <- c("inner_example") # array[character] | Filter by lab.title (Optional)
 #' var_modifications_id <- c("inner_example") # array[character] | Filter by modifications.@id (Optional)
-#' var_modifications_status <- c("archived") # array[character] | Filter by modifications.status (Optional)
+#' var_modifications_status <- c("inner_example") # array[character] | Filter by modifications.status (Optional)
 #' var_modifications_summary <- c("inner_example") # array[character] | Filter by modifications.summary (Optional)
 #' var_moi <- c(123) # array[numeric] | Filter by moi (Optional)
 #' var_multiplexed_in_id <- c("inner_example") # array[character] | Filter by multiplexed_in.@id (Optional)
@@ -6358,7 +6358,7 @@
 #' var_multiplexed_samples_donors_accession <- c("inner_example") # array[character] | Filter by multiplexed_samples.donors.accession (Optional)
 #' var_multiplexed_samples_sample_terms_id <- c("inner_example") # array[character] | Filter by multiplexed_samples.sample_terms.@id (Optional)
 #' var_multiplexed_samples_sample_terms_term_name <- c("inner_example") # array[character] | Filter by multiplexed_samples.sample_terms.term_name (Optional)
-#' var_multiplexed_samples_status <- c("in progress") # array[character] | Filter by multiplexed_samples.status (Optional)
+#' var_multiplexed_samples_status <- c("inner_example") # array[character] | Filter by multiplexed_samples.status (Optional)
 #' var_multiplexed_samples_summary <- c("inner_example") # array[character] | Filter by multiplexed_samples.summary (Optional)
 #' var_notes <- c("inner_example") # array[character] | Filter by notes (Optional)
 #' var_nucleic_acid_delivery <- c("transfection") # array[character] | Filter by nucleic_acid_delivery (Optional)
@@ -6385,10 +6385,10 @@
 #' var_time_post_library_delivery <- c(123) # array[numeric] | Filter by time_post_library_delivery (Optional)
 #' var_time_post_library_delivery_units <- c("minute") # array[character] | Filter by time_post_library_delivery_units (Optional)
 #' var_treatments_id <- c("inner_example") # array[character] | Filter by treatments.@id (Optional)
-#' var_treatments_purpose <- c("activation") # array[character] | Filter by treatments.purpose (Optional)
-#' var_treatments_status <- c("archived") # array[character] | Filter by treatments.status (Optional)
+#' var_treatments_purpose <- c("inner_example") # array[character] | Filter by treatments.purpose (Optional)
+#' var_treatments_status <- c("inner_example") # array[character] | Filter by treatments.status (Optional)
 #' var_treatments_summary <- c("inner_example") # array[character] | Filter by treatments.summary (Optional)
-#' var_treatments_treatment_type <- c("chemical") # array[character] | Filter by treatments.treatment_type (Optional)
+#' var_treatments_treatment_type <- c("inner_example") # array[character] | Filter by treatments.treatment_type (Optional)
 #' var_url <- c("inner_example") # array[character] | Filter by url (Optional)
 #' var_uuid <- c("inner_example") # array[character] | Filter by uuid (Optional)
 #' var_virtual <- c("inner_example") # array[character] | Filter by virtual (Optional)
@@ -6539,7 +6539,7 @@
 #' var_id <- c("inner_example") # array[character] | Filter by @id (Optional)
 #' var_aliases <- c("inner_example") # array[character] | Filter by aliases (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_creation_timestamp <- c("inner_example") # array[character] | Filter by creation_timestamp (Optional)
 #' var_description <- c("inner_example") # array[character] | Filter by description (Optional)
 #' var_feature_id <- c("inner_example") # array[character] | Filter by feature.@id (Optional)
@@ -6628,7 +6628,7 @@
 #' var_alternate_accessions <- c("inner_example") # array[character] | Filter by alternate_accessions (Optional)
 #' var_assessed_genes <- c("inner_example") # array[character] | Filter by assessed_genes (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_award_contact_pi_id <- c("inner_example") # array[character] | Filter by award.contact_pi.@id (Optional)
 #' var_award_contact_pi_title <- c("inner_example") # array[character] | Filter by award.contact_pi.title (Optional)
 #' var_award_title <- c("inner_example") # array[character] | Filter by award.title (Optional)
@@ -6643,14 +6643,14 @@
 #' var_donors_id <- c("inner_example") # array[character] | Filter by donors.@id (Optional)
 #' var_donors_accession <- c("inner_example") # array[character] | Filter by donors.accession (Optional)
 #' var_donors_aliases <- c("inner_example") # array[character] | Filter by donors.aliases (Optional)
-#' var_donors_sex <- c("male") # array[character] | Filter by donors.sex (Optional)
-#' var_donors_status <- c("in progress") # array[character] | Filter by donors.status (Optional)
+#' var_donors_sex <- c("inner_example") # array[character] | Filter by donors.sex (Optional)
+#' var_donors_status <- c("inner_example") # array[character] | Filter by donors.status (Optional)
 #' var_donors_taxa <- c("inner_example") # array[character] | Filter by donors.taxa (Optional)
 #' var_file_set_type <- c("pathogenicity") # array[character] | Filter by file_set_type (Optional)
 #' var_files_id <- c("inner_example") # array[character] | Filter by files.@id (Optional)
 #' var_files_accession <- c("inner_example") # array[character] | Filter by files.accession (Optional)
 #' var_files_aliases <- c("inner_example") # array[character] | Filter by files.aliases (Optional)
-#' var_files_content_type <- c(Content_Type$new()) # array[ContentType] | Filter by files.content_type (Optional)
+#' var_files_content_type <- c("inner_example") # array[character] | Filter by files.content_type (Optional)
 #' var_files_creation_timestamp <- c("inner_example") # array[character] | Filter by files.creation_timestamp (Optional)
 #' var_files_file_format <- c("inner_example") # array[character] | Filter by files.file_format (Optional)
 #' var_files_file_size <- c(123) # array[integer] | Filter by files.file_size (Optional)
@@ -6658,7 +6658,7 @@
 #' var_files_s3_uri <- c("inner_example") # array[character] | Filter by files.s3_uri (Optional)
 #' var_files_sequencing_platform <- c("inner_example") # array[character] | Filter by files.sequencing_platform (Optional)
 #' var_files_submitted_file_name <- c("inner_example") # array[character] | Filter by files.submitted_file_name (Optional)
-#' var_files_upload_status <- c("pending") # array[character] | Filter by files.upload_status (Optional)
+#' var_files_upload_status <- c("inner_example") # array[character] | Filter by files.upload_status (Optional)
 #' var_input_file_set_for <- c("inner_example") # array[character] | Filter by input_file_set_for (Optional)
 #' var_input_file_sets <- c("inner_example") # array[character] | Filter by input_file_sets (Optional)
 #' var_lab_id <- c("inner_example") # array[character] | Filter by lab.@id (Optional)
@@ -6687,14 +6687,14 @@
 #' var_samples_modifications <- c("inner_example") # array[character] | Filter by samples.modifications (Optional)
 #' var_samples_sample_terms_id <- c("inner_example") # array[character] | Filter by samples.sample_terms.@id (Optional)
 #' var_samples_sample_terms_aliases <- c("inner_example") # array[character] | Filter by samples.sample_terms.aliases (Optional)
-#' var_samples_sample_terms_status <- c("archived") # array[character] | Filter by samples.sample_terms.status (Optional)
+#' var_samples_sample_terms_status <- c("inner_example") # array[character] | Filter by samples.sample_terms.status (Optional)
 #' var_samples_sample_terms_summary <- c("inner_example") # array[character] | Filter by samples.sample_terms.summary (Optional)
 #' var_samples_sample_terms_term_name <- c("inner_example") # array[character] | Filter by samples.sample_terms.term_name (Optional)
-#' var_samples_status <- c("in progress") # array[character] | Filter by samples.status (Optional)
+#' var_samples_status <- c("inner_example") # array[character] | Filter by samples.status (Optional)
 #' var_samples_summary <- c("inner_example") # array[character] | Filter by samples.summary (Optional)
 #' var_samples_targeted_sample_term_id <- c("inner_example") # array[character] | Filter by samples.targeted_sample_term.@id (Optional)
 #' var_samples_targeted_sample_term_term_name <- c("inner_example") # array[character] | Filter by samples.targeted_sample_term.term_name (Optional)
-#' var_samples_taxa <- c("Homo sapiens") # array[character] | Filter by samples.taxa (Optional)
+#' var_samples_taxa <- c("inner_example") # array[character] | Filter by samples.taxa (Optional)
 #' var_samples_treatments <- c("inner_example") # array[character] | Filter by samples.treatments (Optional)
 #' var_scope <- c("genes") # array[character] | Filter by scope (Optional)
 #' var_small_scale_gene_list_id <- c("inner_example") # array[character] | Filter by small_scale_gene_list.@id (Optional)
@@ -6739,7 +6739,7 @@
 #' var_aliases <- c("inner_example") # array[character] | Filter by aliases (Optional)
 #' var_alternate_accessions <- c("inner_example") # array[character] | Filter by alternate_accessions (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_biomarkers <- c("inner_example") # array[character] | Filter by biomarkers (Optional)
 #' var_cellular_sub_pool <- c("inner_example") # array[character] | Filter by cellular_sub_pool (Optional)
 #' var_classifications <- c("inner_example") # array[character] | Filter by classifications (Optional)
@@ -6759,7 +6759,7 @@
 #' var_file_sets_aliases <- c("inner_example") # array[character] | Filter by file_sets.aliases (Optional)
 #' var_file_sets_assay_term_term_name <- c("inner_example") # array[character] | Filter by file_sets.assay_term.term_name (Optional)
 #' var_file_sets_lab_title <- c("inner_example") # array[character] | Filter by file_sets.lab.title (Optional)
-#' var_file_sets_status <- c("in progress") # array[character] | Filter by file_sets.status (Optional)
+#' var_file_sets_status <- c("inner_example") # array[character] | Filter by file_sets.status (Optional)
 #' var_file_sets_summary <- c("inner_example") # array[character] | Filter by file_sets.summary (Optional)
 #' var_institutional_certificates_id <- c("inner_example") # array[character] | Filter by institutional_certificates.@id (Optional)
 #' var_institutional_certificates_certificate_identifier <- c("inner_example") # array[character] | Filter by institutional_certificates.certificate_identifier (Optional)
@@ -6769,7 +6769,7 @@
 #' var_lower_bound_age <- c(123) # array[numeric] | Filter by lower_bound_age (Optional)
 #' var_lower_bound_age_in_hours <- c(123) # array[numeric] | Filter by lower_bound_age_in_hours (Optional)
 #' var_modifications_id <- c("inner_example") # array[character] | Filter by modifications.@id (Optional)
-#' var_modifications_status <- c("archived") # array[character] | Filter by modifications.status (Optional)
+#' var_modifications_status <- c("inner_example") # array[character] | Filter by modifications.status (Optional)
 #' var_modifications_summary <- c("inner_example") # array[character] | Filter by modifications.summary (Optional)
 #' var_moi <- c(123) # array[numeric] | Filter by moi (Optional)
 #' var_multiplexed_in_id <- c("inner_example") # array[character] | Filter by multiplexed_in.@id (Optional)
@@ -6808,10 +6808,10 @@
 #' var_time_post_library_delivery <- c(123) # array[numeric] | Filter by time_post_library_delivery (Optional)
 #' var_time_post_library_delivery_units <- c("minute") # array[character] | Filter by time_post_library_delivery_units (Optional)
 #' var_treatments_id <- c("inner_example") # array[character] | Filter by treatments.@id (Optional)
-#' var_treatments_purpose <- c("activation") # array[character] | Filter by treatments.purpose (Optional)
-#' var_treatments_status <- c("archived") # array[character] | Filter by treatments.status (Optional)
+#' var_treatments_purpose <- c("inner_example") # array[character] | Filter by treatments.purpose (Optional)
+#' var_treatments_status <- c("inner_example") # array[character] | Filter by treatments.status (Optional)
 #' var_treatments_summary <- c("inner_example") # array[character] | Filter by treatments.summary (Optional)
-#' var_treatments_treatment_type <- c("chemical") # array[character] | Filter by treatments.treatment_type (Optional)
+#' var_treatments_treatment_type <- c("inner_example") # array[character] | Filter by treatments.treatment_type (Optional)
 #' var_upper_bound_age <- c(123) # array[numeric] | Filter by upper_bound_age (Optional)
 #' var_upper_bound_age_in_hours <- c(123) # array[numeric] | Filter by upper_bound_age_in_hours (Optional)
 #' var_url <- c("inner_example") # array[character] | Filter by url (Optional)
@@ -6843,7 +6843,7 @@
 #' var_aliases <- c("inner_example") # array[character] | Filter by aliases (Optional)
 #' var_authors <- c("inner_example") # array[character] | Filter by authors (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_creation_timestamp <- c("inner_example") # array[character] | Filter by creation_timestamp (Optional)
 #' var_date_published <- c("inner_example") # array[character] | Filter by date_published (Optional)
 #' var_date_revised <- c("inner_example") # array[character] | Filter by date_revised (Optional)
@@ -6901,7 +6901,7 @@
 #' var_anvil_url <- c("inner_example") # array[character] | Filter by anvil_url (Optional)
 #' var_assembly <- c("GRCh38") # array[character] | Filter by assembly (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_collections <- c("ClinGen") # array[character] | Filter by collections (Optional)
 #' var_content_md5sum <- c("inner_example") # array[character] | Filter by content_md5sum (Optional)
 #' var_content_type <- c("inner_example") # array[character] | Filter by content_type (Optional)
@@ -6992,7 +6992,7 @@
 #' var_aliases <- c("inner_example") # array[character] | Filter by aliases (Optional)
 #' var_alternate_accessions <- c("inner_example") # array[character] | Filter by alternate_accessions (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_collections <- c("ClinGen") # array[character] | Filter by collections (Optional)
 #' var_creation_timestamp <- c("inner_example") # array[character] | Filter by creation_timestamp (Optional)
 #' var_dbxrefs <- c("inner_example") # array[character] | Filter by dbxrefs (Optional)
@@ -7009,7 +7009,7 @@
 #' var_phenotypic_features_feature_term_id <- c("inner_example") # array[character] | Filter by phenotypic_features.feature.term_id (Optional)
 #' var_phenotypic_features_feature_term_name <- c("inner_example") # array[character] | Filter by phenotypic_features.feature.term_name (Optional)
 #' var_phenotypic_features_observation_date <- c("inner_example") # array[character] | Filter by phenotypic_features.observation_date (Optional)
-#' var_phenotypic_features_quantity_units <- c("meter") # array[character] | Filter by phenotypic_features.quantity_units (Optional)
+#' var_phenotypic_features_quantity_units <- c("inner_example") # array[character] | Filter by phenotypic_features.quantity_units (Optional)
 #' var_product_id <- c("inner_example") # array[character] | Filter by product_id (Optional)
 #' var_publications_id <- c("inner_example") # array[character] | Filter by publications.@id (Optional)
 #' var_publications_publication_identifiers <- c("inner_example") # array[character] | Filter by publications.publication_identifiers (Optional)
@@ -7161,7 +7161,7 @@
 #' var_analysis_step_version <- c("inner_example") # array[character] | Filter by analysis_step_version (Optional)
 #' var_anvil_url <- c("inner_example") # array[character] | Filter by anvil_url (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_base_modifications <- c("4mC") # array[character] | Filter by base_modifications (Optional)
 #' var_collections <- c("ClinGen") # array[character] | Filter by collections (Optional)
 #' var_content_md5sum <- c("inner_example") # array[character] | Filter by content_md5sum (Optional)
@@ -7237,7 +7237,7 @@
 #' var_analysis_step_version <- c("inner_example") # array[character] | Filter by analysis_step_version (Optional)
 #' var_assembly <- c("GRCh38") # array[character] | Filter by assembly (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_collections <- c("ClinGen") # array[character] | Filter by collections (Optional)
 #' var_content_md5sum <- c("inner_example") # array[character] | Filter by content_md5sum (Optional)
 #' var_content_summary <- c("inner_example") # array[character] | Filter by content_summary (Optional)
@@ -7302,7 +7302,7 @@
 #' var_id <- c("inner_example") # array[character] | Filter by @id (Optional)
 #' var_aliases <- c("inner_example") # array[character] | Filter by aliases (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_creation_timestamp <- c("inner_example") # array[character] | Filter by creation_timestamp (Optional)
 #' var_description <- c("inner_example") # array[character] | Filter by description (Optional)
 #' var_lab_id <- c("inner_example") # array[character] | Filter by lab.@id (Optional)
@@ -7346,7 +7346,7 @@
 #' var_id <- c("inner_example") # array[character] | Filter by @id (Optional)
 #' var_aliases <- c("inner_example") # array[character] | Filter by aliases (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_creation_timestamp <- c("inner_example") # array[character] | Filter by creation_timestamp (Optional)
 #' var_description <- c("inner_example") # array[character] | Filter by description (Optional)
 #' var_download_id <- c("inner_example") # array[character] | Filter by download_id (Optional)
@@ -7432,7 +7432,7 @@
 #' var_anvil_url <- c("inner_example") # array[character] | Filter by anvil_url (Optional)
 #' var_assembly <- c("GRCh38") # array[character] | Filter by assembly (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_collections <- c("ClinGen") # array[character] | Filter by collections (Optional)
 #' var_content_md5sum <- c("inner_example") # array[character] | Filter by content_md5sum (Optional)
 #' var_content_type <- c("inner_example") # array[character] | Filter by content_type (Optional)
@@ -7495,7 +7495,7 @@
 #' var_aliases <- c("inner_example") # array[character] | Filter by aliases (Optional)
 #' var_alternate_accessions <- c("inner_example") # array[character] | Filter by alternate_accessions (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_classifications <- c("inner_example") # array[character] | Filter by classifications (Optional)
 #' var_collections <- c("ClinGen") # array[character] | Filter by collections (Optional)
 #' var_construct_library_sets <- c("inner_example") # array[character] | Filter by construct_library_sets (Optional)
@@ -7509,7 +7509,7 @@
 #' var_file_sets_aliases <- c("inner_example") # array[character] | Filter by file_sets.aliases (Optional)
 #' var_file_sets_assay_term_term_name <- c("inner_example") # array[character] | Filter by file_sets.assay_term.term_name (Optional)
 #' var_file_sets_lab_title <- c("inner_example") # array[character] | Filter by file_sets.lab.title (Optional)
-#' var_file_sets_status <- c("in progress") # array[character] | Filter by file_sets.status (Optional)
+#' var_file_sets_status <- c("inner_example") # array[character] | Filter by file_sets.status (Optional)
 #' var_file_sets_summary <- c("inner_example") # array[character] | Filter by file_sets.summary (Optional)
 #' var_institutional_certificates <- c("inner_example") # array[character] | Filter by institutional_certificates (Optional)
 #' var_lab_id <- c("inner_example") # array[character] | Filter by lab.@id (Optional)
@@ -7576,7 +7576,7 @@
 #' var_aliases <- c("inner_example") # array[character] | Filter by aliases (Optional)
 #' var_alternate_accessions <- c("inner_example") # array[character] | Filter by alternate_accessions (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_biomarkers <- c("inner_example") # array[character] | Filter by biomarkers (Optional)
 #' var_ccf_id <- c("inner_example") # array[character] | Filter by ccf_id (Optional)
 #' var_cellular_sub_pool <- c("inner_example") # array[character] | Filter by cellular_sub_pool (Optional)
@@ -7597,7 +7597,7 @@
 #' var_file_sets_aliases <- c("inner_example") # array[character] | Filter by file_sets.aliases (Optional)
 #' var_file_sets_assay_term_term_name <- c("inner_example") # array[character] | Filter by file_sets.assay_term.term_name (Optional)
 #' var_file_sets_lab_title <- c("inner_example") # array[character] | Filter by file_sets.lab.title (Optional)
-#' var_file_sets_status <- c("in progress") # array[character] | Filter by file_sets.status (Optional)
+#' var_file_sets_status <- c("inner_example") # array[character] | Filter by file_sets.status (Optional)
 #' var_file_sets_summary <- c("inner_example") # array[character] | Filter by file_sets.summary (Optional)
 #' var_institutional_certificates_id <- c("inner_example") # array[character] | Filter by institutional_certificates.@id (Optional)
 #' var_institutional_certificates_certificate_identifier <- c("inner_example") # array[character] | Filter by institutional_certificates.certificate_identifier (Optional)
@@ -7607,7 +7607,7 @@
 #' var_lower_bound_age <- c(123) # array[numeric] | Filter by lower_bound_age (Optional)
 #' var_lower_bound_age_in_hours <- c(123) # array[numeric] | Filter by lower_bound_age_in_hours (Optional)
 #' var_modifications_id <- c("inner_example") # array[character] | Filter by modifications.@id (Optional)
-#' var_modifications_status <- c("archived") # array[character] | Filter by modifications.status (Optional)
+#' var_modifications_status <- c("inner_example") # array[character] | Filter by modifications.status (Optional)
 #' var_modifications_summary <- c("inner_example") # array[character] | Filter by modifications.summary (Optional)
 #' var_moi <- c(123) # array[numeric] | Filter by moi (Optional)
 #' var_multiplexed_in_id <- c("inner_example") # array[character] | Filter by multiplexed_in.@id (Optional)
@@ -7648,10 +7648,10 @@
 #' var_time_post_library_delivery <- c(123) # array[numeric] | Filter by time_post_library_delivery (Optional)
 #' var_time_post_library_delivery_units <- c("minute") # array[character] | Filter by time_post_library_delivery_units (Optional)
 #' var_treatments_id <- c("inner_example") # array[character] | Filter by treatments.@id (Optional)
-#' var_treatments_purpose <- c("activation") # array[character] | Filter by treatments.purpose (Optional)
-#' var_treatments_status <- c("archived") # array[character] | Filter by treatments.status (Optional)
+#' var_treatments_purpose <- c("inner_example") # array[character] | Filter by treatments.purpose (Optional)
+#' var_treatments_status <- c("inner_example") # array[character] | Filter by treatments.status (Optional)
 #' var_treatments_summary <- c("inner_example") # array[character] | Filter by treatments.summary (Optional)
-#' var_treatments_treatment_type <- c("chemical") # array[character] | Filter by treatments.treatment_type (Optional)
+#' var_treatments_treatment_type <- c("inner_example") # array[character] | Filter by treatments.treatment_type (Optional)
 #' var_upper_bound_age <- c(123) # array[numeric] | Filter by upper_bound_age (Optional)
 #' var_upper_bound_age_in_hours <- c(123) # array[numeric] | Filter by upper_bound_age_in_hours (Optional)
 #' var_url <- c("inner_example") # array[character] | Filter by url (Optional)
@@ -7683,7 +7683,7 @@
 #' var_amount <- c(123) # array[numeric] | Filter by amount (Optional)
 #' var_amount_units <- c("mg/kg") # array[character] | Filter by amount_units (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_biosamples_treated <- c("inner_example") # array[character] | Filter by biosamples_treated (Optional)
 #' var_creation_timestamp <- c("inner_example") # array[character] | Filter by creation_timestamp (Optional)
 #' var_depletion <- c("inner_example") # array[character] | Filter by depletion (Optional)
@@ -7782,7 +7782,7 @@
 #' var_aliases <- c("inner_example") # array[character] | Filter by aliases (Optional)
 #' var_alternate_accessions <- c("inner_example") # array[character] | Filter by alternate_accessions (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_biomarkers <- c("inner_example") # array[character] | Filter by biomarkers (Optional)
 #' var_cellular_sub_pool <- c("inner_example") # array[character] | Filter by cellular_sub_pool (Optional)
 #' var_classifications <- c("inner_example") # array[character] | Filter by classifications (Optional)
@@ -7802,7 +7802,7 @@
 #' var_file_sets_aliases <- c("inner_example") # array[character] | Filter by file_sets.aliases (Optional)
 #' var_file_sets_assay_term_term_name <- c("inner_example") # array[character] | Filter by file_sets.assay_term.term_name (Optional)
 #' var_file_sets_lab_title <- c("inner_example") # array[character] | Filter by file_sets.lab.title (Optional)
-#' var_file_sets_status <- c("in progress") # array[character] | Filter by file_sets.status (Optional)
+#' var_file_sets_status <- c("inner_example") # array[character] | Filter by file_sets.status (Optional)
 #' var_file_sets_summary <- c("inner_example") # array[character] | Filter by file_sets.summary (Optional)
 #' var_institutional_certificates_id <- c("inner_example") # array[character] | Filter by institutional_certificates.@id (Optional)
 #' var_institutional_certificates_certificate_identifier <- c("inner_example") # array[character] | Filter by institutional_certificates.certificate_identifier (Optional)
@@ -7812,7 +7812,7 @@
 #' var_lower_bound_age <- c(123) # array[numeric] | Filter by lower_bound_age (Optional)
 #' var_lower_bound_age_in_hours <- c(123) # array[numeric] | Filter by lower_bound_age_in_hours (Optional)
 #' var_modifications_id <- c("inner_example") # array[character] | Filter by modifications.@id (Optional)
-#' var_modifications_status <- c("archived") # array[character] | Filter by modifications.status (Optional)
+#' var_modifications_status <- c("inner_example") # array[character] | Filter by modifications.status (Optional)
 #' var_modifications_summary <- c("inner_example") # array[character] | Filter by modifications.summary (Optional)
 #' var_moi <- c(123) # array[numeric] | Filter by moi (Optional)
 #' var_multiplexed_in_id <- c("inner_example") # array[character] | Filter by multiplexed_in.@id (Optional)
@@ -7850,10 +7850,10 @@
 #' var_time_post_library_delivery <- c(123) # array[numeric] | Filter by time_post_library_delivery (Optional)
 #' var_time_post_library_delivery_units <- c("minute") # array[character] | Filter by time_post_library_delivery_units (Optional)
 #' var_treatments_id <- c("inner_example") # array[character] | Filter by treatments.@id (Optional)
-#' var_treatments_purpose <- c("activation") # array[character] | Filter by treatments.purpose (Optional)
-#' var_treatments_status <- c("archived") # array[character] | Filter by treatments.status (Optional)
+#' var_treatments_purpose <- c("inner_example") # array[character] | Filter by treatments.purpose (Optional)
+#' var_treatments_status <- c("inner_example") # array[character] | Filter by treatments.status (Optional)
 #' var_treatments_summary <- c("inner_example") # array[character] | Filter by treatments.summary (Optional)
-#' var_treatments_treatment_type <- c("chemical") # array[character] | Filter by treatments.treatment_type (Optional)
+#' var_treatments_treatment_type <- c("inner_example") # array[character] | Filter by treatments.treatment_type (Optional)
 #' var_upper_bound_age <- c(123) # array[numeric] | Filter by upper_bound_age (Optional)
 #' var_upper_bound_age_in_hours <- c(123) # array[numeric] | Filter by upper_bound_age_in_hours (Optional)
 #' var_url <- c("inner_example") # array[character] | Filter by url (Optional)
@@ -7886,7 +7886,7 @@
 #' var_alternate_accessions <- c("inner_example") # array[character] | Filter by alternate_accessions (Optional)
 #' var_analysis_steps <- c("inner_example") # array[character] | Filter by analysis_steps (Optional)
 #' var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Optional)
-#' var_award_component <- c("affiliate") # array[character] | Filter by award.component (Optional)
+#' var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 #' var_collections <- c("ClinGen") # array[character] | Filter by collections (Optional)
 #' var_creation_timestamp <- c("inner_example") # array[character] | Filter by creation_timestamp (Optional)
 #' var_description <- c("inner_example") # array[character] | Filter by description (Optional)
@@ -8450,10 +8450,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$AlignmentFiles. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -9066,10 +9062,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$AnalysisSets. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -9149,19 +9141,11 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `donors_sex`) {
-        # validate enum values
-        if (!(query_item %in% c("male", "female", "unspecified"))) {
-          stop("Invalid value for donors_sex when calling IgvfApi$AnalysisSets. Must be [male, female, unspecified].")
-        }
         query_params[["donors.sex"]] <- c(query_params[["donors.sex"]], list(`donors.sex` = query_item))
       }
 
       # explore
       for (query_item in `donors_status`) {
-        # validate enum values
-        if (!(query_item %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
-          stop("Invalid value for donors_status when calling IgvfApi$AnalysisSets. Must be [in progress, released, deleted, replaced, revoked, archived].")
-        }
         query_params[["donors.status"]] <- c(query_params[["donors.status"]], list(`donors.status` = query_item))
       }
 
@@ -9236,10 +9220,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `files_upload_status`) {
-        # validate enum values
-        if (!(query_item %in% c("pending", "file not found", "invalidated", "validated"))) {
-          stop("Invalid value for files_upload_status when calling IgvfApi$AnalysisSets. Must be [pending, file not found, invalidated, validated].")
-        }
         query_params[["files.upload_status"]] <- c(query_params[["files.upload_status"]], list(`files.upload_status` = query_item))
       }
 
@@ -9265,10 +9245,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `input_file_sets_file_set_type`) {
-        # validate enum values
-        if (!(query_item %in% c("pathogenicity", "functional effect", "protein stability", "activity level", "binding effect"))) {
-          stop("Invalid value for input_file_sets_file_set_type when calling IgvfApi$AnalysisSets. Must be [pathogenicity, functional effect, protein stability, activity level, binding effect].")
-        }
         query_params[["input_file_sets.file_set_type"]] <- c(query_params[["input_file_sets.file_set_type"]], list(`input_file_sets.file_set_type` = query_item))
       }
 
@@ -9368,10 +9344,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `samples_sample_terms_status`) {
-        # validate enum values
-        if (!(query_item %in% c("archived", "deleted", "in progress", "released"))) {
-          stop("Invalid value for samples_sample_terms_status when calling IgvfApi$AnalysisSets. Must be [archived, deleted, in progress, released].")
-        }
         query_params[["samples.sample_terms.status"]] <- c(query_params[["samples.sample_terms.status"]], list(`samples.sample_terms.status` = query_item))
       }
 
@@ -9387,10 +9359,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `samples_status`) {
-        # validate enum values
-        if (!(query_item %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
-          stop("Invalid value for samples_status when calling IgvfApi$AnalysisSets. Must be [in progress, released, deleted, replaced, revoked, archived].")
-        }
         query_params[["samples.status"]] <- c(query_params[["samples.status"]], list(`samples.status` = query_item))
       }
 
@@ -9411,10 +9379,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `samples_taxa`) {
-        # validate enum values
-        if (!(query_item %in% c("Homo sapiens", "Mus musculus"))) {
-          stop("Invalid value for samples_taxa when calling IgvfApi$AnalysisSets. Must be [Homo sapiens, Mus musculus].")
-        }
         query_params[["samples.taxa"]] <- c(query_params[["samples.taxa"]], list(`samples.taxa` = query_item))
       }
 
@@ -9677,10 +9641,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$AnalysisStepVersions. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -9990,10 +9950,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$AnalysisSteps. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -10823,10 +10779,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$AuxiliarySets. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -10906,19 +10858,11 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `donors_sex`) {
-        # validate enum values
-        if (!(query_item %in% c("male", "female", "unspecified"))) {
-          stop("Invalid value for donors_sex when calling IgvfApi$AuxiliarySets. Must be [male, female, unspecified].")
-        }
         query_params[["donors.sex"]] <- c(query_params[["donors.sex"]], list(`donors.sex` = query_item))
       }
 
       # explore
       for (query_item in `donors_status`) {
-        # validate enum values
-        if (!(query_item %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
-          stop("Invalid value for donors_status when calling IgvfApi$AuxiliarySets. Must be [in progress, released, deleted, replaced, revoked, archived].")
-        }
         query_params[["donors.status"]] <- c(query_params[["donors.status"]], list(`donors.status` = query_item))
       }
 
@@ -10993,10 +10937,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `files_upload_status`) {
-        # validate enum values
-        if (!(query_item %in% c("pending", "file not found", "invalidated", "validated"))) {
-          stop("Invalid value for files_upload_status when calling IgvfApi$AuxiliarySets. Must be [pending, file not found, invalidated, validated].")
-        }
         query_params[["files.upload_status"]] <- c(query_params[["files.upload_status"]], list(`files.upload_status` = query_item))
       }
 
@@ -11032,10 +10972,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `measurement_sets_preferred_assay_title`) {
-        # validate enum values
-        if (!(query_item %in% c("10x multiome", "10x multiome with MULTI-seq", "AAV-MPRA", "ATAC-seq", "CERES-seq", "Cell painting", "CRISPR FlowFISH", "DOGMA-seq", "Histone ChIP-seq", "Hi-C", "HT-recruit", "lentiMPRA", "MERFISH", "MIAA", "mN2H", "MPRA", "MPRA (scQer)", "MULTI-seq", "Parse SPLiT-seq", "Perturb-seq", "RNA-seq", "SGE", "scATAC-seq", "scNT-seq", "scNT-seq2", "scRNA-seq", "semi-qY2H", "SHARE-seq", "smFISH", "snATAC-seq", "snmC-Seq2", "snMCT-seq", "snM3C-seq", "snRNA-seq", "Spatial transcriptomics", "SUPERSTARR", "TAP-seq", "TF ChIP-seq", "VAMP-seq", "Variant FlowFISH", "Variant painting", "Y2H", "yN2H"))) {
-          stop("Invalid value for measurement_sets_preferred_assay_title when calling IgvfApi$AuxiliarySets. Must be [10x multiome, 10x multiome with MULTI-seq, AAV-MPRA, ATAC-seq, CERES-seq, Cell painting, CRISPR FlowFISH, DOGMA-seq, Histone ChIP-seq, Hi-C, HT-recruit, lentiMPRA, MERFISH, MIAA, mN2H, MPRA, MPRA (scQer), MULTI-seq, Parse SPLiT-seq, Perturb-seq, RNA-seq, SGE, scATAC-seq, scNT-seq, scNT-seq2, scRNA-seq, semi-qY2H, SHARE-seq, smFISH, snATAC-seq, snmC-Seq2, snMCT-seq, snM3C-seq, snRNA-seq, Spatial transcriptomics, SUPERSTARR, TAP-seq, TF ChIP-seq, VAMP-seq, Variant FlowFISH, Variant painting, Y2H, yN2H].")
-        }
         query_params[["measurement_sets.preferred_assay_title"]] <- c(query_params[["measurement_sets.preferred_assay_title"]], list(`measurement_sets.preferred_assay_title` = query_item))
       }
 
@@ -11125,10 +11061,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `samples_sample_terms_status`) {
-        # validate enum values
-        if (!(query_item %in% c("archived", "deleted", "in progress", "released"))) {
-          stop("Invalid value for samples_sample_terms_status when calling IgvfApi$AuxiliarySets. Must be [archived, deleted, in progress, released].")
-        }
         query_params[["samples.sample_terms.status"]] <- c(query_params[["samples.sample_terms.status"]], list(`samples.sample_terms.status` = query_item))
       }
 
@@ -11144,10 +11076,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `samples_status`) {
-        # validate enum values
-        if (!(query_item %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
-          stop("Invalid value for samples_status when calling IgvfApi$AuxiliarySets. Must be [in progress, released, deleted, replaced, revoked, archived].")
-        }
         query_params[["samples.status"]] <- c(query_params[["samples.status"]], list(`samples.status` = query_item))
       }
 
@@ -11168,10 +11096,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `samples_taxa`) {
-        # validate enum values
-        if (!(query_item %in% c("Homo sapiens", "Mus musculus"))) {
-          stop("Invalid value for samples_taxa when calling IgvfApi$AuxiliarySets. Must be [Homo sapiens, Mus musculus].")
-        }
         query_params[["samples.taxa"]] <- c(query_params[["samples.taxa"]], list(`samples.taxa` = query_item))
       }
 
@@ -11877,10 +11801,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$Biomarkers. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -12279,10 +12199,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$ConfigurationFiles. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -12894,10 +12810,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `applied_to_samples_status`) {
-        # validate enum values
-        if (!(query_item %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
-          stop("Invalid value for applied_to_samples_status when calling IgvfApi$ConstructLibrarySets. Must be [in progress, released, deleted, replaced, revoked, archived].")
-        }
         query_params[["applied_to_samples.status"]] <- c(query_params[["applied_to_samples.status"]], list(`applied_to_samples.status` = query_item))
       }
 
@@ -12938,10 +12850,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$ConstructLibrarySets. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -13025,10 +12933,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `files_upload_status`) {
-        # validate enum values
-        if (!(query_item %in% c("pending", "file not found", "invalidated", "validated"))) {
-          stop("Invalid value for files_upload_status when calling IgvfApi$ConstructLibrarySets. Must be [pending, file not found, invalidated, validated].")
-        }
         query_params[["files.upload_status"]] <- c(query_params[["files.upload_status"]], list(`files.upload_status` = query_item))
       }
 
@@ -13519,10 +13423,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$CrisprModifications. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -14047,10 +13947,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$CuratedSets. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -14130,19 +14026,11 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `donors_sex`) {
-        # validate enum values
-        if (!(query_item %in% c("male", "female", "unspecified"))) {
-          stop("Invalid value for donors_sex when calling IgvfApi$CuratedSets. Must be [male, female, unspecified].")
-        }
         query_params[["donors.sex"]] <- c(query_params[["donors.sex"]], list(`donors.sex` = query_item))
       }
 
       # explore
       for (query_item in `donors_status`) {
-        # validate enum values
-        if (!(query_item %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
-          stop("Invalid value for donors_status when calling IgvfApi$CuratedSets. Must be [in progress, released, deleted, replaced, revoked, archived].")
-        }
         query_params[["donors.status"]] <- c(query_params[["donors.status"]], list(`donors.status` = query_item))
       }
 
@@ -14217,10 +14105,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `files_upload_status`) {
-        # validate enum values
-        if (!(query_item %in% c("pending", "file not found", "invalidated", "validated"))) {
-          stop("Invalid value for files_upload_status when calling IgvfApi$CuratedSets. Must be [pending, file not found, invalidated, validated].")
-        }
         query_params[["files.upload_status"]] <- c(query_params[["files.upload_status"]], list(`files.upload_status` = query_item))
       }
 
@@ -14325,10 +14209,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `samples_sample_terms_status`) {
-        # validate enum values
-        if (!(query_item %in% c("archived", "deleted", "in progress", "released"))) {
-          stop("Invalid value for samples_sample_terms_status when calling IgvfApi$CuratedSets. Must be [archived, deleted, in progress, released].")
-        }
         query_params[["samples.sample_terms.status"]] <- c(query_params[["samples.sample_terms.status"]], list(`samples.sample_terms.status` = query_item))
       }
 
@@ -14344,10 +14224,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `samples_status`) {
-        # validate enum values
-        if (!(query_item %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
-          stop("Invalid value for samples_status when calling IgvfApi$CuratedSets. Must be [in progress, released, deleted, replaced, revoked, archived].")
-        }
         query_params[["samples.status"]] <- c(query_params[["samples.status"]], list(`samples.status` = query_item))
       }
 
@@ -14368,10 +14244,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `samples_taxa`) {
-        # validate enum values
-        if (!(query_item %in% c("Homo sapiens", "Mus musculus"))) {
-          stop("Invalid value for samples_taxa when calling IgvfApi$CuratedSets. Must be [Homo sapiens, Mus musculus].")
-        }
         query_params[["samples.taxa"]] <- c(query_params[["samples.taxa"]], list(`samples.taxa` = query_item))
       }
 
@@ -14679,10 +14551,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$DegronModifications. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -15000,10 +14868,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$Documents. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -15825,10 +15689,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$GenomeBrowserAnnotationFiles. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -16421,10 +16281,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$HumanDonors. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -16513,10 +16369,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `phenotypic_features_quantity_units`) {
-        # validate enum values
-        if (!(query_item %in% c("meter", "micromole", "nanogram", "microgram", "milligram", "gram", "kilogram", "milli-International Unit per milliliter", "picogram per milliliter", "nanogram per milliliter", "milligram per deciliter"))) {
-          stop("Invalid value for phenotypic_features_quantity_units when calling IgvfApi$HumanDonors. Must be [meter, micromole, nanogram, microgram, milligram, gram, kilogram, milli-International Unit per milliliter, picogram per milliliter, nanogram per milliliter, milligram per deciliter].")
-        }
         query_params[["phenotypic_features.quantity_units"]] <- c(query_params[["phenotypic_features.quantity_units"]], list(`phenotypic_features.quantity_units` = query_item))
       }
 
@@ -16892,10 +16744,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$ImageFiles. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -17795,10 +17643,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$InVitroSystems. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -17819,19 +17663,11 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `cell_fate_change_treatments_purpose`) {
-        # validate enum values
-        if (!(query_item %in% c("activation", "agonist", "antagonist", "control", "differentiation", "de-differentiation", "perturbation", "selection", "stimulation"))) {
-          stop("Invalid value for cell_fate_change_treatments_purpose when calling IgvfApi$InVitroSystems. Must be [activation, agonist, antagonist, control, differentiation, de-differentiation, perturbation, selection, stimulation].")
-        }
         query_params[["cell_fate_change_treatments.purpose"]] <- c(query_params[["cell_fate_change_treatments.purpose"]], list(`cell_fate_change_treatments.purpose` = query_item))
       }
 
       # explore
       for (query_item in `cell_fate_change_treatments_status`) {
-        # validate enum values
-        if (!(query_item %in% c("archived", "deleted", "in progress", "released"))) {
-          stop("Invalid value for cell_fate_change_treatments_status when calling IgvfApi$InVitroSystems. Must be [archived, deleted, in progress, released].")
-        }
         query_params[["cell_fate_change_treatments.status"]] <- c(query_params[["cell_fate_change_treatments.status"]], list(`cell_fate_change_treatments.status` = query_item))
       }
 
@@ -17842,10 +17678,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `cell_fate_change_treatments_treatment_type`) {
-        # validate enum values
-        if (!(query_item %in% c("chemical", "protein", "environmental"))) {
-          stop("Invalid value for cell_fate_change_treatments_treatment_type when calling IgvfApi$InVitroSystems. Must be [chemical, protein, environmental].")
-        }
         query_params[["cell_fate_change_treatments.treatment_type"]] <- c(query_params[["cell_fate_change_treatments.treatment_type"]], list(`cell_fate_change_treatments.treatment_type` = query_item))
       }
 
@@ -17959,10 +17791,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `file_sets_status`) {
-        # validate enum values
-        if (!(query_item %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
-          stop("Invalid value for file_sets_status when calling IgvfApi$InVitroSystems. Must be [in progress, released, deleted, replaced, revoked, archived].")
-        }
         query_params[["file_sets.status"]] <- c(query_params[["file_sets.status"]], list(`file_sets.status` = query_item))
       }
 
@@ -18022,10 +17850,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `modifications_status`) {
-        # validate enum values
-        if (!(query_item %in% c("archived", "deleted", "in progress", "released"))) {
-          stop("Invalid value for modifications_status when calling IgvfApi$InVitroSystems. Must be [archived, deleted, in progress, released].")
-        }
         query_params[["modifications.status"]] <- c(query_params[["modifications.status"]], list(`modifications.status` = query_item))
       }
 
@@ -18269,19 +18093,11 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `treatments_purpose`) {
-        # validate enum values
-        if (!(query_item %in% c("activation", "agonist", "antagonist", "control", "differentiation", "de-differentiation", "perturbation", "selection", "stimulation"))) {
-          stop("Invalid value for treatments_purpose when calling IgvfApi$InVitroSystems. Must be [activation, agonist, antagonist, control, differentiation, de-differentiation, perturbation, selection, stimulation].")
-        }
         query_params[["treatments.purpose"]] <- c(query_params[["treatments.purpose"]], list(`treatments.purpose` = query_item))
       }
 
       # explore
       for (query_item in `treatments_status`) {
-        # validate enum values
-        if (!(query_item %in% c("archived", "deleted", "in progress", "released"))) {
-          stop("Invalid value for treatments_status when calling IgvfApi$InVitroSystems. Must be [archived, deleted, in progress, released].")
-        }
         query_params[["treatments.status"]] <- c(query_params[["treatments.status"]], list(`treatments.status` = query_item))
       }
 
@@ -18292,10 +18108,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `treatments_treatment_type`) {
-        # validate enum values
-        if (!(query_item %in% c("chemical", "protein", "environmental"))) {
-          stop("Invalid value for treatments_treatment_type when calling IgvfApi$InVitroSystems. Must be [chemical, protein, environmental].")
-        }
         query_params[["treatments.treatment_type"]] <- c(query_params[["treatments.treatment_type"]], list(`treatments.treatment_type` = query_item))
       }
 
@@ -18535,10 +18347,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$InstitutionalCertificates. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -18846,10 +18654,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `awards_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for awards_component when calling IgvfApi$Labs. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["awards.component"]] <- c(query_params[["awards.component"]], list(`awards.component` = query_item))
       }
 
@@ -19224,10 +19028,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$MatrixFiles. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -19939,10 +19739,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `auxiliary_sets_file_set_type`) {
-        # validate enum values
-        if (!(query_item %in% c("cell hashing", "cell sorting", "circularized RNA barcode detection", "gRNA sequencing", "oligo-conjugated lipids", "quantification DNA barcode sequencing", "variant sequencing"))) {
-          stop("Invalid value for auxiliary_sets_file_set_type when calling IgvfApi$MeasurementSets. Must be [cell hashing, cell sorting, circularized RNA barcode detection, gRNA sequencing, oligo-conjugated lipids, quantification DNA barcode sequencing, variant sequencing].")
-        }
         query_params[["auxiliary_sets.file_set_type"]] <- c(query_params[["auxiliary_sets.file_set_type"]], list(`auxiliary_sets.file_set_type` = query_item))
       }
 
@@ -19953,10 +19749,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$MeasurementSets. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -20051,19 +19843,11 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `donors_sex`) {
-        # validate enum values
-        if (!(query_item %in% c("male", "female", "unspecified"))) {
-          stop("Invalid value for donors_sex when calling IgvfApi$MeasurementSets. Must be [male, female, unspecified].")
-        }
         query_params[["donors.sex"]] <- c(query_params[["donors.sex"]], list(`donors.sex` = query_item))
       }
 
       # explore
       for (query_item in `donors_status`) {
-        # validate enum values
-        if (!(query_item %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
-          stop("Invalid value for donors_status when calling IgvfApi$MeasurementSets. Must be [in progress, released, deleted, replaced, revoked, archived].")
-        }
         query_params[["donors.status"]] <- c(query_params[["donors.status"]], list(`donors.status` = query_item))
       }
 
@@ -20148,10 +19932,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `files_upload_status`) {
-        # validate enum values
-        if (!(query_item %in% c("pending", "file not found", "invalidated", "validated"))) {
-          stop("Invalid value for files_upload_status when calling IgvfApi$MeasurementSets. Must be [pending, file not found, invalidated, validated].")
-        }
         query_params[["files.upload_status"]] <- c(query_params[["files.upload_status"]], list(`files.upload_status` = query_item))
       }
 
@@ -20246,10 +20026,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `samples_cell_fate_change_treatments_purpose`) {
-        # validate enum values
-        if (!(query_item %in% c("activation", "agonist", "antagonist", "control", "differentiation", "de-differentiation", "perturbation", "selection", "stimulation"))) {
-          stop("Invalid value for samples_cell_fate_change_treatments_purpose when calling IgvfApi$MeasurementSets. Must be [activation, agonist, antagonist, control, differentiation, de-differentiation, perturbation, selection, stimulation].")
-        }
         query_params[["samples.cell_fate_change_treatments.purpose"]] <- c(query_params[["samples.cell_fate_change_treatments.purpose"]], list(`samples.cell_fate_change_treatments.purpose` = query_item))
       }
 
@@ -20260,10 +20036,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `samples_cell_fate_change_treatments_treatment_type`) {
-        # validate enum values
-        if (!(query_item %in% c("chemical", "protein", "environmental"))) {
-          stop("Invalid value for samples_cell_fate_change_treatments_treatment_type when calling IgvfApi$MeasurementSets. Must be [chemical, protein, environmental].")
-        }
         query_params[["samples.cell_fate_change_treatments.treatment_type"]] <- c(query_params[["samples.cell_fate_change_treatments.treatment_type"]], list(`samples.cell_fate_change_treatments.treatment_type` = query_item))
       }
 
@@ -20288,10 +20060,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `samples_construct_library_sets_file_set_type`) {
-        # validate enum values
-        if (!(query_item %in% c("guide library", "reporter library", "expression vector library", "editing template library"))) {
-          stop("Invalid value for samples_construct_library_sets_file_set_type when calling IgvfApi$MeasurementSets. Must be [guide library, reporter library, expression vector library, editing template library].")
-        }
         query_params[["samples.construct_library_sets.file_set_type"]] <- c(query_params[["samples.construct_library_sets.file_set_type"]], list(`samples.construct_library_sets.file_set_type` = query_item))
       }
 
@@ -20352,10 +20120,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `samples_sample_terms_status`) {
-        # validate enum values
-        if (!(query_item %in% c("archived", "deleted", "in progress", "released"))) {
-          stop("Invalid value for samples_sample_terms_status when calling IgvfApi$MeasurementSets. Must be [archived, deleted, in progress, released].")
-        }
         query_params[["samples.sample_terms.status"]] <- c(query_params[["samples.sample_terms.status"]], list(`samples.sample_terms.status` = query_item))
       }
 
@@ -20371,10 +20135,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `samples_status`) {
-        # validate enum values
-        if (!(query_item %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
-          stop("Invalid value for samples_status when calling IgvfApi$MeasurementSets. Must be [in progress, released, deleted, replaced, revoked, archived].")
-        }
         query_params[["samples.status"]] <- c(query_params[["samples.status"]], list(`samples.status` = query_item))
       }
 
@@ -20395,10 +20155,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `samples_taxa`) {
-        # validate enum values
-        if (!(query_item %in% c("Homo sapiens", "Mus musculus"))) {
-          stop("Invalid value for samples_taxa when calling IgvfApi$MeasurementSets. Must be [Homo sapiens, Mus musculus].")
-        }
         query_params[["samples.taxa"]] <- c(query_params[["samples.taxa"]], list(`samples.taxa` = query_item))
       }
 
@@ -20409,10 +20165,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `samples_treatments_purpose`) {
-        # validate enum values
-        if (!(query_item %in% c("activation", "agonist", "antagonist", "control", "differentiation", "de-differentiation", "perturbation", "selection", "stimulation"))) {
-          stop("Invalid value for samples_treatments_purpose when calling IgvfApi$MeasurementSets. Must be [activation, agonist, antagonist, control, differentiation, de-differentiation, perturbation, selection, stimulation].")
-        }
         query_params[["samples.treatments.purpose"]] <- c(query_params[["samples.treatments.purpose"]], list(`samples.treatments.purpose` = query_item))
       }
 
@@ -20423,10 +20175,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `samples_treatments_treatment_type`) {
-        # validate enum values
-        if (!(query_item %in% c("chemical", "protein", "environmental"))) {
-          stop("Invalid value for samples_treatments_treatment_type when calling IgvfApi$MeasurementSets. Must be [chemical, protein, environmental].")
-        }
         query_params[["samples.treatments.treatment_type"]] <- c(query_params[["samples.treatments.treatment_type"]], list(`samples.treatments.treatment_type` = query_item))
       }
 
@@ -20794,10 +20542,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$ModelFiles. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -21396,10 +21140,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$ModelSets. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -21479,19 +21219,11 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `donors_sex`) {
-        # validate enum values
-        if (!(query_item %in% c("male", "female", "unspecified"))) {
-          stop("Invalid value for donors_sex when calling IgvfApi$ModelSets. Must be [male, female, unspecified].")
-        }
         query_params[["donors.sex"]] <- c(query_params[["donors.sex"]], list(`donors.sex` = query_item))
       }
 
       # explore
       for (query_item in `donors_status`) {
-        # validate enum values
-        if (!(query_item %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
-          stop("Invalid value for donors_status when calling IgvfApi$ModelSets. Must be [in progress, released, deleted, replaced, revoked, archived].")
-        }
         query_params[["donors.status"]] <- c(query_params[["donors.status"]], list(`donors.status` = query_item))
       }
 
@@ -21566,10 +21298,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `files_upload_status`) {
-        # validate enum values
-        if (!(query_item %in% c("pending", "file not found", "invalidated", "validated"))) {
-          stop("Invalid value for files_upload_status when calling IgvfApi$ModelSets. Must be [pending, file not found, invalidated, validated].")
-        }
         query_params[["files.upload_status"]] <- c(query_params[["files.upload_status"]], list(`files.upload_status` = query_item))
       }
 
@@ -21713,10 +21441,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `samples_sample_terms_status`) {
-        # validate enum values
-        if (!(query_item %in% c("archived", "deleted", "in progress", "released"))) {
-          stop("Invalid value for samples_sample_terms_status when calling IgvfApi$ModelSets. Must be [archived, deleted, in progress, released].")
-        }
         query_params[["samples.sample_terms.status"]] <- c(query_params[["samples.sample_terms.status"]], list(`samples.sample_terms.status` = query_item))
       }
 
@@ -21732,10 +21456,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `samples_status`) {
-        # validate enum values
-        if (!(query_item %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
-          stop("Invalid value for samples_status when calling IgvfApi$ModelSets. Must be [in progress, released, deleted, replaced, revoked, archived].")
-        }
         query_params[["samples.status"]] <- c(query_params[["samples.status"]], list(`samples.status` = query_item))
       }
 
@@ -21756,10 +21476,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `samples_taxa`) {
-        # validate enum values
-        if (!(query_item %in% c("Homo sapiens", "Mus musculus"))) {
-          stop("Invalid value for samples_taxa when calling IgvfApi$ModelSets. Must be [Homo sapiens, Mus musculus].")
-        }
         query_params[["samples.taxa"]] <- c(query_params[["samples.taxa"]], list(`samples.taxa` = query_item))
       }
 
@@ -22212,10 +21928,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$MultiplexedSamples. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -22325,10 +22037,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `file_sets_status`) {
-        # validate enum values
-        if (!(query_item %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
-          stop("Invalid value for file_sets_status when calling IgvfApi$MultiplexedSamples. Must be [in progress, released, deleted, replaced, revoked, archived].")
-        }
         query_params[["file_sets.status"]] <- c(query_params[["file_sets.status"]], list(`file_sets.status` = query_item))
       }
 
@@ -22359,10 +22067,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `modifications_status`) {
-        # validate enum values
-        if (!(query_item %in% c("archived", "deleted", "in progress", "released"))) {
-          stop("Invalid value for modifications_status when calling IgvfApi$MultiplexedSamples. Must be [archived, deleted, in progress, released].")
-        }
         query_params[["modifications.status"]] <- c(query_params[["modifications.status"]], list(`modifications.status` = query_item))
       }
 
@@ -22433,10 +22137,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `multiplexed_samples_status`) {
-        # validate enum values
-        if (!(query_item %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
-          stop("Invalid value for multiplexed_samples_status when calling IgvfApi$MultiplexedSamples. Must be [in progress, released, deleted, replaced, revoked, archived].")
-        }
         query_params[["multiplexed_samples.status"]] <- c(query_params[["multiplexed_samples.status"]], list(`multiplexed_samples.status` = query_item))
       }
 
@@ -22588,19 +22288,11 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `treatments_purpose`) {
-        # validate enum values
-        if (!(query_item %in% c("activation", "agonist", "antagonist", "control", "differentiation", "de-differentiation", "perturbation", "selection", "stimulation"))) {
-          stop("Invalid value for treatments_purpose when calling IgvfApi$MultiplexedSamples. Must be [activation, agonist, antagonist, control, differentiation, de-differentiation, perturbation, selection, stimulation].")
-        }
         query_params[["treatments.purpose"]] <- c(query_params[["treatments.purpose"]], list(`treatments.purpose` = query_item))
       }
 
       # explore
       for (query_item in `treatments_status`) {
-        # validate enum values
-        if (!(query_item %in% c("archived", "deleted", "in progress", "released"))) {
-          stop("Invalid value for treatments_status when calling IgvfApi$MultiplexedSamples. Must be [archived, deleted, in progress, released].")
-        }
         query_params[["treatments.status"]] <- c(query_params[["treatments.status"]], list(`treatments.status` = query_item))
       }
 
@@ -22611,10 +22303,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `treatments_treatment_type`) {
-        # validate enum values
-        if (!(query_item %in% c("chemical", "protein", "environmental"))) {
-          stop("Invalid value for treatments_treatment_type when calling IgvfApi$MultiplexedSamples. Must be [chemical, protein, environmental].")
-        }
         query_params[["treatments.treatment_type"]] <- c(query_params[["treatments.treatment_type"]], list(`treatments.treatment_type` = query_item))
       }
 
@@ -23720,10 +23408,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$PhenotypicFeatures. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -24574,10 +24258,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$PredictionSets. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -24657,19 +24337,11 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `donors_sex`) {
-        # validate enum values
-        if (!(query_item %in% c("male", "female", "unspecified"))) {
-          stop("Invalid value for donors_sex when calling IgvfApi$PredictionSets. Must be [male, female, unspecified].")
-        }
         query_params[["donors.sex"]] <- c(query_params[["donors.sex"]], list(`donors.sex` = query_item))
       }
 
       # explore
       for (query_item in `donors_status`) {
-        # validate enum values
-        if (!(query_item %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
-          stop("Invalid value for donors_status when calling IgvfApi$PredictionSets. Must be [in progress, released, deleted, replaced, revoked, archived].")
-        }
         query_params[["donors.status"]] <- c(query_params[["donors.status"]], list(`donors.status` = query_item))
       }
 
@@ -24744,10 +24416,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `files_upload_status`) {
-        # validate enum values
-        if (!(query_item %in% c("pending", "file not found", "invalidated", "validated"))) {
-          stop("Invalid value for files_upload_status when calling IgvfApi$PredictionSets. Must be [pending, file not found, invalidated, validated].")
-        }
         query_params[["files.upload_status"]] <- c(query_params[["files.upload_status"]], list(`files.upload_status` = query_item))
       }
 
@@ -24897,10 +24565,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `samples_sample_terms_status`) {
-        # validate enum values
-        if (!(query_item %in% c("archived", "deleted", "in progress", "released"))) {
-          stop("Invalid value for samples_sample_terms_status when calling IgvfApi$PredictionSets. Must be [archived, deleted, in progress, released].")
-        }
         query_params[["samples.sample_terms.status"]] <- c(query_params[["samples.sample_terms.status"]], list(`samples.sample_terms.status` = query_item))
       }
 
@@ -24916,10 +24580,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `samples_status`) {
-        # validate enum values
-        if (!(query_item %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
-          stop("Invalid value for samples_status when calling IgvfApi$PredictionSets. Must be [in progress, released, deleted, replaced, revoked, archived].")
-        }
         query_params[["samples.status"]] <- c(query_params[["samples.status"]], list(`samples.status` = query_item))
       }
 
@@ -24940,10 +24600,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `samples_taxa`) {
-        # validate enum values
-        if (!(query_item %in% c("Homo sapiens", "Mus musculus"))) {
-          stop("Invalid value for samples_taxa when calling IgvfApi$PredictionSets. Must be [Homo sapiens, Mus musculus].")
-        }
         query_params[["samples.taxa"]] <- c(query_params[["samples.taxa"]], list(`samples.taxa` = query_item))
       }
 
@@ -25459,10 +25115,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$PrimaryCells. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -25567,10 +25219,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `file_sets_status`) {
-        # validate enum values
-        if (!(query_item %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
-          stop("Invalid value for file_sets_status when calling IgvfApi$PrimaryCells. Must be [in progress, released, deleted, replaced, revoked, archived].")
-        }
         query_params[["file_sets.status"]] <- c(query_params[["file_sets.status"]], list(`file_sets.status` = query_item))
       }
 
@@ -25621,10 +25269,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `modifications_status`) {
-        # validate enum values
-        if (!(query_item %in% c("archived", "deleted", "in progress", "released"))) {
-          stop("Invalid value for modifications_status when calling IgvfApi$PrimaryCells. Must be [archived, deleted, in progress, released].")
-        }
         query_params[["modifications.status"]] <- c(query_params[["modifications.status"]], list(`modifications.status` = query_item))
       }
 
@@ -25844,19 +25488,11 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `treatments_purpose`) {
-        # validate enum values
-        if (!(query_item %in% c("activation", "agonist", "antagonist", "control", "differentiation", "de-differentiation", "perturbation", "selection", "stimulation"))) {
-          stop("Invalid value for treatments_purpose when calling IgvfApi$PrimaryCells. Must be [activation, agonist, antagonist, control, differentiation, de-differentiation, perturbation, selection, stimulation].")
-        }
         query_params[["treatments.purpose"]] <- c(query_params[["treatments.purpose"]], list(`treatments.purpose` = query_item))
       }
 
       # explore
       for (query_item in `treatments_status`) {
-        # validate enum values
-        if (!(query_item %in% c("archived", "deleted", "in progress", "released"))) {
-          stop("Invalid value for treatments_status when calling IgvfApi$PrimaryCells. Must be [archived, deleted, in progress, released].")
-        }
         query_params[["treatments.status"]] <- c(query_params[["treatments.status"]], list(`treatments.status` = query_item))
       }
 
@@ -25867,10 +25503,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `treatments_treatment_type`) {
-        # validate enum values
-        if (!(query_item %in% c("chemical", "protein", "environmental"))) {
-          stop("Invalid value for treatments_treatment_type when calling IgvfApi$PrimaryCells. Must be [chemical, protein, environmental].")
-        }
         query_params[["treatments.treatment_type"]] <- c(query_params[["treatments.treatment_type"]], list(`treatments.treatment_type` = query_item))
       }
 
@@ -26156,10 +25788,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$Publications. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -26632,10 +26260,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$ReferenceFiles. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -27293,10 +26917,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$RodentDonors. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -27386,10 +27006,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `phenotypic_features_quantity_units`) {
-        # validate enum values
-        if (!(query_item %in% c("meter", "micromole", "nanogram", "microgram", "milligram", "gram", "kilogram", "milli-International Unit per milliliter", "picogram per milliliter", "nanogram per milliliter", "milligram per deciliter"))) {
-          stop("Invalid value for phenotypic_features_quantity_units when calling IgvfApi$RodentDonors. Must be [meter, micromole, nanogram, microgram, milligram, gram, kilogram, milli-International Unit per milliliter, picogram per milliliter, nanogram per milliliter, milligram per deciliter].")
-        }
         query_params[["phenotypic_features.quantity_units"]] <- c(query_params[["phenotypic_features.quantity_units"]], list(`phenotypic_features.quantity_units` = query_item))
       }
 
@@ -28518,10 +28134,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$SequenceFiles. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -29101,10 +28713,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$SignalFiles. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -29546,10 +29154,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$Software. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -29873,10 +29477,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$SoftwareVersions. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -30545,10 +30145,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$TabularFiles. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -31085,10 +30681,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$TechnicalSamples. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -31163,10 +30755,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `file_sets_status`) {
-        # validate enum values
-        if (!(query_item %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
-          stop("Invalid value for file_sets_status when calling IgvfApi$TechnicalSamples. Must be [in progress, released, deleted, replaced, revoked, archived].")
-        }
         query_params[["file_sets.status"]] <- c(query_params[["file_sets.status"]], list(`file_sets.status` = query_item))
       }
 
@@ -31817,10 +31405,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$Tissues. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -31930,10 +31514,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `file_sets_status`) {
-        # validate enum values
-        if (!(query_item %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
-          stop("Invalid value for file_sets_status when calling IgvfApi$Tissues. Must be [in progress, released, deleted, replaced, revoked, archived].")
-        }
         query_params[["file_sets.status"]] <- c(query_params[["file_sets.status"]], list(`file_sets.status` = query_item))
       }
 
@@ -31984,10 +31564,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `modifications_status`) {
-        # validate enum values
-        if (!(query_item %in% c("archived", "deleted", "in progress", "released"))) {
-          stop("Invalid value for modifications_status when calling IgvfApi$Tissues. Must be [archived, deleted, in progress, released].")
-        }
         query_params[["modifications.status"]] <- c(query_params[["modifications.status"]], list(`modifications.status` = query_item))
       }
 
@@ -32225,19 +31801,11 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `treatments_purpose`) {
-        # validate enum values
-        if (!(query_item %in% c("activation", "agonist", "antagonist", "control", "differentiation", "de-differentiation", "perturbation", "selection", "stimulation"))) {
-          stop("Invalid value for treatments_purpose when calling IgvfApi$Tissues. Must be [activation, agonist, antagonist, control, differentiation, de-differentiation, perturbation, selection, stimulation].")
-        }
         query_params[["treatments.purpose"]] <- c(query_params[["treatments.purpose"]], list(`treatments.purpose` = query_item))
       }
 
       # explore
       for (query_item in `treatments_status`) {
-        # validate enum values
-        if (!(query_item %in% c("archived", "deleted", "in progress", "released"))) {
-          stop("Invalid value for treatments_status when calling IgvfApi$Tissues. Must be [archived, deleted, in progress, released].")
-        }
         query_params[["treatments.status"]] <- c(query_params[["treatments.status"]], list(`treatments.status` = query_item))
       }
 
@@ -32248,10 +31816,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `treatments_treatment_type`) {
-        # validate enum values
-        if (!(query_item %in% c("chemical", "protein", "environmental"))) {
-          stop("Invalid value for treatments_treatment_type when calling IgvfApi$Tissues. Must be [chemical, protein, environmental].")
-        }
         query_params[["treatments.treatment_type"]] <- c(query_params[["treatments.treatment_type"]], list(`treatments.treatment_type` = query_item))
       }
 
@@ -32544,10 +32108,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$Treatments. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -33445,10 +33005,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$WholeOrganisms. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
@@ -33553,10 +33109,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `file_sets_status`) {
-        # validate enum values
-        if (!(query_item %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
-          stop("Invalid value for file_sets_status when calling IgvfApi$WholeOrganisms. Must be [in progress, released, deleted, replaced, revoked, archived].")
-        }
         query_params[["file_sets.status"]] <- c(query_params[["file_sets.status"]], list(`file_sets.status` = query_item))
       }
 
@@ -33607,10 +33159,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `modifications_status`) {
-        # validate enum values
-        if (!(query_item %in% c("archived", "deleted", "in progress", "released"))) {
-          stop("Invalid value for modifications_status when calling IgvfApi$WholeOrganisms. Must be [archived, deleted, in progress, released].")
-        }
         query_params[["modifications.status"]] <- c(query_params[["modifications.status"]], list(`modifications.status` = query_item))
       }
 
@@ -33825,19 +33373,11 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `treatments_purpose`) {
-        # validate enum values
-        if (!(query_item %in% c("activation", "agonist", "antagonist", "control", "differentiation", "de-differentiation", "perturbation", "selection", "stimulation"))) {
-          stop("Invalid value for treatments_purpose when calling IgvfApi$WholeOrganisms. Must be [activation, agonist, antagonist, control, differentiation, de-differentiation, perturbation, selection, stimulation].")
-        }
         query_params[["treatments.purpose"]] <- c(query_params[["treatments.purpose"]], list(`treatments.purpose` = query_item))
       }
 
       # explore
       for (query_item in `treatments_status`) {
-        # validate enum values
-        if (!(query_item %in% c("archived", "deleted", "in progress", "released"))) {
-          stop("Invalid value for treatments_status when calling IgvfApi$WholeOrganisms. Must be [archived, deleted, in progress, released].")
-        }
         query_params[["treatments.status"]] <- c(query_params[["treatments.status"]], list(`treatments.status` = query_item))
       }
 
@@ -33848,10 +33388,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `treatments_treatment_type`) {
-        # validate enum values
-        if (!(query_item %in% c("chemical", "protein", "environmental"))) {
-          stop("Invalid value for treatments_treatment_type when calling IgvfApi$WholeOrganisms. Must be [chemical, protein, environmental].")
-        }
         query_params[["treatments.treatment_type"]] <- c(query_params[["treatments.treatment_type"]], list(`treatments.treatment_type` = query_item))
       }
 
@@ -34130,10 +33666,6 @@ IgvfApi <- R6::R6Class(
 
       # explore
       for (query_item in `award_component`) {
-        # validate enum values
-        if (!(query_item %in% c("affiliate", "data analysis", "data coordination", "functional characterization", "mapping", "networks", "predictive modeling"))) {
-          stop("Invalid value for award_component when calling IgvfApi$Workflows. Must be [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling].")
-        }
         query_params[["award.component"]] <- c(query_params[["award.component"]], list(`award.component` = query_item))
       }
 
