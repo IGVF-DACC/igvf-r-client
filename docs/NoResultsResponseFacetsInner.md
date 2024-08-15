@@ -1,15 +1,15 @@
-# igvf_client::NoResultsResponseFacetsInner
+# igvfclient::NoResultsResponseFacetsInner
 
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**var_field** | **str** |  | [optional] 
-**title** | **str** |  | [optional] 
-**terms** | [**List[NoResultsResponseFacetsInnerTermsInner]**](NoResultsResponseFacetsInnerTermsInner.md) |  | [optional] 
-**total** | **int** |  | [optional] 
-**type** | **str** |  | [optional] 
-**appended** | **bool** |  | [optional] 
-**open_on_load** | **bool** |  | [optional] 
+**field** | **character** |  | [optional] 
+**title** | **character** |  | [optional] 
+**terms** | [**array[NoResultsResponseFacetsInnerTermsInner]**](NoResultsResponse_facets_inner_terms_inner.md) |  | [optional] 
+**total** | **integer** |  | [optional] 
+**type** | **character** |  | [optional] 
+**appended** | **character** |  | [optional] 
+**open_on_load** | **character** |  | [optional] 
 
 

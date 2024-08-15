@@ -1,4 +1,4 @@
-# igvf_client::MultiplexedSample
+# igvfclient::MultiplexedSample
 
 
 ## Properties

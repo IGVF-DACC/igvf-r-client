@@ -1,4 +1,4 @@
-# igvf_client::Limit
+# igvfclient::Limit
 
 
 ## Properties

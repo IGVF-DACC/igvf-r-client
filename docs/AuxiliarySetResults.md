@@ -1,13 +1,13 @@
-# igvf_client::AuxiliarySetResults
+# igvfclient::AuxiliarySetResults
 
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**graph** | [**List[AuxiliarySet]**](AuxiliarySet.md) |  | [optional] 
-**id** | **str** |  | [optional] 
-**type** | **List[str]** |  | [optional] 
-**total** | **int** |  | [optional] 
-**facets** | [**List[SearchFacet]**](SearchFacet.md) |  | [optional] 
+**@graph** | [**array[AuxiliarySet]**](AuxiliarySet.md) |  | [optional] 
+**@id** | **character** |  | [optional] 
+**@type** | **array[character]** |  | [optional] 
+**total** | **integer** |  | [optional] 
+**facets** | [**array[SearchFacet]**](SearchFacet.md) |  | [optional] 
 
 

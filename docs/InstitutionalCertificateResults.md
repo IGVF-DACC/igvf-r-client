@@ -1,13 +1,13 @@
-# igvf_client::InstitutionalCertificateResults
+# igvfclient::InstitutionalCertificateResults
 
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**graph** | [**List[InstitutionalCertificate]**](InstitutionalCertificate.md) |  | [optional] 
-**id** | **str** |  | [optional] 
-**type** | **List[str]** |  | [optional] 
-**total** | **int** |  | [optional] 
-**facets** | [**List[SearchFacet]**](SearchFacet.md) |  | [optional] 
+**@graph** | [**array[InstitutionalCertificate]**](InstitutionalCertificate.md) |  | [optional] 
+**@id** | **character** |  | [optional] 
+**@type** | **array[character]** |  | [optional] 
+**total** | **integer** |  | [optional] 
+**facets** | [**array[SearchFacet]**](SearchFacet.md) |  | [optional] 
 
 

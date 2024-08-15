@@ -1,4 +1,4 @@
-# igvf_client::ModelSet
+# igvfclient::ModelSet
 
 
 ## Properties

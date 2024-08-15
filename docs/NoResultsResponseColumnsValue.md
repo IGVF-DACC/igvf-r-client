@@ -1,9 +1,9 @@
-# igvf_client::NoResultsResponseColumnsValue
+# igvfclient::NoResultsResponseColumnsValue
 
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**title** | **str** |  | [optional] 
+**title** | **character** |  | [optional] 
 
 

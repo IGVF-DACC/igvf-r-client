@@ -1,12 +1,12 @@
-# igvf_client::Locus
+# igvfclient::Locus
 
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**assembly** | **str** | The genome assembly to which coordinates relate (e.g., GRCh38). | [Enum: [GRCh38, GRCm39]] 
-**chromosome** | **str** | The number (or letter) designation for the chromosome, e.g. chr1 or chrX | [Pattern: /^(chr[0-9A-Za-z_]+)$/] 
-**start** | **int** | The 1-based, closed (inclusive) starting coordinate. | [Min: 1] 
-**end** | **int** | The 1-based, closed (inclusive) ending coordinate. | [Min: 1] 
+**start** | **integer** | The 1-based, closed (inclusive) starting coordinate. | [Min: 1] 
+**end** | **integer** | The 1-based, closed (inclusive) ending coordinate. | [Min: 1] 
+**chromosome** | **character** | The number (or letter) designation for the chromosome, e.g. chr1 or chrX | [Pattern: ^(chr[0-9A-Za-z_]+)$] 
+**assembly** | **character** | The genome assembly to which coordinates relate (e.g., GRCh38). | [Enum: [GRCh38, GRCm39]] 
 
 

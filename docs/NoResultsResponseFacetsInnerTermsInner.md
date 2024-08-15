@@ -1,10 +1,10 @@
-# igvf_client::NoResultsResponseFacetsInnerTermsInner
+# igvfclient::NoResultsResponseFacetsInnerTermsInner
 
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**key** | **str** |  | [optional] 
-**doc_count** | **int** |  | [optional] 
+**key** | **character** |  | [optional] 
+**doc_count** | **integer** |  | [optional] 
 
 

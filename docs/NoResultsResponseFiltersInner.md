@@ -1,11 +1,11 @@
-# igvf_client::NoResultsResponseFiltersInner
+# igvfclient::NoResultsResponseFiltersInner
 
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**var_field** | **str** |  | [optional] 
-**term** | **str** |  | [optional] 
-**remove** | **str** |  | [optional] 
+**field** | **character** |  | [optional] 
+**term** | **character** |  | [optional] 
+**remove** | **character** |  | [optional] 
 
 
