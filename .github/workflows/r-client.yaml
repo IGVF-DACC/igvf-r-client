@@ -25,5 +25,5 @@ jobs:
       - name: Run tests
         run: |
           library(igvfclient)
-          source("tests/test-endpoints.R")
+          source("tests/test_endpoints.R")
         shell: Rscript {0}
