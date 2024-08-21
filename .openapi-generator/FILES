@@ -1,5 +1,4 @@
 .Rbuildignore
-.github/workflows/r-client.yaml
 .gitignore
 .lintr
 .travis.yml
@@ -261,4 +260,3 @@ docs/WholeOrganismResults.md
 docs/Workflow.md
 docs/WorkflowResults.md
 git_push.sh
-tests/testthat.R
