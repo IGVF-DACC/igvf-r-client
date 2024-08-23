@@ -58,22 +58,22 @@ library("igvfclient")
 # Instantiate new API instance
 api <- IgvfApi$new()
 
-# Search for `Software` that matches query `abc`. 
+# Search for Software that matches query "abc".
 r <- api$Search(query="abc", frame="object", type=list("Software"))
 
 # Print total number of results and list of results in `@graph`.
 print(r$total)
 print(r$`@graph`)
 
-# Pull first item, unwrap to underlying `Software` object with `actual_instance`.
+# Pull first item, unwrap to underlying Software item with `actual_instance`.
 software_item <- r$`@graph`[[1]]$actual_instance
 
-# Print `Software` item and specific fields.
+# Print Software item and specific fields.
 print(software_item)
 print(software_item$`@id`)
 print(software_item$description)
 
-# Get the `Lab` item based on the `lab` `@id` in the Software item.
+# Get the Lab item based on the lab @id in the Software item.
 lab <- api$GetById(software_item$lab, frame="object")
 
 # Print lab and specific field.
