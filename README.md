@@ -22,8 +22,17 @@ install.packages("httr")
 install.packages("base64enc")
 ```
 
-### Build the package
+### Install the package
 
+
+To install directly from Github, use `remotes`:
+```R
+install.packages("remotes")
+library(remotes)
+install_github("IGVF-DACC/igvf-r-client@v46.1.2")
+```
+
+Or clone the repo and build:
 ```sh
 git clone https://github.com/IGVF-DACC/igvf-r-client
 cd igvf-r-client
@@ -32,40 +41,29 @@ R CMD check igvfclient_46.1.2.tar.gz --no-manual
 R CMD INSTALL --preclean igvfclient_46.1.2.tar.gz
 ```
 
-### Install the package
-
-```R
-install.packages("igvfclient")
-```
-
-To install directly from Github, use `devtools`:
-```R
-install.packages("devtools")
-library(devtools)
-install_github("IGVF-DACC/igvf-r-client")
-```
-
 To install the package from a local file:
 ```R
 install.packages("igvfclient_46.1.2.tar.gz", repos = NULL, type = "source")
 ```
 
-### Usage
+### Examples
 
 ```R
-library(igvfclient)
+library("igvfclient")
+api <- IgvfApi$new()
+r <- api$Search(query="abc", frame="object", type=list("Software"))
+print(r$total)
+print(r$`@graph`)
+software_item <- r$`@graph`[[1]]$actual_instance
+print(software_item)
+print(software_item$`@id`)
+print(software_item$description)
+lab <- api$GetById(software_item$lab, frame="object")
+print(lab)
+print(lab$title)
 ```
 
-### Reformat code
-
-To reformat code using [styler](https://styler.r-lib.org/index.html), please run the following in the R console:
-
-```R
-install.packages("remotes")
-remotes::install_github("r-lib/styler@v1.7.0.9003")
-library("styler")
-style_dir()
-```
+See other examples in [Jupyter notebook](examples.ipynb) (tests)[https://github.com/IGVF-DACC/igvf-r-client/blob/main/tests/test_endpoints.R].
 
 ## Documentation for API Endpoints
 
