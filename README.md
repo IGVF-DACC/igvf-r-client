@@ -55,7 +55,7 @@ library("igvfclient")
 api <- IgvfApi$new()
 
 # Search for Software that matches query "abc".
-r <- api$Search(query="abc", frame="object", type=list("Software"))
+r <- api$Search(query="abc", type=list("Software"))
 
 # Print total number of results and list of results in `@graph`.
 print(r$total)
@@ -70,7 +70,7 @@ print(software_item$`@id`)
 print(software_item$description)
 
 # Get the Lab item based on the lab @id in the Software item.
-lab <- api$GetById(software_item$lab, frame="object")
+lab <- api$GetById(software_item$lab)
 
 # Print lab and specific field.
 print(lab)
