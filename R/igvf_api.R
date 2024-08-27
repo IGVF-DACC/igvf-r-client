@@ -8048,9 +8048,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -8072,10 +8069,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$AccessKeys. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -8360,9 +8354,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -8418,10 +8409,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$AlignmentFiles. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -8954,9 +8942,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -9041,10 +9026,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$AnalysisSets. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -9600,9 +9582,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -9630,10 +9609,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$AnalysisStepVersions. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -9904,9 +9880,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -9940,10 +9913,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$AnalysisSteps. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -10244,9 +10214,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -10278,10 +10245,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$AssayTerms. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -10676,9 +10640,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -10762,10 +10723,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$AuxiliarySets. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -11318,9 +11276,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -11349,10 +11304,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$Awards. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -11760,9 +11712,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -11794,10 +11743,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$Biomarkers. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -12126,9 +12072,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -12177,10 +12120,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$ConfigurationFiles. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -12698,9 +12638,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -12799,10 +12736,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$ConstructLibrarySets. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -13462,9 +13396,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -13501,10 +13432,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$CrisprModifications. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -13934,9 +13862,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -14019,10 +13944,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$CuratedSets. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -14586,9 +14508,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -14623,10 +14542,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$DegronModifications. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -14926,9 +14842,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -14955,10 +14868,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$Documents. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -15335,9 +15245,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -15368,10 +15275,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$Genes. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -15699,9 +15603,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -15752,10 +15653,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$GenomeBrowserAnnotationFiles. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -16113,16 +16011,10 @@ IgvfApi <- R6::R6Class(
         stop("Missing required parameter `resource_id`.")
       }
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$GetById. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       local_var_url_path <- "/{resource_id}"
       if (!missing(`resource_id`)) {
@@ -16310,9 +16202,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -16358,10 +16247,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$HumanDonors. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -16766,9 +16652,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -16816,10 +16699,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$ImageFiles. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -17180,9 +17060,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -17205,10 +17082,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$Images. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -17598,9 +17472,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -17706,10 +17577,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$InVitroSystems. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -18402,9 +18270,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -18434,10 +18299,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$InstitutionalCertificates. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -18712,9 +18574,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -18741,10 +18600,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$Labs. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -19046,9 +18902,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -19100,10 +18953,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$MatrixFiles. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -19676,9 +19526,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -19793,10 +19640,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$MeasurementSets. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -20554,9 +20398,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -20606,10 +20447,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$ModelFiles. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -21112,9 +20950,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -21203,10 +21038,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$ModelSets. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -21906,9 +21738,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -21996,10 +21825,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$MultiplexedSamples. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -22578,9 +22404,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -22610,10 +22433,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$OpenReadingFrames. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -22878,9 +22698,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -22906,10 +22723,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$Pages. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -23158,9 +22972,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -23188,10 +22999,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$PhenotypeTerms. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -23454,9 +23262,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -23486,10 +23291,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$PhenotypicFeatures. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -23766,9 +23568,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -23798,10 +23597,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$PlatformTerms. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -24216,9 +24012,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -24315,10 +24108,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$PredictionSets. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -25068,9 +24858,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -25163,10 +24950,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$PrimaryCells. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -25806,9 +25590,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -25850,10 +25631,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$Publications. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -26244,9 +26022,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -26303,10 +26078,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$ReferenceFiles. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -26732,10 +26504,7 @@ IgvfApi <- R6::R6Class(
         query_params[["field"]] <- c(query_params[["field"]], list(`field` = query_item))
       }
 
-      if (!(`frame` %in% c("object", "embedded"))) {
-        stop("Invalid value for frame when calling IgvfApi$Report. Must be [object, embedded].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       local_var_url_path <- "/multireport.tsv"
       # HTTP basic auth
@@ -26927,9 +26696,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -26979,10 +26745,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$RodentDonors. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -27377,9 +27140,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -27412,10 +27172,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$SampleTerms. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -27870,9 +27627,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -27900,10 +27654,7 @@ IgvfApi <- R6::R6Class(
           query_params[[k]] <- v
       }
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$Search. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       local_var_url_path <- "/search"
       # HTTP basic auth
@@ -28121,9 +27872,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -28186,10 +27934,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$SequenceFiles. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -28703,9 +28448,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -28761,10 +28503,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$SignalFiles. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -29193,9 +28932,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -29226,10 +28962,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$Software. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -29515,9 +29248,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -29549,10 +29279,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$SoftwareVersions. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -29821,9 +29548,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -29846,10 +29570,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$Sources. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -30133,9 +29854,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -30188,10 +29906,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$TabularFiles. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -30675,9 +30390,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -30743,10 +30455,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$TechnicalSamples. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -31355,9 +31064,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -31453,10 +31159,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$Tissues. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -32121,9 +31824,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -32166,10 +31866,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$Treatments. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -32527,9 +32224,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -32557,10 +32251,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$Users. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -32959,9 +32650,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -33053,10 +32741,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$WholeOrganisms. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 
@@ -33683,9 +33368,6 @@ IgvfApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`frame`)) {
-        stop("Missing required parameter `frame`.")
-      }
 
 
 
@@ -33723,10 +33405,7 @@ IgvfApi <- R6::R6Class(
 
       query_params[["query"]] <- `query`
 
-      if (!(`frame` %in% c("object"))) {
-        stop("Invalid value for frame when calling IgvfApi$Workflows. Must be [object].")
-      }
-      query_params[["frame"]] <- `frame`
+      query_params[["frame"]] <- "object"
 
       query_params[["limit"]] <- `limit`
 

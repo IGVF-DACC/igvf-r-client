@@ -269,6 +269,9 @@
       is_oauth <- FALSE
 
       {{#requiredParams}}
+      {{#isEnum}}
+      {{/isEnum}}
+      {{^isEnum}}
       if (missing(`{{paramName}}`)) {
       {{#useDefaultExceptionHandling}}
         stop("Missing required parameter `{{{paramName}}}`.")
@@ -280,6 +283,7 @@
                                                      reason = "Missing required parameter `{{{paramName}}}`."))
       {{/useRlangExceptionHandling}}
       }
+      {{/isEnum}}
 
       {{/requiredParams}}
       {{#allParams}}
@@ -489,17 +493,6 @@
       {{/isArray}}
       {{^isArray}}
       {{#isEnum}}
-      if (!(`{{paramName}}` %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
-        {{#useDefaultExceptionHandling}}
-        stop("Invalid value for {{{paramName}}} when calling {{classname}}${{operationId}}. Must be {{_enum}}.")
-        {{/useDefaultExceptionHandling}}
-        {{#useRlangExceptionHandling}}
-        rlang::abort(message = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}. Must be {{_enum}}.",
-                     .subclass = "ApiException",
-                     ApiException = ApiException$new(status = 0,
-                                                     reason = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}. Must be {{_enum}}."))
-        {{/useRlangExceptionHandling}}
-      }
       {{/isEnum}}
       {{#isFreeFormObject}}
       for (i in seq_along(`{{paramName}}`)) {
@@ -509,7 +502,12 @@
       }
       {{/isFreeFormObject}}
       {{^isFreeFormObject}}
+      {{#isEnum}}
+      query_params[["{{baseName}}"]] <- "object"
+      {{/isEnum}}
+      {{^isEnum}}
       query_params[["{{baseName}}"]] <- `{{paramName}}`
+      {{/isEnum}}
       {{/isFreeFormObject}}
       {{/isArray}}
 
