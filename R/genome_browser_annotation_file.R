@@ -7,6 +7,7 @@
 #' @title GenomeBrowserAnnotationFile
 #' @description GenomeBrowserAnnotationFile Class
 #' @format An \code{R6Class} generator object
+#' @field cell_type_annotation The inferred cell type this file is associated with based on single-cell expression profiling. character [optional]
 #' @field assembly Genome assembly applicable for the annotation data. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field file_format_type The subtype of bed files. character [optional]
@@ -56,6 +57,7 @@
 GenomeBrowserAnnotationFile <- R6::R6Class(
   "GenomeBrowserAnnotationFile",
   public = list(
+    `cell_type_annotation` = NULL,
     `assembly` = NULL,
     `release_timestamp` = NULL,
     `file_format_type` = NULL,
@@ -104,6 +106,7 @@ GenomeBrowserAnnotationFile <- R6::R6Class(
     #' @description
     #' Initialize a new GenomeBrowserAnnotationFile class.
     #'
+    #' @param cell_type_annotation The inferred cell type this file is associated with based on single-cell expression profiling.
     #' @param assembly Genome assembly applicable for the annotation data.
     #' @param release_timestamp The date the object was released.
     #' @param file_format_type The subtype of bed files.
@@ -149,7 +152,13 @@ GenomeBrowserAnnotationFile <- R6::R6Class(
     #' @param upload_credentials The upload credentials for S3 to submit the file content.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
+    initialize = function(`cell_type_annotation` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
+      if (!is.null(`cell_type_annotation`)) {
+        if (!(is.character(`cell_type_annotation`) && length(`cell_type_annotation`) == 1)) {
+          stop(paste("Error! Invalid data for `cell_type_annotation`. Must be a string:", `cell_type_annotation`))
+        }
+        self$`cell_type_annotation` <- `cell_type_annotation`
+      }
       if (!is.null(`assembly`)) {
         if (!(`assembly` %in% c("GRCh38", "GRCm39"))) {
           stop(paste("Error! \"", `assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"GRCm39\".", sep = ""))
@@ -421,6 +430,10 @@ GenomeBrowserAnnotationFile <- R6::R6Class(
     #' @export
     toJSON = function() {
       GenomeBrowserAnnotationFileObject <- list()
+      if (!is.null(self$`cell_type_annotation`)) {
+        GenomeBrowserAnnotationFileObject[["cell_type_annotation"]] <-
+          self$`cell_type_annotation`
+      }
       if (!is.null(self$`assembly`)) {
         GenomeBrowserAnnotationFileObject[["assembly"]] <-
           self$`assembly`
@@ -605,6 +618,9 @@ GenomeBrowserAnnotationFile <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`cell_type_annotation`)) {
+        self$`cell_type_annotation` <- this_object$`cell_type_annotation`
+      }
       if (!is.null(this_object$`assembly`)) {
         if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "GRCm39"))) {
           stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"GRCm39\".", sep = ""))
@@ -763,6 +779,14 @@ GenomeBrowserAnnotationFile <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`cell_type_annotation`)) {
+          sprintf(
+          '"cell_type_annotation":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`cell_type_annotation`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`assembly`)) {
           sprintf(
           '"assembly":
@@ -1121,6 +1145,7 @@ GenomeBrowserAnnotationFile <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`cell_type_annotation` <- this_object$`cell_type_annotation`
       if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "GRCm39"))) {
         stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"GRCm39\".", sep = ""))
       }

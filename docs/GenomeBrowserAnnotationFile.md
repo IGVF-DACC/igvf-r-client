@@ -5,6 +5,7 @@ A binary file containing genome annotations which are indexed and can be visuali
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**cell_type_annotation** | **character** | The inferred cell type this file is associated with based on single-cell expression profiling. | [optional] 
 **assembly** | **character** | Genome assembly applicable for the annotation data. | [optional] [Enum: [GRCh38, GRCm39]] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **file_format_type** | **character** | The subtype of bed files. | [optional] [Enum: [bed12, bed3, bed3+, bed5, bed6, bed6+, bed9, bed9+, mpra_starr]] 

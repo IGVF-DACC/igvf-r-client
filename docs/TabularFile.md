@@ -5,6 +5,7 @@ A file containing textual data with a tabular structure.
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**cell_type_annotation** | **character** | The inferred cell type this file is associated with based on single-cell expression profiling. | [optional] 
 **controlled_access** | **character** | Boolean value, indicating the file being controlled access, if true. | [optional] 
 **anvil_url** | **character** | URL linking to the controlled access file that has been deposited at AnVIL workspace. | [optional] 
 **assembly** | **character** | Genome assembly applicable for the tabular data. | [optional] [Enum: [GRCh38, GRCm39]] 

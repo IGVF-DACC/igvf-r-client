@@ -7,6 +7,7 @@
 #' @title TabularFile
 #' @description TabularFile Class
 #' @format An \code{R6Class} generator object
+#' @field cell_type_annotation The inferred cell type this file is associated with based on single-cell expression profiling. character [optional]
 #' @field controlled_access Boolean value, indicating the file being controlled access, if true. character [optional]
 #' @field anvil_url URL linking to the controlled access file that has been deposited at AnVIL workspace. character [optional]
 #' @field assembly Genome assembly applicable for the tabular data. character [optional]
@@ -58,6 +59,7 @@
 TabularFile <- R6::R6Class(
   "TabularFile",
   public = list(
+    `cell_type_annotation` = NULL,
     `controlled_access` = NULL,
     `anvil_url` = NULL,
     `assembly` = NULL,
@@ -108,6 +110,7 @@ TabularFile <- R6::R6Class(
     #' @description
     #' Initialize a new TabularFile class.
     #'
+    #' @param cell_type_annotation The inferred cell type this file is associated with based on single-cell expression profiling.
     #' @param controlled_access Boolean value, indicating the file being controlled access, if true.
     #' @param anvil_url URL linking to the controlled access file that has been deposited at AnVIL workspace.
     #' @param assembly Genome assembly applicable for the tabular data.
@@ -155,7 +158,13 @@ TabularFile <- R6::R6Class(
     #' @param upload_credentials The upload credentials for S3 to submit the file content.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`controlled_access` = NULL, `anvil_url` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
+    initialize = function(`cell_type_annotation` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
+      if (!is.null(`cell_type_annotation`)) {
+        if (!(is.character(`cell_type_annotation`) && length(`cell_type_annotation`) == 1)) {
+          stop(paste("Error! Invalid data for `cell_type_annotation`. Must be a string:", `cell_type_annotation`))
+        }
+        self$`cell_type_annotation` <- `cell_type_annotation`
+      }
       if (!is.null(`controlled_access`)) {
         if (!(is.logical(`controlled_access`) && length(`controlled_access`) == 1)) {
           stop(paste("Error! Invalid data for `controlled_access`. Must be a boolean:", `controlled_access`))
@@ -439,6 +448,10 @@ TabularFile <- R6::R6Class(
     #' @export
     toJSON = function() {
       TabularFileObject <- list()
+      if (!is.null(self$`cell_type_annotation`)) {
+        TabularFileObject[["cell_type_annotation"]] <-
+          self$`cell_type_annotation`
+      }
       if (!is.null(self$`controlled_access`)) {
         TabularFileObject[["controlled_access"]] <-
           self$`controlled_access`
@@ -631,6 +644,9 @@ TabularFile <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`cell_type_annotation`)) {
+        self$`cell_type_annotation` <- this_object$`cell_type_annotation`
+      }
       if (!is.null(this_object$`controlled_access`)) {
         self$`controlled_access` <- this_object$`controlled_access`
       }
@@ -795,6 +811,14 @@ TabularFile <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`cell_type_annotation`)) {
+          sprintf(
+          '"cell_type_annotation":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`cell_type_annotation`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`controlled_access`)) {
           sprintf(
           '"controlled_access":
@@ -1169,6 +1193,7 @@ TabularFile <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`cell_type_annotation` <- this_object$`cell_type_annotation`
       self$`controlled_access` <- this_object$`controlled_access`
       self$`anvil_url` <- this_object$`anvil_url`
       if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "GRCm39"))) {
