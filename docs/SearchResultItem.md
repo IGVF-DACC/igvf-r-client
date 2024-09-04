@@ -124,6 +124,7 @@ Name | Type | Description | Notes
 **normalized** | **character** | Indicates if the signal file is normalized. | [optional] 
 **start_view_position** | **character** | The 0-based coordinate for the default starting position when viewing the signal in a genome browser. | [optional] [Pattern: ^(chr(X|Y|M|[1-9]|1[0-9]|2[0-2]):[0-9]+)$] 
 **input_file_sets** | **set[character]** | The file set(s) required for this prediction set. | [optional] 
+**control_type** | **character** | The type of control this file set represents. | [optional] 
 **samples** | **set[character]** | The samples associated with this publication. | 
 **donors** | **set[character]** | Donor(s) the sample was derived from. | 
 **file_set_type** | **character** | The category that best describes this prediction set. | [Enum: [pathogenicity, functional effect, protein stability, activity level, binding effect]] 
@@ -159,7 +160,7 @@ Name | Type | Description | Notes
 **transcriptome_annotations** | **set[character]** | The annotation versions of the reference resource. | [optional] 
 **assay_term** | **character** | The assay used to produce data in this measurement set. | [optional] 
 **protocols** | **set[character]** | Links to the protocol(s) for preparing the samples on Protocols.io. | [optional] 
-**preferred_assay_title** | **character** | The custom lab preferred label for the experiment performed in this measurement set. | [optional] [Enum: [10x multiome, 10x multiome with MULTI-seq, AAV-MPRA, ATAC-seq, CERES-seq, Cell painting, CRISPR FlowFISH, DOGMA-seq, Histone ChIP-seq, Hi-C, HT-recruit, lentiMPRA, MERFISH, MIAA, mN2H, MPRA, MPRA (scQer), MULTI-seq, Parse SPLiT-seq, Perturb-seq, RNA-seq, SGE, scATAC-seq, scNT-seq, scNT-seq2, scRNA-seq, semi-qY2H, SHARE-seq, smFISH, snATAC-seq, snmC-Seq2, snMCT-seq, snM3C-seq, snRNA-seq, Spatial transcriptomics, SUPERSTARR, TAP-seq, TF ChIP-seq, VAMP-seq, Variant FlowFISH, Variant painting, Y2H, yN2H]] 
+**preferred_assay_title** | **character** | The custom lab preferred label for the experiment performed in this measurement set. | [optional] [Enum: [RNA-seq, scRNA-seq, snRNA-seq, scNT-seq, scNT-seq2, Parse SPLiT-seq, ATAC-seq, scATAC-seq, snATAC-seq, DOGMA-seq, 10x multiome, 10x multiome with MULTI-seq, MULTI-seq, SHARE-seq, Histone ChIP-seq, TF ChIP-seq, MPRA, MPRA (scQer), AAV-MPRA, lentiMPRA, SUPERSTARR, Cell painting, Variant painting, smFISH, MERFISH, Proliferation CRISPR screen, Growth CRISPR screen, Migration CRISPR screen, CRISPR FlowFISH screen, CRISPR FACS screen, CRISPR mCherry screen, HCR-FlowFISH screen, Perturb-seq, CERES-seq, TAP-seq, Variant FlowFISH, SGE, MIAA, snmC-Seq2, snMCT-seq, snM3C-seq, mN2H, semi-qY2H, Y2H, yN2H, VAMP-seq, Hi-C, Spatial transcriptomics, HT-recruit]] 
 **multiome_size** | **integer** | The number of datasets included in the multiome experiment this measurement set is a part of. | [optional] [Min: 2] 
 **control_file_sets** | **set[character]** | File sets that can serve as scientific controls for this measurement_set. | [optional] 
 **sequencing_library_types** | **set[character]** | Description of the libraries sequenced in this measurement set. | [optional] [Enum: ] 
@@ -208,7 +209,7 @@ Name | Type | Description | Notes
 **assay_slims** | **set[character]** | A broad categorization of the assay term. | [optional] 
 **category_slims** | **set[character]** | The type of feature or interaction measured by the assay. | [optional] 
 **objective_slims** | **set[character]** | The purpose of the assay. | [optional] 
-**company** | **character** | The company that developed and sells the instrument. | [optional] [Enum: [10X Genomics, Illumina, Life Technologies, Oxford Nanopore Technologies, Pacific Biosciences, Parse Biosciences, Roche]] 
+**company** | **character** | The company that developed and sells the instrument. | [optional] [Enum: [10X Genomics, Illumina, Life Technologies, Oxford Nanopore Technologies, Pacific Biosciences, Parse Biosciences, Roche, Singular Genomics]] 
 **sequencing_kits** | **set[character]** | The available sequencing kits for this platform. | [optional] [Enum: ] 
 **organ_slims** | **set[character]** | Organs associated with the sample term. | [optional] 
 **cell_slims** | **set[character]** | Cells associated with the sample term. | [optional] 
@@ -226,6 +227,7 @@ Name | Type | Description | Notes
 **feature** | **character** | The phenotypic feature observed for the donor. | [optional] 
 **quantity** | **numeric** | A quantity associated with the phenotypic feature, if applicable. | [optional] 
 **quantity_units** | **character** | The unit of measurement for a quantity associated with the phenotypic feature. | [optional] [Enum: [meter, micromole, nanogram, microgram, milligram, gram, kilogram, milli-International Unit per milliliter, picogram per milliliter, nanogram per milliliter, milligram per deciliter]] 
+**quality** | **character** | A quality assessment associated with the phenotypic feature, such as a categorical description. | [optional] [Enum: [none, sparse, moderate, frequent, unknown, I, II, III, IV, V, VI, 2/2, 2/3, 2/4, 3/3, 3/4, 4/4]] 
 **observation_date** | **character** | The date the feature was observed or measured. | [optional] 
 **abstract** | **character** | Abstract of the publication or communication. | [optional] 
 **authors** | **character** | The authors of the publication. | [optional] 

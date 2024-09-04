@@ -33,6 +33,7 @@
 #' @field submitter_comment Additional information specified by the submitter to be displayed as a comment on the portal. character [optional]
 #' @field description A plain text description of the object. character [optional]
 #' @field file_set_type The type or category of this construct library set. character [optional]
+#' @field control_type The type of control this file set represents. character [optional]
 #' @field scope The scope or scale that this construct library is designed to target. If the scope is across gene(s) or loci, these will need to be specified in the genes or loci property. If exon is specified, an exon identifier and the associated gene will need to be listed in exon and genes properties. If tile is specified, a tile identifier, start and stop coordinates, and the associated gene will need to be listed in tile and small_scale_gene_list or large_scale_gene_list properties. character [optional]
 #' @field selection_criteria The criteria used to select the sequence material cloned into the library. list(character) [optional]
 #' @field integrated_content_files The files containing sequence material of interest either used for insert design or directly cloned into vectors in this library. list(character) [optional]
@@ -92,6 +93,7 @@ ConstructLibrarySet <- R6::R6Class(
     `submitter_comment` = NULL,
     `description` = NULL,
     `file_set_type` = NULL,
+    `control_type` = NULL,
     `scope` = NULL,
     `selection_criteria` = NULL,
     `integrated_content_files` = NULL,
@@ -116,7 +118,7 @@ ConstructLibrarySet <- R6::R6Class(
     `submitted_files_timestamp` = NULL,
     `input_file_set_for` = NULL,
     `applied_to_samples` = NULL,
-    `_field_list` = c("small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "sources", "lot_id", "product_id", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "file_set_type", "scope", "selection_criteria", "integrated_content_files", "associated_phenotypes", "orf_list", "exon", "tile", "guide_type", "tiling_modality", "average_guide_coverage", "lower_bound_guide_coverage", "upper_bound_guide_coverage", "average_insert_size", "lower_bound_insert_size", "upper_bound_insert_size", "targeton", "@id", "@type", "summary", "files", "control_for", "submitted_files_timestamp", "input_file_set_for", "applied_to_samples"),
+    `_field_list` = c("small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "sources", "lot_id", "product_id", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "file_set_type", "control_type", "scope", "selection_criteria", "integrated_content_files", "associated_phenotypes", "orf_list", "exon", "tile", "guide_type", "tiling_modality", "average_guide_coverage", "lower_bound_guide_coverage", "upper_bound_guide_coverage", "average_insert_size", "lower_bound_insert_size", "upper_bound_insert_size", "targeton", "@id", "@type", "summary", "files", "control_for", "submitted_files_timestamp", "input_file_set_for", "applied_to_samples"),
     `additional_properties` = list(),
     #' Initialize a new ConstructLibrarySet class.
     #'
@@ -149,6 +151,7 @@ ConstructLibrarySet <- R6::R6Class(
     #' @param submitter_comment Additional information specified by the submitter to be displayed as a comment on the portal.
     #' @param description A plain text description of the object.
     #' @param file_set_type The type or category of this construct library set.
+    #' @param control_type The type of control this file set represents.
     #' @param scope The scope or scale that this construct library is designed to target. If the scope is across gene(s) or loci, these will need to be specified in the genes or loci property. If exon is specified, an exon identifier and the associated gene will need to be listed in exon and genes properties. If tile is specified, a tile identifier, start and stop coordinates, and the associated gene will need to be listed in tile and small_scale_gene_list or large_scale_gene_list properties.
     #' @param selection_criteria The criteria used to select the sequence material cloned into the library.
     #' @param integrated_content_files The files containing sequence material of interest either used for insert design or directly cloned into vectors in this library.
@@ -176,7 +179,7 @@ ConstructLibrarySet <- R6::R6Class(
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `file_set_type` = NULL, `scope` = NULL, `selection_criteria` = NULL, `integrated_content_files` = NULL, `associated_phenotypes` = NULL, `orf_list` = NULL, `exon` = NULL, `tile` = NULL, `guide_type` = NULL, `tiling_modality` = NULL, `average_guide_coverage` = NULL, `lower_bound_guide_coverage` = NULL, `upper_bound_guide_coverage` = NULL, `average_insert_size` = NULL, `lower_bound_insert_size` = NULL, `upper_bound_insert_size` = NULL, `targeton` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_file_set_for` = NULL, `applied_to_samples` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `file_set_type` = NULL, `control_type` = NULL, `scope` = NULL, `selection_criteria` = NULL, `integrated_content_files` = NULL, `associated_phenotypes` = NULL, `orf_list` = NULL, `exon` = NULL, `tile` = NULL, `guide_type` = NULL, `tiling_modality` = NULL, `average_guide_coverage` = NULL, `lower_bound_guide_coverage` = NULL, `upper_bound_guide_coverage` = NULL, `average_insert_size` = NULL, `lower_bound_insert_size` = NULL, `upper_bound_insert_size` = NULL, `targeton` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_file_set_for` = NULL, `applied_to_samples` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`small_scale_loci_list`)) {
         stopifnot(is.vector(`small_scale_loci_list`), length(`small_scale_loci_list`) != 0)
         sapply(`small_scale_loci_list`, function(x) stopifnot(R6::is.R6(x)))
@@ -330,6 +333,12 @@ ConstructLibrarySet <- R6::R6Class(
           stop(paste("Error! Invalid data for `file_set_type`. Must be a string:", `file_set_type`))
         }
         self$`file_set_type` <- `file_set_type`
+      }
+      if (!is.null(`control_type`)) {
+        if (!(is.character(`control_type`) && length(`control_type`) == 1)) {
+          stop(paste("Error! Invalid data for `control_type`. Must be a string:", `control_type`))
+        }
+        self$`control_type` <- `control_type`
       }
       if (!is.null(`scope`)) {
         if (!(`scope` %in% c("tile", "exon", "genes", "loci", "genome-wide", "interactors", "alleles", "targeton"))) {
@@ -586,6 +595,10 @@ ConstructLibrarySet <- R6::R6Class(
         ConstructLibrarySetObject[["file_set_type"]] <-
           self$`file_set_type`
       }
+      if (!is.null(self$`control_type`)) {
+        ConstructLibrarySetObject[["control_type"]] <-
+          self$`control_type`
+      }
       if (!is.null(self$`scope`)) {
         ConstructLibrarySetObject[["scope"]] <-
           self$`scope`
@@ -781,6 +794,9 @@ ConstructLibrarySet <- R6::R6Class(
           stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"guide library\", \"reporter library\", \"expression vector library\", \"editing template library\".", sep = ""))
         }
         self$`file_set_type` <- this_object$`file_set_type`
+      }
+      if (!is.null(this_object$`control_type`)) {
+        self$`control_type` <- this_object$`control_type`
       }
       if (!is.null(this_object$`scope`)) {
         if (!is.null(this_object$`scope`) && !(this_object$`scope` %in% c("tile", "exon", "genes", "loci", "genome-wide", "interactors", "alleles", "targeton"))) {
@@ -1091,6 +1107,14 @@ ConstructLibrarySet <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`file_set_type`, perl=TRUE)
           )
         },
+        if (!is.null(self$`control_type`)) {
+          sprintf(
+          '"control_type":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`control_type`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`scope`)) {
           sprintf(
           '"scope":
@@ -1334,6 +1358,7 @@ ConstructLibrarySet <- R6::R6Class(
         stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"guide library\", \"reporter library\", \"expression vector library\", \"editing template library\".", sep = ""))
       }
       self$`file_set_type` <- this_object$`file_set_type`
+      self$`control_type` <- this_object$`control_type`
       if (!is.null(this_object$`scope`) && !(this_object$`scope` %in% c("tile", "exon", "genes", "loci", "genome-wide", "interactors", "alleles", "targeton"))) {
         stop(paste("Error! \"", this_object$`scope`, "\" cannot be assigned to `scope`. Must be \"tile\", \"exon\", \"genes\", \"loci\", \"genome-wide\", \"interactors\", \"alleles\", \"targeton\".", sep = ""))
       }

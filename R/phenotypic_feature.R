@@ -22,6 +22,7 @@
 #' @field feature The phenotypic feature observed for the donor. character [optional]
 #' @field quantity A quantity associated with the phenotypic feature, if applicable. numeric [optional]
 #' @field quantity_units The unit of measurement for a quantity associated with the phenotypic feature. character [optional]
+#' @field quality A quality assessment associated with the phenotypic feature, such as a categorical description. character [optional]
 #' @field observation_date The date the feature was observed or measured. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
@@ -47,6 +48,7 @@ PhenotypicFeature <- R6::R6Class(
     `feature` = NULL,
     `quantity` = NULL,
     `quantity_units` = NULL,
+    `quality` = NULL,
     `observation_date` = NULL,
     `@id` = NULL,
     `@type` = NULL,
@@ -71,13 +73,14 @@ PhenotypicFeature <- R6::R6Class(
     #' @param feature The phenotypic feature observed for the donor.
     #' @param quantity A quantity associated with the phenotypic feature, if applicable.
     #' @param quantity_units The unit of measurement for a quantity associated with the phenotypic feature.
+    #' @param quality A quality assessment associated with the phenotypic feature, such as a categorical description.
     #' @param observation_date The date the feature was observed or measured.
     #' @param @id @id
     #' @param @type @type
     #' @param summary summary
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `status` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `feature` = NULL, `quantity` = NULL, `quantity_units` = NULL, `observation_date` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, ...) {
+    initialize = function(`release_timestamp` = NULL, `status` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `feature` = NULL, `quantity` = NULL, `quantity_units` = NULL, `quality` = NULL, `observation_date` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, ...) {
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -169,6 +172,15 @@ PhenotypicFeature <- R6::R6Class(
           stop(paste("Error! Invalid data for `quantity_units`. Must be a string:", `quantity_units`))
         }
         self$`quantity_units` <- `quantity_units`
+      }
+      if (!is.null(`quality`)) {
+        if (!(`quality` %in% c("none", "sparse", "moderate", "frequent", "unknown", "I", "II", "III", "IV", "V", "VI", "2/2", "2/3", "2/4", "3/3", "3/4", "4/4"))) {
+          stop(paste("Error! \"", `quality`, "\" cannot be assigned to `quality`. Must be \"none\", \"sparse\", \"moderate\", \"frequent\", \"unknown\", \"I\", \"II\", \"III\", \"IV\", \"V\", \"VI\", \"2/2\", \"2/3\", \"2/4\", \"3/3\", \"3/4\", \"4/4\".", sep = ""))
+        }
+        if (!(is.character(`quality`) && length(`quality`) == 1)) {
+          stop(paste("Error! Invalid data for `quality`. Must be a string:", `quality`))
+        }
+        self$`quality` <- `quality`
       }
       if (!is.null(`observation_date`)) {
         if (!(is.character(`observation_date`) && length(`observation_date`) == 1)) {
@@ -263,6 +275,10 @@ PhenotypicFeature <- R6::R6Class(
         PhenotypicFeatureObject[["quantity_units"]] <-
           self$`quantity_units`
       }
+      if (!is.null(self$`quality`)) {
+        PhenotypicFeatureObject[["quality"]] <-
+          self$`quality`
+      }
       if (!is.null(self$`observation_date`)) {
         PhenotypicFeatureObject[["observation_date"]] <-
           self$`observation_date`
@@ -341,6 +357,12 @@ PhenotypicFeature <- R6::R6Class(
           stop(paste("Error! \"", this_object$`quantity_units`, "\" cannot be assigned to `quantity_units`. Must be \"meter\", \"micromole\", \"nanogram\", \"microgram\", \"milligram\", \"gram\", \"kilogram\", \"milli-International Unit per milliliter\", \"picogram per milliliter\", \"nanogram per milliliter\", \"milligram per deciliter\".", sep = ""))
         }
         self$`quantity_units` <- this_object$`quantity_units`
+      }
+      if (!is.null(this_object$`quality`)) {
+        if (!is.null(this_object$`quality`) && !(this_object$`quality` %in% c("none", "sparse", "moderate", "frequent", "unknown", "I", "II", "III", "IV", "V", "VI", "2/2", "2/3", "2/4", "3/3", "3/4", "4/4"))) {
+          stop(paste("Error! \"", this_object$`quality`, "\" cannot be assigned to `quality`. Must be \"none\", \"sparse\", \"moderate\", \"frequent\", \"unknown\", \"I\", \"II\", \"III\", \"IV\", \"V\", \"VI\", \"2/2\", \"2/3\", \"2/4\", \"3/3\", \"3/4\", \"4/4\".", sep = ""))
+        }
+        self$`quality` <- this_object$`quality`
       }
       if (!is.null(this_object$`observation_date`)) {
         self$`observation_date` <- this_object$`observation_date`
@@ -485,6 +507,14 @@ PhenotypicFeature <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`quantity_units`, perl=TRUE)
           )
         },
+        if (!is.null(self$`quality`)) {
+          sprintf(
+          '"quality":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`quality`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`observation_date`)) {
           sprintf(
           '"observation_date":
@@ -552,6 +582,10 @@ PhenotypicFeature <- R6::R6Class(
         stop(paste("Error! \"", this_object$`quantity_units`, "\" cannot be assigned to `quantity_units`. Must be \"meter\", \"micromole\", \"nanogram\", \"microgram\", \"milligram\", \"gram\", \"kilogram\", \"milli-International Unit per milliliter\", \"picogram per milliliter\", \"nanogram per milliliter\", \"milligram per deciliter\".", sep = ""))
       }
       self$`quantity_units` <- this_object$`quantity_units`
+      if (!is.null(this_object$`quality`) && !(this_object$`quality` %in% c("none", "sparse", "moderate", "frequent", "unknown", "I", "II", "III", "IV", "V", "VI", "2/2", "2/3", "2/4", "3/3", "3/4", "4/4"))) {
+        stop(paste("Error! \"", this_object$`quality`, "\" cannot be assigned to `quality`. Must be \"none\", \"sparse\", \"moderate\", \"frequent\", \"unknown\", \"I\", \"II\", \"III\", \"IV\", \"V\", \"VI\", \"2/2\", \"2/3\", \"2/4\", \"3/3\", \"3/4\", \"4/4\".", sep = ""))
+      }
+      self$`quality` <- this_object$`quality`
       self$`observation_date` <- this_object$`observation_date`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))

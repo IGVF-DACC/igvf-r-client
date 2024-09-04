@@ -27,6 +27,7 @@
 #' @field submitter_comment Additional information specified by the submitter to be displayed as a comment on the portal. character [optional]
 #' @field description A plain text description of the object. character [optional]
 #' @field dbxrefs Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file sets. list(character) [optional]
+#' @field control_type The type of control this file set represents. character [optional]
 #' @field samples The sample(s) associated with this file set. list(character) [optional]
 #' @field donors The donors of the samples associated with this auxiliary set. list(character) [optional]
 #' @field file_set_type The category that best describes this auxiliary file set. character [optional]
@@ -64,6 +65,7 @@ AuxiliarySet <- R6::R6Class(
     `submitter_comment` = NULL,
     `description` = NULL,
     `dbxrefs` = NULL,
+    `control_type` = NULL,
     `samples` = NULL,
     `donors` = NULL,
     `file_set_type` = NULL,
@@ -100,6 +102,7 @@ AuxiliarySet <- R6::R6Class(
     #' @param submitter_comment Additional information specified by the submitter to be displayed as a comment on the portal.
     #' @param description A plain text description of the object.
     #' @param dbxrefs Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file sets.
+    #' @param control_type The type of control this file set represents.
     #' @param samples The sample(s) associated with this file set.
     #' @param donors The donors of the samples associated with this auxiliary set.
     #' @param file_set_type The category that best describes this auxiliary file set.
@@ -113,7 +116,7 @@ AuxiliarySet <- R6::R6Class(
     #' @param measurement_sets The measurement sets that link to this auxiliary set.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_file_set_for` = NULL, `measurement_sets` = NULL, ...) {
+    initialize = function(`release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_file_set_for` = NULL, `measurement_sets` = NULL, ...) {
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -230,6 +233,12 @@ AuxiliarySet <- R6::R6Class(
         stopifnot(is.vector(`dbxrefs`), length(`dbxrefs`) != 0)
         sapply(`dbxrefs`, function(x) stopifnot(is.character(x)))
         self$`dbxrefs` <- `dbxrefs`
+      }
+      if (!is.null(`control_type`)) {
+        if (!(is.character(`control_type`) && length(`control_type`) == 1)) {
+          stop(paste("Error! Invalid data for `control_type`. Must be a string:", `control_type`))
+        }
+        self$`control_type` <- `control_type`
       }
       if (!is.null(`samples`)) {
         stopifnot(is.vector(`samples`), length(`samples`) != 0)
@@ -383,6 +392,10 @@ AuxiliarySet <- R6::R6Class(
         AuxiliarySetObject[["dbxrefs"]] <-
           self$`dbxrefs`
       }
+      if (!is.null(self$`control_type`)) {
+        AuxiliarySetObject[["control_type"]] <-
+          self$`control_type`
+      }
       if (!is.null(self$`samples`)) {
         AuxiliarySetObject[["samples"]] <-
           self$`samples`
@@ -501,6 +514,9 @@ AuxiliarySet <- R6::R6Class(
       }
       if (!is.null(this_object$`dbxrefs`)) {
         self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`control_type`)) {
+        self$`control_type` <- this_object$`control_type`
       }
       if (!is.null(this_object$`samples`)) {
         self$`samples` <- ApiClient$new()$deserializeObj(this_object$`samples`, "set[character]", loadNamespace("igvfclient"))
@@ -709,6 +725,14 @@ AuxiliarySet <- R6::R6Class(
           paste(unlist(lapply(self$`dbxrefs`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`control_type`)) {
+          sprintf(
+          '"control_type":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`control_type`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`samples`)) {
           sprintf(
           '"samples":
@@ -834,6 +858,7 @@ AuxiliarySet <- R6::R6Class(
       self$`submitter_comment` <- this_object$`submitter_comment`
       self$`description` <- this_object$`description`
       self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
+      self$`control_type` <- this_object$`control_type`
       self$`samples` <- ApiClient$new()$deserializeObj(this_object$`samples`, "set[character]", loadNamespace("igvfclient"))
       self$`donors` <- ApiClient$new()$deserializeObj(this_object$`donors`, "set[character]", loadNamespace("igvfclient"))
       if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("cell hashing barcode sequencing", "cell sorting", "circularized RNA barcode detection", "gRNA sequencing", "lipid-conjugated oligo sequencing", "quantification DNA barcode sequencing", "variant sequencing"))) {
