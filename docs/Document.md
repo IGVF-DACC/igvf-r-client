@@ -18,7 +18,7 @@ Name | Type | Description | Notes
 **submitted_by** | **character** | The user who submitted the object. | [optional] 
 **submitter_comment** | **character** | Additional information specified by the submitter to be displayed as a comment on the portal. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **description** | **character** | A plain text description of the object. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
-**document_type** | **character** | The category that best describes the document. | [optional] [Enum: [cell fate change protocol, characterization, computational protocol, experimental protocol, file format specification, image, model source data, plate map, plasmid map, plasmid sequence, standards]] 
+**document_type** | **character** | The category that best describes the document. | [optional] [Enum: [cell fate change protocol, characterization, computational protocol, experimental protocol, file format specification, image, model source data, plate map, plasmid map, plasmid sequence, quality control report, standards]] 
 **characterization_method** | **character** | The method used for the characterization. | [optional] [Enum: [FACS, immunoblot, immunofluorescence, immunoprecipitation, mass spectrometry, PCR, restriction digest, RT-qPCR, sequencing]] 
 **urls** | **set[character]** | External resources with additional information to the document. | [optional] 
 **@id** | **character** |  | [optional] 

@@ -53,6 +53,7 @@
 #' @field href The download path to obtain file. character [optional]
 #' @field s3_uri The S3 URI of public file object. character [optional]
 #' @field upload_credentials The upload credentials for S3 to submit the file content. object [optional]
+#' @field barcode_map_for Link(s) to the Multiplexed samples using this file as barcode map. list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -105,6 +106,7 @@ TabularFile <- R6::R6Class(
     `href` = NULL,
     `s3_uri` = NULL,
     `upload_credentials` = NULL,
+    `barcode_map_for` = NULL,
     #' Initialize a new TabularFile class.
     #'
     #' @description
@@ -156,9 +158,10 @@ TabularFile <- R6::R6Class(
     #' @param href The download path to obtain file.
     #' @param s3_uri The S3 URI of public file object.
     #' @param upload_credentials The upload credentials for S3 to submit the file content.
+    #' @param barcode_map_for Link(s) to the Multiplexed samples using this file as barcode map.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`cell_type_annotation` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
+    initialize = function(`cell_type_annotation` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `barcode_map_for` = NULL, ...) {
       if (!is.null(`cell_type_annotation`)) {
         if (!(is.character(`cell_type_annotation`) && length(`cell_type_annotation`) == 1)) {
           stop(paste("Error! Invalid data for `cell_type_annotation`. Must be a string:", `cell_type_annotation`))
@@ -438,6 +441,11 @@ TabularFile <- R6::R6Class(
       if (!is.null(`upload_credentials`)) {
         self$`upload_credentials` <- `upload_credentials`
       }
+      if (!is.null(`barcode_map_for`)) {
+        stopifnot(is.vector(`barcode_map_for`), length(`barcode_map_for`) != 0)
+        sapply(`barcode_map_for`, function(x) stopifnot(is.character(x)))
+        self$`barcode_map_for` <- `barcode_map_for`
+      }
     },
     #' To JSON string
     #'
@@ -632,6 +640,10 @@ TabularFile <- R6::R6Class(
         TabularFileObject[["upload_credentials"]] <-
           self$`upload_credentials`
       }
+      if (!is.null(self$`barcode_map_for`)) {
+        TabularFileObject[["barcode_map_for"]] <-
+          self$`barcode_map_for`
+      }
       TabularFileObject
     },
     #' Deserialize JSON string into an instance of TabularFile
@@ -799,6 +811,9 @@ TabularFile <- R6::R6Class(
       }
       if (!is.null(this_object$`upload_credentials`)) {
         self$`upload_credentials` <- this_object$`upload_credentials`
+      }
+      if (!is.null(this_object$`barcode_map_for`)) {
+        self$`barcode_map_for` <- ApiClient$new()$deserializeObj(this_object$`barcode_map_for`, "set[character]", loadNamespace("igvfclient"))
       }
       self
     },
@@ -1178,6 +1193,14 @@ TabularFile <- R6::R6Class(
                     ',
           gsub('(?<!\\\\)\\"', '\\\\"', self$`upload_credentials`, perl=TRUE)
           )
+        },
+        if (!is.null(self$`barcode_map_for`)) {
+          sprintf(
+          '"barcode_map_for":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`barcode_map_for`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -1257,6 +1280,7 @@ TabularFile <- R6::R6Class(
       self$`href` <- this_object$`href`
       self$`s3_uri` <- this_object$`s3_uri`
       self$`upload_credentials` <- this_object$`upload_credentials`
+      self$`barcode_map_for` <- ApiClient$new()$deserializeObj(this_object$`barcode_map_for`, "set[character]", loadNamespace("igvfclient"))
       self
     },
     #' Validate JSON input with respect to TabularFile
@@ -1336,6 +1360,7 @@ TabularFile <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1391,6 +1416,7 @@ TabularFile <- R6::R6Class(
       if (!str_detect(self$`md5sum`, "[a-f\\d]{32}|[A-F\\d]{32}")) {
         invalid_fields["md5sum"] <- "Invalid value for `md5sum`, must conform to the pattern [a-f\\d]{32}|[A-F\\d]{32}."
       }
+
 
 
 

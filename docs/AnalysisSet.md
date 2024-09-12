@@ -38,5 +38,6 @@ Name | Type | Description | Notes
 **submitted_files_timestamp** | **character** | The timestamp the first file object in the file_set or associated auxiliary sets was created. | [optional] 
 **input_file_set_for** | **set[character]** | The file sets that use this file set as an input. | [optional] 
 **assay_titles** | **set[character]** | Title(s) of assays that produced data analyzed in the analysis set. | [optional] 
+**protocols** | **set[character]** | Links to the protocol(s) for conducting the assay on Protocols.io. | [optional] 
 
 

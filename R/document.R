@@ -163,8 +163,8 @@ Document <- R6::R6Class(
         self$`description` <- `description`
       }
       if (!is.null(`document_type`)) {
-        if (!(`document_type` %in% c("cell fate change protocol", "characterization", "computational protocol", "experimental protocol", "file format specification", "image", "model source data", "plate map", "plasmid map", "plasmid sequence", "standards"))) {
-          stop(paste("Error! \"", `document_type`, "\" cannot be assigned to `document_type`. Must be \"cell fate change protocol\", \"characterization\", \"computational protocol\", \"experimental protocol\", \"file format specification\", \"image\", \"model source data\", \"plate map\", \"plasmid map\", \"plasmid sequence\", \"standards\".", sep = ""))
+        if (!(`document_type` %in% c("cell fate change protocol", "characterization", "computational protocol", "experimental protocol", "file format specification", "image", "model source data", "plate map", "plasmid map", "plasmid sequence", "quality control report", "standards"))) {
+          stop(paste("Error! \"", `document_type`, "\" cannot be assigned to `document_type`. Must be \"cell fate change protocol\", \"characterization\", \"computational protocol\", \"experimental protocol\", \"file format specification\", \"image\", \"model source data\", \"plate map\", \"plasmid map\", \"plasmid sequence\", \"quality control report\", \"standards\".", sep = ""))
         }
         if (!(is.character(`document_type`) && length(`document_type`) == 1)) {
           stop(paste("Error! Invalid data for `document_type`. Must be a string:", `document_type`))
@@ -354,8 +354,8 @@ Document <- R6::R6Class(
         self$`description` <- this_object$`description`
       }
       if (!is.null(this_object$`document_type`)) {
-        if (!is.null(this_object$`document_type`) && !(this_object$`document_type` %in% c("cell fate change protocol", "characterization", "computational protocol", "experimental protocol", "file format specification", "image", "model source data", "plate map", "plasmid map", "plasmid sequence", "standards"))) {
-          stop(paste("Error! \"", this_object$`document_type`, "\" cannot be assigned to `document_type`. Must be \"cell fate change protocol\", \"characterization\", \"computational protocol\", \"experimental protocol\", \"file format specification\", \"image\", \"model source data\", \"plate map\", \"plasmid map\", \"plasmid sequence\", \"standards\".", sep = ""))
+        if (!is.null(this_object$`document_type`) && !(this_object$`document_type` %in% c("cell fate change protocol", "characterization", "computational protocol", "experimental protocol", "file format specification", "image", "model source data", "plate map", "plasmid map", "plasmid sequence", "quality control report", "standards"))) {
+          stop(paste("Error! \"", this_object$`document_type`, "\" cannot be assigned to `document_type`. Must be \"cell fate change protocol\", \"characterization\", \"computational protocol\", \"experimental protocol\", \"file format specification\", \"image\", \"model source data\", \"plate map\", \"plasmid map\", \"plasmid sequence\", \"quality control report\", \"standards\".", sep = ""))
         }
         self$`document_type` <- this_object$`document_type`
       }
@@ -582,8 +582,8 @@ Document <- R6::R6Class(
       self$`submitted_by` <- this_object$`submitted_by`
       self$`submitter_comment` <- this_object$`submitter_comment`
       self$`description` <- this_object$`description`
-      if (!is.null(this_object$`document_type`) && !(this_object$`document_type` %in% c("cell fate change protocol", "characterization", "computational protocol", "experimental protocol", "file format specification", "image", "model source data", "plate map", "plasmid map", "plasmid sequence", "standards"))) {
-        stop(paste("Error! \"", this_object$`document_type`, "\" cannot be assigned to `document_type`. Must be \"cell fate change protocol\", \"characterization\", \"computational protocol\", \"experimental protocol\", \"file format specification\", \"image\", \"model source data\", \"plate map\", \"plasmid map\", \"plasmid sequence\", \"standards\".", sep = ""))
+      if (!is.null(this_object$`document_type`) && !(this_object$`document_type` %in% c("cell fate change protocol", "characterization", "computational protocol", "experimental protocol", "file format specification", "image", "model source data", "plate map", "plasmid map", "plasmid sequence", "quality control report", "standards"))) {
+        stop(paste("Error! \"", this_object$`document_type`, "\" cannot be assigned to `document_type`. Must be \"cell fate change protocol\", \"characterization\", \"computational protocol\", \"experimental protocol\", \"file format specification\", \"image\", \"model source data\", \"plate map\", \"plasmid map\", \"plasmid sequence\", \"quality control report\", \"standards\".", sep = ""))
       }
       self$`document_type` <- this_object$`document_type`
       if (!is.null(this_object$`characterization_method`) && !(this_object$`characterization_method` %in% c("FACS", "immunoblot", "immunofluorescence", "immunoprecipitation", "mass spectrometry", "PCR", "restriction digest", "RT-qPCR", "sequencing"))) {

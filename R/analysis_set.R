@@ -40,6 +40,7 @@
 #' @field submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created. character [optional]
 #' @field input_file_set_for The file sets that use this file set as an input. list(character) [optional]
 #' @field assay_titles Title(s) of assays that produced data analyzed in the analysis set. list(character) [optional]
+#' @field protocols Links to the protocol(s) for conducting the assay on Protocols.io. list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -79,6 +80,7 @@ AnalysisSet <- R6::R6Class(
     `submitted_files_timestamp` = NULL,
     `input_file_set_for` = NULL,
     `assay_titles` = NULL,
+    `protocols` = NULL,
     #' Initialize a new AnalysisSet class.
     #'
     #' @description
@@ -117,9 +119,10 @@ AnalysisSet <- R6::R6Class(
     #' @param submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created.
     #' @param input_file_set_for The file sets that use this file set as an input.
     #' @param assay_titles Title(s) of assays that produced data analyzed in the analysis set.
+    #' @param protocols Links to the protocol(s) for conducting the assay on Protocols.io.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `external_image_data_url` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_file_set_for` = NULL, `assay_titles` = NULL, ...) {
+    initialize = function(`input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `external_image_data_url` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_file_set_for` = NULL, `assay_titles` = NULL, `protocols` = NULL, ...) {
       if (!is.null(`input_file_sets`)) {
         stopifnot(is.vector(`input_file_sets`), length(`input_file_sets`) != 0)
         sapply(`input_file_sets`, function(x) stopifnot(is.character(x)))
@@ -310,6 +313,11 @@ AnalysisSet <- R6::R6Class(
         sapply(`assay_titles`, function(x) stopifnot(is.character(x)))
         self$`assay_titles` <- `assay_titles`
       }
+      if (!is.null(`protocols`)) {
+        stopifnot(is.vector(`protocols`), length(`protocols`) != 0)
+        sapply(`protocols`, function(x) stopifnot(is.character(x)))
+        self$`protocols` <- `protocols`
+      }
     },
     #' To JSON string
     #'
@@ -452,6 +460,10 @@ AnalysisSet <- R6::R6Class(
         AnalysisSetObject[["assay_titles"]] <-
           self$`assay_titles`
       }
+      if (!is.null(self$`protocols`)) {
+        AnalysisSetObject[["protocols"]] <-
+          self$`protocols`
+      }
       AnalysisSetObject
     },
     #' Deserialize JSON string into an instance of AnalysisSet
@@ -568,6 +580,9 @@ AnalysisSet <- R6::R6Class(
       }
       if (!is.null(this_object$`assay_titles`)) {
         self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`protocols`)) {
+        self$`protocols` <- ApiClient$new()$deserializeObj(this_object$`protocols`, "set[character]", loadNamespace("igvfclient"))
       }
       self
     },
@@ -843,6 +858,14 @@ AnalysisSet <- R6::R6Class(
           ',
           paste(unlist(lapply(self$`assay_titles`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
+        },
+        if (!is.null(self$`protocols`)) {
+          sprintf(
+          '"protocols":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`protocols`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -897,6 +920,7 @@ AnalysisSet <- R6::R6Class(
       self$`submitted_files_timestamp` <- this_object$`submitted_files_timestamp`
       self$`input_file_set_for` <- ApiClient$new()$deserializeObj(this_object$`input_file_set_for`, "set[character]", loadNamespace("igvfclient"))
       self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
+      self$`protocols` <- ApiClient$new()$deserializeObj(this_object$`protocols`, "set[character]", loadNamespace("igvfclient"))
       self
     },
     #' Validate JSON input with respect to AnalysisSet
@@ -964,6 +988,7 @@ AnalysisSet <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1007,6 +1032,7 @@ AnalysisSet <- R6::R6Class(
       if (!str_detect(self$`external_image_data_url`, "^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$")) {
         invalid_fields["external_image_data_url"] <- "Invalid value for `external_image_data_url`, must conform to the pattern ^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$."
       }
+
 
 
 
