@@ -66,6 +66,7 @@
 #' @field passage_number Number of passages including the passages from the source. integer [optional]
 #' @field targeted_sample_term Ontology term identifying the targeted endpoint biosample resulting from differentation or reprogramming. character [optional]
 #' @field growth_medium A growth medium of the in vitro system. character [optional]
+#' @field biosample_qualifiers An array of various cell states. This property provides additional information about a cell at a finer-grained level compared to what ontologies currently capture. For example, exhausted T-cells. list(character) [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the sample. character [optional]
@@ -146,6 +147,7 @@ InVitroSystem <- R6::R6Class(
     `passage_number` = NULL,
     `targeted_sample_term` = NULL,
     `growth_medium` = NULL,
+    `biosample_qualifiers` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -225,6 +227,7 @@ InVitroSystem <- R6::R6Class(
     #' @param passage_number Number of passages including the passages from the source.
     #' @param targeted_sample_term Ontology term identifying the targeted endpoint biosample resulting from differentation or reprogramming.
     #' @param growth_medium A growth medium of the in vitro system.
+    #' @param biosample_qualifiers An array of various cell states. This property provides additional information about a cell at a finer-grained level compared to what ontologies currently capture. For example, exhausted T-cells.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the sample.
@@ -242,7 +245,7 @@ InVitroSystem <- R6::R6Class(
     #' @param demultiplexed_to The parts into which this sample has been demultiplexed.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `publications` = NULL, `taxa` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `lower_bound_age` = NULL, `upper_bound_age` = NULL, `age_units` = NULL, `sample_terms` = NULL, `disease_terms` = NULL, `pooled_from` = NULL, `part_of` = NULL, `originated_from` = NULL, `treatments` = NULL, `donors` = NULL, `biomarkers` = NULL, `embryonic` = NULL, `modifications` = NULL, `cellular_sub_pool` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `classifications` = NULL, `time_post_change` = NULL, `time_post_change_units` = NULL, `cell_fate_change_treatments` = NULL, `cell_fate_change_protocol` = NULL, `demultiplexed_from` = NULL, `passage_number` = NULL, `targeted_sample_term` = NULL, `growth_medium` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `sex` = NULL, `age` = NULL, `upper_bound_age_in_hours` = NULL, `lower_bound_age_in_hours` = NULL, `parts` = NULL, `pooled_in` = NULL, `demultiplexed_to` = NULL, ...) {
+    initialize = function(`release_timestamp` = NULL, `publications` = NULL, `taxa` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `lower_bound_age` = NULL, `upper_bound_age` = NULL, `age_units` = NULL, `sample_terms` = NULL, `disease_terms` = NULL, `pooled_from` = NULL, `part_of` = NULL, `originated_from` = NULL, `treatments` = NULL, `donors` = NULL, `biomarkers` = NULL, `embryonic` = NULL, `modifications` = NULL, `cellular_sub_pool` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `classifications` = NULL, `time_post_change` = NULL, `time_post_change_units` = NULL, `cell_fate_change_treatments` = NULL, `cell_fate_change_protocol` = NULL, `demultiplexed_from` = NULL, `passage_number` = NULL, `targeted_sample_term` = NULL, `growth_medium` = NULL, `biosample_qualifiers` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `sex` = NULL, `age` = NULL, `upper_bound_age_in_hours` = NULL, `lower_bound_age_in_hours` = NULL, `parts` = NULL, `pooled_in` = NULL, `demultiplexed_to` = NULL, ...) {
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -585,6 +588,11 @@ InVitroSystem <- R6::R6Class(
         }
         self$`growth_medium` <- `growth_medium`
       }
+      if (!is.null(`biosample_qualifiers`)) {
+        stopifnot(is.vector(`biosample_qualifiers`), length(`biosample_qualifiers`) != 0)
+        sapply(`biosample_qualifiers`, function(x) stopifnot(is.character(x)))
+        self$`biosample_qualifiers` <- `biosample_qualifiers`
+      }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
           stop(paste("Error! Invalid data for `@id`. Must be a string:", `@id`))
@@ -909,6 +917,10 @@ InVitroSystem <- R6::R6Class(
         InVitroSystemObject[["growth_medium"]] <-
           self$`growth_medium`
       }
+      if (!is.null(self$`biosample_qualifiers`)) {
+        InVitroSystemObject[["biosample_qualifiers"]] <-
+          self$`biosample_qualifiers`
+      }
       if (!is.null(self$`@id`)) {
         InVitroSystemObject[["@id"]] <-
           self$`@id`
@@ -1181,6 +1193,9 @@ InVitroSystem <- R6::R6Class(
           stop(paste("Error! \"", this_object$`growth_medium`, "\" cannot be assigned to `growth_medium`. Must be \"DMEM with serum\", \"DMEM without serum\", \"SMBM with serum\", \"SMBM without serum\".", sep = ""))
         }
         self$`growth_medium` <- this_object$`growth_medium`
+      }
+      if (!is.null(this_object$`biosample_qualifiers`)) {
+        self$`biosample_qualifiers` <- ApiClient$new()$deserializeObj(this_object$`biosample_qualifiers`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
@@ -1713,6 +1728,14 @@ InVitroSystem <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`growth_medium`, perl=TRUE)
           )
         },
+        if (!is.null(self$`biosample_qualifiers`)) {
+          sprintf(
+          '"biosample_qualifiers":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`biosample_qualifiers`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -1930,6 +1953,7 @@ InVitroSystem <- R6::R6Class(
         stop(paste("Error! \"", this_object$`growth_medium`, "\" cannot be assigned to `growth_medium`. Must be \"DMEM with serum\", \"DMEM without serum\", \"SMBM with serum\", \"SMBM without serum\".", sep = ""))
       }
       self$`growth_medium` <- this_object$`growth_medium`
+      self$`biosample_qualifiers` <- ApiClient$new()$deserializeObj(this_object$`biosample_qualifiers`, "set[character]", loadNamespace("igvfclient"))
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
@@ -2041,6 +2065,7 @@ InVitroSystem <- R6::R6Class(
 
 
 
+
       if (!str_detect(self$`age`, "^((\\d+(\\.[1-9])?(\\-\\d+(\\.[1-9])?)?)|(unknown)|([1-8]?\\d)|(90 or above))$")) {
         return(FALSE)
       }
@@ -2116,6 +2141,7 @@ InVitroSystem <- R6::R6Class(
       if (self$`passage_number` < 0) {
         invalid_fields["passage_number"] <- "Invalid value for `passage_number`, must be bigger than or equal to 0."
       }
+
 
 
 

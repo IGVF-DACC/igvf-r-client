@@ -56,6 +56,7 @@ Name | Type | Description | Notes
 **time_post_library_delivery_units** | **character** | The units of time that elapsed past the point when the construct library sets were introduced. | [optional] [Enum: [minute, hour, day, week, month]] 
 **protocols** | **set[character]** | Links to the protocol(s) for preparing the samples on Protocols.io. | [optional] 
 **passage_number** | **integer** | Number of passages including the passages from the source. | [optional] [Min: 0] 
+**biosample_qualifiers** | **set[character]** | An array of various cell states. This property provides additional information about a cell at a finer-grained level compared to what ontologies currently capture. For example, exhausted T-cells. | [optional] [Enum: ] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** | A summary of the sample. | [optional] 

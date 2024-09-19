@@ -34,7 +34,7 @@
 #' @field dbxrefs Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file objects. list(character) [optional]
 #' @field derived_from The files participating as inputs into software to produce this output file. list(character) [optional]
 #' @field file_format The file format or extension of the file. character [optional]
-#' @field file_format_specifications Document that further explains the file format. list(character) [optional]
+#' @field file_format_specifications Documents that describe the file format and fields of this file. list(character) [optional]
 #' @field file_set The file set that this file belongs to. character [optional]
 #' @field file_size File size specified in bytes. integer [optional]
 #' @field md5sum The md5sum of the file being transferred. character [optional]
@@ -52,6 +52,7 @@
 #' @field input_file_for The files which are derived from this file. list(character) [optional]
 #' @field gene_list_for File Set(s) that this file is a gene list for. list(character) [optional]
 #' @field loci_list_for File Set(s) that this file is a loci list for. list(character) [optional]
+#' @field assay_titles Title(s) of assay from the file set this file belongs to. list(character) [optional]
 #' @field href The download path to obtain file. character [optional]
 #' @field s3_uri The S3 URI of public file object. character [optional]
 #' @field upload_credentials The upload credentials for S3 to submit the file content. object [optional]
@@ -107,6 +108,7 @@ SignalFile <- R6::R6Class(
     `input_file_for` = NULL,
     `gene_list_for` = NULL,
     `loci_list_for` = NULL,
+    `assay_titles` = NULL,
     `href` = NULL,
     `s3_uri` = NULL,
     `upload_credentials` = NULL,
@@ -143,7 +145,7 @@ SignalFile <- R6::R6Class(
     #' @param dbxrefs Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file objects.
     #' @param derived_from The files participating as inputs into software to produce this output file.
     #' @param file_format The file format or extension of the file.
-    #' @param file_format_specifications Document that further explains the file format.
+    #' @param file_format_specifications Documents that describe the file format and fields of this file.
     #' @param file_set The file set that this file belongs to.
     #' @param file_size File size specified in bytes.
     #' @param md5sum The md5sum of the file being transferred.
@@ -161,13 +163,14 @@ SignalFile <- R6::R6Class(
     #' @param input_file_for The files which are derived from this file.
     #' @param gene_list_for File Set(s) that this file is a gene list for.
     #' @param loci_list_for File Set(s) that this file is a loci list for.
+    #' @param assay_titles Title(s) of assay from the file set this file belongs to.
     #' @param href The download path to obtain file.
     #' @param s3_uri The S3 URI of public file object.
     #' @param upload_credentials The upload credentials for S3 to submit the file content.
     #' @param content_summary A summary of the data in the signal file.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`cell_type_annotation` = NULL, `transcriptome_annotation` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `reference_files` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `strand_specificity` = NULL, `filtered` = NULL, `normalized` = NULL, `start_view_position` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `content_summary` = NULL, ...) {
+    initialize = function(`cell_type_annotation` = NULL, `transcriptome_annotation` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `reference_files` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `strand_specificity` = NULL, `filtered` = NULL, `normalized` = NULL, `start_view_position` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `content_summary` = NULL, ...) {
       if (!is.null(`cell_type_annotation`)) {
         if (!(is.character(`cell_type_annotation`) && length(`cell_type_annotation`) == 1)) {
           stop(paste("Error! Invalid data for `cell_type_annotation`. Must be a string:", `cell_type_annotation`))
@@ -443,6 +446,11 @@ SignalFile <- R6::R6Class(
         sapply(`loci_list_for`, function(x) stopifnot(is.character(x)))
         self$`loci_list_for` <- `loci_list_for`
       }
+      if (!is.null(`assay_titles`)) {
+        stopifnot(is.vector(`assay_titles`), length(`assay_titles`) != 0)
+        sapply(`assay_titles`, function(x) stopifnot(is.character(x)))
+        self$`assay_titles` <- `assay_titles`
+      }
       if (!is.null(`href`)) {
         if (!(is.character(`href`) && length(`href`) == 1)) {
           stop(paste("Error! Invalid data for `href`. Must be a string:", `href`))
@@ -654,6 +662,10 @@ SignalFile <- R6::R6Class(
         SignalFileObject[["loci_list_for"]] <-
           self$`loci_list_for`
       }
+      if (!is.null(self$`assay_titles`)) {
+        SignalFileObject[["assay_titles"]] <-
+          self$`assay_titles`
+      }
       if (!is.null(self$`href`)) {
         SignalFileObject[["href"]] <-
           self$`href`
@@ -834,6 +846,9 @@ SignalFile <- R6::R6Class(
       }
       if (!is.null(this_object$`loci_list_for`)) {
         self$`loci_list_for` <- ApiClient$new()$deserializeObj(this_object$`loci_list_for`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`assay_titles`)) {
+        self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`href`)) {
         self$`href` <- this_object$`href`
@@ -1218,6 +1233,14 @@ SignalFile <- R6::R6Class(
           paste(unlist(lapply(self$`loci_list_for`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`assay_titles`)) {
+          sprintf(
+          '"assay_titles":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`assay_titles`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`href`)) {
           sprintf(
           '"href":
@@ -1327,6 +1350,7 @@ SignalFile <- R6::R6Class(
       self$`input_file_for` <- ApiClient$new()$deserializeObj(this_object$`input_file_for`, "set[character]", loadNamespace("igvfclient"))
       self$`gene_list_for` <- ApiClient$new()$deserializeObj(this_object$`gene_list_for`, "set[character]", loadNamespace("igvfclient"))
       self$`loci_list_for` <- ApiClient$new()$deserializeObj(this_object$`loci_list_for`, "set[character]", loadNamespace("igvfclient"))
+      self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
       self$`href` <- this_object$`href`
       self$`s3_uri` <- this_object$`s3_uri`
       self$`upload_credentials` <- this_object$`upload_credentials`
@@ -1415,6 +1439,7 @@ SignalFile <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1475,6 +1500,7 @@ SignalFile <- R6::R6Class(
       if (!str_detect(self$`start_view_position`, "^(chr(X|Y|M|[1-9]|1[0-9]|2[0-2]):[0-9]+)$")) {
         invalid_fields["start_view_position"] <- "Invalid value for `start_view_position`, must conform to the pattern ^(chr(X|Y|M|[1-9]|1[0-9]|2[0-2]):[0-9]+)$."
       }
+
 
 
 
