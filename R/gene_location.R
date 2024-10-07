@@ -58,8 +58,8 @@ GeneLocation <- R6::R6Class(
         self$`chromosome` <- `chromosome`
       }
       if (!missing(`assembly`)) {
-        if (!(`assembly` %in% c("GRCh38", "GRCm39"))) {
-          stop(paste("Error! \"", `assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"GRCm39\".", sep = ""))
+        if (!(`assembly` %in% c("Cast - GRCm39", "GRCh38", "GRCm39"))) {
+          stop(paste("Error! \"", `assembly`, "\" cannot be assigned to `assembly`. Must be \"Cast - GRCm39\", \"GRCh38\", \"GRCm39\".", sep = ""))
         }
         if (!(is.character(`assembly`) && length(`assembly`) == 1)) {
           stop(paste("Error! Invalid data for `assembly`. Must be a string:", `assembly`))
@@ -123,8 +123,8 @@ GeneLocation <- R6::R6Class(
         self$`chromosome` <- this_object$`chromosome`
       }
       if (!is.null(this_object$`assembly`)) {
-        if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "GRCm39"))) {
-          stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"GRCm39\".", sep = ""))
+        if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("Cast - GRCm39", "GRCh38", "GRCm39"))) {
+          stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"Cast - GRCm39\", \"GRCh38\", \"GRCm39\".", sep = ""))
         }
         self$`assembly` <- this_object$`assembly`
       }
@@ -200,8 +200,8 @@ GeneLocation <- R6::R6Class(
       self$`start` <- this_object$`start`
       self$`end` <- this_object$`end`
       self$`chromosome` <- this_object$`chromosome`
-      if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "GRCm39"))) {
-        stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"GRCm39\".", sep = ""))
+      if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("Cast - GRCm39", "GRCh38", "GRCm39"))) {
+        stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"Cast - GRCm39\", \"GRCh38\", \"GRCm39\".", sep = ""))
       }
       self$`assembly` <- this_object$`assembly`
       # process additional properties/fields in the payload

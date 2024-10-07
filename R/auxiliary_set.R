@@ -251,8 +251,8 @@ AuxiliarySet <- R6::R6Class(
         self$`donors` <- `donors`
       }
       if (!is.null(`file_set_type`)) {
-        if (!(`file_set_type` %in% c("cell hashing barcode sequencing", "cell sorting", "circularized RNA barcode detection", "gRNA sequencing", "lipid-conjugated oligo sequencing", "quantification DNA barcode sequencing", "variant sequencing"))) {
-          stop(paste("Error! \"", `file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"cell hashing barcode sequencing\", \"cell sorting\", \"circularized RNA barcode detection\", \"gRNA sequencing\", \"lipid-conjugated oligo sequencing\", \"quantification DNA barcode sequencing\", \"variant sequencing\".", sep = ""))
+        if (!(`file_set_type` %in% c("cell hashing barcode sequencing", "cell sorting", "circularized RNA barcode detection", "gRNA sequencing", "lipid-conjugated oligo sequencing", "MORF barcode sequencing", "quantification DNA barcode sequencing", "variant sequencing"))) {
+          stop(paste("Error! \"", `file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"cell hashing barcode sequencing\", \"cell sorting\", \"circularized RNA barcode detection\", \"gRNA sequencing\", \"lipid-conjugated oligo sequencing\", \"MORF barcode sequencing\", \"quantification DNA barcode sequencing\", \"variant sequencing\".", sep = ""))
         }
         if (!(is.character(`file_set_type`) && length(`file_set_type`) == 1)) {
           stop(paste("Error! Invalid data for `file_set_type`. Must be a string:", `file_set_type`))
@@ -525,8 +525,8 @@ AuxiliarySet <- R6::R6Class(
         self$`donors` <- ApiClient$new()$deserializeObj(this_object$`donors`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`file_set_type`)) {
-        if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("cell hashing barcode sequencing", "cell sorting", "circularized RNA barcode detection", "gRNA sequencing", "lipid-conjugated oligo sequencing", "quantification DNA barcode sequencing", "variant sequencing"))) {
-          stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"cell hashing barcode sequencing\", \"cell sorting\", \"circularized RNA barcode detection\", \"gRNA sequencing\", \"lipid-conjugated oligo sequencing\", \"quantification DNA barcode sequencing\", \"variant sequencing\".", sep = ""))
+        if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("cell hashing barcode sequencing", "cell sorting", "circularized RNA barcode detection", "gRNA sequencing", "lipid-conjugated oligo sequencing", "MORF barcode sequencing", "quantification DNA barcode sequencing", "variant sequencing"))) {
+          stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"cell hashing barcode sequencing\", \"cell sorting\", \"circularized RNA barcode detection\", \"gRNA sequencing\", \"lipid-conjugated oligo sequencing\", \"MORF barcode sequencing\", \"quantification DNA barcode sequencing\", \"variant sequencing\".", sep = ""))
         }
         self$`file_set_type` <- this_object$`file_set_type`
       }
@@ -861,8 +861,8 @@ AuxiliarySet <- R6::R6Class(
       self$`control_type` <- this_object$`control_type`
       self$`samples` <- ApiClient$new()$deserializeObj(this_object$`samples`, "set[character]", loadNamespace("igvfclient"))
       self$`donors` <- ApiClient$new()$deserializeObj(this_object$`donors`, "set[character]", loadNamespace("igvfclient"))
-      if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("cell hashing barcode sequencing", "cell sorting", "circularized RNA barcode detection", "gRNA sequencing", "lipid-conjugated oligo sequencing", "quantification DNA barcode sequencing", "variant sequencing"))) {
-        stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"cell hashing barcode sequencing\", \"cell sorting\", \"circularized RNA barcode detection\", \"gRNA sequencing\", \"lipid-conjugated oligo sequencing\", \"quantification DNA barcode sequencing\", \"variant sequencing\".", sep = ""))
+      if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("cell hashing barcode sequencing", "cell sorting", "circularized RNA barcode detection", "gRNA sequencing", "lipid-conjugated oligo sequencing", "MORF barcode sequencing", "quantification DNA barcode sequencing", "variant sequencing"))) {
+        stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"cell hashing barcode sequencing\", \"cell sorting\", \"circularized RNA barcode detection\", \"gRNA sequencing\", \"lipid-conjugated oligo sequencing\", \"MORF barcode sequencing\", \"quantification DNA barcode sequencing\", \"variant sequencing\".", sep = ""))
       }
       self$`file_set_type` <- this_object$`file_set_type`
       self$`@id` <- this_object$`@id`

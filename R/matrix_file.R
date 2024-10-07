@@ -38,8 +38,8 @@
 #' @field submitted_file_name Original name of the file. character [optional]
 #' @field upload_status The upload/validation status of the file. character [optional]
 #' @field validation_error_detail Explanation of why the file failed the automated content checks. character [optional]
-#' @field dimension1 First dimension of the matrix. character [optional]
-#' @field dimension2 Second dimension of the matrix. character [optional]
+#' @field principal_dimension The principal dimension of the matrix. character [optional]
+#' @field secondary_dimensions The secondary, tertiary....n levels of dimensions of the matrix. list(character) [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the matrix file. character [optional]
@@ -89,8 +89,8 @@ MatrixFile <- R6::R6Class(
     `submitted_file_name` = NULL,
     `upload_status` = NULL,
     `validation_error_detail` = NULL,
-    `dimension1` = NULL,
-    `dimension2` = NULL,
+    `principal_dimension` = NULL,
+    `secondary_dimensions` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -139,8 +139,8 @@ MatrixFile <- R6::R6Class(
     #' @param submitted_file_name Original name of the file.
     #' @param upload_status The upload/validation status of the file.
     #' @param validation_error_detail Explanation of why the file failed the automated content checks.
-    #' @param dimension1 First dimension of the matrix.
-    #' @param dimension2 Second dimension of the matrix.
+    #' @param principal_dimension The principal dimension of the matrix.
+    #' @param secondary_dimensions The secondary, tertiary....n levels of dimensions of the matrix.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the matrix file.
@@ -155,7 +155,7 @@ MatrixFile <- R6::R6Class(
     #' @param content_summary A summary of the data in the matrix file.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `reference_files` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `dimension1` = NULL, `dimension2` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `content_summary` = NULL, ...) {
+    initialize = function(`release_timestamp` = NULL, `reference_files` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `principal_dimension` = NULL, `secondary_dimensions` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `content_summary` = NULL, ...) {
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -343,23 +343,19 @@ MatrixFile <- R6::R6Class(
         }
         self$`validation_error_detail` <- `validation_error_detail`
       }
-      if (!is.null(`dimension1`)) {
-        if (!(`dimension1` %in% c("cell", "fragment", "gene", "time", "treatment", "variant", "genomic position"))) {
-          stop(paste("Error! \"", `dimension1`, "\" cannot be assigned to `dimension1`. Must be \"cell\", \"fragment\", \"gene\", \"time\", \"treatment\", \"variant\", \"genomic position\".", sep = ""))
+      if (!is.null(`principal_dimension`)) {
+        if (!(`principal_dimension` %in% c("cell", "fragment", "gene", "time", "treatment", "variant", "genomic position"))) {
+          stop(paste("Error! \"", `principal_dimension`, "\" cannot be assigned to `principal_dimension`. Must be \"cell\", \"fragment\", \"gene\", \"time\", \"treatment\", \"variant\", \"genomic position\".", sep = ""))
         }
-        if (!(is.character(`dimension1`) && length(`dimension1`) == 1)) {
-          stop(paste("Error! Invalid data for `dimension1`. Must be a string:", `dimension1`))
+        if (!(is.character(`principal_dimension`) && length(`principal_dimension`) == 1)) {
+          stop(paste("Error! Invalid data for `principal_dimension`. Must be a string:", `principal_dimension`))
         }
-        self$`dimension1` <- `dimension1`
+        self$`principal_dimension` <- `principal_dimension`
       }
-      if (!is.null(`dimension2`)) {
-        if (!(`dimension2` %in% c("cell", "fragment", "gene", "time", "treatment", "variant", "genomic position"))) {
-          stop(paste("Error! \"", `dimension2`, "\" cannot be assigned to `dimension2`. Must be \"cell\", \"fragment\", \"gene\", \"time\", \"treatment\", \"variant\", \"genomic position\".", sep = ""))
-        }
-        if (!(is.character(`dimension2`) && length(`dimension2`) == 1)) {
-          stop(paste("Error! Invalid data for `dimension2`. Must be a string:", `dimension2`))
-        }
-        self$`dimension2` <- `dimension2`
+      if (!is.null(`secondary_dimensions`)) {
+        stopifnot(is.vector(`secondary_dimensions`), length(`secondary_dimensions`) != 0)
+        sapply(`secondary_dimensions`, function(x) stopifnot(is.character(x)))
+        self$`secondary_dimensions` <- `secondary_dimensions`
       }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
@@ -558,13 +554,13 @@ MatrixFile <- R6::R6Class(
         MatrixFileObject[["validation_error_detail"]] <-
           self$`validation_error_detail`
       }
-      if (!is.null(self$`dimension1`)) {
-        MatrixFileObject[["dimension1"]] <-
-          self$`dimension1`
+      if (!is.null(self$`principal_dimension`)) {
+        MatrixFileObject[["principal_dimension"]] <-
+          self$`principal_dimension`
       }
-      if (!is.null(self$`dimension2`)) {
-        MatrixFileObject[["dimension2"]] <-
-          self$`dimension2`
+      if (!is.null(self$`secondary_dimensions`)) {
+        MatrixFileObject[["secondary_dimensions"]] <-
+          self$`secondary_dimensions`
       }
       if (!is.null(self$`@id`)) {
         MatrixFileObject[["@id"]] <-
@@ -728,17 +724,14 @@ MatrixFile <- R6::R6Class(
       if (!is.null(this_object$`validation_error_detail`)) {
         self$`validation_error_detail` <- this_object$`validation_error_detail`
       }
-      if (!is.null(this_object$`dimension1`)) {
-        if (!is.null(this_object$`dimension1`) && !(this_object$`dimension1` %in% c("cell", "fragment", "gene", "time", "treatment", "variant", "genomic position"))) {
-          stop(paste("Error! \"", this_object$`dimension1`, "\" cannot be assigned to `dimension1`. Must be \"cell\", \"fragment\", \"gene\", \"time\", \"treatment\", \"variant\", \"genomic position\".", sep = ""))
+      if (!is.null(this_object$`principal_dimension`)) {
+        if (!is.null(this_object$`principal_dimension`) && !(this_object$`principal_dimension` %in% c("cell", "fragment", "gene", "time", "treatment", "variant", "genomic position"))) {
+          stop(paste("Error! \"", this_object$`principal_dimension`, "\" cannot be assigned to `principal_dimension`. Must be \"cell\", \"fragment\", \"gene\", \"time\", \"treatment\", \"variant\", \"genomic position\".", sep = ""))
         }
-        self$`dimension1` <- this_object$`dimension1`
+        self$`principal_dimension` <- this_object$`principal_dimension`
       }
-      if (!is.null(this_object$`dimension2`)) {
-        if (!is.null(this_object$`dimension2`) && !(this_object$`dimension2` %in% c("cell", "fragment", "gene", "time", "treatment", "variant", "genomic position"))) {
-          stop(paste("Error! \"", this_object$`dimension2`, "\" cannot be assigned to `dimension2`. Must be \"cell\", \"fragment\", \"gene\", \"time\", \"treatment\", \"variant\", \"genomic position\".", sep = ""))
-        }
-        self$`dimension2` <- this_object$`dimension2`
+      if (!is.null(this_object$`secondary_dimensions`)) {
+        self$`secondary_dimensions` <- ApiClient$new()$deserializeObj(this_object$`secondary_dimensions`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
@@ -1035,20 +1028,20 @@ MatrixFile <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`validation_error_detail`, perl=TRUE)
           )
         },
-        if (!is.null(self$`dimension1`)) {
+        if (!is.null(self$`principal_dimension`)) {
           sprintf(
-          '"dimension1":
+          '"principal_dimension":
             "%s"
                     ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`dimension1`, perl=TRUE)
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`principal_dimension`, perl=TRUE)
           )
         },
-        if (!is.null(self$`dimension2`)) {
+        if (!is.null(self$`secondary_dimensions`)) {
           sprintf(
-          '"dimension2":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`dimension2`, perl=TRUE)
+          '"secondary_dimensions":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`secondary_dimensions`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`@id`)) {
@@ -1201,14 +1194,11 @@ MatrixFile <- R6::R6Class(
       }
       self$`upload_status` <- this_object$`upload_status`
       self$`validation_error_detail` <- this_object$`validation_error_detail`
-      if (!is.null(this_object$`dimension1`) && !(this_object$`dimension1` %in% c("cell", "fragment", "gene", "time", "treatment", "variant", "genomic position"))) {
-        stop(paste("Error! \"", this_object$`dimension1`, "\" cannot be assigned to `dimension1`. Must be \"cell\", \"fragment\", \"gene\", \"time\", \"treatment\", \"variant\", \"genomic position\".", sep = ""))
+      if (!is.null(this_object$`principal_dimension`) && !(this_object$`principal_dimension` %in% c("cell", "fragment", "gene", "time", "treatment", "variant", "genomic position"))) {
+        stop(paste("Error! \"", this_object$`principal_dimension`, "\" cannot be assigned to `principal_dimension`. Must be \"cell\", \"fragment\", \"gene\", \"time\", \"treatment\", \"variant\", \"genomic position\".", sep = ""))
       }
-      self$`dimension1` <- this_object$`dimension1`
-      if (!is.null(this_object$`dimension2`) && !(this_object$`dimension2` %in% c("cell", "fragment", "gene", "time", "treatment", "variant", "genomic position"))) {
-        stop(paste("Error! \"", this_object$`dimension2`, "\" cannot be assigned to `dimension2`. Must be \"cell\", \"fragment\", \"gene\", \"time\", \"treatment\", \"variant\", \"genomic position\".", sep = ""))
-      }
-      self$`dimension2` <- this_object$`dimension2`
+      self$`principal_dimension` <- this_object$`principal_dimension`
+      self$`secondary_dimensions` <- ApiClient$new()$deserializeObj(this_object$`secondary_dimensions`, "set[character]", loadNamespace("igvfclient"))
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
@@ -1302,6 +1292,7 @@ MatrixFile <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1358,6 +1349,7 @@ MatrixFile <- R6::R6Class(
       if (!str_detect(self$`md5sum`, "[a-f\\d]{32}|[A-F\\d]{32}")) {
         invalid_fields["md5sum"] <- "Invalid value for `md5sum`, must conform to the pattern [a-f\\d]{32}|[A-F\\d]{32}."
       }
+
 
 
 

@@ -28,7 +28,7 @@ Name | Type | Description | Notes
 **control_type** | **character** | The type of control this file set represents. | [optional] 
 **samples** | **set[character]** | The sample(s) associated with this file set. | [optional] 
 **donors** | **set[character]** | The donors of the samples associated with this auxiliary set. | [optional] 
-**file_set_type** | **character** | The category that best describes this auxiliary file set. | [optional] [Enum: [cell hashing barcode sequencing, cell sorting, circularized RNA barcode detection, gRNA sequencing, lipid-conjugated oligo sequencing, quantification DNA barcode sequencing, variant sequencing]] 
+**file_set_type** | **character** | The category that best describes this auxiliary file set. | [optional] [Enum: [cell hashing barcode sequencing, cell sorting, circularized RNA barcode detection, gRNA sequencing, lipid-conjugated oligo sequencing, MORF barcode sequencing, quantification DNA barcode sequencing, variant sequencing]] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** |  | [optional] 

@@ -7,10 +7,10 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **controlled_access** | **character** | Boolean value, indicating the file being controlled access, if true. | [optional] 
 **anvil_url** | **character** | URL linking to the controlled access file that has been deposited at AnVIL workspace. | [optional] 
-**assembly** | **character** | Genome assembly applicable for the reference data. | [optional] [Enum: [GRCh38, hg19, GRCm39, mm10]] 
+**assembly** | **character** | Genome assembly applicable for the reference data. | [optional] [Enum: [GRCh38, hg19, Cast - GRCm39, GRCm39, mm10]] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **file_format_type** | **character** | The subtype of bed files. | [optional] [Enum: [bed12, bed3, bed3+, bed5, bed6, bed6+, bed9, bed9+, mpra_starr]] 
-**transcriptome_annotation** | **character** | The annotation and version of the reference resource. | [optional] [Enum: [GENCODE 40, GENCODE 41, GENCODE 42, GENCODE 43, GENCODE 44, GENCODE 45, GENCODE M30, GENCODE M31, GENCODE M32, GENCODE M33, GENCODE M34]] 
+**transcriptome_annotation** | **character** | The annotation and version of the reference resource. | [optional] [Enum: [GENCODE 40, GENCODE 41, GENCODE 42, GENCODE 43, GENCODE 44, GENCODE 45, GENCODE Cast - M32, GENCODE M30, GENCODE M31, GENCODE M32, GENCODE M33, GENCODE M34]] 
 **documents** | **set[character]** | Documents that provide additional information (not data file). | [optional] 
 **lab** | **character** | Lab associated with the submission. | [optional] 
 **award** | **character** | Grant associated with the submission. | [optional] 

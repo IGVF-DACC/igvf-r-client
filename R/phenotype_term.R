@@ -1,7 +1,7 @@
 #' Create a new PhenotypeTerm
 #'
 #' @description
-#' An ontology term from Experimental Factor Ontology (EFO), Human Disease Ontology (DOID), Human Phenotype Ontology (HP), Mondo Disease Ontology (MONDO), National Cancer Institute Thesaurus (NCIT), or Ontology of Biological Attributes (OBA) for phenotypes, diseases, and traits.
+#' An ontology term from Experimental Factor Ontology (EFO), Human Disease Ontology (DOID), Human Phenotype Ontology (HP), Mondo Disease Ontology (MONDO), National Cancer Institute Thesaurus (NCIT), Ontology of Biological Attributes (OBA), or Gene Ontology (GO) for phenotypes, diseases, traits and biological processes.
 #'
 #' @docType class
 #' @title PhenotypeTerm
@@ -643,7 +643,7 @@ PhenotypeTerm <- R6::R6Class(
         return(FALSE)
       }
 
-      if (!str_detect(self$`term_id`, "^(DOID|EFO|HP|MONDO|OBA|NTR):[0-9]{2,8}|OBA:VT[0-9]{2,8}|NCIT:C[0-9]{2,8}$")) {
+      if (!str_detect(self$`term_id`, "^(DOID|EFO|HP|MONDO|OBA|NTR|GO):[0-9]{2,8}|OBA:VT[0-9]{2,8}|NCIT:C[0-9]{2,8}$")) {
         return(FALSE)
       }
 
@@ -683,8 +683,8 @@ PhenotypeTerm <- R6::R6Class(
         invalid_fields["description"] <- "Invalid value for `description`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
 
-      if (!str_detect(self$`term_id`, "^(DOID|EFO|HP|MONDO|OBA|NTR):[0-9]{2,8}|OBA:VT[0-9]{2,8}|NCIT:C[0-9]{2,8}$")) {
-        invalid_fields["term_id"] <- "Invalid value for `term_id`, must conform to the pattern ^(DOID|EFO|HP|MONDO|OBA|NTR):[0-9]{2,8}|OBA:VT[0-9]{2,8}|NCIT:C[0-9]{2,8}$."
+      if (!str_detect(self$`term_id`, "^(DOID|EFO|HP|MONDO|OBA|NTR|GO):[0-9]{2,8}|OBA:VT[0-9]{2,8}|NCIT:C[0-9]{2,8}$")) {
+        invalid_fields["term_id"] <- "Invalid value for `term_id`, must conform to the pattern ^(DOID|EFO|HP|MONDO|OBA|NTR|GO):[0-9]{2,8}|OBA:VT[0-9]{2,8}|NCIT:C[0-9]{2,8}$."
       }
 
       if (!str_detect(self$`term_name`, "^(?![\\s\"'])[\\S|\\s]*[^\\s\"']$")) {

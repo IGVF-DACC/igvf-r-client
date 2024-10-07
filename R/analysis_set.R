@@ -41,6 +41,8 @@
 #' @field input_file_set_for The file sets that use this file set as an input. list(character) [optional]
 #' @field assay_titles Title(s) of assays that produced data analyzed in the analysis set. list(character) [optional]
 #' @field protocols Links to the protocol(s) for conducting the assay on Protocols.io. list(character) [optional]
+#' @field sample_summary A summary of the samples associated with input file sets of this analysis set. character [optional]
+#' @field functional_assay_mechanisms The biological processes measured by the functional assays. list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -81,6 +83,8 @@ AnalysisSet <- R6::R6Class(
     `input_file_set_for` = NULL,
     `assay_titles` = NULL,
     `protocols` = NULL,
+    `sample_summary` = NULL,
+    `functional_assay_mechanisms` = NULL,
     #' Initialize a new AnalysisSet class.
     #'
     #' @description
@@ -120,9 +124,11 @@ AnalysisSet <- R6::R6Class(
     #' @param input_file_set_for The file sets that use this file set as an input.
     #' @param assay_titles Title(s) of assays that produced data analyzed in the analysis set.
     #' @param protocols Links to the protocol(s) for conducting the assay on Protocols.io.
+    #' @param sample_summary A summary of the samples associated with input file sets of this analysis set.
+    #' @param functional_assay_mechanisms The biological processes measured by the functional assays.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `external_image_data_url` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_file_set_for` = NULL, `assay_titles` = NULL, `protocols` = NULL, ...) {
+    initialize = function(`input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `external_image_data_url` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_file_set_for` = NULL, `assay_titles` = NULL, `protocols` = NULL, `sample_summary` = NULL, `functional_assay_mechanisms` = NULL, ...) {
       if (!is.null(`input_file_sets`)) {
         stopifnot(is.vector(`input_file_sets`), length(`input_file_sets`) != 0)
         sapply(`input_file_sets`, function(x) stopifnot(is.character(x)))
@@ -318,6 +324,17 @@ AnalysisSet <- R6::R6Class(
         sapply(`protocols`, function(x) stopifnot(is.character(x)))
         self$`protocols` <- `protocols`
       }
+      if (!is.null(`sample_summary`)) {
+        if (!(is.character(`sample_summary`) && length(`sample_summary`) == 1)) {
+          stop(paste("Error! Invalid data for `sample_summary`. Must be a string:", `sample_summary`))
+        }
+        self$`sample_summary` <- `sample_summary`
+      }
+      if (!is.null(`functional_assay_mechanisms`)) {
+        stopifnot(is.vector(`functional_assay_mechanisms`), length(`functional_assay_mechanisms`) != 0)
+        sapply(`functional_assay_mechanisms`, function(x) stopifnot(is.character(x)))
+        self$`functional_assay_mechanisms` <- `functional_assay_mechanisms`
+      }
     },
     #' To JSON string
     #'
@@ -464,6 +481,14 @@ AnalysisSet <- R6::R6Class(
         AnalysisSetObject[["protocols"]] <-
           self$`protocols`
       }
+      if (!is.null(self$`sample_summary`)) {
+        AnalysisSetObject[["sample_summary"]] <-
+          self$`sample_summary`
+      }
+      if (!is.null(self$`functional_assay_mechanisms`)) {
+        AnalysisSetObject[["functional_assay_mechanisms"]] <-
+          self$`functional_assay_mechanisms`
+      }
       AnalysisSetObject
     },
     #' Deserialize JSON string into an instance of AnalysisSet
@@ -583,6 +608,12 @@ AnalysisSet <- R6::R6Class(
       }
       if (!is.null(this_object$`protocols`)) {
         self$`protocols` <- ApiClient$new()$deserializeObj(this_object$`protocols`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`sample_summary`)) {
+        self$`sample_summary` <- this_object$`sample_summary`
+      }
+      if (!is.null(this_object$`functional_assay_mechanisms`)) {
+        self$`functional_assay_mechanisms` <- ApiClient$new()$deserializeObj(this_object$`functional_assay_mechanisms`, "set[character]", loadNamespace("igvfclient"))
       }
       self
     },
@@ -866,6 +897,22 @@ AnalysisSet <- R6::R6Class(
           ',
           paste(unlist(lapply(self$`protocols`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
+        },
+        if (!is.null(self$`sample_summary`)) {
+          sprintf(
+          '"sample_summary":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`sample_summary`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`functional_assay_mechanisms`)) {
+          sprintf(
+          '"functional_assay_mechanisms":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`functional_assay_mechanisms`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -921,6 +968,8 @@ AnalysisSet <- R6::R6Class(
       self$`input_file_set_for` <- ApiClient$new()$deserializeObj(this_object$`input_file_set_for`, "set[character]", loadNamespace("igvfclient"))
       self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
       self$`protocols` <- ApiClient$new()$deserializeObj(this_object$`protocols`, "set[character]", loadNamespace("igvfclient"))
+      self$`sample_summary` <- this_object$`sample_summary`
+      self$`functional_assay_mechanisms` <- ApiClient$new()$deserializeObj(this_object$`functional_assay_mechanisms`, "set[character]", loadNamespace("igvfclient"))
       self
     },
     #' Validate JSON input with respect to AnalysisSet
@@ -989,6 +1038,7 @@ AnalysisSet <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1032,6 +1082,7 @@ AnalysisSet <- R6::R6Class(
       if (!str_detect(self$`external_image_data_url`, "^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$")) {
         invalid_fields["external_image_data_url"] <- "Invalid value for `external_image_data_url`, must conform to the pattern ^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$."
       }
+
 
 
 
