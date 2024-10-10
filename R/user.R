@@ -653,7 +653,7 @@ User <- R6::R6Class(
         return(FALSE)
       }
 
-      if (!str_detect(self$`email`, "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$")) {
+      if (!str_detect(self$`email`, "^[^A-Z\\s@]+@[^A-Z\\s@]+\\.[^A-Z\\s@]+$")) {
         return(FALSE)
       }
 
@@ -688,8 +688,8 @@ User <- R6::R6Class(
         invalid_fields["description"] <- "Invalid value for `description`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
 
-      if (!str_detect(self$`email`, "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$")) {
-        invalid_fields["email"] <- "Invalid value for `email`, must conform to the pattern ^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$."
+      if (!str_detect(self$`email`, "^[^A-Z\\s@]+@[^A-Z\\s@]+\\.[^A-Z\\s@]+$")) {
+        invalid_fields["email"] <- "Invalid value for `email`, must conform to the pattern ^[^A-Z\\s@]+@[^A-Z\\s@]+\\.[^A-Z\\s@]+$."
       }
 
 

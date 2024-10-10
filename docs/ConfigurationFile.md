@@ -1,6 +1,6 @@
 # igvfclient::ConfigurationFile
 
-A file containing configuration settings or information defining the structure of other data files' content.
+A file containing configuration settings or information defining the structure of other data files' content or input parameters of prediction models.
 
 ## Properties
 Name | Type | Description | Notes
@@ -27,7 +27,7 @@ Name | Type | Description | Notes
 **content_type** | **character** | The type of content in the file. | [optional] 
 **dbxrefs** | **set[character]** | Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file objects. | [optional] 
 **derived_from** | **set[character]** | The files participating as inputs into software to produce this output file. | [optional] 
-**file_format** | **character** | The file format or extension of the file. | [optional] [Enum: [yaml, json]] 
+**file_format** | **character** | The file format or extension of the file. | [optional] [Enum: [yaml, json, tsv]] 
 **file_format_specifications** | **set[character]** | Documents that describe the file format and fields of this file. | [optional] 
 **file_set** | **character** | The file set that this file belongs to. | [optional] 
 **file_size** | **integer** | File size specified in bytes. | [optional] [Min: 0] 

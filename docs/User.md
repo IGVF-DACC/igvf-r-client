@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 **submitted_by** | **character** | The user who submitted the object. | [optional] 
 **submitter_comment** | **character** | Additional information specified by the submitter to be displayed as a comment on the portal. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **description** | **character** | A plain text description of the object. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
-**email** | **character** | The email associated with the user&#39;s account. | [optional] [Pattern: ^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$] 
+**email** | **character** | The email associated with the user&#39;s account. | [optional] [Pattern: ^[^A-Z\\s@]+@[^A-Z\\s@]+\\.[^A-Z\\s@]+$] 
 **first_name** | **character** | The user&#39;s first (given) name. | [optional] 
 **last_name** | **character** | The user&#39;s last (family) name. | [optional] 
 **lab** | **character** | Lab user is primarily associated with. | [optional] 

@@ -29,6 +29,7 @@ Name | Type | Description | Notes
 **samples** | **set[character]** | The sample(s) associated with this file set. | [optional] 
 **donors** | **set[character]** | The donors of the samples associated with this auxiliary set. | [optional] 
 **file_set_type** | **character** | The category that best describes this auxiliary file set. | [optional] [Enum: [cell hashing barcode sequencing, cell sorting, circularized RNA barcode detection, gRNA sequencing, lipid-conjugated oligo sequencing, MORF barcode sequencing, quantification DNA barcode sequencing, variant sequencing]] 
+**barcode_map** | **character** | The link to the barcode mapping tabular file. | [optional] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** |  | [optional] 

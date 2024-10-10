@@ -31,6 +31,7 @@
 #' @field samples The sample(s) associated with this file set. list(character) [optional]
 #' @field donors The donors of the samples associated with this auxiliary set. list(character) [optional]
 #' @field file_set_type The category that best describes this auxiliary file set. character [optional]
+#' @field barcode_map The link to the barcode mapping tabular file. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary  character [optional]
@@ -69,6 +70,7 @@ AuxiliarySet <- R6::R6Class(
     `samples` = NULL,
     `donors` = NULL,
     `file_set_type` = NULL,
+    `barcode_map` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -106,6 +108,7 @@ AuxiliarySet <- R6::R6Class(
     #' @param samples The sample(s) associated with this file set.
     #' @param donors The donors of the samples associated with this auxiliary set.
     #' @param file_set_type The category that best describes this auxiliary file set.
+    #' @param barcode_map The link to the barcode mapping tabular file.
     #' @param @id @id
     #' @param @type @type
     #' @param summary summary
@@ -116,7 +119,7 @@ AuxiliarySet <- R6::R6Class(
     #' @param measurement_sets The measurement sets that link to this auxiliary set.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_file_set_for` = NULL, `measurement_sets` = NULL, ...) {
+    initialize = function(`release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `barcode_map` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_file_set_for` = NULL, `measurement_sets` = NULL, ...) {
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -258,6 +261,12 @@ AuxiliarySet <- R6::R6Class(
           stop(paste("Error! Invalid data for `file_set_type`. Must be a string:", `file_set_type`))
         }
         self$`file_set_type` <- `file_set_type`
+      }
+      if (!is.null(`barcode_map`)) {
+        if (!(is.character(`barcode_map`) && length(`barcode_map`) == 1)) {
+          stop(paste("Error! Invalid data for `barcode_map`. Must be a string:", `barcode_map`))
+        }
+        self$`barcode_map` <- `barcode_map`
       }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
@@ -408,6 +417,10 @@ AuxiliarySet <- R6::R6Class(
         AuxiliarySetObject[["file_set_type"]] <-
           self$`file_set_type`
       }
+      if (!is.null(self$`barcode_map`)) {
+        AuxiliarySetObject[["barcode_map"]] <-
+          self$`barcode_map`
+      }
       if (!is.null(self$`@id`)) {
         AuxiliarySetObject[["@id"]] <-
           self$`@id`
@@ -529,6 +542,9 @@ AuxiliarySet <- R6::R6Class(
           stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"cell hashing barcode sequencing\", \"cell sorting\", \"circularized RNA barcode detection\", \"gRNA sequencing\", \"lipid-conjugated oligo sequencing\", \"MORF barcode sequencing\", \"quantification DNA barcode sequencing\", \"variant sequencing\".", sep = ""))
         }
         self$`file_set_type` <- this_object$`file_set_type`
+      }
+      if (!is.null(this_object$`barcode_map`)) {
+        self$`barcode_map` <- this_object$`barcode_map`
       }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
@@ -757,6 +773,14 @@ AuxiliarySet <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`file_set_type`, perl=TRUE)
           )
         },
+        if (!is.null(self$`barcode_map`)) {
+          sprintf(
+          '"barcode_map":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`barcode_map`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -865,6 +889,7 @@ AuxiliarySet <- R6::R6Class(
         stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"cell hashing barcode sequencing\", \"cell sorting\", \"circularized RNA barcode detection\", \"gRNA sequencing\", \"lipid-conjugated oligo sequencing\", \"MORF barcode sequencing\", \"quantification DNA barcode sequencing\", \"variant sequencing\".", sep = ""))
       }
       self$`file_set_type` <- this_object$`file_set_type`
+      self$`barcode_map` <- this_object$`barcode_map`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
