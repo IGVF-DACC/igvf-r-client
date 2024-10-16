@@ -36,7 +36,7 @@
 #' @field dbxrefs Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file objects. list(character) [optional]
 #' @field derived_from The files participating as inputs into software to produce this output file. list(character) [optional]
 #' @field derived_manually A boolean indicating whether the file has been dervided manually without automated computational methods. character [optional]
-#' @field file_format  \link{FileFormat} [optional]
+#' @field file_format The file format or extension of the file. character [optional]
 #' @field file_format_specifications Documents that describe the file format and fields of this file. list(character) [optional]
 #' @field file_set The file set that this file belongs to. character [optional]
 #' @field file_size File size specified in bytes. integer [optional]
@@ -145,7 +145,7 @@ TabularFile <- R6::R6Class(
     #' @param dbxrefs Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file objects.
     #' @param derived_from The files participating as inputs into software to produce this output file.
     #' @param derived_manually A boolean indicating whether the file has been dervided manually without automated computational methods.
-    #' @param file_format file_format
+    #' @param file_format The file format or extension of the file.
     #' @param file_format_specifications Documents that describe the file format and fields of this file.
     #' @param file_set The file set that this file belongs to.
     #' @param file_size File size specified in bytes.
@@ -349,7 +349,12 @@ TabularFile <- R6::R6Class(
         self$`derived_manually` <- `derived_manually`
       }
       if (!is.null(`file_format`)) {
-        stopifnot(R6::is.R6(`file_format`))
+        if (!(`file_format` %in% c("bed", "csv", "gtf", "tsv", "txt", "vcf"))) {
+          stop(paste("Error! \"", `file_format`, "\" cannot be assigned to `file_format`. Must be \"bed\", \"csv\", \"gtf\", \"tsv\", \"txt\", \"vcf\".", sep = ""))
+        }
+        if (!(is.character(`file_format`) && length(`file_format`) == 1)) {
+          stop(paste("Error! Invalid data for `file_format`. Must be a string:", `file_format`))
+        }
         self$`file_format` <- `file_format`
       }
       if (!is.null(`file_format_specifications`)) {
@@ -586,7 +591,7 @@ TabularFile <- R6::R6Class(
       }
       if (!is.null(self$`file_format`)) {
         TabularFileObject[["file_format"]] <-
-          self$`file_format`$toJSON()
+          self$`file_format`
       }
       if (!is.null(self$`file_format_specifications`)) {
         TabularFileObject[["file_format_specifications"]] <-
@@ -776,9 +781,10 @@ TabularFile <- R6::R6Class(
         self$`derived_manually` <- this_object$`derived_manually`
       }
       if (!is.null(this_object$`file_format`)) {
-        `file_format_object` <- FileFormat$new()
-        `file_format_object`$fromJSON(jsonlite::toJSON(this_object$`file_format`, auto_unbox = TRUE, digits = NA))
-        self$`file_format` <- `file_format_object`
+        if (!is.null(this_object$`file_format`) && !(this_object$`file_format` %in% c("bed", "csv", "gtf", "tsv", "txt", "vcf"))) {
+          stop(paste("Error! \"", this_object$`file_format`, "\" cannot be assigned to `file_format`. Must be \"bed\", \"csv\", \"gtf\", \"tsv\", \"txt\", \"vcf\".", sep = ""))
+        }
+        self$`file_format` <- this_object$`file_format`
       }
       if (!is.null(this_object$`file_format_specifications`)) {
         self$`file_format_specifications` <- ApiClient$new()$deserializeObj(this_object$`file_format_specifications`, "set[character]", loadNamespace("igvfclient"))
@@ -1086,9 +1092,9 @@ TabularFile <- R6::R6Class(
         if (!is.null(self$`file_format`)) {
           sprintf(
           '"file_format":
-          %s
-          ',
-          jsonlite::toJSON(self$`file_format`$toJSON(), auto_unbox = TRUE, digits = NA)
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`file_format`, perl=TRUE)
           )
         },
         if (!is.null(self$`file_format_specifications`)) {
@@ -1298,7 +1304,10 @@ TabularFile <- R6::R6Class(
       self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
       self$`derived_from` <- ApiClient$new()$deserializeObj(this_object$`derived_from`, "set[character]", loadNamespace("igvfclient"))
       self$`derived_manually` <- this_object$`derived_manually`
-      self$`file_format` <- FileFormat$new()$fromJSON(jsonlite::toJSON(this_object$`file_format`, auto_unbox = TRUE, digits = NA))
+      if (!is.null(this_object$`file_format`) && !(this_object$`file_format` %in% c("bed", "csv", "gtf", "tsv", "txt", "vcf"))) {
+        stop(paste("Error! \"", this_object$`file_format`, "\" cannot be assigned to `file_format`. Must be \"bed\", \"csv\", \"gtf\", \"tsv\", \"txt\", \"vcf\".", sep = ""))
+      }
+      self$`file_format` <- this_object$`file_format`
       self$`file_format_specifications` <- ApiClient$new()$deserializeObj(this_object$`file_format_specifications`, "set[character]", loadNamespace("igvfclient"))
       self$`file_set` <- this_object$`file_set`
       self$`file_size` <- this_object$`file_size`

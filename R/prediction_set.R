@@ -1,175 +1,1180 @@
+#' Create a new PredictionSet
+#'
+#' @description
+#' A file set of computational predictions. Prediction sets contain results of analyses to predict functions or traits of genomic features.
+#'
 #' @docType class
 #' @title PredictionSet
-#'
 #' @description PredictionSet Class
-#'
 #' @format An \code{R6Class} generator object
-#'
+#' @field input_file_sets The file set(s) required for this prediction set. list(character) [optional]
+#' @field small_scale_loci_list A small scale (<=100) list of specific chromosomal region(s) whose functionality is investigated in this prediction set. This property describes the input variables of the prediction set. For example, this list consists of the genetic variants whose functionality is predicted in this prediction set. list(\link{Locus1}) [optional]
+#' @field large_scale_loci_list A large scale list (>100) of specific chromosomal regions whose functionality is investigated in this prediction set. This property describes the input variables of the prediction set. For example, this list consists of the genetic variants whose functionality is predicted in this prediction set. character [optional]
+#' @field small_scale_gene_list The specific, small scale list of (<=100) gene(s) whose functionality is investigated in this prediction set. This property describes the input variables of the prediction set. For example, this list consists of the genes whose expression level is predicted in this prediction set. It differs from assessed_genes (see more information under assessed_genes). list(character) [optional]
+#' @field large_scale_gene_list The large scale list of (>100 genes) whose functionality is investigated in this prediction set. This property describes the input variables of the prediction set. For example, this list consists of the genes whose expression level is predicted in this prediction set. It differs from assessed_genes (see more information under assessed_genes). character [optional]
+#' @field release_timestamp The date the object was released. character [optional]
+#' @field publications The publications associated with this object. list(character) [optional]
+#' @field documents Documents that provide additional information (not data file). list(character) [optional]
+#' @field lab Lab associated with the submission. character [optional]
+#' @field award Grant associated with the submission. character [optional]
+#' @field accession A unique identifier to be used to reference the object prefixed with IGVF. character [optional]
+#' @field alternate_accessions Accessions previously assigned to objects that have been merged with this object. list(character) [optional]
+#' @field collections Some samples are part of particular data collections. list(character) [optional]
+#' @field status The status of the metadata object. character [optional]
+#' @field revoke_detail Explanation of why an object was transitioned to the revoked status. character [optional]
+#' @field url An external resource with additional information. character [optional]
+#' @field schema_version The version of the JSON schema that the server uses to validate the object. character [optional]
+#' @field uuid The unique identifier associated with every object. character [optional]
+#' @field notes DACC internal notes. character [optional]
+#' @field aliases Lab specific identifiers to reference an object. list(character) [optional]
+#' @field creation_timestamp The date the object was created. character [optional]
+#' @field submitted_by The user who submitted the object. character [optional]
+#' @field submitter_comment Additional information specified by the submitter to be displayed as a comment on the portal. character [optional]
+#' @field description A plain text description of the object. character [optional]
+#' @field dbxrefs Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file sets. list(character) [optional]
+#' @field control_type The type of control this file set represents. character [optional]
+#' @field samples The sample(s) associated with this file set. list(character) [optional]
+#' @field donors The donor(s) associated with this file set. list(character) [optional]
+#' @field file_set_type The category that best describes this prediction set. character [optional]
+#' @field scope The scope or scale that this prediction set is designed to target. If the scope is across gene(s) or loci, these will need to be specified in the genes or loci property. character [optional]
+#' @field assessed_genes A list of gene(s) assessed in this prediction set. This property is used to describe the gene(s) being investigated, especially how the input variables in the prediction set affect some critical functionality of the gene(s). For example, the effect could be predicted from genetic variants on the binding affinity of a transcription factor encoded by a gene (assessed_genes). It differs from small_scale_gene_list and large_scale_gene_list, as these are used when the input variables of the prediction set are genes. list(character) [optional]
+#' @field @id  character [optional]
+#' @field @type  list(character) [optional]
+#' @field summary A summary of the prediction set. character [optional]
+#' @field files The files associated with this file set. list(character) [optional]
+#' @field control_for The file sets for which this file set is a control. list(character) [optional]
+#' @field submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created. character [optional]
+#' @field input_file_set_for The file sets that use this file set as an input. list(character) [optional]
+#' @field _field_list a list of fields list(character)
+#' @field additional_properties additional properties list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
 PredictionSet <- R6::R6Class(
   "PredictionSet",
+  inherit = AnyType,
   public = list(
-    #' @field actual_instance the object stored in this instance.
-    actual_instance = NULL,
-    #' @field actual_type the type of the object stored in this instance.
-    actual_type = NULL,
-    #' @field one_of  a list of types defined in the oneOf schema.
-    one_of = list("AnyType"),
-    #' Initialize a new PredictionSet.
+    `input_file_sets` = NULL,
+    `small_scale_loci_list` = NULL,
+    `large_scale_loci_list` = NULL,
+    `small_scale_gene_list` = NULL,
+    `large_scale_gene_list` = NULL,
+    `release_timestamp` = NULL,
+    `publications` = NULL,
+    `documents` = NULL,
+    `lab` = NULL,
+    `award` = NULL,
+    `accession` = NULL,
+    `alternate_accessions` = NULL,
+    `collections` = NULL,
+    `status` = NULL,
+    `revoke_detail` = NULL,
+    `url` = NULL,
+    `schema_version` = NULL,
+    `uuid` = NULL,
+    `notes` = NULL,
+    `aliases` = NULL,
+    `creation_timestamp` = NULL,
+    `submitted_by` = NULL,
+    `submitter_comment` = NULL,
+    `description` = NULL,
+    `dbxrefs` = NULL,
+    `control_type` = NULL,
+    `samples` = NULL,
+    `donors` = NULL,
+    `file_set_type` = NULL,
+    `scope` = NULL,
+    `assessed_genes` = NULL,
+    `@id` = NULL,
+    `@type` = NULL,
+    `summary` = NULL,
+    `files` = NULL,
+    `control_for` = NULL,
+    `submitted_files_timestamp` = NULL,
+    `input_file_set_for` = NULL,
+    `_field_list` = c("input_file_sets", "small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "url", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "dbxrefs", "control_type", "samples", "donors", "file_set_type", "scope", "assessed_genes", "@id", "@type", "summary", "files", "control_for", "submitted_files_timestamp", "input_file_set_for"),
+    `additional_properties` = list(),
+    #' Initialize a new PredictionSet class.
     #'
     #' @description
-    #' Initialize a new PredictionSet.
+    #' Initialize a new PredictionSet class.
     #'
-    #' @param instance an instance of the object defined in the oneOf schemas: "AnyType"
+    #' @param input_file_sets The file set(s) required for this prediction set.
+    #' @param small_scale_loci_list A small scale (<=100) list of specific chromosomal region(s) whose functionality is investigated in this prediction set. This property describes the input variables of the prediction set. For example, this list consists of the genetic variants whose functionality is predicted in this prediction set.
+    #' @param large_scale_loci_list A large scale list (>100) of specific chromosomal regions whose functionality is investigated in this prediction set. This property describes the input variables of the prediction set. For example, this list consists of the genetic variants whose functionality is predicted in this prediction set.
+    #' @param small_scale_gene_list The specific, small scale list of (<=100) gene(s) whose functionality is investigated in this prediction set. This property describes the input variables of the prediction set. For example, this list consists of the genes whose expression level is predicted in this prediction set. It differs from assessed_genes (see more information under assessed_genes).
+    #' @param large_scale_gene_list The large scale list of (>100 genes) whose functionality is investigated in this prediction set. This property describes the input variables of the prediction set. For example, this list consists of the genes whose expression level is predicted in this prediction set. It differs from assessed_genes (see more information under assessed_genes).
+    #' @param release_timestamp The date the object was released.
+    #' @param publications The publications associated with this object.
+    #' @param documents Documents that provide additional information (not data file).
+    #' @param lab Lab associated with the submission.
+    #' @param award Grant associated with the submission.
+    #' @param accession A unique identifier to be used to reference the object prefixed with IGVF.
+    #' @param alternate_accessions Accessions previously assigned to objects that have been merged with this object.
+    #' @param collections Some samples are part of particular data collections.
+    #' @param status The status of the metadata object.
+    #' @param revoke_detail Explanation of why an object was transitioned to the revoked status.
+    #' @param url An external resource with additional information.
+    #' @param schema_version The version of the JSON schema that the server uses to validate the object.
+    #' @param uuid The unique identifier associated with every object.
+    #' @param notes DACC internal notes.
+    #' @param aliases Lab specific identifiers to reference an object.
+    #' @param creation_timestamp The date the object was created.
+    #' @param submitted_by The user who submitted the object.
+    #' @param submitter_comment Additional information specified by the submitter to be displayed as a comment on the portal.
+    #' @param description A plain text description of the object.
+    #' @param dbxrefs Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file sets.
+    #' @param control_type The type of control this file set represents.
+    #' @param samples The sample(s) associated with this file set.
+    #' @param donors The donor(s) associated with this file set.
+    #' @param file_set_type The category that best describes this prediction set.
+    #' @param scope The scope or scale that this prediction set is designed to target. If the scope is across gene(s) or loci, these will need to be specified in the genes or loci property.
+    #' @param assessed_genes A list of gene(s) assessed in this prediction set. This property is used to describe the gene(s) being investigated, especially how the input variables in the prediction set affect some critical functionality of the gene(s). For example, the effect could be predicted from genetic variants on the binding affinity of a transcription factor encoded by a gene (assessed_genes). It differs from small_scale_gene_list and large_scale_gene_list, as these are used when the input variables of the prediction set are genes.
+    #' @param @id @id
+    #' @param @type @type
+    #' @param summary A summary of the prediction set.
+    #' @param files The files associated with this file set.
+    #' @param control_for The file sets for which this file set is a control.
+    #' @param submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created.
+    #' @param input_file_set_for The file sets that use this file set as an input.
+    #' @param additional_properties additional properties (optional)
+    #' @param ... Other optional arguments.
     #' @export
-    initialize = function(instance = NULL) {
-      if (is.null(instance)) {
-        # do nothing
-      } else if (get(class(instance)[[1]], pos = -1)$classname ==  "AnyType") {
-        self$actual_instance <- instance
-        self$actual_type <- "AnyType"
-      } else {
-        stop(paste("Failed to initialize PredictionSet with oneOf schemas AnyType. Provided class name: ",
-                   get(class(instance)[[1]], pos = -1)$classname))
+    initialize = function(`input_file_sets` = NULL, `small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `scope` = NULL, `assessed_genes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_file_set_for` = NULL, additional_properties = NULL, ...) {
+      if (!is.null(`input_file_sets`)) {
+        stopifnot(is.vector(`input_file_sets`), length(`input_file_sets`) != 0)
+        sapply(`input_file_sets`, function(x) stopifnot(is.character(x)))
+        self$`input_file_sets` <- `input_file_sets`
+      }
+      if (!is.null(`small_scale_loci_list`)) {
+        stopifnot(is.vector(`small_scale_loci_list`), length(`small_scale_loci_list`) != 0)
+        sapply(`small_scale_loci_list`, function(x) stopifnot(R6::is.R6(x)))
+        self$`small_scale_loci_list` <- `small_scale_loci_list`
+      }
+      if (!is.null(`large_scale_loci_list`)) {
+        if (!(is.character(`large_scale_loci_list`) && length(`large_scale_loci_list`) == 1)) {
+          stop(paste("Error! Invalid data for `large_scale_loci_list`. Must be a string:", `large_scale_loci_list`))
+        }
+        self$`large_scale_loci_list` <- `large_scale_loci_list`
+      }
+      if (!is.null(`small_scale_gene_list`)) {
+        stopifnot(is.vector(`small_scale_gene_list`), length(`small_scale_gene_list`) != 0)
+        sapply(`small_scale_gene_list`, function(x) stopifnot(is.character(x)))
+        self$`small_scale_gene_list` <- `small_scale_gene_list`
+      }
+      if (!is.null(`large_scale_gene_list`)) {
+        if (!(is.character(`large_scale_gene_list`) && length(`large_scale_gene_list`) == 1)) {
+          stop(paste("Error! Invalid data for `large_scale_gene_list`. Must be a string:", `large_scale_gene_list`))
+        }
+        self$`large_scale_gene_list` <- `large_scale_gene_list`
+      }
+      if (!is.null(`release_timestamp`)) {
+        if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
+          stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
+        }
+        self$`release_timestamp` <- `release_timestamp`
+      }
+      if (!is.null(`publications`)) {
+        stopifnot(is.vector(`publications`), length(`publications`) != 0)
+        sapply(`publications`, function(x) stopifnot(is.character(x)))
+        self$`publications` <- `publications`
+      }
+      if (!is.null(`documents`)) {
+        stopifnot(is.vector(`documents`), length(`documents`) != 0)
+        sapply(`documents`, function(x) stopifnot(is.character(x)))
+        self$`documents` <- `documents`
+      }
+      if (!is.null(`lab`)) {
+        if (!(is.character(`lab`) && length(`lab`) == 1)) {
+          stop(paste("Error! Invalid data for `lab`. Must be a string:", `lab`))
+        }
+        self$`lab` <- `lab`
+      }
+      if (!is.null(`award`)) {
+        if (!(is.character(`award`) && length(`award`) == 1)) {
+          stop(paste("Error! Invalid data for `award`. Must be a string:", `award`))
+        }
+        self$`award` <- `award`
+      }
+      if (!is.null(`accession`)) {
+        if (!(is.character(`accession`) && length(`accession`) == 1)) {
+          stop(paste("Error! Invalid data for `accession`. Must be a string:", `accession`))
+        }
+        self$`accession` <- `accession`
+      }
+      if (!is.null(`alternate_accessions`)) {
+        stopifnot(is.vector(`alternate_accessions`), length(`alternate_accessions`) != 0)
+        sapply(`alternate_accessions`, function(x) stopifnot(is.character(x)))
+        self$`alternate_accessions` <- `alternate_accessions`
+      }
+      if (!is.null(`collections`)) {
+        stopifnot(is.vector(`collections`), length(`collections`) != 0)
+        sapply(`collections`, function(x) stopifnot(is.character(x)))
+        self$`collections` <- `collections`
+      }
+      if (!is.null(`status`)) {
+        if (!(`status` %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
+          stop(paste("Error! \"", `status`, "\" cannot be assigned to `status`. Must be \"in progress\", \"released\", \"deleted\", \"replaced\", \"revoked\", \"archived\".", sep = ""))
+        }
+        if (!(is.character(`status`) && length(`status`) == 1)) {
+          stop(paste("Error! Invalid data for `status`. Must be a string:", `status`))
+        }
+        self$`status` <- `status`
+      }
+      if (!is.null(`revoke_detail`)) {
+        if (!(is.character(`revoke_detail`) && length(`revoke_detail`) == 1)) {
+          stop(paste("Error! Invalid data for `revoke_detail`. Must be a string:", `revoke_detail`))
+        }
+        self$`revoke_detail` <- `revoke_detail`
+      }
+      if (!is.null(`url`)) {
+        if (!(is.character(`url`) && length(`url`) == 1)) {
+          stop(paste("Error! Invalid data for `url`. Must be a string:", `url`))
+        }
+        self$`url` <- `url`
+      }
+      if (!is.null(`schema_version`)) {
+        if (!(is.character(`schema_version`) && length(`schema_version`) == 1)) {
+          stop(paste("Error! Invalid data for `schema_version`. Must be a string:", `schema_version`))
+        }
+        self$`schema_version` <- `schema_version`
+      }
+      if (!is.null(`uuid`)) {
+        if (!(is.character(`uuid`) && length(`uuid`) == 1)) {
+          stop(paste("Error! Invalid data for `uuid`. Must be a string:", `uuid`))
+        }
+        self$`uuid` <- `uuid`
+      }
+      if (!is.null(`notes`)) {
+        if (!(is.character(`notes`) && length(`notes`) == 1)) {
+          stop(paste("Error! Invalid data for `notes`. Must be a string:", `notes`))
+        }
+        self$`notes` <- `notes`
+      }
+      if (!is.null(`aliases`)) {
+        stopifnot(is.vector(`aliases`), length(`aliases`) != 0)
+        sapply(`aliases`, function(x) stopifnot(is.character(x)))
+        self$`aliases` <- `aliases`
+      }
+      if (!is.null(`creation_timestamp`)) {
+        if (!(is.character(`creation_timestamp`) && length(`creation_timestamp`) == 1)) {
+          stop(paste("Error! Invalid data for `creation_timestamp`. Must be a string:", `creation_timestamp`))
+        }
+        self$`creation_timestamp` <- `creation_timestamp`
+      }
+      if (!is.null(`submitted_by`)) {
+        if (!(is.character(`submitted_by`) && length(`submitted_by`) == 1)) {
+          stop(paste("Error! Invalid data for `submitted_by`. Must be a string:", `submitted_by`))
+        }
+        self$`submitted_by` <- `submitted_by`
+      }
+      if (!is.null(`submitter_comment`)) {
+        if (!(is.character(`submitter_comment`) && length(`submitter_comment`) == 1)) {
+          stop(paste("Error! Invalid data for `submitter_comment`. Must be a string:", `submitter_comment`))
+        }
+        self$`submitter_comment` <- `submitter_comment`
+      }
+      if (!is.null(`description`)) {
+        if (!(is.character(`description`) && length(`description`) == 1)) {
+          stop(paste("Error! Invalid data for `description`. Must be a string:", `description`))
+        }
+        self$`description` <- `description`
+      }
+      if (!is.null(`dbxrefs`)) {
+        stopifnot(is.vector(`dbxrefs`), length(`dbxrefs`) != 0)
+        sapply(`dbxrefs`, function(x) stopifnot(is.character(x)))
+        self$`dbxrefs` <- `dbxrefs`
+      }
+      if (!is.null(`control_type`)) {
+        if (!(is.character(`control_type`) && length(`control_type`) == 1)) {
+          stop(paste("Error! Invalid data for `control_type`. Must be a string:", `control_type`))
+        }
+        self$`control_type` <- `control_type`
+      }
+      if (!is.null(`samples`)) {
+        stopifnot(is.vector(`samples`), length(`samples`) != 0)
+        sapply(`samples`, function(x) stopifnot(is.character(x)))
+        self$`samples` <- `samples`
+      }
+      if (!is.null(`donors`)) {
+        stopifnot(is.vector(`donors`), length(`donors`) != 0)
+        sapply(`donors`, function(x) stopifnot(is.character(x)))
+        self$`donors` <- `donors`
+      }
+      if (!is.null(`file_set_type`)) {
+        if (!(`file_set_type` %in% c("activity level", "binding effect", "functional effect", "pathogenicity", "protein stability"))) {
+          stop(paste("Error! \"", `file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"activity level\", \"binding effect\", \"functional effect\", \"pathogenicity\", \"protein stability\".", sep = ""))
+        }
+        if (!(is.character(`file_set_type`) && length(`file_set_type`) == 1)) {
+          stop(paste("Error! Invalid data for `file_set_type`. Must be a string:", `file_set_type`))
+        }
+        self$`file_set_type` <- `file_set_type`
+      }
+      if (!is.null(`scope`)) {
+        if (!(`scope` %in% c("genes", "loci", "genome-wide"))) {
+          stop(paste("Error! \"", `scope`, "\" cannot be assigned to `scope`. Must be \"genes\", \"loci\", \"genome-wide\".", sep = ""))
+        }
+        if (!(is.character(`scope`) && length(`scope`) == 1)) {
+          stop(paste("Error! Invalid data for `scope`. Must be a string:", `scope`))
+        }
+        self$`scope` <- `scope`
+      }
+      if (!is.null(`assessed_genes`)) {
+        stopifnot(is.vector(`assessed_genes`), length(`assessed_genes`) != 0)
+        sapply(`assessed_genes`, function(x) stopifnot(is.character(x)))
+        self$`assessed_genes` <- `assessed_genes`
+      }
+      if (!is.null(`@id`)) {
+        if (!(is.character(`@id`) && length(`@id`) == 1)) {
+          stop(paste("Error! Invalid data for `@id`. Must be a string:", `@id`))
+        }
+        self$`@id` <- `@id`
+      }
+      if (!is.null(`@type`)) {
+        stopifnot(is.vector(`@type`), length(`@type`) != 0)
+        sapply(`@type`, function(x) stopifnot(is.character(x)))
+        self$`@type` <- `@type`
+      }
+      if (!is.null(`summary`)) {
+        if (!(is.character(`summary`) && length(`summary`) == 1)) {
+          stop(paste("Error! Invalid data for `summary`. Must be a string:", `summary`))
+        }
+        self$`summary` <- `summary`
+      }
+      if (!is.null(`files`)) {
+        stopifnot(is.vector(`files`), length(`files`) != 0)
+        sapply(`files`, function(x) stopifnot(is.character(x)))
+        self$`files` <- `files`
+      }
+      if (!is.null(`control_for`)) {
+        stopifnot(is.vector(`control_for`), length(`control_for`) != 0)
+        sapply(`control_for`, function(x) stopifnot(is.character(x)))
+        self$`control_for` <- `control_for`
+      }
+      if (!is.null(`submitted_files_timestamp`)) {
+        if (!(is.character(`submitted_files_timestamp`) && length(`submitted_files_timestamp`) == 1)) {
+          stop(paste("Error! Invalid data for `submitted_files_timestamp`. Must be a string:", `submitted_files_timestamp`))
+        }
+        self$`submitted_files_timestamp` <- `submitted_files_timestamp`
+      }
+      if (!is.null(`input_file_set_for`)) {
+        stopifnot(is.vector(`input_file_set_for`), length(`input_file_set_for`) != 0)
+        sapply(`input_file_set_for`, function(x) stopifnot(is.character(x)))
+        self$`input_file_set_for` <- `input_file_set_for`
+      }
+      if (!is.null(additional_properties)) {
+        for (key in names(additional_properties)) {
+          self$additional_properties[[key]] <- additional_properties[[key]]
+        }
       }
     },
-    #' Deserialize JSON string into an instance of PredictionSet.
+    #' To JSON string
     #'
     #' @description
-    #' Deserialize JSON string into an instance of PredictionSet.
-    #' An alias to the method `fromJSON` .
+    #' To JSON String
     #'
-    #' @param input The input JSON.
-    #' @return An instance of PredictionSet.
+    #' @return PredictionSet in JSON format
     #' @export
-    fromJSONString = function(input) {
-      self$fromJSON(input)
+    toJSON = function() {
+      PredictionSetObject <- list()
+      if (!is.null(self$`input_file_sets`)) {
+        PredictionSetObject[["input_file_sets"]] <-
+          self$`input_file_sets`
+      }
+      if (!is.null(self$`small_scale_loci_list`)) {
+        PredictionSetObject[["small_scale_loci_list"]] <-
+          lapply(self$`small_scale_loci_list`, function(x) x$toJSON())
+      }
+      if (!is.null(self$`large_scale_loci_list`)) {
+        PredictionSetObject[["large_scale_loci_list"]] <-
+          self$`large_scale_loci_list`
+      }
+      if (!is.null(self$`small_scale_gene_list`)) {
+        PredictionSetObject[["small_scale_gene_list"]] <-
+          self$`small_scale_gene_list`
+      }
+      if (!is.null(self$`large_scale_gene_list`)) {
+        PredictionSetObject[["large_scale_gene_list"]] <-
+          self$`large_scale_gene_list`
+      }
+      if (!is.null(self$`release_timestamp`)) {
+        PredictionSetObject[["release_timestamp"]] <-
+          self$`release_timestamp`
+      }
+      if (!is.null(self$`publications`)) {
+        PredictionSetObject[["publications"]] <-
+          self$`publications`
+      }
+      if (!is.null(self$`documents`)) {
+        PredictionSetObject[["documents"]] <-
+          self$`documents`
+      }
+      if (!is.null(self$`lab`)) {
+        PredictionSetObject[["lab"]] <-
+          self$`lab`
+      }
+      if (!is.null(self$`award`)) {
+        PredictionSetObject[["award"]] <-
+          self$`award`
+      }
+      if (!is.null(self$`accession`)) {
+        PredictionSetObject[["accession"]] <-
+          self$`accession`
+      }
+      if (!is.null(self$`alternate_accessions`)) {
+        PredictionSetObject[["alternate_accessions"]] <-
+          self$`alternate_accessions`
+      }
+      if (!is.null(self$`collections`)) {
+        PredictionSetObject[["collections"]] <-
+          self$`collections`
+      }
+      if (!is.null(self$`status`)) {
+        PredictionSetObject[["status"]] <-
+          self$`status`
+      }
+      if (!is.null(self$`revoke_detail`)) {
+        PredictionSetObject[["revoke_detail"]] <-
+          self$`revoke_detail`
+      }
+      if (!is.null(self$`url`)) {
+        PredictionSetObject[["url"]] <-
+          self$`url`
+      }
+      if (!is.null(self$`schema_version`)) {
+        PredictionSetObject[["schema_version"]] <-
+          self$`schema_version`
+      }
+      if (!is.null(self$`uuid`)) {
+        PredictionSetObject[["uuid"]] <-
+          self$`uuid`
+      }
+      if (!is.null(self$`notes`)) {
+        PredictionSetObject[["notes"]] <-
+          self$`notes`
+      }
+      if (!is.null(self$`aliases`)) {
+        PredictionSetObject[["aliases"]] <-
+          self$`aliases`
+      }
+      if (!is.null(self$`creation_timestamp`)) {
+        PredictionSetObject[["creation_timestamp"]] <-
+          self$`creation_timestamp`
+      }
+      if (!is.null(self$`submitted_by`)) {
+        PredictionSetObject[["submitted_by"]] <-
+          self$`submitted_by`
+      }
+      if (!is.null(self$`submitter_comment`)) {
+        PredictionSetObject[["submitter_comment"]] <-
+          self$`submitter_comment`
+      }
+      if (!is.null(self$`description`)) {
+        PredictionSetObject[["description"]] <-
+          self$`description`
+      }
+      if (!is.null(self$`dbxrefs`)) {
+        PredictionSetObject[["dbxrefs"]] <-
+          self$`dbxrefs`
+      }
+      if (!is.null(self$`control_type`)) {
+        PredictionSetObject[["control_type"]] <-
+          self$`control_type`
+      }
+      if (!is.null(self$`samples`)) {
+        PredictionSetObject[["samples"]] <-
+          self$`samples`
+      }
+      if (!is.null(self$`donors`)) {
+        PredictionSetObject[["donors"]] <-
+          self$`donors`
+      }
+      if (!is.null(self$`file_set_type`)) {
+        PredictionSetObject[["file_set_type"]] <-
+          self$`file_set_type`
+      }
+      if (!is.null(self$`scope`)) {
+        PredictionSetObject[["scope"]] <-
+          self$`scope`
+      }
+      if (!is.null(self$`assessed_genes`)) {
+        PredictionSetObject[["assessed_genes"]] <-
+          self$`assessed_genes`
+      }
+      if (!is.null(self$`@id`)) {
+        PredictionSetObject[["@id"]] <-
+          self$`@id`
+      }
+      if (!is.null(self$`@type`)) {
+        PredictionSetObject[["@type"]] <-
+          self$`@type`
+      }
+      if (!is.null(self$`summary`)) {
+        PredictionSetObject[["summary"]] <-
+          self$`summary`
+      }
+      if (!is.null(self$`files`)) {
+        PredictionSetObject[["files"]] <-
+          self$`files`
+      }
+      if (!is.null(self$`control_for`)) {
+        PredictionSetObject[["control_for"]] <-
+          self$`control_for`
+      }
+      if (!is.null(self$`submitted_files_timestamp`)) {
+        PredictionSetObject[["submitted_files_timestamp"]] <-
+          self$`submitted_files_timestamp`
+      }
+      if (!is.null(self$`input_file_set_for`)) {
+        PredictionSetObject[["input_file_set_for"]] <-
+          self$`input_file_set_for`
+      }
+      for (key in names(self$additional_properties)) {
+        PredictionSetObject[[key]] <- self$additional_properties[[key]]
+      }
+
+      PredictionSetObject
     },
-    #' Deserialize JSON string into an instance of PredictionSet.
+    #' Deserialize JSON string into an instance of PredictionSet
     #'
     #' @description
-    #' Deserialize JSON string into an instance of PredictionSet.
+    #' Deserialize JSON string into an instance of PredictionSet
     #'
-    #' @param input The input JSON.
-    #' @return An instance of PredictionSet.
+    #' @param input_json the JSON input
+    #' @return the instance of PredictionSet
     #' @export
-    fromJSON = function(input) {
-      matched <- 0 # match counter
-      matched_schemas <- list() #names of matched schemas
-      error_messages <- list()
-      instance <- NULL
-
-      `AnyType_result` <- tryCatch({
-          `AnyType`$public_methods$validateJSON(input)
-          `AnyType_instance` <- `AnyType`$new()
-          instance <- `AnyType_instance`$fromJSON(input)
-          instance_type <- "AnyType"
-          matched_schemas <- append(matched_schemas, "AnyType")
-          matched <- matched + 1
-        },
-        error = function(err) err
-      )
-
-      if (!is.null(`AnyType_result`["error"])) {
-        error_messages <- append(error_messages, `AnyType_result`["message"])
+    fromJSON = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`input_file_sets`)) {
+        self$`input_file_sets` <- ApiClient$new()$deserializeObj(this_object$`input_file_sets`, "set[character]", loadNamespace("igvfclient"))
       }
-
-      `AnyType_result` <- tryCatch({
-          `AnyType`$public_methods$validateJSON(input)
-          `AnyType_instance` <- `AnyType`$new()
-          instance <- `AnyType_instance`$fromJSON(input)
-          instance_type <- "AnyType"
-          matched_schemas <- append(matched_schemas, "AnyType")
-          matched <- matched + 1
-        },
-        error = function(err) err
-      )
-
-      if (!is.null(`AnyType_result`["error"])) {
-        error_messages <- append(error_messages, `AnyType_result`["message"])
+      if (!is.null(this_object$`small_scale_loci_list`)) {
+        self$`small_scale_loci_list` <- ApiClient$new()$deserializeObj(this_object$`small_scale_loci_list`, "set[Locus1]", loadNamespace("igvfclient"))
       }
-
-      if (matched == 1) {
-        # successfully match exactly 1 schema specified in oneOf
-        self$actual_instance <- instance
-        self$actual_type <- instance_type
-      } else if (matched > 1) {
-        # more than 1 match
-        stop(paste(error_messages, collapse = " >> "), paste("Multiple matches found when deserializing the input into PredictionSet with oneOf schemas AnyType. Matched schemas: ",
-                   paste(matched_schemas, collapse = ", ")))
-      } else {
-        # no match
-        stop(paste("No match found when deserializing the input into PredictionSet with oneOf schemas AnyType. Details: >>",
-                   paste(error_messages, collapse = " >> ")))
+      if (!is.null(this_object$`large_scale_loci_list`)) {
+        self$`large_scale_loci_list` <- this_object$`large_scale_loci_list`
+      }
+      if (!is.null(this_object$`small_scale_gene_list`)) {
+        self$`small_scale_gene_list` <- ApiClient$new()$deserializeObj(this_object$`small_scale_gene_list`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`large_scale_gene_list`)) {
+        self$`large_scale_gene_list` <- this_object$`large_scale_gene_list`
+      }
+      if (!is.null(this_object$`release_timestamp`)) {
+        self$`release_timestamp` <- this_object$`release_timestamp`
+      }
+      if (!is.null(this_object$`publications`)) {
+        self$`publications` <- ApiClient$new()$deserializeObj(this_object$`publications`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`documents`)) {
+        self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`lab`)) {
+        self$`lab` <- this_object$`lab`
+      }
+      if (!is.null(this_object$`award`)) {
+        self$`award` <- this_object$`award`
+      }
+      if (!is.null(this_object$`accession`)) {
+        self$`accession` <- this_object$`accession`
+      }
+      if (!is.null(this_object$`alternate_accessions`)) {
+        self$`alternate_accessions` <- ApiClient$new()$deserializeObj(this_object$`alternate_accessions`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`collections`)) {
+        self$`collections` <- ApiClient$new()$deserializeObj(this_object$`collections`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`status`)) {
+        if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
+          stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"in progress\", \"released\", \"deleted\", \"replaced\", \"revoked\", \"archived\".", sep = ""))
+        }
+        self$`status` <- this_object$`status`
+      }
+      if (!is.null(this_object$`revoke_detail`)) {
+        self$`revoke_detail` <- this_object$`revoke_detail`
+      }
+      if (!is.null(this_object$`url`)) {
+        self$`url` <- this_object$`url`
+      }
+      if (!is.null(this_object$`schema_version`)) {
+        self$`schema_version` <- this_object$`schema_version`
+      }
+      if (!is.null(this_object$`uuid`)) {
+        self$`uuid` <- this_object$`uuid`
+      }
+      if (!is.null(this_object$`notes`)) {
+        self$`notes` <- this_object$`notes`
+      }
+      if (!is.null(this_object$`aliases`)) {
+        self$`aliases` <- ApiClient$new()$deserializeObj(this_object$`aliases`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`creation_timestamp`)) {
+        self$`creation_timestamp` <- this_object$`creation_timestamp`
+      }
+      if (!is.null(this_object$`submitted_by`)) {
+        self$`submitted_by` <- this_object$`submitted_by`
+      }
+      if (!is.null(this_object$`submitter_comment`)) {
+        self$`submitter_comment` <- this_object$`submitter_comment`
+      }
+      if (!is.null(this_object$`description`)) {
+        self$`description` <- this_object$`description`
+      }
+      if (!is.null(this_object$`dbxrefs`)) {
+        self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`control_type`)) {
+        self$`control_type` <- this_object$`control_type`
+      }
+      if (!is.null(this_object$`samples`)) {
+        self$`samples` <- ApiClient$new()$deserializeObj(this_object$`samples`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`donors`)) {
+        self$`donors` <- ApiClient$new()$deserializeObj(this_object$`donors`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`file_set_type`)) {
+        if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("activity level", "binding effect", "functional effect", "pathogenicity", "protein stability"))) {
+          stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"activity level\", \"binding effect\", \"functional effect\", \"pathogenicity\", \"protein stability\".", sep = ""))
+        }
+        self$`file_set_type` <- this_object$`file_set_type`
+      }
+      if (!is.null(this_object$`scope`)) {
+        if (!is.null(this_object$`scope`) && !(this_object$`scope` %in% c("genes", "loci", "genome-wide"))) {
+          stop(paste("Error! \"", this_object$`scope`, "\" cannot be assigned to `scope`. Must be \"genes\", \"loci\", \"genome-wide\".", sep = ""))
+        }
+        self$`scope` <- this_object$`scope`
+      }
+      if (!is.null(this_object$`assessed_genes`)) {
+        self$`assessed_genes` <- ApiClient$new()$deserializeObj(this_object$`assessed_genes`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`@id`)) {
+        self$`@id` <- this_object$`@id`
+      }
+      if (!is.null(this_object$`@type`)) {
+        self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`summary`)) {
+        self$`summary` <- this_object$`summary`
+      }
+      if (!is.null(this_object$`files`)) {
+        self$`files` <- ApiClient$new()$deserializeObj(this_object$`files`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`control_for`)) {
+        self$`control_for` <- ApiClient$new()$deserializeObj(this_object$`control_for`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`submitted_files_timestamp`)) {
+        self$`submitted_files_timestamp` <- this_object$`submitted_files_timestamp`
+      }
+      if (!is.null(this_object$`input_file_set_for`)) {
+        self$`input_file_set_for` <- ApiClient$new()$deserializeObj(this_object$`input_file_set_for`, "set[character]", loadNamespace("igvfclient"))
+      }
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
       }
 
       self
     },
-    #' Serialize PredictionSet to JSON string.
+    #' To JSON string
     #'
     #' @description
-    #' Serialize PredictionSet to JSON string.
+    #' To JSON String
     #'
-    #' @return JSON string representation of the PredictionSet.
+    #' @return PredictionSet in JSON format
     #' @export
     toJSONString = function() {
-      if (!is.null(self$actual_instance)) {
-        as.character(jsonlite::minify(self$actual_instance$toJSONString()))
-      } else {
-        NULL
-      }
-    },
-    #' Serialize PredictionSet to JSON.
-    #'
-    #' @description
-    #' Serialize PredictionSet to JSON.
-    #'
-    #' @return JSON representation of the PredictionSet.
-    #' @export
-    toJSON = function() {
-      if (!is.null(self$actual_instance)) {
-        self$actual_instance$toJSON()
-      } else {
-        NULL
-      }
-    },
-    #' Validate the input JSON with respect to PredictionSet.
-    #'
-    #' @description
-    #' Validate the input JSON with respect to PredictionSet and
-    #' throw exception if invalid.
-    #'
-    #' @param input The input JSON.
-    #' @export
-    validateJSON = function(input) {
-      # backup current values
-      actual_instance_bak <- self$actual_instance
-      actual_type_bak <- self$actual_type
-
-      # if it's not valid, an error will be thrown
-      self$fromJSON(input)
-
-      # no error thrown, restore old values
-      self$actual_instance <- actual_instance_bak
-      self$actual_type <- actual_type_bak
-    },
-    #' Returns the string representation of the instance.
-    #'
-    #' @description
-    #' Returns the string representation of the instance.
-    #'
-    #' @return The string representation of the instance.
-    #' @export
-    toString = function() {
       jsoncontent <- c(
-        sprintf('"actual_instance": %s', if (is.null(self$actual_instance)) NULL else self$actual_instance$toJSONString()),
-        sprintf('"actual_type": "%s"', self$actual_type),
-        sprintf('"one_of": "%s"', paste(unlist(self$one_of), collapse = ", "))
+        if (!is.null(self$`input_file_sets`)) {
+          sprintf(
+          '"input_file_sets":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`input_file_sets`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`small_scale_loci_list`)) {
+          sprintf(
+          '"small_scale_loci_list":
+          [%s]
+',
+          paste(sapply(self$`small_scale_loci_list`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox = TRUE, digits = NA)), collapse = ",")
+          )
+        },
+        if (!is.null(self$`large_scale_loci_list`)) {
+          sprintf(
+          '"large_scale_loci_list":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`large_scale_loci_list`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`small_scale_gene_list`)) {
+          sprintf(
+          '"small_scale_gene_list":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`small_scale_gene_list`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`large_scale_gene_list`)) {
+          sprintf(
+          '"large_scale_gene_list":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`large_scale_gene_list`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`release_timestamp`)) {
+          sprintf(
+          '"release_timestamp":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`release_timestamp`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`publications`)) {
+          sprintf(
+          '"publications":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`publications`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`documents`)) {
+          sprintf(
+          '"documents":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`documents`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`lab`)) {
+          sprintf(
+          '"lab":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`lab`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`award`)) {
+          sprintf(
+          '"award":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`award`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`accession`)) {
+          sprintf(
+          '"accession":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`accession`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`alternate_accessions`)) {
+          sprintf(
+          '"alternate_accessions":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`alternate_accessions`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`collections`)) {
+          sprintf(
+          '"collections":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`collections`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`status`)) {
+          sprintf(
+          '"status":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`status`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`revoke_detail`)) {
+          sprintf(
+          '"revoke_detail":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`revoke_detail`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`url`)) {
+          sprintf(
+          '"url":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`url`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`schema_version`)) {
+          sprintf(
+          '"schema_version":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`schema_version`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`uuid`)) {
+          sprintf(
+          '"uuid":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`uuid`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`notes`)) {
+          sprintf(
+          '"notes":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`notes`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`aliases`)) {
+          sprintf(
+          '"aliases":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`aliases`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`creation_timestamp`)) {
+          sprintf(
+          '"creation_timestamp":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`creation_timestamp`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`submitted_by`)) {
+          sprintf(
+          '"submitted_by":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`submitted_by`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`submitter_comment`)) {
+          sprintf(
+          '"submitter_comment":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`submitter_comment`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`description`)) {
+          sprintf(
+          '"description":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`description`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`dbxrefs`)) {
+          sprintf(
+          '"dbxrefs":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`dbxrefs`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`control_type`)) {
+          sprintf(
+          '"control_type":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`control_type`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`samples`)) {
+          sprintf(
+          '"samples":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`samples`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`donors`)) {
+          sprintf(
+          '"donors":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`donors`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`file_set_type`)) {
+          sprintf(
+          '"file_set_type":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`file_set_type`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`scope`)) {
+          sprintf(
+          '"scope":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`scope`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`assessed_genes`)) {
+          sprintf(
+          '"assessed_genes":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`assessed_genes`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`@id`)) {
+          sprintf(
+          '"@id":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`@id`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`@type`)) {
+          sprintf(
+          '"@type":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`@type`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`summary`)) {
+          sprintf(
+          '"summary":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`summary`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`files`)) {
+          sprintf(
+          '"files":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`files`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`control_for`)) {
+          sprintf(
+          '"control_for":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`control_for`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`submitted_files_timestamp`)) {
+          sprintf(
+          '"submitted_files_timestamp":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`submitted_files_timestamp`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`input_file_set_for`)) {
+          sprintf(
+          '"input_file_set_for":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`input_file_set_for`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
-      as.character(jsonlite::prettify(paste("{", jsoncontent, "}", sep = "")))
+      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+      json_obj <- jsonlite::fromJSON(json_string)
+      for (key in names(self$additional_properties)) {
+        json_obj[[key]] <- self$additional_properties[[key]]
+      }
+      json_string <- as.character(jsonlite::minify(jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA)))
+    },
+    #' Deserialize JSON string into an instance of PredictionSet
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of PredictionSet
+    #'
+    #' @param input_json the JSON input
+    #' @return the instance of PredictionSet
+    #' @export
+    fromJSONString = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      self$`input_file_sets` <- ApiClient$new()$deserializeObj(this_object$`input_file_sets`, "set[character]", loadNamespace("igvfclient"))
+      self$`small_scale_loci_list` <- ApiClient$new()$deserializeObj(this_object$`small_scale_loci_list`, "set[Locus1]", loadNamespace("igvfclient"))
+      self$`large_scale_loci_list` <- this_object$`large_scale_loci_list`
+      self$`small_scale_gene_list` <- ApiClient$new()$deserializeObj(this_object$`small_scale_gene_list`, "set[character]", loadNamespace("igvfclient"))
+      self$`large_scale_gene_list` <- this_object$`large_scale_gene_list`
+      self$`release_timestamp` <- this_object$`release_timestamp`
+      self$`publications` <- ApiClient$new()$deserializeObj(this_object$`publications`, "set[character]", loadNamespace("igvfclient"))
+      self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
+      self$`lab` <- this_object$`lab`
+      self$`award` <- this_object$`award`
+      self$`accession` <- this_object$`accession`
+      self$`alternate_accessions` <- ApiClient$new()$deserializeObj(this_object$`alternate_accessions`, "set[character]", loadNamespace("igvfclient"))
+      self$`collections` <- ApiClient$new()$deserializeObj(this_object$`collections`, "set[character]", loadNamespace("igvfclient"))
+      if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
+        stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"in progress\", \"released\", \"deleted\", \"replaced\", \"revoked\", \"archived\".", sep = ""))
+      }
+      self$`status` <- this_object$`status`
+      self$`revoke_detail` <- this_object$`revoke_detail`
+      self$`url` <- this_object$`url`
+      self$`schema_version` <- this_object$`schema_version`
+      self$`uuid` <- this_object$`uuid`
+      self$`notes` <- this_object$`notes`
+      self$`aliases` <- ApiClient$new()$deserializeObj(this_object$`aliases`, "set[character]", loadNamespace("igvfclient"))
+      self$`creation_timestamp` <- this_object$`creation_timestamp`
+      self$`submitted_by` <- this_object$`submitted_by`
+      self$`submitter_comment` <- this_object$`submitter_comment`
+      self$`description` <- this_object$`description`
+      self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
+      self$`control_type` <- this_object$`control_type`
+      self$`samples` <- ApiClient$new()$deserializeObj(this_object$`samples`, "set[character]", loadNamespace("igvfclient"))
+      self$`donors` <- ApiClient$new()$deserializeObj(this_object$`donors`, "set[character]", loadNamespace("igvfclient"))
+      if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("activity level", "binding effect", "functional effect", "pathogenicity", "protein stability"))) {
+        stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"activity level\", \"binding effect\", \"functional effect\", \"pathogenicity\", \"protein stability\".", sep = ""))
+      }
+      self$`file_set_type` <- this_object$`file_set_type`
+      if (!is.null(this_object$`scope`) && !(this_object$`scope` %in% c("genes", "loci", "genome-wide"))) {
+        stop(paste("Error! \"", this_object$`scope`, "\" cannot be assigned to `scope`. Must be \"genes\", \"loci\", \"genome-wide\".", sep = ""))
+      }
+      self$`scope` <- this_object$`scope`
+      self$`assessed_genes` <- ApiClient$new()$deserializeObj(this_object$`assessed_genes`, "set[character]", loadNamespace("igvfclient"))
+      self$`@id` <- this_object$`@id`
+      self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
+      self$`summary` <- this_object$`summary`
+      self$`files` <- ApiClient$new()$deserializeObj(this_object$`files`, "set[character]", loadNamespace("igvfclient"))
+      self$`control_for` <- ApiClient$new()$deserializeObj(this_object$`control_for`, "set[character]", loadNamespace("igvfclient"))
+      self$`submitted_files_timestamp` <- this_object$`submitted_files_timestamp`
+      self$`input_file_set_for` <- ApiClient$new()$deserializeObj(this_object$`input_file_set_for`, "set[character]", loadNamespace("igvfclient"))
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
+      self
+    },
+    #' Validate JSON input with respect to PredictionSet
+    #'
+    #' @description
+    #' Validate JSON input with respect to PredictionSet and throw an exception if invalid
+    #'
+    #' @param input the JSON input
+    #' @export
+    validateJSON = function(input) {
+      input_json <- jsonlite::fromJSON(input)
+    },
+    #' To string (JSON format)
+    #'
+    #' @description
+    #' To string (JSON format)
+    #'
+    #' @return String representation of PredictionSet
+    #' @export
+    toString = function() {
+      self$toJSONString()
+    },
+    #' Return true if the values in all fields are valid.
+    #'
+    #' @description
+    #' Return true if the values in all fields are valid.
+    #'
+    #' @return true if the values in all fields are valid.
+    #' @export
+    isValid = function() {
+
+
+
+
+
+
+
+      if (!str_detect(self$`revoke_detail`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
+        return(FALSE)
+      }
+
+      if (!str_detect(self$`schema_version`, "^\\d+(\\.\\d+)*$")) {
+        return(FALSE)
+      }
+
+      if (!str_detect(self$`notes`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
+        return(FALSE)
+      }
+
+
+      if (!str_detect(self$`submitter_comment`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
+        return(FALSE)
+      }
+
+      if (!str_detect(self$`description`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
+        return(FALSE)
+      }
+
+
+
+
+
+
+
+
+      TRUE
+    },
+    #' Return a list of invalid fields (if any).
+    #'
+    #' @description
+    #' Return a list of invalid fields (if any).
+    #'
+    #' @return A list of invalid fields (if any).
+    #' @export
+    getInvalidFields = function() {
+      invalid_fields <- list()
+
+
+
+
+
+
+
+      if (!str_detect(self$`revoke_detail`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
+        invalid_fields["revoke_detail"] <- "Invalid value for `revoke_detail`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
+      }
+
+      if (!str_detect(self$`schema_version`, "^\\d+(\\.\\d+)*$")) {
+        invalid_fields["schema_version"] <- "Invalid value for `schema_version`, must conform to the pattern ^\\d+(\\.\\d+)*$."
+      }
+
+      if (!str_detect(self$`notes`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
+        invalid_fields["notes"] <- "Invalid value for `notes`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
+      }
+
+
+      if (!str_detect(self$`submitter_comment`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
+        invalid_fields["submitter_comment"] <- "Invalid value for `submitter_comment`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
+      }
+
+      if (!str_detect(self$`description`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
+        invalid_fields["description"] <- "Invalid value for `description`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
+      }
+
+
+
+
+
+
+
+
+      invalid_fields
     },
     #' Print the object
     #'
@@ -186,13 +1191,13 @@ PredictionSet <- R6::R6Class(
   lock_class = TRUE
 )
 ## Uncomment below to unlock the class to allow modifications of the method or field
-#PredictionSet$unlock()
+# PredictionSet$unlock()
 #
 ## Below is an example to define the print function
-#PredictionSet$set("public", "print", function(...) {
-#  print(jsonlite::prettify(self$toJSONString()))
-#  invisible(self)
-#})
+# PredictionSet$set("public", "print", function(...) {
+#   print(jsonlite::prettify(self$toJSONString()))
+#   invisible(self)
+# })
 ## Uncomment below to lock the class to prevent modifications to the method or field
-#PredictionSet$lock()
+# PredictionSet$lock()
 

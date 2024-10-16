@@ -20,8 +20,8 @@ Name | Type | Description | Notes
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** | A summary of the object. | [optional] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
-**lab** | **character** | Lab associated with the submission. | 
-**award** | **character** | Grant associated with the submission. | 
+**lab** | **character** | Lab associated with the submission. | [optional] 
+**award** | **character** | Grant associated with the submission. | [optional] 
 **analysis_step_types** | **set[character]** | The classification of the software. | [optional] [Enum: ] 
 **step_label** | **character** | Unique lowercased label of the analysis step that includes the relevant assays, the software used, and the purpose of the step, e.g. rampage-grit-peak-calling-step | [optional] [Pattern: ^[a-z0-9-]+-step$] 
 **title** | **character** | The full name of the user. | [optional] 
@@ -82,7 +82,7 @@ Name | Type | Description | Notes
 **content_type** | **character** | The type of content in the file. | [optional] 
 **derived_from** | **set[character]** | The files participating as inputs into software to produce this output file. | [optional] 
 **derived_manually** | **character** | A boolean indicating whether the file has been dervided manually without automated computational methods. | [optional] 
-**file_format** | [**FileFormat**](File_Format.md) |  | [optional] 
+**file_format** | **character** | The file format or extension of the file. | [optional] [Enum: [bed, csv, gtf, tsv, txt, vcf]] 
 **file_format_specifications** | **set[character]** | Documents that describe the file format and fields of this file. | [optional] 
 **file_set** | **character** | The file set that this file belongs to. | [optional] 
 **file_size** | **integer** | File size specified in bytes. | [optional] [Min: 0] 
@@ -128,9 +128,9 @@ Name | Type | Description | Notes
 **barcode_map_for** | **set[character]** | Link(s) to the Multiplexed samples using this file as barcode map. | [optional] 
 **input_file_sets** | **set[character]** | The file set(s) required for this prediction set. | [optional] 
 **control_type** | **character** | The type of control this file set represents. | [optional] 
-**samples** | **set[character]** | The samples associated with this publication. | 
-**donors** | **set[character]** | Donor(s) the sample was derived from. | 
-**file_set_type** | **character** | The category that best describes this prediction set. | [Enum: [activity level, binding effect, functional effect, pathogenicity, protein stability]] 
+**samples** | **set[character]** | The samples associated with this publication. | [optional] 
+**donors** | **set[character]** | Donor(s) the sample was derived from. | [optional] 
+**file_set_type** | **character** | The category that best describes this prediction set. | [optional] [Enum: [activity level, binding effect, functional effect, pathogenicity, protein stability]] 
 **external_image_data_url** | **character** | Links to the external site where images and related data produced by this analysis are stored. | [optional] [Pattern: ^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$] 
 **files** | **set[character]** | The files associated with this file set. | [optional] 
 **control_for** | **set[character]** | The file sets for which this file set is a control. | [optional] 
@@ -141,7 +141,7 @@ Name | Type | Description | Notes
 **functional_assay_mechanisms** | **set[character]** | The biological processes measured by this functional assay. For example, a VAMP-seq (MultiSTEP) assay measures the effects of variants on protein carboxylation and secretion processes. | [optional] 
 **barcode_map** | **character** | The link to the barcode mapping tabular file. | [optional] 
 **measurement_sets** | **set[character]** | The measurement sets that link to this auxiliary set. | [optional] 
-**small_scale_loci_list** | **set[object]** | A small scale (&lt;&#x3D;100) list of specific chromosomal region(s) whose functionality is investigated in this prediction set. This property describes the input variables of the prediction set. For example, this list consists of the genetic variants whose functionality is predicted in this prediction set. | [optional] 
+**small_scale_loci_list** | [**set[Locus1]**](Locus_1.md) | A small scale (&lt;&#x3D;100) list of specific chromosomal region(s) whose functionality is investigated in this prediction set. This property describes the input variables of the prediction set. For example, this list consists of the genetic variants whose functionality is predicted in this prediction set. | [optional] 
 **large_scale_loci_list** | **character** | A large scale list (&gt;100) of specific chromosomal regions whose functionality is investigated in this prediction set. This property describes the input variables of the prediction set. For example, this list consists of the genetic variants whose functionality is predicted in this prediction set. | [optional] 
 **small_scale_gene_list** | **set[character]** | The specific, small scale list of (&lt;&#x3D;100) gene(s) whose functionality is investigated in this prediction set. This property describes the input variables of the prediction set. For example, this list consists of the genes whose expression level is predicted in this prediction set. It differs from assessed_genes (see more information under assessed_genes). | [optional] 
 **large_scale_gene_list** | **character** | The large scale list of (&gt;100 genes) whose functionality is investigated in this prediction set. This property describes the input variables of the prediction set. For example, this list consists of the genes whose expression level is predicted in this prediction set. It differs from assessed_genes (see more information under assessed_genes). | [optional] 
