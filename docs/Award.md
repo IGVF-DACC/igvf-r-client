@@ -21,7 +21,7 @@ Name | Type | Description | Notes
 **end_date** | **character** | The date when the award concludes. | [optional] 
 **pis** | **set[character]** | Principal Investigator(s) of the grant. | [optional] 
 **contact_pi** | **character** | The contact Principal Investigator of the grant. | [optional] 
-**project** | **character** | The collection of biological data related to a single initiative, originating from a consortium. | [optional] [Enum: [community, ENCODE, IGVF]] 
+**project** | **character** | The collection of biological data related to a single initiative, originating from a consortium. | [optional] [Enum: [community, ENCODE, IGVF, IGVF affiliate]] 
 **viewing_group** | **character** | The group that determines which set of data the user has permission to view. | [optional] [Enum: [community, IGVF]] 
 **component** | **character** | The project component the award is associated with. | [optional] [Enum: [affiliate, data analysis, data coordination, functional characterization, mapping, networks, predictive modeling]] 
 **@id** | **character** |  | [optional] 

@@ -32,7 +32,7 @@ Name | Type | Description | Notes
 **sex** | **character** | Sex of the donor. | [optional] [Enum: [male, female, unspecified]] 
 **phenotypic_features** | **set[character]** | A list of associated phenotypic features of the donor. | [optional] 
 **virtual** | **character** | Virtual donors are not representing actual human or model organism donors, samples coming from which were used in experiments, but rather capturing metadata about hypothetical donors that the reported analysis results are relevant for. | [optional] 
-**strain_background** | **character** | The specific parent strain designation of a non-human donor. | [optional] [Enum: [A/J (AJ), C57BL/6J (B6), 129S1/SvImJ (129), NOD/ShiLtJ (NOD), NZO/H1LtJ (NZO), CAST/EiJ (CAST), PWK/PhJ (PWK), WSB/EiJ (WSB), CAST (M. m. castaneus), WSB (M. m. domesticus), PWK (M. m. musculus)]] 
+**strain_background** | **character** | The specific parent strain designation of a non-human donor. | [optional] [Enum: [A/J (AJ), B6129S1F1/J, B6AF1/J, B6CASTF1/J, B6NODF1/J, B6NZOF1/J, B6PWKF1/J, B6WSBF1/J, C57BL/6J (B6), 129S1/SvImJ (129), NOD/ShiLtJ (NOD), NZO/H1LtJ (NZO), CAST/EiJ (CAST), PWK/PhJ (PWK), WSB/EiJ (WSB), CAST (M. m. castaneus), WSB (M. m. domesticus), PWK (M. m. musculus)]] 
 **strain** | **character** | The specific strain designation of a non-human donor. | [optional] 
 **genotype** | **character** | The genotype of the strain according to accepted nomenclature conventions. | [optional] 
 **individual_rodent** | **character** | This rodent donor represents an individual rodent. | [optional] 

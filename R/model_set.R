@@ -277,8 +277,8 @@ ModelSet <- R6::R6Class(
         self$`donors` <- `donors`
       }
       if (!is.null(`file_set_type`)) {
-        if (!(`file_set_type` %in% c("neural network", "random forest", "decision tree", "support vector machine", "variant binding effect"))) {
-          stop(paste("Error! \"", `file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"neural network\", \"random forest\", \"decision tree\", \"support vector machine\", \"variant binding effect\".", sep = ""))
+        if (!(`file_set_type` %in% c("decision tree", "neural network", "random forest", "support vector machine", "variant binding effect"))) {
+          stop(paste("Error! \"", `file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"decision tree\", \"neural network\", \"random forest\", \"support vector machine\", \"variant binding effect\".", sep = ""))
         }
         if (!(is.character(`file_set_type`) && length(`file_set_type`) == 1)) {
           stop(paste("Error! Invalid data for `file_set_type`. Must be a string:", `file_set_type`))
@@ -617,8 +617,8 @@ ModelSet <- R6::R6Class(
         self$`donors` <- ApiClient$new()$deserializeObj(this_object$`donors`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`file_set_type`)) {
-        if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("neural network", "random forest", "decision tree", "support vector machine", "variant binding effect"))) {
-          stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"neural network\", \"random forest\", \"decision tree\", \"support vector machine\", \"variant binding effect\".", sep = ""))
+        if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("decision tree", "neural network", "random forest", "support vector machine", "variant binding effect"))) {
+          stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"decision tree\", \"neural network\", \"random forest\", \"support vector machine\", \"variant binding effect\".", sep = ""))
         }
         self$`file_set_type` <- this_object$`file_set_type`
       }
@@ -1028,8 +1028,8 @@ ModelSet <- R6::R6Class(
       self$`control_type` <- this_object$`control_type`
       self$`samples` <- ApiClient$new()$deserializeObj(this_object$`samples`, "set[character]", loadNamespace("igvfclient"))
       self$`donors` <- ApiClient$new()$deserializeObj(this_object$`donors`, "set[character]", loadNamespace("igvfclient"))
-      if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("neural network", "random forest", "decision tree", "support vector machine", "variant binding effect"))) {
-        stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"neural network\", \"random forest\", \"decision tree\", \"support vector machine\", \"variant binding effect\".", sep = ""))
+      if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("decision tree", "neural network", "random forest", "support vector machine", "variant binding effect"))) {
+        stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"decision tree\", \"neural network\", \"random forest\", \"support vector machine\", \"variant binding effect\".", sep = ""))
       }
       self$`file_set_type` <- this_object$`file_set_type`
       self$`model_name` <- this_object$`model_name`

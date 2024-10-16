@@ -30,7 +30,7 @@
 #' @field control_type The type of control this file set represents. character [optional]
 #' @field samples The sample(s) associated with this file set. list(character) [optional]
 #' @field donors The donors of the samples associated with this analysis set. list(character) [optional]
-#' @field file_set_type The level of this analysis set. An intermediate analysis cannot be interpreted on its own and is part of a principal analysis. A principal analysis is the core analysis for an experimental design, the results of which can be interpretable on their own. character [optional]
+#' @field file_set_type The level of this analysis set. character [optional]
 #' @field external_image_data_url Links to the external site where images and related data produced by this analysis are stored. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
@@ -113,7 +113,7 @@ AnalysisSet <- R6::R6Class(
     #' @param control_type The type of control this file set represents.
     #' @param samples The sample(s) associated with this file set.
     #' @param donors The donors of the samples associated with this analysis set.
-    #' @param file_set_type The level of this analysis set. An intermediate analysis cannot be interpreted on its own and is part of a principal analysis. A principal analysis is the core analysis for an experimental design, the results of which can be interpretable on their own.
+    #' @param file_set_type The level of this analysis set.
     #' @param external_image_data_url Links to the external site where images and related data produced by this analysis are stored.
     #' @param @id @id
     #' @param @type @type

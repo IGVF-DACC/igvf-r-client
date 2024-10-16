@@ -33,7 +33,7 @@ Name | Type | Description | Notes
 **control_type** | **character** | The type of control this file set represents. | [optional] 
 **samples** | **set[character]** | The sample(s) associated with this file set. | [optional] 
 **donors** | **set[character]** | The donor(s) associated with this file set. | [optional] 
-**file_set_type** | **character** | The category that best describes this prediction set. | [optional] [Enum: [pathogenicity, functional effect, protein stability, activity level, binding effect]] 
+**file_set_type** | **character** | The category that best describes this prediction set. | [optional] [Enum: [activity level, binding effect, functional effect, pathogenicity, protein stability]] 
 **scope** | **character** | The scope or scale that this prediction set is designed to target. If the scope is across gene(s) or loci, these will need to be specified in the genes or loci property. | [optional] [Enum: [genes, loci, genome-wide]] 
 **assessed_genes** | **set[character]** | A list of gene(s) assessed in this prediction set. This property is used to describe the gene(s) being investigated, especially how the input variables in the prediction set affect some critical functionality of the gene(s). For example, the effect could be predicted from genetic variants on the binding affinity of a transcription factor encoded by a gene (assessed_genes). It differs from small_scale_gene_list and large_scale_gene_list, as these are used when the input variables of the prediction set are genes. | [optional] 
 **@id** | **character** |  | [optional] 

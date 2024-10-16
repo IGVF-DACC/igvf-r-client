@@ -29,7 +29,7 @@ Name | Type | Description | Notes
 **control_type** | **character** | The type of control this file set represents. | [optional] 
 **samples** | **set[character]** | The sample(s) associated with this file set. | [optional] 
 **donors** | **set[character]** | The donor(s) associated with this file set. | [optional] 
-**file_set_type** | **character** | The category that best describes this predictive model set. | [optional] [Enum: [neural network, random forest, decision tree, support vector machine, variant binding effect]] 
+**file_set_type** | **character** | The category that best describes this predictive model set. | [optional] [Enum: [decision tree, neural network, random forest, support vector machine, variant binding effect]] 
 **model_name** | **character** | The custom lab name given to this predictive model set. | [optional] 
 **model_version** | **character** | The semantic version number for this predictive model set. | [optional] [Pattern: ^v(?!0\\.0\\.0$)[0-9]+\\.[0-9]+\\.[0-9]+$] 
 **prediction_objects** | **set[character]** | The objects this predictive model set is targeting. | [optional] [Enum: ] 

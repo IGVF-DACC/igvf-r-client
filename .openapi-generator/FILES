@@ -38,6 +38,7 @@ R/degron_modification.R
 R/degron_modification_results.R
 R/document.R
 R/document_results.R
+R/file_format.R
 R/gene.R
 R/gene_location.R
 R/gene_location1.R
@@ -165,6 +166,7 @@ docs/DegronModification.md
 docs/DegronModificationResults.md
 docs/Document.md
 docs/DocumentResults.md
+docs/FileFormat.md
 docs/Gene.md
 docs/GeneLocation.md
 docs/GeneLocation1.md

@@ -33,6 +33,7 @@
 #' @field content_type The type of content in the file. character [optional]
 #' @field dbxrefs Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file objects. list(character) [optional]
 #' @field derived_from The files participating as inputs into software to produce this output file. list(character) [optional]
+#' @field derived_manually A boolean indicating whether the file has been dervided manually without automated computational methods. character [optional]
 #' @field file_format The file format or extension of the file. character [optional]
 #' @field file_format_specifications Documents that describe the file format and fields of this file. list(character) [optional]
 #' @field file_set The file set that this file belongs to. character [optional]
@@ -89,6 +90,7 @@ SignalFile <- R6::R6Class(
     `content_type` = NULL,
     `dbxrefs` = NULL,
     `derived_from` = NULL,
+    `derived_manually` = NULL,
     `file_format` = NULL,
     `file_format_specifications` = NULL,
     `file_set` = NULL,
@@ -144,6 +146,7 @@ SignalFile <- R6::R6Class(
     #' @param content_type The type of content in the file.
     #' @param dbxrefs Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file objects.
     #' @param derived_from The files participating as inputs into software to produce this output file.
+    #' @param derived_manually A boolean indicating whether the file has been dervided manually without automated computational methods.
     #' @param file_format The file format or extension of the file.
     #' @param file_format_specifications Documents that describe the file format and fields of this file.
     #' @param file_set The file set that this file belongs to.
@@ -170,7 +173,7 @@ SignalFile <- R6::R6Class(
     #' @param content_summary A summary of the data in the signal file.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`cell_type_annotation` = NULL, `transcriptome_annotation` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `reference_files` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `strand_specificity` = NULL, `filtered` = NULL, `normalized` = NULL, `start_view_position` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `content_summary` = NULL, ...) {
+    initialize = function(`cell_type_annotation` = NULL, `transcriptome_annotation` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `reference_files` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `strand_specificity` = NULL, `filtered` = NULL, `normalized` = NULL, `start_view_position` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `content_summary` = NULL, ...) {
       if (!is.null(`cell_type_annotation`)) {
         if (!(is.character(`cell_type_annotation`) && length(`cell_type_annotation`) == 1)) {
           stop(paste("Error! Invalid data for `cell_type_annotation`. Must be a string:", `cell_type_annotation`))
@@ -328,6 +331,12 @@ SignalFile <- R6::R6Class(
         stopifnot(is.vector(`derived_from`), length(`derived_from`) != 0)
         sapply(`derived_from`, function(x) stopifnot(is.character(x)))
         self$`derived_from` <- `derived_from`
+      }
+      if (!is.null(`derived_manually`)) {
+        if (!(is.logical(`derived_manually`) && length(`derived_manually`) == 1)) {
+          stop(paste("Error! Invalid data for `derived_manually`. Must be a boolean:", `derived_manually`))
+        }
+        self$`derived_manually` <- `derived_manually`
       }
       if (!is.null(`file_format`)) {
         if (!(`file_format` %in% c("bigWig"))) {
@@ -586,6 +595,10 @@ SignalFile <- R6::R6Class(
         SignalFileObject[["derived_from"]] <-
           self$`derived_from`
       }
+      if (!is.null(self$`derived_manually`)) {
+        SignalFileObject[["derived_manually"]] <-
+          self$`derived_manually`
+      }
       if (!is.null(self$`file_format`)) {
         SignalFileObject[["file_format"]] <-
           self$`file_format`
@@ -780,6 +793,9 @@ SignalFile <- R6::R6Class(
       }
       if (!is.null(this_object$`derived_from`)) {
         self$`derived_from` <- ApiClient$new()$deserializeObj(this_object$`derived_from`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`derived_manually`)) {
+        self$`derived_manually` <- this_object$`derived_manually`
       }
       if (!is.null(this_object$`file_format`)) {
         if (!is.null(this_object$`file_format`) && !(this_object$`file_format` %in% c("bigWig"))) {
@@ -1081,6 +1097,14 @@ SignalFile <- R6::R6Class(
           paste(unlist(lapply(self$`derived_from`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`derived_manually`)) {
+          sprintf(
+          '"derived_manually":
+            %s
+                    ',
+          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`derived_manually`, perl=TRUE))
+          )
+        },
         if (!is.null(self$`file_format`)) {
           sprintf(
           '"file_format":
@@ -1322,6 +1346,7 @@ SignalFile <- R6::R6Class(
       self$`content_type` <- this_object$`content_type`
       self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
       self$`derived_from` <- ApiClient$new()$deserializeObj(this_object$`derived_from`, "set[character]", loadNamespace("igvfclient"))
+      self$`derived_manually` <- this_object$`derived_manually`
       if (!is.null(this_object$`file_format`) && !(this_object$`file_format` %in% c("bigWig"))) {
         stop(paste("Error! \"", this_object$`file_format`, "\" cannot be assigned to `file_format`. Must be \"bigWig\".", sep = ""))
       }

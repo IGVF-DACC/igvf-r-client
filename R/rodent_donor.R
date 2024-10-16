@@ -290,8 +290,8 @@ RodentDonor <- R6::R6Class(
         self$`virtual` <- `virtual`
       }
       if (!is.null(`strain_background`)) {
-        if (!(`strain_background` %in% c("A/J (AJ)", "C57BL/6J (B6)", "129S1/SvImJ (129)", "NOD/ShiLtJ (NOD)", "NZO/H1LtJ (NZO)", "CAST/EiJ (CAST)", "PWK/PhJ (PWK)", "WSB/EiJ (WSB)", "CAST (M. m. castaneus)", "WSB (M. m. domesticus)", "PWK (M. m. musculus)"))) {
-          stop(paste("Error! \"", `strain_background`, "\" cannot be assigned to `strain_background`. Must be \"A/J (AJ)\", \"C57BL/6J (B6)\", \"129S1/SvImJ (129)\", \"NOD/ShiLtJ (NOD)\", \"NZO/H1LtJ (NZO)\", \"CAST/EiJ (CAST)\", \"PWK/PhJ (PWK)\", \"WSB/EiJ (WSB)\", \"CAST (M. m. castaneus)\", \"WSB (M. m. domesticus)\", \"PWK (M. m. musculus)\".", sep = ""))
+        if (!(`strain_background` %in% c("A/J (AJ)", "B6129S1F1/J", "B6AF1/J", "B6CASTF1/J", "B6NODF1/J", "B6NZOF1/J", "B6PWKF1/J", "B6WSBF1/J", "C57BL/6J (B6)", "129S1/SvImJ (129)", "NOD/ShiLtJ (NOD)", "NZO/H1LtJ (NZO)", "CAST/EiJ (CAST)", "PWK/PhJ (PWK)", "WSB/EiJ (WSB)", "CAST (M. m. castaneus)", "WSB (M. m. domesticus)", "PWK (M. m. musculus)"))) {
+          stop(paste("Error! \"", `strain_background`, "\" cannot be assigned to `strain_background`. Must be \"A/J (AJ)\", \"B6129S1F1/J\", \"B6AF1/J\", \"B6CASTF1/J\", \"B6NODF1/J\", \"B6NZOF1/J\", \"B6PWKF1/J\", \"B6WSBF1/J\", \"C57BL/6J (B6)\", \"129S1/SvImJ (129)\", \"NOD/ShiLtJ (NOD)\", \"NZO/H1LtJ (NZO)\", \"CAST/EiJ (CAST)\", \"PWK/PhJ (PWK)\", \"WSB/EiJ (WSB)\", \"CAST (M. m. castaneus)\", \"WSB (M. m. domesticus)\", \"PWK (M. m. musculus)\".", sep = ""))
         }
         if (!(is.character(`strain_background`) && length(`strain_background`) == 1)) {
           stop(paste("Error! Invalid data for `strain_background`. Must be a string:", `strain_background`))
@@ -592,8 +592,8 @@ RodentDonor <- R6::R6Class(
         self$`virtual` <- this_object$`virtual`
       }
       if (!is.null(this_object$`strain_background`)) {
-        if (!is.null(this_object$`strain_background`) && !(this_object$`strain_background` %in% c("A/J (AJ)", "C57BL/6J (B6)", "129S1/SvImJ (129)", "NOD/ShiLtJ (NOD)", "NZO/H1LtJ (NZO)", "CAST/EiJ (CAST)", "PWK/PhJ (PWK)", "WSB/EiJ (WSB)", "CAST (M. m. castaneus)", "WSB (M. m. domesticus)", "PWK (M. m. musculus)"))) {
-          stop(paste("Error! \"", this_object$`strain_background`, "\" cannot be assigned to `strain_background`. Must be \"A/J (AJ)\", \"C57BL/6J (B6)\", \"129S1/SvImJ (129)\", \"NOD/ShiLtJ (NOD)\", \"NZO/H1LtJ (NZO)\", \"CAST/EiJ (CAST)\", \"PWK/PhJ (PWK)\", \"WSB/EiJ (WSB)\", \"CAST (M. m. castaneus)\", \"WSB (M. m. domesticus)\", \"PWK (M. m. musculus)\".", sep = ""))
+        if (!is.null(this_object$`strain_background`) && !(this_object$`strain_background` %in% c("A/J (AJ)", "B6129S1F1/J", "B6AF1/J", "B6CASTF1/J", "B6NODF1/J", "B6NZOF1/J", "B6PWKF1/J", "B6WSBF1/J", "C57BL/6J (B6)", "129S1/SvImJ (129)", "NOD/ShiLtJ (NOD)", "NZO/H1LtJ (NZO)", "CAST/EiJ (CAST)", "PWK/PhJ (PWK)", "WSB/EiJ (WSB)", "CAST (M. m. castaneus)", "WSB (M. m. domesticus)", "PWK (M. m. musculus)"))) {
+          stop(paste("Error! \"", this_object$`strain_background`, "\" cannot be assigned to `strain_background`. Must be \"A/J (AJ)\", \"B6129S1F1/J\", \"B6AF1/J\", \"B6CASTF1/J\", \"B6NODF1/J\", \"B6NZOF1/J\", \"B6PWKF1/J\", \"B6WSBF1/J\", \"C57BL/6J (B6)\", \"129S1/SvImJ (129)\", \"NOD/ShiLtJ (NOD)\", \"NZO/H1LtJ (NZO)\", \"CAST/EiJ (CAST)\", \"PWK/PhJ (PWK)\", \"WSB/EiJ (WSB)\", \"CAST (M. m. castaneus)\", \"WSB (M. m. domesticus)\", \"PWK (M. m. musculus)\".", sep = ""))
         }
         self$`strain_background` <- this_object$`strain_background`
       }
@@ -959,8 +959,8 @@ RodentDonor <- R6::R6Class(
       self$`sex` <- this_object$`sex`
       self$`phenotypic_features` <- ApiClient$new()$deserializeObj(this_object$`phenotypic_features`, "set[character]", loadNamespace("igvfclient"))
       self$`virtual` <- this_object$`virtual`
-      if (!is.null(this_object$`strain_background`) && !(this_object$`strain_background` %in% c("A/J (AJ)", "C57BL/6J (B6)", "129S1/SvImJ (129)", "NOD/ShiLtJ (NOD)", "NZO/H1LtJ (NZO)", "CAST/EiJ (CAST)", "PWK/PhJ (PWK)", "WSB/EiJ (WSB)", "CAST (M. m. castaneus)", "WSB (M. m. domesticus)", "PWK (M. m. musculus)"))) {
-        stop(paste("Error! \"", this_object$`strain_background`, "\" cannot be assigned to `strain_background`. Must be \"A/J (AJ)\", \"C57BL/6J (B6)\", \"129S1/SvImJ (129)\", \"NOD/ShiLtJ (NOD)\", \"NZO/H1LtJ (NZO)\", \"CAST/EiJ (CAST)\", \"PWK/PhJ (PWK)\", \"WSB/EiJ (WSB)\", \"CAST (M. m. castaneus)\", \"WSB (M. m. domesticus)\", \"PWK (M. m. musculus)\".", sep = ""))
+      if (!is.null(this_object$`strain_background`) && !(this_object$`strain_background` %in% c("A/J (AJ)", "B6129S1F1/J", "B6AF1/J", "B6CASTF1/J", "B6NODF1/J", "B6NZOF1/J", "B6PWKF1/J", "B6WSBF1/J", "C57BL/6J (B6)", "129S1/SvImJ (129)", "NOD/ShiLtJ (NOD)", "NZO/H1LtJ (NZO)", "CAST/EiJ (CAST)", "PWK/PhJ (PWK)", "WSB/EiJ (WSB)", "CAST (M. m. castaneus)", "WSB (M. m. domesticus)", "PWK (M. m. musculus)"))) {
+        stop(paste("Error! \"", this_object$`strain_background`, "\" cannot be assigned to `strain_background`. Must be \"A/J (AJ)\", \"B6129S1F1/J\", \"B6AF1/J\", \"B6CASTF1/J\", \"B6NODF1/J\", \"B6NZOF1/J\", \"B6PWKF1/J\", \"B6WSBF1/J\", \"C57BL/6J (B6)\", \"129S1/SvImJ (129)\", \"NOD/ShiLtJ (NOD)\", \"NZO/H1LtJ (NZO)\", \"CAST/EiJ (CAST)\", \"PWK/PhJ (PWK)\", \"WSB/EiJ (WSB)\", \"CAST (M. m. castaneus)\", \"WSB (M. m. domesticus)\", \"PWK (M. m. musculus)\".", sep = ""))
       }
       self$`strain_background` <- this_object$`strain_background`
       self$`strain` <- this_object$`strain`

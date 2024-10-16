@@ -28,7 +28,7 @@ Name | Type | Description | Notes
 **control_type** | **character** | The type of control this file set represents. | [optional] 
 **samples** | **set[character]** | The sample(s) associated with this file set. | [optional] 
 **donors** | **set[character]** | The donors of the samples associated with this analysis set. | [optional] 
-**file_set_type** | **character** | The level of this analysis set. An intermediate analysis cannot be interpreted on its own and is part of a principal analysis. A principal analysis is the core analysis for an experimental design, the results of which can be interpretable on their own. | [optional] [Enum: [intermediate analysis, principal analysis]] 
+**file_set_type** | **character** | The level of this analysis set. | [optional] [Enum: [intermediate analysis, principal analysis]] 
 **external_image_data_url** | **character** | Links to the external site where images and related data produced by this analysis are stored. | [optional] [Pattern: ^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 

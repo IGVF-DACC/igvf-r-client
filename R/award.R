@@ -185,8 +185,8 @@ Award <- R6::R6Class(
         self$`contact_pi` <- `contact_pi`
       }
       if (!is.null(`project`)) {
-        if (!(`project` %in% c("community", "ENCODE", "IGVF"))) {
-          stop(paste("Error! \"", `project`, "\" cannot be assigned to `project`. Must be \"community\", \"ENCODE\", \"IGVF\".", sep = ""))
+        if (!(`project` %in% c("community", "ENCODE", "IGVF", "IGVF affiliate"))) {
+          stop(paste("Error! \"", `project`, "\" cannot be assigned to `project`. Must be \"community\", \"ENCODE\", \"IGVF\", \"IGVF affiliate\".", sep = ""))
         }
         if (!(is.character(`project`) && length(`project`) == 1)) {
           stop(paste("Error! Invalid data for `project`. Must be a string:", `project`))
@@ -390,8 +390,8 @@ Award <- R6::R6Class(
         self$`contact_pi` <- this_object$`contact_pi`
       }
       if (!is.null(this_object$`project`)) {
-        if (!is.null(this_object$`project`) && !(this_object$`project` %in% c("community", "ENCODE", "IGVF"))) {
-          stop(paste("Error! \"", this_object$`project`, "\" cannot be assigned to `project`. Must be \"community\", \"ENCODE\", \"IGVF\".", sep = ""))
+        if (!is.null(this_object$`project`) && !(this_object$`project` %in% c("community", "ENCODE", "IGVF", "IGVF affiliate"))) {
+          stop(paste("Error! \"", this_object$`project`, "\" cannot be assigned to `project`. Must be \"community\", \"ENCODE\", \"IGVF\", \"IGVF affiliate\".", sep = ""))
         }
         self$`project` <- this_object$`project`
       }
@@ -636,8 +636,8 @@ Award <- R6::R6Class(
       self$`end_date` <- this_object$`end_date`
       self$`pis` <- ApiClient$new()$deserializeObj(this_object$`pis`, "set[character]", loadNamespace("igvfclient"))
       self$`contact_pi` <- this_object$`contact_pi`
-      if (!is.null(this_object$`project`) && !(this_object$`project` %in% c("community", "ENCODE", "IGVF"))) {
-        stop(paste("Error! \"", this_object$`project`, "\" cannot be assigned to `project`. Must be \"community\", \"ENCODE\", \"IGVF\".", sep = ""))
+      if (!is.null(this_object$`project`) && !(this_object$`project` %in% c("community", "ENCODE", "IGVF", "IGVF affiliate"))) {
+        stop(paste("Error! \"", this_object$`project`, "\" cannot be assigned to `project`. Must be \"community\", \"ENCODE\", \"IGVF\", \"IGVF affiliate\".", sep = ""))
       }
       self$`project` <- this_object$`project`
       if (!is.null(this_object$`viewing_group`) && !(this_object$`viewing_group` %in% c("community", "IGVF"))) {
