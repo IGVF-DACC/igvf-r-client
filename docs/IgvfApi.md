@@ -7280,7 +7280,7 @@ var_derived_from <- c("inner_example") # array[character] | Filter by derived_fr
 var_derived_manually <- c("inner_example") # array[character] | Filter by derived_manually (Optional)
 var_description <- c("inner_example") # array[character] | Filter by description (Optional)
 var_documents <- c("inner_example") # array[character] | Filter by documents (Optional)
-var_file_format <- c("inner_example") # array[character] | Filter by file_format (Optional)
+var_file_format <- c("tsv") # array[character] | Filter by file_format (Optional)
 var_file_format_specifications <- c("inner_example") # array[character] | Filter by file_format_specifications (Optional)
 var_file_format_type <- c("bed12") # array[character] | Filter by file_format_type (Optional)
 var_file_set_id <- c("inner_example") # array[character] | Filter by file_set.@id (Optional)
@@ -7370,7 +7370,7 @@ Name | Type | Description  | Notes
  **derived_manually** | list( **character** )| Filter by derived_manually | [optional] 
  **description** | list( **character** )| Filter by description | [optional] 
  **documents** | list( **character** )| Filter by documents | [optional] 
- **file_format** | list( **character** )| Filter by file_format | [optional] 
+ **file_format** | Enum [tsv, bed, csv, txt, gtf, vcf] | Filter by file_format | [optional] 
  **file_format_specifications** | list( **character** )| Filter by file_format_specifications | [optional] 
  **file_format_type** | Enum [bed12, bed3, bed3+, bed5, bed6, bed6+, bed9, bed9+, mpra_starr] | Filter by file_format_type | [optional] 
  **file_set_id** | list( **character** )| Filter by file_set.@id | [optional] 
