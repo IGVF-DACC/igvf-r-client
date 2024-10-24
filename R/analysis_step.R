@@ -30,6 +30,7 @@
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the object. character [optional]
 #' @field name Full name of the analysis step. character [optional]
+#' @field analysis_step_versions The analysis step versions associated with this analysis step. list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -59,6 +60,7 @@ AnalysisStep <- R6::R6Class(
     `@type` = NULL,
     `summary` = NULL,
     `name` = NULL,
+    `analysis_step_versions` = NULL,
     #' Initialize a new AnalysisStep class.
     #'
     #' @description
@@ -87,9 +89,10 @@ AnalysisStep <- R6::R6Class(
     #' @param @type @type
     #' @param summary A summary of the object.
     #' @param name Full name of the analysis step.
+    #' @param analysis_step_versions The analysis step versions associated with this analysis step.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `status` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_types` = NULL, `step_label` = NULL, `title` = NULL, `workflow` = NULL, `parents` = NULL, `input_content_types` = NULL, `output_content_types` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `name` = NULL, ...) {
+    initialize = function(`release_timestamp` = NULL, `status` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_types` = NULL, `step_label` = NULL, `title` = NULL, `workflow` = NULL, `parents` = NULL, `input_content_types` = NULL, `output_content_types` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `name` = NULL, `analysis_step_versions` = NULL, ...) {
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -225,6 +228,11 @@ AnalysisStep <- R6::R6Class(
         }
         self$`name` <- `name`
       }
+      if (!is.null(`analysis_step_versions`)) {
+        stopifnot(is.vector(`analysis_step_versions`), length(`analysis_step_versions`) != 0)
+        sapply(`analysis_step_versions`, function(x) stopifnot(is.character(x)))
+        self$`analysis_step_versions` <- `analysis_step_versions`
+      }
     },
     #' To JSON string
     #'
@@ -327,6 +335,10 @@ AnalysisStep <- R6::R6Class(
         AnalysisStepObject[["name"]] <-
           self$`name`
       }
+      if (!is.null(self$`analysis_step_versions`)) {
+        AnalysisStepObject[["analysis_step_versions"]] <-
+          self$`analysis_step_versions`
+      }
       AnalysisStepObject
     },
     #' Deserialize JSON string into an instance of AnalysisStep
@@ -410,6 +422,9 @@ AnalysisStep <- R6::R6Class(
       }
       if (!is.null(this_object$`name`)) {
         self$`name` <- this_object$`name`
+      }
+      if (!is.null(this_object$`analysis_step_versions`)) {
+        self$`analysis_step_versions` <- ApiClient$new()$deserializeObj(this_object$`analysis_step_versions`, "set[character]", loadNamespace("igvfclient"))
       }
       self
     },
@@ -605,6 +620,14 @@ AnalysisStep <- R6::R6Class(
                     ',
           gsub('(?<!\\\\)\\"', '\\\\"', self$`name`, perl=TRUE)
           )
+        },
+        if (!is.null(self$`analysis_step_versions`)) {
+          sprintf(
+          '"analysis_step_versions":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`analysis_step_versions`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -646,6 +669,7 @@ AnalysisStep <- R6::R6Class(
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
       self$`name` <- this_object$`name`
+      self$`analysis_step_versions` <- ApiClient$new()$deserializeObj(this_object$`analysis_step_versions`, "set[character]", loadNamespace("igvfclient"))
       self
     },
     #' Validate JSON input with respect to AnalysisStep
@@ -705,6 +729,7 @@ AnalysisStep <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -741,6 +766,7 @@ AnalysisStep <- R6::R6Class(
       if (!str_detect(self$`title`, "^[a-zA-Z\\d_().,-]+(?:\\s[a-zA-Z\\d_().,-]+)*[step|Step]$")) {
         invalid_fields["title"] <- "Invalid value for `title`, must conform to the pattern ^[a-zA-Z\\d_().,-]+(?:\\s[a-zA-Z\\d_().,-]+)*[step|Step]$."
       }
+
 
 
 

@@ -7,6 +7,8 @@
 #' @title ModelFile
 #' @description ModelFile Class
 #' @format An \code{R6Class} generator object
+#' @field externally_hosted Indicates whether the file is externally hosted and not stored on portal. character [optional]
+#' @field external_host_url A link to the resource where the file is externally hosted. character [optional]
 #' @field controlled_access Boolean value, indicating the file being controlled access, if true. character [optional]
 #' @field anvil_url URL linking to the controlled access file that has been deposited at AnVIL workspace. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
@@ -57,6 +59,8 @@
 ModelFile <- R6::R6Class(
   "ModelFile",
   public = list(
+    `externally_hosted` = NULL,
+    `external_host_url` = NULL,
     `controlled_access` = NULL,
     `anvil_url` = NULL,
     `release_timestamp` = NULL,
@@ -106,6 +110,8 @@ ModelFile <- R6::R6Class(
     #' @description
     #' Initialize a new ModelFile class.
     #'
+    #' @param externally_hosted Indicates whether the file is externally hosted and not stored on portal.
+    #' @param external_host_url A link to the resource where the file is externally hosted.
     #' @param controlled_access Boolean value, indicating the file being controlled access, if true.
     #' @param anvil_url URL linking to the controlled access file that has been deposited at AnVIL workspace.
     #' @param release_timestamp The date the object was released.
@@ -152,7 +158,19 @@ ModelFile <- R6::R6Class(
     #' @param upload_credentials The upload credentials for S3 to submit the file content.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`controlled_access` = NULL, `anvil_url` = NULL, `release_timestamp` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
+    initialize = function(`externally_hosted` = NULL, `external_host_url` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `release_timestamp` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
+      if (!is.null(`externally_hosted`)) {
+        if (!(is.logical(`externally_hosted`) && length(`externally_hosted`) == 1)) {
+          stop(paste("Error! Invalid data for `externally_hosted`. Must be a boolean:", `externally_hosted`))
+        }
+        self$`externally_hosted` <- `externally_hosted`
+      }
+      if (!is.null(`external_host_url`)) {
+        if (!(is.character(`external_host_url`) && length(`external_host_url`) == 1)) {
+          stop(paste("Error! Invalid data for `external_host_url`. Must be a string:", `external_host_url`))
+        }
+        self$`external_host_url` <- `external_host_url`
+      }
       if (!is.null(`controlled_access`)) {
         if (!(is.logical(`controlled_access`) && length(`controlled_access`) == 1)) {
           stop(paste("Error! Invalid data for `controlled_access`. Must be a boolean:", `controlled_access`))
@@ -420,6 +438,14 @@ ModelFile <- R6::R6Class(
     #' @export
     toJSON = function() {
       ModelFileObject <- list()
+      if (!is.null(self$`externally_hosted`)) {
+        ModelFileObject[["externally_hosted"]] <-
+          self$`externally_hosted`
+      }
+      if (!is.null(self$`external_host_url`)) {
+        ModelFileObject[["external_host_url"]] <-
+          self$`external_host_url`
+      }
       if (!is.null(self$`controlled_access`)) {
         ModelFileObject[["controlled_access"]] <-
           self$`controlled_access`
@@ -608,6 +634,12 @@ ModelFile <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`externally_hosted`)) {
+        self$`externally_hosted` <- this_object$`externally_hosted`
+      }
+      if (!is.null(this_object$`external_host_url`)) {
+        self$`external_host_url` <- this_object$`external_host_url`
+      }
       if (!is.null(this_object$`controlled_access`)) {
         self$`controlled_access` <- this_object$`controlled_access`
       }
@@ -760,6 +792,22 @@ ModelFile <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`externally_hosted`)) {
+          sprintf(
+          '"externally_hosted":
+            %s
+                    ',
+          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`externally_hosted`, perl=TRUE))
+          )
+        },
+        if (!is.null(self$`external_host_url`)) {
+          sprintf(
+          '"external_host_url":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`external_host_url`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`controlled_access`)) {
           sprintf(
           '"controlled_access":
@@ -1126,6 +1174,8 @@ ModelFile <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`externally_hosted` <- this_object$`externally_hosted`
+      self$`external_host_url` <- this_object$`external_host_url`
       self$`controlled_access` <- this_object$`controlled_access`
       self$`anvil_url` <- this_object$`anvil_url`
       self$`release_timestamp` <- this_object$`release_timestamp`

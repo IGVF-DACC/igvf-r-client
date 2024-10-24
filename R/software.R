@@ -7,6 +7,7 @@
 #' @title Software
 #' @description Software Class
 #' @format An \code{R6Class} generator object
+#' @field source_url An external resource to the codebase. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field publications The publications associated with this object. list(character) [optional]
 #' @field lab Lab associated with the submission. character [optional]
@@ -22,7 +23,6 @@
 #' @field description A plain text description of the object. character [optional]
 #' @field name Unique name of the software package; a lowercase version of the title. character [optional]
 #' @field title The preferred viewable name of the software. character [optional]
-#' @field source_url An external resource to the codebase. character [optional]
 #' @field used_by The component(s) of the IGVF consortium that utilize this software. list(character) [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
@@ -34,6 +34,7 @@
 Software <- R6::R6Class(
   "Software",
   public = list(
+    `source_url` = NULL,
     `release_timestamp` = NULL,
     `publications` = NULL,
     `lab` = NULL,
@@ -49,7 +50,6 @@ Software <- R6::R6Class(
     `description` = NULL,
     `name` = NULL,
     `title` = NULL,
-    `source_url` = NULL,
     `used_by` = NULL,
     `@id` = NULL,
     `@type` = NULL,
@@ -60,6 +60,7 @@ Software <- R6::R6Class(
     #' @description
     #' Initialize a new Software class.
     #'
+    #' @param source_url An external resource to the codebase.
     #' @param release_timestamp The date the object was released.
     #' @param publications The publications associated with this object.
     #' @param lab Lab associated with the submission.
@@ -75,7 +76,6 @@ Software <- R6::R6Class(
     #' @param description A plain text description of the object.
     #' @param name Unique name of the software package; a lowercase version of the title.
     #' @param title The preferred viewable name of the software.
-    #' @param source_url An external resource to the codebase.
     #' @param used_by The component(s) of the IGVF consortium that utilize this software.
     #' @param @id @id
     #' @param @type @type
@@ -83,7 +83,13 @@ Software <- R6::R6Class(
     #' @param versions A list of versions that have been released for this software.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `publications` = NULL, `lab` = NULL, `award` = NULL, `status` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `name` = NULL, `title` = NULL, `source_url` = NULL, `used_by` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `versions` = NULL, ...) {
+    initialize = function(`source_url` = NULL, `release_timestamp` = NULL, `publications` = NULL, `lab` = NULL, `award` = NULL, `status` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `name` = NULL, `title` = NULL, `used_by` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `versions` = NULL, ...) {
+      if (!is.null(`source_url`)) {
+        if (!(is.character(`source_url`) && length(`source_url`) == 1)) {
+          stop(paste("Error! Invalid data for `source_url`. Must be a string:", `source_url`))
+        }
+        self$`source_url` <- `source_url`
+      }
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -175,12 +181,6 @@ Software <- R6::R6Class(
         }
         self$`title` <- `title`
       }
-      if (!is.null(`source_url`)) {
-        if (!(is.character(`source_url`) && length(`source_url`) == 1)) {
-          stop(paste("Error! Invalid data for `source_url`. Must be a string:", `source_url`))
-        }
-        self$`source_url` <- `source_url`
-      }
       if (!is.null(`used_by`)) {
         stopifnot(is.vector(`used_by`), length(`used_by`) != 0)
         sapply(`used_by`, function(x) stopifnot(is.character(x)))
@@ -218,6 +218,10 @@ Software <- R6::R6Class(
     #' @export
     toJSON = function() {
       SoftwareObject <- list()
+      if (!is.null(self$`source_url`)) {
+        SoftwareObject[["source_url"]] <-
+          self$`source_url`
+      }
       if (!is.null(self$`release_timestamp`)) {
         SoftwareObject[["release_timestamp"]] <-
           self$`release_timestamp`
@@ -278,10 +282,6 @@ Software <- R6::R6Class(
         SoftwareObject[["title"]] <-
           self$`title`
       }
-      if (!is.null(self$`source_url`)) {
-        SoftwareObject[["source_url"]] <-
-          self$`source_url`
-      }
       if (!is.null(self$`used_by`)) {
         SoftwareObject[["used_by"]] <-
           self$`used_by`
@@ -314,6 +314,9 @@ Software <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`source_url`)) {
+        self$`source_url` <- this_object$`source_url`
+      }
       if (!is.null(this_object$`release_timestamp`)) {
         self$`release_timestamp` <- this_object$`release_timestamp`
       }
@@ -362,9 +365,6 @@ Software <- R6::R6Class(
       if (!is.null(this_object$`title`)) {
         self$`title` <- this_object$`title`
       }
-      if (!is.null(this_object$`source_url`)) {
-        self$`source_url` <- this_object$`source_url`
-      }
       if (!is.null(this_object$`used_by`)) {
         self$`used_by` <- ApiClient$new()$deserializeObj(this_object$`used_by`, "set[character]", loadNamespace("igvfclient"))
       }
@@ -391,6 +391,14 @@ Software <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`source_url`)) {
+          sprintf(
+          '"source_url":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`source_url`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`release_timestamp`)) {
           sprintf(
           '"release_timestamp":
@@ -511,14 +519,6 @@ Software <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`title`, perl=TRUE)
           )
         },
-        if (!is.null(self$`source_url`)) {
-          sprintf(
-          '"source_url":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`source_url`, perl=TRUE)
-          )
-        },
         if (!is.null(self$`used_by`)) {
           sprintf(
           '"used_by":
@@ -573,6 +573,7 @@ Software <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`source_url` <- this_object$`source_url`
       self$`release_timestamp` <- this_object$`release_timestamp`
       self$`publications` <- ApiClient$new()$deserializeObj(this_object$`publications`, "set[character]", loadNamespace("igvfclient"))
       self$`lab` <- this_object$`lab`
@@ -591,7 +592,6 @@ Software <- R6::R6Class(
       self$`description` <- this_object$`description`
       self$`name` <- this_object$`name`
       self$`title` <- this_object$`title`
-      self$`source_url` <- this_object$`source_url`
       self$`used_by` <- ApiClient$new()$deserializeObj(this_object$`used_by`, "set[character]", loadNamespace("igvfclient"))
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))

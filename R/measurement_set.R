@@ -48,6 +48,7 @@
 #' @field submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created. character [optional]
 #' @field input_file_set_for The file sets that use this file set as an input. list(character) [optional]
 #' @field related_multiome_datasets Related datasets included in the multiome experiment this measurement set is a part of. list(character) [optional]
+#' @field externally_hosted  character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -95,6 +96,7 @@ MeasurementSet <- R6::R6Class(
     `submitted_files_timestamp` = NULL,
     `input_file_set_for` = NULL,
     `related_multiome_datasets` = NULL,
+    `externally_hosted` = NULL,
     #' Initialize a new MeasurementSet class.
     #'
     #' @description
@@ -141,9 +143,10 @@ MeasurementSet <- R6::R6Class(
     #' @param submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created.
     #' @param input_file_set_for The file sets that use this file set as an input.
     #' @param related_multiome_datasets Related datasets included in the multiome experiment this measurement set is a part of.
+    #' @param externally_hosted externally_hosted
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `assay_term` = NULL, `protocols` = NULL, `preferred_assay_title` = NULL, `multiome_size` = NULL, `control_file_sets` = NULL, `sequencing_library_types` = NULL, `auxiliary_sets` = NULL, `external_image_url` = NULL, `targeted_genes` = NULL, `functional_assay_mechanisms` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_file_set_for` = NULL, `related_multiome_datasets` = NULL, ...) {
+    initialize = function(`release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `assay_term` = NULL, `protocols` = NULL, `preferred_assay_title` = NULL, `multiome_size` = NULL, `control_file_sets` = NULL, `sequencing_library_types` = NULL, `auxiliary_sets` = NULL, `external_image_url` = NULL, `targeted_genes` = NULL, `functional_assay_mechanisms` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_file_set_for` = NULL, `related_multiome_datasets` = NULL, `externally_hosted` = NULL, ...) {
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -383,6 +386,12 @@ MeasurementSet <- R6::R6Class(
         sapply(`related_multiome_datasets`, function(x) stopifnot(is.character(x)))
         self$`related_multiome_datasets` <- `related_multiome_datasets`
       }
+      if (!is.null(`externally_hosted`)) {
+        if (!(is.logical(`externally_hosted`) && length(`externally_hosted`) == 1)) {
+          stop(paste("Error! Invalid data for `externally_hosted`. Must be a boolean:", `externally_hosted`))
+        }
+        self$`externally_hosted` <- `externally_hosted`
+      }
     },
     #' To JSON string
     #'
@@ -557,6 +566,10 @@ MeasurementSet <- R6::R6Class(
         MeasurementSetObject[["related_multiome_datasets"]] <-
           self$`related_multiome_datasets`
       }
+      if (!is.null(self$`externally_hosted`)) {
+        MeasurementSetObject[["externally_hosted"]] <-
+          self$`externally_hosted`
+      }
       MeasurementSetObject
     },
     #' Deserialize JSON string into an instance of MeasurementSet
@@ -703,6 +716,9 @@ MeasurementSet <- R6::R6Class(
       }
       if (!is.null(this_object$`related_multiome_datasets`)) {
         self$`related_multiome_datasets` <- ApiClient$new()$deserializeObj(this_object$`related_multiome_datasets`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`externally_hosted`)) {
+        self$`externally_hosted` <- this_object$`externally_hosted`
       }
       self
     },
@@ -1042,6 +1058,14 @@ MeasurementSet <- R6::R6Class(
           ',
           paste(unlist(lapply(self$`related_multiome_datasets`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
+        },
+        if (!is.null(self$`externally_hosted`)) {
+          sprintf(
+          '"externally_hosted":
+            %s
+                    ',
+          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`externally_hosted`, perl=TRUE))
+          )
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -1110,6 +1134,7 @@ MeasurementSet <- R6::R6Class(
       self$`submitted_files_timestamp` <- this_object$`submitted_files_timestamp`
       self$`input_file_set_for` <- ApiClient$new()$deserializeObj(this_object$`input_file_set_for`, "set[character]", loadNamespace("igvfclient"))
       self$`related_multiome_datasets` <- ApiClient$new()$deserializeObj(this_object$`related_multiome_datasets`, "set[character]", loadNamespace("igvfclient"))
+      self$`externally_hosted` <- this_object$`externally_hosted`
       self
     },
     #' Validate JSON input with respect to MeasurementSet

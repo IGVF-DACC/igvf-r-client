@@ -5,6 +5,7 @@ A specific version of a software used for computational analysis. For example, B
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**source_url** | **character** | An external resource to track the version of the software download. | [optional] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **publications** | **set[character]** | The publications associated with this object. | [optional] 
 **lab** | **character** | Lab associated with the submission. | [optional] 
@@ -19,9 +20,8 @@ Name | Type | Description | Notes
 **submitter_comment** | **character** | Additional information specified by the submitter to be displayed as a comment on the portal. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **description** | **character** | A plain text description of the object. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **software** | **character** | Unique name of the software package. | [optional] 
-**version** | **character** | The version of a particular software. | [optional] [Pattern: ^v(?!0\\.0\\.0$)[0-9]+\\.[0-9]+\\.[0-9]+$] 
+**version** | **character** | The version of a particular software. | [optional] [Pattern: ^v(?!0\\.0\\.0$)([0-9]+\\.[0-9]+\\.[0-9]+(\\.[0-9]+)?|0\\.0\\.0\\.[1-9][0-9]*)$] 
 **download_id** | **character** | The MD5 checksum, SHA-1 commit ID, image hash, or similar permanent identifier of the particular version of software used. | [optional] 
-**downloaded_url** | **character** | An external resource to track the version of the software downloaded. | [optional] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** |  | [optional] 

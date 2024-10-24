@@ -43,6 +43,7 @@
 #' @field submitted_file_name Original name of the file. character [optional]
 #' @field upload_status The upload/validation status of the file. character [optional]
 #' @field validation_error_detail Explanation of why the file failed the automated content checks. character [optional]
+#' @field read_count Number of reads in a bam file. Including both mapped, unmapped, and multi-mapped read counts. integer [optional]
 #' @field redacted Indicates whether the alignments data have been sanitized (redacted) to prevent leakage of private and potentially identifying genomic information. character [optional]
 #' @field filtered Indicates whether reads that did not pass a filtering step, such as PCR duplicates, have been removed from the file. character [optional]
 #' @field @id  character [optional]
@@ -99,6 +100,7 @@ AlignmentFile <- R6::R6Class(
     `submitted_file_name` = NULL,
     `upload_status` = NULL,
     `validation_error_detail` = NULL,
+    `read_count` = NULL,
     `redacted` = NULL,
     `filtered` = NULL,
     `@id` = NULL,
@@ -154,6 +156,7 @@ AlignmentFile <- R6::R6Class(
     #' @param submitted_file_name Original name of the file.
     #' @param upload_status The upload/validation status of the file.
     #' @param validation_error_detail Explanation of why the file failed the automated content checks.
+    #' @param read_count Number of reads in a bam file. Including both mapped, unmapped, and multi-mapped read counts.
     #' @param redacted Indicates whether the alignments data have been sanitized (redacted) to prevent leakage of private and potentially identifying genomic information.
     #' @param filtered Indicates whether reads that did not pass a filtering step, such as PCR duplicates, have been removed from the file.
     #' @param @id @id
@@ -170,7 +173,7 @@ AlignmentFile <- R6::R6Class(
     #' @param content_summary A summary of the data in the alignment file.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`controlled_access` = NULL, `anvil_url` = NULL, `transcriptome_annotation` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `reference_files` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `redacted` = NULL, `filtered` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `content_summary` = NULL, ...) {
+    initialize = function(`controlled_access` = NULL, `anvil_url` = NULL, `transcriptome_annotation` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `reference_files` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `read_count` = NULL, `redacted` = NULL, `filtered` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `content_summary` = NULL, ...) {
       if (!is.null(`controlled_access`)) {
         if (!(is.logical(`controlled_access`) && length(`controlled_access`) == 1)) {
           stop(paste("Error! Invalid data for `controlled_access`. Must be a boolean:", `controlled_access`))
@@ -393,6 +396,12 @@ AlignmentFile <- R6::R6Class(
           stop(paste("Error! Invalid data for `validation_error_detail`. Must be a string:", `validation_error_detail`))
         }
         self$`validation_error_detail` <- `validation_error_detail`
+      }
+      if (!is.null(`read_count`)) {
+        if (!(is.numeric(`read_count`) && length(`read_count`) == 1)) {
+          stop(paste("Error! Invalid data for `read_count`. Must be an integer:", `read_count`))
+        }
+        self$`read_count` <- `read_count`
       }
       if (!is.null(`redacted`)) {
         if (!(is.logical(`redacted`) && length(`redacted`) == 1)) {
@@ -623,6 +632,10 @@ AlignmentFile <- R6::R6Class(
         AlignmentFileObject[["validation_error_detail"]] <-
           self$`validation_error_detail`
       }
+      if (!is.null(self$`read_count`)) {
+        AlignmentFileObject[["read_count"]] <-
+          self$`read_count`
+      }
       if (!is.null(self$`redacted`)) {
         AlignmentFileObject[["redacted"]] <-
           self$`redacted`
@@ -813,6 +826,9 @@ AlignmentFile <- R6::R6Class(
       }
       if (!is.null(this_object$`validation_error_detail`)) {
         self$`validation_error_detail` <- this_object$`validation_error_detail`
+      }
+      if (!is.null(this_object$`read_count`)) {
+        self$`read_count` <- this_object$`read_count`
       }
       if (!is.null(this_object$`redacted`)) {
         self$`redacted` <- this_object$`redacted`
@@ -1155,6 +1171,14 @@ AlignmentFile <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`validation_error_detail`, perl=TRUE)
           )
         },
+        if (!is.null(self$`read_count`)) {
+          sprintf(
+          '"read_count":
+            %f
+                    ',
+          self$`read_count`
+          )
+        },
         if (!is.null(self$`redacted`)) {
           sprintf(
           '"redacted":
@@ -1332,6 +1356,7 @@ AlignmentFile <- R6::R6Class(
       }
       self$`upload_status` <- this_object$`upload_status`
       self$`validation_error_detail` <- this_object$`validation_error_detail`
+      self$`read_count` <- this_object$`read_count`
       self$`redacted` <- this_object$`redacted`
       self$`filtered` <- this_object$`filtered`
       self$`@id` <- this_object$`@id`
@@ -1422,6 +1447,10 @@ AlignmentFile <- R6::R6Class(
         return(FALSE)
       }
 
+      if (self$`read_count` < 0) {
+        return(FALSE)
+      }
+
 
 
 
@@ -1482,6 +1511,10 @@ AlignmentFile <- R6::R6Class(
       }
       if (!str_detect(self$`md5sum`, "[a-f\\d]{32}|[A-F\\d]{32}")) {
         invalid_fields["md5sum"] <- "Invalid value for `md5sum`, must conform to the pattern [a-f\\d]{32}|[A-F\\d]{32}."
+      }
+
+      if (self$`read_count` < 0) {
+        invalid_fields["read_count"] <- "Invalid value for `read_count`, must be bigger than or equal to 0."
       }
 
 

@@ -5,6 +5,7 @@ A file containing diverse reference related information.
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**source_url** | **character** | Link to external resource, such as NCBI or GENCODE, where the reference data was obtained. | [optional] 
 **controlled_access** | **character** | Boolean value, indicating the file being controlled access, if true. | [optional] 
 **anvil_url** | **character** | URL linking to the controlled access file that has been deposited at AnVIL workspace. | [optional] 
 **assembly** | **character** | Genome assembly applicable for the reference data. | [optional] [Enum: [GRCh38, hg19, Cast - GRCm39, GRCm39, mm10]] 
@@ -41,7 +42,6 @@ Name | Type | Description | Notes
 **submitted_file_name** | **character** | Original name of the file. | [optional] 
 **upload_status** | **character** | The upload/validation status of the file. | [optional] [Enum: [pending, file not found, invalidated, validated]] 
 **validation_error_detail** | **character** | Explanation of why the file failed the automated content checks. | [optional] 
-**source_url** | **character** | Link to external resource, such as NCBI or GENCODE, where the reference data was obtained. | [optional] 
 **sources** | **set[character]** | The originating lab(s) or vendor(s). | [optional] 
 **external** | **character** | Indicates whether the file was obtained from an external, non-IGVF source. | [optional] 
 **external_id** | **character** | A unique identifier for the file at its original source. | [optional] 

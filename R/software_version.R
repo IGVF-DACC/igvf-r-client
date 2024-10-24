@@ -7,6 +7,7 @@
 #' @title SoftwareVersion
 #' @description SoftwareVersion Class
 #' @format An \code{R6Class} generator object
+#' @field source_url An external resource to track the version of the software download. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field publications The publications associated with this object. list(character) [optional]
 #' @field lab Lab associated with the submission. character [optional]
@@ -23,7 +24,6 @@
 #' @field software Unique name of the software package. character [optional]
 #' @field version The version of a particular software. character [optional]
 #' @field download_id The MD5 checksum, SHA-1 commit ID, image hash, or similar permanent identifier of the particular version of software used. character [optional]
-#' @field downloaded_url An external resource to track the version of the software downloaded. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary  character [optional]
@@ -34,6 +34,7 @@
 SoftwareVersion <- R6::R6Class(
   "SoftwareVersion",
   public = list(
+    `source_url` = NULL,
     `release_timestamp` = NULL,
     `publications` = NULL,
     `lab` = NULL,
@@ -50,7 +51,6 @@ SoftwareVersion <- R6::R6Class(
     `software` = NULL,
     `version` = NULL,
     `download_id` = NULL,
-    `downloaded_url` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -60,6 +60,7 @@ SoftwareVersion <- R6::R6Class(
     #' @description
     #' Initialize a new SoftwareVersion class.
     #'
+    #' @param source_url An external resource to track the version of the software download.
     #' @param release_timestamp The date the object was released.
     #' @param publications The publications associated with this object.
     #' @param lab Lab associated with the submission.
@@ -76,14 +77,19 @@ SoftwareVersion <- R6::R6Class(
     #' @param software Unique name of the software package.
     #' @param version The version of a particular software.
     #' @param download_id The MD5 checksum, SHA-1 commit ID, image hash, or similar permanent identifier of the particular version of software used.
-    #' @param downloaded_url An external resource to track the version of the software downloaded.
     #' @param @id @id
     #' @param @type @type
     #' @param summary summary
     #' @param name A unique identifier for a software version.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `publications` = NULL, `lab` = NULL, `award` = NULL, `status` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `software` = NULL, `version` = NULL, `download_id` = NULL, `downloaded_url` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `name` = NULL, ...) {
+    initialize = function(`source_url` = NULL, `release_timestamp` = NULL, `publications` = NULL, `lab` = NULL, `award` = NULL, `status` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `software` = NULL, `version` = NULL, `download_id` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `name` = NULL, ...) {
+      if (!is.null(`source_url`)) {
+        if (!(is.character(`source_url`) && length(`source_url`) == 1)) {
+          stop(paste("Error! Invalid data for `source_url`. Must be a string:", `source_url`))
+        }
+        self$`source_url` <- `source_url`
+      }
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -181,12 +187,6 @@ SoftwareVersion <- R6::R6Class(
         }
         self$`download_id` <- `download_id`
       }
-      if (!is.null(`downloaded_url`)) {
-        if (!(is.character(`downloaded_url`) && length(`downloaded_url`) == 1)) {
-          stop(paste("Error! Invalid data for `downloaded_url`. Must be a string:", `downloaded_url`))
-        }
-        self$`downloaded_url` <- `downloaded_url`
-      }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
           stop(paste("Error! Invalid data for `@id`. Must be a string:", `@id`))
@@ -220,6 +220,10 @@ SoftwareVersion <- R6::R6Class(
     #' @export
     toJSON = function() {
       SoftwareVersionObject <- list()
+      if (!is.null(self$`source_url`)) {
+        SoftwareVersionObject[["source_url"]] <-
+          self$`source_url`
+      }
       if (!is.null(self$`release_timestamp`)) {
         SoftwareVersionObject[["release_timestamp"]] <-
           self$`release_timestamp`
@@ -284,10 +288,6 @@ SoftwareVersion <- R6::R6Class(
         SoftwareVersionObject[["download_id"]] <-
           self$`download_id`
       }
-      if (!is.null(self$`downloaded_url`)) {
-        SoftwareVersionObject[["downloaded_url"]] <-
-          self$`downloaded_url`
-      }
       if (!is.null(self$`@id`)) {
         SoftwareVersionObject[["@id"]] <-
           self$`@id`
@@ -316,6 +316,9 @@ SoftwareVersion <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`source_url`)) {
+        self$`source_url` <- this_object$`source_url`
+      }
       if (!is.null(this_object$`release_timestamp`)) {
         self$`release_timestamp` <- this_object$`release_timestamp`
       }
@@ -367,9 +370,6 @@ SoftwareVersion <- R6::R6Class(
       if (!is.null(this_object$`download_id`)) {
         self$`download_id` <- this_object$`download_id`
       }
-      if (!is.null(this_object$`downloaded_url`)) {
-        self$`downloaded_url` <- this_object$`downloaded_url`
-      }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
       }
@@ -393,6 +393,14 @@ SoftwareVersion <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`source_url`)) {
+          sprintf(
+          '"source_url":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`source_url`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`release_timestamp`)) {
           sprintf(
           '"release_timestamp":
@@ -521,14 +529,6 @@ SoftwareVersion <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`download_id`, perl=TRUE)
           )
         },
-        if (!is.null(self$`downloaded_url`)) {
-          sprintf(
-          '"downloaded_url":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`downloaded_url`, perl=TRUE)
-          )
-        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -575,6 +575,7 @@ SoftwareVersion <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`source_url` <- this_object$`source_url`
       self$`release_timestamp` <- this_object$`release_timestamp`
       self$`publications` <- ApiClient$new()$deserializeObj(this_object$`publications`, "set[character]", loadNamespace("igvfclient"))
       self$`lab` <- this_object$`lab`
@@ -594,7 +595,6 @@ SoftwareVersion <- R6::R6Class(
       self$`software` <- this_object$`software`
       self$`version` <- this_object$`version`
       self$`download_id` <- this_object$`download_id`
-      self$`downloaded_url` <- this_object$`downloaded_url`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
@@ -647,7 +647,7 @@ SoftwareVersion <- R6::R6Class(
         return(FALSE)
       }
 
-      if (!str_detect(self$`version`, "^v(?!0\\.0\\.0$)[0-9]+\\.[0-9]+\\.[0-9]+$")) {
+      if (!str_detect(self$`version`, "^v(?!0\\.0\\.0$)([0-9]+\\.[0-9]+\\.[0-9]+(\\.[0-9]+)?|0\\.0\\.0\\.[1-9][0-9]*)$")) {
         return(FALSE)
       }
 
@@ -680,8 +680,8 @@ SoftwareVersion <- R6::R6Class(
         invalid_fields["description"] <- "Invalid value for `description`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
 
-      if (!str_detect(self$`version`, "^v(?!0\\.0\\.0$)[0-9]+\\.[0-9]+\\.[0-9]+$")) {
-        invalid_fields["version"] <- "Invalid value for `version`, must conform to the pattern ^v(?!0\\.0\\.0$)[0-9]+\\.[0-9]+\\.[0-9]+$."
+      if (!str_detect(self$`version`, "^v(?!0\\.0\\.0$)([0-9]+\\.[0-9]+\\.[0-9]+(\\.[0-9]+)?|0\\.0\\.0\\.[1-9][0-9]*)$")) {
+        invalid_fields["version"] <- "Invalid value for `version`, must conform to the pattern ^v(?!0\\.0\\.0$)([0-9]+\\.[0-9]+\\.[0-9]+(\\.[0-9]+)?|0\\.0\\.0\\.[1-9][0-9]*)$."
       }
 
       invalid_fields

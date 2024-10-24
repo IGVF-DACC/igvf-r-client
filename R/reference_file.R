@@ -7,6 +7,7 @@
 #' @title ReferenceFile
 #' @description ReferenceFile Class
 #' @format An \code{R6Class} generator object
+#' @field source_url Link to external resource, such as NCBI or GENCODE, where the reference data was obtained. character [optional]
 #' @field controlled_access Boolean value, indicating the file being controlled access, if true. character [optional]
 #' @field anvil_url URL linking to the controlled access file that has been deposited at AnVIL workspace. character [optional]
 #' @field assembly Genome assembly applicable for the reference data. character [optional]
@@ -43,7 +44,6 @@
 #' @field submitted_file_name Original name of the file. character [optional]
 #' @field upload_status The upload/validation status of the file. character [optional]
 #' @field validation_error_detail Explanation of why the file failed the automated content checks. character [optional]
-#' @field source_url Link to external resource, such as NCBI or GENCODE, where the reference data was obtained. character [optional]
 #' @field sources The originating lab(s) or vendor(s). list(character) [optional]
 #' @field external Indicates whether the file was obtained from an external, non-IGVF source. character [optional]
 #' @field external_id A unique identifier for the file at its original source. character [optional]
@@ -64,6 +64,7 @@
 ReferenceFile <- R6::R6Class(
   "ReferenceFile",
   public = list(
+    `source_url` = NULL,
     `controlled_access` = NULL,
     `anvil_url` = NULL,
     `assembly` = NULL,
@@ -100,7 +101,6 @@ ReferenceFile <- R6::R6Class(
     `submitted_file_name` = NULL,
     `upload_status` = NULL,
     `validation_error_detail` = NULL,
-    `source_url` = NULL,
     `sources` = NULL,
     `external` = NULL,
     `external_id` = NULL,
@@ -120,6 +120,7 @@ ReferenceFile <- R6::R6Class(
     #' @description
     #' Initialize a new ReferenceFile class.
     #'
+    #' @param source_url Link to external resource, such as NCBI or GENCODE, where the reference data was obtained.
     #' @param controlled_access Boolean value, indicating the file being controlled access, if true.
     #' @param anvil_url URL linking to the controlled access file that has been deposited at AnVIL workspace.
     #' @param assembly Genome assembly applicable for the reference data.
@@ -156,7 +157,6 @@ ReferenceFile <- R6::R6Class(
     #' @param submitted_file_name Original name of the file.
     #' @param upload_status The upload/validation status of the file.
     #' @param validation_error_detail Explanation of why the file failed the automated content checks.
-    #' @param source_url Link to external resource, such as NCBI or GENCODE, where the reference data was obtained.
     #' @param sources The originating lab(s) or vendor(s).
     #' @param external Indicates whether the file was obtained from an external, non-IGVF source.
     #' @param external_id A unique identifier for the file at its original source.
@@ -173,7 +173,13 @@ ReferenceFile <- R6::R6Class(
     #' @param upload_credentials The upload credentials for S3 to submit the file content.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`controlled_access` = NULL, `anvil_url` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `source_url` = NULL, `sources` = NULL, `external` = NULL, `external_id` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
+    initialize = function(`source_url` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `sources` = NULL, `external` = NULL, `external_id` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
+      if (!is.null(`source_url`)) {
+        if (!(is.character(`source_url`) && length(`source_url`) == 1)) {
+          stop(paste("Error! Invalid data for `source_url`. Must be a string:", `source_url`))
+        }
+        self$`source_url` <- `source_url`
+      }
       if (!is.null(`controlled_access`)) {
         if (!(is.logical(`controlled_access`) && length(`controlled_access`) == 1)) {
           stop(paste("Error! Invalid data for `controlled_access`. Must be a boolean:", `controlled_access`))
@@ -401,12 +407,6 @@ ReferenceFile <- R6::R6Class(
         }
         self$`validation_error_detail` <- `validation_error_detail`
       }
-      if (!is.null(`source_url`)) {
-        if (!(is.character(`source_url`) && length(`source_url`) == 1)) {
-          stop(paste("Error! Invalid data for `source_url`. Must be a string:", `source_url`))
-        }
-        self$`source_url` <- `source_url`
-      }
       if (!is.null(`sources`)) {
         stopifnot(is.vector(`sources`), length(`sources`) != 0)
         sapply(`sources`, function(x) stopifnot(is.character(x)))
@@ -491,6 +491,10 @@ ReferenceFile <- R6::R6Class(
     #' @export
     toJSON = function() {
       ReferenceFileObject <- list()
+      if (!is.null(self$`source_url`)) {
+        ReferenceFileObject[["source_url"]] <-
+          self$`source_url`
+      }
       if (!is.null(self$`controlled_access`)) {
         ReferenceFileObject[["controlled_access"]] <-
           self$`controlled_access`
@@ -635,10 +639,6 @@ ReferenceFile <- R6::R6Class(
         ReferenceFileObject[["validation_error_detail"]] <-
           self$`validation_error_detail`
       }
-      if (!is.null(self$`source_url`)) {
-        ReferenceFileObject[["source_url"]] <-
-          self$`source_url`
-      }
       if (!is.null(self$`sources`)) {
         ReferenceFileObject[["sources"]] <-
           self$`sources`
@@ -707,6 +707,9 @@ ReferenceFile <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`source_url`)) {
+        self$`source_url` <- this_object$`source_url`
+      }
       if (!is.null(this_object$`controlled_access`)) {
         self$`controlled_access` <- this_object$`controlled_access`
       }
@@ -833,9 +836,6 @@ ReferenceFile <- R6::R6Class(
       if (!is.null(this_object$`validation_error_detail`)) {
         self$`validation_error_detail` <- this_object$`validation_error_detail`
       }
-      if (!is.null(this_object$`source_url`)) {
-        self$`source_url` <- this_object$`source_url`
-      }
       if (!is.null(this_object$`sources`)) {
         self$`sources` <- ApiClient$new()$deserializeObj(this_object$`sources`, "set[character]", loadNamespace("igvfclient"))
       }
@@ -889,6 +889,14 @@ ReferenceFile <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`source_url`)) {
+          sprintf(
+          '"source_url":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`source_url`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`controlled_access`)) {
           sprintf(
           '"controlled_access":
@@ -1177,14 +1185,6 @@ ReferenceFile <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`validation_error_detail`, perl=TRUE)
           )
         },
-        if (!is.null(self$`source_url`)) {
-          sprintf(
-          '"source_url":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`source_url`, perl=TRUE)
-          )
-        },
         if (!is.null(self$`sources`)) {
           sprintf(
           '"sources":
@@ -1311,6 +1311,7 @@ ReferenceFile <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`source_url` <- this_object$`source_url`
       self$`controlled_access` <- this_object$`controlled_access`
       self$`anvil_url` <- this_object$`anvil_url`
       if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10"))) {
@@ -1365,7 +1366,6 @@ ReferenceFile <- R6::R6Class(
       }
       self$`upload_status` <- this_object$`upload_status`
       self$`validation_error_detail` <- this_object$`validation_error_detail`
-      self$`source_url` <- this_object$`source_url`
       self$`sources` <- ApiClient$new()$deserializeObj(this_object$`sources`, "set[character]", loadNamespace("igvfclient"))
       self$`external` <- this_object$`external`
       self$`external_id` <- this_object$`external_id`

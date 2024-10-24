@@ -81,6 +81,8 @@ R/no_results_response_filters_inner.R
 R/no_results_response_sort_value.R
 R/open_reading_frame.R
 R/open_reading_frame_results.R
+R/output_content_type.R
+R/output_content_type_any_of.R
 R/page.R
 R/page_layout.R
 R/page_layout_components.R
@@ -208,6 +210,8 @@ docs/NoResultsResponseFiltersInner.md
 docs/NoResultsResponseSortValue.md
 docs/OpenReadingFrame.md
 docs/OpenReadingFrameResults.md
+docs/OutputContentType.md
+docs/OutputContentTypeAnyOf.md
 docs/Page.md
 docs/PageLayout.md
 docs/PageLayoutComponents.md

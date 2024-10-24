@@ -5,6 +5,7 @@ A software used for computational  analysis. For example, Bowtie2 alignment soft
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**source_url** | **character** | An external resource to the codebase. | [optional] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **publications** | **set[character]** | The publications associated with this object. | [optional] 
 **lab** | **character** | Lab associated with the submission. | [optional] 
@@ -20,7 +21,6 @@ Name | Type | Description | Notes
 **description** | **character** | A plain text description of the object. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **name** | **character** | Unique name of the software package; a lowercase version of the title. | [optional] [Pattern: ^[a-z0-9\\-\\_]+] 
 **title** | **character** | The preferred viewable name of the software. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
-**source_url** | **character** | An external resource to the codebase. | [optional] 
 **used_by** | **set[character]** | The component(s) of the IGVF consortium that utilize this software. | [optional] [Enum: ] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 

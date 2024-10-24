@@ -28,5 +28,6 @@ Name | Type | Description | Notes
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** | A summary of the object. | [optional] 
 **name** | **character** | Full name of the analysis step. | [optional] 
+**analysis_step_versions** | **set[character]** | The analysis step versions associated with this analysis step. | [optional] 
 
 

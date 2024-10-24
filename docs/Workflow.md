@@ -5,6 +5,7 @@ A workflow for computational analysis of genomic data. A workflow is made up of 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**source_url** | **character** | An external resource to the code base of the workflow in github. | [optional] [Pattern: ^https?://github\\.com/(\\S+)$] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **publications** | **set[character]** | The publications associated with this object. | [optional] 
 **documents** | **set[character]** | Documents that provide additional information (not data file). | [optional] 
@@ -24,10 +25,10 @@ Name | Type | Description | Notes
 **submitter_comment** | **character** | Additional information specified by the submitter to be displayed as a comment on the portal. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **description** | **character** | A plain text description of the object. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **name** | **character** | The preferred viewable name of the workflow. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
-**source_url** | **character** | An external resource to the code base of the workflow in github. | [optional] [Pattern: ^https?://github\\.com/(\\S+)$] 
 **workflow_repositories** | **set[character]** | Resources hosting the workflow. | [optional] 
 **standards_page** | **character** | A link to a page describing the standards for this workflow. | [optional] 
 **workflow_version** | **integer** | The version of this workflow. | [optional] [Min: 1] 
+**uniform_pipeline** | **character** | Indicates whether the pipeline is developed by the IGVF consortium. | [optional] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** | A summary of the object. | [optional] 

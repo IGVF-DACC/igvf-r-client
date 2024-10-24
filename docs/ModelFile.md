@@ -5,6 +5,8 @@ A file containing a trained model.
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**externally_hosted** | **character** | Indicates whether the file is externally hosted and not stored on portal. | [optional] 
+**external_host_url** | **character** | A link to the resource where the file is externally hosted. | [optional] 
 **controlled_access** | **character** | Boolean value, indicating the file being controlled access, if true. | [optional] 
 **anvil_url** | **character** | URL linking to the controlled access file that has been deposited at AnVIL workspace. | [optional] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
