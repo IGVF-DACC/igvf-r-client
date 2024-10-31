@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **controlled_access** | **character** | Boolean value, indicating the file being controlled access, if true. | [optional] 
 **anvil_url** | **character** | URL linking to the controlled access file that has been deposited at AnVIL workspace. | [optional] 
 **transcriptome_annotation** | **character** | The annotation and version of the reference resource. | [optional] [Enum: [GENCODE 40, GENCODE 41, GENCODE 42, GENCODE 43, GENCODE 44, GENCODE 45, GENCODE Cast - M32, GENCODE M30, GENCODE M31, GENCODE M32, GENCODE M33, GENCODE M34]] 
-**assembly** | **character** | Genome assembly applicable for the annotation data. | [optional] [Enum: [Cast - GRCm39, GRCh38, GRCm39]] 
+**assembly** | **character** | Genome assembly applicable for the annotation data. | [optional] [Enum: [Cast - GRCm39, GRCh38, GRCm39, custom]] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **reference_files** | **set[character]** | Link to the reference files used to generate this file. | [optional] 
 **documents** | **set[character]** | Documents that provide additional information (not data file). | [optional] 

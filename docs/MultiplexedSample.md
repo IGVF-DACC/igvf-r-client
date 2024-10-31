@@ -50,6 +50,7 @@ Name | Type | Description | Notes
 **origin_of** | **set[character]** | The samples which originate from this sample, such as through a process of cell differentiation. | [optional] 
 **institutional_certificates** | **set[character]** | The institutional certificates of the samples included in this multiplexed sample. | [optional] 
 **sample_terms** | **set[character]** | The sample terms of the samples included in this multiplexed sample. | [optional] 
+**taxa** | **character** | The species of the organism. | [optional] [Enum: [Homo sapiens, Mus musculus, Mixed species, Saccharomyces cerevisiae]] 
 **disease_terms** | **set[character]** | The disease terms of the samples included in this multiplexed sample. | [optional] 
 **treatments** | **set[character]** | The treatments of the samples included in this multiplexed sample. | [optional] 
 **modifications** | **set[character]** | The modifications of the samples included in this multiplexed sample. | [optional] 

@@ -52,6 +52,7 @@
 #' @field origin_of The samples which originate from this sample, such as through a process of cell differentiation. list(character) [optional]
 #' @field institutional_certificates The institutional certificates of the samples included in this multiplexed sample. list(character) [optional]
 #' @field sample_terms The sample terms of the samples included in this multiplexed sample. list(character) [optional]
+#' @field taxa The species of the organism. character [optional]
 #' @field disease_terms The disease terms of the samples included in this multiplexed sample. list(character) [optional]
 #' @field treatments The treatments of the samples included in this multiplexed sample. list(character) [optional]
 #' @field modifications The modifications of the samples included in this multiplexed sample. list(character) [optional]
@@ -110,6 +111,7 @@ MultiplexedSample <- R6::R6Class(
     `origin_of` = NULL,
     `institutional_certificates` = NULL,
     `sample_terms` = NULL,
+    `taxa` = NULL,
     `disease_terms` = NULL,
     `treatments` = NULL,
     `modifications` = NULL,
@@ -167,6 +169,7 @@ MultiplexedSample <- R6::R6Class(
     #' @param origin_of The samples which originate from this sample, such as through a process of cell differentiation.
     #' @param institutional_certificates The institutional certificates of the samples included in this multiplexed sample.
     #' @param sample_terms The sample terms of the samples included in this multiplexed sample.
+    #' @param taxa The species of the organism.
     #' @param disease_terms The disease terms of the samples included in this multiplexed sample.
     #' @param treatments The treatments of the samples included in this multiplexed sample.
     #' @param modifications The modifications of the samples included in this multiplexed sample.
@@ -176,7 +179,7 @@ MultiplexedSample <- R6::R6Class(
     #' @param classifications The general category of this type of sample.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `publications` = NULL, `url` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `multiplexed_samples` = NULL, `multiplexing_methods` = NULL, `cellular_sub_pool` = NULL, `barcode_map` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `sample_terms` = NULL, `disease_terms` = NULL, `treatments` = NULL, `modifications` = NULL, `donors` = NULL, `biomarkers` = NULL, `sources` = NULL, `classifications` = NULL, ...) {
+    initialize = function(`release_timestamp` = NULL, `publications` = NULL, `url` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `multiplexed_samples` = NULL, `multiplexing_methods` = NULL, `cellular_sub_pool` = NULL, `barcode_map` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `sample_terms` = NULL, `taxa` = NULL, `disease_terms` = NULL, `treatments` = NULL, `modifications` = NULL, `donors` = NULL, `biomarkers` = NULL, `sources` = NULL, `classifications` = NULL, ...) {
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -433,6 +436,15 @@ MultiplexedSample <- R6::R6Class(
         sapply(`sample_terms`, function(x) stopifnot(is.character(x)))
         self$`sample_terms` <- `sample_terms`
       }
+      if (!is.null(`taxa`)) {
+        if (!(`taxa` %in% c("Homo sapiens", "Mus musculus", "Mixed species", "Saccharomyces cerevisiae"))) {
+          stop(paste("Error! \"", `taxa`, "\" cannot be assigned to `taxa`. Must be \"Homo sapiens\", \"Mus musculus\", \"Mixed species\", \"Saccharomyces cerevisiae\".", sep = ""))
+        }
+        if (!(is.character(`taxa`) && length(`taxa`) == 1)) {
+          stop(paste("Error! Invalid data for `taxa`. Must be a string:", `taxa`))
+        }
+        self$`taxa` <- `taxa`
+      }
       if (!is.null(`disease_terms`)) {
         stopifnot(is.vector(`disease_terms`), length(`disease_terms`) != 0)
         sapply(`disease_terms`, function(x) stopifnot(is.character(x)))
@@ -658,6 +670,10 @@ MultiplexedSample <- R6::R6Class(
         MultiplexedSampleObject[["sample_terms"]] <-
           self$`sample_terms`
       }
+      if (!is.null(self$`taxa`)) {
+        MultiplexedSampleObject[["taxa"]] <-
+          self$`taxa`
+      }
       if (!is.null(self$`disease_terms`)) {
         MultiplexedSampleObject[["disease_terms"]] <-
           self$`disease_terms`
@@ -844,6 +860,12 @@ MultiplexedSample <- R6::R6Class(
       }
       if (!is.null(this_object$`sample_terms`)) {
         self$`sample_terms` <- ApiClient$new()$deserializeObj(this_object$`sample_terms`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`taxa`)) {
+        if (!is.null(this_object$`taxa`) && !(this_object$`taxa` %in% c("Homo sapiens", "Mus musculus", "Mixed species", "Saccharomyces cerevisiae"))) {
+          stop(paste("Error! \"", this_object$`taxa`, "\" cannot be assigned to `taxa`. Must be \"Homo sapiens\", \"Mus musculus\", \"Mixed species\", \"Saccharomyces cerevisiae\".", sep = ""))
+        }
+        self$`taxa` <- this_object$`taxa`
       }
       if (!is.null(this_object$`disease_terms`)) {
         self$`disease_terms` <- ApiClient$new()$deserializeObj(this_object$`disease_terms`, "set[character]", loadNamespace("igvfclient"))
@@ -1237,6 +1259,14 @@ MultiplexedSample <- R6::R6Class(
           paste(unlist(lapply(self$`sample_terms`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`taxa`)) {
+          sprintf(
+          '"taxa":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`taxa`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`disease_terms`)) {
           sprintf(
           '"disease_terms":
@@ -1364,6 +1394,10 @@ MultiplexedSample <- R6::R6Class(
       self$`origin_of` <- ApiClient$new()$deserializeObj(this_object$`origin_of`, "set[character]", loadNamespace("igvfclient"))
       self$`institutional_certificates` <- ApiClient$new()$deserializeObj(this_object$`institutional_certificates`, "set[character]", loadNamespace("igvfclient"))
       self$`sample_terms` <- ApiClient$new()$deserializeObj(this_object$`sample_terms`, "set[character]", loadNamespace("igvfclient"))
+      if (!is.null(this_object$`taxa`) && !(this_object$`taxa` %in% c("Homo sapiens", "Mus musculus", "Mixed species", "Saccharomyces cerevisiae"))) {
+        stop(paste("Error! \"", this_object$`taxa`, "\" cannot be assigned to `taxa`. Must be \"Homo sapiens\", \"Mus musculus\", \"Mixed species\", \"Saccharomyces cerevisiae\".", sep = ""))
+      }
+      self$`taxa` <- this_object$`taxa`
       self$`disease_terms` <- ApiClient$new()$deserializeObj(this_object$`disease_terms`, "set[character]", loadNamespace("igvfclient"))
       self$`treatments` <- ApiClient$new()$deserializeObj(this_object$`treatments`, "set[character]", loadNamespace("igvfclient"))
       self$`modifications` <- ApiClient$new()$deserializeObj(this_object$`modifications`, "set[character]", loadNamespace("igvfclient"))

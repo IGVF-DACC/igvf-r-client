@@ -187,8 +187,8 @@ TabularFile <- R6::R6Class(
         self$`anvil_url` <- `anvil_url`
       }
       if (!is.null(`assembly`)) {
-        if (!(`assembly` %in% c("Cast - GRCm39", "GRCh38", "GRCm39"))) {
-          stop(paste("Error! \"", `assembly`, "\" cannot be assigned to `assembly`. Must be \"Cast - GRCm39\", \"GRCh38\", \"GRCm39\".", sep = ""))
+        if (!(`assembly` %in% c("Cast - GRCm39", "GRCh38", "GRCm39", "custom"))) {
+          stop(paste("Error! \"", `assembly`, "\" cannot be assigned to `assembly`. Must be \"Cast - GRCm39\", \"GRCh38\", \"GRCm39\", \"custom\".", sep = ""))
         }
         if (!(is.character(`assembly`) && length(`assembly`) == 1)) {
           stop(paste("Error! Invalid data for `assembly`. Must be a string:", `assembly`))
@@ -691,8 +691,8 @@ TabularFile <- R6::R6Class(
         self$`anvil_url` <- this_object$`anvil_url`
       }
       if (!is.null(this_object$`assembly`)) {
-        if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("Cast - GRCm39", "GRCh38", "GRCm39"))) {
-          stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"Cast - GRCm39\", \"GRCh38\", \"GRCm39\".", sep = ""))
+        if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("Cast - GRCm39", "GRCh38", "GRCm39", "custom"))) {
+          stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"Cast - GRCm39\", \"GRCh38\", \"GRCm39\", \"custom\".", sep = ""))
         }
         self$`assembly` <- this_object$`assembly`
       }
@@ -1266,8 +1266,8 @@ TabularFile <- R6::R6Class(
       self$`cell_type_annotation` <- this_object$`cell_type_annotation`
       self$`controlled_access` <- this_object$`controlled_access`
       self$`anvil_url` <- this_object$`anvil_url`
-      if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("Cast - GRCm39", "GRCh38", "GRCm39"))) {
-        stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"Cast - GRCm39\", \"GRCh38\", \"GRCm39\".", sep = ""))
+      if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("Cast - GRCm39", "GRCh38", "GRCm39", "custom"))) {
+        stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"Cast - GRCm39\", \"GRCh38\", \"GRCm39\", \"custom\".", sep = ""))
       }
       self$`assembly` <- this_object$`assembly`
       self$`release_timestamp` <- this_object$`release_timestamp`

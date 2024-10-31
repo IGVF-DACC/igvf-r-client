@@ -46,7 +46,6 @@
 #' @field validation_error_detail Explanation of why the file failed the automated content checks. character [optional]
 #' @field sources The originating lab(s) or vendor(s). list(character) [optional]
 #' @field external Indicates whether the file was obtained from an external, non-IGVF source. character [optional]
-#' @field external_id A unique identifier for the file at its original source. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the reference file. character [optional]
@@ -103,7 +102,6 @@ ReferenceFile <- R6::R6Class(
     `validation_error_detail` = NULL,
     `sources` = NULL,
     `external` = NULL,
-    `external_id` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -159,7 +157,6 @@ ReferenceFile <- R6::R6Class(
     #' @param validation_error_detail Explanation of why the file failed the automated content checks.
     #' @param sources The originating lab(s) or vendor(s).
     #' @param external Indicates whether the file was obtained from an external, non-IGVF source.
-    #' @param external_id A unique identifier for the file at its original source.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the reference file.
@@ -173,7 +170,7 @@ ReferenceFile <- R6::R6Class(
     #' @param upload_credentials The upload credentials for S3 to submit the file content.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`source_url` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `sources` = NULL, `external` = NULL, `external_id` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
+    initialize = function(`source_url` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `sources` = NULL, `external` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
       if (!is.null(`source_url`)) {
         if (!(is.character(`source_url`) && length(`source_url`) == 1)) {
           stop(paste("Error! Invalid data for `source_url`. Must be a string:", `source_url`))
@@ -193,8 +190,8 @@ ReferenceFile <- R6::R6Class(
         self$`anvil_url` <- `anvil_url`
       }
       if (!is.null(`assembly`)) {
-        if (!(`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10"))) {
-          stop(paste("Error! \"", `assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\".", sep = ""))
+        if (!(`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "custom"))) {
+          stop(paste("Error! \"", `assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"custom\".", sep = ""))
         }
         if (!(is.character(`assembly`) && length(`assembly`) == 1)) {
           stop(paste("Error! Invalid data for `assembly`. Must be a string:", `assembly`))
@@ -417,12 +414,6 @@ ReferenceFile <- R6::R6Class(
           stop(paste("Error! Invalid data for `external`. Must be a boolean:", `external`))
         }
         self$`external` <- `external`
-      }
-      if (!is.null(`external_id`)) {
-        if (!(is.character(`external_id`) && length(`external_id`) == 1)) {
-          stop(paste("Error! Invalid data for `external_id`. Must be a string:", `external_id`))
-        }
-        self$`external_id` <- `external_id`
       }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
@@ -647,10 +638,6 @@ ReferenceFile <- R6::R6Class(
         ReferenceFileObject[["external"]] <-
           self$`external`
       }
-      if (!is.null(self$`external_id`)) {
-        ReferenceFileObject[["external_id"]] <-
-          self$`external_id`
-      }
       if (!is.null(self$`@id`)) {
         ReferenceFileObject[["@id"]] <-
           self$`@id`
@@ -717,8 +704,8 @@ ReferenceFile <- R6::R6Class(
         self$`anvil_url` <- this_object$`anvil_url`
       }
       if (!is.null(this_object$`assembly`)) {
-        if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10"))) {
-          stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\".", sep = ""))
+        if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "custom"))) {
+          stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"custom\".", sep = ""))
         }
         self$`assembly` <- this_object$`assembly`
       }
@@ -841,9 +828,6 @@ ReferenceFile <- R6::R6Class(
       }
       if (!is.null(this_object$`external`)) {
         self$`external` <- this_object$`external`
-      }
-      if (!is.null(this_object$`external_id`)) {
-        self$`external_id` <- this_object$`external_id`
       }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
@@ -1201,14 +1185,6 @@ ReferenceFile <- R6::R6Class(
           tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`external`, perl=TRUE))
           )
         },
-        if (!is.null(self$`external_id`)) {
-          sprintf(
-          '"external_id":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`external_id`, perl=TRUE)
-          )
-        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -1314,8 +1290,8 @@ ReferenceFile <- R6::R6Class(
       self$`source_url` <- this_object$`source_url`
       self$`controlled_access` <- this_object$`controlled_access`
       self$`anvil_url` <- this_object$`anvil_url`
-      if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10"))) {
-        stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\".", sep = ""))
+      if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "custom"))) {
+        stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"custom\".", sep = ""))
       }
       self$`assembly` <- this_object$`assembly`
       self$`release_timestamp` <- this_object$`release_timestamp`
@@ -1368,7 +1344,6 @@ ReferenceFile <- R6::R6Class(
       self$`validation_error_detail` <- this_object$`validation_error_detail`
       self$`sources` <- ApiClient$new()$deserializeObj(this_object$`sources`, "set[character]", loadNamespace("igvfclient"))
       self$`external` <- this_object$`external`
-      self$`external_id` <- this_object$`external_id`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`

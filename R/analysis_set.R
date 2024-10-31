@@ -28,10 +28,11 @@
 #' @field description A plain text description of the object. character [optional]
 #' @field dbxrefs Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file sets. list(character) [optional]
 #' @field control_type The type of control this file set represents. character [optional]
-#' @field samples The sample(s) associated with this file set. list(character) [optional]
+#' @field samples Samples associated with this analysis set. list(character) [optional]
 #' @field donors The donors of the samples associated with this analysis set. list(character) [optional]
 #' @field file_set_type The level of this analysis set. character [optional]
 #' @field external_image_data_url Links to the external site where images and related data produced by this analysis are stored. character [optional]
+#' @field demultiplexed_sample The sample associated with this analysis set inferred through demultiplexing. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary  character [optional]
@@ -43,6 +44,7 @@
 #' @field protocols Links to the protocol(s) for conducting the assay on Protocols.io. list(character) [optional]
 #' @field sample_summary A summary of the samples associated with input file sets of this analysis set. character [optional]
 #' @field functional_assay_mechanisms The biological processes measured by the functional assays. list(character) [optional]
+#' @field workflows A workflow for computational analysis of genomic data. A workflow is made up of analysis steps. list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -74,6 +76,7 @@ AnalysisSet <- R6::R6Class(
     `donors` = NULL,
     `file_set_type` = NULL,
     `external_image_data_url` = NULL,
+    `demultiplexed_sample` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -85,6 +88,7 @@ AnalysisSet <- R6::R6Class(
     `protocols` = NULL,
     `sample_summary` = NULL,
     `functional_assay_mechanisms` = NULL,
+    `workflows` = NULL,
     #' Initialize a new AnalysisSet class.
     #'
     #' @description
@@ -111,10 +115,11 @@ AnalysisSet <- R6::R6Class(
     #' @param description A plain text description of the object.
     #' @param dbxrefs Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file sets.
     #' @param control_type The type of control this file set represents.
-    #' @param samples The sample(s) associated with this file set.
+    #' @param samples Samples associated with this analysis set.
     #' @param donors The donors of the samples associated with this analysis set.
     #' @param file_set_type The level of this analysis set.
     #' @param external_image_data_url Links to the external site where images and related data produced by this analysis are stored.
+    #' @param demultiplexed_sample The sample associated with this analysis set inferred through demultiplexing.
     #' @param @id @id
     #' @param @type @type
     #' @param summary summary
@@ -126,9 +131,10 @@ AnalysisSet <- R6::R6Class(
     #' @param protocols Links to the protocol(s) for conducting the assay on Protocols.io.
     #' @param sample_summary A summary of the samples associated with input file sets of this analysis set.
     #' @param functional_assay_mechanisms The biological processes measured by the functional assays.
+    #' @param workflows A workflow for computational analysis of genomic data. A workflow is made up of analysis steps.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `external_image_data_url` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_file_set_for` = NULL, `assay_titles` = NULL, `protocols` = NULL, `sample_summary` = NULL, `functional_assay_mechanisms` = NULL, ...) {
+    initialize = function(`input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `external_image_data_url` = NULL, `demultiplexed_sample` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_file_set_for` = NULL, `assay_titles` = NULL, `protocols` = NULL, `sample_summary` = NULL, `functional_assay_mechanisms` = NULL, `workflows` = NULL, ...) {
       if (!is.null(`input_file_sets`)) {
         stopifnot(is.vector(`input_file_sets`), length(`input_file_sets`) != 0)
         sapply(`input_file_sets`, function(x) stopifnot(is.character(x)))
@@ -276,6 +282,12 @@ AnalysisSet <- R6::R6Class(
         }
         self$`external_image_data_url` <- `external_image_data_url`
       }
+      if (!is.null(`demultiplexed_sample`)) {
+        if (!(is.character(`demultiplexed_sample`) && length(`demultiplexed_sample`) == 1)) {
+          stop(paste("Error! Invalid data for `demultiplexed_sample`. Must be a string:", `demultiplexed_sample`))
+        }
+        self$`demultiplexed_sample` <- `demultiplexed_sample`
+      }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
           stop(paste("Error! Invalid data for `@id`. Must be a string:", `@id`))
@@ -334,6 +346,11 @@ AnalysisSet <- R6::R6Class(
         stopifnot(is.vector(`functional_assay_mechanisms`), length(`functional_assay_mechanisms`) != 0)
         sapply(`functional_assay_mechanisms`, function(x) stopifnot(is.character(x)))
         self$`functional_assay_mechanisms` <- `functional_assay_mechanisms`
+      }
+      if (!is.null(`workflows`)) {
+        stopifnot(is.vector(`workflows`), length(`workflows`) != 0)
+        sapply(`workflows`, function(x) stopifnot(is.character(x)))
+        self$`workflows` <- `workflows`
       }
     },
     #' To JSON string
@@ -445,6 +462,10 @@ AnalysisSet <- R6::R6Class(
         AnalysisSetObject[["external_image_data_url"]] <-
           self$`external_image_data_url`
       }
+      if (!is.null(self$`demultiplexed_sample`)) {
+        AnalysisSetObject[["demultiplexed_sample"]] <-
+          self$`demultiplexed_sample`
+      }
       if (!is.null(self$`@id`)) {
         AnalysisSetObject[["@id"]] <-
           self$`@id`
@@ -488,6 +509,10 @@ AnalysisSet <- R6::R6Class(
       if (!is.null(self$`functional_assay_mechanisms`)) {
         AnalysisSetObject[["functional_assay_mechanisms"]] <-
           self$`functional_assay_mechanisms`
+      }
+      if (!is.null(self$`workflows`)) {
+        AnalysisSetObject[["workflows"]] <-
+          self$`workflows`
       }
       AnalysisSetObject
     },
@@ -582,6 +607,9 @@ AnalysisSet <- R6::R6Class(
       if (!is.null(this_object$`external_image_data_url`)) {
         self$`external_image_data_url` <- this_object$`external_image_data_url`
       }
+      if (!is.null(this_object$`demultiplexed_sample`)) {
+        self$`demultiplexed_sample` <- this_object$`demultiplexed_sample`
+      }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
       }
@@ -614,6 +642,9 @@ AnalysisSet <- R6::R6Class(
       }
       if (!is.null(this_object$`functional_assay_mechanisms`)) {
         self$`functional_assay_mechanisms` <- ApiClient$new()$deserializeObj(this_object$`functional_assay_mechanisms`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`workflows`)) {
+        self$`workflows` <- ApiClient$new()$deserializeObj(this_object$`workflows`, "array[character]", loadNamespace("igvfclient"))
       }
       self
     },
@@ -826,6 +857,14 @@ AnalysisSet <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`external_image_data_url`, perl=TRUE)
           )
         },
+        if (!is.null(self$`demultiplexed_sample`)) {
+          sprintf(
+          '"demultiplexed_sample":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`demultiplexed_sample`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -913,6 +952,14 @@ AnalysisSet <- R6::R6Class(
           ',
           paste(unlist(lapply(self$`functional_assay_mechanisms`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
+        },
+        if (!is.null(self$`workflows`)) {
+          sprintf(
+          '"workflows":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`workflows`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -959,6 +1006,7 @@ AnalysisSet <- R6::R6Class(
       }
       self$`file_set_type` <- this_object$`file_set_type`
       self$`external_image_data_url` <- this_object$`external_image_data_url`
+      self$`demultiplexed_sample` <- this_object$`demultiplexed_sample`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
@@ -970,6 +1018,7 @@ AnalysisSet <- R6::R6Class(
       self$`protocols` <- ApiClient$new()$deserializeObj(this_object$`protocols`, "set[character]", loadNamespace("igvfclient"))
       self$`sample_summary` <- this_object$`sample_summary`
       self$`functional_assay_mechanisms` <- ApiClient$new()$deserializeObj(this_object$`functional_assay_mechanisms`, "set[character]", loadNamespace("igvfclient"))
+      self$`workflows` <- ApiClient$new()$deserializeObj(this_object$`workflows`, "array[character]", loadNamespace("igvfclient"))
       self
     },
     #' Validate JSON input with respect to AnalysisSet

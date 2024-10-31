@@ -26,10 +26,11 @@ Name | Type | Description | Notes
 **description** | **character** | A plain text description of the object. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **dbxrefs** | **set[character]** | Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file sets. | [optional] 
 **control_type** | **character** | The type of control this file set represents. | [optional] 
-**samples** | **set[character]** | The sample(s) associated with this file set. | [optional] 
+**samples** | **set[character]** | Samples associated with this analysis set. | [optional] 
 **donors** | **set[character]** | The donors of the samples associated with this analysis set. | [optional] 
 **file_set_type** | **character** | The level of this analysis set. | [optional] [Enum: [intermediate analysis, principal analysis]] 
 **external_image_data_url** | **character** | Links to the external site where images and related data produced by this analysis are stored. | [optional] [Pattern: ^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$] 
+**demultiplexed_sample** | **character** | The sample associated with this analysis set inferred through demultiplexing. | [optional] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** |  | [optional] 
@@ -41,5 +42,6 @@ Name | Type | Description | Notes
 **protocols** | **set[character]** | Links to the protocol(s) for conducting the assay on Protocols.io. | [optional] 
 **sample_summary** | **character** | A summary of the samples associated with input file sets of this analysis set. | [optional] 
 **functional_assay_mechanisms** | **set[character]** | The biological processes measured by the functional assays. | [optional] 
+**workflows** | **array[character]** | A workflow for computational analysis of genomic data. A workflow is made up of analysis steps. | [optional] 
 
 
