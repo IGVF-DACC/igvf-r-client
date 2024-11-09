@@ -36,7 +36,7 @@ Name | Type | Description | Notes
 **files** | **set[character]** | The files associated with this file set. | [optional] 
 **control_for** | **set[character]** | The file sets for which this file set is a control. | [optional] 
 **submitted_files_timestamp** | **character** | The timestamp the first file object in the file_set or associated auxiliary sets was created. | [optional] 
-**input_file_set_for** | **set[character]** | The file sets that use this file set as an input. | [optional] 
+**input_for** | **set[character]** | The file sets that use this file set as an input. | [optional] 
 **assemblies** | **set[character]** | The genome assemblies to which the referencing files in the file set are utilizing (e.g., GRCh38). | [optional] 
 **transcriptome_annotations** | **set[character]** | The annotation versions of the reference resource. | [optional] 
 

@@ -44,7 +44,7 @@
 #' @field files The files associated with this file set. list(character) [optional]
 #' @field control_for The file sets for which this file set is a control. list(character) [optional]
 #' @field submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created. character [optional]
-#' @field input_file_set_for The file sets that use this file set as an input. list(character) [optional]
+#' @field input_for The file sets that use this file set as an input. list(character) [optional]
 #' @field _field_list a list of fields list(character)
 #' @field additional_properties additional properties list(character) [optional]
 #' @importFrom R6 R6Class
@@ -91,8 +91,8 @@ PredictionSet <- R6::R6Class(
     `files` = NULL,
     `control_for` = NULL,
     `submitted_files_timestamp` = NULL,
-    `input_file_set_for` = NULL,
-    `_field_list` = c("input_file_sets", "small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "url", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "dbxrefs", "control_type", "samples", "donors", "file_set_type", "scope", "assessed_genes", "@id", "@type", "summary", "files", "control_for", "submitted_files_timestamp", "input_file_set_for"),
+    `input_for` = NULL,
+    `_field_list` = c("input_file_sets", "small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "url", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "dbxrefs", "control_type", "samples", "donors", "file_set_type", "scope", "assessed_genes", "@id", "@type", "summary", "files", "control_for", "submitted_files_timestamp", "input_for"),
     `additional_properties` = list(),
     #' Initialize a new PredictionSet class.
     #'
@@ -136,11 +136,11 @@ PredictionSet <- R6::R6Class(
     #' @param files The files associated with this file set.
     #' @param control_for The file sets for which this file set is a control.
     #' @param submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created.
-    #' @param input_file_set_for The file sets that use this file set as an input.
+    #' @param input_for The file sets that use this file set as an input.
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`input_file_sets` = NULL, `small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `scope` = NULL, `assessed_genes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_file_set_for` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`input_file_sets` = NULL, `small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `scope` = NULL, `assessed_genes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`input_file_sets`)) {
         stopifnot(is.vector(`input_file_sets`), length(`input_file_sets`) != 0)
         sapply(`input_file_sets`, function(x) stopifnot(is.character(x)))
@@ -357,10 +357,10 @@ PredictionSet <- R6::R6Class(
         }
         self$`submitted_files_timestamp` <- `submitted_files_timestamp`
       }
-      if (!is.null(`input_file_set_for`)) {
-        stopifnot(is.vector(`input_file_set_for`), length(`input_file_set_for`) != 0)
-        sapply(`input_file_set_for`, function(x) stopifnot(is.character(x)))
-        self$`input_file_set_for` <- `input_file_set_for`
+      if (!is.null(`input_for`)) {
+        stopifnot(is.vector(`input_for`), length(`input_for`) != 0)
+        sapply(`input_for`, function(x) stopifnot(is.character(x)))
+        self$`input_for` <- `input_for`
       }
       if (!is.null(additional_properties)) {
         for (key in names(additional_properties)) {
@@ -525,9 +525,9 @@ PredictionSet <- R6::R6Class(
         PredictionSetObject[["submitted_files_timestamp"]] <-
           self$`submitted_files_timestamp`
       }
-      if (!is.null(self$`input_file_set_for`)) {
-        PredictionSetObject[["input_file_set_for"]] <-
-          self$`input_file_set_for`
+      if (!is.null(self$`input_for`)) {
+        PredictionSetObject[["input_for"]] <-
+          self$`input_for`
       }
       for (key in names(self$additional_properties)) {
         PredictionSetObject[[key]] <- self$additional_properties[[key]]
@@ -665,8 +665,8 @@ PredictionSet <- R6::R6Class(
       if (!is.null(this_object$`submitted_files_timestamp`)) {
         self$`submitted_files_timestamp` <- this_object$`submitted_files_timestamp`
       }
-      if (!is.null(this_object$`input_file_set_for`)) {
-        self$`input_file_set_for` <- ApiClient$new()$deserializeObj(this_object$`input_file_set_for`, "set[character]", loadNamespace("igvfclient"))
+      if (!is.null(this_object$`input_for`)) {
+        self$`input_for` <- ApiClient$new()$deserializeObj(this_object$`input_for`, "set[character]", loadNamespace("igvfclient"))
       }
       # process additional properties/fields in the payload
       for (key in names(this_object)) {
@@ -982,12 +982,12 @@ PredictionSet <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`submitted_files_timestamp`, perl=TRUE)
           )
         },
-        if (!is.null(self$`input_file_set_for`)) {
+        if (!is.null(self$`input_for`)) {
           sprintf(
-          '"input_file_set_for":
+          '"input_for":
              [%s]
           ',
-          paste(unlist(lapply(self$`input_file_set_for`, function(x) paste0('"', x, '"'))), collapse = ",")
+          paste(unlist(lapply(self$`input_for`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         }
       )
@@ -1055,7 +1055,7 @@ PredictionSet <- R6::R6Class(
       self$`files` <- ApiClient$new()$deserializeObj(this_object$`files`, "set[character]", loadNamespace("igvfclient"))
       self$`control_for` <- ApiClient$new()$deserializeObj(this_object$`control_for`, "set[character]", loadNamespace("igvfclient"))
       self$`submitted_files_timestamp` <- this_object$`submitted_files_timestamp`
-      self$`input_file_set_for` <- ApiClient$new()$deserializeObj(this_object$`input_file_set_for`, "set[character]", loadNamespace("igvfclient"))
+      self$`input_for` <- ApiClient$new()$deserializeObj(this_object$`input_for`, "set[character]", loadNamespace("igvfclient"))
       # process additional properties/fields in the payload
       for (key in names(this_object)) {
         if (!(key %in% self$`_field_list`)) { # json key not in list of fields

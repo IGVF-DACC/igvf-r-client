@@ -45,7 +45,7 @@
 #' @field files The files associated with this file set. list(character) [optional]
 #' @field control_for The file sets for which this file set is a control. list(character) [optional]
 #' @field submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created. character [optional]
-#' @field input_file_set_for The file sets that use this file set as an input. list(character) [optional]
+#' @field input_for The file sets that use this file set as an input. list(character) [optional]
 #' @field externally_hosted  character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -91,7 +91,7 @@ ModelSet <- R6::R6Class(
     `files` = NULL,
     `control_for` = NULL,
     `submitted_files_timestamp` = NULL,
-    `input_file_set_for` = NULL,
+    `input_for` = NULL,
     `externally_hosted` = NULL,
     #' Initialize a new ModelSet class.
     #'
@@ -136,11 +136,11 @@ ModelSet <- R6::R6Class(
     #' @param files The files associated with this file set.
     #' @param control_for The file sets for which this file set is a control.
     #' @param submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created.
-    #' @param input_file_set_for The file sets that use this file set as an input.
+    #' @param input_for The file sets that use this file set as an input.
     #' @param externally_hosted externally_hosted
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `model_name` = NULL, `model_version` = NULL, `prediction_objects` = NULL, `model_zoo_location` = NULL, `software_version` = NULL, `assessed_genes` = NULL, `external_input_data` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_file_set_for` = NULL, `externally_hosted` = NULL, ...) {
+    initialize = function(`input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `model_name` = NULL, `model_version` = NULL, `prediction_objects` = NULL, `model_zoo_location` = NULL, `software_version` = NULL, `assessed_genes` = NULL, `external_input_data` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `externally_hosted` = NULL, ...) {
       if (!is.null(`input_file_sets`)) {
         stopifnot(is.vector(`input_file_sets`), length(`input_file_sets`) != 0)
         sapply(`input_file_sets`, function(x) stopifnot(is.character(x)))
@@ -361,10 +361,10 @@ ModelSet <- R6::R6Class(
         }
         self$`submitted_files_timestamp` <- `submitted_files_timestamp`
       }
-      if (!is.null(`input_file_set_for`)) {
-        stopifnot(is.vector(`input_file_set_for`), length(`input_file_set_for`) != 0)
-        sapply(`input_file_set_for`, function(x) stopifnot(is.character(x)))
-        self$`input_file_set_for` <- `input_file_set_for`
+      if (!is.null(`input_for`)) {
+        stopifnot(is.vector(`input_for`), length(`input_for`) != 0)
+        sapply(`input_for`, function(x) stopifnot(is.character(x)))
+        self$`input_for` <- `input_for`
       }
       if (!is.null(`externally_hosted`)) {
         if (!(is.logical(`externally_hosted`) && length(`externally_hosted`) == 1)) {
@@ -534,9 +534,9 @@ ModelSet <- R6::R6Class(
         ModelSetObject[["submitted_files_timestamp"]] <-
           self$`submitted_files_timestamp`
       }
-      if (!is.null(self$`input_file_set_for`)) {
-        ModelSetObject[["input_file_set_for"]] <-
-          self$`input_file_set_for`
+      if (!is.null(self$`input_for`)) {
+        ModelSetObject[["input_for"]] <-
+          self$`input_for`
       }
       if (!is.null(self$`externally_hosted`)) {
         ModelSetObject[["externally_hosted"]] <-
@@ -674,8 +674,8 @@ ModelSet <- R6::R6Class(
       if (!is.null(this_object$`submitted_files_timestamp`)) {
         self$`submitted_files_timestamp` <- this_object$`submitted_files_timestamp`
       }
-      if (!is.null(this_object$`input_file_set_for`)) {
-        self$`input_file_set_for` <- ApiClient$new()$deserializeObj(this_object$`input_file_set_for`, "set[character]", loadNamespace("igvfclient"))
+      if (!is.null(this_object$`input_for`)) {
+        self$`input_for` <- ApiClient$new()$deserializeObj(this_object$`input_for`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`externally_hosted`)) {
         self$`externally_hosted` <- this_object$`externally_hosted`
@@ -995,12 +995,12 @@ ModelSet <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`submitted_files_timestamp`, perl=TRUE)
           )
         },
-        if (!is.null(self$`input_file_set_for`)) {
+        if (!is.null(self$`input_for`)) {
           sprintf(
-          '"input_file_set_for":
+          '"input_for":
              [%s]
           ',
-          paste(unlist(lapply(self$`input_file_set_for`, function(x) paste0('"', x, '"'))), collapse = ",")
+          paste(unlist(lapply(self$`input_for`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`externally_hosted`)) {
@@ -1069,7 +1069,7 @@ ModelSet <- R6::R6Class(
       self$`files` <- ApiClient$new()$deserializeObj(this_object$`files`, "set[character]", loadNamespace("igvfclient"))
       self$`control_for` <- ApiClient$new()$deserializeObj(this_object$`control_for`, "set[character]", loadNamespace("igvfclient"))
       self$`submitted_files_timestamp` <- this_object$`submitted_files_timestamp`
-      self$`input_file_set_for` <- ApiClient$new()$deserializeObj(this_object$`input_file_set_for`, "set[character]", loadNamespace("igvfclient"))
+      self$`input_for` <- ApiClient$new()$deserializeObj(this_object$`input_for`, "set[character]", loadNamespace("igvfclient"))
       self$`externally_hosted` <- this_object$`externally_hosted`
       self
     },

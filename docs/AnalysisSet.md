@@ -37,7 +37,7 @@ Name | Type | Description | Notes
 **files** | **set[character]** | The files associated with this file set. | [optional] 
 **control_for** | **set[character]** | The file sets for which this file set is a control. | [optional] 
 **submitted_files_timestamp** | **character** | The timestamp the first file object in the file_set or associated auxiliary sets was created. | [optional] 
-**input_file_set_for** | **set[character]** | The file sets that use this file set as an input. | [optional] 
+**input_for** | **set[character]** | The file sets that use this file set as an input. | [optional] 
 **assay_titles** | **set[character]** | Title(s) of assays that produced data analyzed in the analysis set. | [optional] 
 **protocols** | **set[character]** | Links to the protocol(s) for conducting the assay on Protocols.io. | [optional] 
 **sample_summary** | **character** | A summary of the samples associated with input file sets of this analysis set. | [optional] 

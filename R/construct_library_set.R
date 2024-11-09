@@ -56,7 +56,7 @@
 #' @field files The files associated with this file set. list(character) [optional]
 #' @field control_for The file sets for which this file set is a control. list(character) [optional]
 #' @field submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created. character [optional]
-#' @field input_file_set_for The file sets that use this file set as an input. list(character) [optional]
+#' @field input_for The file sets that use this file set as an input. list(character) [optional]
 #' @field applied_to_samples The samples that link to this construct library set. list(character) [optional]
 #' @field _field_list a list of fields list(character)
 #' @field additional_properties additional properties list(character) [optional]
@@ -116,9 +116,9 @@ ConstructLibrarySet <- R6::R6Class(
     `files` = NULL,
     `control_for` = NULL,
     `submitted_files_timestamp` = NULL,
-    `input_file_set_for` = NULL,
+    `input_for` = NULL,
     `applied_to_samples` = NULL,
-    `_field_list` = c("small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "sources", "lot_id", "product_id", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "file_set_type", "control_type", "scope", "selection_criteria", "integrated_content_files", "associated_phenotypes", "orf_list", "exon", "tile", "guide_type", "tiling_modality", "average_guide_coverage", "lower_bound_guide_coverage", "upper_bound_guide_coverage", "average_insert_size", "lower_bound_insert_size", "upper_bound_insert_size", "targeton", "@id", "@type", "summary", "files", "control_for", "submitted_files_timestamp", "input_file_set_for", "applied_to_samples"),
+    `_field_list` = c("small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "sources", "lot_id", "product_id", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "file_set_type", "control_type", "scope", "selection_criteria", "integrated_content_files", "associated_phenotypes", "orf_list", "exon", "tile", "guide_type", "tiling_modality", "average_guide_coverage", "lower_bound_guide_coverage", "upper_bound_guide_coverage", "average_insert_size", "lower_bound_insert_size", "upper_bound_insert_size", "targeton", "@id", "@type", "summary", "files", "control_for", "submitted_files_timestamp", "input_for", "applied_to_samples"),
     `additional_properties` = list(),
     #' Initialize a new ConstructLibrarySet class.
     #'
@@ -174,12 +174,12 @@ ConstructLibrarySet <- R6::R6Class(
     #' @param files The files associated with this file set.
     #' @param control_for The file sets for which this file set is a control.
     #' @param submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created.
-    #' @param input_file_set_for The file sets that use this file set as an input.
+    #' @param input_for The file sets that use this file set as an input.
     #' @param applied_to_samples The samples that link to this construct library set.
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `file_set_type` = NULL, `control_type` = NULL, `scope` = NULL, `selection_criteria` = NULL, `integrated_content_files` = NULL, `associated_phenotypes` = NULL, `orf_list` = NULL, `exon` = NULL, `tile` = NULL, `guide_type` = NULL, `tiling_modality` = NULL, `average_guide_coverage` = NULL, `lower_bound_guide_coverage` = NULL, `upper_bound_guide_coverage` = NULL, `average_insert_size` = NULL, `lower_bound_insert_size` = NULL, `upper_bound_insert_size` = NULL, `targeton` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_file_set_for` = NULL, `applied_to_samples` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `file_set_type` = NULL, `control_type` = NULL, `scope` = NULL, `selection_criteria` = NULL, `integrated_content_files` = NULL, `associated_phenotypes` = NULL, `orf_list` = NULL, `exon` = NULL, `tile` = NULL, `guide_type` = NULL, `tiling_modality` = NULL, `average_guide_coverage` = NULL, `lower_bound_guide_coverage` = NULL, `upper_bound_guide_coverage` = NULL, `average_insert_size` = NULL, `lower_bound_insert_size` = NULL, `upper_bound_insert_size` = NULL, `targeton` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `applied_to_samples` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`small_scale_loci_list`)) {
         stopifnot(is.vector(`small_scale_loci_list`), length(`small_scale_loci_list`) != 0)
         sapply(`small_scale_loci_list`, function(x) stopifnot(R6::is.R6(x)))
@@ -466,10 +466,10 @@ ConstructLibrarySet <- R6::R6Class(
         }
         self$`submitted_files_timestamp` <- `submitted_files_timestamp`
       }
-      if (!is.null(`input_file_set_for`)) {
-        stopifnot(is.vector(`input_file_set_for`), length(`input_file_set_for`) != 0)
-        sapply(`input_file_set_for`, function(x) stopifnot(is.character(x)))
-        self$`input_file_set_for` <- `input_file_set_for`
+      if (!is.null(`input_for`)) {
+        stopifnot(is.vector(`input_for`), length(`input_for`) != 0)
+        sapply(`input_for`, function(x) stopifnot(is.character(x)))
+        self$`input_for` <- `input_for`
       }
       if (!is.null(`applied_to_samples`)) {
         stopifnot(is.vector(`applied_to_samples`), length(`applied_to_samples`) != 0)
@@ -687,9 +687,9 @@ ConstructLibrarySet <- R6::R6Class(
         ConstructLibrarySetObject[["submitted_files_timestamp"]] <-
           self$`submitted_files_timestamp`
       }
-      if (!is.null(self$`input_file_set_for`)) {
-        ConstructLibrarySetObject[["input_file_set_for"]] <-
-          self$`input_file_set_for`
+      if (!is.null(self$`input_for`)) {
+        ConstructLibrarySetObject[["input_for"]] <-
+          self$`input_for`
       }
       if (!is.null(self$`applied_to_samples`)) {
         ConstructLibrarySetObject[["applied_to_samples"]] <-
@@ -875,8 +875,8 @@ ConstructLibrarySet <- R6::R6Class(
       if (!is.null(this_object$`submitted_files_timestamp`)) {
         self$`submitted_files_timestamp` <- this_object$`submitted_files_timestamp`
       }
-      if (!is.null(this_object$`input_file_set_for`)) {
-        self$`input_file_set_for` <- ApiClient$new()$deserializeObj(this_object$`input_file_set_for`, "set[character]", loadNamespace("igvfclient"))
+      if (!is.null(this_object$`input_for`)) {
+        self$`input_for` <- ApiClient$new()$deserializeObj(this_object$`input_for`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`applied_to_samples`)) {
         self$`applied_to_samples` <- ApiClient$new()$deserializeObj(this_object$`applied_to_samples`, "set[character]", loadNamespace("igvfclient"))
@@ -1291,12 +1291,12 @@ ConstructLibrarySet <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`submitted_files_timestamp`, perl=TRUE)
           )
         },
-        if (!is.null(self$`input_file_set_for`)) {
+        if (!is.null(self$`input_for`)) {
           sprintf(
-          '"input_file_set_for":
+          '"input_for":
              [%s]
           ',
-          paste(unlist(lapply(self$`input_file_set_for`, function(x) paste0('"', x, '"'))), collapse = ",")
+          paste(unlist(lapply(self$`input_for`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`applied_to_samples`)) {
@@ -1390,7 +1390,7 @@ ConstructLibrarySet <- R6::R6Class(
       self$`files` <- ApiClient$new()$deserializeObj(this_object$`files`, "set[character]", loadNamespace("igvfclient"))
       self$`control_for` <- ApiClient$new()$deserializeObj(this_object$`control_for`, "set[character]", loadNamespace("igvfclient"))
       self$`submitted_files_timestamp` <- this_object$`submitted_files_timestamp`
-      self$`input_file_set_for` <- ApiClient$new()$deserializeObj(this_object$`input_file_set_for`, "set[character]", loadNamespace("igvfclient"))
+      self$`input_for` <- ApiClient$new()$deserializeObj(this_object$`input_for`, "set[character]", loadNamespace("igvfclient"))
       self$`applied_to_samples` <- ApiClient$new()$deserializeObj(this_object$`applied_to_samples`, "set[character]", loadNamespace("igvfclient"))
       # process additional properties/fields in the payload
       for (key in names(this_object)) {

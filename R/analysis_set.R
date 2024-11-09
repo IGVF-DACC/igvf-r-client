@@ -39,7 +39,7 @@
 #' @field files The files associated with this file set. list(character) [optional]
 #' @field control_for The file sets for which this file set is a control. list(character) [optional]
 #' @field submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created. character [optional]
-#' @field input_file_set_for The file sets that use this file set as an input. list(character) [optional]
+#' @field input_for The file sets that use this file set as an input. list(character) [optional]
 #' @field assay_titles Title(s) of assays that produced data analyzed in the analysis set. list(character) [optional]
 #' @field protocols Links to the protocol(s) for conducting the assay on Protocols.io. list(character) [optional]
 #' @field sample_summary A summary of the samples associated with input file sets of this analysis set. character [optional]
@@ -83,7 +83,7 @@ AnalysisSet <- R6::R6Class(
     `files` = NULL,
     `control_for` = NULL,
     `submitted_files_timestamp` = NULL,
-    `input_file_set_for` = NULL,
+    `input_for` = NULL,
     `assay_titles` = NULL,
     `protocols` = NULL,
     `sample_summary` = NULL,
@@ -126,7 +126,7 @@ AnalysisSet <- R6::R6Class(
     #' @param files The files associated with this file set.
     #' @param control_for The file sets for which this file set is a control.
     #' @param submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created.
-    #' @param input_file_set_for The file sets that use this file set as an input.
+    #' @param input_for The file sets that use this file set as an input.
     #' @param assay_titles Title(s) of assays that produced data analyzed in the analysis set.
     #' @param protocols Links to the protocol(s) for conducting the assay on Protocols.io.
     #' @param sample_summary A summary of the samples associated with input file sets of this analysis set.
@@ -134,7 +134,7 @@ AnalysisSet <- R6::R6Class(
     #' @param workflows A workflow for computational analysis of genomic data. A workflow is made up of analysis steps.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `external_image_data_url` = NULL, `demultiplexed_sample` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_file_set_for` = NULL, `assay_titles` = NULL, `protocols` = NULL, `sample_summary` = NULL, `functional_assay_mechanisms` = NULL, `workflows` = NULL, ...) {
+    initialize = function(`input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `external_image_data_url` = NULL, `demultiplexed_sample` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `assay_titles` = NULL, `protocols` = NULL, `sample_summary` = NULL, `functional_assay_mechanisms` = NULL, `workflows` = NULL, ...) {
       if (!is.null(`input_file_sets`)) {
         stopifnot(is.vector(`input_file_sets`), length(`input_file_sets`) != 0)
         sapply(`input_file_sets`, function(x) stopifnot(is.character(x)))
@@ -321,10 +321,10 @@ AnalysisSet <- R6::R6Class(
         }
         self$`submitted_files_timestamp` <- `submitted_files_timestamp`
       }
-      if (!is.null(`input_file_set_for`)) {
-        stopifnot(is.vector(`input_file_set_for`), length(`input_file_set_for`) != 0)
-        sapply(`input_file_set_for`, function(x) stopifnot(is.character(x)))
-        self$`input_file_set_for` <- `input_file_set_for`
+      if (!is.null(`input_for`)) {
+        stopifnot(is.vector(`input_for`), length(`input_for`) != 0)
+        sapply(`input_for`, function(x) stopifnot(is.character(x)))
+        self$`input_for` <- `input_for`
       }
       if (!is.null(`assay_titles`)) {
         stopifnot(is.vector(`assay_titles`), length(`assay_titles`) != 0)
@@ -490,9 +490,9 @@ AnalysisSet <- R6::R6Class(
         AnalysisSetObject[["submitted_files_timestamp"]] <-
           self$`submitted_files_timestamp`
       }
-      if (!is.null(self$`input_file_set_for`)) {
-        AnalysisSetObject[["input_file_set_for"]] <-
-          self$`input_file_set_for`
+      if (!is.null(self$`input_for`)) {
+        AnalysisSetObject[["input_for"]] <-
+          self$`input_for`
       }
       if (!is.null(self$`assay_titles`)) {
         AnalysisSetObject[["assay_titles"]] <-
@@ -628,8 +628,8 @@ AnalysisSet <- R6::R6Class(
       if (!is.null(this_object$`submitted_files_timestamp`)) {
         self$`submitted_files_timestamp` <- this_object$`submitted_files_timestamp`
       }
-      if (!is.null(this_object$`input_file_set_for`)) {
-        self$`input_file_set_for` <- ApiClient$new()$deserializeObj(this_object$`input_file_set_for`, "set[character]", loadNamespace("igvfclient"))
+      if (!is.null(this_object$`input_for`)) {
+        self$`input_for` <- ApiClient$new()$deserializeObj(this_object$`input_for`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`assay_titles`)) {
         self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
@@ -913,12 +913,12 @@ AnalysisSet <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`submitted_files_timestamp`, perl=TRUE)
           )
         },
-        if (!is.null(self$`input_file_set_for`)) {
+        if (!is.null(self$`input_for`)) {
           sprintf(
-          '"input_file_set_for":
+          '"input_for":
              [%s]
           ',
-          paste(unlist(lapply(self$`input_file_set_for`, function(x) paste0('"', x, '"'))), collapse = ",")
+          paste(unlist(lapply(self$`input_for`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`assay_titles`)) {
@@ -1013,7 +1013,7 @@ AnalysisSet <- R6::R6Class(
       self$`files` <- ApiClient$new()$deserializeObj(this_object$`files`, "set[character]", loadNamespace("igvfclient"))
       self$`control_for` <- ApiClient$new()$deserializeObj(this_object$`control_for`, "set[character]", loadNamespace("igvfclient"))
       self$`submitted_files_timestamp` <- this_object$`submitted_files_timestamp`
-      self$`input_file_set_for` <- ApiClient$new()$deserializeObj(this_object$`input_file_set_for`, "set[character]", loadNamespace("igvfclient"))
+      self$`input_for` <- ApiClient$new()$deserializeObj(this_object$`input_for`, "set[character]", loadNamespace("igvfclient"))
       self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
       self$`protocols` <- ApiClient$new()$deserializeObj(this_object$`protocols`, "set[character]", loadNamespace("igvfclient"))
       self$`sample_summary` <- this_object$`sample_summary`
