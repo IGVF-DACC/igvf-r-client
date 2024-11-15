@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **controlled_access** | **character** | Boolean value, indicating the file being controlled access, if true. | [optional] 
 **anvil_url** | **character** | URL linking to the controlled access file that has been deposited at AnVIL workspace. | [optional] 
-**transcriptome_annotation** | **character** | The annotation and version of the reference resource. | [optional] [Enum: [GENCODE 40, GENCODE 41, GENCODE 42, GENCODE 43, GENCODE 44, GENCODE 45, GENCODE Cast - M32, GENCODE M30, GENCODE M31, GENCODE M32, GENCODE M33, GENCODE M34]] 
+**transcriptome_annotation** | **character** | The annotation and version of the reference resource. | [optional] [Enum: [GENCODE 32, GENCODE 40, GENCODE 41, GENCODE 42, GENCODE 43, GENCODE 44, GENCODE 45, GENCODE Cast - M32, GENCODE M30, GENCODE M31, GENCODE M32, GENCODE M33, GENCODE M34]] 
 **assembly** | **character** | Genome assembly applicable for the annotation data. | [optional] [Enum: [Cast - GRCm39, GRCh38, GRCm39, custom]] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **reference_files** | **set[character]** | Link to the reference files used to generate this file. | [optional] 
@@ -33,7 +33,7 @@ Name | Type | Description | Notes
 **dbxrefs** | **set[character]** | Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file objects. | [optional] 
 **derived_from** | **set[character]** | The files participating as inputs into software to produce this output file. | [optional] 
 **derived_manually** | **character** | A boolean indicating whether the file has been dervided manually without automated computational methods. | [optional] 
-**file_format** | **character** | The file format or extension of the file. | [optional] [Enum: [bam]] 
+**file_format** | **character** | The file format or extension of the file. | [optional] [Enum: [bai, bam]] 
 **file_format_specifications** | **set[character]** | Documents that describe the file format and fields of this file. | [optional] 
 **file_set** | **character** | The file set that this file belongs to. | [optional] 
 **file_size** | **integer** | File size specified in bytes. | [optional] [Min: 0] 

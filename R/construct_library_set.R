@@ -1,7 +1,7 @@
 #' Create a new ConstructLibrarySet
 #'
 #' @description
-#' Construct library set is a file set that hosts raw data files (e.g. FASTQs) resulting from sequencing of a library prior to its delivery into the samples being investigated. For example sequencing results of guide RNAs after cloning them but prior to their delivery to the actual samples under investigation. The results thus represent the sequencing output of the guides that are then introduced into cells, but may not always correspond to what exact guides ended up being delivered or expressed. Not all construct library sets will end up having FASTQs or any other files in them. For example if the lab chooses not to sequence their guide library prior to delivery, no FASTQs will be required in that case. Construct library sets should not be associated with any samples because they are designed to capture the library prior to its delivery and hence, has no relation to the ample that will get the plasmids eventually.
+#' Construct library set is a file set that hosts raw data files (e.g. FASTQs) resulting from sequencing of a library prior to its delivery into the samples being investigated. For example sequencing results of guide RNAs after cloning them but prior to their delivery to the actual samples under investigation. The results thus represent the sequencing output of the guides that are then introduced into cells, but may not always correspond to what exact guides ended up being delivered or expressed. Not all construct library sets will end up having FASTQs or any other files in them. For example if the lab chooses not to sequence their guide library prior to delivery, no FASTQs will be required in that case. Construct library sets should not be associated with any samples because they are designed to capture the library prior to its delivery and hence, has no relation to the sample that will get the plasmids eventually.
 #'
 #' @docType class
 #' @title ConstructLibrarySet
@@ -34,7 +34,7 @@
 #' @field description A plain text description of the object. character [optional]
 #' @field file_set_type The type or category of this construct library set. character [optional]
 #' @field control_type The type of control this file set represents. character [optional]
-#' @field scope The scope or scale that this construct library is designed to target. If the scope is across gene(s) or loci, these will need to be specified in the genes or loci property. If exon is specified, an exon identifier and the associated gene will need to be listed in exon and genes properties. If tile is specified, a tile identifier, start and stop coordinates, and the associated gene will need to be listed in tile and small_scale_gene_list or large_scale_gene_list properties. character [optional]
+#' @field scope The scope or scale that this construct library is designed to target. character [optional]
 #' @field selection_criteria The criteria used to select the sequence material cloned into the library. list(character) [optional]
 #' @field integrated_content_files The files containing sequence material of interest either used for insert design or directly cloned into vectors in this library. list(character) [optional]
 #' @field associated_phenotypes Ontological terms for diseases or phenotypes associated with the sequence material cloned in this construct library. list(character) [optional]
@@ -152,7 +152,7 @@ ConstructLibrarySet <- R6::R6Class(
     #' @param description A plain text description of the object.
     #' @param file_set_type The type or category of this construct library set.
     #' @param control_type The type of control this file set represents.
-    #' @param scope The scope or scale that this construct library is designed to target. If the scope is across gene(s) or loci, these will need to be specified in the genes or loci property. If exon is specified, an exon identifier and the associated gene will need to be listed in exon and genes properties. If tile is specified, a tile identifier, start and stop coordinates, and the associated gene will need to be listed in tile and small_scale_gene_list or large_scale_gene_list properties.
+    #' @param scope The scope or scale that this construct library is designed to target.
     #' @param selection_criteria The criteria used to select the sequence material cloned into the library.
     #' @param integrated_content_files The files containing sequence material of interest either used for insert design or directly cloned into vectors in this library.
     #' @param associated_phenotypes Ontological terms for diseases or phenotypes associated with the sequence material cloned in this construct library.

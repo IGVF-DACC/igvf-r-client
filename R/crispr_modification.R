@@ -27,9 +27,9 @@
 #' @field activating_agent_term_id The CHEBI identifier for the activating agent of the modification. character [optional]
 #' @field activating_agent_term_name The CHEBI name for the activating agent of the modification. character [optional]
 #' @field modality The purpose or intended effect of a modification. character [optional]
+#' @field tagged_proteins The tagged proteins in which the Cas nuclease is fused to an antibody. list(character) [optional]
 #' @field cas The name of the CRISPR associated protein used in the modification. character [optional]
 #' @field fused_domain The name of the molecule fused to a Cas protein. character [optional]
-#' @field tagged_protein The tagged protein in modifications in which the Cas nuclease is fused to an antibody. character [optional]
 #' @field cas_species The originating species of the Cas nuclease. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
@@ -61,9 +61,9 @@ CrisprModification <- R6::R6Class(
     `activating_agent_term_id` = NULL,
     `activating_agent_term_name` = NULL,
     `modality` = NULL,
+    `tagged_proteins` = NULL,
     `cas` = NULL,
     `fused_domain` = NULL,
-    `tagged_protein` = NULL,
     `cas_species` = NULL,
     `@id` = NULL,
     `@type` = NULL,
@@ -94,9 +94,9 @@ CrisprModification <- R6::R6Class(
     #' @param activating_agent_term_id The CHEBI identifier for the activating agent of the modification.
     #' @param activating_agent_term_name The CHEBI name for the activating agent of the modification.
     #' @param modality The purpose or intended effect of a modification.
+    #' @param tagged_proteins The tagged proteins in which the Cas nuclease is fused to an antibody.
     #' @param cas The name of the CRISPR associated protein used in the modification.
     #' @param fused_domain The name of the molecule fused to a Cas protein.
-    #' @param tagged_protein The tagged protein in modifications in which the Cas nuclease is fused to an antibody.
     #' @param cas_species The originating species of the Cas nuclease.
     #' @param @id @id
     #' @param @type @type
@@ -104,7 +104,7 @@ CrisprModification <- R6::R6Class(
     #' @param biosamples_modified The biosamples which have been modified with this modification.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `status` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `activated` = NULL, `activating_agent_term_id` = NULL, `activating_agent_term_name` = NULL, `modality` = NULL, `cas` = NULL, `fused_domain` = NULL, `tagged_protein` = NULL, `cas_species` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `biosamples_modified` = NULL, ...) {
+    initialize = function(`release_timestamp` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `status` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `activated` = NULL, `activating_agent_term_id` = NULL, `activating_agent_term_name` = NULL, `modality` = NULL, `tagged_proteins` = NULL, `cas` = NULL, `fused_domain` = NULL, `cas_species` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `biosamples_modified` = NULL, ...) {
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -228,6 +228,11 @@ CrisprModification <- R6::R6Class(
         }
         self$`modality` <- `modality`
       }
+      if (!is.null(`tagged_proteins`)) {
+        stopifnot(is.vector(`tagged_proteins`), length(`tagged_proteins`) != 0)
+        sapply(`tagged_proteins`, function(x) stopifnot(is.character(x)))
+        self$`tagged_proteins` <- `tagged_proteins`
+      }
       if (!is.null(`cas`)) {
         if (!(`cas` %in% c("Cas9", "Cas12a", "Cas13", "dCas9", "nCas9", "SpG", "SpRY"))) {
           stop(paste("Error! \"", `cas`, "\" cannot be assigned to `cas`. Must be \"Cas9\", \"Cas12a\", \"Cas13\", \"dCas9\", \"nCas9\", \"SpG\", \"SpRY\".", sep = ""))
@@ -245,12 +250,6 @@ CrisprModification <- R6::R6Class(
           stop(paste("Error! Invalid data for `fused_domain`. Must be a string:", `fused_domain`))
         }
         self$`fused_domain` <- `fused_domain`
-      }
-      if (!is.null(`tagged_protein`)) {
-        if (!(is.character(`tagged_protein`) && length(`tagged_protein`) == 1)) {
-          stop(paste("Error! Invalid data for `tagged_protein`. Must be a string:", `tagged_protein`))
-        }
-        self$`tagged_protein` <- `tagged_protein`
       }
       if (!is.null(`cas_species`)) {
         if (!(`cas_species` %in% c("Streptococcus pyogenes (Sp)", "Staphylococcus aureus (Sa)", "Campylobacter jejuni (Cj)", "Neisseria meningitidis (Nm)"))) {
@@ -373,6 +372,10 @@ CrisprModification <- R6::R6Class(
         CrisprModificationObject[["modality"]] <-
           self$`modality`
       }
+      if (!is.null(self$`tagged_proteins`)) {
+        CrisprModificationObject[["tagged_proteins"]] <-
+          self$`tagged_proteins`
+      }
       if (!is.null(self$`cas`)) {
         CrisprModificationObject[["cas"]] <-
           self$`cas`
@@ -380,10 +383,6 @@ CrisprModification <- R6::R6Class(
       if (!is.null(self$`fused_domain`)) {
         CrisprModificationObject[["fused_domain"]] <-
           self$`fused_domain`
-      }
-      if (!is.null(self$`tagged_protein`)) {
-        CrisprModificationObject[["tagged_protein"]] <-
-          self$`tagged_protein`
       }
       if (!is.null(self$`cas_species`)) {
         CrisprModificationObject[["cas_species"]] <-
@@ -483,6 +482,9 @@ CrisprModification <- R6::R6Class(
         }
         self$`modality` <- this_object$`modality`
       }
+      if (!is.null(this_object$`tagged_proteins`)) {
+        self$`tagged_proteins` <- ApiClient$new()$deserializeObj(this_object$`tagged_proteins`, "set[character]", loadNamespace("igvfclient"))
+      }
       if (!is.null(this_object$`cas`)) {
         if (!is.null(this_object$`cas`) && !(this_object$`cas` %in% c("Cas9", "Cas12a", "Cas13", "dCas9", "nCas9", "SpG", "SpRY"))) {
           stop(paste("Error! \"", this_object$`cas`, "\" cannot be assigned to `cas`. Must be \"Cas9\", \"Cas12a\", \"Cas13\", \"dCas9\", \"nCas9\", \"SpG\", \"SpRY\".", sep = ""))
@@ -494,9 +496,6 @@ CrisprModification <- R6::R6Class(
           stop(paste("Error! \"", this_object$`fused_domain`, "\" cannot be assigned to `fused_domain`. Must be \"2xVP64\", \"3xVP64\", \"ABE8e\", \"ABE8.20\", \"ANTI-FLAG\", \"BE4\", \"BE4max\", \"eA3A\", \"eA3A-T31A\", \"eA3A-T44D-S45A\", \"KOX1-KRAB\", \"M-MLV RT (PE2)\", \"p300\", \"TdCBE\", \"TdCGBE\", \"TdDE\", \"VPH\", \"VP64\", \"VP64-p65-Rta (VPR)\", \"ZIM3-KRAB\".", sep = ""))
         }
         self$`fused_domain` <- this_object$`fused_domain`
-      }
-      if (!is.null(this_object$`tagged_protein`)) {
-        self$`tagged_protein` <- this_object$`tagged_protein`
       }
       if (!is.null(this_object$`cas_species`)) {
         if (!is.null(this_object$`cas_species`) && !(this_object$`cas_species` %in% c("Streptococcus pyogenes (Sp)", "Staphylococcus aureus (Sa)", "Campylobacter jejuni (Cj)", "Neisseria meningitidis (Nm)"))) {
@@ -687,6 +686,14 @@ CrisprModification <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`modality`, perl=TRUE)
           )
         },
+        if (!is.null(self$`tagged_proteins`)) {
+          sprintf(
+          '"tagged_proteins":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`tagged_proteins`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`cas`)) {
           sprintf(
           '"cas":
@@ -701,14 +708,6 @@ CrisprModification <- R6::R6Class(
             "%s"
                     ',
           gsub('(?<!\\\\)\\"', '\\\\"', self$`fused_domain`, perl=TRUE)
-          )
-        },
-        if (!is.null(self$`tagged_protein`)) {
-          sprintf(
-          '"tagged_protein":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`tagged_protein`, perl=TRUE)
           )
         },
         if (!is.null(self$`cas_species`)) {
@@ -791,6 +790,7 @@ CrisprModification <- R6::R6Class(
         stop(paste("Error! \"", this_object$`modality`, "\" cannot be assigned to `modality`. Must be \"activation\", \"base editing\", \"cutting\", \"interference\", \"knockout\", \"localizing\", \"prime editing\".", sep = ""))
       }
       self$`modality` <- this_object$`modality`
+      self$`tagged_proteins` <- ApiClient$new()$deserializeObj(this_object$`tagged_proteins`, "set[character]", loadNamespace("igvfclient"))
       if (!is.null(this_object$`cas`) && !(this_object$`cas` %in% c("Cas9", "Cas12a", "Cas13", "dCas9", "nCas9", "SpG", "SpRY"))) {
         stop(paste("Error! \"", this_object$`cas`, "\" cannot be assigned to `cas`. Must be \"Cas9\", \"Cas12a\", \"Cas13\", \"dCas9\", \"nCas9\", \"SpG\", \"SpRY\".", sep = ""))
       }
@@ -799,7 +799,6 @@ CrisprModification <- R6::R6Class(
         stop(paste("Error! \"", this_object$`fused_domain`, "\" cannot be assigned to `fused_domain`. Must be \"2xVP64\", \"3xVP64\", \"ABE8e\", \"ABE8.20\", \"ANTI-FLAG\", \"BE4\", \"BE4max\", \"eA3A\", \"eA3A-T31A\", \"eA3A-T44D-S45A\", \"KOX1-KRAB\", \"M-MLV RT (PE2)\", \"p300\", \"TdCBE\", \"TdCGBE\", \"TdDE\", \"VPH\", \"VP64\", \"VP64-p65-Rta (VPR)\", \"ZIM3-KRAB\".", sep = ""))
       }
       self$`fused_domain` <- this_object$`fused_domain`
-      self$`tagged_protein` <- this_object$`tagged_protein`
       if (!is.null(this_object$`cas_species`) && !(this_object$`cas_species` %in% c("Streptococcus pyogenes (Sp)", "Staphylococcus aureus (Sa)", "Campylobacter jejuni (Cj)", "Neisseria meningitidis (Nm)"))) {
         stop(paste("Error! \"", this_object$`cas_species`, "\" cannot be assigned to `cas_species`. Must be \"Streptococcus pyogenes (Sp)\", \"Staphylococcus aureus (Sa)\", \"Campylobacter jejuni (Cj)\", \"Neisseria meningitidis (Nm)\".", sep = ""))
       }
@@ -870,6 +869,7 @@ CrisprModification <- R6::R6Class(
       }
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -911,6 +911,7 @@ CrisprModification <- R6::R6Class(
       if (!str_detect(self$`activating_agent_term_id`, "^CHEBI:[0-9]{1,7}$")) {
         invalid_fields["activating_agent_term_id"] <- "Invalid value for `activating_agent_term_id`, must conform to the pattern ^CHEBI:[0-9]{1,7}$."
       }
+
 
 
       invalid_fields

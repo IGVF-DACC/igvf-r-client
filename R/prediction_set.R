@@ -36,7 +36,7 @@
 #' @field samples The sample(s) associated with this file set. list(character) [optional]
 #' @field donors The donor(s) associated with this file set. list(character) [optional]
 #' @field file_set_type The category that best describes this prediction set. character [optional]
-#' @field scope The scope or scale that this prediction set is designed to target. If the scope is across gene(s) or loci, these will need to be specified in the genes or loci property. character [optional]
+#' @field scope The scope or scale that this prediction set is designed to target. character [optional]
 #' @field assessed_genes A list of gene(s) assessed in this prediction set. This property is used to describe the gene(s) being investigated, especially how the input variables in the prediction set affect some critical functionality of the gene(s). For example, the effect could be predicted from genetic variants on the binding affinity of a transcription factor encoded by a gene (assessed_genes). It differs from small_scale_gene_list and large_scale_gene_list, as these are used when the input variables of the prediction set are genes. list(character) [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
@@ -128,7 +128,7 @@ PredictionSet <- R6::R6Class(
     #' @param samples The sample(s) associated with this file set.
     #' @param donors The donor(s) associated with this file set.
     #' @param file_set_type The category that best describes this prediction set.
-    #' @param scope The scope or scale that this prediction set is designed to target. If the scope is across gene(s) or loci, these will need to be specified in the genes or loci property.
+    #' @param scope The scope or scale that this prediction set is designed to target.
     #' @param assessed_genes A list of gene(s) assessed in this prediction set. This property is used to describe the gene(s) being investigated, especially how the input variables in the prediction set affect some critical functionality of the gene(s). For example, the effect could be predicted from genetic variants on the binding affinity of a transcription factor encoded by a gene (assessed_genes). It differs from small_scale_gene_list and large_scale_gene_list, as these are used when the input variables of the prediction set are genes.
     #' @param @id @id
     #' @param @type @type

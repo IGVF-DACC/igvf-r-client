@@ -27,8 +27,8 @@
 #' @field activating_agent_term_id The CHEBI identifier for the activating agent of the modification. character [optional]
 #' @field activating_agent_term_name The CHEBI name for the activating agent of the modification. character [optional]
 #' @field modality The purpose or intended effect of a modification. character [optional]
-#' @field degron_system The type of degron system implemented. character [optional]
 #' @field tagged_proteins The tagged proteins which are targeted for degradation. list(character) [optional]
+#' @field degron_system The type of degron system implemented. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary  character [optional]
@@ -59,8 +59,8 @@ DegronModification <- R6::R6Class(
     `activating_agent_term_id` = NULL,
     `activating_agent_term_name` = NULL,
     `modality` = NULL,
-    `degron_system` = NULL,
     `tagged_proteins` = NULL,
+    `degron_system` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -90,15 +90,15 @@ DegronModification <- R6::R6Class(
     #' @param activating_agent_term_id The CHEBI identifier for the activating agent of the modification.
     #' @param activating_agent_term_name The CHEBI name for the activating agent of the modification.
     #' @param modality The purpose or intended effect of a modification.
-    #' @param degron_system The type of degron system implemented.
     #' @param tagged_proteins The tagged proteins which are targeted for degradation.
+    #' @param degron_system The type of degron system implemented.
     #' @param @id @id
     #' @param @type @type
     #' @param summary summary
     #' @param biosamples_modified The biosamples which have been modified with this modification.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `status` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `activated` = NULL, `activating_agent_term_id` = NULL, `activating_agent_term_name` = NULL, `modality` = NULL, `degron_system` = NULL, `tagged_proteins` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `biosamples_modified` = NULL, ...) {
+    initialize = function(`release_timestamp` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `status` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `activated` = NULL, `activating_agent_term_id` = NULL, `activating_agent_term_name` = NULL, `modality` = NULL, `tagged_proteins` = NULL, `degron_system` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `biosamples_modified` = NULL, ...) {
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -222,6 +222,11 @@ DegronModification <- R6::R6Class(
         }
         self$`modality` <- `modality`
       }
+      if (!is.null(`tagged_proteins`)) {
+        stopifnot(is.vector(`tagged_proteins`), length(`tagged_proteins`) != 0)
+        sapply(`tagged_proteins`, function(x) stopifnot(is.character(x)))
+        self$`tagged_proteins` <- `tagged_proteins`
+      }
       if (!is.null(`degron_system`)) {
         if (!(`degron_system` %in% c("AID", "AlissAid", "ssAID"))) {
           stop(paste("Error! \"", `degron_system`, "\" cannot be assigned to `degron_system`. Must be \"AID\", \"AlissAid\", \"ssAID\".", sep = ""))
@@ -230,11 +235,6 @@ DegronModification <- R6::R6Class(
           stop(paste("Error! Invalid data for `degron_system`. Must be a string:", `degron_system`))
         }
         self$`degron_system` <- `degron_system`
-      }
-      if (!is.null(`tagged_proteins`)) {
-        stopifnot(is.vector(`tagged_proteins`), length(`tagged_proteins`) != 0)
-        sapply(`tagged_proteins`, function(x) stopifnot(is.character(x)))
-        self$`tagged_proteins` <- `tagged_proteins`
       }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
@@ -348,13 +348,13 @@ DegronModification <- R6::R6Class(
         DegronModificationObject[["modality"]] <-
           self$`modality`
       }
-      if (!is.null(self$`degron_system`)) {
-        DegronModificationObject[["degron_system"]] <-
-          self$`degron_system`
-      }
       if (!is.null(self$`tagged_proteins`)) {
         DegronModificationObject[["tagged_proteins"]] <-
           self$`tagged_proteins`
+      }
+      if (!is.null(self$`degron_system`)) {
+        DegronModificationObject[["degron_system"]] <-
+          self$`degron_system`
       }
       if (!is.null(self$`@id`)) {
         DegronModificationObject[["@id"]] <-
@@ -450,14 +450,14 @@ DegronModification <- R6::R6Class(
         }
         self$`modality` <- this_object$`modality`
       }
+      if (!is.null(this_object$`tagged_proteins`)) {
+        self$`tagged_proteins` <- ApiClient$new()$deserializeObj(this_object$`tagged_proteins`, "set[character]", loadNamespace("igvfclient"))
+      }
       if (!is.null(this_object$`degron_system`)) {
         if (!is.null(this_object$`degron_system`) && !(this_object$`degron_system` %in% c("AID", "AlissAid", "ssAID"))) {
           stop(paste("Error! \"", this_object$`degron_system`, "\" cannot be assigned to `degron_system`. Must be \"AID\", \"AlissAid\", \"ssAID\".", sep = ""))
         }
         self$`degron_system` <- this_object$`degron_system`
-      }
-      if (!is.null(this_object$`tagged_proteins`)) {
-        self$`tagged_proteins` <- ApiClient$new()$deserializeObj(this_object$`tagged_proteins`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
@@ -642,20 +642,20 @@ DegronModification <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`modality`, perl=TRUE)
           )
         },
-        if (!is.null(self$`degron_system`)) {
-          sprintf(
-          '"degron_system":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`degron_system`, perl=TRUE)
-          )
-        },
         if (!is.null(self$`tagged_proteins`)) {
           sprintf(
           '"tagged_proteins":
              [%s]
           ',
           paste(unlist(lapply(self$`tagged_proteins`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`degron_system`)) {
+          sprintf(
+          '"degron_system":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`degron_system`, perl=TRUE)
           )
         },
         if (!is.null(self$`@id`)) {
@@ -730,11 +730,11 @@ DegronModification <- R6::R6Class(
         stop(paste("Error! \"", this_object$`modality`, "\" cannot be assigned to `modality`. Must be \"degradation\".", sep = ""))
       }
       self$`modality` <- this_object$`modality`
+      self$`tagged_proteins` <- ApiClient$new()$deserializeObj(this_object$`tagged_proteins`, "set[character]", loadNamespace("igvfclient"))
       if (!is.null(this_object$`degron_system`) && !(this_object$`degron_system` %in% c("AID", "AlissAid", "ssAID"))) {
         stop(paste("Error! \"", this_object$`degron_system`, "\" cannot be assigned to `degron_system`. Must be \"AID\", \"AlissAid\", \"ssAID\".", sep = ""))
       }
       self$`degron_system` <- this_object$`degron_system`
-      self$`tagged_proteins` <- ApiClient$new()$deserializeObj(this_object$`tagged_proteins`, "set[character]", loadNamespace("igvfclient"))
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
