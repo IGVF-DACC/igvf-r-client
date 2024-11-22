@@ -1,15 +1,13 @@
-# igvfclient::SequenceFile
+# igvfclient::IndexFile
 
-A file containing sequencing results in bam, fastq, or pod5 formats.
+A binary file which is indexed.
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**externally_hosted** | **character** | Indicates whether the file is externally hosted and not stored on portal. | [optional] 
-**external_host_url** | **character** | A link to the resource where the file is externally hosted. | [optional] 
+**release_timestamp** | **character** | The date the object was released. | [optional] 
 **controlled_access** | **character** | Boolean value, indicating the file being controlled access, if true. | [optional] 
 **anvil_url** | **character** | URL linking to the controlled access file that has been deposited at AnVIL workspace. | [optional] 
-**release_timestamp** | **character** | The date the object was released. | [optional] 
 **documents** | **set[character]** | Documents that provide additional information (not data file). | [optional] 
 **lab** | **character** | Lab associated with the submission. | [optional] 
 **award** | **character** | Grant associated with the submission. | [optional] 
@@ -32,7 +30,7 @@ Name | Type | Description | Notes
 **dbxrefs** | **set[character]** | Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file objects. | [optional] 
 **derived_from** | **set[character]** | The files participating as inputs into software to produce this output file. | [optional] 
 **derived_manually** | **character** | A boolean indicating whether the file has been dervided manually without automated computational methods. | [optional] 
-**file_format** | **character** | The file format or extension of the file. | [optional] [Enum: [bam, fastq, pod5]] 
+**file_format** | **character** | The file format or extension of the file. | [optional] [Enum: [bai, tbi]] 
 **file_format_specifications** | **set[character]** | Documents that describe the file format and fields of this file. | [optional] 
 **file_set** | **character** | The file set that this file belongs to. | [optional] 
 **file_size** | **integer** | File size specified in bytes. | [optional] [Min: 0] 
@@ -40,22 +38,9 @@ Name | Type | Description | Notes
 **submitted_file_name** | **character** | Original name of the file. | [optional] 
 **upload_status** | **character** | The upload/validation status of the file. | [optional] [Enum: [pending, file not found, invalidated, validated]] 
 **validation_error_detail** | **character** | Explanation of why the file failed the automated content checks. | [optional] 
-**flowcell_id** | **character** | The alphanumeric identifier for the flowcell of a sequencing machine. | [optional] [Pattern: ^[a-zA-Z0-9-]+$] 
-**lane** | **integer** | An integer identifying the lane of a sequencing machine. | [optional] [Min: 1] 
-**read_count** | **integer** | Number of reads in a fastq file. | [optional] [Min: 0] 
-**minimum_read_length** | **integer** | For high-throughput sequencing, the minimum number of contiguous nucleotides determined by sequencing. | [optional] [Max: 300000000] [Min: 0] 
-**maximum_read_length** | **integer** | For high-throughput sequencing, the maximum number of contiguous nucleotides determined by sequencing. | [optional] [Max: 300000000] [Min: 0] 
-**mean_read_length** | **numeric** | For high-throughput sequencing, the mean number of contiguous nucleotides determined by sequencing. | [optional] [Max: 300000000] [Min: 0] 
-**sequencing_platform** | **character** | The measurement device used to produce sequencing data. | [optional] 
-**sequencing_kit** | **character** | A reagent kit used with a library to prepare it for sequencing. | [optional] [Enum: [HiSeq SBS Kit v4, HiSeq SR Cluster Kit v4-cBot-HS, HiSeq PE Cluster Kit v4-cBot-HS, HiSeq SR Rapid Cluster Kit v2, HiSeq PE Rapid Cluster Kit v2, HiSeq Rapid SBS Kit v2, HiSeq 3000/4000 SBS Kit, HiSeq 3000/4000 SR Cluster Kit, HiSeq 3000/4000 PE Cluster Kit, MiSeq Reagent Kit v2, NextSeq 500 Mid Output Kit, NextSeq 500 High Output Kit, NextSeq 500 Mid Output v2 Kit, NextSeq 500 High Output v2 Kit, NextSeq 500/550 Mid-Output v2.5 Kit, NextSeq 500/550 High-Output v2.5 Kit, TG NextSeq 500/550 Mid-Output Kit v2.5, TG NextSeq 500/550 High-Output Kit v2.5, NextSeq 1000/2000 P1 Reagent Kit, NextSeq 1000/2000 P2 Reagent Kit, NextSeq 1000/2000 P3 Reagent Kit, NextSeq 1000/2000 P1 XLEAP-SBS Reagent Kit, NextSeq 1000/2000 P2 XLEAP-SBS Reagent Kit, NextSeq 2000 P3 XLEAP-SBS Reagent Kit, NextSeq 2000 P4 XLEAP-SBS Reagent Kit, NovaSeq 6000 SP Reagent Kit v1.5, NovaSeq 6000 S1 Reagent Kit v1.5, NovaSeq 6000 S2 Reagent Kit v1.5, NovaSeq 6000 S4 Reagent Kit v1.5, NovaSeq X Series 1.5B Reagent Kit, NovaSeq X Series 10B Reagent Kit, NovaSeq X Series 25B Reagent Kit, ONT Ligation Sequencing Kit V14, Sequel sequencing kit 3.0, Sequel II sequencing kit 2.0, Singular G4 F2 Reagent Kit]] 
-**sequencing_run** | **integer** | An ordinal number indicating which sequencing run of the associated library that the file belongs to. | [optional] [Min: 1] 
-**illumina_read_type** | **character** | The read type of the file. Relevant only for files produced using an Illumina sequencing platform. | [optional] [Enum: [R1, R2, R3, I1, I2]] 
-**index** | **character** | An Illumina index associated with the file. | [optional] 
-**base_modifications** | **set[character]** | The chemical modifications to bases in a DNA sequence that are detected in this file. | [optional] [Enum: ] 
-**read_names** | **set[character]** | The read names of a sequence file based on how it will be used by uniform pipelines. | [optional] [Enum: ] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
-**summary** | **character** | A summary of the sequence file. | [optional] 
+**summary** | **character** | A summary of the index file. | [optional] 
 **integrated_in** | **set[character]** | Construct library set(s) that this file was used for in insert design. | [optional] 
 **input_file_for** | **set[character]** | The files which are derived from this file. | [optional] 
 **gene_list_for** | **set[character]** | File Set(s) that this file is a gene list for. | [optional] 
@@ -64,6 +49,9 @@ Name | Type | Description | Notes
 **href** | **character** | The download path to obtain file. | [optional] 
 **s3_uri** | **character** | The S3 URI of public file object. | [optional] 
 **upload_credentials** | **object** | The upload credentials for S3 to submit the file content. | [optional] 
-**seqspecs** | **set[character]** | Link(s) to the associated seqspec YAML configuration file(s). | [optional] 
+**assembly** | **character** | The assembly associated with the index file. | [optional] 
+**transcriptome_annotation** | **character** | The annotation and version of the reference resource. | [optional] 
+**filtered** | **character** | Indicates whether reads that did not pass a filtering step, such as PCR duplicates, have been removed from the file. | [optional] 
+**redacted** | **character** | Indicates whether the alignments data have been sanitized (redacted) to prevent leakage of private and potentially identifying genomic information. | [optional] 
 
 

@@ -1,17 +1,15 @@
-#' Create a new SequenceFile
+#' Create a new IndexFile
 #'
 #' @description
-#' A file containing sequencing results in bam, fastq, or pod5 formats.
+#' A binary file which is indexed.
 #'
 #' @docType class
-#' @title SequenceFile
-#' @description SequenceFile Class
+#' @title IndexFile
+#' @description IndexFile Class
 #' @format An \code{R6Class} generator object
-#' @field externally_hosted Indicates whether the file is externally hosted and not stored on portal. character [optional]
-#' @field external_host_url A link to the resource where the file is externally hosted. character [optional]
+#' @field release_timestamp The date the object was released. character [optional]
 #' @field controlled_access Boolean value, indicating the file being controlled access, if true. character [optional]
 #' @field anvil_url URL linking to the controlled access file that has been deposited at AnVIL workspace. character [optional]
-#' @field release_timestamp The date the object was released. character [optional]
 #' @field documents Documents that provide additional information (not data file). list(character) [optional]
 #' @field lab Lab associated with the submission. character [optional]
 #' @field award Grant associated with the submission. character [optional]
@@ -42,22 +40,9 @@
 #' @field submitted_file_name Original name of the file. character [optional]
 #' @field upload_status The upload/validation status of the file. character [optional]
 #' @field validation_error_detail Explanation of why the file failed the automated content checks. character [optional]
-#' @field flowcell_id The alphanumeric identifier for the flowcell of a sequencing machine. character [optional]
-#' @field lane An integer identifying the lane of a sequencing machine. integer [optional]
-#' @field read_count Number of reads in a fastq file. integer [optional]
-#' @field minimum_read_length For high-throughput sequencing, the minimum number of contiguous nucleotides determined by sequencing. integer [optional]
-#' @field maximum_read_length For high-throughput sequencing, the maximum number of contiguous nucleotides determined by sequencing. integer [optional]
-#' @field mean_read_length For high-throughput sequencing, the mean number of contiguous nucleotides determined by sequencing. numeric [optional]
-#' @field sequencing_platform The measurement device used to produce sequencing data. character [optional]
-#' @field sequencing_kit A reagent kit used with a library to prepare it for sequencing. character [optional]
-#' @field sequencing_run An ordinal number indicating which sequencing run of the associated library that the file belongs to. integer [optional]
-#' @field illumina_read_type The read type of the file. Relevant only for files produced using an Illumina sequencing platform. character [optional]
-#' @field index An Illumina index associated with the file. character [optional]
-#' @field base_modifications The chemical modifications to bases in a DNA sequence that are detected in this file. list(character) [optional]
-#' @field read_names The read names of a sequence file based on how it will be used by uniform pipelines. list(character) [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
-#' @field summary A summary of the sequence file. character [optional]
+#' @field summary A summary of the index file. character [optional]
 #' @field integrated_in Construct library set(s) that this file was used for in insert design. list(character) [optional]
 #' @field input_file_for The files which are derived from this file. list(character) [optional]
 #' @field gene_list_for File Set(s) that this file is a gene list for. list(character) [optional]
@@ -66,18 +51,19 @@
 #' @field href The download path to obtain file. character [optional]
 #' @field s3_uri The S3 URI of public file object. character [optional]
 #' @field upload_credentials The upload credentials for S3 to submit the file content. object [optional]
-#' @field seqspecs Link(s) to the associated seqspec YAML configuration file(s). list(character) [optional]
+#' @field assembly The assembly associated with the index file. character [optional]
+#' @field transcriptome_annotation The annotation and version of the reference resource. character [optional]
+#' @field filtered Indicates whether reads that did not pass a filtering step, such as PCR duplicates, have been removed from the file. character [optional]
+#' @field redacted Indicates whether the alignments data have been sanitized (redacted) to prevent leakage of private and potentially identifying genomic information. character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
-SequenceFile <- R6::R6Class(
-  "SequenceFile",
+IndexFile <- R6::R6Class(
+  "IndexFile",
   public = list(
-    `externally_hosted` = NULL,
-    `external_host_url` = NULL,
+    `release_timestamp` = NULL,
     `controlled_access` = NULL,
     `anvil_url` = NULL,
-    `release_timestamp` = NULL,
     `documents` = NULL,
     `lab` = NULL,
     `award` = NULL,
@@ -108,19 +94,6 @@ SequenceFile <- R6::R6Class(
     `submitted_file_name` = NULL,
     `upload_status` = NULL,
     `validation_error_detail` = NULL,
-    `flowcell_id` = NULL,
-    `lane` = NULL,
-    `read_count` = NULL,
-    `minimum_read_length` = NULL,
-    `maximum_read_length` = NULL,
-    `mean_read_length` = NULL,
-    `sequencing_platform` = NULL,
-    `sequencing_kit` = NULL,
-    `sequencing_run` = NULL,
-    `illumina_read_type` = NULL,
-    `index` = NULL,
-    `base_modifications` = NULL,
-    `read_names` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -132,17 +105,18 @@ SequenceFile <- R6::R6Class(
     `href` = NULL,
     `s3_uri` = NULL,
     `upload_credentials` = NULL,
-    `seqspecs` = NULL,
-    #' Initialize a new SequenceFile class.
+    `assembly` = NULL,
+    `transcriptome_annotation` = NULL,
+    `filtered` = NULL,
+    `redacted` = NULL,
+    #' Initialize a new IndexFile class.
     #'
     #' @description
-    #' Initialize a new SequenceFile class.
+    #' Initialize a new IndexFile class.
     #'
-    #' @param externally_hosted Indicates whether the file is externally hosted and not stored on portal.
-    #' @param external_host_url A link to the resource where the file is externally hosted.
+    #' @param release_timestamp The date the object was released.
     #' @param controlled_access Boolean value, indicating the file being controlled access, if true.
     #' @param anvil_url URL linking to the controlled access file that has been deposited at AnVIL workspace.
-    #' @param release_timestamp The date the object was released.
     #' @param documents Documents that provide additional information (not data file).
     #' @param lab Lab associated with the submission.
     #' @param award Grant associated with the submission.
@@ -173,22 +147,9 @@ SequenceFile <- R6::R6Class(
     #' @param submitted_file_name Original name of the file.
     #' @param upload_status The upload/validation status of the file.
     #' @param validation_error_detail Explanation of why the file failed the automated content checks.
-    #' @param flowcell_id The alphanumeric identifier for the flowcell of a sequencing machine.
-    #' @param lane An integer identifying the lane of a sequencing machine.
-    #' @param read_count Number of reads in a fastq file.
-    #' @param minimum_read_length For high-throughput sequencing, the minimum number of contiguous nucleotides determined by sequencing.
-    #' @param maximum_read_length For high-throughput sequencing, the maximum number of contiguous nucleotides determined by sequencing.
-    #' @param mean_read_length For high-throughput sequencing, the mean number of contiguous nucleotides determined by sequencing.
-    #' @param sequencing_platform The measurement device used to produce sequencing data.
-    #' @param sequencing_kit A reagent kit used with a library to prepare it for sequencing.
-    #' @param sequencing_run An ordinal number indicating which sequencing run of the associated library that the file belongs to.
-    #' @param illumina_read_type The read type of the file. Relevant only for files produced using an Illumina sequencing platform.
-    #' @param index An Illumina index associated with the file.
-    #' @param base_modifications The chemical modifications to bases in a DNA sequence that are detected in this file.
-    #' @param read_names The read names of a sequence file based on how it will be used by uniform pipelines.
     #' @param @id @id
     #' @param @type @type
-    #' @param summary A summary of the sequence file.
+    #' @param summary A summary of the index file.
     #' @param integrated_in Construct library set(s) that this file was used for in insert design.
     #' @param input_file_for The files which are derived from this file.
     #' @param gene_list_for File Set(s) that this file is a gene list for.
@@ -197,21 +158,18 @@ SequenceFile <- R6::R6Class(
     #' @param href The download path to obtain file.
     #' @param s3_uri The S3 URI of public file object.
     #' @param upload_credentials The upload credentials for S3 to submit the file content.
-    #' @param seqspecs Link(s) to the associated seqspec YAML configuration file(s).
+    #' @param assembly The assembly associated with the index file.
+    #' @param transcriptome_annotation The annotation and version of the reference resource.
+    #' @param filtered Indicates whether reads that did not pass a filtering step, such as PCR duplicates, have been removed from the file.
+    #' @param redacted Indicates whether the alignments data have been sanitized (redacted) to prevent leakage of private and potentially identifying genomic information.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`externally_hosted` = NULL, `external_host_url` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `release_timestamp` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `flowcell_id` = NULL, `lane` = NULL, `read_count` = NULL, `minimum_read_length` = NULL, `maximum_read_length` = NULL, `mean_read_length` = NULL, `sequencing_platform` = NULL, `sequencing_kit` = NULL, `sequencing_run` = NULL, `illumina_read_type` = NULL, `index` = NULL, `base_modifications` = NULL, `read_names` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `seqspecs` = NULL, ...) {
-      if (!is.null(`externally_hosted`)) {
-        if (!(is.logical(`externally_hosted`) && length(`externally_hosted`) == 1)) {
-          stop(paste("Error! Invalid data for `externally_hosted`. Must be a boolean:", `externally_hosted`))
+    initialize = function(`release_timestamp` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `assembly` = NULL, `transcriptome_annotation` = NULL, `filtered` = NULL, `redacted` = NULL, ...) {
+      if (!is.null(`release_timestamp`)) {
+        if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
+          stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
         }
-        self$`externally_hosted` <- `externally_hosted`
-      }
-      if (!is.null(`external_host_url`)) {
-        if (!(is.character(`external_host_url`) && length(`external_host_url`) == 1)) {
-          stop(paste("Error! Invalid data for `external_host_url`. Must be a string:", `external_host_url`))
-        }
-        self$`external_host_url` <- `external_host_url`
+        self$`release_timestamp` <- `release_timestamp`
       }
       if (!is.null(`controlled_access`)) {
         if (!(is.logical(`controlled_access`) && length(`controlled_access`) == 1)) {
@@ -224,12 +182,6 @@ SequenceFile <- R6::R6Class(
           stop(paste("Error! Invalid data for `anvil_url`. Must be a string:", `anvil_url`))
         }
         self$`anvil_url` <- `anvil_url`
-      }
-      if (!is.null(`release_timestamp`)) {
-        if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
-          stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
-        }
-        self$`release_timestamp` <- `release_timestamp`
       }
       if (!is.null(`documents`)) {
         stopifnot(is.vector(`documents`), length(`documents`) != 0)
@@ -361,8 +313,8 @@ SequenceFile <- R6::R6Class(
         self$`derived_manually` <- `derived_manually`
       }
       if (!is.null(`file_format`)) {
-        if (!(`file_format` %in% c("bam", "fastq", "pod5"))) {
-          stop(paste("Error! \"", `file_format`, "\" cannot be assigned to `file_format`. Must be \"bam\", \"fastq\", \"pod5\".", sep = ""))
+        if (!(`file_format` %in% c("bai", "tbi"))) {
+          stop(paste("Error! \"", `file_format`, "\" cannot be assigned to `file_format`. Must be \"bai\", \"tbi\".", sep = ""))
         }
         if (!(is.character(`file_format`) && length(`file_format`) == 1)) {
           stop(paste("Error! Invalid data for `file_format`. Must be a string:", `file_format`))
@@ -412,85 +364,6 @@ SequenceFile <- R6::R6Class(
           stop(paste("Error! Invalid data for `validation_error_detail`. Must be a string:", `validation_error_detail`))
         }
         self$`validation_error_detail` <- `validation_error_detail`
-      }
-      if (!is.null(`flowcell_id`)) {
-        if (!(is.character(`flowcell_id`) && length(`flowcell_id`) == 1)) {
-          stop(paste("Error! Invalid data for `flowcell_id`. Must be a string:", `flowcell_id`))
-        }
-        self$`flowcell_id` <- `flowcell_id`
-      }
-      if (!is.null(`lane`)) {
-        if (!(is.numeric(`lane`) && length(`lane`) == 1)) {
-          stop(paste("Error! Invalid data for `lane`. Must be an integer:", `lane`))
-        }
-        self$`lane` <- `lane`
-      }
-      if (!is.null(`read_count`)) {
-        if (!(is.numeric(`read_count`) && length(`read_count`) == 1)) {
-          stop(paste("Error! Invalid data for `read_count`. Must be an integer:", `read_count`))
-        }
-        self$`read_count` <- `read_count`
-      }
-      if (!is.null(`minimum_read_length`)) {
-        if (!(is.numeric(`minimum_read_length`) && length(`minimum_read_length`) == 1)) {
-          stop(paste("Error! Invalid data for `minimum_read_length`. Must be an integer:", `minimum_read_length`))
-        }
-        self$`minimum_read_length` <- `minimum_read_length`
-      }
-      if (!is.null(`maximum_read_length`)) {
-        if (!(is.numeric(`maximum_read_length`) && length(`maximum_read_length`) == 1)) {
-          stop(paste("Error! Invalid data for `maximum_read_length`. Must be an integer:", `maximum_read_length`))
-        }
-        self$`maximum_read_length` <- `maximum_read_length`
-      }
-      if (!is.null(`mean_read_length`)) {
-        self$`mean_read_length` <- `mean_read_length`
-      }
-      if (!is.null(`sequencing_platform`)) {
-        if (!(is.character(`sequencing_platform`) && length(`sequencing_platform`) == 1)) {
-          stop(paste("Error! Invalid data for `sequencing_platform`. Must be a string:", `sequencing_platform`))
-        }
-        self$`sequencing_platform` <- `sequencing_platform`
-      }
-      if (!is.null(`sequencing_kit`)) {
-        if (!(`sequencing_kit` %in% c("HiSeq SBS Kit v4", "HiSeq SR Cluster Kit v4-cBot-HS", "HiSeq PE Cluster Kit v4-cBot-HS", "HiSeq SR Rapid Cluster Kit v2", "HiSeq PE Rapid Cluster Kit v2", "HiSeq Rapid SBS Kit v2", "HiSeq 3000/4000 SBS Kit", "HiSeq 3000/4000 SR Cluster Kit", "HiSeq 3000/4000 PE Cluster Kit", "MiSeq Reagent Kit v2", "NextSeq 500 Mid Output Kit", "NextSeq 500 High Output Kit", "NextSeq 500 Mid Output v2 Kit", "NextSeq 500 High Output v2 Kit", "NextSeq 500/550 Mid-Output v2.5 Kit", "NextSeq 500/550 High-Output v2.5 Kit", "TG NextSeq 500/550 Mid-Output Kit v2.5", "TG NextSeq 500/550 High-Output Kit v2.5", "NextSeq 1000/2000 P1 Reagent Kit", "NextSeq 1000/2000 P2 Reagent Kit", "NextSeq 1000/2000 P3 Reagent Kit", "NextSeq 1000/2000 P1 XLEAP-SBS Reagent Kit", "NextSeq 1000/2000 P2 XLEAP-SBS Reagent Kit", "NextSeq 2000 P3 XLEAP-SBS Reagent Kit", "NextSeq 2000 P4 XLEAP-SBS Reagent Kit", "NovaSeq 6000 SP Reagent Kit v1.5", "NovaSeq 6000 S1 Reagent Kit v1.5", "NovaSeq 6000 S2 Reagent Kit v1.5", "NovaSeq 6000 S4 Reagent Kit v1.5", "NovaSeq X Series 1.5B Reagent Kit", "NovaSeq X Series 10B Reagent Kit", "NovaSeq X Series 25B Reagent Kit", "ONT Ligation Sequencing Kit V14", "Sequel sequencing kit 3.0", "Sequel II sequencing kit 2.0", "Singular G4 F2 Reagent Kit"))) {
-          stop(paste("Error! \"", `sequencing_kit`, "\" cannot be assigned to `sequencing_kit`. Must be \"HiSeq SBS Kit v4\", \"HiSeq SR Cluster Kit v4-cBot-HS\", \"HiSeq PE Cluster Kit v4-cBot-HS\", \"HiSeq SR Rapid Cluster Kit v2\", \"HiSeq PE Rapid Cluster Kit v2\", \"HiSeq Rapid SBS Kit v2\", \"HiSeq 3000/4000 SBS Kit\", \"HiSeq 3000/4000 SR Cluster Kit\", \"HiSeq 3000/4000 PE Cluster Kit\", \"MiSeq Reagent Kit v2\", \"NextSeq 500 Mid Output Kit\", \"NextSeq 500 High Output Kit\", \"NextSeq 500 Mid Output v2 Kit\", \"NextSeq 500 High Output v2 Kit\", \"NextSeq 500/550 Mid-Output v2.5 Kit\", \"NextSeq 500/550 High-Output v2.5 Kit\", \"TG NextSeq 500/550 Mid-Output Kit v2.5\", \"TG NextSeq 500/550 High-Output Kit v2.5\", \"NextSeq 1000/2000 P1 Reagent Kit\", \"NextSeq 1000/2000 P2 Reagent Kit\", \"NextSeq 1000/2000 P3 Reagent Kit\", \"NextSeq 1000/2000 P1 XLEAP-SBS Reagent Kit\", \"NextSeq 1000/2000 P2 XLEAP-SBS Reagent Kit\", \"NextSeq 2000 P3 XLEAP-SBS Reagent Kit\", \"NextSeq 2000 P4 XLEAP-SBS Reagent Kit\", \"NovaSeq 6000 SP Reagent Kit v1.5\", \"NovaSeq 6000 S1 Reagent Kit v1.5\", \"NovaSeq 6000 S2 Reagent Kit v1.5\", \"NovaSeq 6000 S4 Reagent Kit v1.5\", \"NovaSeq X Series 1.5B Reagent Kit\", \"NovaSeq X Series 10B Reagent Kit\", \"NovaSeq X Series 25B Reagent Kit\", \"ONT Ligation Sequencing Kit V14\", \"Sequel sequencing kit 3.0\", \"Sequel II sequencing kit 2.0\", \"Singular G4 F2 Reagent Kit\".", sep = ""))
-        }
-        if (!(is.character(`sequencing_kit`) && length(`sequencing_kit`) == 1)) {
-          stop(paste("Error! Invalid data for `sequencing_kit`. Must be a string:", `sequencing_kit`))
-        }
-        self$`sequencing_kit` <- `sequencing_kit`
-      }
-      if (!is.null(`sequencing_run`)) {
-        if (!(is.numeric(`sequencing_run`) && length(`sequencing_run`) == 1)) {
-          stop(paste("Error! Invalid data for `sequencing_run`. Must be an integer:", `sequencing_run`))
-        }
-        self$`sequencing_run` <- `sequencing_run`
-      }
-      if (!is.null(`illumina_read_type`)) {
-        if (!(`illumina_read_type` %in% c("R1", "R2", "R3", "I1", "I2"))) {
-          stop(paste("Error! \"", `illumina_read_type`, "\" cannot be assigned to `illumina_read_type`. Must be \"R1\", \"R2\", \"R3\", \"I1\", \"I2\".", sep = ""))
-        }
-        if (!(is.character(`illumina_read_type`) && length(`illumina_read_type`) == 1)) {
-          stop(paste("Error! Invalid data for `illumina_read_type`. Must be a string:", `illumina_read_type`))
-        }
-        self$`illumina_read_type` <- `illumina_read_type`
-      }
-      if (!is.null(`index`)) {
-        if (!(is.character(`index`) && length(`index`) == 1)) {
-          stop(paste("Error! Invalid data for `index`. Must be a string:", `index`))
-        }
-        self$`index` <- `index`
-      }
-      if (!is.null(`base_modifications`)) {
-        stopifnot(is.vector(`base_modifications`), length(`base_modifications`) != 0)
-        sapply(`base_modifications`, function(x) stopifnot(is.character(x)))
-        self$`base_modifications` <- `base_modifications`
-      }
-      if (!is.null(`read_names`)) {
-        stopifnot(is.vector(`read_names`), length(`read_names`) != 0)
-        sapply(`read_names`, function(x) stopifnot(is.character(x)))
-        self$`read_names` <- `read_names`
       }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
@@ -549,10 +422,29 @@ SequenceFile <- R6::R6Class(
       if (!is.null(`upload_credentials`)) {
         self$`upload_credentials` <- `upload_credentials`
       }
-      if (!is.null(`seqspecs`)) {
-        stopifnot(is.vector(`seqspecs`), length(`seqspecs`) != 0)
-        sapply(`seqspecs`, function(x) stopifnot(is.character(x)))
-        self$`seqspecs` <- `seqspecs`
+      if (!is.null(`assembly`)) {
+        if (!(is.character(`assembly`) && length(`assembly`) == 1)) {
+          stop(paste("Error! Invalid data for `assembly`. Must be a string:", `assembly`))
+        }
+        self$`assembly` <- `assembly`
+      }
+      if (!is.null(`transcriptome_annotation`)) {
+        if (!(is.character(`transcriptome_annotation`) && length(`transcriptome_annotation`) == 1)) {
+          stop(paste("Error! Invalid data for `transcriptome_annotation`. Must be a string:", `transcriptome_annotation`))
+        }
+        self$`transcriptome_annotation` <- `transcriptome_annotation`
+      }
+      if (!is.null(`filtered`)) {
+        if (!(is.logical(`filtered`) && length(`filtered`) == 1)) {
+          stop(paste("Error! Invalid data for `filtered`. Must be a boolean:", `filtered`))
+        }
+        self$`filtered` <- `filtered`
+      }
+      if (!is.null(`redacted`)) {
+        if (!(is.logical(`redacted`) && length(`redacted`) == 1)) {
+          stop(paste("Error! Invalid data for `redacted`. Must be a boolean:", `redacted`))
+        }
+        self$`redacted` <- `redacted`
       }
     },
     #' To JSON string
@@ -560,276 +452,222 @@ SequenceFile <- R6::R6Class(
     #' @description
     #' To JSON String
     #'
-    #' @return SequenceFile in JSON format
+    #' @return IndexFile in JSON format
     #' @export
     toJSON = function() {
-      SequenceFileObject <- list()
-      if (!is.null(self$`externally_hosted`)) {
-        SequenceFileObject[["externally_hosted"]] <-
-          self$`externally_hosted`
-      }
-      if (!is.null(self$`external_host_url`)) {
-        SequenceFileObject[["external_host_url"]] <-
-          self$`external_host_url`
+      IndexFileObject <- list()
+      if (!is.null(self$`release_timestamp`)) {
+        IndexFileObject[["release_timestamp"]] <-
+          self$`release_timestamp`
       }
       if (!is.null(self$`controlled_access`)) {
-        SequenceFileObject[["controlled_access"]] <-
+        IndexFileObject[["controlled_access"]] <-
           self$`controlled_access`
       }
       if (!is.null(self$`anvil_url`)) {
-        SequenceFileObject[["anvil_url"]] <-
+        IndexFileObject[["anvil_url"]] <-
           self$`anvil_url`
       }
-      if (!is.null(self$`release_timestamp`)) {
-        SequenceFileObject[["release_timestamp"]] <-
-          self$`release_timestamp`
-      }
       if (!is.null(self$`documents`)) {
-        SequenceFileObject[["documents"]] <-
+        IndexFileObject[["documents"]] <-
           self$`documents`
       }
       if (!is.null(self$`lab`)) {
-        SequenceFileObject[["lab"]] <-
+        IndexFileObject[["lab"]] <-
           self$`lab`
       }
       if (!is.null(self$`award`)) {
-        SequenceFileObject[["award"]] <-
+        IndexFileObject[["award"]] <-
           self$`award`
       }
       if (!is.null(self$`accession`)) {
-        SequenceFileObject[["accession"]] <-
+        IndexFileObject[["accession"]] <-
           self$`accession`
       }
       if (!is.null(self$`alternate_accessions`)) {
-        SequenceFileObject[["alternate_accessions"]] <-
+        IndexFileObject[["alternate_accessions"]] <-
           self$`alternate_accessions`
       }
       if (!is.null(self$`collections`)) {
-        SequenceFileObject[["collections"]] <-
+        IndexFileObject[["collections"]] <-
           self$`collections`
       }
       if (!is.null(self$`status`)) {
-        SequenceFileObject[["status"]] <-
+        IndexFileObject[["status"]] <-
           self$`status`
       }
       if (!is.null(self$`revoke_detail`)) {
-        SequenceFileObject[["revoke_detail"]] <-
+        IndexFileObject[["revoke_detail"]] <-
           self$`revoke_detail`
       }
       if (!is.null(self$`schema_version`)) {
-        SequenceFileObject[["schema_version"]] <-
+        IndexFileObject[["schema_version"]] <-
           self$`schema_version`
       }
       if (!is.null(self$`uuid`)) {
-        SequenceFileObject[["uuid"]] <-
+        IndexFileObject[["uuid"]] <-
           self$`uuid`
       }
       if (!is.null(self$`notes`)) {
-        SequenceFileObject[["notes"]] <-
+        IndexFileObject[["notes"]] <-
           self$`notes`
       }
       if (!is.null(self$`aliases`)) {
-        SequenceFileObject[["aliases"]] <-
+        IndexFileObject[["aliases"]] <-
           self$`aliases`
       }
       if (!is.null(self$`creation_timestamp`)) {
-        SequenceFileObject[["creation_timestamp"]] <-
+        IndexFileObject[["creation_timestamp"]] <-
           self$`creation_timestamp`
       }
       if (!is.null(self$`submitted_by`)) {
-        SequenceFileObject[["submitted_by"]] <-
+        IndexFileObject[["submitted_by"]] <-
           self$`submitted_by`
       }
       if (!is.null(self$`submitter_comment`)) {
-        SequenceFileObject[["submitter_comment"]] <-
+        IndexFileObject[["submitter_comment"]] <-
           self$`submitter_comment`
       }
       if (!is.null(self$`description`)) {
-        SequenceFileObject[["description"]] <-
+        IndexFileObject[["description"]] <-
           self$`description`
       }
       if (!is.null(self$`analysis_step_version`)) {
-        SequenceFileObject[["analysis_step_version"]] <-
+        IndexFileObject[["analysis_step_version"]] <-
           self$`analysis_step_version`
       }
       if (!is.null(self$`content_md5sum`)) {
-        SequenceFileObject[["content_md5sum"]] <-
+        IndexFileObject[["content_md5sum"]] <-
           self$`content_md5sum`
       }
       if (!is.null(self$`content_type`)) {
-        SequenceFileObject[["content_type"]] <-
+        IndexFileObject[["content_type"]] <-
           self$`content_type`
       }
       if (!is.null(self$`dbxrefs`)) {
-        SequenceFileObject[["dbxrefs"]] <-
+        IndexFileObject[["dbxrefs"]] <-
           self$`dbxrefs`
       }
       if (!is.null(self$`derived_from`)) {
-        SequenceFileObject[["derived_from"]] <-
+        IndexFileObject[["derived_from"]] <-
           self$`derived_from`
       }
       if (!is.null(self$`derived_manually`)) {
-        SequenceFileObject[["derived_manually"]] <-
+        IndexFileObject[["derived_manually"]] <-
           self$`derived_manually`
       }
       if (!is.null(self$`file_format`)) {
-        SequenceFileObject[["file_format"]] <-
+        IndexFileObject[["file_format"]] <-
           self$`file_format`
       }
       if (!is.null(self$`file_format_specifications`)) {
-        SequenceFileObject[["file_format_specifications"]] <-
+        IndexFileObject[["file_format_specifications"]] <-
           self$`file_format_specifications`
       }
       if (!is.null(self$`file_set`)) {
-        SequenceFileObject[["file_set"]] <-
+        IndexFileObject[["file_set"]] <-
           self$`file_set`
       }
       if (!is.null(self$`file_size`)) {
-        SequenceFileObject[["file_size"]] <-
+        IndexFileObject[["file_size"]] <-
           self$`file_size`
       }
       if (!is.null(self$`md5sum`)) {
-        SequenceFileObject[["md5sum"]] <-
+        IndexFileObject[["md5sum"]] <-
           self$`md5sum`
       }
       if (!is.null(self$`submitted_file_name`)) {
-        SequenceFileObject[["submitted_file_name"]] <-
+        IndexFileObject[["submitted_file_name"]] <-
           self$`submitted_file_name`
       }
       if (!is.null(self$`upload_status`)) {
-        SequenceFileObject[["upload_status"]] <-
+        IndexFileObject[["upload_status"]] <-
           self$`upload_status`
       }
       if (!is.null(self$`validation_error_detail`)) {
-        SequenceFileObject[["validation_error_detail"]] <-
+        IndexFileObject[["validation_error_detail"]] <-
           self$`validation_error_detail`
       }
-      if (!is.null(self$`flowcell_id`)) {
-        SequenceFileObject[["flowcell_id"]] <-
-          self$`flowcell_id`
-      }
-      if (!is.null(self$`lane`)) {
-        SequenceFileObject[["lane"]] <-
-          self$`lane`
-      }
-      if (!is.null(self$`read_count`)) {
-        SequenceFileObject[["read_count"]] <-
-          self$`read_count`
-      }
-      if (!is.null(self$`minimum_read_length`)) {
-        SequenceFileObject[["minimum_read_length"]] <-
-          self$`minimum_read_length`
-      }
-      if (!is.null(self$`maximum_read_length`)) {
-        SequenceFileObject[["maximum_read_length"]] <-
-          self$`maximum_read_length`
-      }
-      if (!is.null(self$`mean_read_length`)) {
-        SequenceFileObject[["mean_read_length"]] <-
-          self$`mean_read_length`
-      }
-      if (!is.null(self$`sequencing_platform`)) {
-        SequenceFileObject[["sequencing_platform"]] <-
-          self$`sequencing_platform`
-      }
-      if (!is.null(self$`sequencing_kit`)) {
-        SequenceFileObject[["sequencing_kit"]] <-
-          self$`sequencing_kit`
-      }
-      if (!is.null(self$`sequencing_run`)) {
-        SequenceFileObject[["sequencing_run"]] <-
-          self$`sequencing_run`
-      }
-      if (!is.null(self$`illumina_read_type`)) {
-        SequenceFileObject[["illumina_read_type"]] <-
-          self$`illumina_read_type`
-      }
-      if (!is.null(self$`index`)) {
-        SequenceFileObject[["index"]] <-
-          self$`index`
-      }
-      if (!is.null(self$`base_modifications`)) {
-        SequenceFileObject[["base_modifications"]] <-
-          self$`base_modifications`
-      }
-      if (!is.null(self$`read_names`)) {
-        SequenceFileObject[["read_names"]] <-
-          self$`read_names`
-      }
       if (!is.null(self$`@id`)) {
-        SequenceFileObject[["@id"]] <-
+        IndexFileObject[["@id"]] <-
           self$`@id`
       }
       if (!is.null(self$`@type`)) {
-        SequenceFileObject[["@type"]] <-
+        IndexFileObject[["@type"]] <-
           self$`@type`
       }
       if (!is.null(self$`summary`)) {
-        SequenceFileObject[["summary"]] <-
+        IndexFileObject[["summary"]] <-
           self$`summary`
       }
       if (!is.null(self$`integrated_in`)) {
-        SequenceFileObject[["integrated_in"]] <-
+        IndexFileObject[["integrated_in"]] <-
           self$`integrated_in`
       }
       if (!is.null(self$`input_file_for`)) {
-        SequenceFileObject[["input_file_for"]] <-
+        IndexFileObject[["input_file_for"]] <-
           self$`input_file_for`
       }
       if (!is.null(self$`gene_list_for`)) {
-        SequenceFileObject[["gene_list_for"]] <-
+        IndexFileObject[["gene_list_for"]] <-
           self$`gene_list_for`
       }
       if (!is.null(self$`loci_list_for`)) {
-        SequenceFileObject[["loci_list_for"]] <-
+        IndexFileObject[["loci_list_for"]] <-
           self$`loci_list_for`
       }
       if (!is.null(self$`assay_titles`)) {
-        SequenceFileObject[["assay_titles"]] <-
+        IndexFileObject[["assay_titles"]] <-
           self$`assay_titles`
       }
       if (!is.null(self$`href`)) {
-        SequenceFileObject[["href"]] <-
+        IndexFileObject[["href"]] <-
           self$`href`
       }
       if (!is.null(self$`s3_uri`)) {
-        SequenceFileObject[["s3_uri"]] <-
+        IndexFileObject[["s3_uri"]] <-
           self$`s3_uri`
       }
       if (!is.null(self$`upload_credentials`)) {
-        SequenceFileObject[["upload_credentials"]] <-
+        IndexFileObject[["upload_credentials"]] <-
           self$`upload_credentials`
       }
-      if (!is.null(self$`seqspecs`)) {
-        SequenceFileObject[["seqspecs"]] <-
-          self$`seqspecs`
+      if (!is.null(self$`assembly`)) {
+        IndexFileObject[["assembly"]] <-
+          self$`assembly`
       }
-      SequenceFileObject
+      if (!is.null(self$`transcriptome_annotation`)) {
+        IndexFileObject[["transcriptome_annotation"]] <-
+          self$`transcriptome_annotation`
+      }
+      if (!is.null(self$`filtered`)) {
+        IndexFileObject[["filtered"]] <-
+          self$`filtered`
+      }
+      if (!is.null(self$`redacted`)) {
+        IndexFileObject[["redacted"]] <-
+          self$`redacted`
+      }
+      IndexFileObject
     },
-    #' Deserialize JSON string into an instance of SequenceFile
+    #' Deserialize JSON string into an instance of IndexFile
     #'
     #' @description
-    #' Deserialize JSON string into an instance of SequenceFile
+    #' Deserialize JSON string into an instance of IndexFile
     #'
     #' @param input_json the JSON input
-    #' @return the instance of SequenceFile
+    #' @return the instance of IndexFile
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
-      if (!is.null(this_object$`externally_hosted`)) {
-        self$`externally_hosted` <- this_object$`externally_hosted`
-      }
-      if (!is.null(this_object$`external_host_url`)) {
-        self$`external_host_url` <- this_object$`external_host_url`
+      if (!is.null(this_object$`release_timestamp`)) {
+        self$`release_timestamp` <- this_object$`release_timestamp`
       }
       if (!is.null(this_object$`controlled_access`)) {
         self$`controlled_access` <- this_object$`controlled_access`
       }
       if (!is.null(this_object$`anvil_url`)) {
         self$`anvil_url` <- this_object$`anvil_url`
-      }
-      if (!is.null(this_object$`release_timestamp`)) {
-        self$`release_timestamp` <- this_object$`release_timestamp`
       }
       if (!is.null(this_object$`documents`)) {
         self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
@@ -901,8 +739,8 @@ SequenceFile <- R6::R6Class(
         self$`derived_manually` <- this_object$`derived_manually`
       }
       if (!is.null(this_object$`file_format`)) {
-        if (!is.null(this_object$`file_format`) && !(this_object$`file_format` %in% c("bam", "fastq", "pod5"))) {
-          stop(paste("Error! \"", this_object$`file_format`, "\" cannot be assigned to `file_format`. Must be \"bam\", \"fastq\", \"pod5\".", sep = ""))
+        if (!is.null(this_object$`file_format`) && !(this_object$`file_format` %in% c("bai", "tbi"))) {
+          stop(paste("Error! \"", this_object$`file_format`, "\" cannot be assigned to `file_format`. Must be \"bai\", \"tbi\".", sep = ""))
         }
         self$`file_format` <- this_object$`file_format`
       }
@@ -929,51 +767,6 @@ SequenceFile <- R6::R6Class(
       }
       if (!is.null(this_object$`validation_error_detail`)) {
         self$`validation_error_detail` <- this_object$`validation_error_detail`
-      }
-      if (!is.null(this_object$`flowcell_id`)) {
-        self$`flowcell_id` <- this_object$`flowcell_id`
-      }
-      if (!is.null(this_object$`lane`)) {
-        self$`lane` <- this_object$`lane`
-      }
-      if (!is.null(this_object$`read_count`)) {
-        self$`read_count` <- this_object$`read_count`
-      }
-      if (!is.null(this_object$`minimum_read_length`)) {
-        self$`minimum_read_length` <- this_object$`minimum_read_length`
-      }
-      if (!is.null(this_object$`maximum_read_length`)) {
-        self$`maximum_read_length` <- this_object$`maximum_read_length`
-      }
-      if (!is.null(this_object$`mean_read_length`)) {
-        self$`mean_read_length` <- this_object$`mean_read_length`
-      }
-      if (!is.null(this_object$`sequencing_platform`)) {
-        self$`sequencing_platform` <- this_object$`sequencing_platform`
-      }
-      if (!is.null(this_object$`sequencing_kit`)) {
-        if (!is.null(this_object$`sequencing_kit`) && !(this_object$`sequencing_kit` %in% c("HiSeq SBS Kit v4", "HiSeq SR Cluster Kit v4-cBot-HS", "HiSeq PE Cluster Kit v4-cBot-HS", "HiSeq SR Rapid Cluster Kit v2", "HiSeq PE Rapid Cluster Kit v2", "HiSeq Rapid SBS Kit v2", "HiSeq 3000/4000 SBS Kit", "HiSeq 3000/4000 SR Cluster Kit", "HiSeq 3000/4000 PE Cluster Kit", "MiSeq Reagent Kit v2", "NextSeq 500 Mid Output Kit", "NextSeq 500 High Output Kit", "NextSeq 500 Mid Output v2 Kit", "NextSeq 500 High Output v2 Kit", "NextSeq 500/550 Mid-Output v2.5 Kit", "NextSeq 500/550 High-Output v2.5 Kit", "TG NextSeq 500/550 Mid-Output Kit v2.5", "TG NextSeq 500/550 High-Output Kit v2.5", "NextSeq 1000/2000 P1 Reagent Kit", "NextSeq 1000/2000 P2 Reagent Kit", "NextSeq 1000/2000 P3 Reagent Kit", "NextSeq 1000/2000 P1 XLEAP-SBS Reagent Kit", "NextSeq 1000/2000 P2 XLEAP-SBS Reagent Kit", "NextSeq 2000 P3 XLEAP-SBS Reagent Kit", "NextSeq 2000 P4 XLEAP-SBS Reagent Kit", "NovaSeq 6000 SP Reagent Kit v1.5", "NovaSeq 6000 S1 Reagent Kit v1.5", "NovaSeq 6000 S2 Reagent Kit v1.5", "NovaSeq 6000 S4 Reagent Kit v1.5", "NovaSeq X Series 1.5B Reagent Kit", "NovaSeq X Series 10B Reagent Kit", "NovaSeq X Series 25B Reagent Kit", "ONT Ligation Sequencing Kit V14", "Sequel sequencing kit 3.0", "Sequel II sequencing kit 2.0", "Singular G4 F2 Reagent Kit"))) {
-          stop(paste("Error! \"", this_object$`sequencing_kit`, "\" cannot be assigned to `sequencing_kit`. Must be \"HiSeq SBS Kit v4\", \"HiSeq SR Cluster Kit v4-cBot-HS\", \"HiSeq PE Cluster Kit v4-cBot-HS\", \"HiSeq SR Rapid Cluster Kit v2\", \"HiSeq PE Rapid Cluster Kit v2\", \"HiSeq Rapid SBS Kit v2\", \"HiSeq 3000/4000 SBS Kit\", \"HiSeq 3000/4000 SR Cluster Kit\", \"HiSeq 3000/4000 PE Cluster Kit\", \"MiSeq Reagent Kit v2\", \"NextSeq 500 Mid Output Kit\", \"NextSeq 500 High Output Kit\", \"NextSeq 500 Mid Output v2 Kit\", \"NextSeq 500 High Output v2 Kit\", \"NextSeq 500/550 Mid-Output v2.5 Kit\", \"NextSeq 500/550 High-Output v2.5 Kit\", \"TG NextSeq 500/550 Mid-Output Kit v2.5\", \"TG NextSeq 500/550 High-Output Kit v2.5\", \"NextSeq 1000/2000 P1 Reagent Kit\", \"NextSeq 1000/2000 P2 Reagent Kit\", \"NextSeq 1000/2000 P3 Reagent Kit\", \"NextSeq 1000/2000 P1 XLEAP-SBS Reagent Kit\", \"NextSeq 1000/2000 P2 XLEAP-SBS Reagent Kit\", \"NextSeq 2000 P3 XLEAP-SBS Reagent Kit\", \"NextSeq 2000 P4 XLEAP-SBS Reagent Kit\", \"NovaSeq 6000 SP Reagent Kit v1.5\", \"NovaSeq 6000 S1 Reagent Kit v1.5\", \"NovaSeq 6000 S2 Reagent Kit v1.5\", \"NovaSeq 6000 S4 Reagent Kit v1.5\", \"NovaSeq X Series 1.5B Reagent Kit\", \"NovaSeq X Series 10B Reagent Kit\", \"NovaSeq X Series 25B Reagent Kit\", \"ONT Ligation Sequencing Kit V14\", \"Sequel sequencing kit 3.0\", \"Sequel II sequencing kit 2.0\", \"Singular G4 F2 Reagent Kit\".", sep = ""))
-        }
-        self$`sequencing_kit` <- this_object$`sequencing_kit`
-      }
-      if (!is.null(this_object$`sequencing_run`)) {
-        self$`sequencing_run` <- this_object$`sequencing_run`
-      }
-      if (!is.null(this_object$`illumina_read_type`)) {
-        if (!is.null(this_object$`illumina_read_type`) && !(this_object$`illumina_read_type` %in% c("R1", "R2", "R3", "I1", "I2"))) {
-          stop(paste("Error! \"", this_object$`illumina_read_type`, "\" cannot be assigned to `illumina_read_type`. Must be \"R1\", \"R2\", \"R3\", \"I1\", \"I2\".", sep = ""))
-        }
-        self$`illumina_read_type` <- this_object$`illumina_read_type`
-      }
-      if (!is.null(this_object$`index`)) {
-        self$`index` <- this_object$`index`
-      }
-      if (!is.null(this_object$`base_modifications`)) {
-        self$`base_modifications` <- ApiClient$new()$deserializeObj(this_object$`base_modifications`, "set[character]", loadNamespace("igvfclient"))
-      }
-      if (!is.null(this_object$`read_names`)) {
-        self$`read_names` <- ApiClient$new()$deserializeObj(this_object$`read_names`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
@@ -1008,8 +801,17 @@ SequenceFile <- R6::R6Class(
       if (!is.null(this_object$`upload_credentials`)) {
         self$`upload_credentials` <- this_object$`upload_credentials`
       }
-      if (!is.null(this_object$`seqspecs`)) {
-        self$`seqspecs` <- ApiClient$new()$deserializeObj(this_object$`seqspecs`, "set[character]", loadNamespace("igvfclient"))
+      if (!is.null(this_object$`assembly`)) {
+        self$`assembly` <- this_object$`assembly`
+      }
+      if (!is.null(this_object$`transcriptome_annotation`)) {
+        self$`transcriptome_annotation` <- this_object$`transcriptome_annotation`
+      }
+      if (!is.null(this_object$`filtered`)) {
+        self$`filtered` <- this_object$`filtered`
+      }
+      if (!is.null(this_object$`redacted`)) {
+        self$`redacted` <- this_object$`redacted`
       }
       self
     },
@@ -1018,24 +820,16 @@ SequenceFile <- R6::R6Class(
     #' @description
     #' To JSON String
     #'
-    #' @return SequenceFile in JSON format
+    #' @return IndexFile in JSON format
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
-        if (!is.null(self$`externally_hosted`)) {
+        if (!is.null(self$`release_timestamp`)) {
           sprintf(
-          '"externally_hosted":
-            %s
-                    ',
-          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`externally_hosted`, perl=TRUE))
-          )
-        },
-        if (!is.null(self$`external_host_url`)) {
-          sprintf(
-          '"external_host_url":
+          '"release_timestamp":
             "%s"
                     ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`external_host_url`, perl=TRUE)
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`release_timestamp`, perl=TRUE)
           )
         },
         if (!is.null(self$`controlled_access`)) {
@@ -1052,14 +846,6 @@ SequenceFile <- R6::R6Class(
             "%s"
                     ',
           gsub('(?<!\\\\)\\"', '\\\\"', self$`anvil_url`, perl=TRUE)
-          )
-        },
-        if (!is.null(self$`release_timestamp`)) {
-          sprintf(
-          '"release_timestamp":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`release_timestamp`, perl=TRUE)
           )
         },
         if (!is.null(self$`documents`)) {
@@ -1302,110 +1088,6 @@ SequenceFile <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`validation_error_detail`, perl=TRUE)
           )
         },
-        if (!is.null(self$`flowcell_id`)) {
-          sprintf(
-          '"flowcell_id":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`flowcell_id`, perl=TRUE)
-          )
-        },
-        if (!is.null(self$`lane`)) {
-          sprintf(
-          '"lane":
-            %f
-                    ',
-          self$`lane`
-          )
-        },
-        if (!is.null(self$`read_count`)) {
-          sprintf(
-          '"read_count":
-            %f
-                    ',
-          self$`read_count`
-          )
-        },
-        if (!is.null(self$`minimum_read_length`)) {
-          sprintf(
-          '"minimum_read_length":
-            %f
-                    ',
-          self$`minimum_read_length`
-          )
-        },
-        if (!is.null(self$`maximum_read_length`)) {
-          sprintf(
-          '"maximum_read_length":
-            %f
-                    ',
-          self$`maximum_read_length`
-          )
-        },
-        if (!is.null(self$`mean_read_length`)) {
-          sprintf(
-          '"mean_read_length":
-            %f
-                    ',
-          self$`mean_read_length`
-          )
-        },
-        if (!is.null(self$`sequencing_platform`)) {
-          sprintf(
-          '"sequencing_platform":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`sequencing_platform`, perl=TRUE)
-          )
-        },
-        if (!is.null(self$`sequencing_kit`)) {
-          sprintf(
-          '"sequencing_kit":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`sequencing_kit`, perl=TRUE)
-          )
-        },
-        if (!is.null(self$`sequencing_run`)) {
-          sprintf(
-          '"sequencing_run":
-            %f
-                    ',
-          self$`sequencing_run`
-          )
-        },
-        if (!is.null(self$`illumina_read_type`)) {
-          sprintf(
-          '"illumina_read_type":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`illumina_read_type`, perl=TRUE)
-          )
-        },
-        if (!is.null(self$`index`)) {
-          sprintf(
-          '"index":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`index`, perl=TRUE)
-          )
-        },
-        if (!is.null(self$`base_modifications`)) {
-          sprintf(
-          '"base_modifications":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`base_modifications`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
-        if (!is.null(self$`read_names`)) {
-          sprintf(
-          '"read_names":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`read_names`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -1494,33 +1176,55 @@ SequenceFile <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`upload_credentials`, perl=TRUE)
           )
         },
-        if (!is.null(self$`seqspecs`)) {
+        if (!is.null(self$`assembly`)) {
           sprintf(
-          '"seqspecs":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`seqspecs`, function(x) paste0('"', x, '"'))), collapse = ",")
+          '"assembly":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`assembly`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`transcriptome_annotation`)) {
+          sprintf(
+          '"transcriptome_annotation":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`transcriptome_annotation`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`filtered`)) {
+          sprintf(
+          '"filtered":
+            %s
+                    ',
+          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`filtered`, perl=TRUE))
+          )
+        },
+        if (!is.null(self$`redacted`)) {
+          sprintf(
+          '"redacted":
+            %s
+                    ',
+          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`redacted`, perl=TRUE))
           )
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
       json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
     },
-    #' Deserialize JSON string into an instance of SequenceFile
+    #' Deserialize JSON string into an instance of IndexFile
     #'
     #' @description
-    #' Deserialize JSON string into an instance of SequenceFile
+    #' Deserialize JSON string into an instance of IndexFile
     #'
     #' @param input_json the JSON input
-    #' @return the instance of SequenceFile
+    #' @return the instance of IndexFile
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
-      self$`externally_hosted` <- this_object$`externally_hosted`
-      self$`external_host_url` <- this_object$`external_host_url`
+      self$`release_timestamp` <- this_object$`release_timestamp`
       self$`controlled_access` <- this_object$`controlled_access`
       self$`anvil_url` <- this_object$`anvil_url`
-      self$`release_timestamp` <- this_object$`release_timestamp`
       self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
       self$`lab` <- this_object$`lab`
       self$`award` <- this_object$`award`
@@ -1546,8 +1250,8 @@ SequenceFile <- R6::R6Class(
       self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
       self$`derived_from` <- ApiClient$new()$deserializeObj(this_object$`derived_from`, "set[character]", loadNamespace("igvfclient"))
       self$`derived_manually` <- this_object$`derived_manually`
-      if (!is.null(this_object$`file_format`) && !(this_object$`file_format` %in% c("bam", "fastq", "pod5"))) {
-        stop(paste("Error! \"", this_object$`file_format`, "\" cannot be assigned to `file_format`. Must be \"bam\", \"fastq\", \"pod5\".", sep = ""))
+      if (!is.null(this_object$`file_format`) && !(this_object$`file_format` %in% c("bai", "tbi"))) {
+        stop(paste("Error! \"", this_object$`file_format`, "\" cannot be assigned to `file_format`. Must be \"bai\", \"tbi\".", sep = ""))
       }
       self$`file_format` <- this_object$`file_format`
       self$`file_format_specifications` <- ApiClient$new()$deserializeObj(this_object$`file_format_specifications`, "set[character]", loadNamespace("igvfclient"))
@@ -1560,25 +1264,6 @@ SequenceFile <- R6::R6Class(
       }
       self$`upload_status` <- this_object$`upload_status`
       self$`validation_error_detail` <- this_object$`validation_error_detail`
-      self$`flowcell_id` <- this_object$`flowcell_id`
-      self$`lane` <- this_object$`lane`
-      self$`read_count` <- this_object$`read_count`
-      self$`minimum_read_length` <- this_object$`minimum_read_length`
-      self$`maximum_read_length` <- this_object$`maximum_read_length`
-      self$`mean_read_length` <- this_object$`mean_read_length`
-      self$`sequencing_platform` <- this_object$`sequencing_platform`
-      if (!is.null(this_object$`sequencing_kit`) && !(this_object$`sequencing_kit` %in% c("HiSeq SBS Kit v4", "HiSeq SR Cluster Kit v4-cBot-HS", "HiSeq PE Cluster Kit v4-cBot-HS", "HiSeq SR Rapid Cluster Kit v2", "HiSeq PE Rapid Cluster Kit v2", "HiSeq Rapid SBS Kit v2", "HiSeq 3000/4000 SBS Kit", "HiSeq 3000/4000 SR Cluster Kit", "HiSeq 3000/4000 PE Cluster Kit", "MiSeq Reagent Kit v2", "NextSeq 500 Mid Output Kit", "NextSeq 500 High Output Kit", "NextSeq 500 Mid Output v2 Kit", "NextSeq 500 High Output v2 Kit", "NextSeq 500/550 Mid-Output v2.5 Kit", "NextSeq 500/550 High-Output v2.5 Kit", "TG NextSeq 500/550 Mid-Output Kit v2.5", "TG NextSeq 500/550 High-Output Kit v2.5", "NextSeq 1000/2000 P1 Reagent Kit", "NextSeq 1000/2000 P2 Reagent Kit", "NextSeq 1000/2000 P3 Reagent Kit", "NextSeq 1000/2000 P1 XLEAP-SBS Reagent Kit", "NextSeq 1000/2000 P2 XLEAP-SBS Reagent Kit", "NextSeq 2000 P3 XLEAP-SBS Reagent Kit", "NextSeq 2000 P4 XLEAP-SBS Reagent Kit", "NovaSeq 6000 SP Reagent Kit v1.5", "NovaSeq 6000 S1 Reagent Kit v1.5", "NovaSeq 6000 S2 Reagent Kit v1.5", "NovaSeq 6000 S4 Reagent Kit v1.5", "NovaSeq X Series 1.5B Reagent Kit", "NovaSeq X Series 10B Reagent Kit", "NovaSeq X Series 25B Reagent Kit", "ONT Ligation Sequencing Kit V14", "Sequel sequencing kit 3.0", "Sequel II sequencing kit 2.0", "Singular G4 F2 Reagent Kit"))) {
-        stop(paste("Error! \"", this_object$`sequencing_kit`, "\" cannot be assigned to `sequencing_kit`. Must be \"HiSeq SBS Kit v4\", \"HiSeq SR Cluster Kit v4-cBot-HS\", \"HiSeq PE Cluster Kit v4-cBot-HS\", \"HiSeq SR Rapid Cluster Kit v2\", \"HiSeq PE Rapid Cluster Kit v2\", \"HiSeq Rapid SBS Kit v2\", \"HiSeq 3000/4000 SBS Kit\", \"HiSeq 3000/4000 SR Cluster Kit\", \"HiSeq 3000/4000 PE Cluster Kit\", \"MiSeq Reagent Kit v2\", \"NextSeq 500 Mid Output Kit\", \"NextSeq 500 High Output Kit\", \"NextSeq 500 Mid Output v2 Kit\", \"NextSeq 500 High Output v2 Kit\", \"NextSeq 500/550 Mid-Output v2.5 Kit\", \"NextSeq 500/550 High-Output v2.5 Kit\", \"TG NextSeq 500/550 Mid-Output Kit v2.5\", \"TG NextSeq 500/550 High-Output Kit v2.5\", \"NextSeq 1000/2000 P1 Reagent Kit\", \"NextSeq 1000/2000 P2 Reagent Kit\", \"NextSeq 1000/2000 P3 Reagent Kit\", \"NextSeq 1000/2000 P1 XLEAP-SBS Reagent Kit\", \"NextSeq 1000/2000 P2 XLEAP-SBS Reagent Kit\", \"NextSeq 2000 P3 XLEAP-SBS Reagent Kit\", \"NextSeq 2000 P4 XLEAP-SBS Reagent Kit\", \"NovaSeq 6000 SP Reagent Kit v1.5\", \"NovaSeq 6000 S1 Reagent Kit v1.5\", \"NovaSeq 6000 S2 Reagent Kit v1.5\", \"NovaSeq 6000 S4 Reagent Kit v1.5\", \"NovaSeq X Series 1.5B Reagent Kit\", \"NovaSeq X Series 10B Reagent Kit\", \"NovaSeq X Series 25B Reagent Kit\", \"ONT Ligation Sequencing Kit V14\", \"Sequel sequencing kit 3.0\", \"Sequel II sequencing kit 2.0\", \"Singular G4 F2 Reagent Kit\".", sep = ""))
-      }
-      self$`sequencing_kit` <- this_object$`sequencing_kit`
-      self$`sequencing_run` <- this_object$`sequencing_run`
-      if (!is.null(this_object$`illumina_read_type`) && !(this_object$`illumina_read_type` %in% c("R1", "R2", "R3", "I1", "I2"))) {
-        stop(paste("Error! \"", this_object$`illumina_read_type`, "\" cannot be assigned to `illumina_read_type`. Must be \"R1\", \"R2\", \"R3\", \"I1\", \"I2\".", sep = ""))
-      }
-      self$`illumina_read_type` <- this_object$`illumina_read_type`
-      self$`index` <- this_object$`index`
-      self$`base_modifications` <- ApiClient$new()$deserializeObj(this_object$`base_modifications`, "set[character]", loadNamespace("igvfclient"))
-      self$`read_names` <- ApiClient$new()$deserializeObj(this_object$`read_names`, "set[character]", loadNamespace("igvfclient"))
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
@@ -1590,13 +1275,16 @@ SequenceFile <- R6::R6Class(
       self$`href` <- this_object$`href`
       self$`s3_uri` <- this_object$`s3_uri`
       self$`upload_credentials` <- this_object$`upload_credentials`
-      self$`seqspecs` <- ApiClient$new()$deserializeObj(this_object$`seqspecs`, "set[character]", loadNamespace("igvfclient"))
+      self$`assembly` <- this_object$`assembly`
+      self$`transcriptome_annotation` <- this_object$`transcriptome_annotation`
+      self$`filtered` <- this_object$`filtered`
+      self$`redacted` <- this_object$`redacted`
       self
     },
-    #' Validate JSON input with respect to SequenceFile
+    #' Validate JSON input with respect to IndexFile
     #'
     #' @description
-    #' Validate JSON input with respect to SequenceFile and throw an exception if invalid
+    #' Validate JSON input with respect to IndexFile and throw an exception if invalid
     #'
     #' @param input the JSON input
     #' @export
@@ -1608,7 +1296,7 @@ SequenceFile <- R6::R6Class(
     #' @description
     #' To string (JSON format)
     #'
-    #' @return String representation of SequenceFile
+    #' @return String representation of IndexFile
     #' @export
     toString = function() {
       self$toJSONString()
@@ -1665,46 +1353,6 @@ SequenceFile <- R6::R6Class(
       if (!str_detect(self$`md5sum`, "[a-f\\d]{32}|[A-F\\d]{32}")) {
         return(FALSE)
       }
-
-      if (!str_detect(self$`flowcell_id`, "^[a-zA-Z0-9-]+$")) {
-        return(FALSE)
-      }
-
-      if (self$`lane` < 1) {
-        return(FALSE)
-      }
-
-      if (self$`read_count` < 0) {
-        return(FALSE)
-      }
-
-      if (self$`minimum_read_length` > 300000000) {
-        return(FALSE)
-      }
-      if (self$`minimum_read_length` < 0) {
-        return(FALSE)
-      }
-
-      if (self$`maximum_read_length` > 300000000) {
-        return(FALSE)
-      }
-      if (self$`maximum_read_length` < 0) {
-        return(FALSE)
-      }
-
-      if (self$`mean_read_length` > 300000000) {
-        return(FALSE)
-      }
-      if (self$`mean_read_length` < 0) {
-        return(FALSE)
-      }
-
-      if (self$`sequencing_run` < 1) {
-        return(FALSE)
-      }
-
-
-
 
 
 
@@ -1767,46 +1415,6 @@ SequenceFile <- R6::R6Class(
         invalid_fields["md5sum"] <- "Invalid value for `md5sum`, must conform to the pattern [a-f\\d]{32}|[A-F\\d]{32}."
       }
 
-      if (!str_detect(self$`flowcell_id`, "^[a-zA-Z0-9-]+$")) {
-        invalid_fields["flowcell_id"] <- "Invalid value for `flowcell_id`, must conform to the pattern ^[a-zA-Z0-9-]+$."
-      }
-
-      if (self$`lane` < 1) {
-        invalid_fields["lane"] <- "Invalid value for `lane`, must be bigger than or equal to 1."
-      }
-
-      if (self$`read_count` < 0) {
-        invalid_fields["read_count"] <- "Invalid value for `read_count`, must be bigger than or equal to 0."
-      }
-
-      if (self$`minimum_read_length` > 300000000) {
-        invalid_fields["minimum_read_length"] <- "Invalid value for `minimum_read_length`, must be smaller than or equal to 300000000."
-      }
-      if (self$`minimum_read_length` < 0) {
-        invalid_fields["minimum_read_length"] <- "Invalid value for `minimum_read_length`, must be bigger than or equal to 0."
-      }
-
-      if (self$`maximum_read_length` > 300000000) {
-        invalid_fields["maximum_read_length"] <- "Invalid value for `maximum_read_length`, must be smaller than or equal to 300000000."
-      }
-      if (self$`maximum_read_length` < 0) {
-        invalid_fields["maximum_read_length"] <- "Invalid value for `maximum_read_length`, must be bigger than or equal to 0."
-      }
-
-      if (self$`mean_read_length` > 300000000) {
-        invalid_fields["mean_read_length"] <- "Invalid value for `mean_read_length`, must be smaller than or equal to 300000000."
-      }
-      if (self$`mean_read_length` < 0) {
-        invalid_fields["mean_read_length"] <- "Invalid value for `mean_read_length`, must be bigger than or equal to 0."
-      }
-
-      if (self$`sequencing_run` < 1) {
-        invalid_fields["sequencing_run"] <- "Invalid value for `sequencing_run`, must be bigger than or equal to 1."
-      }
-
-
-
-
 
 
 
@@ -1829,13 +1437,13 @@ SequenceFile <- R6::R6Class(
   lock_class = TRUE
 )
 ## Uncomment below to unlock the class to allow modifications of the method or field
-# SequenceFile$unlock()
+# IndexFile$unlock()
 #
 ## Below is an example to define the print function
-# SequenceFile$set("public", "print", function(...) {
+# IndexFile$set("public", "print", function(...) {
 #   print(jsonlite::prettify(self$toJSONString()))
 #   invisible(self)
 # })
 ## Uncomment below to lock the class to prevent modifications to the method or field
-# SequenceFile$lock()
+# IndexFile$lock()
 

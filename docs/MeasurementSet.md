@@ -5,6 +5,7 @@ Measurement set is a file set that hosts raw data files (e.g. FASTQs) resulting 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**control_file_sets** | **set[character]** | File sets that can serve as scientific controls for this file set. | [optional] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **publications** | **set[character]** | The publications associated with this object. | [optional] 
 **documents** | **set[character]** | Documents that provide additional information (not data file). | [optional] 
@@ -24,7 +25,7 @@ Name | Type | Description | Notes
 **submitter_comment** | **character** | Additional information specified by the submitter to be displayed as a comment on the portal. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **description** | **character** | A plain text description of the object. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **dbxrefs** | **set[character]** | Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file sets. | [optional] 
-**control_type** | **character** | The type of control this file set represents. | [optional] [Enum: [low FACS signal, pre-selection, unsorted FACS input, untransfected]] 
+**control_type** | **character** | The type of control this file set represents. | [optional] [Enum: [control transduction, low FACS signal, pre-selection, unsorted FACS input, untransfected]] 
 **samples** | **set[character]** | The sample(s) associated with this file set. | [optional] 
 **donors** | **set[character]** | The donors of the samples associated with this measurement set. | [optional] 
 **file_set_type** | **character** | The category that best describes this measurement set. | [optional] [Enum: [experimental data]] 
@@ -32,7 +33,6 @@ Name | Type | Description | Notes
 **protocols** | **set[character]** | Links to the protocol(s) for conducting the assay on Protocols.io. | [optional] 
 **preferred_assay_title** | **character** | The custom lab preferred label for the experiment performed in this measurement set. | [optional] [Enum: [RNA-seq, scRNA-seq, snRNA-seq, scNT-seq, scNT-seq2, Parse SPLiT-seq, ATAC-seq, scATAC-seq, snATAC-seq, DOGMA-seq, 10x multiome, 10x multiome with MULTI-seq, MULTI-seq, SHARE-seq, Histone ChIP-seq, TF ChIP-seq, MPRA, MPRA (scQer), AAV-MPRA, lentiMPRA, STARR-seq, SUPERSTARR, Cell painting, Variant painting via fluorescence, Variant painting via immunostaining, smFISH, MERFISH, Proliferation CRISPR screen, Growth CRISPR screen, Migration CRISPR screen, CRISPR FlowFISH screen, CRISPR FACS screen, CRISPR mCherry screen, HCR-FlowFISH screen, scCRISPR screen, Perturb-seq, CERES-seq, TAP-seq, Variant FlowFISH, SGE, MIAA, snmC-Seq2, snMCT-seq, snM3C-seq, mN2H, semi-qY2H, Y2H, yN2H, VAMP-seq, VAMP-seq (MultiSTEP), Hi-C, HiCAR, Spatial transcriptomics, HT-recruit, ONT dRNA, ONT Fiber-seq, ONT direct WGS]] 
 **multiome_size** | **integer** | The number of datasets included in the multiome experiment this measurement set is a part of. | [optional] [Min: 2] 
-**control_file_sets** | **set[character]** | File sets that can serve as scientific controls for this measurement_set. | [optional] 
 **sequencing_library_types** | **set[character]** | Description of the libraries sequenced in this measurement set. | [optional] [Enum: ] 
 **auxiliary_sets** | **set[character]** | The auxiliary sets of files produced alongside raw data from this measurement set. | [optional] 
 **external_image_url** | **character** | Links to the external site where images produced by this measurement are stored. | [optional] [Pattern: ^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$] 

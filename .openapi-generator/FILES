@@ -53,6 +53,8 @@ R/image_file_results.R
 R/image_results.R
 R/in_vitro_system.R
 R/in_vitro_system_results.R
+R/index_file.R
+R/index_file_results.R
 R/institutional_certificate.R
 R/institutional_certificate_results.R
 R/item.R
@@ -180,6 +182,8 @@ docs/ImageFileResults.md
 docs/ImageResults.md
 docs/InVitroSystem.md
 docs/InVitroSystemResults.md
+docs/IndexFile.md
+docs/IndexFileResults.md
 docs/InstitutionalCertificate.md
 docs/InstitutionalCertificateResults.md
 docs/Item.md

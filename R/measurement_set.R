@@ -7,6 +7,7 @@
 #' @title MeasurementSet
 #' @description MeasurementSet Class
 #' @format An \code{R6Class} generator object
+#' @field control_file_sets File sets that can serve as scientific controls for this file set. list(character) [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field publications The publications associated with this object. list(character) [optional]
 #' @field documents Documents that provide additional information (not data file). list(character) [optional]
@@ -34,7 +35,6 @@
 #' @field protocols Links to the protocol(s) for conducting the assay on Protocols.io. list(character) [optional]
 #' @field preferred_assay_title The custom lab preferred label for the experiment performed in this measurement set. character [optional]
 #' @field multiome_size The number of datasets included in the multiome experiment this measurement set is a part of. integer [optional]
-#' @field control_file_sets File sets that can serve as scientific controls for this measurement_set. list(character) [optional]
 #' @field sequencing_library_types Description of the libraries sequenced in this measurement set. list(character) [optional]
 #' @field auxiliary_sets The auxiliary sets of files produced alongside raw data from this measurement set. list(character) [optional]
 #' @field external_image_url Links to the external site where images produced by this measurement are stored. character [optional]
@@ -55,6 +55,7 @@
 MeasurementSet <- R6::R6Class(
   "MeasurementSet",
   public = list(
+    `control_file_sets` = NULL,
     `release_timestamp` = NULL,
     `publications` = NULL,
     `documents` = NULL,
@@ -82,7 +83,6 @@ MeasurementSet <- R6::R6Class(
     `protocols` = NULL,
     `preferred_assay_title` = NULL,
     `multiome_size` = NULL,
-    `control_file_sets` = NULL,
     `sequencing_library_types` = NULL,
     `auxiliary_sets` = NULL,
     `external_image_url` = NULL,
@@ -102,6 +102,7 @@ MeasurementSet <- R6::R6Class(
     #' @description
     #' Initialize a new MeasurementSet class.
     #'
+    #' @param control_file_sets File sets that can serve as scientific controls for this file set.
     #' @param release_timestamp The date the object was released.
     #' @param publications The publications associated with this object.
     #' @param documents Documents that provide additional information (not data file).
@@ -129,7 +130,6 @@ MeasurementSet <- R6::R6Class(
     #' @param protocols Links to the protocol(s) for conducting the assay on Protocols.io.
     #' @param preferred_assay_title The custom lab preferred label for the experiment performed in this measurement set.
     #' @param multiome_size The number of datasets included in the multiome experiment this measurement set is a part of.
-    #' @param control_file_sets File sets that can serve as scientific controls for this measurement_set.
     #' @param sequencing_library_types Description of the libraries sequenced in this measurement set.
     #' @param auxiliary_sets The auxiliary sets of files produced alongside raw data from this measurement set.
     #' @param external_image_url Links to the external site where images produced by this measurement are stored.
@@ -146,7 +146,12 @@ MeasurementSet <- R6::R6Class(
     #' @param externally_hosted externally_hosted
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `assay_term` = NULL, `protocols` = NULL, `preferred_assay_title` = NULL, `multiome_size` = NULL, `control_file_sets` = NULL, `sequencing_library_types` = NULL, `auxiliary_sets` = NULL, `external_image_url` = NULL, `targeted_genes` = NULL, `functional_assay_mechanisms` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `related_multiome_datasets` = NULL, `externally_hosted` = NULL, ...) {
+    initialize = function(`control_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `assay_term` = NULL, `protocols` = NULL, `preferred_assay_title` = NULL, `multiome_size` = NULL, `sequencing_library_types` = NULL, `auxiliary_sets` = NULL, `external_image_url` = NULL, `targeted_genes` = NULL, `functional_assay_mechanisms` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `related_multiome_datasets` = NULL, `externally_hosted` = NULL, ...) {
+      if (!is.null(`control_file_sets`)) {
+        stopifnot(is.vector(`control_file_sets`), length(`control_file_sets`) != 0)
+        sapply(`control_file_sets`, function(x) stopifnot(is.character(x)))
+        self$`control_file_sets` <- `control_file_sets`
+      }
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -259,8 +264,8 @@ MeasurementSet <- R6::R6Class(
         self$`dbxrefs` <- `dbxrefs`
       }
       if (!is.null(`control_type`)) {
-        if (!(`control_type` %in% c("low FACS signal", "pre-selection", "unsorted FACS input", "untransfected"))) {
-          stop(paste("Error! \"", `control_type`, "\" cannot be assigned to `control_type`. Must be \"low FACS signal\", \"pre-selection\", \"unsorted FACS input\", \"untransfected\".", sep = ""))
+        if (!(`control_type` %in% c("control transduction", "low FACS signal", "pre-selection", "unsorted FACS input", "untransfected"))) {
+          stop(paste("Error! \"", `control_type`, "\" cannot be assigned to `control_type`. Must be \"control transduction\", \"low FACS signal\", \"pre-selection\", \"unsorted FACS input\", \"untransfected\".", sep = ""))
         }
         if (!(is.character(`control_type`) && length(`control_type`) == 1)) {
           stop(paste("Error! Invalid data for `control_type`. Must be a string:", `control_type`))
@@ -311,11 +316,6 @@ MeasurementSet <- R6::R6Class(
           stop(paste("Error! Invalid data for `multiome_size`. Must be an integer:", `multiome_size`))
         }
         self$`multiome_size` <- `multiome_size`
-      }
-      if (!is.null(`control_file_sets`)) {
-        stopifnot(is.vector(`control_file_sets`), length(`control_file_sets`) != 0)
-        sapply(`control_file_sets`, function(x) stopifnot(is.character(x)))
-        self$`control_file_sets` <- `control_file_sets`
       }
       if (!is.null(`sequencing_library_types`)) {
         stopifnot(is.vector(`sequencing_library_types`), length(`sequencing_library_types`) != 0)
@@ -402,6 +402,10 @@ MeasurementSet <- R6::R6Class(
     #' @export
     toJSON = function() {
       MeasurementSetObject <- list()
+      if (!is.null(self$`control_file_sets`)) {
+        MeasurementSetObject[["control_file_sets"]] <-
+          self$`control_file_sets`
+      }
       if (!is.null(self$`release_timestamp`)) {
         MeasurementSetObject[["release_timestamp"]] <-
           self$`release_timestamp`
@@ -510,10 +514,6 @@ MeasurementSet <- R6::R6Class(
         MeasurementSetObject[["multiome_size"]] <-
           self$`multiome_size`
       }
-      if (!is.null(self$`control_file_sets`)) {
-        MeasurementSetObject[["control_file_sets"]] <-
-          self$`control_file_sets`
-      }
       if (!is.null(self$`sequencing_library_types`)) {
         MeasurementSetObject[["sequencing_library_types"]] <-
           self$`sequencing_library_types`
@@ -582,6 +582,9 @@ MeasurementSet <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`control_file_sets`)) {
+        self$`control_file_sets` <- ApiClient$new()$deserializeObj(this_object$`control_file_sets`, "set[character]", loadNamespace("igvfclient"))
+      }
       if (!is.null(this_object$`release_timestamp`)) {
         self$`release_timestamp` <- this_object$`release_timestamp`
       }
@@ -643,8 +646,8 @@ MeasurementSet <- R6::R6Class(
         self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`control_type`)) {
-        if (!is.null(this_object$`control_type`) && !(this_object$`control_type` %in% c("low FACS signal", "pre-selection", "unsorted FACS input", "untransfected"))) {
-          stop(paste("Error! \"", this_object$`control_type`, "\" cannot be assigned to `control_type`. Must be \"low FACS signal\", \"pre-selection\", \"unsorted FACS input\", \"untransfected\".", sep = ""))
+        if (!is.null(this_object$`control_type`) && !(this_object$`control_type` %in% c("control transduction", "low FACS signal", "pre-selection", "unsorted FACS input", "untransfected"))) {
+          stop(paste("Error! \"", this_object$`control_type`, "\" cannot be assigned to `control_type`. Must be \"control transduction\", \"low FACS signal\", \"pre-selection\", \"unsorted FACS input\", \"untransfected\".", sep = ""))
         }
         self$`control_type` <- this_object$`control_type`
       }
@@ -674,9 +677,6 @@ MeasurementSet <- R6::R6Class(
       }
       if (!is.null(this_object$`multiome_size`)) {
         self$`multiome_size` <- this_object$`multiome_size`
-      }
-      if (!is.null(this_object$`control_file_sets`)) {
-        self$`control_file_sets` <- ApiClient$new()$deserializeObj(this_object$`control_file_sets`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`sequencing_library_types`)) {
         self$`sequencing_library_types` <- ApiClient$new()$deserializeObj(this_object$`sequencing_library_types`, "set[character]", loadNamespace("igvfclient"))
@@ -731,6 +731,14 @@ MeasurementSet <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`control_file_sets`)) {
+          sprintf(
+          '"control_file_sets":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`control_file_sets`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`release_timestamp`)) {
           sprintf(
           '"release_timestamp":
@@ -947,14 +955,6 @@ MeasurementSet <- R6::R6Class(
           self$`multiome_size`
           )
         },
-        if (!is.null(self$`control_file_sets`)) {
-          sprintf(
-          '"control_file_sets":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`control_file_sets`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
         if (!is.null(self$`sequencing_library_types`)) {
           sprintf(
           '"sequencing_library_types":
@@ -1081,6 +1081,7 @@ MeasurementSet <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`control_file_sets` <- ApiClient$new()$deserializeObj(this_object$`control_file_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`release_timestamp` <- this_object$`release_timestamp`
       self$`publications` <- ApiClient$new()$deserializeObj(this_object$`publications`, "set[character]", loadNamespace("igvfclient"))
       self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
@@ -1103,8 +1104,8 @@ MeasurementSet <- R6::R6Class(
       self$`submitter_comment` <- this_object$`submitter_comment`
       self$`description` <- this_object$`description`
       self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
-      if (!is.null(this_object$`control_type`) && !(this_object$`control_type` %in% c("low FACS signal", "pre-selection", "unsorted FACS input", "untransfected"))) {
-        stop(paste("Error! \"", this_object$`control_type`, "\" cannot be assigned to `control_type`. Must be \"low FACS signal\", \"pre-selection\", \"unsorted FACS input\", \"untransfected\".", sep = ""))
+      if (!is.null(this_object$`control_type`) && !(this_object$`control_type` %in% c("control transduction", "low FACS signal", "pre-selection", "unsorted FACS input", "untransfected"))) {
+        stop(paste("Error! \"", this_object$`control_type`, "\" cannot be assigned to `control_type`. Must be \"control transduction\", \"low FACS signal\", \"pre-selection\", \"unsorted FACS input\", \"untransfected\".", sep = ""))
       }
       self$`control_type` <- this_object$`control_type`
       self$`samples` <- ApiClient$new()$deserializeObj(this_object$`samples`, "set[character]", loadNamespace("igvfclient"))
@@ -1120,7 +1121,6 @@ MeasurementSet <- R6::R6Class(
       }
       self$`preferred_assay_title` <- this_object$`preferred_assay_title`
       self$`multiome_size` <- this_object$`multiome_size`
-      self$`control_file_sets` <- ApiClient$new()$deserializeObj(this_object$`control_file_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`sequencing_library_types` <- ApiClient$new()$deserializeObj(this_object$`sequencing_library_types`, "set[character]", loadNamespace("igvfclient"))
       self$`auxiliary_sets` <- ApiClient$new()$deserializeObj(this_object$`auxiliary_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`external_image_url` <- this_object$`external_image_url`
@@ -1169,6 +1169,7 @@ MeasurementSet <- R6::R6Class(
 
 
 
+
       if (!str_detect(self$`revoke_detail`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         return(FALSE)
       }
@@ -1200,7 +1201,6 @@ MeasurementSet <- R6::R6Class(
 
 
 
-
       if (!str_detect(self$`external_image_url`, "^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$")) {
         return(FALSE)
       }
@@ -1222,6 +1222,7 @@ MeasurementSet <- R6::R6Class(
     #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
+
 
 
 
@@ -1254,7 +1255,6 @@ MeasurementSet <- R6::R6Class(
       if (self$`multiome_size` < 2) {
         invalid_fields["multiome_size"] <- "Invalid value for `multiome_size`, must be bigger than or equal to 2."
       }
-
 
 
 

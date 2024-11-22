@@ -5,6 +5,7 @@ Construct library set is a file set that hosts raw data files (e.g. FASTQs) resu
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**control_file_sets** | **set[character]** | File sets that can serve as scientific controls for this file set. | [optional] 
 **small_scale_loci_list** | [**set[Locus1]**](Locus_1.md) | A small scale (&lt;&#x3D;100) list of specific chromosomal region(s). | [optional] 
 **large_scale_loci_list** | **character** | A large scale list (&gt;100) of specific chromosomal regions. | [optional] 
 **small_scale_gene_list** | **set[character]** | The specific, small scale list of (&lt;&#x3D;100) gene(s) this construct library was designed to target. This property differs from targeted_genes in Measurement Set, which describes genes targeted for binding sites or used for sorting by expression. | [optional] 
@@ -31,8 +32,8 @@ Name | Type | Description | Notes
 **submitter_comment** | **character** | Additional information specified by the submitter to be displayed as a comment on the portal. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **description** | **character** | A plain text description of the object. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **file_set_type** | **character** | The type or category of this construct library set. | [optional] [Enum: [guide library, reporter library, expression vector library, editing template library]] 
-**control_type** | **character** | The type of control this file set represents. | [optional] 
-**scope** | **character** | The scope or scale that this construct library is designed to target. | [optional] [Enum: [tile, exon, genes, loci, genome-wide, interactors, alleles, targeton]] 
+**control_type** | **character** | The type of control this file set represents. | [optional] [Enum: [control transduction]] 
+**scope** | **character** | The scope or scale that this construct library is designed to target. | [optional] [Enum: [tile, exon, genes, loci, genome-wide, interactors, alleles, targeton, control]] 
 **selection_criteria** | **set[character]** | The criteria used to select the sequence material cloned into the library. | [optional] [Enum: ] 
 **integrated_content_files** | **set[character]** | The files containing sequence material of interest either used for insert design or directly cloned into vectors in this library. | [optional] 
 **associated_phenotypes** | **set[character]** | Ontological terms for diseases or phenotypes associated with the sequence material cloned in this construct library. | [optional] 

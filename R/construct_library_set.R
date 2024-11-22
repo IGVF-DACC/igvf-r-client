@@ -7,6 +7,7 @@
 #' @title ConstructLibrarySet
 #' @description ConstructLibrarySet Class
 #' @format An \code{R6Class} generator object
+#' @field control_file_sets File sets that can serve as scientific controls for this file set. list(character) [optional]
 #' @field small_scale_loci_list A small scale (<=100) list of specific chromosomal region(s). list(\link{Locus1}) [optional]
 #' @field large_scale_loci_list A large scale list (>100) of specific chromosomal regions. character [optional]
 #' @field small_scale_gene_list The specific, small scale list of (<=100) gene(s) this construct library was designed to target. This property differs from targeted_genes in Measurement Set, which describes genes targeted for binding sites or used for sorting by expression. list(character) [optional]
@@ -67,6 +68,7 @@ ConstructLibrarySet <- R6::R6Class(
   "ConstructLibrarySet",
   inherit = AnyType,
   public = list(
+    `control_file_sets` = NULL,
     `small_scale_loci_list` = NULL,
     `large_scale_loci_list` = NULL,
     `small_scale_gene_list` = NULL,
@@ -118,13 +120,14 @@ ConstructLibrarySet <- R6::R6Class(
     `submitted_files_timestamp` = NULL,
     `input_for` = NULL,
     `applied_to_samples` = NULL,
-    `_field_list` = c("small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "sources", "lot_id", "product_id", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "file_set_type", "control_type", "scope", "selection_criteria", "integrated_content_files", "associated_phenotypes", "orf_list", "exon", "tile", "guide_type", "tiling_modality", "average_guide_coverage", "lower_bound_guide_coverage", "upper_bound_guide_coverage", "average_insert_size", "lower_bound_insert_size", "upper_bound_insert_size", "targeton", "@id", "@type", "summary", "files", "control_for", "submitted_files_timestamp", "input_for", "applied_to_samples"),
+    `_field_list` = c("control_file_sets", "small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "sources", "lot_id", "product_id", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "file_set_type", "control_type", "scope", "selection_criteria", "integrated_content_files", "associated_phenotypes", "orf_list", "exon", "tile", "guide_type", "tiling_modality", "average_guide_coverage", "lower_bound_guide_coverage", "upper_bound_guide_coverage", "average_insert_size", "lower_bound_insert_size", "upper_bound_insert_size", "targeton", "@id", "@type", "summary", "files", "control_for", "submitted_files_timestamp", "input_for", "applied_to_samples"),
     `additional_properties` = list(),
     #' Initialize a new ConstructLibrarySet class.
     #'
     #' @description
     #' Initialize a new ConstructLibrarySet class.
     #'
+    #' @param control_file_sets File sets that can serve as scientific controls for this file set.
     #' @param small_scale_loci_list A small scale (<=100) list of specific chromosomal region(s).
     #' @param large_scale_loci_list A large scale list (>100) of specific chromosomal regions.
     #' @param small_scale_gene_list The specific, small scale list of (<=100) gene(s) this construct library was designed to target. This property differs from targeted_genes in Measurement Set, which describes genes targeted for binding sites or used for sorting by expression.
@@ -179,7 +182,12 @@ ConstructLibrarySet <- R6::R6Class(
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `file_set_type` = NULL, `control_type` = NULL, `scope` = NULL, `selection_criteria` = NULL, `integrated_content_files` = NULL, `associated_phenotypes` = NULL, `orf_list` = NULL, `exon` = NULL, `tile` = NULL, `guide_type` = NULL, `tiling_modality` = NULL, `average_guide_coverage` = NULL, `lower_bound_guide_coverage` = NULL, `upper_bound_guide_coverage` = NULL, `average_insert_size` = NULL, `lower_bound_insert_size` = NULL, `upper_bound_insert_size` = NULL, `targeton` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `applied_to_samples` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`control_file_sets` = NULL, `small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `file_set_type` = NULL, `control_type` = NULL, `scope` = NULL, `selection_criteria` = NULL, `integrated_content_files` = NULL, `associated_phenotypes` = NULL, `orf_list` = NULL, `exon` = NULL, `tile` = NULL, `guide_type` = NULL, `tiling_modality` = NULL, `average_guide_coverage` = NULL, `lower_bound_guide_coverage` = NULL, `upper_bound_guide_coverage` = NULL, `average_insert_size` = NULL, `lower_bound_insert_size` = NULL, `upper_bound_insert_size` = NULL, `targeton` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `applied_to_samples` = NULL, additional_properties = NULL, ...) {
+      if (!is.null(`control_file_sets`)) {
+        stopifnot(is.vector(`control_file_sets`), length(`control_file_sets`) != 0)
+        sapply(`control_file_sets`, function(x) stopifnot(is.character(x)))
+        self$`control_file_sets` <- `control_file_sets`
+      }
       if (!is.null(`small_scale_loci_list`)) {
         stopifnot(is.vector(`small_scale_loci_list`), length(`small_scale_loci_list`) != 0)
         sapply(`small_scale_loci_list`, function(x) stopifnot(R6::is.R6(x)))
@@ -335,14 +343,17 @@ ConstructLibrarySet <- R6::R6Class(
         self$`file_set_type` <- `file_set_type`
       }
       if (!is.null(`control_type`)) {
+        if (!(`control_type` %in% c("control transduction"))) {
+          stop(paste("Error! \"", `control_type`, "\" cannot be assigned to `control_type`. Must be \"control transduction\".", sep = ""))
+        }
         if (!(is.character(`control_type`) && length(`control_type`) == 1)) {
           stop(paste("Error! Invalid data for `control_type`. Must be a string:", `control_type`))
         }
         self$`control_type` <- `control_type`
       }
       if (!is.null(`scope`)) {
-        if (!(`scope` %in% c("tile", "exon", "genes", "loci", "genome-wide", "interactors", "alleles", "targeton"))) {
-          stop(paste("Error! \"", `scope`, "\" cannot be assigned to `scope`. Must be \"tile\", \"exon\", \"genes\", \"loci\", \"genome-wide\", \"interactors\", \"alleles\", \"targeton\".", sep = ""))
+        if (!(`scope` %in% c("tile", "exon", "genes", "loci", "genome-wide", "interactors", "alleles", "targeton", "control"))) {
+          stop(paste("Error! \"", `scope`, "\" cannot be assigned to `scope`. Must be \"tile\", \"exon\", \"genes\", \"loci\", \"genome-wide\", \"interactors\", \"alleles\", \"targeton\", \"control\".", sep = ""))
         }
         if (!(is.character(`scope`) && length(`scope`) == 1)) {
           stop(paste("Error! Invalid data for `scope`. Must be a string:", `scope`))
@@ -491,6 +502,10 @@ ConstructLibrarySet <- R6::R6Class(
     #' @export
     toJSON = function() {
       ConstructLibrarySetObject <- list()
+      if (!is.null(self$`control_file_sets`)) {
+        ConstructLibrarySetObject[["control_file_sets"]] <-
+          self$`control_file_sets`
+      }
       if (!is.null(self$`small_scale_loci_list`)) {
         ConstructLibrarySetObject[["small_scale_loci_list"]] <-
           lapply(self$`small_scale_loci_list`, function(x) x$toJSON())
@@ -711,6 +726,9 @@ ConstructLibrarySet <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`control_file_sets`)) {
+        self$`control_file_sets` <- ApiClient$new()$deserializeObj(this_object$`control_file_sets`, "set[character]", loadNamespace("igvfclient"))
+      }
       if (!is.null(this_object$`small_scale_loci_list`)) {
         self$`small_scale_loci_list` <- ApiClient$new()$deserializeObj(this_object$`small_scale_loci_list`, "set[Locus1]", loadNamespace("igvfclient"))
       }
@@ -796,11 +814,14 @@ ConstructLibrarySet <- R6::R6Class(
         self$`file_set_type` <- this_object$`file_set_type`
       }
       if (!is.null(this_object$`control_type`)) {
+        if (!is.null(this_object$`control_type`) && !(this_object$`control_type` %in% c("control transduction"))) {
+          stop(paste("Error! \"", this_object$`control_type`, "\" cannot be assigned to `control_type`. Must be \"control transduction\".", sep = ""))
+        }
         self$`control_type` <- this_object$`control_type`
       }
       if (!is.null(this_object$`scope`)) {
-        if (!is.null(this_object$`scope`) && !(this_object$`scope` %in% c("tile", "exon", "genes", "loci", "genome-wide", "interactors", "alleles", "targeton"))) {
-          stop(paste("Error! \"", this_object$`scope`, "\" cannot be assigned to `scope`. Must be \"tile\", \"exon\", \"genes\", \"loci\", \"genome-wide\", \"interactors\", \"alleles\", \"targeton\".", sep = ""))
+        if (!is.null(this_object$`scope`) && !(this_object$`scope` %in% c("tile", "exon", "genes", "loci", "genome-wide", "interactors", "alleles", "targeton", "control"))) {
+          stop(paste("Error! \"", this_object$`scope`, "\" cannot be assigned to `scope`. Must be \"tile\", \"exon\", \"genes\", \"loci\", \"genome-wide\", \"interactors\", \"alleles\", \"targeton\", \"control\".", sep = ""))
         }
         self$`scope` <- this_object$`scope`
       }
@@ -899,6 +920,14 @@ ConstructLibrarySet <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`control_file_sets`)) {
+          sprintf(
+          '"control_file_sets":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`control_file_sets`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`small_scale_loci_list`)) {
           sprintf(
           '"small_scale_loci_list":
@@ -1326,6 +1355,7 @@ ConstructLibrarySet <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`control_file_sets` <- ApiClient$new()$deserializeObj(this_object$`control_file_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`small_scale_loci_list` <- ApiClient$new()$deserializeObj(this_object$`small_scale_loci_list`, "set[Locus1]", loadNamespace("igvfclient"))
       self$`large_scale_loci_list` <- this_object$`large_scale_loci_list`
       self$`small_scale_gene_list` <- ApiClient$new()$deserializeObj(this_object$`small_scale_gene_list`, "set[character]", loadNamespace("igvfclient"))
@@ -1358,9 +1388,12 @@ ConstructLibrarySet <- R6::R6Class(
         stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"guide library\", \"reporter library\", \"expression vector library\", \"editing template library\".", sep = ""))
       }
       self$`file_set_type` <- this_object$`file_set_type`
+      if (!is.null(this_object$`control_type`) && !(this_object$`control_type` %in% c("control transduction"))) {
+        stop(paste("Error! \"", this_object$`control_type`, "\" cannot be assigned to `control_type`. Must be \"control transduction\".", sep = ""))
+      }
       self$`control_type` <- this_object$`control_type`
-      if (!is.null(this_object$`scope`) && !(this_object$`scope` %in% c("tile", "exon", "genes", "loci", "genome-wide", "interactors", "alleles", "targeton"))) {
-        stop(paste("Error! \"", this_object$`scope`, "\" cannot be assigned to `scope`. Must be \"tile\", \"exon\", \"genes\", \"loci\", \"genome-wide\", \"interactors\", \"alleles\", \"targeton\".", sep = ""))
+      if (!is.null(this_object$`scope`) && !(this_object$`scope` %in% c("tile", "exon", "genes", "loci", "genome-wide", "interactors", "alleles", "targeton", "control"))) {
+        stop(paste("Error! \"", this_object$`scope`, "\" cannot be assigned to `scope`. Must be \"tile\", \"exon\", \"genes\", \"loci\", \"genome-wide\", \"interactors\", \"alleles\", \"targeton\", \"control\".", sep = ""))
       }
       self$`scope` <- this_object$`scope`
       self$`selection_criteria` <- ApiClient$new()$deserializeObj(this_object$`selection_criteria`, "set[character]", loadNamespace("igvfclient"))
@@ -1434,6 +1467,7 @@ ConstructLibrarySet <- R6::R6Class(
 
 
 
+
       if (!str_detect(self$`lot_id`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         return(FALSE)
       }
@@ -1500,6 +1534,7 @@ ConstructLibrarySet <- R6::R6Class(
     #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
+
 
 
 
