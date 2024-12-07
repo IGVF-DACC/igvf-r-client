@@ -272,8 +272,8 @@ ConstructLibrarySet <- R6::R6Class(
         self$`collections` <- `collections`
       }
       if (!is.null(`status`)) {
-        if (!(`status` %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
-          stop(paste("Error! \"", `status`, "\" cannot be assigned to `status`. Must be \"in progress\", \"released\", \"deleted\", \"replaced\", \"revoked\", \"archived\".", sep = ""))
+        if (!(`status` %in% c("in progress", "preview", "released", "deleted", "replaced", "revoked", "archived"))) {
+          stop(paste("Error! \"", `status`, "\" cannot be assigned to `status`. Must be \"in progress\", \"preview\", \"released\", \"deleted\", \"replaced\", \"revoked\", \"archived\".", sep = ""))
         }
         if (!(is.character(`status`) && length(`status`) == 1)) {
           stop(paste("Error! Invalid data for `status`. Must be a string:", `status`))
@@ -343,8 +343,8 @@ ConstructLibrarySet <- R6::R6Class(
         self$`file_set_type` <- `file_set_type`
       }
       if (!is.null(`control_type`)) {
-        if (!(`control_type` %in% c("control transduction"))) {
-          stop(paste("Error! \"", `control_type`, "\" cannot be assigned to `control_type`. Must be \"control transduction\".", sep = ""))
+        if (!(`control_type` %in% c("control transduction", "non-targeting"))) {
+          stop(paste("Error! \"", `control_type`, "\" cannot be assigned to `control_type`. Must be \"control transduction\", \"non-targeting\".", sep = ""))
         }
         if (!(is.character(`control_type`) && length(`control_type`) == 1)) {
           stop(paste("Error! Invalid data for `control_type`. Must be a string:", `control_type`))
@@ -775,8 +775,8 @@ ConstructLibrarySet <- R6::R6Class(
         self$`collections` <- ApiClient$new()$deserializeObj(this_object$`collections`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`status`)) {
-        if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
-          stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"in progress\", \"released\", \"deleted\", \"replaced\", \"revoked\", \"archived\".", sep = ""))
+        if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("in progress", "preview", "released", "deleted", "replaced", "revoked", "archived"))) {
+          stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"in progress\", \"preview\", \"released\", \"deleted\", \"replaced\", \"revoked\", \"archived\".", sep = ""))
         }
         self$`status` <- this_object$`status`
       }
@@ -814,8 +814,8 @@ ConstructLibrarySet <- R6::R6Class(
         self$`file_set_type` <- this_object$`file_set_type`
       }
       if (!is.null(this_object$`control_type`)) {
-        if (!is.null(this_object$`control_type`) && !(this_object$`control_type` %in% c("control transduction"))) {
-          stop(paste("Error! \"", this_object$`control_type`, "\" cannot be assigned to `control_type`. Must be \"control transduction\".", sep = ""))
+        if (!is.null(this_object$`control_type`) && !(this_object$`control_type` %in% c("control transduction", "non-targeting"))) {
+          stop(paste("Error! \"", this_object$`control_type`, "\" cannot be assigned to `control_type`. Must be \"control transduction\", \"non-targeting\".", sep = ""))
         }
         self$`control_type` <- this_object$`control_type`
       }
@@ -1371,8 +1371,8 @@ ConstructLibrarySet <- R6::R6Class(
       self$`accession` <- this_object$`accession`
       self$`alternate_accessions` <- ApiClient$new()$deserializeObj(this_object$`alternate_accessions`, "set[character]", loadNamespace("igvfclient"))
       self$`collections` <- ApiClient$new()$deserializeObj(this_object$`collections`, "set[character]", loadNamespace("igvfclient"))
-      if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
-        stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"in progress\", \"released\", \"deleted\", \"replaced\", \"revoked\", \"archived\".", sep = ""))
+      if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("in progress", "preview", "released", "deleted", "replaced", "revoked", "archived"))) {
+        stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"in progress\", \"preview\", \"released\", \"deleted\", \"replaced\", \"revoked\", \"archived\".", sep = ""))
       }
       self$`status` <- this_object$`status`
       self$`revoke_detail` <- this_object$`revoke_detail`
@@ -1388,8 +1388,8 @@ ConstructLibrarySet <- R6::R6Class(
         stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"guide library\", \"reporter library\", \"expression vector library\", \"editing template library\".", sep = ""))
       }
       self$`file_set_type` <- this_object$`file_set_type`
-      if (!is.null(this_object$`control_type`) && !(this_object$`control_type` %in% c("control transduction"))) {
-        stop(paste("Error! \"", this_object$`control_type`, "\" cannot be assigned to `control_type`. Must be \"control transduction\".", sep = ""))
+      if (!is.null(this_object$`control_type`) && !(this_object$`control_type` %in% c("control transduction", "non-targeting"))) {
+        stop(paste("Error! \"", this_object$`control_type`, "\" cannot be assigned to `control_type`. Must be \"control transduction\", \"non-targeting\".", sep = ""))
       }
       self$`control_type` <- this_object$`control_type`
       if (!is.null(this_object$`scope`) && !(this_object$`scope` %in% c("tile", "exon", "genes", "loci", "genome-wide", "interactors", "alleles", "targeton", "control"))) {

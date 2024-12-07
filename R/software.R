@@ -114,8 +114,8 @@ Software <- R6::R6Class(
         self$`award` <- `award`
       }
       if (!is.null(`status`)) {
-        if (!(`status` %in% c("archived", "deleted", "in progress", "released"))) {
-          stop(paste("Error! \"", `status`, "\" cannot be assigned to `status`. Must be \"archived\", \"deleted\", \"in progress\", \"released\".", sep = ""))
+        if (!(`status` %in% c("archived", "deleted", "in progress", "preview", "released"))) {
+          stop(paste("Error! \"", `status`, "\" cannot be assigned to `status`. Must be \"archived\", \"deleted\", \"in progress\", \"preview\", \"released\".", sep = ""))
         }
         if (!(is.character(`status`) && length(`status`) == 1)) {
           stop(paste("Error! Invalid data for `status`. Must be a string:", `status`))
@@ -330,8 +330,8 @@ Software <- R6::R6Class(
         self$`award` <- this_object$`award`
       }
       if (!is.null(this_object$`status`)) {
-        if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("archived", "deleted", "in progress", "released"))) {
-          stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"archived\", \"deleted\", \"in progress\", \"released\".", sep = ""))
+        if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("archived", "deleted", "in progress", "preview", "released"))) {
+          stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"archived\", \"deleted\", \"in progress\", \"preview\", \"released\".", sep = ""))
         }
         self$`status` <- this_object$`status`
       }
@@ -578,8 +578,8 @@ Software <- R6::R6Class(
       self$`publications` <- ApiClient$new()$deserializeObj(this_object$`publications`, "set[character]", loadNamespace("igvfclient"))
       self$`lab` <- this_object$`lab`
       self$`award` <- this_object$`award`
-      if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("archived", "deleted", "in progress", "released"))) {
-        stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"archived\", \"deleted\", \"in progress\", \"released\".", sep = ""))
+      if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("archived", "deleted", "in progress", "preview", "released"))) {
+        stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"archived\", \"deleted\", \"in progress\", \"preview\", \"released\".", sep = ""))
       }
       self$`status` <- this_object$`status`
       self$`schema_version` <- this_object$`schema_version`

@@ -6,7 +6,7 @@ A document with additional information regarding another object submitted to the
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **release_timestamp** | **character** | The date the object was released. | [optional] 
-**status** | **character** | The status of the metadata object. | [optional] [Enum: [archived, deleted, in progress, released]] 
+**status** | **character** | The status of the metadata object. | [optional] [Enum: [archived, deleted, in progress, preview, released]] 
 **lab** | **character** | Lab associated with the submission. | [optional] 
 **award** | **character** | Grant associated with the submission. | [optional] 
 **attachment** | [**Attachment**](Attachment.md) |  | [optional] 

@@ -293,8 +293,8 @@ WholeOrganism <- R6::R6Class(
         self$`collections` <- `collections`
       }
       if (!is.null(`status`)) {
-        if (!(`status` %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
-          stop(paste("Error! \"", `status`, "\" cannot be assigned to `status`. Must be \"in progress\", \"released\", \"deleted\", \"replaced\", \"revoked\", \"archived\".", sep = ""))
+        if (!(`status` %in% c("in progress", "preview", "released", "deleted", "replaced", "revoked", "archived"))) {
+          stop(paste("Error! \"", `status`, "\" cannot be assigned to `status`. Must be \"in progress\", \"preview\", \"released\", \"deleted\", \"replaced\", \"revoked\", \"archived\".", sep = ""))
         }
         if (!(is.character(`status`) && length(`status`) == 1)) {
           stop(paste("Error! Invalid data for `status`. Must be a string:", `status`))
@@ -906,8 +906,8 @@ WholeOrganism <- R6::R6Class(
         self$`collections` <- ApiClient$new()$deserializeObj(this_object$`collections`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`status`)) {
-        if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
-          stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"in progress\", \"released\", \"deleted\", \"replaced\", \"revoked\", \"archived\".", sep = ""))
+        if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("in progress", "preview", "released", "deleted", "replaced", "revoked", "archived"))) {
+          stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"in progress\", \"preview\", \"released\", \"deleted\", \"replaced\", \"revoked\", \"archived\".", sep = ""))
         }
         self$`status` <- this_object$`status`
       }
@@ -1640,8 +1640,8 @@ WholeOrganism <- R6::R6Class(
       self$`accession` <- this_object$`accession`
       self$`alternate_accessions` <- ApiClient$new()$deserializeObj(this_object$`alternate_accessions`, "set[character]", loadNamespace("igvfclient"))
       self$`collections` <- ApiClient$new()$deserializeObj(this_object$`collections`, "set[character]", loadNamespace("igvfclient"))
-      if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
-        stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"in progress\", \"released\", \"deleted\", \"replaced\", \"revoked\", \"archived\".", sep = ""))
+      if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("in progress", "preview", "released", "deleted", "replaced", "revoked", "archived"))) {
+        stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"in progress\", \"preview\", \"released\", \"deleted\", \"replaced\", \"revoked\", \"archived\".", sep = ""))
       }
       self$`status` <- this_object$`status`
       self$`revoke_detail` <- this_object$`revoke_detail`

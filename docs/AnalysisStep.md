@@ -6,7 +6,7 @@ A step in a computational analysis workflow. For example, a sequence alignment s
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **release_timestamp** | **character** | The date the object was released. | [optional] 
-**status** | **character** | The status of the metadata object. | [optional] [Enum: [archived, deleted, in progress, released]] 
+**status** | **character** | The status of the metadata object. | [optional] [Enum: [archived, deleted, in progress, preview, released]] 
 **lab** | **character** | Lab associated with the submission. | [optional] 
 **award** | **character** | Grant associated with the submission. | [optional] 
 **schema_version** | **character** | The version of the JSON schema that the server uses to validate the object. | [optional] [Pattern: ^\\d+(\\.\\d+)*$] 

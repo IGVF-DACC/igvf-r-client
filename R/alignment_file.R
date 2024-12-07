@@ -249,8 +249,8 @@ AlignmentFile <- R6::R6Class(
         self$`collections` <- `collections`
       }
       if (!is.null(`status`)) {
-        if (!(`status` %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
-          stop(paste("Error! \"", `status`, "\" cannot be assigned to `status`. Must be \"in progress\", \"released\", \"deleted\", \"replaced\", \"revoked\", \"archived\".", sep = ""))
+        if (!(`status` %in% c("in progress", "preview", "released", "deleted", "replaced", "revoked", "archived"))) {
+          stop(paste("Error! \"", `status`, "\" cannot be assigned to `status`. Must be \"in progress\", \"preview\", \"released\", \"deleted\", \"replaced\", \"revoked\", \"archived\".", sep = ""))
         }
         if (!(is.character(`status`) && length(`status`) == 1)) {
           stop(paste("Error! Invalid data for `status`. Must be a string:", `status`))
@@ -383,8 +383,8 @@ AlignmentFile <- R6::R6Class(
         self$`submitted_file_name` <- `submitted_file_name`
       }
       if (!is.null(`upload_status`)) {
-        if (!(`upload_status` %in% c("pending", "file not found", "invalidated", "validated"))) {
-          stop(paste("Error! \"", `upload_status`, "\" cannot be assigned to `upload_status`. Must be \"pending\", \"file not found\", \"invalidated\", \"validated\".", sep = ""))
+        if (!(`upload_status` %in% c("pending", "file not found", "invalidated", "validated", "validation exempted"))) {
+          stop(paste("Error! \"", `upload_status`, "\" cannot be assigned to `upload_status`. Must be \"pending\", \"file not found\", \"invalidated\", \"validated\", \"validation exempted\".", sep = ""))
         }
         if (!(is.character(`upload_status`) && length(`upload_status`) == 1)) {
           stop(paste("Error! Invalid data for `upload_status`. Must be a string:", `upload_status`))
@@ -747,8 +747,8 @@ AlignmentFile <- R6::R6Class(
         self$`collections` <- ApiClient$new()$deserializeObj(this_object$`collections`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`status`)) {
-        if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
-          stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"in progress\", \"released\", \"deleted\", \"replaced\", \"revoked\", \"archived\".", sep = ""))
+        if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("in progress", "preview", "released", "deleted", "replaced", "revoked", "archived"))) {
+          stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"in progress\", \"preview\", \"released\", \"deleted\", \"replaced\", \"revoked\", \"archived\".", sep = ""))
         }
         self$`status` <- this_object$`status`
       }
@@ -819,8 +819,8 @@ AlignmentFile <- R6::R6Class(
         self$`submitted_file_name` <- this_object$`submitted_file_name`
       }
       if (!is.null(this_object$`upload_status`)) {
-        if (!is.null(this_object$`upload_status`) && !(this_object$`upload_status` %in% c("pending", "file not found", "invalidated", "validated"))) {
-          stop(paste("Error! \"", this_object$`upload_status`, "\" cannot be assigned to `upload_status`. Must be \"pending\", \"file not found\", \"invalidated\", \"validated\".", sep = ""))
+        if (!is.null(this_object$`upload_status`) && !(this_object$`upload_status` %in% c("pending", "file not found", "invalidated", "validated", "validation exempted"))) {
+          stop(paste("Error! \"", this_object$`upload_status`, "\" cannot be assigned to `upload_status`. Must be \"pending\", \"file not found\", \"invalidated\", \"validated\", \"validation exempted\".", sep = ""))
         }
         self$`upload_status` <- this_object$`upload_status`
       }
@@ -1323,8 +1323,8 @@ AlignmentFile <- R6::R6Class(
       self$`accession` <- this_object$`accession`
       self$`alternate_accessions` <- ApiClient$new()$deserializeObj(this_object$`alternate_accessions`, "set[character]", loadNamespace("igvfclient"))
       self$`collections` <- ApiClient$new()$deserializeObj(this_object$`collections`, "set[character]", loadNamespace("igvfclient"))
-      if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("in progress", "released", "deleted", "replaced", "revoked", "archived"))) {
-        stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"in progress\", \"released\", \"deleted\", \"replaced\", \"revoked\", \"archived\".", sep = ""))
+      if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("in progress", "preview", "released", "deleted", "replaced", "revoked", "archived"))) {
+        stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"in progress\", \"preview\", \"released\", \"deleted\", \"replaced\", \"revoked\", \"archived\".", sep = ""))
       }
       self$`status` <- this_object$`status`
       self$`revoke_detail` <- this_object$`revoke_detail`
@@ -1351,8 +1351,8 @@ AlignmentFile <- R6::R6Class(
       self$`file_size` <- this_object$`file_size`
       self$`md5sum` <- this_object$`md5sum`
       self$`submitted_file_name` <- this_object$`submitted_file_name`
-      if (!is.null(this_object$`upload_status`) && !(this_object$`upload_status` %in% c("pending", "file not found", "invalidated", "validated"))) {
-        stop(paste("Error! \"", this_object$`upload_status`, "\" cannot be assigned to `upload_status`. Must be \"pending\", \"file not found\", \"invalidated\", \"validated\".", sep = ""))
+      if (!is.null(this_object$`upload_status`) && !(this_object$`upload_status` %in% c("pending", "file not found", "invalidated", "validated", "validation exempted"))) {
+        stop(paste("Error! \"", this_object$`upload_status`, "\" cannot be assigned to `upload_status`. Must be \"pending\", \"file not found\", \"invalidated\", \"validated\", \"validation exempted\".", sep = ""))
       }
       self$`upload_status` <- this_object$`upload_status`
       self$`validation_error_detail` <- this_object$`validation_error_detail`

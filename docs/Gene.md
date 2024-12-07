@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **transcriptome_annotation** | **character** | The annotation and version of the reference resource. | [optional] [Enum: [GENCODE 32, GENCODE 40, GENCODE 41, GENCODE 42, GENCODE 43, GENCODE 44, GENCODE 45, GENCODE Cast - M32, GENCODE M30, GENCODE M31, GENCODE M32, GENCODE M33, GENCODE M34]] 
 **taxa** | **character** | The species of the organism. | [optional] [Enum: [Homo sapiens, Mus musculus]] 
-**status** | **character** | The status of the metadata object. | [optional] [Enum: [archived, deleted, in progress, released]] 
+**status** | **character** | The status of the metadata object. | [optional] [Enum: [archived, deleted, in progress, preview, released]] 
 **schema_version** | **character** | The version of the JSON schema that the server uses to validate the object. | [optional] [Pattern: ^\\d+(\\.\\d+)*$] 
 **uuid** | **character** | The unique identifier associated with every object. | [optional] 
 **notes** | **character** | DACC internal notes. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 

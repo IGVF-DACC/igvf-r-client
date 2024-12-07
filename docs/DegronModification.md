@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **lot_id** | **character** | The lot identifier provided by the originating lab or vendor. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **product_id** | **character** | The product or catalog identifier provided following deposition to addgene.org. | [optional] [Pattern: ^addgene:\\d{5,6}$] 
 **documents** | **set[character]** | Documents that provide additional information (not data file). | [optional] 
-**status** | **character** | The status of the metadata object. | [optional] [Enum: [archived, deleted, in progress, released]] 
+**status** | **character** | The status of the metadata object. | [optional] [Enum: [archived, deleted, in progress, preview, released]] 
 **lab** | **character** | Lab associated with the submission. | [optional] 
 **award** | **character** | Grant associated with the submission. | [optional] 
 **schema_version** | **character** | The version of the JSON schema that the server uses to validate the object. | [optional] [Pattern: ^\\d+(\\.\\d+)*$] 

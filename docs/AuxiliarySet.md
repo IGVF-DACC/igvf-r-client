@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **accession** | **character** | A unique identifier to be used to reference the object prefixed with IGVF. | [optional] 
 **alternate_accessions** | **set[character]** | Accessions previously assigned to objects that have been merged with this object. | [optional] 
 **collections** | **set[character]** | Some samples are part of particular data collections. | [optional] [Enum: ] 
-**status** | **character** | The status of the metadata object. | [optional] [Enum: [in progress, released, deleted, replaced, revoked, archived]] 
+**status** | **character** | The status of the metadata object. | [optional] [Enum: [in progress, preview, released, deleted, replaced, revoked, archived]] 
 **revoke_detail** | **character** | Explanation of why an object was transitioned to the revoked status. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **url** | **character** | An external resource with additional information. | [optional] 
 **schema_version** | **character** | The version of the JSON schema that the server uses to validate the object. | [optional] [Pattern: ^\\d+(\\.\\d+)*$] 

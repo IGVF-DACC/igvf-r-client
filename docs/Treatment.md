@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **lot_id** | **character** | The lot identifier provided by the originating lab or vendor. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **product_id** | **character** | The product identifier provided by the originating lab or vendor. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **documents** | **set[character]** | Documents that describe the treatment protocol details. | [optional] 
-**status** | **character** | The status of the metadata object. | [optional] [Enum: [archived, deleted, in progress, released]] 
+**status** | **character** | The status of the metadata object. | [optional] [Enum: [archived, deleted, in progress, preview, released]] 
 **schema_version** | **character** | The version of the JSON schema that the server uses to validate the object. | [optional] [Pattern: ^\\d+(\\.\\d+)*$] 
 **uuid** | **character** | The unique identifier associated with every object. | [optional] 
 **notes** | **character** | DACC internal notes. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
