@@ -40,6 +40,7 @@ Name | Type | Description | Notes
 **submitted_file_name** | **character** | Original name of the file. | [optional] 
 **upload_status** | **character** | The upload/validation status of the file. | [optional] [Enum: [pending, file not found, invalidated, validated, validation exempted]] 
 **validation_error_detail** | **character** | Explanation of why the file failed the automated content checks. | [optional] 
+**checkfiles_version** | **character** | The Checkfiles GitHub version release the file was validated with. | [optional] 
 **flowcell_id** | **character** | The alphanumeric identifier for the flowcell of a sequencing machine. | [optional] [Pattern: ^[a-zA-Z0-9-]+$] 
 **lane** | **integer** | An integer identifying the lane of a sequencing machine. | [optional] [Min: 1] 
 **read_count** | **integer** | Number of reads in a fastq file. | [optional] [Min: 0] 

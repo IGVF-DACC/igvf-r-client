@@ -40,6 +40,7 @@
 #' @field submitted_file_name Original name of the file. character [optional]
 #' @field upload_status The upload/validation status of the file. character [optional]
 #' @field validation_error_detail Explanation of why the file failed the automated content checks. character [optional]
+#' @field checkfiles_version The Checkfiles GitHub version release the file was validated with. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the index file. character [optional]
@@ -94,6 +95,7 @@ IndexFile <- R6::R6Class(
     `submitted_file_name` = NULL,
     `upload_status` = NULL,
     `validation_error_detail` = NULL,
+    `checkfiles_version` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -147,6 +149,7 @@ IndexFile <- R6::R6Class(
     #' @param submitted_file_name Original name of the file.
     #' @param upload_status The upload/validation status of the file.
     #' @param validation_error_detail Explanation of why the file failed the automated content checks.
+    #' @param checkfiles_version The Checkfiles GitHub version release the file was validated with.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the index file.
@@ -164,7 +167,7 @@ IndexFile <- R6::R6Class(
     #' @param redacted Indicates whether the alignments data have been sanitized (redacted) to prevent leakage of private and potentially identifying genomic information.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `assembly` = NULL, `transcriptome_annotation` = NULL, `filtered` = NULL, `redacted` = NULL, ...) {
+    initialize = function(`release_timestamp` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `assembly` = NULL, `transcriptome_annotation` = NULL, `filtered` = NULL, `redacted` = NULL, ...) {
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -364,6 +367,12 @@ IndexFile <- R6::R6Class(
           stop(paste("Error! Invalid data for `validation_error_detail`. Must be a string:", `validation_error_detail`))
         }
         self$`validation_error_detail` <- `validation_error_detail`
+      }
+      if (!is.null(`checkfiles_version`)) {
+        if (!(is.character(`checkfiles_version`) && length(`checkfiles_version`) == 1)) {
+          stop(paste("Error! Invalid data for `checkfiles_version`. Must be a string:", `checkfiles_version`))
+        }
+        self$`checkfiles_version` <- `checkfiles_version`
       }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
@@ -588,6 +597,10 @@ IndexFile <- R6::R6Class(
         IndexFileObject[["validation_error_detail"]] <-
           self$`validation_error_detail`
       }
+      if (!is.null(self$`checkfiles_version`)) {
+        IndexFileObject[["checkfiles_version"]] <-
+          self$`checkfiles_version`
+      }
       if (!is.null(self$`@id`)) {
         IndexFileObject[["@id"]] <-
           self$`@id`
@@ -767,6 +780,9 @@ IndexFile <- R6::R6Class(
       }
       if (!is.null(this_object$`validation_error_detail`)) {
         self$`validation_error_detail` <- this_object$`validation_error_detail`
+      }
+      if (!is.null(this_object$`checkfiles_version`)) {
+        self$`checkfiles_version` <- this_object$`checkfiles_version`
       }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
@@ -1088,6 +1104,14 @@ IndexFile <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`validation_error_detail`, perl=TRUE)
           )
         },
+        if (!is.null(self$`checkfiles_version`)) {
+          sprintf(
+          '"checkfiles_version":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`checkfiles_version`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -1264,6 +1288,7 @@ IndexFile <- R6::R6Class(
       }
       self$`upload_status` <- this_object$`upload_status`
       self$`validation_error_detail` <- this_object$`validation_error_detail`
+      self$`checkfiles_version` <- this_object$`checkfiles_version`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`

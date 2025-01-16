@@ -41,6 +41,7 @@ Name | Type | Description | Notes
 **submitted_file_name** | **character** | Original name of the file. | [optional] 
 **upload_status** | **character** | The upload/validation status of the file. | [optional] [Enum: [pending, file not found, invalidated, validated, validation exempted]] 
 **validation_error_detail** | **character** | Explanation of why the file failed the automated content checks. | [optional] 
+**checkfiles_version** | **character** | The Checkfiles GitHub version release the file was validated with. | [optional] 
 **read_count** | **integer** | Number of reads in a bam file. Including both mapped, unmapped, and multi-mapped read counts. | [optional] [Min: 0] 
 **redacted** | **character** | Indicates whether the alignments data have been sanitized (redacted) to prevent leakage of private and potentially identifying genomic information. | [optional] 
 **filtered** | **character** | Indicates whether reads that did not pass a filtering step, such as PCR duplicates, have been removed from the file. | [optional] 

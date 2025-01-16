@@ -40,6 +40,7 @@ Name | Type | Description | Notes
 **submitted_file_name** | **character** | Original name of the file. | [optional] 
 **upload_status** | **character** | The upload/validation status of the file. | [optional] [Enum: [pending, file not found, invalidated, validated, validation exempted]] 
 **validation_error_detail** | **character** | Explanation of why the file failed the automated content checks. | [optional] 
+**checkfiles_version** | **character** | The Checkfiles GitHub version release the file was validated with. | [optional] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** | A summary of the genome browser annotation file. | [optional] 

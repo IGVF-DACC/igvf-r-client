@@ -42,6 +42,7 @@ Name | Type | Description | Notes
 **submitted_file_name** | **character** | Original name of the file. | [optional] 
 **upload_status** | **character** | The upload/validation status of the file. | [optional] [Enum: [pending, file not found, invalidated, validated, validation exempted]] 
 **validation_error_detail** | **character** | Explanation of why the file failed the automated content checks. | [optional] 
+**checkfiles_version** | **character** | The Checkfiles GitHub version release the file was validated with. | [optional] 
 **sources** | **set[character]** | The originating lab(s) or vendor(s). | [optional] 
 **external** | **character** | Indicates whether the file was obtained from an external, non-IGVF source. | [optional] 
 **@id** | **character** |  | [optional] 

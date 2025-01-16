@@ -44,6 +44,7 @@
 #' @field submitted_file_name Original name of the file. character [optional]
 #' @field upload_status The upload/validation status of the file. character [optional]
 #' @field validation_error_detail Explanation of why the file failed the automated content checks. character [optional]
+#' @field checkfiles_version The Checkfiles GitHub version release the file was validated with. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the tabular file. character [optional]
@@ -99,6 +100,7 @@ TabularFile <- R6::R6Class(
     `submitted_file_name` = NULL,
     `upload_status` = NULL,
     `validation_error_detail` = NULL,
+    `checkfiles_version` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -153,6 +155,7 @@ TabularFile <- R6::R6Class(
     #' @param submitted_file_name Original name of the file.
     #' @param upload_status The upload/validation status of the file.
     #' @param validation_error_detail Explanation of why the file failed the automated content checks.
+    #' @param checkfiles_version The Checkfiles GitHub version release the file was validated with.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the tabular file.
@@ -167,7 +170,7 @@ TabularFile <- R6::R6Class(
     #' @param barcode_map_for Link(s) to the Multiplexed samples using this file as barcode map.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`cell_type_annotation` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `barcode_map_for` = NULL, ...) {
+    initialize = function(`cell_type_annotation` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `barcode_map_for` = NULL, ...) {
       if (!is.null(`cell_type_annotation`)) {
         if (!(is.character(`cell_type_annotation`) && length(`cell_type_annotation`) == 1)) {
           stop(paste("Error! Invalid data for `cell_type_annotation`. Must be a string:", `cell_type_annotation`))
@@ -401,6 +404,12 @@ TabularFile <- R6::R6Class(
         }
         self$`validation_error_detail` <- `validation_error_detail`
       }
+      if (!is.null(`checkfiles_version`)) {
+        if (!(is.character(`checkfiles_version`) && length(`checkfiles_version`) == 1)) {
+          stop(paste("Error! Invalid data for `checkfiles_version`. Must be a string:", `checkfiles_version`))
+        }
+        self$`checkfiles_version` <- `checkfiles_version`
+      }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
           stop(paste("Error! Invalid data for `@id`. Must be a string:", `@id`))
@@ -621,6 +630,10 @@ TabularFile <- R6::R6Class(
         TabularFileObject[["validation_error_detail"]] <-
           self$`validation_error_detail`
       }
+      if (!is.null(self$`checkfiles_version`)) {
+        TabularFileObject[["checkfiles_version"]] <-
+          self$`checkfiles_version`
+      }
       if (!is.null(self$`@id`)) {
         TabularFileObject[["@id"]] <-
           self$`@id`
@@ -809,6 +822,9 @@ TabularFile <- R6::R6Class(
       }
       if (!is.null(this_object$`validation_error_detail`)) {
         self$`validation_error_detail` <- this_object$`validation_error_detail`
+      }
+      if (!is.null(this_object$`checkfiles_version`)) {
+        self$`checkfiles_version` <- this_object$`checkfiles_version`
       }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
@@ -1153,6 +1169,14 @@ TabularFile <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`validation_error_detail`, perl=TRUE)
           )
         },
+        if (!is.null(self$`checkfiles_version`)) {
+          sprintf(
+          '"checkfiles_version":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`checkfiles_version`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -1318,6 +1342,7 @@ TabularFile <- R6::R6Class(
       }
       self$`upload_status` <- this_object$`upload_status`
       self$`validation_error_detail` <- this_object$`validation_error_detail`
+      self$`checkfiles_version` <- this_object$`checkfiles_version`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`

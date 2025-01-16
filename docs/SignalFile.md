@@ -1,6 +1,6 @@
 # igvfclient::SignalFile
 
-A file containing analyzed sequencing data in signal form using a bigwig format.
+A file containing analyzed sequencing data in signal form using a bigwig or npz format.
 
 ## Properties
 Name | Type | Description | Notes
@@ -32,7 +32,7 @@ Name | Type | Description | Notes
 **dbxrefs** | **set[character]** | Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file objects. | [optional] 
 **derived_from** | **set[character]** | The files participating as inputs into software to produce this output file. | [optional] 
 **derived_manually** | **character** | A boolean indicating whether the file has been dervided manually without automated computational methods. | [optional] 
-**file_format** | **character** | The file format or extension of the file. | [optional] [Enum: [bigWig]] 
+**file_format** | **character** | The file format or extension of the file. | [optional] [Enum: [bigWig, npz]] 
 **file_format_specifications** | **set[character]** | Documents that describe the file format and fields of this file. | [optional] 
 **file_set** | **character** | The file set that this file belongs to. | [optional] 
 **file_size** | **integer** | File size specified in bytes. | [optional] [Min: 0] 
@@ -40,6 +40,7 @@ Name | Type | Description | Notes
 **submitted_file_name** | **character** | Original name of the file. | [optional] 
 **upload_status** | **character** | The upload/validation status of the file. | [optional] [Enum: [pending, file not found, invalidated, validated, validation exempted]] 
 **validation_error_detail** | **character** | Explanation of why the file failed the automated content checks. | [optional] 
+**checkfiles_version** | **character** | The Checkfiles GitHub version release the file was validated with. | [optional] 
 **strand_specificity** | **character** | The strandedness of the signal file: plus, minus, or unstranded. | [optional] [Enum: [plus, minus, unstranded]] 
 **filtered** | **character** | Indicates if the signal file is filtered. | [optional] 
 **normalized** | **character** | Indicates if the signal file is normalized. | [optional] 

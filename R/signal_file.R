@@ -1,7 +1,7 @@
 #' Create a new SignalFile
 #'
 #' @description
-#' A file containing analyzed sequencing data in signal form using a bigwig format.
+#' A file containing analyzed sequencing data in signal form using a bigwig or npz format.
 #'
 #' @docType class
 #' @title SignalFile
@@ -42,6 +42,7 @@
 #' @field submitted_file_name Original name of the file. character [optional]
 #' @field upload_status The upload/validation status of the file. character [optional]
 #' @field validation_error_detail Explanation of why the file failed the automated content checks. character [optional]
+#' @field checkfiles_version The Checkfiles GitHub version release the file was validated with. character [optional]
 #' @field strand_specificity The strandedness of the signal file: plus, minus, or unstranded. character [optional]
 #' @field filtered Indicates if the signal file is filtered. character [optional]
 #' @field normalized Indicates if the signal file is normalized. character [optional]
@@ -99,6 +100,7 @@ SignalFile <- R6::R6Class(
     `submitted_file_name` = NULL,
     `upload_status` = NULL,
     `validation_error_detail` = NULL,
+    `checkfiles_version` = NULL,
     `strand_specificity` = NULL,
     `filtered` = NULL,
     `normalized` = NULL,
@@ -155,6 +157,7 @@ SignalFile <- R6::R6Class(
     #' @param submitted_file_name Original name of the file.
     #' @param upload_status The upload/validation status of the file.
     #' @param validation_error_detail Explanation of why the file failed the automated content checks.
+    #' @param checkfiles_version The Checkfiles GitHub version release the file was validated with.
     #' @param strand_specificity The strandedness of the signal file: plus, minus, or unstranded.
     #' @param filtered Indicates if the signal file is filtered.
     #' @param normalized Indicates if the signal file is normalized.
@@ -173,7 +176,7 @@ SignalFile <- R6::R6Class(
     #' @param content_summary A summary of the data in the signal file.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`cell_type_annotation` = NULL, `transcriptome_annotation` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `reference_files` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `strand_specificity` = NULL, `filtered` = NULL, `normalized` = NULL, `start_view_position` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `content_summary` = NULL, ...) {
+    initialize = function(`cell_type_annotation` = NULL, `transcriptome_annotation` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `reference_files` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `strand_specificity` = NULL, `filtered` = NULL, `normalized` = NULL, `start_view_position` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `content_summary` = NULL, ...) {
       if (!is.null(`cell_type_annotation`)) {
         if (!(is.character(`cell_type_annotation`) && length(`cell_type_annotation`) == 1)) {
           stop(paste("Error! Invalid data for `cell_type_annotation`. Must be a string:", `cell_type_annotation`))
@@ -339,8 +342,8 @@ SignalFile <- R6::R6Class(
         self$`derived_manually` <- `derived_manually`
       }
       if (!is.null(`file_format`)) {
-        if (!(`file_format` %in% c("bigWig"))) {
-          stop(paste("Error! \"", `file_format`, "\" cannot be assigned to `file_format`. Must be \"bigWig\".", sep = ""))
+        if (!(`file_format` %in% c("bigWig", "npz"))) {
+          stop(paste("Error! \"", `file_format`, "\" cannot be assigned to `file_format`. Must be \"bigWig\", \"npz\".", sep = ""))
         }
         if (!(is.character(`file_format`) && length(`file_format`) == 1)) {
           stop(paste("Error! Invalid data for `file_format`. Must be a string:", `file_format`))
@@ -390,6 +393,12 @@ SignalFile <- R6::R6Class(
           stop(paste("Error! Invalid data for `validation_error_detail`. Must be a string:", `validation_error_detail`))
         }
         self$`validation_error_detail` <- `validation_error_detail`
+      }
+      if (!is.null(`checkfiles_version`)) {
+        if (!(is.character(`checkfiles_version`) && length(`checkfiles_version`) == 1)) {
+          stop(paste("Error! Invalid data for `checkfiles_version`. Must be a string:", `checkfiles_version`))
+        }
+        self$`checkfiles_version` <- `checkfiles_version`
       }
       if (!is.null(`strand_specificity`)) {
         if (!(`strand_specificity` %in% c("plus", "minus", "unstranded"))) {
@@ -631,6 +640,10 @@ SignalFile <- R6::R6Class(
         SignalFileObject[["validation_error_detail"]] <-
           self$`validation_error_detail`
       }
+      if (!is.null(self$`checkfiles_version`)) {
+        SignalFileObject[["checkfiles_version"]] <-
+          self$`checkfiles_version`
+      }
       if (!is.null(self$`strand_specificity`)) {
         SignalFileObject[["strand_specificity"]] <-
           self$`strand_specificity`
@@ -798,8 +811,8 @@ SignalFile <- R6::R6Class(
         self$`derived_manually` <- this_object$`derived_manually`
       }
       if (!is.null(this_object$`file_format`)) {
-        if (!is.null(this_object$`file_format`) && !(this_object$`file_format` %in% c("bigWig"))) {
-          stop(paste("Error! \"", this_object$`file_format`, "\" cannot be assigned to `file_format`. Must be \"bigWig\".", sep = ""))
+        if (!is.null(this_object$`file_format`) && !(this_object$`file_format` %in% c("bigWig", "npz"))) {
+          stop(paste("Error! \"", this_object$`file_format`, "\" cannot be assigned to `file_format`. Must be \"bigWig\", \"npz\".", sep = ""))
         }
         self$`file_format` <- this_object$`file_format`
       }
@@ -826,6 +839,9 @@ SignalFile <- R6::R6Class(
       }
       if (!is.null(this_object$`validation_error_detail`)) {
         self$`validation_error_detail` <- this_object$`validation_error_detail`
+      }
+      if (!is.null(this_object$`checkfiles_version`)) {
+        self$`checkfiles_version` <- this_object$`checkfiles_version`
       }
       if (!is.null(this_object$`strand_specificity`)) {
         if (!is.null(this_object$`strand_specificity`) && !(this_object$`strand_specificity` %in% c("plus", "minus", "unstranded"))) {
@@ -1169,6 +1185,14 @@ SignalFile <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`validation_error_detail`, perl=TRUE)
           )
         },
+        if (!is.null(self$`checkfiles_version`)) {
+          sprintf(
+          '"checkfiles_version":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`checkfiles_version`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`strand_specificity`)) {
           sprintf(
           '"strand_specificity":
@@ -1347,8 +1371,8 @@ SignalFile <- R6::R6Class(
       self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
       self$`derived_from` <- ApiClient$new()$deserializeObj(this_object$`derived_from`, "set[character]", loadNamespace("igvfclient"))
       self$`derived_manually` <- this_object$`derived_manually`
-      if (!is.null(this_object$`file_format`) && !(this_object$`file_format` %in% c("bigWig"))) {
-        stop(paste("Error! \"", this_object$`file_format`, "\" cannot be assigned to `file_format`. Must be \"bigWig\".", sep = ""))
+      if (!is.null(this_object$`file_format`) && !(this_object$`file_format` %in% c("bigWig", "npz"))) {
+        stop(paste("Error! \"", this_object$`file_format`, "\" cannot be assigned to `file_format`. Must be \"bigWig\", \"npz\".", sep = ""))
       }
       self$`file_format` <- this_object$`file_format`
       self$`file_format_specifications` <- ApiClient$new()$deserializeObj(this_object$`file_format_specifications`, "set[character]", loadNamespace("igvfclient"))
@@ -1361,6 +1385,7 @@ SignalFile <- R6::R6Class(
       }
       self$`upload_status` <- this_object$`upload_status`
       self$`validation_error_detail` <- this_object$`validation_error_detail`
+      self$`checkfiles_version` <- this_object$`checkfiles_version`
       if (!is.null(this_object$`strand_specificity`) && !(this_object$`strand_specificity` %in% c("plus", "minus", "unstranded"))) {
         stop(paste("Error! \"", this_object$`strand_specificity`, "\" cannot be assigned to `strand_specificity`. Must be \"plus\", \"minus\", \"unstranded\".", sep = ""))
       }

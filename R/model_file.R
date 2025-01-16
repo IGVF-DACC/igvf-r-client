@@ -42,6 +42,7 @@
 #' @field submitted_file_name Original name of the file. character [optional]
 #' @field upload_status The upload/validation status of the file. character [optional]
 #' @field validation_error_detail Explanation of why the file failed the automated content checks. character [optional]
+#' @field checkfiles_version The Checkfiles GitHub version release the file was validated with. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the model file. character [optional]
@@ -94,6 +95,7 @@ ModelFile <- R6::R6Class(
     `submitted_file_name` = NULL,
     `upload_status` = NULL,
     `validation_error_detail` = NULL,
+    `checkfiles_version` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -145,6 +147,7 @@ ModelFile <- R6::R6Class(
     #' @param submitted_file_name Original name of the file.
     #' @param upload_status The upload/validation status of the file.
     #' @param validation_error_detail Explanation of why the file failed the automated content checks.
+    #' @param checkfiles_version The Checkfiles GitHub version release the file was validated with.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the model file.
@@ -158,7 +161,7 @@ ModelFile <- R6::R6Class(
     #' @param upload_credentials The upload credentials for S3 to submit the file content.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`externally_hosted` = NULL, `external_host_url` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `release_timestamp` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
+    initialize = function(`externally_hosted` = NULL, `external_host_url` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `release_timestamp` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
       if (!is.null(`externally_hosted`)) {
         if (!(is.logical(`externally_hosted`) && length(`externally_hosted`) == 1)) {
           stop(paste("Error! Invalid data for `externally_hosted`. Must be a boolean:", `externally_hosted`))
@@ -319,8 +322,8 @@ ModelFile <- R6::R6Class(
         self$`derived_manually` <- `derived_manually`
       }
       if (!is.null(`file_format`)) {
-        if (!(`file_format` %in% c("hdf5", "json", "tar", "tsv"))) {
-          stop(paste("Error! \"", `file_format`, "\" cannot be assigned to `file_format`. Must be \"hdf5\", \"json\", \"tar\", \"tsv\".", sep = ""))
+        if (!(`file_format` %in% c("hdf5", "json", "pt", "tar", "tsv"))) {
+          stop(paste("Error! \"", `file_format`, "\" cannot be assigned to `file_format`. Must be \"hdf5\", \"json\", \"pt\", \"tar\", \"tsv\".", sep = ""))
         }
         if (!(is.character(`file_format`) && length(`file_format`) == 1)) {
           stop(paste("Error! Invalid data for `file_format`. Must be a string:", `file_format`))
@@ -370,6 +373,12 @@ ModelFile <- R6::R6Class(
           stop(paste("Error! Invalid data for `validation_error_detail`. Must be a string:", `validation_error_detail`))
         }
         self$`validation_error_detail` <- `validation_error_detail`
+      }
+      if (!is.null(`checkfiles_version`)) {
+        if (!(is.character(`checkfiles_version`) && length(`checkfiles_version`) == 1)) {
+          stop(paste("Error! Invalid data for `checkfiles_version`. Must be a string:", `checkfiles_version`))
+        }
+        self$`checkfiles_version` <- `checkfiles_version`
       }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
@@ -578,6 +587,10 @@ ModelFile <- R6::R6Class(
         ModelFileObject[["validation_error_detail"]] <-
           self$`validation_error_detail`
       }
+      if (!is.null(self$`checkfiles_version`)) {
+        ModelFileObject[["checkfiles_version"]] <-
+          self$`checkfiles_version`
+      }
       if (!is.null(self$`@id`)) {
         ModelFileObject[["@id"]] <-
           self$`@id`
@@ -719,8 +732,8 @@ ModelFile <- R6::R6Class(
         self$`derived_manually` <- this_object$`derived_manually`
       }
       if (!is.null(this_object$`file_format`)) {
-        if (!is.null(this_object$`file_format`) && !(this_object$`file_format` %in% c("hdf5", "json", "tar", "tsv"))) {
-          stop(paste("Error! \"", this_object$`file_format`, "\" cannot be assigned to `file_format`. Must be \"hdf5\", \"json\", \"tar\", \"tsv\".", sep = ""))
+        if (!is.null(this_object$`file_format`) && !(this_object$`file_format` %in% c("hdf5", "json", "pt", "tar", "tsv"))) {
+          stop(paste("Error! \"", this_object$`file_format`, "\" cannot be assigned to `file_format`. Must be \"hdf5\", \"json\", \"pt\", \"tar\", \"tsv\".", sep = ""))
         }
         self$`file_format` <- this_object$`file_format`
       }
@@ -747,6 +760,9 @@ ModelFile <- R6::R6Class(
       }
       if (!is.null(this_object$`validation_error_detail`)) {
         self$`validation_error_detail` <- this_object$`validation_error_detail`
+      }
+      if (!is.null(this_object$`checkfiles_version`)) {
+        self$`checkfiles_version` <- this_object$`checkfiles_version`
       }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
@@ -1072,6 +1088,14 @@ ModelFile <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`validation_error_detail`, perl=TRUE)
           )
         },
+        if (!is.null(self$`checkfiles_version`)) {
+          sprintf(
+          '"checkfiles_version":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`checkfiles_version`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -1204,8 +1228,8 @@ ModelFile <- R6::R6Class(
       self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
       self$`derived_from` <- ApiClient$new()$deserializeObj(this_object$`derived_from`, "set[character]", loadNamespace("igvfclient"))
       self$`derived_manually` <- this_object$`derived_manually`
-      if (!is.null(this_object$`file_format`) && !(this_object$`file_format` %in% c("hdf5", "json", "tar", "tsv"))) {
-        stop(paste("Error! \"", this_object$`file_format`, "\" cannot be assigned to `file_format`. Must be \"hdf5\", \"json\", \"tar\", \"tsv\".", sep = ""))
+      if (!is.null(this_object$`file_format`) && !(this_object$`file_format` %in% c("hdf5", "json", "pt", "tar", "tsv"))) {
+        stop(paste("Error! \"", this_object$`file_format`, "\" cannot be assigned to `file_format`. Must be \"hdf5\", \"json\", \"pt\", \"tar\", \"tsv\".", sep = ""))
       }
       self$`file_format` <- this_object$`file_format`
       self$`file_format_specifications` <- ApiClient$new()$deserializeObj(this_object$`file_format_specifications`, "set[character]", loadNamespace("igvfclient"))
@@ -1218,6 +1242,7 @@ ModelFile <- R6::R6Class(
       }
       self$`upload_status` <- this_object$`upload_status`
       self$`validation_error_detail` <- this_object$`validation_error_detail`
+      self$`checkfiles_version` <- this_object$`checkfiles_version`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`

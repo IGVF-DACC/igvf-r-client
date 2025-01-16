@@ -42,6 +42,7 @@
 #' @field submitted_file_name Original name of the file. character [optional]
 #' @field upload_status The upload/validation status of the file. character [optional]
 #' @field validation_error_detail Explanation of why the file failed the automated content checks. character [optional]
+#' @field checkfiles_version The Checkfiles GitHub version release the file was validated with. character [optional]
 #' @field flowcell_id The alphanumeric identifier for the flowcell of a sequencing machine. character [optional]
 #' @field lane An integer identifying the lane of a sequencing machine. integer [optional]
 #' @field read_count Number of reads in a fastq file. integer [optional]
@@ -108,6 +109,7 @@ SequenceFile <- R6::R6Class(
     `submitted_file_name` = NULL,
     `upload_status` = NULL,
     `validation_error_detail` = NULL,
+    `checkfiles_version` = NULL,
     `flowcell_id` = NULL,
     `lane` = NULL,
     `read_count` = NULL,
@@ -173,6 +175,7 @@ SequenceFile <- R6::R6Class(
     #' @param submitted_file_name Original name of the file.
     #' @param upload_status The upload/validation status of the file.
     #' @param validation_error_detail Explanation of why the file failed the automated content checks.
+    #' @param checkfiles_version The Checkfiles GitHub version release the file was validated with.
     #' @param flowcell_id The alphanumeric identifier for the flowcell of a sequencing machine.
     #' @param lane An integer identifying the lane of a sequencing machine.
     #' @param read_count Number of reads in a fastq file.
@@ -200,7 +203,7 @@ SequenceFile <- R6::R6Class(
     #' @param seqspecs Link(s) to the associated seqspec YAML configuration file(s).
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`externally_hosted` = NULL, `external_host_url` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `release_timestamp` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `flowcell_id` = NULL, `lane` = NULL, `read_count` = NULL, `minimum_read_length` = NULL, `maximum_read_length` = NULL, `mean_read_length` = NULL, `sequencing_platform` = NULL, `sequencing_kit` = NULL, `sequencing_run` = NULL, `illumina_read_type` = NULL, `index` = NULL, `base_modifications` = NULL, `read_names` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `seqspecs` = NULL, ...) {
+    initialize = function(`externally_hosted` = NULL, `external_host_url` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `release_timestamp` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `flowcell_id` = NULL, `lane` = NULL, `read_count` = NULL, `minimum_read_length` = NULL, `maximum_read_length` = NULL, `mean_read_length` = NULL, `sequencing_platform` = NULL, `sequencing_kit` = NULL, `sequencing_run` = NULL, `illumina_read_type` = NULL, `index` = NULL, `base_modifications` = NULL, `read_names` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `seqspecs` = NULL, ...) {
       if (!is.null(`externally_hosted`)) {
         if (!(is.logical(`externally_hosted`) && length(`externally_hosted`) == 1)) {
           stop(paste("Error! Invalid data for `externally_hosted`. Must be a boolean:", `externally_hosted`))
@@ -412,6 +415,12 @@ SequenceFile <- R6::R6Class(
           stop(paste("Error! Invalid data for `validation_error_detail`. Must be a string:", `validation_error_detail`))
         }
         self$`validation_error_detail` <- `validation_error_detail`
+      }
+      if (!is.null(`checkfiles_version`)) {
+        if (!(is.character(`checkfiles_version`) && length(`checkfiles_version`) == 1)) {
+          stop(paste("Error! Invalid data for `checkfiles_version`. Must be a string:", `checkfiles_version`))
+        }
+        self$`checkfiles_version` <- `checkfiles_version`
       }
       if (!is.null(`flowcell_id`)) {
         if (!(is.character(`flowcell_id`) && length(`flowcell_id`) == 1)) {
@@ -704,6 +713,10 @@ SequenceFile <- R6::R6Class(
         SequenceFileObject[["validation_error_detail"]] <-
           self$`validation_error_detail`
       }
+      if (!is.null(self$`checkfiles_version`)) {
+        SequenceFileObject[["checkfiles_version"]] <-
+          self$`checkfiles_version`
+      }
       if (!is.null(self$`flowcell_id`)) {
         SequenceFileObject[["flowcell_id"]] <-
           self$`flowcell_id`
@@ -929,6 +942,9 @@ SequenceFile <- R6::R6Class(
       }
       if (!is.null(this_object$`validation_error_detail`)) {
         self$`validation_error_detail` <- this_object$`validation_error_detail`
+      }
+      if (!is.null(this_object$`checkfiles_version`)) {
+        self$`checkfiles_version` <- this_object$`checkfiles_version`
       }
       if (!is.null(this_object$`flowcell_id`)) {
         self$`flowcell_id` <- this_object$`flowcell_id`
@@ -1302,6 +1318,14 @@ SequenceFile <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`validation_error_detail`, perl=TRUE)
           )
         },
+        if (!is.null(self$`checkfiles_version`)) {
+          sprintf(
+          '"checkfiles_version":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`checkfiles_version`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`flowcell_id`)) {
           sprintf(
           '"flowcell_id":
@@ -1560,6 +1584,7 @@ SequenceFile <- R6::R6Class(
       }
       self$`upload_status` <- this_object$`upload_status`
       self$`validation_error_detail` <- this_object$`validation_error_detail`
+      self$`checkfiles_version` <- this_object$`checkfiles_version`
       self$`flowcell_id` <- this_object$`flowcell_id`
       self$`lane` <- this_object$`lane`
       self$`read_count` <- this_object$`read_count`
