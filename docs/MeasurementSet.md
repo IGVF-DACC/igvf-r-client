@@ -38,6 +38,8 @@ Name | Type | Description | Notes
 **external_image_url** | **character** | Links to the external site where images produced by this measurement are stored. | [optional] [Pattern: ^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$] 
 **targeted_genes** | **set[character]** | A list of genes targeted in this assay. For example, TF ChIP-seq attempts to identify binding sites of a protein encoded by a specific gene. In CRISPR FlowFISH, the modified samples are sorted based on expression of a specific gene. This property differs from small_scale_gene_list in Construct Library Set, which describes genes targeted by the content integrated in the constructs (such as guide RNAs.) | [optional] 
 **functional_assay_mechanisms** | **set[character]** | The biological processes measured by this functional assay. For example, a VAMP-seq (MultiSTEP) assay measures the effects of variants on protein carboxylation and secretion processes. | [optional] 
+**onlist_method** | **character** | The method by which the onlist files will be combined by the seqspec onlist tool to generate the final barcode inclusion list for the single cell uniform pipeline. | [optional] [Enum: [no combination, product, multi]] 
+**onlist_files** | **set[character]** | The barcode region onlist files listed in associated seqspec yaml files. | [optional] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** |  | [optional] 

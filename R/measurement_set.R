@@ -40,6 +40,8 @@
 #' @field external_image_url Links to the external site where images produced by this measurement are stored. character [optional]
 #' @field targeted_genes A list of genes targeted in this assay. For example, TF ChIP-seq attempts to identify binding sites of a protein encoded by a specific gene. In CRISPR FlowFISH, the modified samples are sorted based on expression of a specific gene. This property differs from small_scale_gene_list in Construct Library Set, which describes genes targeted by the content integrated in the constructs (such as guide RNAs.) list(character) [optional]
 #' @field functional_assay_mechanisms The biological processes measured by this functional assay. For example, a VAMP-seq (MultiSTEP) assay measures the effects of variants on protein carboxylation and secretion processes. list(character) [optional]
+#' @field onlist_method The method by which the onlist files will be combined by the seqspec onlist tool to generate the final barcode inclusion list for the single cell uniform pipeline. character [optional]
+#' @field onlist_files The barcode region onlist files listed in associated seqspec yaml files. list(character) [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary  character [optional]
@@ -88,6 +90,8 @@ MeasurementSet <- R6::R6Class(
     `external_image_url` = NULL,
     `targeted_genes` = NULL,
     `functional_assay_mechanisms` = NULL,
+    `onlist_method` = NULL,
+    `onlist_files` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -135,6 +139,8 @@ MeasurementSet <- R6::R6Class(
     #' @param external_image_url Links to the external site where images produced by this measurement are stored.
     #' @param targeted_genes A list of genes targeted in this assay. For example, TF ChIP-seq attempts to identify binding sites of a protein encoded by a specific gene. In CRISPR FlowFISH, the modified samples are sorted based on expression of a specific gene. This property differs from small_scale_gene_list in Construct Library Set, which describes genes targeted by the content integrated in the constructs (such as guide RNAs.)
     #' @param functional_assay_mechanisms The biological processes measured by this functional assay. For example, a VAMP-seq (MultiSTEP) assay measures the effects of variants on protein carboxylation and secretion processes.
+    #' @param onlist_method The method by which the onlist files will be combined by the seqspec onlist tool to generate the final barcode inclusion list for the single cell uniform pipeline.
+    #' @param onlist_files The barcode region onlist files listed in associated seqspec yaml files.
     #' @param @id @id
     #' @param @type @type
     #' @param summary summary
@@ -146,7 +152,7 @@ MeasurementSet <- R6::R6Class(
     #' @param externally_hosted externally_hosted
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`control_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `assay_term` = NULL, `protocols` = NULL, `preferred_assay_title` = NULL, `multiome_size` = NULL, `sequencing_library_types` = NULL, `auxiliary_sets` = NULL, `external_image_url` = NULL, `targeted_genes` = NULL, `functional_assay_mechanisms` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `related_multiome_datasets` = NULL, `externally_hosted` = NULL, ...) {
+    initialize = function(`control_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `assay_term` = NULL, `protocols` = NULL, `preferred_assay_title` = NULL, `multiome_size` = NULL, `sequencing_library_types` = NULL, `auxiliary_sets` = NULL, `external_image_url` = NULL, `targeted_genes` = NULL, `functional_assay_mechanisms` = NULL, `onlist_method` = NULL, `onlist_files` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `related_multiome_datasets` = NULL, `externally_hosted` = NULL, ...) {
       if (!is.null(`control_file_sets`)) {
         stopifnot(is.vector(`control_file_sets`), length(`control_file_sets`) != 0)
         sapply(`control_file_sets`, function(x) stopifnot(is.character(x)))
@@ -343,6 +349,20 @@ MeasurementSet <- R6::R6Class(
         sapply(`functional_assay_mechanisms`, function(x) stopifnot(is.character(x)))
         self$`functional_assay_mechanisms` <- `functional_assay_mechanisms`
       }
+      if (!is.null(`onlist_method`)) {
+        if (!(`onlist_method` %in% c("no combination", "product", "multi"))) {
+          stop(paste("Error! \"", `onlist_method`, "\" cannot be assigned to `onlist_method`. Must be \"no combination\", \"product\", \"multi\".", sep = ""))
+        }
+        if (!(is.character(`onlist_method`) && length(`onlist_method`) == 1)) {
+          stop(paste("Error! Invalid data for `onlist_method`. Must be a string:", `onlist_method`))
+        }
+        self$`onlist_method` <- `onlist_method`
+      }
+      if (!is.null(`onlist_files`)) {
+        stopifnot(is.vector(`onlist_files`), length(`onlist_files`) != 0)
+        sapply(`onlist_files`, function(x) stopifnot(is.character(x)))
+        self$`onlist_files` <- `onlist_files`
+      }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
           stop(paste("Error! Invalid data for `@id`. Must be a string:", `@id`))
@@ -534,6 +554,14 @@ MeasurementSet <- R6::R6Class(
         MeasurementSetObject[["functional_assay_mechanisms"]] <-
           self$`functional_assay_mechanisms`
       }
+      if (!is.null(self$`onlist_method`)) {
+        MeasurementSetObject[["onlist_method"]] <-
+          self$`onlist_method`
+      }
+      if (!is.null(self$`onlist_files`)) {
+        MeasurementSetObject[["onlist_files"]] <-
+          self$`onlist_files`
+      }
       if (!is.null(self$`@id`)) {
         MeasurementSetObject[["@id"]] <-
           self$`@id`
@@ -692,6 +720,15 @@ MeasurementSet <- R6::R6Class(
       }
       if (!is.null(this_object$`functional_assay_mechanisms`)) {
         self$`functional_assay_mechanisms` <- ApiClient$new()$deserializeObj(this_object$`functional_assay_mechanisms`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`onlist_method`)) {
+        if (!is.null(this_object$`onlist_method`) && !(this_object$`onlist_method` %in% c("no combination", "product", "multi"))) {
+          stop(paste("Error! \"", this_object$`onlist_method`, "\" cannot be assigned to `onlist_method`. Must be \"no combination\", \"product\", \"multi\".", sep = ""))
+        }
+        self$`onlist_method` <- this_object$`onlist_method`
+      }
+      if (!is.null(this_object$`onlist_files`)) {
+        self$`onlist_files` <- ApiClient$new()$deserializeObj(this_object$`onlist_files`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
@@ -995,6 +1032,22 @@ MeasurementSet <- R6::R6Class(
           paste(unlist(lapply(self$`functional_assay_mechanisms`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`onlist_method`)) {
+          sprintf(
+          '"onlist_method":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`onlist_method`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`onlist_files`)) {
+          sprintf(
+          '"onlist_files":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`onlist_files`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -1126,6 +1179,11 @@ MeasurementSet <- R6::R6Class(
       self$`external_image_url` <- this_object$`external_image_url`
       self$`targeted_genes` <- ApiClient$new()$deserializeObj(this_object$`targeted_genes`, "set[character]", loadNamespace("igvfclient"))
       self$`functional_assay_mechanisms` <- ApiClient$new()$deserializeObj(this_object$`functional_assay_mechanisms`, "set[character]", loadNamespace("igvfclient"))
+      if (!is.null(this_object$`onlist_method`) && !(this_object$`onlist_method` %in% c("no combination", "product", "multi"))) {
+        stop(paste("Error! \"", this_object$`onlist_method`, "\" cannot be assigned to `onlist_method`. Must be \"no combination\", \"product\", \"multi\".", sep = ""))
+      }
+      self$`onlist_method` <- this_object$`onlist_method`
+      self$`onlist_files` <- ApiClient$new()$deserializeObj(this_object$`onlist_files`, "set[character]", loadNamespace("igvfclient"))
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
@@ -1211,6 +1269,7 @@ MeasurementSet <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1261,6 +1320,7 @@ MeasurementSet <- R6::R6Class(
       if (!str_detect(self$`external_image_url`, "^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$")) {
         invalid_fields["external_image_url"] <- "Invalid value for `external_image_url`, must conform to the pattern ^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$."
       }
+
 
 
 
