@@ -25,7 +25,7 @@ Name | Type | Description | Notes
 **analysis_step_types** | **set[character]** | The classification of the software. | [optional] [Enum: ] 
 **step_label** | **character** | Unique lowercased label of the analysis step that includes the relevant assays, the software used, and the purpose of the step, e.g. rampage-grit-peak-calling-step | [optional] [Pattern: ^[a-z0-9-]+-step$] 
 **title** | **character** | The full name of the user. | [optional] 
-**workflow** | **character** | The computational workflow in which this analysis step belongs. | [optional] 
+**workflow** | **character** | The workflow used to produce this file. | [optional] 
 **parents** | **set[character]** | The precursor steps. | [optional] 
 **input_content_types** | **set[character]** | The content types used as input for the analysis step. | [optional] [Enum: ] 
 **output_content_types** | **set[character]** | The content types produced as output by the analysis step. | [optional] [Enum: ] 

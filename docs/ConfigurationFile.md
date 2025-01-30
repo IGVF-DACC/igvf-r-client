@@ -46,6 +46,7 @@ Name | Type | Description | Notes
 **gene_list_for** | **set[character]** | File Set(s) that this file is a gene list for. | [optional] 
 **loci_list_for** | **set[character]** | File Set(s) that this file is a loci list for. | [optional] 
 **assay_titles** | **set[character]** | Title(s) of assay from the file set this file belongs to. | [optional] 
+**workflow** | **character** | The workflow used to produce this file. | [optional] 
 **href** | **character** | The download path to obtain file. | [optional] 
 **s3_uri** | **character** | The S3 URI of public file object. | [optional] 
 **upload_credentials** | **object** | The upload credentials for S3 to submit the file content. | [optional] 

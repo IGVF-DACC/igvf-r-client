@@ -1,7 +1,7 @@
 #' Create a new InVitroSystem
 #'
 #' @description
-#' A biosample that is cultured, such as immortalized cell lines, organoids, or samples that have been differentiated or reprogrammed.
+#' A biosample that is cultured, such as immortalized cell lines, organoids, gastruloids or samples that have been differentiated or reprogrammed.
 #'
 #' @docType class
 #' @title InVitroSystem

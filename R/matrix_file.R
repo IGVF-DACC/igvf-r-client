@@ -50,6 +50,7 @@
 #' @field gene_list_for File Set(s) that this file is a gene list for. list(character) [optional]
 #' @field loci_list_for File Set(s) that this file is a loci list for. list(character) [optional]
 #' @field assay_titles Title(s) of assay from the file set this file belongs to. list(character) [optional]
+#' @field workflow The workflow used to produce this file. character [optional]
 #' @field href The download path to obtain file. character [optional]
 #' @field s3_uri The S3 URI of public file object. character [optional]
 #' @field upload_credentials The upload credentials for S3 to submit the file content. object [optional]
@@ -103,6 +104,7 @@ MatrixFile <- R6::R6Class(
     `gene_list_for` = NULL,
     `loci_list_for` = NULL,
     `assay_titles` = NULL,
+    `workflow` = NULL,
     `href` = NULL,
     `s3_uri` = NULL,
     `upload_credentials` = NULL,
@@ -155,13 +157,14 @@ MatrixFile <- R6::R6Class(
     #' @param gene_list_for File Set(s) that this file is a gene list for.
     #' @param loci_list_for File Set(s) that this file is a loci list for.
     #' @param assay_titles Title(s) of assay from the file set this file belongs to.
+    #' @param workflow The workflow used to produce this file.
     #' @param href The download path to obtain file.
     #' @param s3_uri The S3 URI of public file object.
     #' @param upload_credentials The upload credentials for S3 to submit the file content.
     #' @param content_summary A summary of the data in the matrix file.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `reference_files` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `principal_dimension` = NULL, `secondary_dimensions` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `content_summary` = NULL, ...) {
+    initialize = function(`release_timestamp` = NULL, `reference_files` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `principal_dimension` = NULL, `secondary_dimensions` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `workflow` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `content_summary` = NULL, ...) {
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -417,6 +420,12 @@ MatrixFile <- R6::R6Class(
         sapply(`assay_titles`, function(x) stopifnot(is.character(x)))
         self$`assay_titles` <- `assay_titles`
       }
+      if (!is.null(`workflow`)) {
+        if (!(is.character(`workflow`) && length(`workflow`) == 1)) {
+          stop(paste("Error! Invalid data for `workflow`. Must be a string:", `workflow`))
+        }
+        self$`workflow` <- `workflow`
+      }
       if (!is.null(`href`)) {
         if (!(is.character(`href`) && length(`href`) == 1)) {
           stop(paste("Error! Invalid data for `href`. Must be a string:", `href`))
@@ -620,6 +629,10 @@ MatrixFile <- R6::R6Class(
         MatrixFileObject[["assay_titles"]] <-
           self$`assay_titles`
       }
+      if (!is.null(self$`workflow`)) {
+        MatrixFileObject[["workflow"]] <-
+          self$`workflow`
+      }
       if (!is.null(self$`href`)) {
         MatrixFileObject[["href"]] <-
           self$`href`
@@ -788,6 +801,9 @@ MatrixFile <- R6::R6Class(
       }
       if (!is.null(this_object$`assay_titles`)) {
         self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`workflow`)) {
+        self$`workflow` <- this_object$`workflow`
       }
       if (!is.null(this_object$`href`)) {
         self$`href` <- this_object$`href`
@@ -1156,6 +1172,14 @@ MatrixFile <- R6::R6Class(
           paste(unlist(lapply(self$`assay_titles`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`workflow`)) {
+          sprintf(
+          '"workflow":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`workflow`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`href`)) {
           sprintf(
           '"href":
@@ -1257,6 +1281,7 @@ MatrixFile <- R6::R6Class(
       self$`gene_list_for` <- ApiClient$new()$deserializeObj(this_object$`gene_list_for`, "set[character]", loadNamespace("igvfclient"))
       self$`loci_list_for` <- ApiClient$new()$deserializeObj(this_object$`loci_list_for`, "set[character]", loadNamespace("igvfclient"))
       self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
+      self$`workflow` <- this_object$`workflow`
       self$`href` <- this_object$`href`
       self$`s3_uri` <- this_object$`s3_uri`
       self$`upload_credentials` <- this_object$`upload_credentials`

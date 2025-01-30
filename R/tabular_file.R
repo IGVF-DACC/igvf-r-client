@@ -53,6 +53,7 @@
 #' @field gene_list_for File Set(s) that this file is a gene list for. list(character) [optional]
 #' @field loci_list_for File Set(s) that this file is a loci list for. list(character) [optional]
 #' @field assay_titles Title(s) of assay from the file set this file belongs to. list(character) [optional]
+#' @field workflow The workflow used to produce this file. character [optional]
 #' @field href The download path to obtain file. character [optional]
 #' @field s3_uri The S3 URI of public file object. character [optional]
 #' @field upload_credentials The upload credentials for S3 to submit the file content. object [optional]
@@ -109,6 +110,7 @@ TabularFile <- R6::R6Class(
     `gene_list_for` = NULL,
     `loci_list_for` = NULL,
     `assay_titles` = NULL,
+    `workflow` = NULL,
     `href` = NULL,
     `s3_uri` = NULL,
     `upload_credentials` = NULL,
@@ -164,13 +166,14 @@ TabularFile <- R6::R6Class(
     #' @param gene_list_for File Set(s) that this file is a gene list for.
     #' @param loci_list_for File Set(s) that this file is a loci list for.
     #' @param assay_titles Title(s) of assay from the file set this file belongs to.
+    #' @param workflow The workflow used to produce this file.
     #' @param href The download path to obtain file.
     #' @param s3_uri The S3 URI of public file object.
     #' @param upload_credentials The upload credentials for S3 to submit the file content.
     #' @param barcode_map_for Link(s) to the Multiplexed samples using this file as barcode map.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`cell_type_annotation` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `barcode_map_for` = NULL, ...) {
+    initialize = function(`cell_type_annotation` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `workflow` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `barcode_map_for` = NULL, ...) {
       if (!is.null(`cell_type_annotation`)) {
         if (!(is.character(`cell_type_annotation`) && length(`cell_type_annotation`) == 1)) {
           stop(paste("Error! Invalid data for `cell_type_annotation`. Must be a string:", `cell_type_annotation`))
@@ -452,6 +455,12 @@ TabularFile <- R6::R6Class(
         sapply(`assay_titles`, function(x) stopifnot(is.character(x)))
         self$`assay_titles` <- `assay_titles`
       }
+      if (!is.null(`workflow`)) {
+        if (!(is.character(`workflow`) && length(`workflow`) == 1)) {
+          stop(paste("Error! Invalid data for `workflow`. Must be a string:", `workflow`))
+        }
+        self$`workflow` <- `workflow`
+      }
       if (!is.null(`href`)) {
         if (!(is.character(`href`) && length(`href`) == 1)) {
           stop(paste("Error! Invalid data for `href`. Must be a string:", `href`))
@@ -666,6 +675,10 @@ TabularFile <- R6::R6Class(
         TabularFileObject[["assay_titles"]] <-
           self$`assay_titles`
       }
+      if (!is.null(self$`workflow`)) {
+        TabularFileObject[["workflow"]] <-
+          self$`workflow`
+      }
       if (!is.null(self$`href`)) {
         TabularFileObject[["href"]] <-
           self$`href`
@@ -849,6 +862,9 @@ TabularFile <- R6::R6Class(
       }
       if (!is.null(this_object$`assay_titles`)) {
         self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`workflow`)) {
+        self$`workflow` <- this_object$`workflow`
       }
       if (!is.null(this_object$`href`)) {
         self$`href` <- this_object$`href`
@@ -1241,6 +1257,14 @@ TabularFile <- R6::R6Class(
           paste(unlist(lapply(self$`assay_titles`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`workflow`)) {
+          sprintf(
+          '"workflow":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`workflow`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`href`)) {
           sprintf(
           '"href":
@@ -1351,6 +1375,7 @@ TabularFile <- R6::R6Class(
       self$`gene_list_for` <- ApiClient$new()$deserializeObj(this_object$`gene_list_for`, "set[character]", loadNamespace("igvfclient"))
       self$`loci_list_for` <- ApiClient$new()$deserializeObj(this_object$`loci_list_for`, "set[character]", loadNamespace("igvfclient"))
       self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
+      self$`workflow` <- this_object$`workflow`
       self$`href` <- this_object$`href`
       self$`s3_uri` <- this_object$`s3_uri`
       self$`upload_credentials` <- this_object$`upload_credentials`
