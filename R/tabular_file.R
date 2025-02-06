@@ -14,6 +14,7 @@
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field file_format_type The subtype of bed files. character [optional]
 #' @field transcriptome_annotation The annotation and version of the reference resource. character [optional]
+#' @field filtered Indicates whether the file has gone through some filtering step, for example, removal of PCR duplicates or filtering based on significance calling. character [optional]
 #' @field documents Documents that provide additional information (not data file). list(character) [optional]
 #' @field lab Lab associated with the submission. character [optional]
 #' @field award Grant associated with the submission. character [optional]
@@ -71,6 +72,7 @@ TabularFile <- R6::R6Class(
     `release_timestamp` = NULL,
     `file_format_type` = NULL,
     `transcriptome_annotation` = NULL,
+    `filtered` = NULL,
     `documents` = NULL,
     `lab` = NULL,
     `award` = NULL,
@@ -127,6 +129,7 @@ TabularFile <- R6::R6Class(
     #' @param release_timestamp The date the object was released.
     #' @param file_format_type The subtype of bed files.
     #' @param transcriptome_annotation The annotation and version of the reference resource.
+    #' @param filtered Indicates whether the file has gone through some filtering step, for example, removal of PCR duplicates or filtering based on significance calling.
     #' @param documents Documents that provide additional information (not data file).
     #' @param lab Lab associated with the submission.
     #' @param award Grant associated with the submission.
@@ -173,7 +176,7 @@ TabularFile <- R6::R6Class(
     #' @param barcode_map_for Link(s) to the Multiplexed samples using this file as barcode map.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`cell_type_annotation` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `workflow` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `barcode_map_for` = NULL, ...) {
+    initialize = function(`cell_type_annotation` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `workflow` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `barcode_map_for` = NULL, ...) {
       if (!is.null(`cell_type_annotation`)) {
         if (!(is.character(`cell_type_annotation`) && length(`cell_type_annotation`) == 1)) {
           stop(paste("Error! Invalid data for `cell_type_annotation`. Must be a string:", `cell_type_annotation`))
@@ -217,13 +220,19 @@ TabularFile <- R6::R6Class(
         self$`file_format_type` <- `file_format_type`
       }
       if (!is.null(`transcriptome_annotation`)) {
-        if (!(`transcriptome_annotation` %in% c("GENCODE 32", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE Cast - M32", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34"))) {
-          stop(paste("Error! \"", `transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 32\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE Cast - M32\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\".", sep = ""))
+        if (!(`transcriptome_annotation` %in% c("GENCODE 32", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36"))) {
+          stop(paste("Error! \"", `transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 32\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\".", sep = ""))
         }
         if (!(is.character(`transcriptome_annotation`) && length(`transcriptome_annotation`) == 1)) {
           stop(paste("Error! Invalid data for `transcriptome_annotation`. Must be a string:", `transcriptome_annotation`))
         }
         self$`transcriptome_annotation` <- `transcriptome_annotation`
+      }
+      if (!is.null(`filtered`)) {
+        if (!(is.logical(`filtered`) && length(`filtered`) == 1)) {
+          stop(paste("Error! Invalid data for `filtered`. Must be a boolean:", `filtered`))
+        }
+        self$`filtered` <- `filtered`
       }
       if (!is.null(`documents`)) {
         stopifnot(is.vector(`documents`), length(`documents`) != 0)
@@ -519,6 +528,10 @@ TabularFile <- R6::R6Class(
         TabularFileObject[["transcriptome_annotation"]] <-
           self$`transcriptome_annotation`
       }
+      if (!is.null(self$`filtered`)) {
+        TabularFileObject[["filtered"]] <-
+          self$`filtered`
+      }
       if (!is.null(self$`documents`)) {
         TabularFileObject[["documents"]] <-
           self$`documents`
@@ -732,10 +745,13 @@ TabularFile <- R6::R6Class(
         self$`file_format_type` <- this_object$`file_format_type`
       }
       if (!is.null(this_object$`transcriptome_annotation`)) {
-        if (!is.null(this_object$`transcriptome_annotation`) && !(this_object$`transcriptome_annotation` %in% c("GENCODE 32", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE Cast - M32", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34"))) {
-          stop(paste("Error! \"", this_object$`transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 32\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE Cast - M32\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\".", sep = ""))
+        if (!is.null(this_object$`transcriptome_annotation`) && !(this_object$`transcriptome_annotation` %in% c("GENCODE 32", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36"))) {
+          stop(paste("Error! \"", this_object$`transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 32\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\".", sep = ""))
         }
         self$`transcriptome_annotation` <- this_object$`transcriptome_annotation`
+      }
+      if (!is.null(this_object$`filtered`)) {
+        self$`filtered` <- this_object$`filtered`
       }
       if (!is.null(this_object$`documents`)) {
         self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
@@ -943,6 +959,14 @@ TabularFile <- R6::R6Class(
             "%s"
                     ',
           gsub('(?<!\\\\)\\"', '\\\\"', self$`transcriptome_annotation`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`filtered`)) {
+          sprintf(
+          '"filtered":
+            %s
+                    ',
+          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`filtered`, perl=TRUE))
           )
         },
         if (!is.null(self$`documents`)) {
@@ -1323,10 +1347,11 @@ TabularFile <- R6::R6Class(
         stop(paste("Error! \"", this_object$`file_format_type`, "\" cannot be assigned to `file_format_type`. Must be \"bed12\", \"bed3\", \"bed3+\", \"bed5\", \"bed6\", \"bed6+\", \"bed9\", \"bed9+\", \"mpra_starr\".", sep = ""))
       }
       self$`file_format_type` <- this_object$`file_format_type`
-      if (!is.null(this_object$`transcriptome_annotation`) && !(this_object$`transcriptome_annotation` %in% c("GENCODE 32", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE Cast - M32", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34"))) {
-        stop(paste("Error! \"", this_object$`transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 32\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE Cast - M32\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\".", sep = ""))
+      if (!is.null(this_object$`transcriptome_annotation`) && !(this_object$`transcriptome_annotation` %in% c("GENCODE 32", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36"))) {
+        stop(paste("Error! \"", this_object$`transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 32\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\".", sep = ""))
       }
       self$`transcriptome_annotation` <- this_object$`transcriptome_annotation`
+      self$`filtered` <- this_object$`filtered`
       self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
       self$`lab` <- this_object$`lab`
       self$`award` <- this_object$`award`

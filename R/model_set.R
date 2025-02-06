@@ -36,7 +36,6 @@
 #' @field model_version The semantic version number for this predictive model set. character [optional]
 #' @field prediction_objects The objects this predictive model set is targeting. list(character) [optional]
 #' @field model_zoo_location The link to the model on the Kipoi repository. character [optional]
-#' @field software_version Version of software used for the derivation of this model set. character [optional]
 #' @field assessed_genes A list of genes assessed in this model set. list(character) [optional]
 #' @field external_input_data A tabular file with links to external data utilized for this model. character [optional]
 #' @field @id  character [optional]
@@ -47,6 +46,7 @@
 #' @field submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created. character [optional]
 #' @field input_for The file sets that use this file set as an input. list(character) [optional]
 #' @field externally_hosted  character [optional]
+#' @field software_versions The software versions used to produce this predictive model. list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -82,7 +82,6 @@ ModelSet <- R6::R6Class(
     `model_version` = NULL,
     `prediction_objects` = NULL,
     `model_zoo_location` = NULL,
-    `software_version` = NULL,
     `assessed_genes` = NULL,
     `external_input_data` = NULL,
     `@id` = NULL,
@@ -93,6 +92,7 @@ ModelSet <- R6::R6Class(
     `submitted_files_timestamp` = NULL,
     `input_for` = NULL,
     `externally_hosted` = NULL,
+    `software_versions` = NULL,
     #' Initialize a new ModelSet class.
     #'
     #' @description
@@ -127,7 +127,6 @@ ModelSet <- R6::R6Class(
     #' @param model_version The semantic version number for this predictive model set.
     #' @param prediction_objects The objects this predictive model set is targeting.
     #' @param model_zoo_location The link to the model on the Kipoi repository.
-    #' @param software_version Version of software used for the derivation of this model set.
     #' @param assessed_genes A list of genes assessed in this model set.
     #' @param external_input_data A tabular file with links to external data utilized for this model.
     #' @param @id @id
@@ -138,9 +137,10 @@ ModelSet <- R6::R6Class(
     #' @param submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created.
     #' @param input_for The file sets that use this file set as an input.
     #' @param externally_hosted externally_hosted
+    #' @param software_versions The software versions used to produce this predictive model.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `model_name` = NULL, `model_version` = NULL, `prediction_objects` = NULL, `model_zoo_location` = NULL, `software_version` = NULL, `assessed_genes` = NULL, `external_input_data` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `externally_hosted` = NULL, ...) {
+    initialize = function(`input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `model_name` = NULL, `model_version` = NULL, `prediction_objects` = NULL, `model_zoo_location` = NULL, `assessed_genes` = NULL, `external_input_data` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `externally_hosted` = NULL, `software_versions` = NULL, ...) {
       if (!is.null(`input_file_sets`)) {
         stopifnot(is.vector(`input_file_sets`), length(`input_file_sets`) != 0)
         sapply(`input_file_sets`, function(x) stopifnot(is.character(x)))
@@ -311,12 +311,6 @@ ModelSet <- R6::R6Class(
         }
         self$`model_zoo_location` <- `model_zoo_location`
       }
-      if (!is.null(`software_version`)) {
-        if (!(is.character(`software_version`) && length(`software_version`) == 1)) {
-          stop(paste("Error! Invalid data for `software_version`. Must be a string:", `software_version`))
-        }
-        self$`software_version` <- `software_version`
-      }
       if (!is.null(`assessed_genes`)) {
         stopifnot(is.vector(`assessed_genes`), length(`assessed_genes`) != 0)
         sapply(`assessed_genes`, function(x) stopifnot(is.character(x)))
@@ -371,6 +365,11 @@ ModelSet <- R6::R6Class(
           stop(paste("Error! Invalid data for `externally_hosted`. Must be a boolean:", `externally_hosted`))
         }
         self$`externally_hosted` <- `externally_hosted`
+      }
+      if (!is.null(`software_versions`)) {
+        stopifnot(is.vector(`software_versions`), length(`software_versions`) != 0)
+        sapply(`software_versions`, function(x) stopifnot(is.character(x)))
+        self$`software_versions` <- `software_versions`
       }
     },
     #' To JSON string
@@ -498,10 +497,6 @@ ModelSet <- R6::R6Class(
         ModelSetObject[["model_zoo_location"]] <-
           self$`model_zoo_location`
       }
-      if (!is.null(self$`software_version`)) {
-        ModelSetObject[["software_version"]] <-
-          self$`software_version`
-      }
       if (!is.null(self$`assessed_genes`)) {
         ModelSetObject[["assessed_genes"]] <-
           self$`assessed_genes`
@@ -541,6 +536,10 @@ ModelSet <- R6::R6Class(
       if (!is.null(self$`externally_hosted`)) {
         ModelSetObject[["externally_hosted"]] <-
           self$`externally_hosted`
+      }
+      if (!is.null(self$`software_versions`)) {
+        ModelSetObject[["software_versions"]] <-
+          self$`software_versions`
       }
       ModelSetObject
     },
@@ -647,9 +646,6 @@ ModelSet <- R6::R6Class(
       if (!is.null(this_object$`model_zoo_location`)) {
         self$`model_zoo_location` <- this_object$`model_zoo_location`
       }
-      if (!is.null(this_object$`software_version`)) {
-        self$`software_version` <- this_object$`software_version`
-      }
       if (!is.null(this_object$`assessed_genes`)) {
         self$`assessed_genes` <- ApiClient$new()$deserializeObj(this_object$`assessed_genes`, "set[character]", loadNamespace("igvfclient"))
       }
@@ -679,6 +675,9 @@ ModelSet <- R6::R6Class(
       }
       if (!is.null(this_object$`externally_hosted`)) {
         self$`externally_hosted` <- this_object$`externally_hosted`
+      }
+      if (!is.null(this_object$`software_versions`)) {
+        self$`software_versions` <- ApiClient$new()$deserializeObj(this_object$`software_versions`, "set[character]", loadNamespace("igvfclient"))
       }
       self
     },
@@ -923,14 +922,6 @@ ModelSet <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`model_zoo_location`, perl=TRUE)
           )
         },
-        if (!is.null(self$`software_version`)) {
-          sprintf(
-          '"software_version":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`software_version`, perl=TRUE)
-          )
-        },
         if (!is.null(self$`assessed_genes`)) {
           sprintf(
           '"assessed_genes":
@@ -1010,6 +1001,14 @@ ModelSet <- R6::R6Class(
                     ',
           tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`externally_hosted`, perl=TRUE))
           )
+        },
+        if (!is.null(self$`software_versions`)) {
+          sprintf(
+          '"software_versions":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`software_versions`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -1060,7 +1059,6 @@ ModelSet <- R6::R6Class(
       self$`model_version` <- this_object$`model_version`
       self$`prediction_objects` <- ApiClient$new()$deserializeObj(this_object$`prediction_objects`, "set[character]", loadNamespace("igvfclient"))
       self$`model_zoo_location` <- this_object$`model_zoo_location`
-      self$`software_version` <- this_object$`software_version`
       self$`assessed_genes` <- ApiClient$new()$deserializeObj(this_object$`assessed_genes`, "set[character]", loadNamespace("igvfclient"))
       self$`external_input_data` <- this_object$`external_input_data`
       self$`@id` <- this_object$`@id`
@@ -1071,6 +1069,7 @@ ModelSet <- R6::R6Class(
       self$`submitted_files_timestamp` <- this_object$`submitted_files_timestamp`
       self$`input_for` <- ApiClient$new()$deserializeObj(this_object$`input_for`, "set[character]", loadNamespace("igvfclient"))
       self$`externally_hosted` <- this_object$`externally_hosted`
+      self$`software_versions` <- ApiClient$new()$deserializeObj(this_object$`software_versions`, "set[character]", loadNamespace("igvfclient"))
       self
     },
     #' Validate JSON input with respect to ModelSet
@@ -1143,6 +1142,7 @@ ModelSet <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1191,6 +1191,7 @@ ModelSet <- R6::R6Class(
       if (!str_detect(self$`model_zoo_location`, "^https?://kipoi\\.org/models/(\\S+)$")) {
         invalid_fields["model_zoo_location"] <- "Invalid value for `model_zoo_location`, must conform to the pattern ^https?://kipoi\\.org/models/(\\S+)$."
       }
+
 
 
 

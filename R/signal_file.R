@@ -12,6 +12,7 @@
 #' @field assembly Genome assembly applicable for the annotation data. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field reference_files Link to the reference files used to generate this file. list(character) [optional]
+#' @field filtered Indicates whether the file has gone through some filtering step, for example, removal of PCR duplicates or filtering based on significance calling. character [optional]
 #' @field documents Documents that provide additional information (not data file). list(character) [optional]
 #' @field lab Lab associated with the submission. character [optional]
 #' @field award Grant associated with the submission. character [optional]
@@ -44,7 +45,6 @@
 #' @field validation_error_detail Explanation of why the file failed the automated content checks. character [optional]
 #' @field checkfiles_version The Checkfiles GitHub version release the file was validated with. character [optional]
 #' @field strand_specificity The strandedness of the signal file: plus, minus, or unstranded. character [optional]
-#' @field filtered Indicates if the signal file is filtered. character [optional]
 #' @field normalized Indicates if the signal file is normalized. character [optional]
 #' @field start_view_position The 0-based coordinate for the default starting position when viewing the signal in a genome browser. character [optional]
 #' @field @id  character [optional]
@@ -71,6 +71,7 @@ SignalFile <- R6::R6Class(
     `assembly` = NULL,
     `release_timestamp` = NULL,
     `reference_files` = NULL,
+    `filtered` = NULL,
     `documents` = NULL,
     `lab` = NULL,
     `award` = NULL,
@@ -103,7 +104,6 @@ SignalFile <- R6::R6Class(
     `validation_error_detail` = NULL,
     `checkfiles_version` = NULL,
     `strand_specificity` = NULL,
-    `filtered` = NULL,
     `normalized` = NULL,
     `start_view_position` = NULL,
     `@id` = NULL,
@@ -129,6 +129,7 @@ SignalFile <- R6::R6Class(
     #' @param assembly Genome assembly applicable for the annotation data.
     #' @param release_timestamp The date the object was released.
     #' @param reference_files Link to the reference files used to generate this file.
+    #' @param filtered Indicates whether the file has gone through some filtering step, for example, removal of PCR duplicates or filtering based on significance calling.
     #' @param documents Documents that provide additional information (not data file).
     #' @param lab Lab associated with the submission.
     #' @param award Grant associated with the submission.
@@ -161,7 +162,6 @@ SignalFile <- R6::R6Class(
     #' @param validation_error_detail Explanation of why the file failed the automated content checks.
     #' @param checkfiles_version The Checkfiles GitHub version release the file was validated with.
     #' @param strand_specificity The strandedness of the signal file: plus, minus, or unstranded.
-    #' @param filtered Indicates if the signal file is filtered.
     #' @param normalized Indicates if the signal file is normalized.
     #' @param start_view_position The 0-based coordinate for the default starting position when viewing the signal in a genome browser.
     #' @param @id @id
@@ -179,7 +179,7 @@ SignalFile <- R6::R6Class(
     #' @param content_summary A summary of the data in the signal file.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`cell_type_annotation` = NULL, `transcriptome_annotation` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `reference_files` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `strand_specificity` = NULL, `filtered` = NULL, `normalized` = NULL, `start_view_position` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `workflow` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `content_summary` = NULL, ...) {
+    initialize = function(`cell_type_annotation` = NULL, `transcriptome_annotation` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `reference_files` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `strand_specificity` = NULL, `normalized` = NULL, `start_view_position` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `workflow` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `content_summary` = NULL, ...) {
       if (!is.null(`cell_type_annotation`)) {
         if (!(is.character(`cell_type_annotation`) && length(`cell_type_annotation`) == 1)) {
           stop(paste("Error! Invalid data for `cell_type_annotation`. Must be a string:", `cell_type_annotation`))
@@ -187,8 +187,8 @@ SignalFile <- R6::R6Class(
         self$`cell_type_annotation` <- `cell_type_annotation`
       }
       if (!is.null(`transcriptome_annotation`)) {
-        if (!(`transcriptome_annotation` %in% c("GENCODE 32", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE Cast - M32", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34"))) {
-          stop(paste("Error! \"", `transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 32\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE Cast - M32\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\".", sep = ""))
+        if (!(`transcriptome_annotation` %in% c("GENCODE 32", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36"))) {
+          stop(paste("Error! \"", `transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 32\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\".", sep = ""))
         }
         if (!(is.character(`transcriptome_annotation`) && length(`transcriptome_annotation`) == 1)) {
           stop(paste("Error! Invalid data for `transcriptome_annotation`. Must be a string:", `transcriptome_annotation`))
@@ -214,6 +214,12 @@ SignalFile <- R6::R6Class(
         stopifnot(is.vector(`reference_files`), length(`reference_files`) != 0)
         sapply(`reference_files`, function(x) stopifnot(is.character(x)))
         self$`reference_files` <- `reference_files`
+      }
+      if (!is.null(`filtered`)) {
+        if (!(is.logical(`filtered`) && length(`filtered`) == 1)) {
+          stop(paste("Error! Invalid data for `filtered`. Must be a boolean:", `filtered`))
+        }
+        self$`filtered` <- `filtered`
       }
       if (!is.null(`documents`)) {
         stopifnot(is.vector(`documents`), length(`documents`) != 0)
@@ -412,12 +418,6 @@ SignalFile <- R6::R6Class(
         }
         self$`strand_specificity` <- `strand_specificity`
       }
-      if (!is.null(`filtered`)) {
-        if (!(is.logical(`filtered`) && length(`filtered`) == 1)) {
-          stop(paste("Error! Invalid data for `filtered`. Must be a boolean:", `filtered`))
-        }
-        self$`filtered` <- `filtered`
-      }
       if (!is.null(`normalized`)) {
         if (!(is.logical(`normalized`) && length(`normalized`) == 1)) {
           stop(paste("Error! Invalid data for `normalized`. Must be a boolean:", `normalized`))
@@ -528,6 +528,10 @@ SignalFile <- R6::R6Class(
       if (!is.null(self$`reference_files`)) {
         SignalFileObject[["reference_files"]] <-
           self$`reference_files`
+      }
+      if (!is.null(self$`filtered`)) {
+        SignalFileObject[["filtered"]] <-
+          self$`filtered`
       }
       if (!is.null(self$`documents`)) {
         SignalFileObject[["documents"]] <-
@@ -657,10 +661,6 @@ SignalFile <- R6::R6Class(
         SignalFileObject[["strand_specificity"]] <-
           self$`strand_specificity`
       }
-      if (!is.null(self$`filtered`)) {
-        SignalFileObject[["filtered"]] <-
-          self$`filtered`
-      }
       if (!is.null(self$`normalized`)) {
         SignalFileObject[["normalized"]] <-
           self$`normalized`
@@ -737,8 +737,8 @@ SignalFile <- R6::R6Class(
         self$`cell_type_annotation` <- this_object$`cell_type_annotation`
       }
       if (!is.null(this_object$`transcriptome_annotation`)) {
-        if (!is.null(this_object$`transcriptome_annotation`) && !(this_object$`transcriptome_annotation` %in% c("GENCODE 32", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE Cast - M32", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34"))) {
-          stop(paste("Error! \"", this_object$`transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 32\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE Cast - M32\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\".", sep = ""))
+        if (!is.null(this_object$`transcriptome_annotation`) && !(this_object$`transcriptome_annotation` %in% c("GENCODE 32", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36"))) {
+          stop(paste("Error! \"", this_object$`transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 32\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\".", sep = ""))
         }
         self$`transcriptome_annotation` <- this_object$`transcriptome_annotation`
       }
@@ -753,6 +753,9 @@ SignalFile <- R6::R6Class(
       }
       if (!is.null(this_object$`reference_files`)) {
         self$`reference_files` <- ApiClient$new()$deserializeObj(this_object$`reference_files`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`filtered`)) {
+        self$`filtered` <- this_object$`filtered`
       }
       if (!is.null(this_object$`documents`)) {
         self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
@@ -862,9 +865,6 @@ SignalFile <- R6::R6Class(
         }
         self$`strand_specificity` <- this_object$`strand_specificity`
       }
-      if (!is.null(this_object$`filtered`)) {
-        self$`filtered` <- this_object$`filtered`
-      }
       if (!is.null(this_object$`normalized`)) {
         self$`normalized` <- this_object$`normalized`
       }
@@ -959,6 +959,14 @@ SignalFile <- R6::R6Class(
              [%s]
           ',
           paste(unlist(lapply(self$`reference_files`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`filtered`)) {
+          sprintf(
+          '"filtered":
+            %s
+                    ',
+          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`filtered`, perl=TRUE))
           )
         },
         if (!is.null(self$`documents`)) {
@@ -1217,14 +1225,6 @@ SignalFile <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`strand_specificity`, perl=TRUE)
           )
         },
-        if (!is.null(self$`filtered`)) {
-          sprintf(
-          '"filtered":
-            %s
-                    ',
-          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`filtered`, perl=TRUE))
-          )
-        },
         if (!is.null(self$`normalized`)) {
           sprintf(
           '"normalized":
@@ -1360,8 +1360,8 @@ SignalFile <- R6::R6Class(
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`cell_type_annotation` <- this_object$`cell_type_annotation`
-      if (!is.null(this_object$`transcriptome_annotation`) && !(this_object$`transcriptome_annotation` %in% c("GENCODE 32", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE Cast - M32", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34"))) {
-        stop(paste("Error! \"", this_object$`transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 32\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE Cast - M32\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\".", sep = ""))
+      if (!is.null(this_object$`transcriptome_annotation`) && !(this_object$`transcriptome_annotation` %in% c("GENCODE 32", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36"))) {
+        stop(paste("Error! \"", this_object$`transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 32\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\".", sep = ""))
       }
       self$`transcriptome_annotation` <- this_object$`transcriptome_annotation`
       if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("Cast - GRCm39", "GRCh38", "GRCm39", "custom"))) {
@@ -1370,6 +1370,7 @@ SignalFile <- R6::R6Class(
       self$`assembly` <- this_object$`assembly`
       self$`release_timestamp` <- this_object$`release_timestamp`
       self$`reference_files` <- ApiClient$new()$deserializeObj(this_object$`reference_files`, "set[character]", loadNamespace("igvfclient"))
+      self$`filtered` <- this_object$`filtered`
       self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
       self$`lab` <- this_object$`lab`
       self$`award` <- this_object$`award`
@@ -1414,7 +1415,6 @@ SignalFile <- R6::R6Class(
         stop(paste("Error! \"", this_object$`strand_specificity`, "\" cannot be assigned to `strand_specificity`. Must be \"plus\", \"minus\", \"unstranded\".", sep = ""))
       }
       self$`strand_specificity` <- this_object$`strand_specificity`
-      self$`filtered` <- this_object$`filtered`
       self$`normalized` <- this_object$`normalized`
       self$`start_view_position` <- this_object$`start_view_position`
       self$`@id` <- this_object$`@id`

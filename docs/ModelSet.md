@@ -34,7 +34,6 @@ Name | Type | Description | Notes
 **model_version** | **character** | The semantic version number for this predictive model set. | [optional] [Pattern: ^v(?!0\\.0\\.0$)[0-9]+\\.[0-9]+\\.[0-9]+$] 
 **prediction_objects** | **set[character]** | The objects this predictive model set is targeting. | [optional] [Enum: ] 
 **model_zoo_location** | **character** | The link to the model on the Kipoi repository. | [optional] [Pattern: ^https?://kipoi\\.org/models/(\\S+)$] 
-**software_version** | **character** | Version of software used for the derivation of this model set. | [optional] 
 **assessed_genes** | **set[character]** | A list of genes assessed in this model set. | [optional] 
 **external_input_data** | **character** | A tabular file with links to external data utilized for this model. | [optional] 
 **@id** | **character** |  | [optional] 
@@ -45,5 +44,6 @@ Name | Type | Description | Notes
 **submitted_files_timestamp** | **character** | The timestamp the first file object in the file_set or associated auxiliary sets was created. | [optional] 
 **input_for** | **set[character]** | The file sets that use this file set as an input. | [optional] 
 **externally_hosted** | **character** |  | [optional] 
+**software_versions** | **set[character]** | The software versions used to produce this predictive model. | [optional] 
 
 

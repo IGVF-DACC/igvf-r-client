@@ -13,6 +13,7 @@
 #' @field assembly Genome assembly applicable for the annotation data. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field reference_files Link to the reference files used to generate this file. list(character) [optional]
+#' @field filtered Indicates whether the file has gone through some filtering step, for example, removal of PCR duplicates or filtering based on significance calling. character [optional]
 #' @field documents Documents that provide additional information (not data file). list(character) [optional]
 #' @field lab Lab associated with the submission. character [optional]
 #' @field award Grant associated with the submission. character [optional]
@@ -46,7 +47,6 @@
 #' @field checkfiles_version The Checkfiles GitHub version release the file was validated with. character [optional]
 #' @field read_count Number of reads in a bam file. Including both mapped, unmapped, and multi-mapped read counts. integer [optional]
 #' @field redacted Indicates whether the alignments data have been sanitized (redacted) to prevent leakage of private and potentially identifying genomic information. character [optional]
-#' @field filtered Indicates whether reads that did not pass a filtering step, such as PCR duplicates, have been removed from the file. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the alignment file. character [optional]
@@ -72,6 +72,7 @@ AlignmentFile <- R6::R6Class(
     `assembly` = NULL,
     `release_timestamp` = NULL,
     `reference_files` = NULL,
+    `filtered` = NULL,
     `documents` = NULL,
     `lab` = NULL,
     `award` = NULL,
@@ -105,7 +106,6 @@ AlignmentFile <- R6::R6Class(
     `checkfiles_version` = NULL,
     `read_count` = NULL,
     `redacted` = NULL,
-    `filtered` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -130,6 +130,7 @@ AlignmentFile <- R6::R6Class(
     #' @param assembly Genome assembly applicable for the annotation data.
     #' @param release_timestamp The date the object was released.
     #' @param reference_files Link to the reference files used to generate this file.
+    #' @param filtered Indicates whether the file has gone through some filtering step, for example, removal of PCR duplicates or filtering based on significance calling.
     #' @param documents Documents that provide additional information (not data file).
     #' @param lab Lab associated with the submission.
     #' @param award Grant associated with the submission.
@@ -163,7 +164,6 @@ AlignmentFile <- R6::R6Class(
     #' @param checkfiles_version The Checkfiles GitHub version release the file was validated with.
     #' @param read_count Number of reads in a bam file. Including both mapped, unmapped, and multi-mapped read counts.
     #' @param redacted Indicates whether the alignments data have been sanitized (redacted) to prevent leakage of private and potentially identifying genomic information.
-    #' @param filtered Indicates whether reads that did not pass a filtering step, such as PCR duplicates, have been removed from the file.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the alignment file.
@@ -179,7 +179,7 @@ AlignmentFile <- R6::R6Class(
     #' @param content_summary A summary of the data in the alignment file.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`controlled_access` = NULL, `anvil_url` = NULL, `transcriptome_annotation` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `reference_files` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `read_count` = NULL, `redacted` = NULL, `filtered` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `workflow` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `content_summary` = NULL, ...) {
+    initialize = function(`controlled_access` = NULL, `anvil_url` = NULL, `transcriptome_annotation` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `reference_files` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `read_count` = NULL, `redacted` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `workflow` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `content_summary` = NULL, ...) {
       if (!is.null(`controlled_access`)) {
         if (!(is.logical(`controlled_access`) && length(`controlled_access`) == 1)) {
           stop(paste("Error! Invalid data for `controlled_access`. Must be a boolean:", `controlled_access`))
@@ -193,8 +193,8 @@ AlignmentFile <- R6::R6Class(
         self$`anvil_url` <- `anvil_url`
       }
       if (!is.null(`transcriptome_annotation`)) {
-        if (!(`transcriptome_annotation` %in% c("GENCODE 32", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE Cast - M32", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34"))) {
-          stop(paste("Error! \"", `transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 32\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE Cast - M32\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\".", sep = ""))
+        if (!(`transcriptome_annotation` %in% c("GENCODE 32", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36"))) {
+          stop(paste("Error! \"", `transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 32\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\".", sep = ""))
         }
         if (!(is.character(`transcriptome_annotation`) && length(`transcriptome_annotation`) == 1)) {
           stop(paste("Error! Invalid data for `transcriptome_annotation`. Must be a string:", `transcriptome_annotation`))
@@ -220,6 +220,12 @@ AlignmentFile <- R6::R6Class(
         stopifnot(is.vector(`reference_files`), length(`reference_files`) != 0)
         sapply(`reference_files`, function(x) stopifnot(is.character(x)))
         self$`reference_files` <- `reference_files`
+      }
+      if (!is.null(`filtered`)) {
+        if (!(is.logical(`filtered`) && length(`filtered`) == 1)) {
+          stop(paste("Error! Invalid data for `filtered`. Must be a boolean:", `filtered`))
+        }
+        self$`filtered` <- `filtered`
       }
       if (!is.null(`documents`)) {
         stopifnot(is.vector(`documents`), length(`documents`) != 0)
@@ -421,12 +427,6 @@ AlignmentFile <- R6::R6Class(
         }
         self$`redacted` <- `redacted`
       }
-      if (!is.null(`filtered`)) {
-        if (!(is.logical(`filtered`) && length(`filtered`) == 1)) {
-          stop(paste("Error! Invalid data for `filtered`. Must be a boolean:", `filtered`))
-        }
-        self$`filtered` <- `filtered`
-      }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
           stop(paste("Error! Invalid data for `@id`. Must be a string:", `@id`))
@@ -529,6 +529,10 @@ AlignmentFile <- R6::R6Class(
       if (!is.null(self$`reference_files`)) {
         AlignmentFileObject[["reference_files"]] <-
           self$`reference_files`
+      }
+      if (!is.null(self$`filtered`)) {
+        AlignmentFileObject[["filtered"]] <-
+          self$`filtered`
       }
       if (!is.null(self$`documents`)) {
         AlignmentFileObject[["documents"]] <-
@@ -662,10 +666,6 @@ AlignmentFile <- R6::R6Class(
         AlignmentFileObject[["redacted"]] <-
           self$`redacted`
       }
-      if (!is.null(self$`filtered`)) {
-        AlignmentFileObject[["filtered"]] <-
-          self$`filtered`
-      }
       if (!is.null(self$`@id`)) {
         AlignmentFileObject[["@id"]] <-
           self$`@id`
@@ -737,8 +737,8 @@ AlignmentFile <- R6::R6Class(
         self$`anvil_url` <- this_object$`anvil_url`
       }
       if (!is.null(this_object$`transcriptome_annotation`)) {
-        if (!is.null(this_object$`transcriptome_annotation`) && !(this_object$`transcriptome_annotation` %in% c("GENCODE 32", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE Cast - M32", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34"))) {
-          stop(paste("Error! \"", this_object$`transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 32\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE Cast - M32\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\".", sep = ""))
+        if (!is.null(this_object$`transcriptome_annotation`) && !(this_object$`transcriptome_annotation` %in% c("GENCODE 32", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36"))) {
+          stop(paste("Error! \"", this_object$`transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 32\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\".", sep = ""))
         }
         self$`transcriptome_annotation` <- this_object$`transcriptome_annotation`
       }
@@ -753,6 +753,9 @@ AlignmentFile <- R6::R6Class(
       }
       if (!is.null(this_object$`reference_files`)) {
         self$`reference_files` <- ApiClient$new()$deserializeObj(this_object$`reference_files`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`filtered`)) {
+        self$`filtered` <- this_object$`filtered`
       }
       if (!is.null(this_object$`documents`)) {
         self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
@@ -862,9 +865,6 @@ AlignmentFile <- R6::R6Class(
       if (!is.null(this_object$`redacted`)) {
         self$`redacted` <- this_object$`redacted`
       }
-      if (!is.null(this_object$`filtered`)) {
-        self$`filtered` <- this_object$`filtered`
-      }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
       }
@@ -961,6 +961,14 @@ AlignmentFile <- R6::R6Class(
              [%s]
           ',
           paste(unlist(lapply(self$`reference_files`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`filtered`)) {
+          sprintf(
+          '"filtered":
+            %s
+                    ',
+          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`filtered`, perl=TRUE))
           )
         },
         if (!is.null(self$`documents`)) {
@@ -1227,14 +1235,6 @@ AlignmentFile <- R6::R6Class(
           tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`redacted`, perl=TRUE))
           )
         },
-        if (!is.null(self$`filtered`)) {
-          sprintf(
-          '"filtered":
-            %s
-                    ',
-          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`filtered`, perl=TRUE))
-          )
-        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -1355,8 +1355,8 @@ AlignmentFile <- R6::R6Class(
       this_object <- jsonlite::fromJSON(input_json)
       self$`controlled_access` <- this_object$`controlled_access`
       self$`anvil_url` <- this_object$`anvil_url`
-      if (!is.null(this_object$`transcriptome_annotation`) && !(this_object$`transcriptome_annotation` %in% c("GENCODE 32", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE Cast - M32", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34"))) {
-        stop(paste("Error! \"", this_object$`transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 32\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE Cast - M32\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\".", sep = ""))
+      if (!is.null(this_object$`transcriptome_annotation`) && !(this_object$`transcriptome_annotation` %in% c("GENCODE 32", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36"))) {
+        stop(paste("Error! \"", this_object$`transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 32\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\".", sep = ""))
       }
       self$`transcriptome_annotation` <- this_object$`transcriptome_annotation`
       if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("Cast - GRCm39", "GRCh38", "GRCm39", "custom"))) {
@@ -1365,6 +1365,7 @@ AlignmentFile <- R6::R6Class(
       self$`assembly` <- this_object$`assembly`
       self$`release_timestamp` <- this_object$`release_timestamp`
       self$`reference_files` <- ApiClient$new()$deserializeObj(this_object$`reference_files`, "set[character]", loadNamespace("igvfclient"))
+      self$`filtered` <- this_object$`filtered`
       self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
       self$`lab` <- this_object$`lab`
       self$`award` <- this_object$`award`
@@ -1407,7 +1408,6 @@ AlignmentFile <- R6::R6Class(
       self$`checkfiles_version` <- this_object$`checkfiles_version`
       self$`read_count` <- this_object$`read_count`
       self$`redacted` <- this_object$`redacted`
-      self$`filtered` <- this_object$`filtered`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`

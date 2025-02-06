@@ -9,6 +9,7 @@
 #' @format An \code{R6Class} generator object
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field reference_files Link to the reference files used to generate this file. list(character) [optional]
+#' @field filtered Indicates whether the file has gone through some filtering step, for example, removal of PCR duplicates or filtering based on significance calling. character [optional]
 #' @field documents Documents that provide additional information (not data file). list(character) [optional]
 #' @field lab Lab associated with the submission. character [optional]
 #' @field award Grant associated with the submission. character [optional]
@@ -63,6 +64,7 @@ MatrixFile <- R6::R6Class(
   public = list(
     `release_timestamp` = NULL,
     `reference_files` = NULL,
+    `filtered` = NULL,
     `documents` = NULL,
     `lab` = NULL,
     `award` = NULL,
@@ -116,6 +118,7 @@ MatrixFile <- R6::R6Class(
     #'
     #' @param release_timestamp The date the object was released.
     #' @param reference_files Link to the reference files used to generate this file.
+    #' @param filtered Indicates whether the file has gone through some filtering step, for example, removal of PCR duplicates or filtering based on significance calling.
     #' @param documents Documents that provide additional information (not data file).
     #' @param lab Lab associated with the submission.
     #' @param award Grant associated with the submission.
@@ -164,7 +167,7 @@ MatrixFile <- R6::R6Class(
     #' @param content_summary A summary of the data in the matrix file.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `reference_files` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `principal_dimension` = NULL, `secondary_dimensions` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `workflow` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `content_summary` = NULL, ...) {
+    initialize = function(`release_timestamp` = NULL, `reference_files` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `principal_dimension` = NULL, `secondary_dimensions` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `workflow` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `content_summary` = NULL, ...) {
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -175,6 +178,12 @@ MatrixFile <- R6::R6Class(
         stopifnot(is.vector(`reference_files`), length(`reference_files`) != 0)
         sapply(`reference_files`, function(x) stopifnot(is.character(x)))
         self$`reference_files` <- `reference_files`
+      }
+      if (!is.null(`filtered`)) {
+        if (!(is.logical(`filtered`) && length(`filtered`) == 1)) {
+          stop(paste("Error! Invalid data for `filtered`. Must be a boolean:", `filtered`))
+        }
+        self$`filtered` <- `filtered`
       }
       if (!is.null(`documents`)) {
         stopifnot(is.vector(`documents`), length(`documents`) != 0)
@@ -306,8 +315,8 @@ MatrixFile <- R6::R6Class(
         self$`derived_manually` <- `derived_manually`
       }
       if (!is.null(`file_format`)) {
-        if (!(`file_format` %in% c("h5ad", "hdf5", "mtx", "pkl", "tar", "hic", "cool", "mcool"))) {
-          stop(paste("Error! \"", `file_format`, "\" cannot be assigned to `file_format`. Must be \"h5ad\", \"hdf5\", \"mtx\", \"pkl\", \"tar\", \"hic\", \"cool\", \"mcool\".", sep = ""))
+        if (!(`file_format` %in% c("h5ad", "hdf5", "mtx", "pkl", "Robj", "tar", "hic", "cool", "mcool"))) {
+          stop(paste("Error! \"", `file_format`, "\" cannot be assigned to `file_format`. Must be \"h5ad\", \"hdf5\", \"mtx\", \"pkl\", \"Robj\", \"tar\", \"hic\", \"cool\", \"mcool\".", sep = ""))
         }
         if (!(is.character(`file_format`) && length(`file_format`) == 1)) {
           stop(paste("Error! Invalid data for `file_format`. Must be a string:", `file_format`))
@@ -365,8 +374,8 @@ MatrixFile <- R6::R6Class(
         self$`checkfiles_version` <- `checkfiles_version`
       }
       if (!is.null(`principal_dimension`)) {
-        if (!(`principal_dimension` %in% c("cell", "fragment", "gene", "time", "treatment", "variant", "genomic position"))) {
-          stop(paste("Error! \"", `principal_dimension`, "\" cannot be assigned to `principal_dimension`. Must be \"cell\", \"fragment\", \"gene\", \"time\", \"treatment\", \"variant\", \"genomic position\".", sep = ""))
+        if (!(`principal_dimension` %in% c("cell", "fragment", "gene", "time", "treatment", "variant", "genomic position", "spot barcode"))) {
+          stop(paste("Error! \"", `principal_dimension`, "\" cannot be assigned to `principal_dimension`. Must be \"cell\", \"fragment\", \"gene\", \"time\", \"treatment\", \"variant\", \"genomic position\", \"spot barcode\".", sep = ""))
         }
         if (!(is.character(`principal_dimension`) && length(`principal_dimension`) == 1)) {
           stop(paste("Error! Invalid data for `principal_dimension`. Must be a string:", `principal_dimension`))
@@ -464,6 +473,10 @@ MatrixFile <- R6::R6Class(
       if (!is.null(self$`reference_files`)) {
         MatrixFileObject[["reference_files"]] <-
           self$`reference_files`
+      }
+      if (!is.null(self$`filtered`)) {
+        MatrixFileObject[["filtered"]] <-
+          self$`filtered`
       }
       if (!is.null(self$`documents`)) {
         MatrixFileObject[["documents"]] <-
@@ -667,6 +680,9 @@ MatrixFile <- R6::R6Class(
       if (!is.null(this_object$`reference_files`)) {
         self$`reference_files` <- ApiClient$new()$deserializeObj(this_object$`reference_files`, "set[character]", loadNamespace("igvfclient"))
       }
+      if (!is.null(this_object$`filtered`)) {
+        self$`filtered` <- this_object$`filtered`
+      }
       if (!is.null(this_object$`documents`)) {
         self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
       }
@@ -737,8 +753,8 @@ MatrixFile <- R6::R6Class(
         self$`derived_manually` <- this_object$`derived_manually`
       }
       if (!is.null(this_object$`file_format`)) {
-        if (!is.null(this_object$`file_format`) && !(this_object$`file_format` %in% c("h5ad", "hdf5", "mtx", "pkl", "tar", "hic", "cool", "mcool"))) {
-          stop(paste("Error! \"", this_object$`file_format`, "\" cannot be assigned to `file_format`. Must be \"h5ad\", \"hdf5\", \"mtx\", \"pkl\", \"tar\", \"hic\", \"cool\", \"mcool\".", sep = ""))
+        if (!is.null(this_object$`file_format`) && !(this_object$`file_format` %in% c("h5ad", "hdf5", "mtx", "pkl", "Robj", "tar", "hic", "cool", "mcool"))) {
+          stop(paste("Error! \"", this_object$`file_format`, "\" cannot be assigned to `file_format`. Must be \"h5ad\", \"hdf5\", \"mtx\", \"pkl\", \"Robj\", \"tar\", \"hic\", \"cool\", \"mcool\".", sep = ""))
         }
         self$`file_format` <- this_object$`file_format`
       }
@@ -770,8 +786,8 @@ MatrixFile <- R6::R6Class(
         self$`checkfiles_version` <- this_object$`checkfiles_version`
       }
       if (!is.null(this_object$`principal_dimension`)) {
-        if (!is.null(this_object$`principal_dimension`) && !(this_object$`principal_dimension` %in% c("cell", "fragment", "gene", "time", "treatment", "variant", "genomic position"))) {
-          stop(paste("Error! \"", this_object$`principal_dimension`, "\" cannot be assigned to `principal_dimension`. Must be \"cell\", \"fragment\", \"gene\", \"time\", \"treatment\", \"variant\", \"genomic position\".", sep = ""))
+        if (!is.null(this_object$`principal_dimension`) && !(this_object$`principal_dimension` %in% c("cell", "fragment", "gene", "time", "treatment", "variant", "genomic position", "spot barcode"))) {
+          stop(paste("Error! \"", this_object$`principal_dimension`, "\" cannot be assigned to `principal_dimension`. Must be \"cell\", \"fragment\", \"gene\", \"time\", \"treatment\", \"variant\", \"genomic position\", \"spot barcode\".", sep = ""))
         }
         self$`principal_dimension` <- this_object$`principal_dimension`
       }
@@ -842,6 +858,14 @@ MatrixFile <- R6::R6Class(
              [%s]
           ',
           paste(unlist(lapply(self$`reference_files`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`filtered`)) {
+          sprintf(
+          '"filtered":
+            %s
+                    ',
+          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`filtered`, perl=TRUE))
           )
         },
         if (!is.null(self$`documents`)) {
@@ -1228,6 +1252,7 @@ MatrixFile <- R6::R6Class(
       this_object <- jsonlite::fromJSON(input_json)
       self$`release_timestamp` <- this_object$`release_timestamp`
       self$`reference_files` <- ApiClient$new()$deserializeObj(this_object$`reference_files`, "set[character]", loadNamespace("igvfclient"))
+      self$`filtered` <- this_object$`filtered`
       self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
       self$`lab` <- this_object$`lab`
       self$`award` <- this_object$`award`
@@ -1253,8 +1278,8 @@ MatrixFile <- R6::R6Class(
       self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
       self$`derived_from` <- ApiClient$new()$deserializeObj(this_object$`derived_from`, "set[character]", loadNamespace("igvfclient"))
       self$`derived_manually` <- this_object$`derived_manually`
-      if (!is.null(this_object$`file_format`) && !(this_object$`file_format` %in% c("h5ad", "hdf5", "mtx", "pkl", "tar", "hic", "cool", "mcool"))) {
-        stop(paste("Error! \"", this_object$`file_format`, "\" cannot be assigned to `file_format`. Must be \"h5ad\", \"hdf5\", \"mtx\", \"pkl\", \"tar\", \"hic\", \"cool\", \"mcool\".", sep = ""))
+      if (!is.null(this_object$`file_format`) && !(this_object$`file_format` %in% c("h5ad", "hdf5", "mtx", "pkl", "Robj", "tar", "hic", "cool", "mcool"))) {
+        stop(paste("Error! \"", this_object$`file_format`, "\" cannot be assigned to `file_format`. Must be \"h5ad\", \"hdf5\", \"mtx\", \"pkl\", \"Robj\", \"tar\", \"hic\", \"cool\", \"mcool\".", sep = ""))
       }
       self$`file_format` <- this_object$`file_format`
       self$`file_format_specifications` <- ApiClient$new()$deserializeObj(this_object$`file_format_specifications`, "set[character]", loadNamespace("igvfclient"))
@@ -1268,8 +1293,8 @@ MatrixFile <- R6::R6Class(
       self$`upload_status` <- this_object$`upload_status`
       self$`validation_error_detail` <- this_object$`validation_error_detail`
       self$`checkfiles_version` <- this_object$`checkfiles_version`
-      if (!is.null(this_object$`principal_dimension`) && !(this_object$`principal_dimension` %in% c("cell", "fragment", "gene", "time", "treatment", "variant", "genomic position"))) {
-        stop(paste("Error! \"", this_object$`principal_dimension`, "\" cannot be assigned to `principal_dimension`. Must be \"cell\", \"fragment\", \"gene\", \"time\", \"treatment\", \"variant\", \"genomic position\".", sep = ""))
+      if (!is.null(this_object$`principal_dimension`) && !(this_object$`principal_dimension` %in% c("cell", "fragment", "gene", "time", "treatment", "variant", "genomic position", "spot barcode"))) {
+        stop(paste("Error! \"", this_object$`principal_dimension`, "\" cannot be assigned to `principal_dimension`. Must be \"cell\", \"fragment\", \"gene\", \"time\", \"treatment\", \"variant\", \"genomic position\", \"spot barcode\".", sep = ""))
       }
       self$`principal_dimension` <- this_object$`principal_dimension`
       self$`secondary_dimensions` <- ApiClient$new()$deserializeObj(this_object$`secondary_dimensions`, "set[character]", loadNamespace("igvfclient"))
