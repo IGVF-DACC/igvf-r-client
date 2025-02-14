@@ -341,8 +341,8 @@ TechnicalSample <- R6::R6Class(
         self$`moi` <- `moi`
       }
       if (!is.null(`nucleic_acid_delivery`)) {
-        if (!(`nucleic_acid_delivery` %in% c("transfection", "adenoviral transduction", "lentiviral transduction"))) {
-          stop(paste("Error! \"", `nucleic_acid_delivery`, "\" cannot be assigned to `nucleic_acid_delivery`. Must be \"transfection\", \"adenoviral transduction\", \"lentiviral transduction\".", sep = ""))
+        if (!(`nucleic_acid_delivery` %in% c("adenoviral transduction", "lipofectamine", "electroporation", "lentiviral transduction", "transfection"))) {
+          stop(paste("Error! \"", `nucleic_acid_delivery`, "\" cannot be assigned to `nucleic_acid_delivery`. Must be \"adenoviral transduction\", \"lipofectamine\", \"electroporation\", \"lentiviral transduction\", \"transfection\".", sep = ""))
         }
         if (!(is.character(`nucleic_acid_delivery`) && length(`nucleic_acid_delivery`) == 1)) {
           stop(paste("Error! Invalid data for `nucleic_acid_delivery`. Must be a string:", `nucleic_acid_delivery`))
@@ -746,8 +746,8 @@ TechnicalSample <- R6::R6Class(
         self$`moi` <- this_object$`moi`
       }
       if (!is.null(this_object$`nucleic_acid_delivery`)) {
-        if (!is.null(this_object$`nucleic_acid_delivery`) && !(this_object$`nucleic_acid_delivery` %in% c("transfection", "adenoviral transduction", "lentiviral transduction"))) {
-          stop(paste("Error! \"", this_object$`nucleic_acid_delivery`, "\" cannot be assigned to `nucleic_acid_delivery`. Must be \"transfection\", \"adenoviral transduction\", \"lentiviral transduction\".", sep = ""))
+        if (!is.null(this_object$`nucleic_acid_delivery`) && !(this_object$`nucleic_acid_delivery` %in% c("adenoviral transduction", "lipofectamine", "electroporation", "lentiviral transduction", "transfection"))) {
+          stop(paste("Error! \"", this_object$`nucleic_acid_delivery`, "\" cannot be assigned to `nucleic_acid_delivery`. Must be \"adenoviral transduction\", \"lipofectamine\", \"electroporation\", \"lentiviral transduction\", \"transfection\".", sep = ""))
         }
         self$`nucleic_acid_delivery` <- this_object$`nucleic_acid_delivery`
       }
@@ -1243,8 +1243,8 @@ TechnicalSample <- R6::R6Class(
       self$`virtual` <- this_object$`virtual`
       self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`moi` <- this_object$`moi`
-      if (!is.null(this_object$`nucleic_acid_delivery`) && !(this_object$`nucleic_acid_delivery` %in% c("transfection", "adenoviral transduction", "lentiviral transduction"))) {
-        stop(paste("Error! \"", this_object$`nucleic_acid_delivery`, "\" cannot be assigned to `nucleic_acid_delivery`. Must be \"transfection\", \"adenoviral transduction\", \"lentiviral transduction\".", sep = ""))
+      if (!is.null(this_object$`nucleic_acid_delivery`) && !(this_object$`nucleic_acid_delivery` %in% c("adenoviral transduction", "lipofectamine", "electroporation", "lentiviral transduction", "transfection"))) {
+        stop(paste("Error! \"", this_object$`nucleic_acid_delivery`, "\" cannot be assigned to `nucleic_acid_delivery`. Must be \"adenoviral transduction\", \"lipofectamine\", \"electroporation\", \"lentiviral transduction\", \"transfection\".", sep = ""))
       }
       self$`nucleic_acid_delivery` <- this_object$`nucleic_acid_delivery`
       self$`time_post_library_delivery` <- this_object$`time_post_library_delivery`

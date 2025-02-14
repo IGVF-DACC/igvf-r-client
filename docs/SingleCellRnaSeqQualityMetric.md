@@ -1,0 +1,50 @@
+# igvfclient::SingleCellRnaSeqQualityMetric
+
+Schema for submission of a scRNA-seq uniform pipeline quality metric.
+
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**status** | **character** | The status of the metadata object. | [optional] [Enum: [archived, deleted, in progress, preview, released]] 
+**release_timestamp** | **character** | The date the object was released. | [optional] 
+**attachment** | [**Attachment**](Attachment.md) |  | [optional] 
+**lab** | **character** | Lab associated with the submission. | [optional] 
+**award** | **character** | Grant associated with the submission. | [optional] 
+**schema_version** | **character** | The version of the JSON schema that the server uses to validate the object. | [optional] [Pattern: ^\\d+(\\.\\d+)*$] 
+**uuid** | **character** | The unique identifier associated with every object. | [optional] 
+**notes** | **character** | DACC internal notes. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
+**aliases** | **set[character]** | Lab specific identifiers to reference an object. | [optional] 
+**creation_timestamp** | **character** | The date the object was created. | [optional] 
+**submitted_by** | **character** | The user who submitted the object. | [optional] 
+**submitter_comment** | **character** | Additional information specified by the submitter to be displayed as a comment on the portal. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
+**description** | **character** | A plain text description of the object. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
+**quality_metric_of** | **set[character]** | The file(s) to which this quality metric applies. | [optional] 
+**analysis_step_version** | **character** | The analysis step version of the quality metric. | [optional] 
+**n_records** | **numeric** |  | [optional] 
+**n_reads** | **numeric** |  | [optional] 
+**n_barcodes** | **numeric** |  | [optional] 
+**frac_reads_in_genes_library** | **numeric** |  | [optional] 
+**total_umis** | **numeric** |  | [optional] 
+**n_barcode_umis** | **numeric** |  | [optional] 
+**median_reads_per_barcode** | **numeric** |  | [optional] 
+**mean_reads_per_barcode** | **numeric** |  | [optional] 
+**median_genes_per_barcode** | **numeric** |  | [optional] 
+**median_umis_per_barcode** | **numeric** |  | [optional] 
+**mean_umis_per_barcode** | **numeric** |  | [optional] 
+**pct_duplicates** | **numeric** |  | [optional] 
+**n_genes** | **numeric** |  | [optional] 
+**frac_dup** | **numeric** |  | [optional] 
+**frac_mito** | **numeric** |  | [optional] 
+**frac_mito_genes** | **numeric** |  | [optional] 
+**frac_reads_in_genes_barcode** | **numeric** |  | [optional] 
+**joint_barcodes_passing** | **numeric** |  | [optional] 
+**gt_records** | **numeric** |  | [optional] 
+**numBarcodesOnOnlist** | **numeric** |  | [optional] 
+**percentageBarcodesOnOnlist** | **numeric** |  | [optional] 
+**numReadsOnOnlist** | **numeric** |  | [optional] 
+**percentageReadsOnOnlist** | **numeric** |  | [optional] 
+**@id** | **character** |  | [optional] 
+**@type** | **array[character]** |  | [optional] 
+**summary** | **character** | A summary of the quality metric. | [optional] 
+
+

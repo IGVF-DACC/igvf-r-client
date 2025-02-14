@@ -92,7 +92,7 @@ ItemType <- R6::R6Class(
 
 # add to utils.R
 .parse_ItemType <- function(vals) {
-  res <- gsub("^\\[|\\]$", "", "[AccessKey, AnalysisStep, AnalysisStepVersion, Award, Biomarker, Document, HumanDonor, RodentDonor, AlignmentFile, ConfigurationFile, GenomeBrowserAnnotationFile, ImageFile, IndexFile, MatrixFile, ModelFile, ReferenceFile, SequenceFile, SignalFile, TabularFile, AnalysisSet, AuxiliarySet, ConstructLibrarySet, CuratedSet, MeasurementSet, ModelSet, PredictionSet, Gene, Image, InstitutionalCertificate, Lab, CrisprModification, DegronModification, AssayTerm, PhenotypeTerm, PlatformTerm, SampleTerm, OpenReadingFrame, Page, PhenotypicFeature, Publication, InVitroSystem, MultiplexedSample, PrimaryCell, TechnicalSample, Tissue, WholeOrganism, Software, SoftwareVersion, Source, Treatment, User, Workflow]")
+  res <- gsub("^\\[|\\]$", "", "[AccessKey, AnalysisStep, AnalysisStepVersion, Award, Biomarker, Document, HumanDonor, RodentDonor, AlignmentFile, ConfigurationFile, GenomeBrowserAnnotationFile, ImageFile, IndexFile, MatrixFile, ModelFile, ReferenceFile, SequenceFile, SignalFile, TabularFile, AnalysisSet, AuxiliarySet, ConstructLibrarySet, CuratedSet, MeasurementSet, ModelSet, PredictionSet, Gene, Image, InstitutionalCertificate, Lab, CrisprModification, DegronModification, AssayTerm, PhenotypeTerm, PlatformTerm, SampleTerm, OpenReadingFrame, Page, PhenotypicFeature, Publication, MpraQualityMetric, PerturbSeqQualityMetric, SingleCellAtacSeqQualityMetric, SingleCellRnaSeqQualityMetric, StarrSeqQualityMetric, InVitroSystem, MultiplexedSample, PrimaryCell, TechnicalSample, Tissue, WholeOrganism, Software, SoftwareVersion, Source, Treatment, User, Workflow]")
   unlist(strsplit(res, ", "))
 }
 

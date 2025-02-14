@@ -50,6 +50,7 @@
 #' @field input_file_for The files which are derived from this file. list(character) [optional]
 #' @field gene_list_for File Set(s) that this file is a gene list for. list(character) [optional]
 #' @field loci_list_for File Set(s) that this file is a loci list for. list(character) [optional]
+#' @field quality_metrics The quality metrics that are associated with this file. list(character) [optional]
 #' @field assay_titles Title(s) of assay from the file set this file belongs to. list(character) [optional]
 #' @field workflow The workflow used to produce this file. character [optional]
 #' @field href The download path to obtain file. character [optional]
@@ -104,6 +105,7 @@ GenomeBrowserAnnotationFile <- R6::R6Class(
     `input_file_for` = NULL,
     `gene_list_for` = NULL,
     `loci_list_for` = NULL,
+    `quality_metrics` = NULL,
     `assay_titles` = NULL,
     `workflow` = NULL,
     `href` = NULL,
@@ -157,6 +159,7 @@ GenomeBrowserAnnotationFile <- R6::R6Class(
     #' @param input_file_for The files which are derived from this file.
     #' @param gene_list_for File Set(s) that this file is a gene list for.
     #' @param loci_list_for File Set(s) that this file is a loci list for.
+    #' @param quality_metrics The quality metrics that are associated with this file.
     #' @param assay_titles Title(s) of assay from the file set this file belongs to.
     #' @param workflow The workflow used to produce this file.
     #' @param href The download path to obtain file.
@@ -164,7 +167,7 @@ GenomeBrowserAnnotationFile <- R6::R6Class(
     #' @param upload_credentials The upload credentials for S3 to submit the file content.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`cell_type_annotation` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `assay_titles` = NULL, `workflow` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
+    initialize = function(`cell_type_annotation` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `workflow` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
       if (!is.null(`cell_type_annotation`)) {
         if (!(is.character(`cell_type_annotation`) && length(`cell_type_annotation`) == 1)) {
           stop(paste("Error! Invalid data for `cell_type_annotation`. Must be a string:", `cell_type_annotation`))
@@ -429,6 +432,11 @@ GenomeBrowserAnnotationFile <- R6::R6Class(
         sapply(`loci_list_for`, function(x) stopifnot(is.character(x)))
         self$`loci_list_for` <- `loci_list_for`
       }
+      if (!is.null(`quality_metrics`)) {
+        stopifnot(is.vector(`quality_metrics`), length(`quality_metrics`) != 0)
+        sapply(`quality_metrics`, function(x) stopifnot(is.character(x)))
+        self$`quality_metrics` <- `quality_metrics`
+      }
       if (!is.null(`assay_titles`)) {
         stopifnot(is.vector(`assay_titles`), length(`assay_titles`) != 0)
         sapply(`assay_titles`, function(x) stopifnot(is.character(x)))
@@ -637,6 +645,10 @@ GenomeBrowserAnnotationFile <- R6::R6Class(
         GenomeBrowserAnnotationFileObject[["loci_list_for"]] <-
           self$`loci_list_for`
       }
+      if (!is.null(self$`quality_metrics`)) {
+        GenomeBrowserAnnotationFileObject[["quality_metrics"]] <-
+          self$`quality_metrics`
+      }
       if (!is.null(self$`assay_titles`)) {
         GenomeBrowserAnnotationFileObject[["assay_titles"]] <-
           self$`assay_titles`
@@ -815,6 +827,9 @@ GenomeBrowserAnnotationFile <- R6::R6Class(
       }
       if (!is.null(this_object$`loci_list_for`)) {
         self$`loci_list_for` <- ApiClient$new()$deserializeObj(this_object$`loci_list_for`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`quality_metrics`)) {
+        self$`quality_metrics` <- ApiClient$new()$deserializeObj(this_object$`quality_metrics`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`assay_titles`)) {
         self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
@@ -1186,6 +1201,14 @@ GenomeBrowserAnnotationFile <- R6::R6Class(
           paste(unlist(lapply(self$`loci_list_for`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`quality_metrics`)) {
+          sprintf(
+          '"quality_metrics":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`quality_metrics`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`assay_titles`)) {
           sprintf(
           '"assay_titles":
@@ -1301,6 +1324,7 @@ GenomeBrowserAnnotationFile <- R6::R6Class(
       self$`input_file_for` <- ApiClient$new()$deserializeObj(this_object$`input_file_for`, "set[character]", loadNamespace("igvfclient"))
       self$`gene_list_for` <- ApiClient$new()$deserializeObj(this_object$`gene_list_for`, "set[character]", loadNamespace("igvfclient"))
       self$`loci_list_for` <- ApiClient$new()$deserializeObj(this_object$`loci_list_for`, "set[character]", loadNamespace("igvfclient"))
+      self$`quality_metrics` <- ApiClient$new()$deserializeObj(this_object$`quality_metrics`, "set[character]", loadNamespace("igvfclient"))
       self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
       self$`workflow` <- this_object$`workflow`
       self$`href` <- this_object$`href`
@@ -1386,6 +1410,7 @@ GenomeBrowserAnnotationFile <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1441,6 +1466,7 @@ GenomeBrowserAnnotationFile <- R6::R6Class(
       if (!str_detect(self$`md5sum`, "[a-f\\d]{32}|[A-F\\d]{32}")) {
         invalid_fields["md5sum"] <- "Invalid value for `md5sum`, must conform to the pattern [a-f\\d]{32}|[A-F\\d]{32}."
       }
+
 
 
 

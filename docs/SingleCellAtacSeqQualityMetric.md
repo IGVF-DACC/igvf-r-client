@@ -1,0 +1,50 @@
+# igvfclient::SingleCellAtacSeqQualityMetric
+
+Schema for submission of a scATAC-seq uniform pipeline quality metric.
+
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**status** | **character** | The status of the metadata object. | [optional] [Enum: [archived, deleted, in progress, preview, released]] 
+**release_timestamp** | **character** | The date the object was released. | [optional] 
+**attachment** | [**Attachment**](Attachment.md) |  | [optional] 
+**lab** | **character** | Lab associated with the submission. | [optional] 
+**award** | **character** | Grant associated with the submission. | [optional] 
+**schema_version** | **character** | The version of the JSON schema that the server uses to validate the object. | [optional] [Pattern: ^\\d+(\\.\\d+)*$] 
+**uuid** | **character** | The unique identifier associated with every object. | [optional] 
+**notes** | **character** | DACC internal notes. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
+**aliases** | **set[character]** | Lab specific identifiers to reference an object. | [optional] 
+**creation_timestamp** | **character** | The date the object was created. | [optional] 
+**submitted_by** | **character** | The user who submitted the object. | [optional] 
+**submitter_comment** | **character** | Additional information specified by the submitter to be displayed as a comment on the portal. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
+**description** | **character** | A plain text description of the object. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
+**quality_metric_of** | **set[character]** | The file(s) to which this quality metric applies. | [optional] 
+**analysis_step_version** | **character** | The analysis step version of the quality metric. | [optional] 
+**tsse** | **numeric** |  | [optional] 
+**n_fragments** | **numeric** |  | [optional] 
+**n_barcodes** | **numeric** |  | [optional] 
+**pct_duplicates** | **numeric** |  | [optional] 
+**n_fragment** | **numeric** |  | [optional] 
+**frac_dup** | **numeric** |  | [optional] 
+**frac_mito** | **numeric** |  | [optional] 
+**total** | **numeric** |  | [optional] 
+**duplicate** | **numeric** |  | [optional] 
+**unmapped** | **numeric** |  | [optional] 
+**lowmapq** | **numeric** |  | [optional] 
+**joint_barcodes_passing** | **numeric** |  | [optional] 
+**n_reads** | **numeric** |  | [optional] 
+**n_mapped_reads** | **numeric** |  | [optional] 
+**n_uniquely_mapped_reads** | **numeric** |  | [optional] 
+**n_reads_with_multi_mappings** | **numeric** |  | [optional] 
+**n_candidates** | **numeric** |  | [optional] 
+**n_mappings** | **numeric** |  | [optional] 
+**n_uni_mappings** | **numeric** |  | [optional] 
+**n_multi_mappings** | **numeric** |  | [optional] 
+**n_barcodes_on_onlist** | **numeric** |  | [optional] 
+**n_corrected_barcodes** | **numeric** |  | [optional] 
+**n_output_mappings** | **numeric** |  | [optional] 
+**@id** | **character** |  | [optional] 
+**@type** | **array[character]** |  | [optional] 
+**summary** | **character** | A summary of the quality metric. | [optional] 
+
+

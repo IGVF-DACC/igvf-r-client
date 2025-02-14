@@ -48,6 +48,7 @@ Name | Type | Description | Notes
 **input_file_for** | **set[character]** | The files which are derived from this file. | [optional] 
 **gene_list_for** | **set[character]** | File Set(s) that this file is a gene list for. | [optional] 
 **loci_list_for** | **set[character]** | File Set(s) that this file is a loci list for. | [optional] 
+**quality_metrics** | **set[character]** | The quality metrics that are associated with this file. | [optional] 
 **assay_titles** | **set[character]** | Title(s) of assay from the file set this file belongs to. | [optional] 
 **workflow** | **character** | The workflow used to produce this file. | [optional] 
 **href** | **character** | The download path to obtain file. | [optional] 
