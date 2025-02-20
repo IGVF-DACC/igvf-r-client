@@ -45,6 +45,7 @@
 #' @field control_for The file sets for which this file set is a control. list(character) [optional]
 #' @field submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created. character [optional]
 #' @field input_for The file sets that use this file set as an input. list(character) [optional]
+#' @field construct_library_sets The construct library sets associated with the samples of this file set. list(character) [optional]
 #' @field _field_list a list of fields list(character)
 #' @field additional_properties additional properties list(character) [optional]
 #' @importFrom R6 R6Class
@@ -92,7 +93,8 @@ PredictionSet <- R6::R6Class(
     `control_for` = NULL,
     `submitted_files_timestamp` = NULL,
     `input_for` = NULL,
-    `_field_list` = c("input_file_sets", "small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "url", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "dbxrefs", "control_type", "samples", "donors", "file_set_type", "scope", "assessed_genes", "@id", "@type", "summary", "files", "control_for", "submitted_files_timestamp", "input_for"),
+    `construct_library_sets` = NULL,
+    `_field_list` = c("input_file_sets", "small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "url", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "dbxrefs", "control_type", "samples", "donors", "file_set_type", "scope", "assessed_genes", "@id", "@type", "summary", "files", "control_for", "submitted_files_timestamp", "input_for", "construct_library_sets"),
     `additional_properties` = list(),
     #' Initialize a new PredictionSet class.
     #'
@@ -137,10 +139,11 @@ PredictionSet <- R6::R6Class(
     #' @param control_for The file sets for which this file set is a control.
     #' @param submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created.
     #' @param input_for The file sets that use this file set as an input.
+    #' @param construct_library_sets The construct library sets associated with the samples of this file set.
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`input_file_sets` = NULL, `small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `scope` = NULL, `assessed_genes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`input_file_sets` = NULL, `small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `scope` = NULL, `assessed_genes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`input_file_sets`)) {
         stopifnot(is.vector(`input_file_sets`), length(`input_file_sets`) != 0)
         sapply(`input_file_sets`, function(x) stopifnot(is.character(x)))
@@ -362,6 +365,11 @@ PredictionSet <- R6::R6Class(
         sapply(`input_for`, function(x) stopifnot(is.character(x)))
         self$`input_for` <- `input_for`
       }
+      if (!is.null(`construct_library_sets`)) {
+        stopifnot(is.vector(`construct_library_sets`), length(`construct_library_sets`) != 0)
+        sapply(`construct_library_sets`, function(x) stopifnot(is.character(x)))
+        self$`construct_library_sets` <- `construct_library_sets`
+      }
       if (!is.null(additional_properties)) {
         for (key in names(additional_properties)) {
           self$additional_properties[[key]] <- additional_properties[[key]]
@@ -529,6 +537,10 @@ PredictionSet <- R6::R6Class(
         PredictionSetObject[["input_for"]] <-
           self$`input_for`
       }
+      if (!is.null(self$`construct_library_sets`)) {
+        PredictionSetObject[["construct_library_sets"]] <-
+          self$`construct_library_sets`
+      }
       for (key in names(self$additional_properties)) {
         PredictionSetObject[[key]] <- self$additional_properties[[key]]
       }
@@ -667,6 +679,9 @@ PredictionSet <- R6::R6Class(
       }
       if (!is.null(this_object$`input_for`)) {
         self$`input_for` <- ApiClient$new()$deserializeObj(this_object$`input_for`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`construct_library_sets`)) {
+        self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
       }
       # process additional properties/fields in the payload
       for (key in names(this_object)) {
@@ -989,6 +1004,14 @@ PredictionSet <- R6::R6Class(
           ',
           paste(unlist(lapply(self$`input_for`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
+        },
+        if (!is.null(self$`construct_library_sets`)) {
+          sprintf(
+          '"construct_library_sets":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`construct_library_sets`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -1056,6 +1079,7 @@ PredictionSet <- R6::R6Class(
       self$`control_for` <- ApiClient$new()$deserializeObj(this_object$`control_for`, "set[character]", loadNamespace("igvfclient"))
       self$`submitted_files_timestamp` <- this_object$`submitted_files_timestamp`
       self$`input_for` <- ApiClient$new()$deserializeObj(this_object$`input_for`, "set[character]", loadNamespace("igvfclient"))
+      self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
       # process additional properties/fields in the payload
       for (key in names(this_object)) {
         if (!(key %in% self$`_field_list`)) { # json key not in list of fields
@@ -1128,6 +1152,7 @@ PredictionSet <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1166,6 +1191,7 @@ PredictionSet <- R6::R6Class(
       if (!str_detect(self$`description`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         invalid_fields["description"] <- "Invalid value for `description`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
+
 
 
 

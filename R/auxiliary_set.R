@@ -39,6 +39,7 @@
 #' @field control_for The file sets for which this file set is a control. list(character) [optional]
 #' @field submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created. character [optional]
 #' @field input_for The file sets that use this file set as an input. list(character) [optional]
+#' @field construct_library_sets The construct library sets associated with the samples of this file set. list(character) [optional]
 #' @field measurement_sets The measurement sets that link to this auxiliary set. list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -78,6 +79,7 @@ AuxiliarySet <- R6::R6Class(
     `control_for` = NULL,
     `submitted_files_timestamp` = NULL,
     `input_for` = NULL,
+    `construct_library_sets` = NULL,
     `measurement_sets` = NULL,
     #' Initialize a new AuxiliarySet class.
     #'
@@ -116,10 +118,11 @@ AuxiliarySet <- R6::R6Class(
     #' @param control_for The file sets for which this file set is a control.
     #' @param submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created.
     #' @param input_for The file sets that use this file set as an input.
+    #' @param construct_library_sets The construct library sets associated with the samples of this file set.
     #' @param measurement_sets The measurement sets that link to this auxiliary set.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `barcode_map` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `measurement_sets` = NULL, ...) {
+    initialize = function(`release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `barcode_map` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `measurement_sets` = NULL, ...) {
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -306,6 +309,11 @@ AuxiliarySet <- R6::R6Class(
         sapply(`input_for`, function(x) stopifnot(is.character(x)))
         self$`input_for` <- `input_for`
       }
+      if (!is.null(`construct_library_sets`)) {
+        stopifnot(is.vector(`construct_library_sets`), length(`construct_library_sets`) != 0)
+        sapply(`construct_library_sets`, function(x) stopifnot(is.character(x)))
+        self$`construct_library_sets` <- `construct_library_sets`
+      }
       if (!is.null(`measurement_sets`)) {
         stopifnot(is.vector(`measurement_sets`), length(`measurement_sets`) != 0)
         sapply(`measurement_sets`, function(x) stopifnot(is.character(x)))
@@ -449,6 +457,10 @@ AuxiliarySet <- R6::R6Class(
         AuxiliarySetObject[["input_for"]] <-
           self$`input_for`
       }
+      if (!is.null(self$`construct_library_sets`)) {
+        AuxiliarySetObject[["construct_library_sets"]] <-
+          self$`construct_library_sets`
+      }
       if (!is.null(self$`measurement_sets`)) {
         AuxiliarySetObject[["measurement_sets"]] <-
           self$`measurement_sets`
@@ -566,6 +578,9 @@ AuxiliarySet <- R6::R6Class(
       }
       if (!is.null(this_object$`input_for`)) {
         self$`input_for` <- ApiClient$new()$deserializeObj(this_object$`input_for`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`construct_library_sets`)) {
+        self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`measurement_sets`)) {
         self$`measurement_sets` <- ApiClient$new()$deserializeObj(this_object$`measurement_sets`, "set[character]", loadNamespace("igvfclient"))
@@ -837,6 +852,14 @@ AuxiliarySet <- R6::R6Class(
           paste(unlist(lapply(self$`input_for`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`construct_library_sets`)) {
+          sprintf(
+          '"construct_library_sets":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`construct_library_sets`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`measurement_sets`)) {
           sprintf(
           '"measurement_sets":
@@ -897,6 +920,7 @@ AuxiliarySet <- R6::R6Class(
       self$`control_for` <- ApiClient$new()$deserializeObj(this_object$`control_for`, "set[character]", loadNamespace("igvfclient"))
       self$`submitted_files_timestamp` <- this_object$`submitted_files_timestamp`
       self$`input_for` <- ApiClient$new()$deserializeObj(this_object$`input_for`, "set[character]", loadNamespace("igvfclient"))
+      self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`measurement_sets` <- ApiClient$new()$deserializeObj(this_object$`measurement_sets`, "set[character]", loadNamespace("igvfclient"))
       self
     },
@@ -960,6 +984,7 @@ AuxiliarySet <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -995,6 +1020,7 @@ AuxiliarySet <- R6::R6Class(
       if (!str_detect(self$`description`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         invalid_fields["description"] <- "Invalid value for `description`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
+
 
 
 

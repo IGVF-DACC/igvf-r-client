@@ -45,6 +45,7 @@
 #' @field control_for The file sets for which this file set is a control. list(character) [optional]
 #' @field submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created. character [optional]
 #' @field input_for The file sets that use this file set as an input. list(character) [optional]
+#' @field construct_library_sets The construct library sets associated with the samples of this file set. list(character) [optional]
 #' @field externally_hosted  character [optional]
 #' @field software_versions The software versions used to produce this predictive model. list(character) [optional]
 #' @importFrom R6 R6Class
@@ -91,6 +92,7 @@ ModelSet <- R6::R6Class(
     `control_for` = NULL,
     `submitted_files_timestamp` = NULL,
     `input_for` = NULL,
+    `construct_library_sets` = NULL,
     `externally_hosted` = NULL,
     `software_versions` = NULL,
     #' Initialize a new ModelSet class.
@@ -136,11 +138,12 @@ ModelSet <- R6::R6Class(
     #' @param control_for The file sets for which this file set is a control.
     #' @param submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created.
     #' @param input_for The file sets that use this file set as an input.
+    #' @param construct_library_sets The construct library sets associated with the samples of this file set.
     #' @param externally_hosted externally_hosted
     #' @param software_versions The software versions used to produce this predictive model.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `model_name` = NULL, `model_version` = NULL, `prediction_objects` = NULL, `model_zoo_location` = NULL, `assessed_genes` = NULL, `external_input_data` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `externally_hosted` = NULL, `software_versions` = NULL, ...) {
+    initialize = function(`input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `model_name` = NULL, `model_version` = NULL, `prediction_objects` = NULL, `model_zoo_location` = NULL, `assessed_genes` = NULL, `external_input_data` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `externally_hosted` = NULL, `software_versions` = NULL, ...) {
       if (!is.null(`input_file_sets`)) {
         stopifnot(is.vector(`input_file_sets`), length(`input_file_sets`) != 0)
         sapply(`input_file_sets`, function(x) stopifnot(is.character(x)))
@@ -360,6 +363,11 @@ ModelSet <- R6::R6Class(
         sapply(`input_for`, function(x) stopifnot(is.character(x)))
         self$`input_for` <- `input_for`
       }
+      if (!is.null(`construct_library_sets`)) {
+        stopifnot(is.vector(`construct_library_sets`), length(`construct_library_sets`) != 0)
+        sapply(`construct_library_sets`, function(x) stopifnot(is.character(x)))
+        self$`construct_library_sets` <- `construct_library_sets`
+      }
       if (!is.null(`externally_hosted`)) {
         if (!(is.logical(`externally_hosted`) && length(`externally_hosted`) == 1)) {
           stop(paste("Error! Invalid data for `externally_hosted`. Must be a boolean:", `externally_hosted`))
@@ -533,6 +541,10 @@ ModelSet <- R6::R6Class(
         ModelSetObject[["input_for"]] <-
           self$`input_for`
       }
+      if (!is.null(self$`construct_library_sets`)) {
+        ModelSetObject[["construct_library_sets"]] <-
+          self$`construct_library_sets`
+      }
       if (!is.null(self$`externally_hosted`)) {
         ModelSetObject[["externally_hosted"]] <-
           self$`externally_hosted`
@@ -672,6 +684,9 @@ ModelSet <- R6::R6Class(
       }
       if (!is.null(this_object$`input_for`)) {
         self$`input_for` <- ApiClient$new()$deserializeObj(this_object$`input_for`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`construct_library_sets`)) {
+        self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`externally_hosted`)) {
         self$`externally_hosted` <- this_object$`externally_hosted`
@@ -994,6 +1009,14 @@ ModelSet <- R6::R6Class(
           paste(unlist(lapply(self$`input_for`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`construct_library_sets`)) {
+          sprintf(
+          '"construct_library_sets":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`construct_library_sets`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`externally_hosted`)) {
           sprintf(
           '"externally_hosted":
@@ -1068,6 +1091,7 @@ ModelSet <- R6::R6Class(
       self$`control_for` <- ApiClient$new()$deserializeObj(this_object$`control_for`, "set[character]", loadNamespace("igvfclient"))
       self$`submitted_files_timestamp` <- this_object$`submitted_files_timestamp`
       self$`input_for` <- ApiClient$new()$deserializeObj(this_object$`input_for`, "set[character]", loadNamespace("igvfclient"))
+      self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`externally_hosted` <- this_object$`externally_hosted`
       self$`software_versions` <- ApiClient$new()$deserializeObj(this_object$`software_versions`, "set[character]", loadNamespace("igvfclient"))
       self
@@ -1143,6 +1167,7 @@ ModelSet <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1191,6 +1216,7 @@ ModelSet <- R6::R6Class(
       if (!str_detect(self$`model_zoo_location`, "^https?://kipoi\\.org/models/(\\S+)$")) {
         invalid_fields["model_zoo_location"] <- "Invalid value for `model_zoo_location`, must conform to the pattern ^https?://kipoi\\.org/models/(\\S+)$."
       }
+
 
 
 

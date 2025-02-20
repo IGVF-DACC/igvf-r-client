@@ -49,6 +49,7 @@
 #' @field control_for The file sets for which this file set is a control. list(character) [optional]
 #' @field submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created. character [optional]
 #' @field input_for The file sets that use this file set as an input. list(character) [optional]
+#' @field construct_library_sets The construct library sets associated with the samples of this file set. list(character) [optional]
 #' @field related_multiome_datasets Related datasets included in the multiome experiment this measurement set is a part of. list(character) [optional]
 #' @field externally_hosted  character [optional]
 #' @importFrom R6 R6Class
@@ -99,6 +100,7 @@ MeasurementSet <- R6::R6Class(
     `control_for` = NULL,
     `submitted_files_timestamp` = NULL,
     `input_for` = NULL,
+    `construct_library_sets` = NULL,
     `related_multiome_datasets` = NULL,
     `externally_hosted` = NULL,
     #' Initialize a new MeasurementSet class.
@@ -148,11 +150,12 @@ MeasurementSet <- R6::R6Class(
     #' @param control_for The file sets for which this file set is a control.
     #' @param submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created.
     #' @param input_for The file sets that use this file set as an input.
+    #' @param construct_library_sets The construct library sets associated with the samples of this file set.
     #' @param related_multiome_datasets Related datasets included in the multiome experiment this measurement set is a part of.
     #' @param externally_hosted externally_hosted
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`control_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `assay_term` = NULL, `protocols` = NULL, `preferred_assay_title` = NULL, `multiome_size` = NULL, `sequencing_library_types` = NULL, `auxiliary_sets` = NULL, `external_image_url` = NULL, `targeted_genes` = NULL, `functional_assay_mechanisms` = NULL, `onlist_method` = NULL, `onlist_files` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `related_multiome_datasets` = NULL, `externally_hosted` = NULL, ...) {
+    initialize = function(`control_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `assay_term` = NULL, `protocols` = NULL, `preferred_assay_title` = NULL, `multiome_size` = NULL, `sequencing_library_types` = NULL, `auxiliary_sets` = NULL, `external_image_url` = NULL, `targeted_genes` = NULL, `functional_assay_mechanisms` = NULL, `onlist_method` = NULL, `onlist_files` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `related_multiome_datasets` = NULL, `externally_hosted` = NULL, ...) {
       if (!is.null(`control_file_sets`)) {
         stopifnot(is.vector(`control_file_sets`), length(`control_file_sets`) != 0)
         sapply(`control_file_sets`, function(x) stopifnot(is.character(x)))
@@ -309,8 +312,8 @@ MeasurementSet <- R6::R6Class(
         self$`protocols` <- `protocols`
       }
       if (!is.null(`preferred_assay_title`)) {
-        if (!(`preferred_assay_title` %in% c("RNA-seq", "scRNA-seq", "snRNA-seq", "scNT-seq", "scNT-seq2", "Parse SPLiT-seq", "ATAC-seq", "varACCESS", "scATAC-seq", "snATAC-seq", "scMito-seq", "DOGMA-seq", "10x multiome", "10x multiome with MULTI-seq", "MULTI-seq", "SHARE-seq", "Histone ChIP-seq", "TF ChIP-seq", "MPRA", "MPRA (scQer)", "electroporated MPRA", "AAV-MPRA", "lentiMPRA", "STARR-seq", "SUPERSTARR", "Cell painting", "Variant painting via fluorescence", "Variant painting via immunostaining", "smFISH", "MERFISH", "Proliferation CRISPR screen", "Growth CRISPR screen", "Migration CRISPR screen", "CRISPR FlowFISH screen", "CRISPR FACS screen", "CRISPR MACS screen", "CRISPR mCherry screen", "HCR-FlowFISH screen", "scCRISPR screen", "Perturb-seq", "CERES-seq", "TAP-seq", "Variant-EFFECTS", "SGE", "MIAA", "snmC-Seq2", "snMCT-seq", "snM3C-seq", "mN2H", "semi-qY2H", "Y2H", "yN2H", "VAMP-seq", "VAMP-seq (MultiSTEP)", "Hi-C", "HiCAR", "Spatial transcriptomics", "HT-recruit", "ONT dRNA", "ONT Fiber-seq", "ONT direct WGS", "WGS"))) {
-          stop(paste("Error! \"", `preferred_assay_title`, "\" cannot be assigned to `preferred_assay_title`. Must be \"RNA-seq\", \"scRNA-seq\", \"snRNA-seq\", \"scNT-seq\", \"scNT-seq2\", \"Parse SPLiT-seq\", \"ATAC-seq\", \"varACCESS\", \"scATAC-seq\", \"snATAC-seq\", \"scMito-seq\", \"DOGMA-seq\", \"10x multiome\", \"10x multiome with MULTI-seq\", \"MULTI-seq\", \"SHARE-seq\", \"Histone ChIP-seq\", \"TF ChIP-seq\", \"MPRA\", \"MPRA (scQer)\", \"electroporated MPRA\", \"AAV-MPRA\", \"lentiMPRA\", \"STARR-seq\", \"SUPERSTARR\", \"Cell painting\", \"Variant painting via fluorescence\", \"Variant painting via immunostaining\", \"smFISH\", \"MERFISH\", \"Proliferation CRISPR screen\", \"Growth CRISPR screen\", \"Migration CRISPR screen\", \"CRISPR FlowFISH screen\", \"CRISPR FACS screen\", \"CRISPR MACS screen\", \"CRISPR mCherry screen\", \"HCR-FlowFISH screen\", \"scCRISPR screen\", \"Perturb-seq\", \"CERES-seq\", \"TAP-seq\", \"Variant-EFFECTS\", \"SGE\", \"MIAA\", \"snmC-Seq2\", \"snMCT-seq\", \"snM3C-seq\", \"mN2H\", \"semi-qY2H\", \"Y2H\", \"yN2H\", \"VAMP-seq\", \"VAMP-seq (MultiSTEP)\", \"Hi-C\", \"HiCAR\", \"Spatial transcriptomics\", \"HT-recruit\", \"ONT dRNA\", \"ONT Fiber-seq\", \"ONT direct WGS\", \"WGS\".", sep = ""))
+        if (!(`preferred_assay_title` %in% c("RNA-seq", "scRNA-seq", "snRNA-seq", "scNT-seq", "scNT-seq2", "Parse SPLiT-seq", "ATAC-seq", "varACCESS", "ACCESS-ATAC", "scATAC-seq", "scACCESS-ATAC", "snATAC-seq", "scMito-seq", "DOGMA-seq", "10x multiome", "10x multiome with MULTI-seq", "MULTI-seq", "SHARE-seq", "Histone ChIP-seq", "TF ChIP-seq", "MPRA", "MPRA (scQer)", "electroporated MPRA", "AAV-MPRA", "lentiMPRA", "STARR-seq", "SUPERSTARR", "Cell painting", "Variant painting via fluorescence", "Variant painting via immunostaining", "smFISH", "MERFISH", "Proliferation CRISPR screen", "Growth CRISPR screen", "Migration CRISPR screen", "CRISPR FlowFISH screen", "CRISPR FACS screen", "CRISPR MACS screen", "CRISPR mCherry screen", "HCR-FlowFISH screen", "scCRISPR screen", "Perturb-seq", "CERES-seq", "TAP-seq", "Variant-EFFECTS", "SGE", "MIAA", "snmC-Seq2", "snMCT-seq", "snM3C-seq", "mN2H", "semi-qY2H", "Y2H", "yN2H", "VAMP-seq", "VAMP-seq (MultiSTEP)", "Hi-C", "HiCAR", "Spatial transcriptomics", "HT-recruit", "ONT dRNA", "ONT Fiber-seq", "ONT direct WGS", "WGS"))) {
+          stop(paste("Error! \"", `preferred_assay_title`, "\" cannot be assigned to `preferred_assay_title`. Must be \"RNA-seq\", \"scRNA-seq\", \"snRNA-seq\", \"scNT-seq\", \"scNT-seq2\", \"Parse SPLiT-seq\", \"ATAC-seq\", \"varACCESS\", \"ACCESS-ATAC\", \"scATAC-seq\", \"scACCESS-ATAC\", \"snATAC-seq\", \"scMito-seq\", \"DOGMA-seq\", \"10x multiome\", \"10x multiome with MULTI-seq\", \"MULTI-seq\", \"SHARE-seq\", \"Histone ChIP-seq\", \"TF ChIP-seq\", \"MPRA\", \"MPRA (scQer)\", \"electroporated MPRA\", \"AAV-MPRA\", \"lentiMPRA\", \"STARR-seq\", \"SUPERSTARR\", \"Cell painting\", \"Variant painting via fluorescence\", \"Variant painting via immunostaining\", \"smFISH\", \"MERFISH\", \"Proliferation CRISPR screen\", \"Growth CRISPR screen\", \"Migration CRISPR screen\", \"CRISPR FlowFISH screen\", \"CRISPR FACS screen\", \"CRISPR MACS screen\", \"CRISPR mCherry screen\", \"HCR-FlowFISH screen\", \"scCRISPR screen\", \"Perturb-seq\", \"CERES-seq\", \"TAP-seq\", \"Variant-EFFECTS\", \"SGE\", \"MIAA\", \"snmC-Seq2\", \"snMCT-seq\", \"snM3C-seq\", \"mN2H\", \"semi-qY2H\", \"Y2H\", \"yN2H\", \"VAMP-seq\", \"VAMP-seq (MultiSTEP)\", \"Hi-C\", \"HiCAR\", \"Spatial transcriptomics\", \"HT-recruit\", \"ONT dRNA\", \"ONT Fiber-seq\", \"ONT direct WGS\", \"WGS\".", sep = ""))
         }
         if (!(is.character(`preferred_assay_title`) && length(`preferred_assay_title`) == 1)) {
           stop(paste("Error! Invalid data for `preferred_assay_title`. Must be a string:", `preferred_assay_title`))
@@ -400,6 +403,11 @@ MeasurementSet <- R6::R6Class(
         stopifnot(is.vector(`input_for`), length(`input_for`) != 0)
         sapply(`input_for`, function(x) stopifnot(is.character(x)))
         self$`input_for` <- `input_for`
+      }
+      if (!is.null(`construct_library_sets`)) {
+        stopifnot(is.vector(`construct_library_sets`), length(`construct_library_sets`) != 0)
+        sapply(`construct_library_sets`, function(x) stopifnot(is.character(x)))
+        self$`construct_library_sets` <- `construct_library_sets`
       }
       if (!is.null(`related_multiome_datasets`)) {
         stopifnot(is.vector(`related_multiome_datasets`), length(`related_multiome_datasets`) != 0)
@@ -590,6 +598,10 @@ MeasurementSet <- R6::R6Class(
         MeasurementSetObject[["input_for"]] <-
           self$`input_for`
       }
+      if (!is.null(self$`construct_library_sets`)) {
+        MeasurementSetObject[["construct_library_sets"]] <-
+          self$`construct_library_sets`
+      }
       if (!is.null(self$`related_multiome_datasets`)) {
         MeasurementSetObject[["related_multiome_datasets"]] <-
           self$`related_multiome_datasets`
@@ -698,8 +710,8 @@ MeasurementSet <- R6::R6Class(
         self$`protocols` <- ApiClient$new()$deserializeObj(this_object$`protocols`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`preferred_assay_title`)) {
-        if (!is.null(this_object$`preferred_assay_title`) && !(this_object$`preferred_assay_title` %in% c("RNA-seq", "scRNA-seq", "snRNA-seq", "scNT-seq", "scNT-seq2", "Parse SPLiT-seq", "ATAC-seq", "varACCESS", "scATAC-seq", "snATAC-seq", "scMito-seq", "DOGMA-seq", "10x multiome", "10x multiome with MULTI-seq", "MULTI-seq", "SHARE-seq", "Histone ChIP-seq", "TF ChIP-seq", "MPRA", "MPRA (scQer)", "electroporated MPRA", "AAV-MPRA", "lentiMPRA", "STARR-seq", "SUPERSTARR", "Cell painting", "Variant painting via fluorescence", "Variant painting via immunostaining", "smFISH", "MERFISH", "Proliferation CRISPR screen", "Growth CRISPR screen", "Migration CRISPR screen", "CRISPR FlowFISH screen", "CRISPR FACS screen", "CRISPR MACS screen", "CRISPR mCherry screen", "HCR-FlowFISH screen", "scCRISPR screen", "Perturb-seq", "CERES-seq", "TAP-seq", "Variant-EFFECTS", "SGE", "MIAA", "snmC-Seq2", "snMCT-seq", "snM3C-seq", "mN2H", "semi-qY2H", "Y2H", "yN2H", "VAMP-seq", "VAMP-seq (MultiSTEP)", "Hi-C", "HiCAR", "Spatial transcriptomics", "HT-recruit", "ONT dRNA", "ONT Fiber-seq", "ONT direct WGS", "WGS"))) {
-          stop(paste("Error! \"", this_object$`preferred_assay_title`, "\" cannot be assigned to `preferred_assay_title`. Must be \"RNA-seq\", \"scRNA-seq\", \"snRNA-seq\", \"scNT-seq\", \"scNT-seq2\", \"Parse SPLiT-seq\", \"ATAC-seq\", \"varACCESS\", \"scATAC-seq\", \"snATAC-seq\", \"scMito-seq\", \"DOGMA-seq\", \"10x multiome\", \"10x multiome with MULTI-seq\", \"MULTI-seq\", \"SHARE-seq\", \"Histone ChIP-seq\", \"TF ChIP-seq\", \"MPRA\", \"MPRA (scQer)\", \"electroporated MPRA\", \"AAV-MPRA\", \"lentiMPRA\", \"STARR-seq\", \"SUPERSTARR\", \"Cell painting\", \"Variant painting via fluorescence\", \"Variant painting via immunostaining\", \"smFISH\", \"MERFISH\", \"Proliferation CRISPR screen\", \"Growth CRISPR screen\", \"Migration CRISPR screen\", \"CRISPR FlowFISH screen\", \"CRISPR FACS screen\", \"CRISPR MACS screen\", \"CRISPR mCherry screen\", \"HCR-FlowFISH screen\", \"scCRISPR screen\", \"Perturb-seq\", \"CERES-seq\", \"TAP-seq\", \"Variant-EFFECTS\", \"SGE\", \"MIAA\", \"snmC-Seq2\", \"snMCT-seq\", \"snM3C-seq\", \"mN2H\", \"semi-qY2H\", \"Y2H\", \"yN2H\", \"VAMP-seq\", \"VAMP-seq (MultiSTEP)\", \"Hi-C\", \"HiCAR\", \"Spatial transcriptomics\", \"HT-recruit\", \"ONT dRNA\", \"ONT Fiber-seq\", \"ONT direct WGS\", \"WGS\".", sep = ""))
+        if (!is.null(this_object$`preferred_assay_title`) && !(this_object$`preferred_assay_title` %in% c("RNA-seq", "scRNA-seq", "snRNA-seq", "scNT-seq", "scNT-seq2", "Parse SPLiT-seq", "ATAC-seq", "varACCESS", "ACCESS-ATAC", "scATAC-seq", "scACCESS-ATAC", "snATAC-seq", "scMito-seq", "DOGMA-seq", "10x multiome", "10x multiome with MULTI-seq", "MULTI-seq", "SHARE-seq", "Histone ChIP-seq", "TF ChIP-seq", "MPRA", "MPRA (scQer)", "electroporated MPRA", "AAV-MPRA", "lentiMPRA", "STARR-seq", "SUPERSTARR", "Cell painting", "Variant painting via fluorescence", "Variant painting via immunostaining", "smFISH", "MERFISH", "Proliferation CRISPR screen", "Growth CRISPR screen", "Migration CRISPR screen", "CRISPR FlowFISH screen", "CRISPR FACS screen", "CRISPR MACS screen", "CRISPR mCherry screen", "HCR-FlowFISH screen", "scCRISPR screen", "Perturb-seq", "CERES-seq", "TAP-seq", "Variant-EFFECTS", "SGE", "MIAA", "snmC-Seq2", "snMCT-seq", "snM3C-seq", "mN2H", "semi-qY2H", "Y2H", "yN2H", "VAMP-seq", "VAMP-seq (MultiSTEP)", "Hi-C", "HiCAR", "Spatial transcriptomics", "HT-recruit", "ONT dRNA", "ONT Fiber-seq", "ONT direct WGS", "WGS"))) {
+          stop(paste("Error! \"", this_object$`preferred_assay_title`, "\" cannot be assigned to `preferred_assay_title`. Must be \"RNA-seq\", \"scRNA-seq\", \"snRNA-seq\", \"scNT-seq\", \"scNT-seq2\", \"Parse SPLiT-seq\", \"ATAC-seq\", \"varACCESS\", \"ACCESS-ATAC\", \"scATAC-seq\", \"scACCESS-ATAC\", \"snATAC-seq\", \"scMito-seq\", \"DOGMA-seq\", \"10x multiome\", \"10x multiome with MULTI-seq\", \"MULTI-seq\", \"SHARE-seq\", \"Histone ChIP-seq\", \"TF ChIP-seq\", \"MPRA\", \"MPRA (scQer)\", \"electroporated MPRA\", \"AAV-MPRA\", \"lentiMPRA\", \"STARR-seq\", \"SUPERSTARR\", \"Cell painting\", \"Variant painting via fluorescence\", \"Variant painting via immunostaining\", \"smFISH\", \"MERFISH\", \"Proliferation CRISPR screen\", \"Growth CRISPR screen\", \"Migration CRISPR screen\", \"CRISPR FlowFISH screen\", \"CRISPR FACS screen\", \"CRISPR MACS screen\", \"CRISPR mCherry screen\", \"HCR-FlowFISH screen\", \"scCRISPR screen\", \"Perturb-seq\", \"CERES-seq\", \"TAP-seq\", \"Variant-EFFECTS\", \"SGE\", \"MIAA\", \"snmC-Seq2\", \"snMCT-seq\", \"snM3C-seq\", \"mN2H\", \"semi-qY2H\", \"Y2H\", \"yN2H\", \"VAMP-seq\", \"VAMP-seq (MultiSTEP)\", \"Hi-C\", \"HiCAR\", \"Spatial transcriptomics\", \"HT-recruit\", \"ONT dRNA\", \"ONT Fiber-seq\", \"ONT direct WGS\", \"WGS\".", sep = ""))
         }
         self$`preferred_assay_title` <- this_object$`preferred_assay_title`
       }
@@ -750,6 +762,9 @@ MeasurementSet <- R6::R6Class(
       }
       if (!is.null(this_object$`input_for`)) {
         self$`input_for` <- ApiClient$new()$deserializeObj(this_object$`input_for`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`construct_library_sets`)) {
+        self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`related_multiome_datasets`)) {
         self$`related_multiome_datasets` <- ApiClient$new()$deserializeObj(this_object$`related_multiome_datasets`, "set[character]", loadNamespace("igvfclient"))
@@ -1104,6 +1119,14 @@ MeasurementSet <- R6::R6Class(
           paste(unlist(lapply(self$`input_for`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`construct_library_sets`)) {
+          sprintf(
+          '"construct_library_sets":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`construct_library_sets`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`related_multiome_datasets`)) {
           sprintf(
           '"related_multiome_datasets":
@@ -1169,8 +1192,8 @@ MeasurementSet <- R6::R6Class(
       self$`file_set_type` <- this_object$`file_set_type`
       self$`assay_term` <- this_object$`assay_term`
       self$`protocols` <- ApiClient$new()$deserializeObj(this_object$`protocols`, "set[character]", loadNamespace("igvfclient"))
-      if (!is.null(this_object$`preferred_assay_title`) && !(this_object$`preferred_assay_title` %in% c("RNA-seq", "scRNA-seq", "snRNA-seq", "scNT-seq", "scNT-seq2", "Parse SPLiT-seq", "ATAC-seq", "varACCESS", "scATAC-seq", "snATAC-seq", "scMito-seq", "DOGMA-seq", "10x multiome", "10x multiome with MULTI-seq", "MULTI-seq", "SHARE-seq", "Histone ChIP-seq", "TF ChIP-seq", "MPRA", "MPRA (scQer)", "electroporated MPRA", "AAV-MPRA", "lentiMPRA", "STARR-seq", "SUPERSTARR", "Cell painting", "Variant painting via fluorescence", "Variant painting via immunostaining", "smFISH", "MERFISH", "Proliferation CRISPR screen", "Growth CRISPR screen", "Migration CRISPR screen", "CRISPR FlowFISH screen", "CRISPR FACS screen", "CRISPR MACS screen", "CRISPR mCherry screen", "HCR-FlowFISH screen", "scCRISPR screen", "Perturb-seq", "CERES-seq", "TAP-seq", "Variant-EFFECTS", "SGE", "MIAA", "snmC-Seq2", "snMCT-seq", "snM3C-seq", "mN2H", "semi-qY2H", "Y2H", "yN2H", "VAMP-seq", "VAMP-seq (MultiSTEP)", "Hi-C", "HiCAR", "Spatial transcriptomics", "HT-recruit", "ONT dRNA", "ONT Fiber-seq", "ONT direct WGS", "WGS"))) {
-        stop(paste("Error! \"", this_object$`preferred_assay_title`, "\" cannot be assigned to `preferred_assay_title`. Must be \"RNA-seq\", \"scRNA-seq\", \"snRNA-seq\", \"scNT-seq\", \"scNT-seq2\", \"Parse SPLiT-seq\", \"ATAC-seq\", \"varACCESS\", \"scATAC-seq\", \"snATAC-seq\", \"scMito-seq\", \"DOGMA-seq\", \"10x multiome\", \"10x multiome with MULTI-seq\", \"MULTI-seq\", \"SHARE-seq\", \"Histone ChIP-seq\", \"TF ChIP-seq\", \"MPRA\", \"MPRA (scQer)\", \"electroporated MPRA\", \"AAV-MPRA\", \"lentiMPRA\", \"STARR-seq\", \"SUPERSTARR\", \"Cell painting\", \"Variant painting via fluorescence\", \"Variant painting via immunostaining\", \"smFISH\", \"MERFISH\", \"Proliferation CRISPR screen\", \"Growth CRISPR screen\", \"Migration CRISPR screen\", \"CRISPR FlowFISH screen\", \"CRISPR FACS screen\", \"CRISPR MACS screen\", \"CRISPR mCherry screen\", \"HCR-FlowFISH screen\", \"scCRISPR screen\", \"Perturb-seq\", \"CERES-seq\", \"TAP-seq\", \"Variant-EFFECTS\", \"SGE\", \"MIAA\", \"snmC-Seq2\", \"snMCT-seq\", \"snM3C-seq\", \"mN2H\", \"semi-qY2H\", \"Y2H\", \"yN2H\", \"VAMP-seq\", \"VAMP-seq (MultiSTEP)\", \"Hi-C\", \"HiCAR\", \"Spatial transcriptomics\", \"HT-recruit\", \"ONT dRNA\", \"ONT Fiber-seq\", \"ONT direct WGS\", \"WGS\".", sep = ""))
+      if (!is.null(this_object$`preferred_assay_title`) && !(this_object$`preferred_assay_title` %in% c("RNA-seq", "scRNA-seq", "snRNA-seq", "scNT-seq", "scNT-seq2", "Parse SPLiT-seq", "ATAC-seq", "varACCESS", "ACCESS-ATAC", "scATAC-seq", "scACCESS-ATAC", "snATAC-seq", "scMito-seq", "DOGMA-seq", "10x multiome", "10x multiome with MULTI-seq", "MULTI-seq", "SHARE-seq", "Histone ChIP-seq", "TF ChIP-seq", "MPRA", "MPRA (scQer)", "electroporated MPRA", "AAV-MPRA", "lentiMPRA", "STARR-seq", "SUPERSTARR", "Cell painting", "Variant painting via fluorescence", "Variant painting via immunostaining", "smFISH", "MERFISH", "Proliferation CRISPR screen", "Growth CRISPR screen", "Migration CRISPR screen", "CRISPR FlowFISH screen", "CRISPR FACS screen", "CRISPR MACS screen", "CRISPR mCherry screen", "HCR-FlowFISH screen", "scCRISPR screen", "Perturb-seq", "CERES-seq", "TAP-seq", "Variant-EFFECTS", "SGE", "MIAA", "snmC-Seq2", "snMCT-seq", "snM3C-seq", "mN2H", "semi-qY2H", "Y2H", "yN2H", "VAMP-seq", "VAMP-seq (MultiSTEP)", "Hi-C", "HiCAR", "Spatial transcriptomics", "HT-recruit", "ONT dRNA", "ONT Fiber-seq", "ONT direct WGS", "WGS"))) {
+        stop(paste("Error! \"", this_object$`preferred_assay_title`, "\" cannot be assigned to `preferred_assay_title`. Must be \"RNA-seq\", \"scRNA-seq\", \"snRNA-seq\", \"scNT-seq\", \"scNT-seq2\", \"Parse SPLiT-seq\", \"ATAC-seq\", \"varACCESS\", \"ACCESS-ATAC\", \"scATAC-seq\", \"scACCESS-ATAC\", \"snATAC-seq\", \"scMito-seq\", \"DOGMA-seq\", \"10x multiome\", \"10x multiome with MULTI-seq\", \"MULTI-seq\", \"SHARE-seq\", \"Histone ChIP-seq\", \"TF ChIP-seq\", \"MPRA\", \"MPRA (scQer)\", \"electroporated MPRA\", \"AAV-MPRA\", \"lentiMPRA\", \"STARR-seq\", \"SUPERSTARR\", \"Cell painting\", \"Variant painting via fluorescence\", \"Variant painting via immunostaining\", \"smFISH\", \"MERFISH\", \"Proliferation CRISPR screen\", \"Growth CRISPR screen\", \"Migration CRISPR screen\", \"CRISPR FlowFISH screen\", \"CRISPR FACS screen\", \"CRISPR MACS screen\", \"CRISPR mCherry screen\", \"HCR-FlowFISH screen\", \"scCRISPR screen\", \"Perturb-seq\", \"CERES-seq\", \"TAP-seq\", \"Variant-EFFECTS\", \"SGE\", \"MIAA\", \"snmC-Seq2\", \"snMCT-seq\", \"snM3C-seq\", \"mN2H\", \"semi-qY2H\", \"Y2H\", \"yN2H\", \"VAMP-seq\", \"VAMP-seq (MultiSTEP)\", \"Hi-C\", \"HiCAR\", \"Spatial transcriptomics\", \"HT-recruit\", \"ONT dRNA\", \"ONT Fiber-seq\", \"ONT direct WGS\", \"WGS\".", sep = ""))
       }
       self$`preferred_assay_title` <- this_object$`preferred_assay_title`
       self$`multiome_size` <- this_object$`multiome_size`
@@ -1191,6 +1214,7 @@ MeasurementSet <- R6::R6Class(
       self$`control_for` <- ApiClient$new()$deserializeObj(this_object$`control_for`, "set[character]", loadNamespace("igvfclient"))
       self$`submitted_files_timestamp` <- this_object$`submitted_files_timestamp`
       self$`input_for` <- ApiClient$new()$deserializeObj(this_object$`input_for`, "set[character]", loadNamespace("igvfclient"))
+      self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`related_multiome_datasets` <- ApiClient$new()$deserializeObj(this_object$`related_multiome_datasets`, "set[character]", loadNamespace("igvfclient"))
       self$`externally_hosted` <- this_object$`externally_hosted`
       self
@@ -1270,6 +1294,7 @@ MeasurementSet <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1320,6 +1345,7 @@ MeasurementSet <- R6::R6Class(
       if (!str_detect(self$`external_image_url`, "^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$")) {
         invalid_fields["external_image_url"] <- "Invalid value for `external_image_url`, must conform to the pattern ^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$."
       }
+
 
 
 

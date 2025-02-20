@@ -56,6 +56,7 @@ Name | Type | Description | Notes
 **control_for** | **set[character]** | The file sets for which this file set is a control. | [optional] 
 **submitted_files_timestamp** | **character** | The timestamp the first file object in the file_set or associated auxiliary sets was created. | [optional] 
 **input_for** | **set[character]** | The file sets that use this file set as an input. | [optional] 
+**construct_library_sets** | **set[character]** | The construct library sets associated with the samples of this file set. | [optional] 
 **applied_to_samples** | **set[character]** | The samples that link to this construct library set. | [optional] 
 
 

@@ -39,6 +39,7 @@
 #' @field control_for The file sets for which this file set is a control. list(character) [optional]
 #' @field submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created. character [optional]
 #' @field input_for The file sets that use this file set as an input. list(character) [optional]
+#' @field construct_library_sets The construct library sets associated with the samples of this file set. list(character) [optional]
 #' @field assemblies The genome assemblies to which the referencing files in the file set are utilizing (e.g., GRCh38). list(character) [optional]
 #' @field transcriptome_annotations The annotation versions of the reference resource. list(character) [optional]
 #' @importFrom R6 R6Class
@@ -79,6 +80,7 @@ CuratedSet <- R6::R6Class(
     `control_for` = NULL,
     `submitted_files_timestamp` = NULL,
     `input_for` = NULL,
+    `construct_library_sets` = NULL,
     `assemblies` = NULL,
     `transcriptome_annotations` = NULL,
     #' Initialize a new CuratedSet class.
@@ -118,11 +120,12 @@ CuratedSet <- R6::R6Class(
     #' @param control_for The file sets for which this file set is a control.
     #' @param submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created.
     #' @param input_for The file sets that use this file set as an input.
+    #' @param construct_library_sets The construct library sets associated with the samples of this file set.
     #' @param assemblies The genome assemblies to which the referencing files in the file set are utilizing (e.g., GRCh38).
     #' @param transcriptome_annotations The annotation versions of the reference resource.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `taxa` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `assemblies` = NULL, `transcriptome_annotations` = NULL, ...) {
+    initialize = function(`release_timestamp` = NULL, `taxa` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `assemblies` = NULL, `transcriptome_annotations` = NULL, ...) {
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -266,8 +269,8 @@ CuratedSet <- R6::R6Class(
         self$`donors` <- `donors`
       }
       if (!is.null(`file_set_type`)) {
-        if (!(`file_set_type` %in% c("barcodes", "editing templates", "elements", "external data for catalog", "genome", "genes", "guide RNAs", "transcriptome", "variants"))) {
-          stop(paste("Error! \"", `file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"barcodes\", \"editing templates\", \"elements\", \"external data for catalog\", \"genome\", \"genes\", \"guide RNAs\", \"transcriptome\", \"variants\".", sep = ""))
+        if (!(`file_set_type` %in% c("barcodes", "editing templates", "elements", "external data for catalog", "genome", "genes", "guide RNAs", "training data for predictive models", "transcriptome", "variants"))) {
+          stop(paste("Error! \"", `file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"barcodes\", \"editing templates\", \"elements\", \"external data for catalog\", \"genome\", \"genes\", \"guide RNAs\", \"training data for predictive models\", \"transcriptome\", \"variants\".", sep = ""))
         }
         if (!(is.character(`file_set_type`) && length(`file_set_type`) == 1)) {
           stop(paste("Error! Invalid data for `file_set_type`. Must be a string:", `file_set_type`))
@@ -311,6 +314,11 @@ CuratedSet <- R6::R6Class(
         stopifnot(is.vector(`input_for`), length(`input_for`) != 0)
         sapply(`input_for`, function(x) stopifnot(is.character(x)))
         self$`input_for` <- `input_for`
+      }
+      if (!is.null(`construct_library_sets`)) {
+        stopifnot(is.vector(`construct_library_sets`), length(`construct_library_sets`) != 0)
+        sapply(`construct_library_sets`, function(x) stopifnot(is.character(x)))
+        self$`construct_library_sets` <- `construct_library_sets`
       }
       if (!is.null(`assemblies`)) {
         stopifnot(is.vector(`assemblies`), length(`assemblies`) != 0)
@@ -460,6 +468,10 @@ CuratedSet <- R6::R6Class(
         CuratedSetObject[["input_for"]] <-
           self$`input_for`
       }
+      if (!is.null(self$`construct_library_sets`)) {
+        CuratedSetObject[["construct_library_sets"]] <-
+          self$`construct_library_sets`
+      }
       if (!is.null(self$`assemblies`)) {
         CuratedSetObject[["assemblies"]] <-
           self$`assemblies`
@@ -559,8 +571,8 @@ CuratedSet <- R6::R6Class(
         self$`donors` <- ApiClient$new()$deserializeObj(this_object$`donors`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`file_set_type`)) {
-        if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("barcodes", "editing templates", "elements", "external data for catalog", "genome", "genes", "guide RNAs", "transcriptome", "variants"))) {
-          stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"barcodes\", \"editing templates\", \"elements\", \"external data for catalog\", \"genome\", \"genes\", \"guide RNAs\", \"transcriptome\", \"variants\".", sep = ""))
+        if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("barcodes", "editing templates", "elements", "external data for catalog", "genome", "genes", "guide RNAs", "training data for predictive models", "transcriptome", "variants"))) {
+          stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"barcodes\", \"editing templates\", \"elements\", \"external data for catalog\", \"genome\", \"genes\", \"guide RNAs\", \"training data for predictive models\", \"transcriptome\", \"variants\".", sep = ""))
         }
         self$`file_set_type` <- this_object$`file_set_type`
       }
@@ -584,6 +596,9 @@ CuratedSet <- R6::R6Class(
       }
       if (!is.null(this_object$`input_for`)) {
         self$`input_for` <- ApiClient$new()$deserializeObj(this_object$`input_for`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`construct_library_sets`)) {
+        self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`assemblies`)) {
         self$`assemblies` <- ApiClient$new()$deserializeObj(this_object$`assemblies`, "set[character]", loadNamespace("igvfclient"))
@@ -858,6 +873,14 @@ CuratedSet <- R6::R6Class(
           paste(unlist(lapply(self$`input_for`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`construct_library_sets`)) {
+          sprintf(
+          '"construct_library_sets":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`construct_library_sets`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`assemblies`)) {
           sprintf(
           '"assemblies":
@@ -918,8 +941,8 @@ CuratedSet <- R6::R6Class(
       self$`control_type` <- this_object$`control_type`
       self$`samples` <- ApiClient$new()$deserializeObj(this_object$`samples`, "set[character]", loadNamespace("igvfclient"))
       self$`donors` <- ApiClient$new()$deserializeObj(this_object$`donors`, "set[character]", loadNamespace("igvfclient"))
-      if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("barcodes", "editing templates", "elements", "external data for catalog", "genome", "genes", "guide RNAs", "transcriptome", "variants"))) {
-        stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"barcodes\", \"editing templates\", \"elements\", \"external data for catalog\", \"genome\", \"genes\", \"guide RNAs\", \"transcriptome\", \"variants\".", sep = ""))
+      if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("barcodes", "editing templates", "elements", "external data for catalog", "genome", "genes", "guide RNAs", "training data for predictive models", "transcriptome", "variants"))) {
+        stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"barcodes\", \"editing templates\", \"elements\", \"external data for catalog\", \"genome\", \"genes\", \"guide RNAs\", \"training data for predictive models\", \"transcriptome\", \"variants\".", sep = ""))
       }
       self$`file_set_type` <- this_object$`file_set_type`
       self$`@id` <- this_object$`@id`
@@ -929,6 +952,7 @@ CuratedSet <- R6::R6Class(
       self$`control_for` <- ApiClient$new()$deserializeObj(this_object$`control_for`, "set[character]", loadNamespace("igvfclient"))
       self$`submitted_files_timestamp` <- this_object$`submitted_files_timestamp`
       self$`input_for` <- ApiClient$new()$deserializeObj(this_object$`input_for`, "set[character]", loadNamespace("igvfclient"))
+      self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`assemblies` <- ApiClient$new()$deserializeObj(this_object$`assemblies`, "set[character]", loadNamespace("igvfclient"))
       self$`transcriptome_annotations` <- ApiClient$new()$deserializeObj(this_object$`transcriptome_annotations`, "set[character]", loadNamespace("igvfclient"))
       self
@@ -994,6 +1018,7 @@ CuratedSet <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1029,6 +1054,7 @@ CuratedSet <- R6::R6Class(
       if (!str_detect(self$`description`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         invalid_fields["description"] <- "Invalid value for `description`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
+
 
 
 

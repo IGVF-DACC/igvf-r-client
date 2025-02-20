@@ -19,10 +19,12 @@
 #' @field submitted_by The user who submitted the object. character [optional]
 #' @field submitter_comment Additional information specified by the submitter to be displayed as a comment on the portal. character [optional]
 #' @field description A plain text description of the object. character [optional]
+#' @field collections Some samples are part of particular data collections. list(character) [optional]
 #' @field geneid ENSEMBL GeneID of official nomenclature approved gene. The GeneID does not include the current version number suffix. character [optional]
 #' @field symbol Gene symbol approved by the official nomenclature. character [optional]
 #' @field name The full gene name preferably approved by the official nomenclature. character [optional]
 #' @field synonyms Alternative symbols that have been used to refer to the gene. list(character) [optional]
+#' @field study_sets The studies of IGVF that this gene was a part of. list(character) [optional]
 #' @field dbxrefs Unique identifiers from external resources. list(character) [optional]
 #' @field locations Gene locations specified using 1-based, closed coordinates for different versions of reference genome assemblies. list(\link{GeneLocation1}) [optional]
 #' @field version_number Current ENSEMBL GeneID version number of the gene. character [optional]
@@ -52,10 +54,12 @@ Gene <- R6::R6Class(
     `submitted_by` = NULL,
     `submitter_comment` = NULL,
     `description` = NULL,
+    `collections` = NULL,
     `geneid` = NULL,
     `symbol` = NULL,
     `name` = NULL,
     `synonyms` = NULL,
+    `study_sets` = NULL,
     `dbxrefs` = NULL,
     `locations` = NULL,
     `version_number` = NULL,
@@ -64,7 +68,7 @@ Gene <- R6::R6Class(
     `summary` = NULL,
     `title` = NULL,
     `geneid_with_version` = NULL,
-    `_field_list` = c("release_timestamp", "transcriptome_annotation", "taxa", "status", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "geneid", "symbol", "name", "synonyms", "dbxrefs", "locations", "version_number", "@id", "@type", "summary", "title", "geneid_with_version"),
+    `_field_list` = c("release_timestamp", "transcriptome_annotation", "taxa", "status", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "collections", "geneid", "symbol", "name", "synonyms", "study_sets", "dbxrefs", "locations", "version_number", "@id", "@type", "summary", "title", "geneid_with_version"),
     `additional_properties` = list(),
     #' Initialize a new Gene class.
     #'
@@ -83,10 +87,12 @@ Gene <- R6::R6Class(
     #' @param submitted_by The user who submitted the object.
     #' @param submitter_comment Additional information specified by the submitter to be displayed as a comment on the portal.
     #' @param description A plain text description of the object.
+    #' @param collections Some samples are part of particular data collections.
     #' @param geneid ENSEMBL GeneID of official nomenclature approved gene. The GeneID does not include the current version number suffix.
     #' @param symbol Gene symbol approved by the official nomenclature.
     #' @param name The full gene name preferably approved by the official nomenclature.
     #' @param synonyms Alternative symbols that have been used to refer to the gene.
+    #' @param study_sets The studies of IGVF that this gene was a part of.
     #' @param dbxrefs Unique identifiers from external resources.
     #' @param locations Gene locations specified using 1-based, closed coordinates for different versions of reference genome assemblies.
     #' @param version_number Current ENSEMBL GeneID version number of the gene.
@@ -98,7 +104,7 @@ Gene <- R6::R6Class(
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `transcriptome_annotation` = NULL, `taxa` = NULL, `status` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `geneid` = NULL, `symbol` = NULL, `name` = NULL, `synonyms` = NULL, `dbxrefs` = NULL, `locations` = NULL, `version_number` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `title` = NULL, `geneid_with_version` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`release_timestamp` = NULL, `transcriptome_annotation` = NULL, `taxa` = NULL, `status` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `collections` = NULL, `geneid` = NULL, `symbol` = NULL, `name` = NULL, `synonyms` = NULL, `study_sets` = NULL, `dbxrefs` = NULL, `locations` = NULL, `version_number` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `title` = NULL, `geneid_with_version` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -179,6 +185,11 @@ Gene <- R6::R6Class(
         }
         self$`description` <- `description`
       }
+      if (!is.null(`collections`)) {
+        stopifnot(is.vector(`collections`), length(`collections`) != 0)
+        sapply(`collections`, function(x) stopifnot(is.character(x)))
+        self$`collections` <- `collections`
+      }
       if (!is.null(`geneid`)) {
         if (!(is.character(`geneid`) && length(`geneid`) == 1)) {
           stop(paste("Error! Invalid data for `geneid`. Must be a string:", `geneid`))
@@ -201,6 +212,11 @@ Gene <- R6::R6Class(
         stopifnot(is.vector(`synonyms`), length(`synonyms`) != 0)
         sapply(`synonyms`, function(x) stopifnot(is.character(x)))
         self$`synonyms` <- `synonyms`
+      }
+      if (!is.null(`study_sets`)) {
+        stopifnot(is.vector(`study_sets`), length(`study_sets`) != 0)
+        sapply(`study_sets`, function(x) stopifnot(is.character(x)))
+        self$`study_sets` <- `study_sets`
       }
       if (!is.null(`dbxrefs`)) {
         stopifnot(is.vector(`dbxrefs`), length(`dbxrefs`) != 0)
@@ -310,6 +326,10 @@ Gene <- R6::R6Class(
         GeneObject[["description"]] <-
           self$`description`
       }
+      if (!is.null(self$`collections`)) {
+        GeneObject[["collections"]] <-
+          self$`collections`
+      }
       if (!is.null(self$`geneid`)) {
         GeneObject[["geneid"]] <-
           self$`geneid`
@@ -325,6 +345,10 @@ Gene <- R6::R6Class(
       if (!is.null(self$`synonyms`)) {
         GeneObject[["synonyms"]] <-
           self$`synonyms`
+      }
+      if (!is.null(self$`study_sets`)) {
+        GeneObject[["study_sets"]] <-
+          self$`study_sets`
       }
       if (!is.null(self$`dbxrefs`)) {
         GeneObject[["dbxrefs"]] <-
@@ -419,6 +443,9 @@ Gene <- R6::R6Class(
       if (!is.null(this_object$`description`)) {
         self$`description` <- this_object$`description`
       }
+      if (!is.null(this_object$`collections`)) {
+        self$`collections` <- ApiClient$new()$deserializeObj(this_object$`collections`, "set[character]", loadNamespace("igvfclient"))
+      }
       if (!is.null(this_object$`geneid`)) {
         self$`geneid` <- this_object$`geneid`
       }
@@ -430,6 +457,9 @@ Gene <- R6::R6Class(
       }
       if (!is.null(this_object$`synonyms`)) {
         self$`synonyms` <- ApiClient$new()$deserializeObj(this_object$`synonyms`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`study_sets`)) {
+        self$`study_sets` <- ApiClient$new()$deserializeObj(this_object$`study_sets`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`dbxrefs`)) {
         self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
@@ -569,6 +599,14 @@ Gene <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`description`, perl=TRUE)
           )
         },
+        if (!is.null(self$`collections`)) {
+          sprintf(
+          '"collections":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`collections`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`geneid`)) {
           sprintf(
           '"geneid":
@@ -599,6 +637,14 @@ Gene <- R6::R6Class(
              [%s]
           ',
           paste(unlist(lapply(self$`synonyms`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`study_sets`)) {
+          sprintf(
+          '"study_sets":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`study_sets`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`dbxrefs`)) {
@@ -705,10 +751,12 @@ Gene <- R6::R6Class(
       self$`submitted_by` <- this_object$`submitted_by`
       self$`submitter_comment` <- this_object$`submitter_comment`
       self$`description` <- this_object$`description`
+      self$`collections` <- ApiClient$new()$deserializeObj(this_object$`collections`, "set[character]", loadNamespace("igvfclient"))
       self$`geneid` <- this_object$`geneid`
       self$`symbol` <- this_object$`symbol`
       self$`name` <- this_object$`name`
       self$`synonyms` <- ApiClient$new()$deserializeObj(this_object$`synonyms`, "set[character]", loadNamespace("igvfclient"))
+      self$`study_sets` <- ApiClient$new()$deserializeObj(this_object$`study_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
       self$`locations` <- ApiClient$new()$deserializeObj(this_object$`locations`, "set[GeneLocation1]", loadNamespace("igvfclient"))
       self$`version_number` <- this_object$`version_number`
@@ -771,9 +819,11 @@ Gene <- R6::R6Class(
         return(FALSE)
       }
 
+
       if (!str_detect(self$`geneid`, "^ENS[A-Z]*G\\d{11}(_PAR_Y)?$")) {
         return(FALSE)
       }
+
 
 
 
@@ -810,9 +860,11 @@ Gene <- R6::R6Class(
         invalid_fields["description"] <- "Invalid value for `description`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
 
+
       if (!str_detect(self$`geneid`, "^ENS[A-Z]*G\\d{11}(_PAR_Y)?$")) {
         invalid_fields["geneid"] <- "Invalid value for `geneid`, must conform to the pattern ^ENS[A-Z]*G\\d{11}(_PAR_Y)?$."
       }
+
 
 
 

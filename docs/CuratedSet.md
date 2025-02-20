@@ -29,7 +29,7 @@ Name | Type | Description | Notes
 **control_type** | **character** | The type of control this file set represents. | [optional] 
 **samples** | **set[character]** | The sample(s) associated with this file set. | [optional] 
 **donors** | **set[character]** | The donor(s) associated with this file set. | [optional] 
-**file_set_type** | **character** | The category that best describes this curated file set. | [optional] [Enum: [barcodes, editing templates, elements, external data for catalog, genome, genes, guide RNAs, transcriptome, variants]] 
+**file_set_type** | **character** | The category that best describes this curated file set. | [optional] [Enum: [barcodes, editing templates, elements, external data for catalog, genome, genes, guide RNAs, training data for predictive models, transcriptome, variants]] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** |  | [optional] 
@@ -37,6 +37,7 @@ Name | Type | Description | Notes
 **control_for** | **set[character]** | The file sets for which this file set is a control. | [optional] 
 **submitted_files_timestamp** | **character** | The timestamp the first file object in the file_set or associated auxiliary sets was created. | [optional] 
 **input_for** | **set[character]** | The file sets that use this file set as an input. | [optional] 
+**construct_library_sets** | **set[character]** | The construct library sets associated with the samples of this file set. | [optional] 
 **assemblies** | **set[character]** | The genome assemblies to which the referencing files in the file set are utilizing (e.g., GRCh38). | [optional] 
 **transcriptome_annotations** | **set[character]** | The annotation versions of the reference resource. | [optional] 
 
