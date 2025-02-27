@@ -19,6 +19,8 @@
 #' @field description A plain text description of the object. character [optional]
 #' @field term_id An ontology term identifier describing a platform. character [optional]
 #' @field term_name Ontology term describing a biological sample, assay, trait, or disease. character [optional]
+#' @field definition Defintion of the term. character [optional]
+#' @field comment A comment about the term. character [optional]
 #' @field deprecated_ntr_terms A list of deprecated NTR terms previously associated with this ontology term. list(character) [optional]
 #' @field is_a A list of ontology terms which are the nearest ancestor to this ontology term. list(character) [optional]
 #' @field company The company that developed and sells the instrument. character [optional]
@@ -48,6 +50,8 @@ PlatformTerm <- R6::R6Class(
     `description` = NULL,
     `term_id` = NULL,
     `term_name` = NULL,
+    `definition` = NULL,
+    `comment` = NULL,
     `deprecated_ntr_terms` = NULL,
     `is_a` = NULL,
     `company` = NULL,
@@ -76,6 +80,8 @@ PlatformTerm <- R6::R6Class(
     #' @param description A plain text description of the object.
     #' @param term_id An ontology term identifier describing a platform.
     #' @param term_name Ontology term describing a biological sample, assay, trait, or disease.
+    #' @param definition Defintion of the term.
+    #' @param comment A comment about the term.
     #' @param deprecated_ntr_terms A list of deprecated NTR terms previously associated with this ontology term.
     #' @param is_a A list of ontology terms which are the nearest ancestor to this ontology term.
     #' @param company The company that developed and sells the instrument.
@@ -89,7 +95,7 @@ PlatformTerm <- R6::R6Class(
     #' @param ontology The ontology in which the term is recorded.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `status` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `term_id` = NULL, `term_name` = NULL, `deprecated_ntr_terms` = NULL, `is_a` = NULL, `company` = NULL, `sequencing_kits` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `name` = NULL, `synonyms` = NULL, `ancestors` = NULL, `ontology` = NULL, ...) {
+    initialize = function(`release_timestamp` = NULL, `status` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `term_id` = NULL, `term_name` = NULL, `definition` = NULL, `comment` = NULL, `deprecated_ntr_terms` = NULL, `is_a` = NULL, `company` = NULL, `sequencing_kits` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `name` = NULL, `synonyms` = NULL, `ancestors` = NULL, `ontology` = NULL, ...) {
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -163,6 +169,18 @@ PlatformTerm <- R6::R6Class(
           stop(paste("Error! Invalid data for `term_name`. Must be a string:", `term_name`))
         }
         self$`term_name` <- `term_name`
+      }
+      if (!is.null(`definition`)) {
+        if (!(is.character(`definition`) && length(`definition`) == 1)) {
+          stop(paste("Error! Invalid data for `definition`. Must be a string:", `definition`))
+        }
+        self$`definition` <- `definition`
+      }
+      if (!is.null(`comment`)) {
+        if (!(is.character(`comment`) && length(`comment`) == 1)) {
+          stop(paste("Error! Invalid data for `comment`. Must be a string:", `comment`))
+        }
+        self$`comment` <- `comment`
       }
       if (!is.null(`deprecated_ntr_terms`)) {
         stopifnot(is.vector(`deprecated_ntr_terms`), length(`deprecated_ntr_terms`) != 0)
@@ -285,6 +303,14 @@ PlatformTerm <- R6::R6Class(
         PlatformTermObject[["term_name"]] <-
           self$`term_name`
       }
+      if (!is.null(self$`definition`)) {
+        PlatformTermObject[["definition"]] <-
+          self$`definition`
+      }
+      if (!is.null(self$`comment`)) {
+        PlatformTermObject[["comment"]] <-
+          self$`comment`
+      }
       if (!is.null(self$`deprecated_ntr_terms`)) {
         PlatformTermObject[["deprecated_ntr_terms"]] <-
           self$`deprecated_ntr_terms`
@@ -379,6 +405,12 @@ PlatformTerm <- R6::R6Class(
       }
       if (!is.null(this_object$`term_name`)) {
         self$`term_name` <- this_object$`term_name`
+      }
+      if (!is.null(this_object$`definition`)) {
+        self$`definition` <- this_object$`definition`
+      }
+      if (!is.null(this_object$`comment`)) {
+        self$`comment` <- this_object$`comment`
       }
       if (!is.null(this_object$`deprecated_ntr_terms`)) {
         self$`deprecated_ntr_terms` <- ApiClient$new()$deserializeObj(this_object$`deprecated_ntr_terms`, "set[character]", loadNamespace("igvfclient"))
@@ -523,6 +555,22 @@ PlatformTerm <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`term_name`, perl=TRUE)
           )
         },
+        if (!is.null(self$`definition`)) {
+          sprintf(
+          '"definition":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`definition`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`comment`)) {
+          sprintf(
+          '"comment":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`comment`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`deprecated_ntr_terms`)) {
           sprintf(
           '"deprecated_ntr_terms":
@@ -640,6 +688,8 @@ PlatformTerm <- R6::R6Class(
       self$`description` <- this_object$`description`
       self$`term_id` <- this_object$`term_id`
       self$`term_name` <- this_object$`term_name`
+      self$`definition` <- this_object$`definition`
+      self$`comment` <- this_object$`comment`
       self$`deprecated_ntr_terms` <- ApiClient$new()$deserializeObj(this_object$`deprecated_ntr_terms`, "set[character]", loadNamespace("igvfclient"))
       self$`is_a` <- ApiClient$new()$deserializeObj(this_object$`is_a`, "set[character]", loadNamespace("igvfclient"))
       if (!is.null(this_object$`company`) && !(this_object$`company` %in% c("10X Genomics", "Element Biosciences", "Illumina", "Life Technologies", "Oxford Nanopore Technologies", "Pacific Biosciences", "Parse Biosciences", "Roche", "Singular Genomics"))) {
@@ -709,6 +759,14 @@ PlatformTerm <- R6::R6Class(
         return(FALSE)
       }
 
+      if (!str_detect(self$`definition`, "^(?![\\s\"'])[\\S|\\s]*[^\\s\"']$")) {
+        return(FALSE)
+      }
+
+      if (!str_detect(self$`comment`, "^(?![\\s\"'])[\\S|\\s]*[^\\s\"']$")) {
+        return(FALSE)
+      }
+
 
 
 
@@ -748,6 +806,14 @@ PlatformTerm <- R6::R6Class(
 
       if (!str_detect(self$`term_name`, "^(?![\\s\"'])[\\S|\\s]*[^\\s\"']$")) {
         invalid_fields["term_name"] <- "Invalid value for `term_name`, must conform to the pattern ^(?![\\s\"'])[\\S|\\s]*[^\\s\"']$."
+      }
+
+      if (!str_detect(self$`definition`, "^(?![\\s\"'])[\\S|\\s]*[^\\s\"']$")) {
+        invalid_fields["definition"] <- "Invalid value for `definition`, must conform to the pattern ^(?![\\s\"'])[\\S|\\s]*[^\\s\"']$."
+      }
+
+      if (!str_detect(self$`comment`, "^(?![\\s\"'])[\\S|\\s]*[^\\s\"']$")) {
+        invalid_fields["comment"] <- "Invalid value for `comment`, must conform to the pattern ^(?![\\s\"'])[\\S|\\s]*[^\\s\"']$."
       }
 
 

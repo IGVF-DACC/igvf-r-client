@@ -165,8 +165,8 @@ PhenotypicFeature <- R6::R6Class(
         self$`quantity` <- `quantity`
       }
       if (!is.null(`quantity_units`)) {
-        if (!(`quantity_units` %in% c("meter", "micromole", "nanogram", "microgram", "milligram", "gram", "kilogram", "milli-International Unit per milliliter", "picogram per milliliter", "nanogram per milliliter", "milligram per deciliter"))) {
-          stop(paste("Error! \"", `quantity_units`, "\" cannot be assigned to `quantity_units`. Must be \"meter\", \"micromole\", \"nanogram\", \"microgram\", \"milligram\", \"gram\", \"kilogram\", \"milli-International Unit per milliliter\", \"picogram per milliliter\", \"nanogram per milliliter\", \"milligram per deciliter\".", sep = ""))
+        if (!(`quantity_units` %in% c("meter", "micromole", "nanogram", "microgram", "milligram", "gram", "kilogram", "milli-International Unit per milliliter", "picogram per milliliter", "nanogram per milliliter", "milligram per deciliter", "UPDRS", "MMSE"))) {
+          stop(paste("Error! \"", `quantity_units`, "\" cannot be assigned to `quantity_units`. Must be \"meter\", \"micromole\", \"nanogram\", \"microgram\", \"milligram\", \"gram\", \"kilogram\", \"milli-International Unit per milliliter\", \"picogram per milliliter\", \"nanogram per milliliter\", \"milligram per deciliter\", \"UPDRS\", \"MMSE\".", sep = ""))
         }
         if (!(is.character(`quantity_units`) && length(`quantity_units`) == 1)) {
           stop(paste("Error! Invalid data for `quantity_units`. Must be a string:", `quantity_units`))
@@ -353,8 +353,8 @@ PhenotypicFeature <- R6::R6Class(
         self$`quantity` <- this_object$`quantity`
       }
       if (!is.null(this_object$`quantity_units`)) {
-        if (!is.null(this_object$`quantity_units`) && !(this_object$`quantity_units` %in% c("meter", "micromole", "nanogram", "microgram", "milligram", "gram", "kilogram", "milli-International Unit per milliliter", "picogram per milliliter", "nanogram per milliliter", "milligram per deciliter"))) {
-          stop(paste("Error! \"", this_object$`quantity_units`, "\" cannot be assigned to `quantity_units`. Must be \"meter\", \"micromole\", \"nanogram\", \"microgram\", \"milligram\", \"gram\", \"kilogram\", \"milli-International Unit per milliliter\", \"picogram per milliliter\", \"nanogram per milliliter\", \"milligram per deciliter\".", sep = ""))
+        if (!is.null(this_object$`quantity_units`) && !(this_object$`quantity_units` %in% c("meter", "micromole", "nanogram", "microgram", "milligram", "gram", "kilogram", "milli-International Unit per milliliter", "picogram per milliliter", "nanogram per milliliter", "milligram per deciliter", "UPDRS", "MMSE"))) {
+          stop(paste("Error! \"", this_object$`quantity_units`, "\" cannot be assigned to `quantity_units`. Must be \"meter\", \"micromole\", \"nanogram\", \"microgram\", \"milligram\", \"gram\", \"kilogram\", \"milli-International Unit per milliliter\", \"picogram per milliliter\", \"nanogram per milliliter\", \"milligram per deciliter\", \"UPDRS\", \"MMSE\".", sep = ""))
         }
         self$`quantity_units` <- this_object$`quantity_units`
       }
@@ -578,8 +578,8 @@ PhenotypicFeature <- R6::R6Class(
       self$`description` <- this_object$`description`
       self$`feature` <- this_object$`feature`
       self$`quantity` <- this_object$`quantity`
-      if (!is.null(this_object$`quantity_units`) && !(this_object$`quantity_units` %in% c("meter", "micromole", "nanogram", "microgram", "milligram", "gram", "kilogram", "milli-International Unit per milliliter", "picogram per milliliter", "nanogram per milliliter", "milligram per deciliter"))) {
-        stop(paste("Error! \"", this_object$`quantity_units`, "\" cannot be assigned to `quantity_units`. Must be \"meter\", \"micromole\", \"nanogram\", \"microgram\", \"milligram\", \"gram\", \"kilogram\", \"milli-International Unit per milliliter\", \"picogram per milliliter\", \"nanogram per milliliter\", \"milligram per deciliter\".", sep = ""))
+      if (!is.null(this_object$`quantity_units`) && !(this_object$`quantity_units` %in% c("meter", "micromole", "nanogram", "microgram", "milligram", "gram", "kilogram", "milli-International Unit per milliliter", "picogram per milliliter", "nanogram per milliliter", "milligram per deciliter", "UPDRS", "MMSE"))) {
+        stop(paste("Error! \"", this_object$`quantity_units`, "\" cannot be assigned to `quantity_units`. Must be \"meter\", \"micromole\", \"nanogram\", \"microgram\", \"milligram\", \"gram\", \"kilogram\", \"milli-International Unit per milliliter\", \"picogram per milliliter\", \"nanogram per milliliter\", \"milligram per deciliter\", \"UPDRS\", \"MMSE\".", sep = ""))
       }
       self$`quantity_units` <- this_object$`quantity_units`
       if (!is.null(this_object$`quality`) && !(this_object$`quality` %in% c("none", "sparse", "moderate", "frequent", "unknown", "I", "II", "III", "IV", "V", "VI", "2/2", "2/3", "2/4", "3/3", "3/4", "4/4"))) {

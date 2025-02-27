@@ -296,7 +296,7 @@ GeneLocation <- R6::R6Class(
         return(FALSE)
       }
 
-      if (!str_detect(self$`chromosome`, "^(chr[0-9A-Za-z]+)$")) {
+      if (!str_detect(self$`chromosome`, "^(chr[0-9A-Za-z_]+)$")) {
         return(FALSE)
       }
 
@@ -339,8 +339,8 @@ GeneLocation <- R6::R6Class(
         invalid_fields["chromosome"] <- "Non-nullable required field `chromosome` cannot be null."
       }
 
-      if (!str_detect(self$`chromosome`, "^(chr[0-9A-Za-z]+)$")) {
-        invalid_fields["chromosome"] <- "Invalid value for `chromosome`, must conform to the pattern ^(chr[0-9A-Za-z]+)$."
+      if (!str_detect(self$`chromosome`, "^(chr[0-9A-Za-z_]+)$")) {
+        invalid_fields["chromosome"] <- "Invalid value for `chromosome`, must conform to the pattern ^(chr[0-9A-Za-z_]+)$."
       }
 
       # check if the required `assembly` is null

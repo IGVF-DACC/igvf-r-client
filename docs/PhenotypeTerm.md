@@ -17,6 +17,8 @@ Name | Type | Description | Notes
 **description** | **character** | A plain text description of the object. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **term_id** | **character** | An ontology term identifier describing a phenotype. | [optional] [Pattern: ^(DOID|EFO|HP|MONDO|OBA|NTR|GO):[0-9]{2,8}|OBA:VT[0-9]{2,8}|NCIT:C[0-9]{2,8}$] 
 **term_name** | **character** | Ontology term describing a biological sample, assay, trait, or disease. | [optional] [Pattern: ^(?![\\s\&quot;&#39;])[\\S|\\s]*[^\\s\&quot;&#39;]$] 
+**definition** | **character** | Defintion of the term. | [optional] [Pattern: ^(?![\\s\&quot;&#39;])[\\S|\\s]*[^\\s\&quot;&#39;]$] 
+**comment** | **character** | A comment about the term. | [optional] [Pattern: ^(?![\\s\&quot;&#39;])[\\S|\\s]*[^\\s\&quot;&#39;]$] 
 **deprecated_ntr_terms** | **set[character]** | A list of deprecated NTR terms previously associated with this ontology term. | [optional] 
 **is_a** | **set[character]** | A list of ontology terms which are the nearest ancestor to this ontology term. | [optional] 
 **@id** | **character** |  | [optional] 
