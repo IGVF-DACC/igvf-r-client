@@ -645,7 +645,7 @@ Software <- R6::R6Class(
         return(FALSE)
       }
 
-      if (!str_detect(self$`name`, "^[a-z0-9\\-\\_]+")) {
+      if (!str_detect(self$`name`, "^[a-z0-9\\-_]+")) {
         return(FALSE)
       }
 
@@ -684,8 +684,8 @@ Software <- R6::R6Class(
         invalid_fields["description"] <- "Invalid value for `description`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
 
-      if (!str_detect(self$`name`, "^[a-z0-9\\-\\_]+")) {
-        invalid_fields["name"] <- "Invalid value for `name`, must conform to the pattern ^[a-z0-9\\-\\_]+."
+      if (!str_detect(self$`name`, "^[a-z0-9\\-_]+")) {
+        invalid_fields["name"] <- "Invalid value for `name`, must conform to the pattern ^[a-z0-9\\-_]+."
       }
 
       if (!str_detect(self$`title`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {

@@ -25,9 +25,12 @@
 #' @field data_use_limitation_modifiers Code indicating a modifier on the limitations on data use for data generated from the applicable samples. COL: Requestor must provide a letter of collaboration with the primary study investigator(s). GSO: Use of the data is limited to genetic studies only. IRB: Approval Required IRB Requestor must provide documentation of local IRB approval. MDS: Use of the data includes methods development research (e.g., development and testing of software or algorithms). NPU: Use of the data is limited to not-for-profit organizations. PUB: Requestor agrees to make results of studies using the data available to the larger scientific community. list(character) [optional]
 #' @field samples Samples covered by this institutional certificate. list(character) [optional]
 #' @field urls Link to the institutional certification form. list(character) [optional]
+#' @field partner_labs Labs which belong to same institution as the signing PI and can share this institutional certificate. list(character) [optional]
+#' @field partner_awards Awards granted to at least one lab that belongs to same institution as the signing PI and can share this institutional certificate. list(character) [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the object. character [optional]
+#' @field data_use_limitation_summary A combination of the data use limitation and its modifiers character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -52,9 +55,12 @@ InstitutionalCertificate <- R6::R6Class(
     `data_use_limitation_modifiers` = NULL,
     `samples` = NULL,
     `urls` = NULL,
+    `partner_labs` = NULL,
+    `partner_awards` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
+    `data_use_limitation_summary` = NULL,
     #' Initialize a new InstitutionalCertificate class.
     #'
     #' @description
@@ -78,12 +84,15 @@ InstitutionalCertificate <- R6::R6Class(
     #' @param data_use_limitation_modifiers Code indicating a modifier on the limitations on data use for data generated from the applicable samples. COL: Requestor must provide a letter of collaboration with the primary study investigator(s). GSO: Use of the data is limited to genetic studies only. IRB: Approval Required IRB Requestor must provide documentation of local IRB approval. MDS: Use of the data includes methods development research (e.g., development and testing of software or algorithms). NPU: Use of the data is limited to not-for-profit organizations. PUB: Requestor agrees to make results of studies using the data available to the larger scientific community.
     #' @param samples Samples covered by this institutional certificate.
     #' @param urls Link to the institutional certification form.
+    #' @param partner_labs Labs which belong to same institution as the signing PI and can share this institutional certificate.
+    #' @param partner_awards Awards granted to at least one lab that belongs to same institution as the signing PI and can share this institutional certificate.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the object.
+    #' @param data_use_limitation_summary A combination of the data use limitation and its modifiers
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `status` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `certificate_identifier` = NULL, `controlled_access` = NULL, `data_use_limitation` = NULL, `data_use_limitation_modifiers` = NULL, `samples` = NULL, `urls` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, ...) {
+    initialize = function(`release_timestamp` = NULL, `status` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `certificate_identifier` = NULL, `controlled_access` = NULL, `data_use_limitation` = NULL, `data_use_limitation_modifiers` = NULL, `samples` = NULL, `urls` = NULL, `partner_labs` = NULL, `partner_awards` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `data_use_limitation_summary` = NULL, ...) {
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -194,6 +203,16 @@ InstitutionalCertificate <- R6::R6Class(
         sapply(`urls`, function(x) stopifnot(is.character(x)))
         self$`urls` <- `urls`
       }
+      if (!is.null(`partner_labs`)) {
+        stopifnot(is.vector(`partner_labs`), length(`partner_labs`) != 0)
+        sapply(`partner_labs`, function(x) stopifnot(is.character(x)))
+        self$`partner_labs` <- `partner_labs`
+      }
+      if (!is.null(`partner_awards`)) {
+        stopifnot(is.vector(`partner_awards`), length(`partner_awards`) != 0)
+        sapply(`partner_awards`, function(x) stopifnot(is.character(x)))
+        self$`partner_awards` <- `partner_awards`
+      }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
           stop(paste("Error! Invalid data for `@id`. Must be a string:", `@id`))
@@ -210,6 +229,12 @@ InstitutionalCertificate <- R6::R6Class(
           stop(paste("Error! Invalid data for `summary`. Must be a string:", `summary`))
         }
         self$`summary` <- `summary`
+      }
+      if (!is.null(`data_use_limitation_summary`)) {
+        if (!(is.character(`data_use_limitation_summary`) && length(`data_use_limitation_summary`) == 1)) {
+          stop(paste("Error! Invalid data for `data_use_limitation_summary`. Must be a string:", `data_use_limitation_summary`))
+        }
+        self$`data_use_limitation_summary` <- `data_use_limitation_summary`
       }
     },
     #' To JSON string
@@ -293,6 +318,14 @@ InstitutionalCertificate <- R6::R6Class(
         InstitutionalCertificateObject[["urls"]] <-
           self$`urls`
       }
+      if (!is.null(self$`partner_labs`)) {
+        InstitutionalCertificateObject[["partner_labs"]] <-
+          self$`partner_labs`
+      }
+      if (!is.null(self$`partner_awards`)) {
+        InstitutionalCertificateObject[["partner_awards"]] <-
+          self$`partner_awards`
+      }
       if (!is.null(self$`@id`)) {
         InstitutionalCertificateObject[["@id"]] <-
           self$`@id`
@@ -304,6 +337,10 @@ InstitutionalCertificate <- R6::R6Class(
       if (!is.null(self$`summary`)) {
         InstitutionalCertificateObject[["summary"]] <-
           self$`summary`
+      }
+      if (!is.null(self$`data_use_limitation_summary`)) {
+        InstitutionalCertificateObject[["data_use_limitation_summary"]] <-
+          self$`data_use_limitation_summary`
       }
       InstitutionalCertificateObject
     },
@@ -377,6 +414,12 @@ InstitutionalCertificate <- R6::R6Class(
       if (!is.null(this_object$`urls`)) {
         self$`urls` <- ApiClient$new()$deserializeObj(this_object$`urls`, "set[character]", loadNamespace("igvfclient"))
       }
+      if (!is.null(this_object$`partner_labs`)) {
+        self$`partner_labs` <- ApiClient$new()$deserializeObj(this_object$`partner_labs`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`partner_awards`)) {
+        self$`partner_awards` <- ApiClient$new()$deserializeObj(this_object$`partner_awards`, "set[character]", loadNamespace("igvfclient"))
+      }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
       }
@@ -385,6 +428,9 @@ InstitutionalCertificate <- R6::R6Class(
       }
       if (!is.null(this_object$`summary`)) {
         self$`summary` <- this_object$`summary`
+      }
+      if (!is.null(this_object$`data_use_limitation_summary`)) {
+        self$`data_use_limitation_summary` <- this_object$`data_use_limitation_summary`
       }
       self
     },
@@ -541,6 +587,22 @@ InstitutionalCertificate <- R6::R6Class(
           paste(unlist(lapply(self$`urls`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`partner_labs`)) {
+          sprintf(
+          '"partner_labs":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`partner_labs`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`partner_awards`)) {
+          sprintf(
+          '"partner_awards":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`partner_awards`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -563,6 +625,14 @@ InstitutionalCertificate <- R6::R6Class(
             "%s"
                     ',
           gsub('(?<!\\\\)\\"', '\\\\"', self$`summary`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`data_use_limitation_summary`)) {
+          sprintf(
+          '"data_use_limitation_summary":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`data_use_limitation_summary`, perl=TRUE)
           )
         }
       )
@@ -603,9 +673,12 @@ InstitutionalCertificate <- R6::R6Class(
       self$`data_use_limitation_modifiers` <- ApiClient$new()$deserializeObj(this_object$`data_use_limitation_modifiers`, "set[character]", loadNamespace("igvfclient"))
       self$`samples` <- ApiClient$new()$deserializeObj(this_object$`samples`, "set[character]", loadNamespace("igvfclient"))
       self$`urls` <- ApiClient$new()$deserializeObj(this_object$`urls`, "set[character]", loadNamespace("igvfclient"))
+      self$`partner_labs` <- ApiClient$new()$deserializeObj(this_object$`partner_labs`, "set[character]", loadNamespace("igvfclient"))
+      self$`partner_awards` <- ApiClient$new()$deserializeObj(this_object$`partner_awards`, "set[character]", loadNamespace("igvfclient"))
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
+      self$`data_use_limitation_summary` <- this_object$`data_use_limitation_summary`
       self
     },
     #' Validate JSON input with respect to InstitutionalCertificate
@@ -660,6 +733,8 @@ InstitutionalCertificate <- R6::R6Class(
 
 
 
+
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -691,6 +766,8 @@ InstitutionalCertificate <- R6::R6Class(
       if (!str_detect(self$`certificate_identifier`, "^IP\\d{3}-\\d{2}$")) {
         invalid_fields["certificate_identifier"] <- "Invalid value for `certificate_identifier`, must conform to the pattern ^IP\\d{3}-\\d{2}$."
       }
+
+
 
 
 

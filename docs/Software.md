@@ -19,7 +19,7 @@ Name | Type | Description | Notes
 **submitted_by** | **character** | The user who submitted the object. | [optional] 
 **submitter_comment** | **character** | Additional information specified by the submitter to be displayed as a comment on the portal. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **description** | **character** | A plain text description of the object. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
-**name** | **character** | Unique name of the software package; a lowercase version of the title. | [optional] [Pattern: ^[a-z0-9\\-\\_]+] 
+**name** | **character** | Unique name of the software package; a lowercase version of the title. | [optional] [Pattern: ^[a-z0-9\\-_]+] 
 **title** | **character** | The preferred viewable name of the software. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **used_by** | **set[character]** | The component(s) of the IGVF consortium that utilize this software. | [optional] [Enum: ] 
 **@id** | **character** |  | [optional] 

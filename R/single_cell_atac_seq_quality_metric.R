@@ -29,22 +29,24 @@
 #' @field n_fragment  numeric [optional]
 #' @field frac_dup  numeric [optional]
 #' @field frac_mito  numeric [optional]
-#' @field total  numeric [optional]
 #' @field duplicate  numeric [optional]
 #' @field unmapped  numeric [optional]
 #' @field lowmapq  numeric [optional]
 #' @field joint_barcodes_passing  numeric [optional]
-#' @field n_reads  numeric [optional]
-#' @field n_mapped_reads  numeric [optional]
-#' @field n_uniquely_mapped_reads  numeric [optional]
-#' @field n_reads_with_multi_mappings  numeric [optional]
-#' @field n_candidates  numeric [optional]
-#' @field n_mappings  numeric [optional]
-#' @field n_uni_mappings  numeric [optional]
-#' @field n_multi_mappings  numeric [optional]
-#' @field n_barcodes_on_onlist  numeric [optional]
-#' @field n_corrected_barcodes  numeric [optional]
-#' @field n_output_mappings  numeric [optional]
+#' @field n_reads Total count of sequencing reads processed. numeric [optional]
+#' @field n_mapped_reads Reads successfully aligned to the reference genome. numeric [optional]
+#' @field n_uniquely_mapped_reads Reads aligned to a single location in the genome. numeric [optional]
+#' @field n_reads_with_multi_mappings Reads aligned to multiple locations in the genome. numeric [optional]
+#' @field n_candidates Potential mapping locations considered during alignment. numeric [optional]
+#' @field n_mappings Total successful alignments, including multiple mappings per read. numeric [optional]
+#' @field n_uni_mappings Total alignments where reads map to a single location. numeric [optional]
+#' @field n_multi_mappings Total alignments where reads map to multiple locations. numeric [optional]
+#' @field n_barcodes_on_onlist Barcodes matching the expected list of valid barcodes. numeric [optional]
+#' @field n_corrected_barcodes Barcodes adjusted to match valid entries in the onlist. numeric [optional]
+#' @field n_output_mappings Final count of fragments after deduplication and filtering. numeric [optional]
+#' @field uni_mappings Number of fragments mapping to single location in the genome. numeric [optional]
+#' @field multi_mappings Number of fragments mappig in multiple locations in the genome. numeric [optional]
+#' @field total Sum of uni-mappings and multi-mappings. numeric [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the quality metric. character [optional]
@@ -79,7 +81,6 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
     `n_fragment` = NULL,
     `frac_dup` = NULL,
     `frac_mito` = NULL,
-    `total` = NULL,
     `duplicate` = NULL,
     `unmapped` = NULL,
     `lowmapq` = NULL,
@@ -95,10 +96,13 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
     `n_barcodes_on_onlist` = NULL,
     `n_corrected_barcodes` = NULL,
     `n_output_mappings` = NULL,
+    `uni_mappings` = NULL,
+    `multi_mappings` = NULL,
+    `total` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
-    `_field_list` = c("status", "release_timestamp", "attachment", "lab", "award", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "quality_metric_of", "analysis_step_version", "tsse", "n_fragments", "n_barcodes", "pct_duplicates", "n_fragment", "frac_dup", "frac_mito", "total", "duplicate", "unmapped", "lowmapq", "joint_barcodes_passing", "n_reads", "n_mapped_reads", "n_uniquely_mapped_reads", "n_reads_with_multi_mappings", "n_candidates", "n_mappings", "n_uni_mappings", "n_multi_mappings", "n_barcodes_on_onlist", "n_corrected_barcodes", "n_output_mappings", "@id", "@type", "summary"),
+    `_field_list` = c("status", "release_timestamp", "attachment", "lab", "award", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "quality_metric_of", "analysis_step_version", "tsse", "n_fragments", "n_barcodes", "pct_duplicates", "n_fragment", "frac_dup", "frac_mito", "duplicate", "unmapped", "lowmapq", "joint_barcodes_passing", "n_reads", "n_mapped_reads", "n_uniquely_mapped_reads", "n_reads_with_multi_mappings", "n_candidates", "n_mappings", "n_uni_mappings", "n_multi_mappings", "n_barcodes_on_onlist", "n_corrected_barcodes", "n_output_mappings", "uni_mappings", "multi_mappings", "total", "@id", "@type", "summary"),
     `additional_properties` = list(),
     #' Initialize a new SingleCellAtacSeqQualityMetric class.
     #'
@@ -127,29 +131,31 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
     #' @param n_fragment 
     #' @param frac_dup 
     #' @param frac_mito 
-    #' @param total 
     #' @param duplicate 
     #' @param unmapped 
     #' @param lowmapq 
     #' @param joint_barcodes_passing 
-    #' @param n_reads 
-    #' @param n_mapped_reads 
-    #' @param n_uniquely_mapped_reads 
-    #' @param n_reads_with_multi_mappings 
-    #' @param n_candidates 
-    #' @param n_mappings 
-    #' @param n_uni_mappings 
-    #' @param n_multi_mappings 
-    #' @param n_barcodes_on_onlist 
-    #' @param n_corrected_barcodes 
-    #' @param n_output_mappings 
+    #' @param n_reads Total count of sequencing reads processed.
+    #' @param n_mapped_reads Reads successfully aligned to the reference genome.
+    #' @param n_uniquely_mapped_reads Reads aligned to a single location in the genome.
+    #' @param n_reads_with_multi_mappings Reads aligned to multiple locations in the genome.
+    #' @param n_candidates Potential mapping locations considered during alignment.
+    #' @param n_mappings Total successful alignments, including multiple mappings per read.
+    #' @param n_uni_mappings Total alignments where reads map to a single location.
+    #' @param n_multi_mappings Total alignments where reads map to multiple locations.
+    #' @param n_barcodes_on_onlist Barcodes matching the expected list of valid barcodes.
+    #' @param n_corrected_barcodes Barcodes adjusted to match valid entries in the onlist.
+    #' @param n_output_mappings Final count of fragments after deduplication and filtering.
+    #' @param uni_mappings Number of fragments mapping to single location in the genome.
+    #' @param multi_mappings Number of fragments mappig in multiple locations in the genome.
+    #' @param total Sum of uni-mappings and multi-mappings.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the quality metric.
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`status` = NULL, `release_timestamp` = NULL, `attachment` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `quality_metric_of` = NULL, `analysis_step_version` = NULL, `tsse` = NULL, `n_fragments` = NULL, `n_barcodes` = NULL, `pct_duplicates` = NULL, `n_fragment` = NULL, `frac_dup` = NULL, `frac_mito` = NULL, `total` = NULL, `duplicate` = NULL, `unmapped` = NULL, `lowmapq` = NULL, `joint_barcodes_passing` = NULL, `n_reads` = NULL, `n_mapped_reads` = NULL, `n_uniquely_mapped_reads` = NULL, `n_reads_with_multi_mappings` = NULL, `n_candidates` = NULL, `n_mappings` = NULL, `n_uni_mappings` = NULL, `n_multi_mappings` = NULL, `n_barcodes_on_onlist` = NULL, `n_corrected_barcodes` = NULL, `n_output_mappings` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`status` = NULL, `release_timestamp` = NULL, `attachment` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `quality_metric_of` = NULL, `analysis_step_version` = NULL, `tsse` = NULL, `n_fragments` = NULL, `n_barcodes` = NULL, `pct_duplicates` = NULL, `n_fragment` = NULL, `frac_dup` = NULL, `frac_mito` = NULL, `duplicate` = NULL, `unmapped` = NULL, `lowmapq` = NULL, `joint_barcodes_passing` = NULL, `n_reads` = NULL, `n_mapped_reads` = NULL, `n_uniquely_mapped_reads` = NULL, `n_reads_with_multi_mappings` = NULL, `n_candidates` = NULL, `n_mappings` = NULL, `n_uni_mappings` = NULL, `n_multi_mappings` = NULL, `n_barcodes_on_onlist` = NULL, `n_corrected_barcodes` = NULL, `n_output_mappings` = NULL, `uni_mappings` = NULL, `multi_mappings` = NULL, `total` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`status`)) {
         if (!(`status` %in% c("archived", "deleted", "in progress", "preview", "released"))) {
           stop(paste("Error! \"", `status`, "\" cannot be assigned to `status`. Must be \"archived\", \"deleted\", \"in progress\", \"preview\", \"released\".", sep = ""))
@@ -260,9 +266,6 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
       if (!is.null(`frac_mito`)) {
         self$`frac_mito` <- `frac_mito`
       }
-      if (!is.null(`total`)) {
-        self$`total` <- `total`
-      }
       if (!is.null(`duplicate`)) {
         self$`duplicate` <- `duplicate`
       }
@@ -307,6 +310,15 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
       }
       if (!is.null(`n_output_mappings`)) {
         self$`n_output_mappings` <- `n_output_mappings`
+      }
+      if (!is.null(`uni_mappings`)) {
+        self$`uni_mappings` <- `uni_mappings`
+      }
+      if (!is.null(`multi_mappings`)) {
+        self$`multi_mappings` <- `multi_mappings`
+      }
+      if (!is.null(`total`)) {
+        self$`total` <- `total`
       }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
@@ -428,10 +440,6 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
         SingleCellAtacSeqQualityMetricObject[["frac_mito"]] <-
           self$`frac_mito`
       }
-      if (!is.null(self$`total`)) {
-        SingleCellAtacSeqQualityMetricObject[["total"]] <-
-          self$`total`
-      }
       if (!is.null(self$`duplicate`)) {
         SingleCellAtacSeqQualityMetricObject[["duplicate"]] <-
           self$`duplicate`
@@ -491,6 +499,18 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
       if (!is.null(self$`n_output_mappings`)) {
         SingleCellAtacSeqQualityMetricObject[["n_output_mappings"]] <-
           self$`n_output_mappings`
+      }
+      if (!is.null(self$`uni_mappings`)) {
+        SingleCellAtacSeqQualityMetricObject[["uni_mappings"]] <-
+          self$`uni_mappings`
+      }
+      if (!is.null(self$`multi_mappings`)) {
+        SingleCellAtacSeqQualityMetricObject[["multi_mappings"]] <-
+          self$`multi_mappings`
+      }
+      if (!is.null(self$`total`)) {
+        SingleCellAtacSeqQualityMetricObject[["total"]] <-
+          self$`total`
       }
       if (!is.null(self$`@id`)) {
         SingleCellAtacSeqQualityMetricObject[["@id"]] <-
@@ -591,9 +611,6 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
       if (!is.null(this_object$`frac_mito`)) {
         self$`frac_mito` <- this_object$`frac_mito`
       }
-      if (!is.null(this_object$`total`)) {
-        self$`total` <- this_object$`total`
-      }
       if (!is.null(this_object$`duplicate`)) {
         self$`duplicate` <- this_object$`duplicate`
       }
@@ -638,6 +655,15 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
       }
       if (!is.null(this_object$`n_output_mappings`)) {
         self$`n_output_mappings` <- this_object$`n_output_mappings`
+      }
+      if (!is.null(this_object$`uni_mappings`)) {
+        self$`uni_mappings` <- this_object$`uni_mappings`
+      }
+      if (!is.null(this_object$`multi_mappings`)) {
+        self$`multi_mappings` <- this_object$`multi_mappings`
+      }
+      if (!is.null(this_object$`total`)) {
+        self$`total` <- this_object$`total`
       }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
@@ -842,14 +868,6 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
           self$`frac_mito`
           )
         },
-        if (!is.null(self$`total`)) {
-          sprintf(
-          '"total":
-            %f
-                    ',
-          self$`total`
-          )
-        },
         if (!is.null(self$`duplicate`)) {
           sprintf(
           '"duplicate":
@@ -970,6 +988,30 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
           self$`n_output_mappings`
           )
         },
+        if (!is.null(self$`uni_mappings`)) {
+          sprintf(
+          '"uni_mappings":
+            %f
+                    ',
+          self$`uni_mappings`
+          )
+        },
+        if (!is.null(self$`multi_mappings`)) {
+          sprintf(
+          '"multi_mappings":
+            %f
+                    ',
+          self$`multi_mappings`
+          )
+        },
+        if (!is.null(self$`total`)) {
+          sprintf(
+          '"total":
+            %f
+                    ',
+          self$`total`
+          )
+        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -1038,7 +1080,6 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
       self$`n_fragment` <- this_object$`n_fragment`
       self$`frac_dup` <- this_object$`frac_dup`
       self$`frac_mito` <- this_object$`frac_mito`
-      self$`total` <- this_object$`total`
       self$`duplicate` <- this_object$`duplicate`
       self$`unmapped` <- this_object$`unmapped`
       self$`lowmapq` <- this_object$`lowmapq`
@@ -1054,6 +1095,9 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
       self$`n_barcodes_on_onlist` <- this_object$`n_barcodes_on_onlist`
       self$`n_corrected_barcodes` <- this_object$`n_corrected_barcodes`
       self$`n_output_mappings` <- this_object$`n_output_mappings`
+      self$`uni_mappings` <- this_object$`uni_mappings`
+      self$`multi_mappings` <- this_object$`multi_mappings`
+      self$`total` <- this_object$`total`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
