@@ -53,6 +53,7 @@
 #' @field href The download path to obtain file. character [optional]
 #' @field s3_uri The S3 URI of public file object. character [optional]
 #' @field upload_credentials The upload credentials for S3 to submit the file content. object [optional]
+#' @field validate_onlist_files Whether checkfiles will validate the onlist files. character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -105,6 +106,7 @@ ConfigurationFile <- R6::R6Class(
     `href` = NULL,
     `s3_uri` = NULL,
     `upload_credentials` = NULL,
+    `validate_onlist_files` = NULL,
     #' Initialize a new ConfigurationFile class.
     #'
     #' @description
@@ -156,9 +158,10 @@ ConfigurationFile <- R6::R6Class(
     #' @param href The download path to obtain file.
     #' @param s3_uri The S3 URI of public file object.
     #' @param upload_credentials The upload credentials for S3 to submit the file content.
+    #' @param validate_onlist_files Whether checkfiles will validate the onlist files.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `seqspec_of` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `workflow` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
+    initialize = function(`release_timestamp` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `seqspec_of` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `workflow` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `validate_onlist_files` = NULL, ...) {
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -426,6 +429,12 @@ ConfigurationFile <- R6::R6Class(
       if (!is.null(`upload_credentials`)) {
         self$`upload_credentials` <- `upload_credentials`
       }
+      if (!is.null(`validate_onlist_files`)) {
+        if (!(is.logical(`validate_onlist_files`) && length(`validate_onlist_files`) == 1)) {
+          stop(paste("Error! Invalid data for `validate_onlist_files`. Must be a boolean:", `validate_onlist_files`))
+        }
+        self$`validate_onlist_files` <- `validate_onlist_files`
+      }
     },
     #' To JSON string
     #'
@@ -620,6 +629,10 @@ ConfigurationFile <- R6::R6Class(
         ConfigurationFileObject[["upload_credentials"]] <-
           self$`upload_credentials`
       }
+      if (!is.null(self$`validate_onlist_files`)) {
+        ConfigurationFileObject[["validate_onlist_files"]] <-
+          self$`validate_onlist_files`
+      }
       ConfigurationFileObject
     },
     #' Deserialize JSON string into an instance of ConfigurationFile
@@ -778,6 +791,9 @@ ConfigurationFile <- R6::R6Class(
       }
       if (!is.null(this_object$`upload_credentials`)) {
         self$`upload_credentials` <- this_object$`upload_credentials`
+      }
+      if (!is.null(this_object$`validate_onlist_files`)) {
+        self$`validate_onlist_files` <- this_object$`validate_onlist_files`
       }
       self
     },
@@ -1157,6 +1173,14 @@ ConfigurationFile <- R6::R6Class(
                     ',
           gsub('(?<!\\\\)\\"', '\\\\"', self$`upload_credentials`, perl=TRUE)
           )
+        },
+        if (!is.null(self$`validate_onlist_files`)) {
+          sprintf(
+          '"validate_onlist_files":
+            %s
+                    ',
+          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`validate_onlist_files`, perl=TRUE))
+          )
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -1227,6 +1251,7 @@ ConfigurationFile <- R6::R6Class(
       self$`href` <- this_object$`href`
       self$`s3_uri` <- this_object$`s3_uri`
       self$`upload_credentials` <- this_object$`upload_credentials`
+      self$`validate_onlist_files` <- this_object$`validate_onlist_files`
       self
     },
     #' Validate JSON input with respect to ConfigurationFile

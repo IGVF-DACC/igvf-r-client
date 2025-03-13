@@ -51,5 +51,6 @@ Name | Type | Description | Notes
 **href** | **character** | The download path to obtain file. | [optional] 
 **s3_uri** | **character** | The S3 URI of public file object. | [optional] 
 **upload_credentials** | **object** | The upload credentials for S3 to submit the file content. | [optional] 
+**validate_onlist_files** | **character** | Whether checkfiles will validate the onlist files. | [optional] 
 
 
