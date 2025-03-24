@@ -36,6 +36,7 @@
 #' @field preferred_assay_title The custom lab preferred label for the experiment performed in this measurement set. character [optional]
 #' @field multiome_size The number of datasets included in the multiome experiment this measurement set is a part of. integer [optional]
 #' @field sequencing_library_types Description of the libraries sequenced in this measurement set. list(character) [optional]
+#' @field strand_specificity The strand-specificity of the sequencing results within Perturb-seq, scCRISPR screen, TAP-seq, and CERES-seq assays. character [optional]
 #' @field auxiliary_sets The auxiliary sets of files produced alongside raw data from this measurement set. list(character) [optional]
 #' @field external_image_url Links to the external site where images produced by this measurement are stored. character [optional]
 #' @field targeted_genes A list of genes targeted in this assay. For example, TF ChIP-seq attempts to identify binding sites of a protein encoded by a specific gene. In CRISPR FlowFISH, the modified samples are sorted based on expression of a specific gene. This property differs from small_scale_gene_list in Construct Library Set, which describes genes targeted by the content integrated in the constructs (such as guide RNAs.) list(character) [optional]
@@ -87,6 +88,7 @@ MeasurementSet <- R6::R6Class(
     `preferred_assay_title` = NULL,
     `multiome_size` = NULL,
     `sequencing_library_types` = NULL,
+    `strand_specificity` = NULL,
     `auxiliary_sets` = NULL,
     `external_image_url` = NULL,
     `targeted_genes` = NULL,
@@ -137,6 +139,7 @@ MeasurementSet <- R6::R6Class(
     #' @param preferred_assay_title The custom lab preferred label for the experiment performed in this measurement set.
     #' @param multiome_size The number of datasets included in the multiome experiment this measurement set is a part of.
     #' @param sequencing_library_types Description of the libraries sequenced in this measurement set.
+    #' @param strand_specificity The strand-specificity of the sequencing results within Perturb-seq, scCRISPR screen, TAP-seq, and CERES-seq assays.
     #' @param auxiliary_sets The auxiliary sets of files produced alongside raw data from this measurement set.
     #' @param external_image_url Links to the external site where images produced by this measurement are stored.
     #' @param targeted_genes A list of genes targeted in this assay. For example, TF ChIP-seq attempts to identify binding sites of a protein encoded by a specific gene. In CRISPR FlowFISH, the modified samples are sorted based on expression of a specific gene. This property differs from small_scale_gene_list in Construct Library Set, which describes genes targeted by the content integrated in the constructs (such as guide RNAs.)
@@ -155,7 +158,7 @@ MeasurementSet <- R6::R6Class(
     #' @param externally_hosted externally_hosted
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`control_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `assay_term` = NULL, `protocols` = NULL, `preferred_assay_title` = NULL, `multiome_size` = NULL, `sequencing_library_types` = NULL, `auxiliary_sets` = NULL, `external_image_url` = NULL, `targeted_genes` = NULL, `functional_assay_mechanisms` = NULL, `onlist_method` = NULL, `onlist_files` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `related_multiome_datasets` = NULL, `externally_hosted` = NULL, ...) {
+    initialize = function(`control_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `assay_term` = NULL, `protocols` = NULL, `preferred_assay_title` = NULL, `multiome_size` = NULL, `sequencing_library_types` = NULL, `strand_specificity` = NULL, `auxiliary_sets` = NULL, `external_image_url` = NULL, `targeted_genes` = NULL, `functional_assay_mechanisms` = NULL, `onlist_method` = NULL, `onlist_files` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `related_multiome_datasets` = NULL, `externally_hosted` = NULL, ...) {
       if (!is.null(`control_file_sets`)) {
         stopifnot(is.vector(`control_file_sets`), length(`control_file_sets`) != 0)
         sapply(`control_file_sets`, function(x) stopifnot(is.character(x)))
@@ -330,6 +333,15 @@ MeasurementSet <- R6::R6Class(
         stopifnot(is.vector(`sequencing_library_types`), length(`sequencing_library_types`) != 0)
         sapply(`sequencing_library_types`, function(x) stopifnot(is.character(x)))
         self$`sequencing_library_types` <- `sequencing_library_types`
+      }
+      if (!is.null(`strand_specificity`)) {
+        if (!(`strand_specificity` %in% c("5' to 3'", "3' to 5'", "unstranded"))) {
+          stop(paste("Error! \"", `strand_specificity`, "\" cannot be assigned to `strand_specificity`. Must be \"5' to 3'\", \"3' to 5'\", \"unstranded\".", sep = ""))
+        }
+        if (!(is.character(`strand_specificity`) && length(`strand_specificity`) == 1)) {
+          stop(paste("Error! Invalid data for `strand_specificity`. Must be a string:", `strand_specificity`))
+        }
+        self$`strand_specificity` <- `strand_specificity`
       }
       if (!is.null(`auxiliary_sets`)) {
         stopifnot(is.vector(`auxiliary_sets`), length(`auxiliary_sets`) != 0)
@@ -546,6 +558,10 @@ MeasurementSet <- R6::R6Class(
         MeasurementSetObject[["sequencing_library_types"]] <-
           self$`sequencing_library_types`
       }
+      if (!is.null(self$`strand_specificity`)) {
+        MeasurementSetObject[["strand_specificity"]] <-
+          self$`strand_specificity`
+      }
       if (!is.null(self$`auxiliary_sets`)) {
         MeasurementSetObject[["auxiliary_sets"]] <-
           self$`auxiliary_sets`
@@ -720,6 +736,12 @@ MeasurementSet <- R6::R6Class(
       }
       if (!is.null(this_object$`sequencing_library_types`)) {
         self$`sequencing_library_types` <- ApiClient$new()$deserializeObj(this_object$`sequencing_library_types`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`strand_specificity`)) {
+        if (!is.null(this_object$`strand_specificity`) && !(this_object$`strand_specificity` %in% c("5' to 3'", "3' to 5'", "unstranded"))) {
+          stop(paste("Error! \"", this_object$`strand_specificity`, "\" cannot be assigned to `strand_specificity`. Must be \"5' to 3'\", \"3' to 5'\", \"unstranded\".", sep = ""))
+        }
+        self$`strand_specificity` <- this_object$`strand_specificity`
       }
       if (!is.null(this_object$`auxiliary_sets`)) {
         self$`auxiliary_sets` <- ApiClient$new()$deserializeObj(this_object$`auxiliary_sets`, "set[character]", loadNamespace("igvfclient"))
@@ -1015,6 +1037,14 @@ MeasurementSet <- R6::R6Class(
           paste(unlist(lapply(self$`sequencing_library_types`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`strand_specificity`)) {
+          sprintf(
+          '"strand_specificity":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`strand_specificity`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`auxiliary_sets`)) {
           sprintf(
           '"auxiliary_sets":
@@ -1198,6 +1228,10 @@ MeasurementSet <- R6::R6Class(
       self$`preferred_assay_title` <- this_object$`preferred_assay_title`
       self$`multiome_size` <- this_object$`multiome_size`
       self$`sequencing_library_types` <- ApiClient$new()$deserializeObj(this_object$`sequencing_library_types`, "set[character]", loadNamespace("igvfclient"))
+      if (!is.null(this_object$`strand_specificity`) && !(this_object$`strand_specificity` %in% c("5' to 3'", "3' to 5'", "unstranded"))) {
+        stop(paste("Error! \"", this_object$`strand_specificity`, "\" cannot be assigned to `strand_specificity`. Must be \"5' to 3'\", \"3' to 5'\", \"unstranded\".", sep = ""))
+      }
+      self$`strand_specificity` <- this_object$`strand_specificity`
       self$`auxiliary_sets` <- ApiClient$new()$deserializeObj(this_object$`auxiliary_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`external_image_url` <- this_object$`external_image_url`
       self$`targeted_genes` <- ApiClient$new()$deserializeObj(this_object$`targeted_genes`, "set[character]", loadNamespace("igvfclient"))
