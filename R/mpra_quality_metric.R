@@ -22,12 +22,12 @@
 #' @field description A plain text description of the object. character [optional]
 #' @field quality_metric_of The file(s) to which this quality metric applies. list(character) [optional]
 #' @field analysis_step_version The analysis step version of the quality metric. character [optional]
-#' @field pearson_correlation The correlation of log2 RNA/DNA ratios across tested sequences as a measure of replicable activity signal. numeric [optional]
-#' @field median_barcodes_passing_filtering Median number of barcodes across tested sequences that passed filtering to determine if there was sufficient barcode to oligo coverage. numeric [optional]
-#' @field median_rna_read_count Median of RNA read count for oligos that passed filtering to determine sufficient coverage in terms of read count. numeric [optional]
-#' @field pct_oligos_passing Percent of tested sequences that passed filtering of the mappable sequences to determine if the designed library was sufficiently recovered. numeric [optional]
-#' @field median_assigned_barocdes Median number of barcodes assigned to tested sequences in mapping as a quality control measure for the mapping step, whether there is sufficient barcode to oligo coverage. numeric [optional]
-#' @field fraction_assigned_oligos Fraction of assigned tested sequences in mapping to determine if the library during the mapping step was sufficiently recovered. numeric [optional]
+#' @field pearson_correlation The correlation of log2 RNA/DNA ratios across tested sequences as a measure of replicable activity signal. Value is the median of replicate comparisons using only oligos with >= 10 barcodes. numeric [optional]
+#' @field median_barcodes_passing_filtering Median number of barcodes across tested sequences that passed filtering to determine if there was sufficient barcode to oligo coverage. Value is the median of all replicates. numeric [optional]
+#' @field median_rna_read_count Median of RNA read count for oligos that passed filtering to determine sufficient coverage in terms of read count. Value is the median of all replicates. numeric [optional]
+#' @field fraction_oligos_passing Fraction of tested sequences that passed filtering of the mappable sequences to determine if the designed library was sufficiently recovered. Value is the median of all replicates. numeric [optional]
+#' @field median_assigned_barcodes Median number of barcodes assigned to tested sequences in mapping as a quality control measure for the assignment step, whether there is sufficient barcode to oligo coverage. numeric [optional]
+#' @field fraction_assigned_oligos Fraction of assigned tested sequences in mapping to determine if the library during the assignment step was sufficiently recovered. numeric [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the quality metric. character [optional]
@@ -58,13 +58,13 @@ MpraQualityMetric <- R6::R6Class(
     `pearson_correlation` = NULL,
     `median_barcodes_passing_filtering` = NULL,
     `median_rna_read_count` = NULL,
-    `pct_oligos_passing` = NULL,
-    `median_assigned_barocdes` = NULL,
+    `fraction_oligos_passing` = NULL,
+    `median_assigned_barcodes` = NULL,
     `fraction_assigned_oligos` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
-    `_field_list` = c("status", "release_timestamp", "attachment", "lab", "award", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "quality_metric_of", "analysis_step_version", "pearson_correlation", "median_barcodes_passing_filtering", "median_rna_read_count", "pct_oligos_passing", "median_assigned_barocdes", "fraction_assigned_oligos", "@id", "@type", "summary"),
+    `_field_list` = c("status", "release_timestamp", "attachment", "lab", "award", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "quality_metric_of", "analysis_step_version", "pearson_correlation", "median_barcodes_passing_filtering", "median_rna_read_count", "fraction_oligos_passing", "median_assigned_barcodes", "fraction_assigned_oligos", "@id", "@type", "summary"),
     `additional_properties` = list(),
     #' Initialize a new MpraQualityMetric class.
     #'
@@ -86,19 +86,19 @@ MpraQualityMetric <- R6::R6Class(
     #' @param description A plain text description of the object.
     #' @param quality_metric_of The file(s) to which this quality metric applies.
     #' @param analysis_step_version The analysis step version of the quality metric.
-    #' @param pearson_correlation The correlation of log2 RNA/DNA ratios across tested sequences as a measure of replicable activity signal.
-    #' @param median_barcodes_passing_filtering Median number of barcodes across tested sequences that passed filtering to determine if there was sufficient barcode to oligo coverage.
-    #' @param median_rna_read_count Median of RNA read count for oligos that passed filtering to determine sufficient coverage in terms of read count.
-    #' @param pct_oligos_passing Percent of tested sequences that passed filtering of the mappable sequences to determine if the designed library was sufficiently recovered.
-    #' @param median_assigned_barocdes Median number of barcodes assigned to tested sequences in mapping as a quality control measure for the mapping step, whether there is sufficient barcode to oligo coverage.
-    #' @param fraction_assigned_oligos Fraction of assigned tested sequences in mapping to determine if the library during the mapping step was sufficiently recovered.
+    #' @param pearson_correlation The correlation of log2 RNA/DNA ratios across tested sequences as a measure of replicable activity signal. Value is the median of replicate comparisons using only oligos with >= 10 barcodes.
+    #' @param median_barcodes_passing_filtering Median number of barcodes across tested sequences that passed filtering to determine if there was sufficient barcode to oligo coverage. Value is the median of all replicates.
+    #' @param median_rna_read_count Median of RNA read count for oligos that passed filtering to determine sufficient coverage in terms of read count. Value is the median of all replicates.
+    #' @param fraction_oligos_passing Fraction of tested sequences that passed filtering of the mappable sequences to determine if the designed library was sufficiently recovered. Value is the median of all replicates.
+    #' @param median_assigned_barcodes Median number of barcodes assigned to tested sequences in mapping as a quality control measure for the assignment step, whether there is sufficient barcode to oligo coverage.
+    #' @param fraction_assigned_oligos Fraction of assigned tested sequences in mapping to determine if the library during the assignment step was sufficiently recovered.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the quality metric.
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`status` = NULL, `release_timestamp` = NULL, `attachment` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `quality_metric_of` = NULL, `analysis_step_version` = NULL, `pearson_correlation` = NULL, `median_barcodes_passing_filtering` = NULL, `median_rna_read_count` = NULL, `pct_oligos_passing` = NULL, `median_assigned_barocdes` = NULL, `fraction_assigned_oligos` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`status` = NULL, `release_timestamp` = NULL, `attachment` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `quality_metric_of` = NULL, `analysis_step_version` = NULL, `pearson_correlation` = NULL, `median_barcodes_passing_filtering` = NULL, `median_rna_read_count` = NULL, `fraction_oligos_passing` = NULL, `median_assigned_barcodes` = NULL, `fraction_assigned_oligos` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`status`)) {
         if (!(`status` %in% c("archived", "deleted", "in progress", "preview", "released"))) {
           stop(paste("Error! \"", `status`, "\" cannot be assigned to `status`. Must be \"archived\", \"deleted\", \"in progress\", \"preview\", \"released\".", sep = ""))
@@ -197,11 +197,11 @@ MpraQualityMetric <- R6::R6Class(
       if (!is.null(`median_rna_read_count`)) {
         self$`median_rna_read_count` <- `median_rna_read_count`
       }
-      if (!is.null(`pct_oligos_passing`)) {
-        self$`pct_oligos_passing` <- `pct_oligos_passing`
+      if (!is.null(`fraction_oligos_passing`)) {
+        self$`fraction_oligos_passing` <- `fraction_oligos_passing`
       }
-      if (!is.null(`median_assigned_barocdes`)) {
-        self$`median_assigned_barocdes` <- `median_assigned_barocdes`
+      if (!is.null(`median_assigned_barcodes`)) {
+        self$`median_assigned_barcodes` <- `median_assigned_barcodes`
       }
       if (!is.null(`fraction_assigned_oligos`)) {
         self$`fraction_assigned_oligos` <- `fraction_assigned_oligos`
@@ -310,13 +310,13 @@ MpraQualityMetric <- R6::R6Class(
         MpraQualityMetricObject[["median_rna_read_count"]] <-
           self$`median_rna_read_count`
       }
-      if (!is.null(self$`pct_oligos_passing`)) {
-        MpraQualityMetricObject[["pct_oligos_passing"]] <-
-          self$`pct_oligos_passing`
+      if (!is.null(self$`fraction_oligos_passing`)) {
+        MpraQualityMetricObject[["fraction_oligos_passing"]] <-
+          self$`fraction_oligos_passing`
       }
-      if (!is.null(self$`median_assigned_barocdes`)) {
-        MpraQualityMetricObject[["median_assigned_barocdes"]] <-
-          self$`median_assigned_barocdes`
+      if (!is.null(self$`median_assigned_barcodes`)) {
+        MpraQualityMetricObject[["median_assigned_barcodes"]] <-
+          self$`median_assigned_barcodes`
       }
       if (!is.null(self$`fraction_assigned_oligos`)) {
         MpraQualityMetricObject[["fraction_assigned_oligos"]] <-
@@ -409,11 +409,11 @@ MpraQualityMetric <- R6::R6Class(
       if (!is.null(this_object$`median_rna_read_count`)) {
         self$`median_rna_read_count` <- this_object$`median_rna_read_count`
       }
-      if (!is.null(this_object$`pct_oligos_passing`)) {
-        self$`pct_oligos_passing` <- this_object$`pct_oligos_passing`
+      if (!is.null(this_object$`fraction_oligos_passing`)) {
+        self$`fraction_oligos_passing` <- this_object$`fraction_oligos_passing`
       }
-      if (!is.null(this_object$`median_assigned_barocdes`)) {
-        self$`median_assigned_barocdes` <- this_object$`median_assigned_barocdes`
+      if (!is.null(this_object$`median_assigned_barcodes`)) {
+        self$`median_assigned_barcodes` <- this_object$`median_assigned_barcodes`
       }
       if (!is.null(this_object$`fraction_assigned_oligos`)) {
         self$`fraction_assigned_oligos` <- this_object$`fraction_assigned_oligos`
@@ -589,20 +589,20 @@ MpraQualityMetric <- R6::R6Class(
           self$`median_rna_read_count`
           )
         },
-        if (!is.null(self$`pct_oligos_passing`)) {
+        if (!is.null(self$`fraction_oligos_passing`)) {
           sprintf(
-          '"pct_oligos_passing":
+          '"fraction_oligos_passing":
             %f
                     ',
-          self$`pct_oligos_passing`
+          self$`fraction_oligos_passing`
           )
         },
-        if (!is.null(self$`median_assigned_barocdes`)) {
+        if (!is.null(self$`median_assigned_barcodes`)) {
           sprintf(
-          '"median_assigned_barocdes":
+          '"median_assigned_barcodes":
             %f
                     ',
-          self$`median_assigned_barocdes`
+          self$`median_assigned_barcodes`
           )
         },
         if (!is.null(self$`fraction_assigned_oligos`)) {
@@ -677,8 +677,8 @@ MpraQualityMetric <- R6::R6Class(
       self$`pearson_correlation` <- this_object$`pearson_correlation`
       self$`median_barcodes_passing_filtering` <- this_object$`median_barcodes_passing_filtering`
       self$`median_rna_read_count` <- this_object$`median_rna_read_count`
-      self$`pct_oligos_passing` <- this_object$`pct_oligos_passing`
-      self$`median_assigned_barocdes` <- this_object$`median_assigned_barocdes`
+      self$`fraction_oligos_passing` <- this_object$`fraction_oligos_passing`
+      self$`median_assigned_barcodes` <- this_object$`median_assigned_barcodes`
       self$`fraction_assigned_oligos` <- this_object$`fraction_assigned_oligos`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))

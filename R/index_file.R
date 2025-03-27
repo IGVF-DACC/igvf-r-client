@@ -322,8 +322,8 @@ IndexFile <- R6::R6Class(
         self$`derived_manually` <- `derived_manually`
       }
       if (!is.null(`file_format`)) {
-        if (!(`file_format` %in% c("bai", "tbi"))) {
-          stop(paste("Error! \"", `file_format`, "\" cannot be assigned to `file_format`. Must be \"bai\", \"tbi\".", sep = ""))
+        if (!(`file_format` %in% c("bai", "crai", "tbi"))) {
+          stop(paste("Error! \"", `file_format`, "\" cannot be assigned to `file_format`. Must be \"bai\", \"crai\", \"tbi\".", sep = ""))
         }
         if (!(is.character(`file_format`) && length(`file_format`) == 1)) {
           stop(paste("Error! Invalid data for `file_format`. Must be a string:", `file_format`))
@@ -777,8 +777,8 @@ IndexFile <- R6::R6Class(
         self$`derived_manually` <- this_object$`derived_manually`
       }
       if (!is.null(this_object$`file_format`)) {
-        if (!is.null(this_object$`file_format`) && !(this_object$`file_format` %in% c("bai", "tbi"))) {
-          stop(paste("Error! \"", this_object$`file_format`, "\" cannot be assigned to `file_format`. Must be \"bai\", \"tbi\".", sep = ""))
+        if (!is.null(this_object$`file_format`) && !(this_object$`file_format` %in% c("bai", "crai", "tbi"))) {
+          stop(paste("Error! \"", this_object$`file_format`, "\" cannot be assigned to `file_format`. Must be \"bai\", \"crai\", \"tbi\".", sep = ""))
         }
         self$`file_format` <- this_object$`file_format`
       }
@@ -1321,8 +1321,8 @@ IndexFile <- R6::R6Class(
       self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
       self$`derived_from` <- ApiClient$new()$deserializeObj(this_object$`derived_from`, "set[character]", loadNamespace("igvfclient"))
       self$`derived_manually` <- this_object$`derived_manually`
-      if (!is.null(this_object$`file_format`) && !(this_object$`file_format` %in% c("bai", "tbi"))) {
-        stop(paste("Error! \"", this_object$`file_format`, "\" cannot be assigned to `file_format`. Must be \"bai\", \"tbi\".", sep = ""))
+      if (!is.null(this_object$`file_format`) && !(this_object$`file_format` %in% c("bai", "crai", "tbi"))) {
+        stop(paste("Error! \"", this_object$`file_format`, "\" cannot be assigned to `file_format`. Must be \"bai\", \"crai\", \"tbi\".", sep = ""))
       }
       self$`file_format` <- this_object$`file_format`
       self$`file_format_specifications` <- ApiClient$new()$deserializeObj(this_object$`file_format_specifications`, "set[character]", loadNamespace("igvfclient"))

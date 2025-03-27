@@ -46,6 +46,8 @@
 #' @field submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created. character [optional]
 #' @field input_for The file sets that use this file set as an input. list(character) [optional]
 #' @field construct_library_sets The construct library sets associated with the samples of this file set. list(character) [optional]
+#' @field data_use_limitation_summaries The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. list(character) [optional]
+#' @field controlled_access The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. character [optional]
 #' @field externally_hosted  character [optional]
 #' @field software_versions The software versions used to produce this predictive model. list(character) [optional]
 #' @importFrom R6 R6Class
@@ -93,6 +95,8 @@ ModelSet <- R6::R6Class(
     `submitted_files_timestamp` = NULL,
     `input_for` = NULL,
     `construct_library_sets` = NULL,
+    `data_use_limitation_summaries` = NULL,
+    `controlled_access` = NULL,
     `externally_hosted` = NULL,
     `software_versions` = NULL,
     #' Initialize a new ModelSet class.
@@ -139,11 +143,13 @@ ModelSet <- R6::R6Class(
     #' @param submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created.
     #' @param input_for The file sets that use this file set as an input.
     #' @param construct_library_sets The construct library sets associated with the samples of this file set.
+    #' @param data_use_limitation_summaries The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set.
+    #' @param controlled_access The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set.
     #' @param externally_hosted externally_hosted
     #' @param software_versions The software versions used to produce this predictive model.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `model_name` = NULL, `model_version` = NULL, `prediction_objects` = NULL, `model_zoo_location` = NULL, `assessed_genes` = NULL, `external_input_data` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `externally_hosted` = NULL, `software_versions` = NULL, ...) {
+    initialize = function(`input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `model_name` = NULL, `model_version` = NULL, `prediction_objects` = NULL, `model_zoo_location` = NULL, `assessed_genes` = NULL, `external_input_data` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `externally_hosted` = NULL, `software_versions` = NULL, ...) {
       if (!is.null(`input_file_sets`)) {
         stopifnot(is.vector(`input_file_sets`), length(`input_file_sets`) != 0)
         sapply(`input_file_sets`, function(x) stopifnot(is.character(x)))
@@ -283,8 +289,8 @@ ModelSet <- R6::R6Class(
         self$`donors` <- `donors`
       }
       if (!is.null(`file_set_type`)) {
-        if (!(`file_set_type` %in% c("decision tree", "neural network", "random forest", "support vector machine", "variant binding effect"))) {
-          stop(paste("Error! \"", `file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"decision tree\", \"neural network\", \"random forest\", \"support vector machine\", \"variant binding effect\".", sep = ""))
+        if (!(`file_set_type` %in% c("decision tree", "logistic regression", "neural network", "random forest", "support vector machine", "variant binding effect"))) {
+          stop(paste("Error! \"", `file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"decision tree\", \"logistic regression\", \"neural network\", \"random forest\", \"support vector machine\", \"variant binding effect\".", sep = ""))
         }
         if (!(is.character(`file_set_type`) && length(`file_set_type`) == 1)) {
           stop(paste("Error! Invalid data for `file_set_type`. Must be a string:", `file_set_type`))
@@ -367,6 +373,17 @@ ModelSet <- R6::R6Class(
         stopifnot(is.vector(`construct_library_sets`), length(`construct_library_sets`) != 0)
         sapply(`construct_library_sets`, function(x) stopifnot(is.character(x)))
         self$`construct_library_sets` <- `construct_library_sets`
+      }
+      if (!is.null(`data_use_limitation_summaries`)) {
+        stopifnot(is.vector(`data_use_limitation_summaries`), length(`data_use_limitation_summaries`) != 0)
+        sapply(`data_use_limitation_summaries`, function(x) stopifnot(is.character(x)))
+        self$`data_use_limitation_summaries` <- `data_use_limitation_summaries`
+      }
+      if (!is.null(`controlled_access`)) {
+        if (!(is.logical(`controlled_access`) && length(`controlled_access`) == 1)) {
+          stop(paste("Error! Invalid data for `controlled_access`. Must be a boolean:", `controlled_access`))
+        }
+        self$`controlled_access` <- `controlled_access`
       }
       if (!is.null(`externally_hosted`)) {
         if (!(is.logical(`externally_hosted`) && length(`externally_hosted`) == 1)) {
@@ -545,6 +562,14 @@ ModelSet <- R6::R6Class(
         ModelSetObject[["construct_library_sets"]] <-
           self$`construct_library_sets`
       }
+      if (!is.null(self$`data_use_limitation_summaries`)) {
+        ModelSetObject[["data_use_limitation_summaries"]] <-
+          self$`data_use_limitation_summaries`
+      }
+      if (!is.null(self$`controlled_access`)) {
+        ModelSetObject[["controlled_access"]] <-
+          self$`controlled_access`
+      }
       if (!is.null(self$`externally_hosted`)) {
         ModelSetObject[["externally_hosted"]] <-
           self$`externally_hosted`
@@ -641,8 +666,8 @@ ModelSet <- R6::R6Class(
         self$`donors` <- ApiClient$new()$deserializeObj(this_object$`donors`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`file_set_type`)) {
-        if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("decision tree", "neural network", "random forest", "support vector machine", "variant binding effect"))) {
-          stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"decision tree\", \"neural network\", \"random forest\", \"support vector machine\", \"variant binding effect\".", sep = ""))
+        if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("decision tree", "logistic regression", "neural network", "random forest", "support vector machine", "variant binding effect"))) {
+          stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"decision tree\", \"logistic regression\", \"neural network\", \"random forest\", \"support vector machine\", \"variant binding effect\".", sep = ""))
         }
         self$`file_set_type` <- this_object$`file_set_type`
       }
@@ -687,6 +712,12 @@ ModelSet <- R6::R6Class(
       }
       if (!is.null(this_object$`construct_library_sets`)) {
         self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`data_use_limitation_summaries`)) {
+        self$`data_use_limitation_summaries` <- ApiClient$new()$deserializeObj(this_object$`data_use_limitation_summaries`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`controlled_access`)) {
+        self$`controlled_access` <- this_object$`controlled_access`
       }
       if (!is.null(this_object$`externally_hosted`)) {
         self$`externally_hosted` <- this_object$`externally_hosted`
@@ -1017,6 +1048,22 @@ ModelSet <- R6::R6Class(
           paste(unlist(lapply(self$`construct_library_sets`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`data_use_limitation_summaries`)) {
+          sprintf(
+          '"data_use_limitation_summaries":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`data_use_limitation_summaries`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`controlled_access`)) {
+          sprintf(
+          '"controlled_access":
+            %s
+                    ',
+          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`controlled_access`, perl=TRUE))
+          )
+        },
         if (!is.null(self$`externally_hosted`)) {
           sprintf(
           '"externally_hosted":
@@ -1074,8 +1121,8 @@ ModelSet <- R6::R6Class(
       self$`control_type` <- this_object$`control_type`
       self$`samples` <- ApiClient$new()$deserializeObj(this_object$`samples`, "set[character]", loadNamespace("igvfclient"))
       self$`donors` <- ApiClient$new()$deserializeObj(this_object$`donors`, "set[character]", loadNamespace("igvfclient"))
-      if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("decision tree", "neural network", "random forest", "support vector machine", "variant binding effect"))) {
-        stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"decision tree\", \"neural network\", \"random forest\", \"support vector machine\", \"variant binding effect\".", sep = ""))
+      if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("decision tree", "logistic regression", "neural network", "random forest", "support vector machine", "variant binding effect"))) {
+        stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"decision tree\", \"logistic regression\", \"neural network\", \"random forest\", \"support vector machine\", \"variant binding effect\".", sep = ""))
       }
       self$`file_set_type` <- this_object$`file_set_type`
       self$`model_name` <- this_object$`model_name`
@@ -1092,6 +1139,8 @@ ModelSet <- R6::R6Class(
       self$`submitted_files_timestamp` <- this_object$`submitted_files_timestamp`
       self$`input_for` <- ApiClient$new()$deserializeObj(this_object$`input_for`, "set[character]", loadNamespace("igvfclient"))
       self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
+      self$`data_use_limitation_summaries` <- ApiClient$new()$deserializeObj(this_object$`data_use_limitation_summaries`, "set[character]", loadNamespace("igvfclient"))
+      self$`controlled_access` <- this_object$`controlled_access`
       self$`externally_hosted` <- this_object$`externally_hosted`
       self$`software_versions` <- ApiClient$new()$deserializeObj(this_object$`software_versions`, "set[character]", loadNamespace("igvfclient"))
       self
@@ -1168,6 +1217,7 @@ ModelSet <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1216,6 +1266,7 @@ ModelSet <- R6::R6Class(
       if (!str_detect(self$`model_zoo_location`, "^https?://kipoi\\.org/models/(\\S+)$")) {
         invalid_fields["model_zoo_location"] <- "Invalid value for `model_zoo_location`, must conform to the pattern ^https?://kipoi\\.org/models/(\\S+)$."
       }
+
 
 
 

@@ -40,6 +40,8 @@
 #' @field submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created. character [optional]
 #' @field input_for The file sets that use this file set as an input. list(character) [optional]
 #' @field construct_library_sets The construct library sets associated with the samples of this file set. list(character) [optional]
+#' @field data_use_limitation_summaries The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. list(character) [optional]
+#' @field controlled_access The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. character [optional]
 #' @field assemblies The genome assemblies to which the referencing files in the file set are utilizing (e.g., GRCh38). list(character) [optional]
 #' @field transcriptome_annotations The annotation versions of the reference resource. list(character) [optional]
 #' @importFrom R6 R6Class
@@ -81,6 +83,8 @@ CuratedSet <- R6::R6Class(
     `submitted_files_timestamp` = NULL,
     `input_for` = NULL,
     `construct_library_sets` = NULL,
+    `data_use_limitation_summaries` = NULL,
+    `controlled_access` = NULL,
     `assemblies` = NULL,
     `transcriptome_annotations` = NULL,
     #' Initialize a new CuratedSet class.
@@ -121,11 +125,13 @@ CuratedSet <- R6::R6Class(
     #' @param submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created.
     #' @param input_for The file sets that use this file set as an input.
     #' @param construct_library_sets The construct library sets associated with the samples of this file set.
+    #' @param data_use_limitation_summaries The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set.
+    #' @param controlled_access The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set.
     #' @param assemblies The genome assemblies to which the referencing files in the file set are utilizing (e.g., GRCh38).
     #' @param transcriptome_annotations The annotation versions of the reference resource.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `taxa` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `assemblies` = NULL, `transcriptome_annotations` = NULL, ...) {
+    initialize = function(`release_timestamp` = NULL, `taxa` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `assemblies` = NULL, `transcriptome_annotations` = NULL, ...) {
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -320,6 +326,17 @@ CuratedSet <- R6::R6Class(
         sapply(`construct_library_sets`, function(x) stopifnot(is.character(x)))
         self$`construct_library_sets` <- `construct_library_sets`
       }
+      if (!is.null(`data_use_limitation_summaries`)) {
+        stopifnot(is.vector(`data_use_limitation_summaries`), length(`data_use_limitation_summaries`) != 0)
+        sapply(`data_use_limitation_summaries`, function(x) stopifnot(is.character(x)))
+        self$`data_use_limitation_summaries` <- `data_use_limitation_summaries`
+      }
+      if (!is.null(`controlled_access`)) {
+        if (!(is.logical(`controlled_access`) && length(`controlled_access`) == 1)) {
+          stop(paste("Error! Invalid data for `controlled_access`. Must be a boolean:", `controlled_access`))
+        }
+        self$`controlled_access` <- `controlled_access`
+      }
       if (!is.null(`assemblies`)) {
         stopifnot(is.vector(`assemblies`), length(`assemblies`) != 0)
         sapply(`assemblies`, function(x) stopifnot(is.character(x)))
@@ -472,6 +489,14 @@ CuratedSet <- R6::R6Class(
         CuratedSetObject[["construct_library_sets"]] <-
           self$`construct_library_sets`
       }
+      if (!is.null(self$`data_use_limitation_summaries`)) {
+        CuratedSetObject[["data_use_limitation_summaries"]] <-
+          self$`data_use_limitation_summaries`
+      }
+      if (!is.null(self$`controlled_access`)) {
+        CuratedSetObject[["controlled_access"]] <-
+          self$`controlled_access`
+      }
       if (!is.null(self$`assemblies`)) {
         CuratedSetObject[["assemblies"]] <-
           self$`assemblies`
@@ -599,6 +624,12 @@ CuratedSet <- R6::R6Class(
       }
       if (!is.null(this_object$`construct_library_sets`)) {
         self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`data_use_limitation_summaries`)) {
+        self$`data_use_limitation_summaries` <- ApiClient$new()$deserializeObj(this_object$`data_use_limitation_summaries`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`controlled_access`)) {
+        self$`controlled_access` <- this_object$`controlled_access`
       }
       if (!is.null(this_object$`assemblies`)) {
         self$`assemblies` <- ApiClient$new()$deserializeObj(this_object$`assemblies`, "set[character]", loadNamespace("igvfclient"))
@@ -881,6 +912,22 @@ CuratedSet <- R6::R6Class(
           paste(unlist(lapply(self$`construct_library_sets`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`data_use_limitation_summaries`)) {
+          sprintf(
+          '"data_use_limitation_summaries":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`data_use_limitation_summaries`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`controlled_access`)) {
+          sprintf(
+          '"controlled_access":
+            %s
+                    ',
+          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`controlled_access`, perl=TRUE))
+          )
+        },
         if (!is.null(self$`assemblies`)) {
           sprintf(
           '"assemblies":
@@ -953,6 +1000,8 @@ CuratedSet <- R6::R6Class(
       self$`submitted_files_timestamp` <- this_object$`submitted_files_timestamp`
       self$`input_for` <- ApiClient$new()$deserializeObj(this_object$`input_for`, "set[character]", loadNamespace("igvfclient"))
       self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
+      self$`data_use_limitation_summaries` <- ApiClient$new()$deserializeObj(this_object$`data_use_limitation_summaries`, "set[character]", loadNamespace("igvfclient"))
+      self$`controlled_access` <- this_object$`controlled_access`
       self$`assemblies` <- ApiClient$new()$deserializeObj(this_object$`assemblies`, "set[character]", loadNamespace("igvfclient"))
       self$`transcriptome_annotations` <- ApiClient$new()$deserializeObj(this_object$`transcriptome_annotations`, "set[character]", loadNamespace("igvfclient"))
       self
@@ -1019,6 +1068,7 @@ CuratedSet <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1054,6 +1104,7 @@ CuratedSet <- R6::R6Class(
       if (!str_detect(self$`description`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         invalid_fields["description"] <- "Invalid value for `description`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
+
 
 
 

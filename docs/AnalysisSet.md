@@ -39,6 +39,8 @@ Name | Type | Description | Notes
 **submitted_files_timestamp** | **character** | The timestamp the first file object in the file_set or associated auxiliary sets was created. | [optional] 
 **input_for** | **set[character]** | The file sets that use this file set as an input. | [optional] 
 **construct_library_sets** | **set[character]** | The construct library sets associated with the samples of this file set. | [optional] 
+**data_use_limitation_summaries** | **set[character]** | The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
+**controlled_access** | **character** | The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
 **assay_titles** | **set[character]** | Title(s) of assays that produced data analyzed in the analysis set. | [optional] 
 **protocols** | **set[character]** | Links to the protocol(s) for conducting the assay on Protocols.io. | [optional] 
 **sample_summary** | **character** | A summary of the samples associated with input file sets of this analysis set. | [optional] 

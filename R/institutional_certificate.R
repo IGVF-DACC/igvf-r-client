@@ -21,15 +21,15 @@
 #' @field description A plain text description of the object. character [optional]
 #' @field certificate_identifier A unique identifier for the certificate. character [optional]
 #' @field controlled_access Indicator of whether the samples are under controlled access. character [optional]
-#' @field data_use_limitation Code indicating the limitations on data use for data generated from the applicable samples. GRU (General research use): Use of the data is limited only by the terms of the Data Use Certification: these data will be added to the dbGaP Collection. HMB (Health/medical/biomedical): Use of the data is limited to health/medical/biomedical purposes, does not include the study of population origins or ancestry. DS (Disease specific): Use of the data must be related to the specified disease. Other: any other customized limitation. character [optional]
-#' @field data_use_limitation_modifiers Code indicating a modifier on the limitations on data use for data generated from the applicable samples. COL: Requestor must provide a letter of collaboration with the primary study investigator(s). GSO: Use of the data is limited to genetic studies only. IRB: Approval Required IRB Requestor must provide documentation of local IRB approval. MDS: Use of the data includes methods development research (e.g., development and testing of software or algorithms). NPU: Use of the data is limited to not-for-profit organizations. PUB: Requestor agrees to make results of studies using the data available to the larger scientific community. list(character) [optional]
+#' @field data_use_limitation Code indicating the limitations on data use for data generated from the applicable samples. character [optional]
+#' @field data_use_limitation_modifiers Code indicating a modifier on the limitations on data use for data generated from the applicable samples. list(character) [optional]
 #' @field samples Samples covered by this institutional certificate. list(character) [optional]
 #' @field urls Link to the institutional certification form. list(character) [optional]
 #' @field partner_labs Labs which belong to same institution as the signing PI and can share this institutional certificate. list(character) [optional]
 #' @field partner_awards Awards granted to at least one lab that belongs to same institution as the signing PI and can share this institutional certificate. list(character) [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
-#' @field summary A summary of the object. character [optional]
+#' @field summary A summary of the institutional certificate. character [optional]
 #' @field data_use_limitation_summary A combination of the data use limitation and its modifiers character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -80,15 +80,15 @@ InstitutionalCertificate <- R6::R6Class(
     #' @param description A plain text description of the object.
     #' @param certificate_identifier A unique identifier for the certificate.
     #' @param controlled_access Indicator of whether the samples are under controlled access.
-    #' @param data_use_limitation Code indicating the limitations on data use for data generated from the applicable samples. GRU (General research use): Use of the data is limited only by the terms of the Data Use Certification: these data will be added to the dbGaP Collection. HMB (Health/medical/biomedical): Use of the data is limited to health/medical/biomedical purposes, does not include the study of population origins or ancestry. DS (Disease specific): Use of the data must be related to the specified disease. Other: any other customized limitation.
-    #' @param data_use_limitation_modifiers Code indicating a modifier on the limitations on data use for data generated from the applicable samples. COL: Requestor must provide a letter of collaboration with the primary study investigator(s). GSO: Use of the data is limited to genetic studies only. IRB: Approval Required IRB Requestor must provide documentation of local IRB approval. MDS: Use of the data includes methods development research (e.g., development and testing of software or algorithms). NPU: Use of the data is limited to not-for-profit organizations. PUB: Requestor agrees to make results of studies using the data available to the larger scientific community.
+    #' @param data_use_limitation Code indicating the limitations on data use for data generated from the applicable samples.
+    #' @param data_use_limitation_modifiers Code indicating a modifier on the limitations on data use for data generated from the applicable samples.
     #' @param samples Samples covered by this institutional certificate.
     #' @param urls Link to the institutional certification form.
     #' @param partner_labs Labs which belong to same institution as the signing PI and can share this institutional certificate.
     #' @param partner_awards Awards granted to at least one lab that belongs to same institution as the signing PI and can share this institutional certificate.
     #' @param @id @id
     #' @param @type @type
-    #' @param summary A summary of the object.
+    #' @param summary A summary of the institutional certificate.
     #' @param data_use_limitation_summary A combination of the data use limitation and its modifiers
     #' @param ... Other optional arguments.
     #' @export

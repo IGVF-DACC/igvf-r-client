@@ -41,6 +41,8 @@
 #' @field submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created. character [optional]
 #' @field input_for The file sets that use this file set as an input. list(character) [optional]
 #' @field construct_library_sets The construct library sets associated with the samples of this file set. list(character) [optional]
+#' @field data_use_limitation_summaries The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. list(character) [optional]
+#' @field controlled_access The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. character [optional]
 #' @field assay_titles Title(s) of assays that produced data analyzed in the analysis set. list(character) [optional]
 #' @field protocols Links to the protocol(s) for conducting the assay on Protocols.io. list(character) [optional]
 #' @field sample_summary A summary of the samples associated with input file sets of this analysis set. character [optional]
@@ -86,6 +88,8 @@ AnalysisSet <- R6::R6Class(
     `submitted_files_timestamp` = NULL,
     `input_for` = NULL,
     `construct_library_sets` = NULL,
+    `data_use_limitation_summaries` = NULL,
+    `controlled_access` = NULL,
     `assay_titles` = NULL,
     `protocols` = NULL,
     `sample_summary` = NULL,
@@ -130,6 +134,8 @@ AnalysisSet <- R6::R6Class(
     #' @param submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created.
     #' @param input_for The file sets that use this file set as an input.
     #' @param construct_library_sets The construct library sets associated with the samples of this file set.
+    #' @param data_use_limitation_summaries The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set.
+    #' @param controlled_access The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set.
     #' @param assay_titles Title(s) of assays that produced data analyzed in the analysis set.
     #' @param protocols Links to the protocol(s) for conducting the assay on Protocols.io.
     #' @param sample_summary A summary of the samples associated with input file sets of this analysis set.
@@ -137,7 +143,7 @@ AnalysisSet <- R6::R6Class(
     #' @param workflows A workflow for computational analysis of genomic data. A workflow is made up of analysis steps.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `external_image_data_url` = NULL, `demultiplexed_sample` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `assay_titles` = NULL, `protocols` = NULL, `sample_summary` = NULL, `functional_assay_mechanisms` = NULL, `workflows` = NULL, ...) {
+    initialize = function(`input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `external_image_data_url` = NULL, `demultiplexed_sample` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `assay_titles` = NULL, `protocols` = NULL, `sample_summary` = NULL, `functional_assay_mechanisms` = NULL, `workflows` = NULL, ...) {
       if (!is.null(`input_file_sets`)) {
         stopifnot(is.vector(`input_file_sets`), length(`input_file_sets`) != 0)
         sapply(`input_file_sets`, function(x) stopifnot(is.character(x)))
@@ -334,6 +340,17 @@ AnalysisSet <- R6::R6Class(
         sapply(`construct_library_sets`, function(x) stopifnot(is.character(x)))
         self$`construct_library_sets` <- `construct_library_sets`
       }
+      if (!is.null(`data_use_limitation_summaries`)) {
+        stopifnot(is.vector(`data_use_limitation_summaries`), length(`data_use_limitation_summaries`) != 0)
+        sapply(`data_use_limitation_summaries`, function(x) stopifnot(is.character(x)))
+        self$`data_use_limitation_summaries` <- `data_use_limitation_summaries`
+      }
+      if (!is.null(`controlled_access`)) {
+        if (!(is.logical(`controlled_access`) && length(`controlled_access`) == 1)) {
+          stop(paste("Error! Invalid data for `controlled_access`. Must be a boolean:", `controlled_access`))
+        }
+        self$`controlled_access` <- `controlled_access`
+      }
       if (!is.null(`assay_titles`)) {
         stopifnot(is.vector(`assay_titles`), length(`assay_titles`) != 0)
         sapply(`assay_titles`, function(x) stopifnot(is.character(x)))
@@ -506,6 +523,14 @@ AnalysisSet <- R6::R6Class(
         AnalysisSetObject[["construct_library_sets"]] <-
           self$`construct_library_sets`
       }
+      if (!is.null(self$`data_use_limitation_summaries`)) {
+        AnalysisSetObject[["data_use_limitation_summaries"]] <-
+          self$`data_use_limitation_summaries`
+      }
+      if (!is.null(self$`controlled_access`)) {
+        AnalysisSetObject[["controlled_access"]] <-
+          self$`controlled_access`
+      }
       if (!is.null(self$`assay_titles`)) {
         AnalysisSetObject[["assay_titles"]] <-
           self$`assay_titles`
@@ -645,6 +670,12 @@ AnalysisSet <- R6::R6Class(
       }
       if (!is.null(this_object$`construct_library_sets`)) {
         self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`data_use_limitation_summaries`)) {
+        self$`data_use_limitation_summaries` <- ApiClient$new()$deserializeObj(this_object$`data_use_limitation_summaries`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`controlled_access`)) {
+        self$`controlled_access` <- this_object$`controlled_access`
       }
       if (!is.null(this_object$`assay_titles`)) {
         self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
@@ -944,6 +975,22 @@ AnalysisSet <- R6::R6Class(
           paste(unlist(lapply(self$`construct_library_sets`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`data_use_limitation_summaries`)) {
+          sprintf(
+          '"data_use_limitation_summaries":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`data_use_limitation_summaries`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`controlled_access`)) {
+          sprintf(
+          '"controlled_access":
+            %s
+                    ',
+          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`controlled_access`, perl=TRUE))
+          )
+        },
         if (!is.null(self$`assay_titles`)) {
           sprintf(
           '"assay_titles":
@@ -1038,6 +1085,8 @@ AnalysisSet <- R6::R6Class(
       self$`submitted_files_timestamp` <- this_object$`submitted_files_timestamp`
       self$`input_for` <- ApiClient$new()$deserializeObj(this_object$`input_for`, "set[character]", loadNamespace("igvfclient"))
       self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
+      self$`data_use_limitation_summaries` <- ApiClient$new()$deserializeObj(this_object$`data_use_limitation_summaries`, "set[character]", loadNamespace("igvfclient"))
+      self$`controlled_access` <- this_object$`controlled_access`
       self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
       self$`protocols` <- ApiClient$new()$deserializeObj(this_object$`protocols`, "set[character]", loadNamespace("igvfclient"))
       self$`sample_summary` <- this_object$`sample_summary`
@@ -1113,6 +1162,7 @@ AnalysisSet <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1156,6 +1206,7 @@ AnalysisSet <- R6::R6Class(
       if (!str_detect(self$`external_image_data_url`, "^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$")) {
         invalid_fields["external_image_data_url"] <- "Invalid value for `external_image_data_url`, must conform to the pattern ^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$."
       }
+
 
 
 

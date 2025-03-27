@@ -29,7 +29,7 @@ Name | Type | Description | Notes
 **control_type** | **character** | The type of control this file set represents. | [optional] 
 **samples** | **set[character]** | The sample(s) associated with this file set. | [optional] 
 **donors** | **set[character]** | The donor(s) associated with this file set. | [optional] 
-**file_set_type** | **character** | The category that best describes this predictive model set. | [optional] [Enum: [decision tree, neural network, random forest, support vector machine, variant binding effect]] 
+**file_set_type** | **character** | The category that best describes this predictive model set. | [optional] [Enum: [decision tree, logistic regression, neural network, random forest, support vector machine, variant binding effect]] 
 **model_name** | **character** | The custom lab name given to this predictive model set. | [optional] 
 **model_version** | **character** | The semantic version number for this predictive model set. | [optional] [Pattern: ^v(?!0\\.0\\.0$)[0-9]+\\.[0-9]+\\.[0-9]+$] 
 **prediction_objects** | **set[character]** | The objects this predictive model set is targeting. | [optional] [Enum: ] 
@@ -44,6 +44,8 @@ Name | Type | Description | Notes
 **submitted_files_timestamp** | **character** | The timestamp the first file object in the file_set or associated auxiliary sets was created. | [optional] 
 **input_for** | **set[character]** | The file sets that use this file set as an input. | [optional] 
 **construct_library_sets** | **set[character]** | The construct library sets associated with the samples of this file set. | [optional] 
+**data_use_limitation_summaries** | **set[character]** | The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
+**controlled_access** | **character** | The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
 **externally_hosted** | **character** |  | [optional] 
 **software_versions** | **set[character]** | The software versions used to produce this predictive model. | [optional] 
 

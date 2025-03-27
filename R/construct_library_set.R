@@ -59,6 +59,8 @@
 #' @field submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created. character [optional]
 #' @field input_for The file sets that use this file set as an input. list(character) [optional]
 #' @field construct_library_sets The construct library sets associated with the samples of this file set. list(character) [optional]
+#' @field data_use_limitation_summaries The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. list(character) [optional]
+#' @field controlled_access The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. character [optional]
 #' @field applied_to_samples The samples that link to this construct library set. list(character) [optional]
 #' @field _field_list a list of fields list(character)
 #' @field additional_properties additional properties list(character) [optional]
@@ -121,8 +123,10 @@ ConstructLibrarySet <- R6::R6Class(
     `submitted_files_timestamp` = NULL,
     `input_for` = NULL,
     `construct_library_sets` = NULL,
+    `data_use_limitation_summaries` = NULL,
+    `controlled_access` = NULL,
     `applied_to_samples` = NULL,
-    `_field_list` = c("control_file_sets", "small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "sources", "lot_id", "product_id", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "file_set_type", "control_type", "scope", "selection_criteria", "integrated_content_files", "associated_phenotypes", "orf_list", "exon", "tile", "guide_type", "tiling_modality", "average_guide_coverage", "lower_bound_guide_coverage", "upper_bound_guide_coverage", "average_insert_size", "lower_bound_insert_size", "upper_bound_insert_size", "targeton", "@id", "@type", "summary", "files", "control_for", "submitted_files_timestamp", "input_for", "construct_library_sets", "applied_to_samples"),
+    `_field_list` = c("control_file_sets", "small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "sources", "lot_id", "product_id", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "file_set_type", "control_type", "scope", "selection_criteria", "integrated_content_files", "associated_phenotypes", "orf_list", "exon", "tile", "guide_type", "tiling_modality", "average_guide_coverage", "lower_bound_guide_coverage", "upper_bound_guide_coverage", "average_insert_size", "lower_bound_insert_size", "upper_bound_insert_size", "targeton", "@id", "@type", "summary", "files", "control_for", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access", "applied_to_samples"),
     `additional_properties` = list(),
     #' Initialize a new ConstructLibrarySet class.
     #'
@@ -181,11 +185,13 @@ ConstructLibrarySet <- R6::R6Class(
     #' @param submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created.
     #' @param input_for The file sets that use this file set as an input.
     #' @param construct_library_sets The construct library sets associated with the samples of this file set.
+    #' @param data_use_limitation_summaries The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set.
+    #' @param controlled_access The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set.
     #' @param applied_to_samples The samples that link to this construct library set.
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`control_file_sets` = NULL, `small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `file_set_type` = NULL, `control_type` = NULL, `scope` = NULL, `selection_criteria` = NULL, `integrated_content_files` = NULL, `associated_phenotypes` = NULL, `orf_list` = NULL, `exon` = NULL, `tile` = NULL, `guide_type` = NULL, `tiling_modality` = NULL, `average_guide_coverage` = NULL, `lower_bound_guide_coverage` = NULL, `upper_bound_guide_coverage` = NULL, `average_insert_size` = NULL, `lower_bound_insert_size` = NULL, `upper_bound_insert_size` = NULL, `targeton` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `applied_to_samples` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`control_file_sets` = NULL, `small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `file_set_type` = NULL, `control_type` = NULL, `scope` = NULL, `selection_criteria` = NULL, `integrated_content_files` = NULL, `associated_phenotypes` = NULL, `orf_list` = NULL, `exon` = NULL, `tile` = NULL, `guide_type` = NULL, `tiling_modality` = NULL, `average_guide_coverage` = NULL, `lower_bound_guide_coverage` = NULL, `upper_bound_guide_coverage` = NULL, `average_insert_size` = NULL, `lower_bound_insert_size` = NULL, `upper_bound_insert_size` = NULL, `targeton` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `applied_to_samples` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`control_file_sets`)) {
         stopifnot(is.vector(`control_file_sets`), length(`control_file_sets`) != 0)
         sapply(`control_file_sets`, function(x) stopifnot(is.character(x)))
@@ -490,6 +496,17 @@ ConstructLibrarySet <- R6::R6Class(
         sapply(`construct_library_sets`, function(x) stopifnot(is.character(x)))
         self$`construct_library_sets` <- `construct_library_sets`
       }
+      if (!is.null(`data_use_limitation_summaries`)) {
+        stopifnot(is.vector(`data_use_limitation_summaries`), length(`data_use_limitation_summaries`) != 0)
+        sapply(`data_use_limitation_summaries`, function(x) stopifnot(is.character(x)))
+        self$`data_use_limitation_summaries` <- `data_use_limitation_summaries`
+      }
+      if (!is.null(`controlled_access`)) {
+        if (!(is.logical(`controlled_access`) && length(`controlled_access`) == 1)) {
+          stop(paste("Error! Invalid data for `controlled_access`. Must be a boolean:", `controlled_access`))
+        }
+        self$`controlled_access` <- `controlled_access`
+      }
       if (!is.null(`applied_to_samples`)) {
         stopifnot(is.vector(`applied_to_samples`), length(`applied_to_samples`) != 0)
         sapply(`applied_to_samples`, function(x) stopifnot(is.character(x)))
@@ -718,6 +735,14 @@ ConstructLibrarySet <- R6::R6Class(
         ConstructLibrarySetObject[["construct_library_sets"]] <-
           self$`construct_library_sets`
       }
+      if (!is.null(self$`data_use_limitation_summaries`)) {
+        ConstructLibrarySetObject[["data_use_limitation_summaries"]] <-
+          self$`data_use_limitation_summaries`
+      }
+      if (!is.null(self$`controlled_access`)) {
+        ConstructLibrarySetObject[["controlled_access"]] <-
+          self$`controlled_access`
+      }
       if (!is.null(self$`applied_to_samples`)) {
         ConstructLibrarySetObject[["applied_to_samples"]] <-
           self$`applied_to_samples`
@@ -913,6 +938,12 @@ ConstructLibrarySet <- R6::R6Class(
       }
       if (!is.null(this_object$`construct_library_sets`)) {
         self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`data_use_limitation_summaries`)) {
+        self$`data_use_limitation_summaries` <- ApiClient$new()$deserializeObj(this_object$`data_use_limitation_summaries`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`controlled_access`)) {
+        self$`controlled_access` <- this_object$`controlled_access`
       }
       if (!is.null(this_object$`applied_to_samples`)) {
         self$`applied_to_samples` <- ApiClient$new()$deserializeObj(this_object$`applied_to_samples`, "set[character]", loadNamespace("igvfclient"))
@@ -1351,6 +1382,22 @@ ConstructLibrarySet <- R6::R6Class(
           paste(unlist(lapply(self$`construct_library_sets`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`data_use_limitation_summaries`)) {
+          sprintf(
+          '"data_use_limitation_summaries":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`data_use_limitation_summaries`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`controlled_access`)) {
+          sprintf(
+          '"controlled_access":
+            %s
+                    ',
+          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`controlled_access`, perl=TRUE))
+          )
+        },
         if (!is.null(self$`applied_to_samples`)) {
           sprintf(
           '"applied_to_samples":
@@ -1448,6 +1495,8 @@ ConstructLibrarySet <- R6::R6Class(
       self$`submitted_files_timestamp` <- this_object$`submitted_files_timestamp`
       self$`input_for` <- ApiClient$new()$deserializeObj(this_object$`input_for`, "set[character]", loadNamespace("igvfclient"))
       self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
+      self$`data_use_limitation_summaries` <- ApiClient$new()$deserializeObj(this_object$`data_use_limitation_summaries`, "set[character]", loadNamespace("igvfclient"))
+      self$`controlled_access` <- this_object$`controlled_access`
       self$`applied_to_samples` <- ApiClient$new()$deserializeObj(this_object$`applied_to_samples`, "set[character]", loadNamespace("igvfclient"))
       # process additional properties/fields in the payload
       for (key in names(this_object)) {
@@ -1548,6 +1597,7 @@ ConstructLibrarySet <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1615,6 +1665,7 @@ ConstructLibrarySet <- R6::R6Class(
       if (!str_detect(self$`targeton`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         invalid_fields["targeton"] <- "Invalid value for `targeton`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
+
 
 
 
