@@ -18,6 +18,9 @@ R/api_client.R
 R/api_response.R
 R/assay_term.R
 R/assay_term_results.R
+R/atac_bam_summary_stats.R
+R/atac_fragment_summary_stats.R
+R/atac_fragments_alignment_stats.R
 R/attachment.R
 R/attachment1.R
 R/auxiliary_set.R
@@ -106,6 +109,7 @@ R/publication_results.R
 R/reference_file.R
 R/reference_file_results.R
 R/related_donor.R
+R/rna_seq_kb_info.R
 R/rodent_donor.R
 R/rodent_donor_results.R
 R/sample_term.R
@@ -145,6 +149,9 @@ R/whole_organism_results.R
 R/workflow.R
 R/workflow_results.R
 README.md
+docs/ATACBamSummaryStats.md
+docs/ATACFragmentSummaryStats.md
+docs/ATACFragmentsAlignmentStats.md
 docs/AccessKey.md
 docs/AccessKeyResults.md
 docs/AlignmentFile.md
@@ -242,6 +249,7 @@ docs/PrimaryCell.md
 docs/PrimaryCellResults.md
 docs/Publication.md
 docs/PublicationResults.md
+docs/RNASeqKBInfo.md
 docs/ReferenceFile.md
 docs/ReferenceFileResults.md
 docs/RelatedDonor.md

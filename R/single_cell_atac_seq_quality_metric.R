@@ -47,6 +47,9 @@
 #' @field uni_mappings Number of fragments mapping to single location in the genome. numeric [optional]
 #' @field multi_mappings Number of fragments mappig in multiple locations in the genome. numeric [optional]
 #' @field total Sum of uni-mappings and multi-mappings. numeric [optional]
+#' @field atac_fragments_alignment_stats  \link{ATACFragmentsAlignmentStats} [optional]
+#' @field atac_bam_summary_stats  \link{ATACBamSummaryStats} [optional]
+#' @field atac_fragment_summary_stats  \link{ATACFragmentSummaryStats} [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the quality metric. character [optional]
@@ -99,10 +102,13 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
     `uni_mappings` = NULL,
     `multi_mappings` = NULL,
     `total` = NULL,
+    `atac_fragments_alignment_stats` = NULL,
+    `atac_bam_summary_stats` = NULL,
+    `atac_fragment_summary_stats` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
-    `_field_list` = c("status", "release_timestamp", "attachment", "lab", "award", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "quality_metric_of", "analysis_step_version", "tsse", "n_fragments", "n_barcodes", "pct_duplicates", "n_fragment", "frac_dup", "frac_mito", "duplicate", "unmapped", "lowmapq", "joint_barcodes_passing", "n_reads", "n_mapped_reads", "n_uniquely_mapped_reads", "n_reads_with_multi_mappings", "n_candidates", "n_mappings", "n_uni_mappings", "n_multi_mappings", "n_barcodes_on_onlist", "n_corrected_barcodes", "n_output_mappings", "uni_mappings", "multi_mappings", "total", "@id", "@type", "summary"),
+    `_field_list` = c("status", "release_timestamp", "attachment", "lab", "award", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "quality_metric_of", "analysis_step_version", "tsse", "n_fragments", "n_barcodes", "pct_duplicates", "n_fragment", "frac_dup", "frac_mito", "duplicate", "unmapped", "lowmapq", "joint_barcodes_passing", "n_reads", "n_mapped_reads", "n_uniquely_mapped_reads", "n_reads_with_multi_mappings", "n_candidates", "n_mappings", "n_uni_mappings", "n_multi_mappings", "n_barcodes_on_onlist", "n_corrected_barcodes", "n_output_mappings", "uni_mappings", "multi_mappings", "total", "atac_fragments_alignment_stats", "atac_bam_summary_stats", "atac_fragment_summary_stats", "@id", "@type", "summary"),
     `additional_properties` = list(),
     #' Initialize a new SingleCellAtacSeqQualityMetric class.
     #'
@@ -149,13 +155,16 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
     #' @param uni_mappings Number of fragments mapping to single location in the genome.
     #' @param multi_mappings Number of fragments mappig in multiple locations in the genome.
     #' @param total Sum of uni-mappings and multi-mappings.
+    #' @param atac_fragments_alignment_stats atac_fragments_alignment_stats
+    #' @param atac_bam_summary_stats atac_bam_summary_stats
+    #' @param atac_fragment_summary_stats atac_fragment_summary_stats
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the quality metric.
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`status` = NULL, `release_timestamp` = NULL, `attachment` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `quality_metric_of` = NULL, `analysis_step_version` = NULL, `tsse` = NULL, `n_fragments` = NULL, `n_barcodes` = NULL, `pct_duplicates` = NULL, `n_fragment` = NULL, `frac_dup` = NULL, `frac_mito` = NULL, `duplicate` = NULL, `unmapped` = NULL, `lowmapq` = NULL, `joint_barcodes_passing` = NULL, `n_reads` = NULL, `n_mapped_reads` = NULL, `n_uniquely_mapped_reads` = NULL, `n_reads_with_multi_mappings` = NULL, `n_candidates` = NULL, `n_mappings` = NULL, `n_uni_mappings` = NULL, `n_multi_mappings` = NULL, `n_barcodes_on_onlist` = NULL, `n_corrected_barcodes` = NULL, `n_output_mappings` = NULL, `uni_mappings` = NULL, `multi_mappings` = NULL, `total` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`status` = NULL, `release_timestamp` = NULL, `attachment` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `quality_metric_of` = NULL, `analysis_step_version` = NULL, `tsse` = NULL, `n_fragments` = NULL, `n_barcodes` = NULL, `pct_duplicates` = NULL, `n_fragment` = NULL, `frac_dup` = NULL, `frac_mito` = NULL, `duplicate` = NULL, `unmapped` = NULL, `lowmapq` = NULL, `joint_barcodes_passing` = NULL, `n_reads` = NULL, `n_mapped_reads` = NULL, `n_uniquely_mapped_reads` = NULL, `n_reads_with_multi_mappings` = NULL, `n_candidates` = NULL, `n_mappings` = NULL, `n_uni_mappings` = NULL, `n_multi_mappings` = NULL, `n_barcodes_on_onlist` = NULL, `n_corrected_barcodes` = NULL, `n_output_mappings` = NULL, `uni_mappings` = NULL, `multi_mappings` = NULL, `total` = NULL, `atac_fragments_alignment_stats` = NULL, `atac_bam_summary_stats` = NULL, `atac_fragment_summary_stats` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`status`)) {
         if (!(`status` %in% c("archived", "deleted", "in progress", "preview", "released"))) {
           stop(paste("Error! \"", `status`, "\" cannot be assigned to `status`. Must be \"archived\", \"deleted\", \"in progress\", \"preview\", \"released\".", sep = ""))
@@ -319,6 +328,18 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
       }
       if (!is.null(`total`)) {
         self$`total` <- `total`
+      }
+      if (!is.null(`atac_fragments_alignment_stats`)) {
+        stopifnot(R6::is.R6(`atac_fragments_alignment_stats`))
+        self$`atac_fragments_alignment_stats` <- `atac_fragments_alignment_stats`
+      }
+      if (!is.null(`atac_bam_summary_stats`)) {
+        stopifnot(R6::is.R6(`atac_bam_summary_stats`))
+        self$`atac_bam_summary_stats` <- `atac_bam_summary_stats`
+      }
+      if (!is.null(`atac_fragment_summary_stats`)) {
+        stopifnot(R6::is.R6(`atac_fragment_summary_stats`))
+        self$`atac_fragment_summary_stats` <- `atac_fragment_summary_stats`
       }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
@@ -512,6 +533,18 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
         SingleCellAtacSeqQualityMetricObject[["total"]] <-
           self$`total`
       }
+      if (!is.null(self$`atac_fragments_alignment_stats`)) {
+        SingleCellAtacSeqQualityMetricObject[["atac_fragments_alignment_stats"]] <-
+          self$`atac_fragments_alignment_stats`$toJSON()
+      }
+      if (!is.null(self$`atac_bam_summary_stats`)) {
+        SingleCellAtacSeqQualityMetricObject[["atac_bam_summary_stats"]] <-
+          self$`atac_bam_summary_stats`$toJSON()
+      }
+      if (!is.null(self$`atac_fragment_summary_stats`)) {
+        SingleCellAtacSeqQualityMetricObject[["atac_fragment_summary_stats"]] <-
+          self$`atac_fragment_summary_stats`$toJSON()
+      }
       if (!is.null(self$`@id`)) {
         SingleCellAtacSeqQualityMetricObject[["@id"]] <-
           self$`@id`
@@ -664,6 +697,21 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
       }
       if (!is.null(this_object$`total`)) {
         self$`total` <- this_object$`total`
+      }
+      if (!is.null(this_object$`atac_fragments_alignment_stats`)) {
+        `atac_fragments_alignment_stats_object` <- ATACFragmentsAlignmentStats$new()
+        `atac_fragments_alignment_stats_object`$fromJSON(jsonlite::toJSON(this_object$`atac_fragments_alignment_stats`, auto_unbox = TRUE, digits = NA))
+        self$`atac_fragments_alignment_stats` <- `atac_fragments_alignment_stats_object`
+      }
+      if (!is.null(this_object$`atac_bam_summary_stats`)) {
+        `atac_bam_summary_stats_object` <- ATACBamSummaryStats$new()
+        `atac_bam_summary_stats_object`$fromJSON(jsonlite::toJSON(this_object$`atac_bam_summary_stats`, auto_unbox = TRUE, digits = NA))
+        self$`atac_bam_summary_stats` <- `atac_bam_summary_stats_object`
+      }
+      if (!is.null(this_object$`atac_fragment_summary_stats`)) {
+        `atac_fragment_summary_stats_object` <- ATACFragmentSummaryStats$new()
+        `atac_fragment_summary_stats_object`$fromJSON(jsonlite::toJSON(this_object$`atac_fragment_summary_stats`, auto_unbox = TRUE, digits = NA))
+        self$`atac_fragment_summary_stats` <- `atac_fragment_summary_stats_object`
       }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
@@ -1012,6 +1060,30 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
           self$`total`
           )
         },
+        if (!is.null(self$`atac_fragments_alignment_stats`)) {
+          sprintf(
+          '"atac_fragments_alignment_stats":
+          %s
+          ',
+          jsonlite::toJSON(self$`atac_fragments_alignment_stats`$toJSON(), auto_unbox = TRUE, digits = NA)
+          )
+        },
+        if (!is.null(self$`atac_bam_summary_stats`)) {
+          sprintf(
+          '"atac_bam_summary_stats":
+          %s
+          ',
+          jsonlite::toJSON(self$`atac_bam_summary_stats`$toJSON(), auto_unbox = TRUE, digits = NA)
+          )
+        },
+        if (!is.null(self$`atac_fragment_summary_stats`)) {
+          sprintf(
+          '"atac_fragment_summary_stats":
+          %s
+          ',
+          jsonlite::toJSON(self$`atac_fragment_summary_stats`$toJSON(), auto_unbox = TRUE, digits = NA)
+          )
+        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -1098,6 +1170,9 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
       self$`uni_mappings` <- this_object$`uni_mappings`
       self$`multi_mappings` <- this_object$`multi_mappings`
       self$`total` <- this_object$`total`
+      self$`atac_fragments_alignment_stats` <- ATACFragmentsAlignmentStats$new()$fromJSON(jsonlite::toJSON(this_object$`atac_fragments_alignment_stats`, auto_unbox = TRUE, digits = NA))
+      self$`atac_bam_summary_stats` <- ATACBamSummaryStats$new()$fromJSON(jsonlite::toJSON(this_object$`atac_bam_summary_stats`, auto_unbox = TRUE, digits = NA))
+      self$`atac_fragment_summary_stats` <- ATACFragmentSummaryStats$new()$fromJSON(jsonlite::toJSON(this_object$`atac_fragment_summary_stats`, auto_unbox = TRUE, digits = NA))
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
