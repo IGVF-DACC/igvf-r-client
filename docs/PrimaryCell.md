@@ -28,6 +28,7 @@ Name | Type | Description | Notes
 **submitted_by** | **character** | The user who submitted the object. | [optional] 
 **submitter_comment** | **character** | Additional information specified by the submitter to be displayed as a comment on the portal. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **description** | **character** | A plain text description of the object. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
+**annotated_from** | **character** | Links to the sample that was used as a reference for annotating this sample. | [optional] 
 **lower_bound_age** | **numeric** | Lower bound of age of the organism at the time of collection of the sample. | [optional] 
 **upper_bound_age** | **numeric** | Upper bound of age of the organism at the time of collection of the sample. | [optional] 
 **age_units** | **character** | The units of time associated with age of the biosample. | [optional] [Enum: [minute, hour, day, week, month, year]] 

@@ -30,6 +30,7 @@
 #' @field submitted_by The user who submitted the object. character [optional]
 #' @field submitter_comment Additional information specified by the submitter to be displayed as a comment on the portal. character [optional]
 #' @field description A plain text description of the object. character [optional]
+#' @field annotated_from Links to the sample that was used as a reference for annotating this sample. character [optional]
 #' @field lower_bound_age Lower bound of age of the organism at the time of collection of the sample. numeric [optional]
 #' @field upper_bound_age Upper bound of age of the organism at the time of collection of the sample. numeric [optional]
 #' @field age_units The units of time associated with age of the biosample. character [optional]
@@ -103,6 +104,7 @@ PrimaryCell <- R6::R6Class(
     `submitted_by` = NULL,
     `submitter_comment` = NULL,
     `description` = NULL,
+    `annotated_from` = NULL,
     `lower_bound_age` = NULL,
     `upper_bound_age` = NULL,
     `age_units` = NULL,
@@ -175,6 +177,7 @@ PrimaryCell <- R6::R6Class(
     #' @param submitted_by The user who submitted the object.
     #' @param submitter_comment Additional information specified by the submitter to be displayed as a comment on the portal.
     #' @param description A plain text description of the object.
+    #' @param annotated_from Links to the sample that was used as a reference for annotating this sample.
     #' @param lower_bound_age Lower bound of age of the organism at the time of collection of the sample.
     #' @param upper_bound_age Upper bound of age of the organism at the time of collection of the sample.
     #' @param age_units The units of time associated with age of the biosample.
@@ -221,7 +224,7 @@ PrimaryCell <- R6::R6Class(
     #' @param classifications The general category of this type of sample.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `publications` = NULL, `taxa` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `lower_bound_age` = NULL, `upper_bound_age` = NULL, `age_units` = NULL, `sample_terms` = NULL, `disease_terms` = NULL, `pooled_from` = NULL, `part_of` = NULL, `originated_from` = NULL, `treatments` = NULL, `donors` = NULL, `biomarkers` = NULL, `embryonic` = NULL, `modifications` = NULL, `cellular_sub_pool` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `passage_number` = NULL, `biosample_qualifiers` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `sex` = NULL, `age` = NULL, `upper_bound_age_in_hours` = NULL, `lower_bound_age_in_hours` = NULL, `parts` = NULL, `pooled_in` = NULL, `classifications` = NULL, ...) {
+    initialize = function(`release_timestamp` = NULL, `publications` = NULL, `taxa` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `annotated_from` = NULL, `lower_bound_age` = NULL, `upper_bound_age` = NULL, `age_units` = NULL, `sample_terms` = NULL, `disease_terms` = NULL, `pooled_from` = NULL, `part_of` = NULL, `originated_from` = NULL, `treatments` = NULL, `donors` = NULL, `biomarkers` = NULL, `embryonic` = NULL, `modifications` = NULL, `cellular_sub_pool` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `passage_number` = NULL, `biosample_qualifiers` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `sex` = NULL, `age` = NULL, `upper_bound_age_in_hours` = NULL, `lower_bound_age_in_hours` = NULL, `parts` = NULL, `pooled_in` = NULL, `classifications` = NULL, ...) {
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -359,6 +362,12 @@ PrimaryCell <- R6::R6Class(
           stop(paste("Error! Invalid data for `description`. Must be a string:", `description`))
         }
         self$`description` <- `description`
+      }
+      if (!is.null(`annotated_from`)) {
+        if (!(is.character(`annotated_from`) && length(`annotated_from`) == 1)) {
+          stop(paste("Error! Invalid data for `annotated_from`. Must be a string:", `annotated_from`))
+        }
+        self$`annotated_from` <- `annotated_from`
       }
       if (!is.null(`lower_bound_age`)) {
         self$`lower_bound_age` <- `lower_bound_age`
@@ -700,6 +709,10 @@ PrimaryCell <- R6::R6Class(
         PrimaryCellObject[["description"]] <-
           self$`description`
       }
+      if (!is.null(self$`annotated_from`)) {
+        PrimaryCellObject[["annotated_from"]] <-
+          self$`annotated_from`
+      }
       if (!is.null(self$`lower_bound_age`)) {
         PrimaryCellObject[["lower_bound_age"]] <-
           self$`lower_bound_age`
@@ -962,6 +975,9 @@ PrimaryCell <- R6::R6Class(
       }
       if (!is.null(this_object$`description`)) {
         self$`description` <- this_object$`description`
+      }
+      if (!is.null(this_object$`annotated_from`)) {
+        self$`annotated_from` <- this_object$`annotated_from`
       }
       if (!is.null(this_object$`lower_bound_age`)) {
         self$`lower_bound_age` <- this_object$`lower_bound_age`
@@ -1303,6 +1319,14 @@ PrimaryCell <- R6::R6Class(
             "%s"
                     ',
           gsub('(?<!\\\\)\\"', '\\\\"', self$`description`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`annotated_from`)) {
+          sprintf(
+          '"annotated_from":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`annotated_from`, perl=TRUE)
           )
         },
         if (!is.null(self$`lower_bound_age`)) {
@@ -1700,6 +1724,7 @@ PrimaryCell <- R6::R6Class(
       self$`submitted_by` <- this_object$`submitted_by`
       self$`submitter_comment` <- this_object$`submitter_comment`
       self$`description` <- this_object$`description`
+      self$`annotated_from` <- this_object$`annotated_from`
       self$`lower_bound_age` <- this_object$`lower_bound_age`
       self$`upper_bound_age` <- this_object$`upper_bound_age`
       if (!is.null(this_object$`age_units`) && !(this_object$`age_units` %in% c("minute", "hour", "day", "week", "month", "year"))) {
