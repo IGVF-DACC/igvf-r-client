@@ -24,6 +24,7 @@
 #' @field name Unique name of the software package; a lowercase version of the title. character [optional]
 #' @field title The preferred viewable name of the software. character [optional]
 #' @field used_by The component(s) of the IGVF consortium that utilize this software. list(character) [optional]
+#' @field categories The general categories of this software. list(character) [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary  character [optional]
@@ -51,6 +52,7 @@ Software <- R6::R6Class(
     `name` = NULL,
     `title` = NULL,
     `used_by` = NULL,
+    `categories` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -77,13 +79,14 @@ Software <- R6::R6Class(
     #' @param name Unique name of the software package; a lowercase version of the title.
     #' @param title The preferred viewable name of the software.
     #' @param used_by The component(s) of the IGVF consortium that utilize this software.
+    #' @param categories The general categories of this software.
     #' @param @id @id
     #' @param @type @type
     #' @param summary summary
     #' @param versions A list of versions that have been released for this software.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`source_url` = NULL, `release_timestamp` = NULL, `publications` = NULL, `lab` = NULL, `award` = NULL, `status` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `name` = NULL, `title` = NULL, `used_by` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `versions` = NULL, ...) {
+    initialize = function(`source_url` = NULL, `release_timestamp` = NULL, `publications` = NULL, `lab` = NULL, `award` = NULL, `status` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `name` = NULL, `title` = NULL, `used_by` = NULL, `categories` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `versions` = NULL, ...) {
       if (!is.null(`source_url`)) {
         if (!(is.character(`source_url`) && length(`source_url`) == 1)) {
           stop(paste("Error! Invalid data for `source_url`. Must be a string:", `source_url`))
@@ -186,6 +189,11 @@ Software <- R6::R6Class(
         sapply(`used_by`, function(x) stopifnot(is.character(x)))
         self$`used_by` <- `used_by`
       }
+      if (!is.null(`categories`)) {
+        stopifnot(is.vector(`categories`), length(`categories`) != 0)
+        sapply(`categories`, function(x) stopifnot(is.character(x)))
+        self$`categories` <- `categories`
+      }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
           stop(paste("Error! Invalid data for `@id`. Must be a string:", `@id`))
@@ -286,6 +294,10 @@ Software <- R6::R6Class(
         SoftwareObject[["used_by"]] <-
           self$`used_by`
       }
+      if (!is.null(self$`categories`)) {
+        SoftwareObject[["categories"]] <-
+          self$`categories`
+      }
       if (!is.null(self$`@id`)) {
         SoftwareObject[["@id"]] <-
           self$`@id`
@@ -367,6 +379,9 @@ Software <- R6::R6Class(
       }
       if (!is.null(this_object$`used_by`)) {
         self$`used_by` <- ApiClient$new()$deserializeObj(this_object$`used_by`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`categories`)) {
+        self$`categories` <- ApiClient$new()$deserializeObj(this_object$`categories`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
@@ -527,6 +542,14 @@ Software <- R6::R6Class(
           paste(unlist(lapply(self$`used_by`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`categories`)) {
+          sprintf(
+          '"categories":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`categories`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -593,6 +616,7 @@ Software <- R6::R6Class(
       self$`name` <- this_object$`name`
       self$`title` <- this_object$`title`
       self$`used_by` <- ApiClient$new()$deserializeObj(this_object$`used_by`, "set[character]", loadNamespace("igvfclient"))
+      self$`categories` <- ApiClient$new()$deserializeObj(this_object$`categories`, "set[character]", loadNamespace("igvfclient"))
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
@@ -655,6 +679,7 @@ Software <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -691,6 +716,7 @@ Software <- R6::R6Class(
       if (!str_detect(self$`title`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         invalid_fields["title"] <- "Invalid value for `title`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
+
 
 
 

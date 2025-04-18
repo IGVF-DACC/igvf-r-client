@@ -22,7 +22,6 @@
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary  character [optional]
-#' @field thumb_nail Image url character [optional]
 #' @field download_url Download Url character [optional]
 #' @field _field_list a list of fields list(character)
 #' @field additional_properties additional properties list(character) [optional]
@@ -48,9 +47,8 @@ Image <- R6::R6Class(
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
-    `thumb_nail` = NULL,
     `download_url` = NULL,
-    `_field_list` = c("release_timestamp", "status", "attachment", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "caption", "@id", "@type", "summary", "thumb_nail", "download_url"),
+    `_field_list` = c("release_timestamp", "status", "attachment", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "caption", "@id", "@type", "summary", "download_url"),
     `additional_properties` = list(),
     #' Initialize a new Image class.
     #'
@@ -72,12 +70,11 @@ Image <- R6::R6Class(
     #' @param @id @id
     #' @param @type @type
     #' @param summary summary
-    #' @param thumb_nail Image url
     #' @param download_url Download Url
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `status` = NULL, `attachment` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `caption` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `thumb_nail` = NULL, `download_url` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`release_timestamp` = NULL, `status` = NULL, `attachment` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `caption` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `download_url` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -167,12 +164,6 @@ Image <- R6::R6Class(
         }
         self$`summary` <- `summary`
       }
-      if (!is.null(`thumb_nail`)) {
-        if (!(is.character(`thumb_nail`) && length(`thumb_nail`) == 1)) {
-          stop(paste("Error! Invalid data for `thumb_nail`. Must be a string:", `thumb_nail`))
-        }
-        self$`thumb_nail` <- `thumb_nail`
-      }
       if (!is.null(`download_url`)) {
         if (!(is.character(`download_url`) && length(`download_url`) == 1)) {
           stop(paste("Error! Invalid data for `download_url`. Must be a string:", `download_url`))
@@ -254,10 +245,6 @@ Image <- R6::R6Class(
         ImageObject[["summary"]] <-
           self$`summary`
       }
-      if (!is.null(self$`thumb_nail`)) {
-        ImageObject[["thumb_nail"]] <-
-          self$`thumb_nail`
-      }
       if (!is.null(self$`download_url`)) {
         ImageObject[["download_url"]] <-
           self$`download_url`
@@ -327,9 +314,6 @@ Image <- R6::R6Class(
       }
       if (!is.null(this_object$`summary`)) {
         self$`summary` <- this_object$`summary`
-      }
-      if (!is.null(this_object$`thumb_nail`)) {
-        self$`thumb_nail` <- this_object$`thumb_nail`
       }
       if (!is.null(this_object$`download_url`)) {
         self$`download_url` <- this_object$`download_url`
@@ -472,14 +456,6 @@ Image <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`summary`, perl=TRUE)
           )
         },
-        if (!is.null(self$`thumb_nail`)) {
-          sprintf(
-          '"thumb_nail":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`thumb_nail`, perl=TRUE)
-          )
-        },
         if (!is.null(self$`download_url`)) {
           sprintf(
           '"download_url":
@@ -525,7 +501,6 @@ Image <- R6::R6Class(
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
-      self$`thumb_nail` <- this_object$`thumb_nail`
       self$`download_url` <- this_object$`download_url`
       # process additional properties/fields in the payload
       for (key in names(this_object)) {

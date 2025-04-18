@@ -22,6 +22,7 @@ Name | Type | Description | Notes
 **name** | **character** | Unique name of the software package; a lowercase version of the title. | [optional] [Pattern: ^[a-z0-9\\-_]+] 
 **title** | **character** | The preferred viewable name of the software. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **used_by** | **set[character]** | The component(s) of the IGVF consortium that utilize this software. | [optional] [Enum: ] 
+**categories** | **set[character]** | The general categories of this software. | [optional] [Enum: ] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** |  | [optional] 

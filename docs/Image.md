@@ -20,7 +20,6 @@ Name | Type | Description | Notes
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** |  | [optional] 
-**thumb_nail** | **character** | Image url | [optional] 
 **download_url** | **character** | Download Url | [optional] 
 
 

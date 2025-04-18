@@ -61,7 +61,6 @@
 #' @field classifications The general category of this type of in vitro system. list(character) [optional]
 #' @field time_post_change The time that elapsed past the time-point when the cell fate change treatments were introduced. numeric [optional]
 #' @field time_post_change_units The units of time that elapsed past the point when the cell fate change treatments were introduced. character [optional]
-#' @field cell_fate_change_treatments A list of treatments applied to the biosample with the purpose of differentiation, dedifferentiation, or reprogramming. list(character) [optional]
 #' @field cell_fate_change_protocol A protocol applied to the biosample with the purpose of differentiation, dedifferentiation, or reprogramming. character [optional]
 #' @field demultiplexed_from The biosample this in vitro system sample was demultiplexed from using computational methods. character [optional]
 #' @field passage_number Number of passages including the passages from the source. integer [optional]
@@ -143,7 +142,6 @@ InVitroSystem <- R6::R6Class(
     `classifications` = NULL,
     `time_post_change` = NULL,
     `time_post_change_units` = NULL,
-    `cell_fate_change_treatments` = NULL,
     `cell_fate_change_protocol` = NULL,
     `demultiplexed_from` = NULL,
     `passage_number` = NULL,
@@ -224,7 +222,6 @@ InVitroSystem <- R6::R6Class(
     #' @param classifications The general category of this type of in vitro system.
     #' @param time_post_change The time that elapsed past the time-point when the cell fate change treatments were introduced.
     #' @param time_post_change_units The units of time that elapsed past the point when the cell fate change treatments were introduced.
-    #' @param cell_fate_change_treatments A list of treatments applied to the biosample with the purpose of differentiation, dedifferentiation, or reprogramming.
     #' @param cell_fate_change_protocol A protocol applied to the biosample with the purpose of differentiation, dedifferentiation, or reprogramming.
     #' @param demultiplexed_from The biosample this in vitro system sample was demultiplexed from using computational methods.
     #' @param passage_number Number of passages including the passages from the source.
@@ -248,7 +245,7 @@ InVitroSystem <- R6::R6Class(
     #' @param demultiplexed_to The parts into which this sample has been demultiplexed.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `publications` = NULL, `taxa` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `annotated_from` = NULL, `lower_bound_age` = NULL, `upper_bound_age` = NULL, `age_units` = NULL, `sample_terms` = NULL, `disease_terms` = NULL, `pooled_from` = NULL, `part_of` = NULL, `originated_from` = NULL, `treatments` = NULL, `donors` = NULL, `biomarkers` = NULL, `embryonic` = NULL, `modifications` = NULL, `cellular_sub_pool` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `classifications` = NULL, `time_post_change` = NULL, `time_post_change_units` = NULL, `cell_fate_change_treatments` = NULL, `cell_fate_change_protocol` = NULL, `demultiplexed_from` = NULL, `passage_number` = NULL, `targeted_sample_term` = NULL, `growth_medium` = NULL, `biosample_qualifiers` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `sex` = NULL, `age` = NULL, `upper_bound_age_in_hours` = NULL, `lower_bound_age_in_hours` = NULL, `parts` = NULL, `pooled_in` = NULL, `demultiplexed_to` = NULL, ...) {
+    initialize = function(`release_timestamp` = NULL, `publications` = NULL, `taxa` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `annotated_from` = NULL, `lower_bound_age` = NULL, `upper_bound_age` = NULL, `age_units` = NULL, `sample_terms` = NULL, `disease_terms` = NULL, `pooled_from` = NULL, `part_of` = NULL, `originated_from` = NULL, `treatments` = NULL, `donors` = NULL, `biomarkers` = NULL, `embryonic` = NULL, `modifications` = NULL, `cellular_sub_pool` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `classifications` = NULL, `time_post_change` = NULL, `time_post_change_units` = NULL, `cell_fate_change_protocol` = NULL, `demultiplexed_from` = NULL, `passage_number` = NULL, `targeted_sample_term` = NULL, `growth_medium` = NULL, `biosample_qualifiers` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `sex` = NULL, `age` = NULL, `upper_bound_age_in_hours` = NULL, `lower_bound_age_in_hours` = NULL, `parts` = NULL, `pooled_in` = NULL, `demultiplexed_to` = NULL, ...) {
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -558,11 +555,6 @@ InVitroSystem <- R6::R6Class(
           stop(paste("Error! Invalid data for `time_post_change_units`. Must be a string:", `time_post_change_units`))
         }
         self$`time_post_change_units` <- `time_post_change_units`
-      }
-      if (!is.null(`cell_fate_change_treatments`)) {
-        stopifnot(is.vector(`cell_fate_change_treatments`), length(`cell_fate_change_treatments`) != 0)
-        sapply(`cell_fate_change_treatments`, function(x) stopifnot(is.character(x)))
-        self$`cell_fate_change_treatments` <- `cell_fate_change_treatments`
       }
       if (!is.null(`cell_fate_change_protocol`)) {
         if (!(is.character(`cell_fate_change_protocol`) && length(`cell_fate_change_protocol`) == 1)) {
@@ -906,10 +898,6 @@ InVitroSystem <- R6::R6Class(
         InVitroSystemObject[["time_post_change_units"]] <-
           self$`time_post_change_units`
       }
-      if (!is.null(self$`cell_fate_change_treatments`)) {
-        InVitroSystemObject[["cell_fate_change_treatments"]] <-
-          self$`cell_fate_change_treatments`
-      }
       if (!is.null(self$`cell_fate_change_protocol`)) {
         InVitroSystemObject[["cell_fate_change_protocol"]] <-
           self$`cell_fate_change_protocol`
@@ -1188,9 +1176,6 @@ InVitroSystem <- R6::R6Class(
           stop(paste("Error! \"", this_object$`time_post_change_units`, "\" cannot be assigned to `time_post_change_units`. Must be \"minute\", \"hour\", \"day\", \"week\", \"month\".", sep = ""))
         }
         self$`time_post_change_units` <- this_object$`time_post_change_units`
-      }
-      if (!is.null(this_object$`cell_fate_change_treatments`)) {
-        self$`cell_fate_change_treatments` <- ApiClient$new()$deserializeObj(this_object$`cell_fate_change_treatments`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`cell_fate_change_protocol`)) {
         self$`cell_fate_change_protocol` <- this_object$`cell_fate_change_protocol`
@@ -1704,14 +1689,6 @@ InVitroSystem <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`time_post_change_units`, perl=TRUE)
           )
         },
-        if (!is.null(self$`cell_fate_change_treatments`)) {
-          sprintf(
-          '"cell_fate_change_treatments":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`cell_fate_change_treatments`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
         if (!is.null(self$`cell_fate_change_protocol`)) {
           sprintf(
           '"cell_fate_change_protocol":
@@ -1969,7 +1946,6 @@ InVitroSystem <- R6::R6Class(
         stop(paste("Error! \"", this_object$`time_post_change_units`, "\" cannot be assigned to `time_post_change_units`. Must be \"minute\", \"hour\", \"day\", \"week\", \"month\".", sep = ""))
       }
       self$`time_post_change_units` <- this_object$`time_post_change_units`
-      self$`cell_fate_change_treatments` <- ApiClient$new()$deserializeObj(this_object$`cell_fate_change_treatments`, "set[character]", loadNamespace("igvfclient"))
       self$`cell_fate_change_protocol` <- this_object$`cell_fate_change_protocol`
       self$`demultiplexed_from` <- this_object$`demultiplexed_from`
       self$`passage_number` <- this_object$`passage_number`
@@ -2080,7 +2056,6 @@ InVitroSystem <- R6::R6Class(
 
 
 
-
       if (self$`passage_number` < 0) {
         return(FALSE)
       }
@@ -2159,7 +2134,6 @@ InVitroSystem <- R6::R6Class(
       if (self$`moi` < 0) {
         invalid_fields["moi"] <- "Invalid value for `moi`, must be bigger than or equal to 0."
       }
-
 
 
 
