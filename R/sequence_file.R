@@ -49,6 +49,7 @@
 #' @field minimum_read_length For high-throughput sequencing, the minimum number of contiguous nucleotides determined by sequencing. integer [optional]
 #' @field maximum_read_length For high-throughput sequencing, the maximum number of contiguous nucleotides determined by sequencing. integer [optional]
 #' @field mean_read_length For high-throughput sequencing, the mean number of contiguous nucleotides determined by sequencing. numeric [optional]
+#' @field seqspec_document A seqspec document describing the library and read structure. character [optional]
 #' @field sequencing_platform The measurement device used to produce sequencing data. character [optional]
 #' @field sequencing_kit A reagent kit used with a library to prepare it for sequencing. character [optional]
 #' @field sequencing_run An ordinal number indicating which sequencing run of the associated library that the file belongs to. integer [optional]
@@ -118,6 +119,7 @@ SequenceFile <- R6::R6Class(
     `minimum_read_length` = NULL,
     `maximum_read_length` = NULL,
     `mean_read_length` = NULL,
+    `seqspec_document` = NULL,
     `sequencing_platform` = NULL,
     `sequencing_kit` = NULL,
     `sequencing_run` = NULL,
@@ -186,6 +188,7 @@ SequenceFile <- R6::R6Class(
     #' @param minimum_read_length For high-throughput sequencing, the minimum number of contiguous nucleotides determined by sequencing.
     #' @param maximum_read_length For high-throughput sequencing, the maximum number of contiguous nucleotides determined by sequencing.
     #' @param mean_read_length For high-throughput sequencing, the mean number of contiguous nucleotides determined by sequencing.
+    #' @param seqspec_document A seqspec document describing the library and read structure.
     #' @param sequencing_platform The measurement device used to produce sequencing data.
     #' @param sequencing_kit A reagent kit used with a library to prepare it for sequencing.
     #' @param sequencing_run An ordinal number indicating which sequencing run of the associated library that the file belongs to.
@@ -209,7 +212,7 @@ SequenceFile <- R6::R6Class(
     #' @param seqspecs Link(s) to the associated seqspec YAML configuration file(s).
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`externally_hosted` = NULL, `external_host_url` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `release_timestamp` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `flowcell_id` = NULL, `lane` = NULL, `read_count` = NULL, `minimum_read_length` = NULL, `maximum_read_length` = NULL, `mean_read_length` = NULL, `sequencing_platform` = NULL, `sequencing_kit` = NULL, `sequencing_run` = NULL, `illumina_read_type` = NULL, `index` = NULL, `base_modifications` = NULL, `read_names` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `workflow` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `seqspecs` = NULL, ...) {
+    initialize = function(`externally_hosted` = NULL, `external_host_url` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `release_timestamp` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `flowcell_id` = NULL, `lane` = NULL, `read_count` = NULL, `minimum_read_length` = NULL, `maximum_read_length` = NULL, `mean_read_length` = NULL, `seqspec_document` = NULL, `sequencing_platform` = NULL, `sequencing_kit` = NULL, `sequencing_run` = NULL, `illumina_read_type` = NULL, `index` = NULL, `base_modifications` = NULL, `read_names` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `workflow` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `seqspecs` = NULL, ...) {
       if (!is.null(`externally_hosted`)) {
         if (!(is.logical(`externally_hosted`) && length(`externally_hosted`) == 1)) {
           stop(paste("Error! Invalid data for `externally_hosted`. Must be a boolean:", `externally_hosted`))
@@ -460,6 +463,12 @@ SequenceFile <- R6::R6Class(
       }
       if (!is.null(`mean_read_length`)) {
         self$`mean_read_length` <- `mean_read_length`
+      }
+      if (!is.null(`seqspec_document`)) {
+        if (!(is.character(`seqspec_document`) && length(`seqspec_document`) == 1)) {
+          stop(paste("Error! Invalid data for `seqspec_document`. Must be a string:", `seqspec_document`))
+        }
+        self$`seqspec_document` <- `seqspec_document`
       }
       if (!is.null(`sequencing_platform`)) {
         if (!(is.character(`sequencing_platform`) && length(`sequencing_platform`) == 1)) {
@@ -758,6 +767,10 @@ SequenceFile <- R6::R6Class(
         SequenceFileObject[["mean_read_length"]] <-
           self$`mean_read_length`
       }
+      if (!is.null(self$`seqspec_document`)) {
+        SequenceFileObject[["seqspec_document"]] <-
+          self$`seqspec_document`
+      }
       if (!is.null(self$`sequencing_platform`)) {
         SequenceFileObject[["sequencing_platform"]] <-
           self$`sequencing_platform`
@@ -988,6 +1001,9 @@ SequenceFile <- R6::R6Class(
       }
       if (!is.null(this_object$`mean_read_length`)) {
         self$`mean_read_length` <- this_object$`mean_read_length`
+      }
+      if (!is.null(this_object$`seqspec_document`)) {
+        self$`seqspec_document` <- this_object$`seqspec_document`
       }
       if (!is.null(this_object$`sequencing_platform`)) {
         self$`sequencing_platform` <- this_object$`sequencing_platform`
@@ -1405,6 +1421,14 @@ SequenceFile <- R6::R6Class(
           self$`mean_read_length`
           )
         },
+        if (!is.null(self$`seqspec_document`)) {
+          sprintf(
+          '"seqspec_document":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`seqspec_document`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`sequencing_platform`)) {
           sprintf(
           '"sequencing_platform":
@@ -1638,6 +1662,7 @@ SequenceFile <- R6::R6Class(
       self$`minimum_read_length` <- this_object$`minimum_read_length`
       self$`maximum_read_length` <- this_object$`maximum_read_length`
       self$`mean_read_length` <- this_object$`mean_read_length`
+      self$`seqspec_document` <- this_object$`seqspec_document`
       self$`sequencing_platform` <- this_object$`sequencing_platform`
       if (!is.null(this_object$`sequencing_kit`) && !(this_object$`sequencing_kit` %in% c("AVITI 2x75 Sequencing Kit Cloudbreak High Output", "AVITI 2x150 Sequencing Kit Cloudbreak High Output", "HiSeq SBS Kit v4", "HiSeq SR Cluster Kit v4-cBot-HS", "HiSeq PE Cluster Kit v4-cBot-HS", "HiSeq SR Rapid Cluster Kit v2", "HiSeq PE Rapid Cluster Kit v2", "HiSeq Rapid SBS Kit v2", "HiSeq 3000/4000 SBS Kit", "HiSeq 3000/4000 SR Cluster Kit", "HiSeq 3000/4000 PE Cluster Kit", "MiSeq Reagent Kit v2", "NextSeq 500 Mid Output Kit", "NextSeq 500 High Output Kit", "NextSeq 500 Mid Output v2 Kit", "NextSeq 500 High Output v2 Kit", "NextSeq 500/550 Mid-Output v2.5 Kit", "NextSeq 500/550 High-Output v2.5 Kit", "TG NextSeq 500/550 Mid-Output Kit v2.5", "TG NextSeq 500/550 High-Output Kit v2.5", "NextSeq 1000/2000 P1 Reagent Kit", "NextSeq 1000/2000 P2 Reagent Kit", "NextSeq 1000/2000 P3 Reagent Kit", "NextSeq 1000/2000 P1 XLEAP-SBS Reagent Kit", "NextSeq 1000/2000 P2 XLEAP-SBS Reagent Kit", "NextSeq 2000 P3 XLEAP-SBS Reagent Kit", "NextSeq 2000 P4 XLEAP-SBS Reagent Kit", "NovaSeq 6000 SP Reagent Kit v1.5", "NovaSeq 6000 S1 Reagent Kit v1.5", "NovaSeq 6000 S2 Reagent Kit v1.5", "NovaSeq 6000 S4 Reagent Kit v1.5", "NovaSeq X Series 1.5B Reagent Kit", "NovaSeq X Series 10B Reagent Kit", "NovaSeq X Series 25B Reagent Kit", "ONT Ligation Sequencing Kit V14", "Sequel sequencing kit 3.0", "Sequel II sequencing kit 2.0", "Singular G4 F2 Reagent Kit"))) {
         stop(paste("Error! \"", this_object$`sequencing_kit`, "\" cannot be assigned to `sequencing_kit`. Must be \"AVITI 2x75 Sequencing Kit Cloudbreak High Output\", \"AVITI 2x150 Sequencing Kit Cloudbreak High Output\", \"HiSeq SBS Kit v4\", \"HiSeq SR Cluster Kit v4-cBot-HS\", \"HiSeq PE Cluster Kit v4-cBot-HS\", \"HiSeq SR Rapid Cluster Kit v2\", \"HiSeq PE Rapid Cluster Kit v2\", \"HiSeq Rapid SBS Kit v2\", \"HiSeq 3000/4000 SBS Kit\", \"HiSeq 3000/4000 SR Cluster Kit\", \"HiSeq 3000/4000 PE Cluster Kit\", \"MiSeq Reagent Kit v2\", \"NextSeq 500 Mid Output Kit\", \"NextSeq 500 High Output Kit\", \"NextSeq 500 Mid Output v2 Kit\", \"NextSeq 500 High Output v2 Kit\", \"NextSeq 500/550 Mid-Output v2.5 Kit\", \"NextSeq 500/550 High-Output v2.5 Kit\", \"TG NextSeq 500/550 Mid-Output Kit v2.5\", \"TG NextSeq 500/550 High-Output Kit v2.5\", \"NextSeq 1000/2000 P1 Reagent Kit\", \"NextSeq 1000/2000 P2 Reagent Kit\", \"NextSeq 1000/2000 P3 Reagent Kit\", \"NextSeq 1000/2000 P1 XLEAP-SBS Reagent Kit\", \"NextSeq 1000/2000 P2 XLEAP-SBS Reagent Kit\", \"NextSeq 2000 P3 XLEAP-SBS Reagent Kit\", \"NextSeq 2000 P4 XLEAP-SBS Reagent Kit\", \"NovaSeq 6000 SP Reagent Kit v1.5\", \"NovaSeq 6000 S1 Reagent Kit v1.5\", \"NovaSeq 6000 S2 Reagent Kit v1.5\", \"NovaSeq 6000 S4 Reagent Kit v1.5\", \"NovaSeq X Series 1.5B Reagent Kit\", \"NovaSeq X Series 10B Reagent Kit\", \"NovaSeq X Series 25B Reagent Kit\", \"ONT Ligation Sequencing Kit V14\", \"Sequel sequencing kit 3.0\", \"Sequel II sequencing kit 2.0\", \"Singular G4 F2 Reagent Kit\".", sep = ""))

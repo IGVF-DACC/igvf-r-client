@@ -19,8 +19,6 @@
 #' @field description A plain text description of the object. character [optional]
 #' @field term_id An ontology identifier describing a biological sample character [optional]
 #' @field term_name Ontology term describing a biological sample, assay, trait, or disease. character [optional]
-#' @field definition Defintion of the term. character [optional]
-#' @field comment A comment about the term. character [optional]
 #' @field deprecated_ntr_terms A list of deprecated NTR terms previously associated with this ontology term. list(character) [optional]
 #' @field is_a A list of ontology terms which are the nearest ancestor to this ontology term. list(character) [optional]
 #' @field dbxrefs Sample identifiers from external resources, such as Cellosaurus. list(character) [optional]
@@ -28,6 +26,8 @@
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the ontology term. character [optional]
 #' @field name A unique identifier for the ontology term, reformatted from the original term ID. character [optional]
+#' @field definition Definition for the term that was recorded in an ontology. character [optional]
+#' @field comments Comment for the term that was recorded in an ontology. list(character) [optional]
 #' @field synonyms Synonyms for the term that have been recorded in an ontology. list(character) [optional]
 #' @field ancestors List of term names of ontological terms that precede the given term in the ontological tree. These ancestor terms are typically more general ontological terms under which the term is classified. list(character) [optional]
 #' @field ontology The ontology in which the term is recorded. character [optional]
@@ -53,8 +53,6 @@ SampleTerm <- R6::R6Class(
     `description` = NULL,
     `term_id` = NULL,
     `term_name` = NULL,
-    `definition` = NULL,
-    `comment` = NULL,
     `deprecated_ntr_terms` = NULL,
     `is_a` = NULL,
     `dbxrefs` = NULL,
@@ -62,6 +60,8 @@ SampleTerm <- R6::R6Class(
     `@type` = NULL,
     `summary` = NULL,
     `name` = NULL,
+    `definition` = NULL,
+    `comments` = NULL,
     `synonyms` = NULL,
     `ancestors` = NULL,
     `ontology` = NULL,
@@ -86,8 +86,6 @@ SampleTerm <- R6::R6Class(
     #' @param description A plain text description of the object.
     #' @param term_id An ontology identifier describing a biological sample
     #' @param term_name Ontology term describing a biological sample, assay, trait, or disease.
-    #' @param definition Defintion of the term.
-    #' @param comment A comment about the term.
     #' @param deprecated_ntr_terms A list of deprecated NTR terms previously associated with this ontology term.
     #' @param is_a A list of ontology terms which are the nearest ancestor to this ontology term.
     #' @param dbxrefs Sample identifiers from external resources, such as Cellosaurus.
@@ -95,6 +93,8 @@ SampleTerm <- R6::R6Class(
     #' @param @type @type
     #' @param summary A summary of the ontology term.
     #' @param name A unique identifier for the ontology term, reformatted from the original term ID.
+    #' @param definition Definition for the term that was recorded in an ontology.
+    #' @param comments Comment for the term that was recorded in an ontology.
     #' @param synonyms Synonyms for the term that have been recorded in an ontology.
     #' @param ancestors List of term names of ontological terms that precede the given term in the ontological tree. These ancestor terms are typically more general ontological terms under which the term is classified.
     #' @param ontology The ontology in which the term is recorded.
@@ -104,7 +104,7 @@ SampleTerm <- R6::R6Class(
     #' @param system_slims Organ systems associated with the sample term.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `status` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `term_id` = NULL, `term_name` = NULL, `definition` = NULL, `comment` = NULL, `deprecated_ntr_terms` = NULL, `is_a` = NULL, `dbxrefs` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `name` = NULL, `synonyms` = NULL, `ancestors` = NULL, `ontology` = NULL, `organ_slims` = NULL, `cell_slims` = NULL, `developmental_slims` = NULL, `system_slims` = NULL, ...) {
+    initialize = function(`release_timestamp` = NULL, `status` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `term_id` = NULL, `term_name` = NULL, `deprecated_ntr_terms` = NULL, `is_a` = NULL, `dbxrefs` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `name` = NULL, `definition` = NULL, `comments` = NULL, `synonyms` = NULL, `ancestors` = NULL, `ontology` = NULL, `organ_slims` = NULL, `cell_slims` = NULL, `developmental_slims` = NULL, `system_slims` = NULL, ...) {
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -179,18 +179,6 @@ SampleTerm <- R6::R6Class(
         }
         self$`term_name` <- `term_name`
       }
-      if (!is.null(`definition`)) {
-        if (!(is.character(`definition`) && length(`definition`) == 1)) {
-          stop(paste("Error! Invalid data for `definition`. Must be a string:", `definition`))
-        }
-        self$`definition` <- `definition`
-      }
-      if (!is.null(`comment`)) {
-        if (!(is.character(`comment`) && length(`comment`) == 1)) {
-          stop(paste("Error! Invalid data for `comment`. Must be a string:", `comment`))
-        }
-        self$`comment` <- `comment`
-      }
       if (!is.null(`deprecated_ntr_terms`)) {
         stopifnot(is.vector(`deprecated_ntr_terms`), length(`deprecated_ntr_terms`) != 0)
         sapply(`deprecated_ntr_terms`, function(x) stopifnot(is.character(x)))
@@ -228,6 +216,17 @@ SampleTerm <- R6::R6Class(
           stop(paste("Error! Invalid data for `name`. Must be a string:", `name`))
         }
         self$`name` <- `name`
+      }
+      if (!is.null(`definition`)) {
+        if (!(is.character(`definition`) && length(`definition`) == 1)) {
+          stop(paste("Error! Invalid data for `definition`. Must be a string:", `definition`))
+        }
+        self$`definition` <- `definition`
+      }
+      if (!is.null(`comments`)) {
+        stopifnot(is.vector(`comments`), length(`comments`) != 0)
+        sapply(`comments`, function(x) stopifnot(is.character(x)))
+        self$`comments` <- `comments`
       }
       if (!is.null(`synonyms`)) {
         stopifnot(is.vector(`synonyms`), length(`synonyms`) != 0)
@@ -323,14 +322,6 @@ SampleTerm <- R6::R6Class(
         SampleTermObject[["term_name"]] <-
           self$`term_name`
       }
-      if (!is.null(self$`definition`)) {
-        SampleTermObject[["definition"]] <-
-          self$`definition`
-      }
-      if (!is.null(self$`comment`)) {
-        SampleTermObject[["comment"]] <-
-          self$`comment`
-      }
       if (!is.null(self$`deprecated_ntr_terms`)) {
         SampleTermObject[["deprecated_ntr_terms"]] <-
           self$`deprecated_ntr_terms`
@@ -358,6 +349,14 @@ SampleTerm <- R6::R6Class(
       if (!is.null(self$`name`)) {
         SampleTermObject[["name"]] <-
           self$`name`
+      }
+      if (!is.null(self$`definition`)) {
+        SampleTermObject[["definition"]] <-
+          self$`definition`
+      }
+      if (!is.null(self$`comments`)) {
+        SampleTermObject[["comments"]] <-
+          self$`comments`
       }
       if (!is.null(self$`synonyms`)) {
         SampleTermObject[["synonyms"]] <-
@@ -438,12 +437,6 @@ SampleTerm <- R6::R6Class(
       if (!is.null(this_object$`term_name`)) {
         self$`term_name` <- this_object$`term_name`
       }
-      if (!is.null(this_object$`definition`)) {
-        self$`definition` <- this_object$`definition`
-      }
-      if (!is.null(this_object$`comment`)) {
-        self$`comment` <- this_object$`comment`
-      }
       if (!is.null(this_object$`deprecated_ntr_terms`)) {
         self$`deprecated_ntr_terms` <- ApiClient$new()$deserializeObj(this_object$`deprecated_ntr_terms`, "set[character]", loadNamespace("igvfclient"))
       }
@@ -464,6 +457,12 @@ SampleTerm <- R6::R6Class(
       }
       if (!is.null(this_object$`name`)) {
         self$`name` <- this_object$`name`
+      }
+      if (!is.null(this_object$`definition`)) {
+        self$`definition` <- this_object$`definition`
+      }
+      if (!is.null(this_object$`comments`)) {
+        self$`comments` <- ApiClient$new()$deserializeObj(this_object$`comments`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`synonyms`)) {
         self$`synonyms` <- ApiClient$new()$deserializeObj(this_object$`synonyms`, "set[character]", loadNamespace("igvfclient"))
@@ -593,22 +592,6 @@ SampleTerm <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`term_name`, perl=TRUE)
           )
         },
-        if (!is.null(self$`definition`)) {
-          sprintf(
-          '"definition":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`definition`, perl=TRUE)
-          )
-        },
-        if (!is.null(self$`comment`)) {
-          sprintf(
-          '"comment":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`comment`, perl=TRUE)
-          )
-        },
         if (!is.null(self$`deprecated_ntr_terms`)) {
           sprintf(
           '"deprecated_ntr_terms":
@@ -663,6 +646,22 @@ SampleTerm <- R6::R6Class(
             "%s"
                     ',
           gsub('(?<!\\\\)\\"', '\\\\"', self$`name`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`definition`)) {
+          sprintf(
+          '"definition":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`definition`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`comments`)) {
+          sprintf(
+          '"comments":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`comments`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`synonyms`)) {
@@ -750,8 +749,6 @@ SampleTerm <- R6::R6Class(
       self$`description` <- this_object$`description`
       self$`term_id` <- this_object$`term_id`
       self$`term_name` <- this_object$`term_name`
-      self$`definition` <- this_object$`definition`
-      self$`comment` <- this_object$`comment`
       self$`deprecated_ntr_terms` <- ApiClient$new()$deserializeObj(this_object$`deprecated_ntr_terms`, "set[character]", loadNamespace("igvfclient"))
       self$`is_a` <- ApiClient$new()$deserializeObj(this_object$`is_a`, "set[character]", loadNamespace("igvfclient"))
       self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
@@ -759,6 +756,8 @@ SampleTerm <- R6::R6Class(
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
       self$`name` <- this_object$`name`
+      self$`definition` <- this_object$`definition`
+      self$`comments` <- ApiClient$new()$deserializeObj(this_object$`comments`, "set[character]", loadNamespace("igvfclient"))
       self$`synonyms` <- ApiClient$new()$deserializeObj(this_object$`synonyms`, "set[character]", loadNamespace("igvfclient"))
       self$`ancestors` <- ApiClient$new()$deserializeObj(this_object$`ancestors`, "set[character]", loadNamespace("igvfclient"))
       self$`ontology` <- this_object$`ontology`
@@ -821,13 +820,6 @@ SampleTerm <- R6::R6Class(
         return(FALSE)
       }
 
-      if (!str_detect(self$`definition`, "^(?![\\s\"'])[\\S|\\s]*[^\\s\"']$")) {
-        return(FALSE)
-      }
-
-      if (!str_detect(self$`comment`, "^(?![\\s\"'])[\\S|\\s]*[^\\s\"']$")) {
-        return(FALSE)
-      }
 
 
 
@@ -874,13 +866,6 @@ SampleTerm <- R6::R6Class(
         invalid_fields["term_name"] <- "Invalid value for `term_name`, must conform to the pattern ^(?![\\s\"'])[\\S|\\s]*[^\\s\"']$."
       }
 
-      if (!str_detect(self$`definition`, "^(?![\\s\"'])[\\S|\\s]*[^\\s\"']$")) {
-        invalid_fields["definition"] <- "Invalid value for `definition`, must conform to the pattern ^(?![\\s\"'])[\\S|\\s]*[^\\s\"']$."
-      }
-
-      if (!str_detect(self$`comment`, "^(?![\\s\"'])[\\S|\\s]*[^\\s\"']$")) {
-        invalid_fields["comment"] <- "Invalid value for `comment`, must conform to the pattern ^(?![\\s\"'])[\\S|\\s]*[^\\s\"']$."
-      }
 
 
 

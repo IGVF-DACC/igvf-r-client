@@ -47,6 +47,7 @@
 #' @field checkfiles_version The Checkfiles GitHub version release the file was validated with. character [optional]
 #' @field read_count Number of reads in a bam file. Including both mapped, unmapped, and multi-mapped read counts. integer [optional]
 #' @field redacted Indicates whether the alignments data have been sanitized (redacted) to prevent leakage of private and potentially identifying genomic information. character [optional]
+#' @field base_modifications The chemical modifications to bases in a DNA sequence that are detected in this file. list(character) [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the alignment file. character [optional]
@@ -107,6 +108,7 @@ AlignmentFile <- R6::R6Class(
     `checkfiles_version` = NULL,
     `read_count` = NULL,
     `redacted` = NULL,
+    `base_modifications` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -166,6 +168,7 @@ AlignmentFile <- R6::R6Class(
     #' @param checkfiles_version The Checkfiles GitHub version release the file was validated with.
     #' @param read_count Number of reads in a bam file. Including both mapped, unmapped, and multi-mapped read counts.
     #' @param redacted Indicates whether the alignments data have been sanitized (redacted) to prevent leakage of private and potentially identifying genomic information.
+    #' @param base_modifications The chemical modifications to bases in a DNA sequence that are detected in this file.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the alignment file.
@@ -182,7 +185,7 @@ AlignmentFile <- R6::R6Class(
     #' @param content_summary A summary of the data in the alignment file.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`controlled_access` = NULL, `anvil_url` = NULL, `transcriptome_annotation` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `reference_files` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `read_count` = NULL, `redacted` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `workflow` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `content_summary` = NULL, ...) {
+    initialize = function(`controlled_access` = NULL, `anvil_url` = NULL, `transcriptome_annotation` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `reference_files` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `read_count` = NULL, `redacted` = NULL, `base_modifications` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `workflow` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `content_summary` = NULL, ...) {
       if (!is.null(`controlled_access`)) {
         if (!(is.logical(`controlled_access`) && length(`controlled_access`) == 1)) {
           stop(paste("Error! Invalid data for `controlled_access`. Must be a boolean:", `controlled_access`))
@@ -430,6 +433,11 @@ AlignmentFile <- R6::R6Class(
         }
         self$`redacted` <- `redacted`
       }
+      if (!is.null(`base_modifications`)) {
+        stopifnot(is.vector(`base_modifications`), length(`base_modifications`) != 0)
+        sapply(`base_modifications`, function(x) stopifnot(is.character(x)))
+        self$`base_modifications` <- `base_modifications`
+      }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
           stop(paste("Error! Invalid data for `@id`. Must be a string:", `@id`))
@@ -674,6 +682,10 @@ AlignmentFile <- R6::R6Class(
         AlignmentFileObject[["redacted"]] <-
           self$`redacted`
       }
+      if (!is.null(self$`base_modifications`)) {
+        AlignmentFileObject[["base_modifications"]] <-
+          self$`base_modifications`
+      }
       if (!is.null(self$`@id`)) {
         AlignmentFileObject[["@id"]] <-
           self$`@id`
@@ -876,6 +888,9 @@ AlignmentFile <- R6::R6Class(
       }
       if (!is.null(this_object$`redacted`)) {
         self$`redacted` <- this_object$`redacted`
+      }
+      if (!is.null(this_object$`base_modifications`)) {
+        self$`base_modifications` <- ApiClient$new()$deserializeObj(this_object$`base_modifications`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
@@ -1250,6 +1265,14 @@ AlignmentFile <- R6::R6Class(
           tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`redacted`, perl=TRUE))
           )
         },
+        if (!is.null(self$`base_modifications`)) {
+          sprintf(
+          '"base_modifications":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`base_modifications`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -1431,6 +1454,7 @@ AlignmentFile <- R6::R6Class(
       self$`checkfiles_version` <- this_object$`checkfiles_version`
       self$`read_count` <- this_object$`read_count`
       self$`redacted` <- this_object$`redacted`
+      self$`base_modifications` <- ApiClient$new()$deserializeObj(this_object$`base_modifications`, "set[character]", loadNamespace("igvfclient"))
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
@@ -1531,6 +1555,7 @@ AlignmentFile <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1591,6 +1616,7 @@ AlignmentFile <- R6::R6Class(
       if (self$`read_count` < 0) {
         invalid_fields["read_count"] <- "Invalid value for `read_count`, must be bigger than or equal to 0."
       }
+
 
 
 

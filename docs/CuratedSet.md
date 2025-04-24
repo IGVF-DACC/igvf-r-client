@@ -29,7 +29,7 @@ Name | Type | Description | Notes
 **control_type** | **character** | The type of control this file set represents. | [optional] 
 **samples** | **set[character]** | The sample(s) associated with this file set. | [optional] 
 **donors** | **set[character]** | The donor(s) associated with this file set. | [optional] 
-**file_set_type** | **character** | The category that best describes this curated file set. | [optional] [Enum: [barcodes, editing templates, elements, external data for catalog, genome, genes, guide RNAs, training data for predictive models, transcriptome, variants]] 
+**file_set_type** | **character** | The category that best describes this curated file set. | [optional] [Enum: [barcodes, editing templates, elements, external data for catalog, genome, genes, guide RNAs, primer design, training data for predictive models, transcriptome, variants]] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** |  | [optional] 

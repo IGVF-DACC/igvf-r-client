@@ -243,8 +243,8 @@ CrisprModification <- R6::R6Class(
         self$`cas` <- `cas`
       }
       if (!is.null(`fused_domain`)) {
-        if (!(`fused_domain` %in% c("2xVP64", "3xVP64", "ABE8e", "ABE8.20", "ANTI-FLAG", "BE4", "BE4max", "eA3A", "eA3A-T31A", "eA3A-T44D-S45A", "KOX1-KRAB", "M-MLV RT (PE2)", "p300", "TdCBE", "TdCGBE", "TdDE", "VPH", "VP64", "VP64-p65-Rta (VPR)", "ZIM3-KRAB"))) {
-          stop(paste("Error! \"", `fused_domain`, "\" cannot be assigned to `fused_domain`. Must be \"2xVP64\", \"3xVP64\", \"ABE8e\", \"ABE8.20\", \"ANTI-FLAG\", \"BE4\", \"BE4max\", \"eA3A\", \"eA3A-T31A\", \"eA3A-T44D-S45A\", \"KOX1-KRAB\", \"M-MLV RT (PE2)\", \"p300\", \"TdCBE\", \"TdCGBE\", \"TdDE\", \"VPH\", \"VP64\", \"VP64-p65-Rta (VPR)\", \"ZIM3-KRAB\".", sep = ""))
+        if (!(`fused_domain` %in% c("2xVP64", "2xVP64-2A-Puro", "2xVP64-2A-Thy1.1", "3xVP64", "ABE8e", "ABE8.20", "ANTI-FLAG", "BE4", "BE4max", "eA3A", "eA3A-T31A", "eA3A-T44D-S45A", "KOX1-KRAB", "M-MLV RT (PE2)", "p300", "TdCBE", "TdCGBE", "TdDE", "VPH", "VP64", "VP64-p65-Rta (VPR)", "ZIM3-KRAB"))) {
+          stop(paste("Error! \"", `fused_domain`, "\" cannot be assigned to `fused_domain`. Must be \"2xVP64\", \"2xVP64-2A-Puro\", \"2xVP64-2A-Thy1.1\", \"3xVP64\", \"ABE8e\", \"ABE8.20\", \"ANTI-FLAG\", \"BE4\", \"BE4max\", \"eA3A\", \"eA3A-T31A\", \"eA3A-T44D-S45A\", \"KOX1-KRAB\", \"M-MLV RT (PE2)\", \"p300\", \"TdCBE\", \"TdCGBE\", \"TdDE\", \"VPH\", \"VP64\", \"VP64-p65-Rta (VPR)\", \"ZIM3-KRAB\".", sep = ""))
         }
         if (!(is.character(`fused_domain`) && length(`fused_domain`) == 1)) {
           stop(paste("Error! Invalid data for `fused_domain`. Must be a string:", `fused_domain`))
@@ -492,8 +492,8 @@ CrisprModification <- R6::R6Class(
         self$`cas` <- this_object$`cas`
       }
       if (!is.null(this_object$`fused_domain`)) {
-        if (!is.null(this_object$`fused_domain`) && !(this_object$`fused_domain` %in% c("2xVP64", "3xVP64", "ABE8e", "ABE8.20", "ANTI-FLAG", "BE4", "BE4max", "eA3A", "eA3A-T31A", "eA3A-T44D-S45A", "KOX1-KRAB", "M-MLV RT (PE2)", "p300", "TdCBE", "TdCGBE", "TdDE", "VPH", "VP64", "VP64-p65-Rta (VPR)", "ZIM3-KRAB"))) {
-          stop(paste("Error! \"", this_object$`fused_domain`, "\" cannot be assigned to `fused_domain`. Must be \"2xVP64\", \"3xVP64\", \"ABE8e\", \"ABE8.20\", \"ANTI-FLAG\", \"BE4\", \"BE4max\", \"eA3A\", \"eA3A-T31A\", \"eA3A-T44D-S45A\", \"KOX1-KRAB\", \"M-MLV RT (PE2)\", \"p300\", \"TdCBE\", \"TdCGBE\", \"TdDE\", \"VPH\", \"VP64\", \"VP64-p65-Rta (VPR)\", \"ZIM3-KRAB\".", sep = ""))
+        if (!is.null(this_object$`fused_domain`) && !(this_object$`fused_domain` %in% c("2xVP64", "2xVP64-2A-Puro", "2xVP64-2A-Thy1.1", "3xVP64", "ABE8e", "ABE8.20", "ANTI-FLAG", "BE4", "BE4max", "eA3A", "eA3A-T31A", "eA3A-T44D-S45A", "KOX1-KRAB", "M-MLV RT (PE2)", "p300", "TdCBE", "TdCGBE", "TdDE", "VPH", "VP64", "VP64-p65-Rta (VPR)", "ZIM3-KRAB"))) {
+          stop(paste("Error! \"", this_object$`fused_domain`, "\" cannot be assigned to `fused_domain`. Must be \"2xVP64\", \"2xVP64-2A-Puro\", \"2xVP64-2A-Thy1.1\", \"3xVP64\", \"ABE8e\", \"ABE8.20\", \"ANTI-FLAG\", \"BE4\", \"BE4max\", \"eA3A\", \"eA3A-T31A\", \"eA3A-T44D-S45A\", \"KOX1-KRAB\", \"M-MLV RT (PE2)\", \"p300\", \"TdCBE\", \"TdCGBE\", \"TdDE\", \"VPH\", \"VP64\", \"VP64-p65-Rta (VPR)\", \"ZIM3-KRAB\".", sep = ""))
         }
         self$`fused_domain` <- this_object$`fused_domain`
       }
@@ -795,8 +795,8 @@ CrisprModification <- R6::R6Class(
         stop(paste("Error! \"", this_object$`cas`, "\" cannot be assigned to `cas`. Must be \"Cas9\", \"Cas12a\", \"Cas13\", \"dCas9\", \"nCas9\", \"SpG\", \"SpRY\".", sep = ""))
       }
       self$`cas` <- this_object$`cas`
-      if (!is.null(this_object$`fused_domain`) && !(this_object$`fused_domain` %in% c("2xVP64", "3xVP64", "ABE8e", "ABE8.20", "ANTI-FLAG", "BE4", "BE4max", "eA3A", "eA3A-T31A", "eA3A-T44D-S45A", "KOX1-KRAB", "M-MLV RT (PE2)", "p300", "TdCBE", "TdCGBE", "TdDE", "VPH", "VP64", "VP64-p65-Rta (VPR)", "ZIM3-KRAB"))) {
-        stop(paste("Error! \"", this_object$`fused_domain`, "\" cannot be assigned to `fused_domain`. Must be \"2xVP64\", \"3xVP64\", \"ABE8e\", \"ABE8.20\", \"ANTI-FLAG\", \"BE4\", \"BE4max\", \"eA3A\", \"eA3A-T31A\", \"eA3A-T44D-S45A\", \"KOX1-KRAB\", \"M-MLV RT (PE2)\", \"p300\", \"TdCBE\", \"TdCGBE\", \"TdDE\", \"VPH\", \"VP64\", \"VP64-p65-Rta (VPR)\", \"ZIM3-KRAB\".", sep = ""))
+      if (!is.null(this_object$`fused_domain`) && !(this_object$`fused_domain` %in% c("2xVP64", "2xVP64-2A-Puro", "2xVP64-2A-Thy1.1", "3xVP64", "ABE8e", "ABE8.20", "ANTI-FLAG", "BE4", "BE4max", "eA3A", "eA3A-T31A", "eA3A-T44D-S45A", "KOX1-KRAB", "M-MLV RT (PE2)", "p300", "TdCBE", "TdCGBE", "TdDE", "VPH", "VP64", "VP64-p65-Rta (VPR)", "ZIM3-KRAB"))) {
+        stop(paste("Error! \"", this_object$`fused_domain`, "\" cannot be assigned to `fused_domain`. Must be \"2xVP64\", \"2xVP64-2A-Puro\", \"2xVP64-2A-Thy1.1\", \"3xVP64\", \"ABE8e\", \"ABE8.20\", \"ANTI-FLAG\", \"BE4\", \"BE4max\", \"eA3A\", \"eA3A-T31A\", \"eA3A-T44D-S45A\", \"KOX1-KRAB\", \"M-MLV RT (PE2)\", \"p300\", \"TdCBE\", \"TdCGBE\", \"TdDE\", \"VPH\", \"VP64\", \"VP64-p65-Rta (VPR)\", \"ZIM3-KRAB\".", sep = ""))
       }
       self$`fused_domain` <- this_object$`fused_domain`
       if (!is.null(this_object$`cas_species`) && !(this_object$`cas_species` %in% c("Streptococcus pyogenes (Sp)", "Staphylococcus aureus (Sa)", "Campylobacter jejuni (Cj)", "Neisseria meningitidis (Nm)"))) {
