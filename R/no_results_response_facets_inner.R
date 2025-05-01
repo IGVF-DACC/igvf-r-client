@@ -9,7 +9,7 @@
 #' @format An \code{R6Class} generator object
 #' @field field  character [optional]
 #' @field title  character [optional]
-#' @field terms  list(\link{NoResultsResponseFacetsInnerTermsInner}) [optional]
+#' @field terms  \link{AnyType} [optional]
 #' @field total  integer [optional]
 #' @field type  character [optional]
 #' @field appended  character [optional]
@@ -55,8 +55,7 @@ NoResultsResponseFacetsInner <- R6::R6Class(
         self$`title` <- `title`
       }
       if (!is.null(`terms`)) {
-        stopifnot(is.vector(`terms`), length(`terms`) != 0)
-        sapply(`terms`, function(x) stopifnot(R6::is.R6(x)))
+        stopifnot(R6::is.R6(`terms`))
         self$`terms` <- `terms`
       }
       if (!is.null(`total`)) {
@@ -103,7 +102,7 @@ NoResultsResponseFacetsInner <- R6::R6Class(
       }
       if (!is.null(self$`terms`)) {
         NoResultsResponseFacetsInnerObject[["terms"]] <-
-          lapply(self$`terms`, function(x) x$toJSON())
+          self$`terms`$toJSON()
       }
       if (!is.null(self$`total`)) {
         NoResultsResponseFacetsInnerObject[["total"]] <-
@@ -140,7 +139,9 @@ NoResultsResponseFacetsInner <- R6::R6Class(
         self$`title` <- this_object$`title`
       }
       if (!is.null(this_object$`terms`)) {
-        self$`terms` <- ApiClient$new()$deserializeObj(this_object$`terms`, "array[NoResultsResponseFacetsInnerTermsInner]", loadNamespace("igvfclient"))
+        `terms_object` <- AnyType$new()
+        `terms_object`$fromJSON(jsonlite::toJSON(this_object$`terms`, auto_unbox = TRUE, digits = NA))
+        self$`terms` <- `terms_object`
       }
       if (!is.null(this_object$`total`)) {
         self$`total` <- this_object$`total`
@@ -184,9 +185,9 @@ NoResultsResponseFacetsInner <- R6::R6Class(
         if (!is.null(self$`terms`)) {
           sprintf(
           '"terms":
-          [%s]
-',
-          paste(sapply(self$`terms`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox = TRUE, digits = NA)), collapse = ",")
+          %s
+          ',
+          jsonlite::toJSON(self$`terms`$toJSON(), auto_unbox = TRUE, digits = NA)
           )
         },
         if (!is.null(self$`total`)) {
@@ -237,7 +238,7 @@ NoResultsResponseFacetsInner <- R6::R6Class(
       this_object <- jsonlite::fromJSON(input_json)
       self$`field` <- this_object$`field`
       self$`title` <- this_object$`title`
-      self$`terms` <- ApiClient$new()$deserializeObj(this_object$`terms`, "array[NoResultsResponseFacetsInnerTermsInner]", loadNamespace("igvfclient"))
+      self$`terms` <- AnyType$new()$fromJSON(jsonlite::toJSON(this_object$`terms`, auto_unbox = TRUE, digits = NA))
       self$`total` <- this_object$`total`
       self$`type` <- this_object$`type`
       self$`appended` <- this_object$`appended`

@@ -9,7 +9,9 @@
 #' @format An \code{R6Class} generator object
 #' @field field  character [optional]
 #' @field title  character [optional]
-#' @field terms  list(object) [optional]
+#' @field total  integer [optional]
+#' @field type  character [optional]
+#' @field terms  \link{AnyType} [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -18,6 +20,8 @@ SearchFacet <- R6::R6Class(
   public = list(
     `field` = NULL,
     `title` = NULL,
+    `total` = NULL,
+    `type` = NULL,
     `terms` = NULL,
     #' Initialize a new SearchFacet class.
     #'
@@ -26,10 +30,12 @@ SearchFacet <- R6::R6Class(
     #'
     #' @param field field
     #' @param title title
+    #' @param total total
+    #' @param type type
     #' @param terms terms
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`field` = NULL, `title` = NULL, `terms` = NULL, ...) {
+    initialize = function(`field` = NULL, `title` = NULL, `total` = NULL, `type` = NULL, `terms` = NULL, ...) {
       if (!is.null(`field`)) {
         if (!(is.character(`field`) && length(`field`) == 1)) {
           stop(paste("Error! Invalid data for `field`. Must be a string:", `field`))
@@ -42,9 +48,20 @@ SearchFacet <- R6::R6Class(
         }
         self$`title` <- `title`
       }
+      if (!is.null(`total`)) {
+        if (!(is.numeric(`total`) && length(`total`) == 1)) {
+          stop(paste("Error! Invalid data for `total`. Must be an integer:", `total`))
+        }
+        self$`total` <- `total`
+      }
+      if (!is.null(`type`)) {
+        if (!(is.character(`type`) && length(`type`) == 1)) {
+          stop(paste("Error! Invalid data for `type`. Must be a string:", `type`))
+        }
+        self$`type` <- `type`
+      }
       if (!is.null(`terms`)) {
-        stopifnot(is.vector(`terms`), length(`terms`) != 0)
-        sapply(`terms`, function(x) stopifnot(is.character(x)))
+        stopifnot(R6::is.R6(`terms`))
         self$`terms` <- `terms`
       }
     },
@@ -65,9 +82,17 @@ SearchFacet <- R6::R6Class(
         SearchFacetObject[["title"]] <-
           self$`title`
       }
+      if (!is.null(self$`total`)) {
+        SearchFacetObject[["total"]] <-
+          self$`total`
+      }
+      if (!is.null(self$`type`)) {
+        SearchFacetObject[["type"]] <-
+          self$`type`
+      }
       if (!is.null(self$`terms`)) {
         SearchFacetObject[["terms"]] <-
-          self$`terms`
+          self$`terms`$toJSON()
       }
       SearchFacetObject
     },
@@ -87,8 +112,16 @@ SearchFacet <- R6::R6Class(
       if (!is.null(this_object$`title`)) {
         self$`title` <- this_object$`title`
       }
+      if (!is.null(this_object$`total`)) {
+        self$`total` <- this_object$`total`
+      }
+      if (!is.null(this_object$`type`)) {
+        self$`type` <- this_object$`type`
+      }
       if (!is.null(this_object$`terms`)) {
-        self$`terms` <- ApiClient$new()$deserializeObj(this_object$`terms`, "array[object]", loadNamespace("igvfclient"))
+        `terms_object` <- AnyType$new()
+        `terms_object`$fromJSON(jsonlite::toJSON(this_object$`terms`, auto_unbox = TRUE, digits = NA))
+        self$`terms` <- `terms_object`
       }
       self
     },
@@ -117,12 +150,28 @@ SearchFacet <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`title`, perl=TRUE)
           )
         },
+        if (!is.null(self$`total`)) {
+          sprintf(
+          '"total":
+            %f
+                    ',
+          self$`total`
+          )
+        },
+        if (!is.null(self$`type`)) {
+          sprintf(
+          '"type":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`type`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`terms`)) {
           sprintf(
           '"terms":
-             [%s]
+          %s
           ',
-          paste(unlist(lapply(self$`terms`, function(x) paste0('"', x, '"'))), collapse = ",")
+          jsonlite::toJSON(self$`terms`$toJSON(), auto_unbox = TRUE, digits = NA)
           )
         }
       )
@@ -141,7 +190,9 @@ SearchFacet <- R6::R6Class(
       this_object <- jsonlite::fromJSON(input_json)
       self$`field` <- this_object$`field`
       self$`title` <- this_object$`title`
-      self$`terms` <- ApiClient$new()$deserializeObj(this_object$`terms`, "array[object]", loadNamespace("igvfclient"))
+      self$`total` <- this_object$`total`
+      self$`type` <- this_object$`type`
+      self$`terms` <- AnyType$new()$fromJSON(jsonlite::toJSON(this_object$`terms`, auto_unbox = TRUE, digits = NA))
       self
     },
     #' Validate JSON input with respect to SearchFacet

@@ -6,6 +6,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **field** | **character** |  | [optional] 
 **title** | **character** |  | [optional] 
-**terms** | **array[object]** |  | [optional] 
+**total** | **integer** |  | [optional] 
+**type** | **character** |  | [optional] 
+**terms** | [**AnyType**](.md) |  | [optional] 
 
 
