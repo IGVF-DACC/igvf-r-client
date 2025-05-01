@@ -51,6 +51,7 @@ Name | Type | Description | Notes
 **document_type** | **character** | The category that best describes the document. | [optional] [Enum: [cell fate change protocol, characterization, computational protocol, experimental protocol, file format specification, image, library structure seqspec, model source data, plate map, plasmid map, plasmid sequence, quality control report, standards]] 
 **characterization_method** | **character** | The method used for the characterization. | [optional] [Enum: [FACS, immunoblot, immunofluorescence, immunoprecipitation, mass spectrometry, PCR, restriction digest, RT-qPCR, sequencing]] 
 **urls** | **set[character]** | Link to the institutional certification form. | [optional] 
+**standardized_file_format** | **character** | Specifies whether this format is an IGVF-standardized file format defined by Focus Groups or produced by a uniform pipeline. | [optional] 
 **taxa** | **character** | The species of the organism. | [optional] [Enum: [Homo sapiens, Mus musculus]] 
 **publications** | **set[character]** | The publications associated with this object. | [optional] 
 **documents** | **set[character]** | Documents that provide additional information (not data file). | [optional] 

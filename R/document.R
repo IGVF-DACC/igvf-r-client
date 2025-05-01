@@ -23,6 +23,7 @@
 #' @field document_type The category that best describes the document. character [optional]
 #' @field characterization_method The method used for the characterization. character [optional]
 #' @field urls External resources with additional information to the document. list(character) [optional]
+#' @field standardized_file_format Specifies whether this format is an IGVF-standardized file format defined by Focus Groups or produced by a uniform pipeline. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the document. character [optional]
@@ -51,10 +52,11 @@ Document <- R6::R6Class(
     `document_type` = NULL,
     `characterization_method` = NULL,
     `urls` = NULL,
+    `standardized_file_format` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
-    `_field_list` = c("release_timestamp", "status", "lab", "award", "attachment", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "document_type", "characterization_method", "urls", "@id", "@type", "summary"),
+    `_field_list` = c("release_timestamp", "status", "lab", "award", "attachment", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "document_type", "characterization_method", "urls", "standardized_file_format", "@id", "@type", "summary"),
     `additional_properties` = list(),
     #' Initialize a new Document class.
     #'
@@ -77,13 +79,14 @@ Document <- R6::R6Class(
     #' @param document_type The category that best describes the document.
     #' @param characterization_method The method used for the characterization.
     #' @param urls External resources with additional information to the document.
+    #' @param standardized_file_format Specifies whether this format is an IGVF-standardized file format defined by Focus Groups or produced by a uniform pipeline.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the document.
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `status` = NULL, `lab` = NULL, `award` = NULL, `attachment` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `document_type` = NULL, `characterization_method` = NULL, `urls` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`release_timestamp` = NULL, `status` = NULL, `lab` = NULL, `award` = NULL, `attachment` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `document_type` = NULL, `characterization_method` = NULL, `urls` = NULL, `standardized_file_format` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -185,6 +188,12 @@ Document <- R6::R6Class(
         sapply(`urls`, function(x) stopifnot(is.character(x)))
         self$`urls` <- `urls`
       }
+      if (!is.null(`standardized_file_format`)) {
+        if (!(is.logical(`standardized_file_format`) && length(`standardized_file_format`) == 1)) {
+          stop(paste("Error! Invalid data for `standardized_file_format`. Must be a boolean:", `standardized_file_format`))
+        }
+        self$`standardized_file_format` <- `standardized_file_format`
+      }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
           stop(paste("Error! Invalid data for `@id`. Must be a string:", `@id`))
@@ -281,6 +290,10 @@ Document <- R6::R6Class(
         DocumentObject[["urls"]] <-
           self$`urls`
       }
+      if (!is.null(self$`standardized_file_format`)) {
+        DocumentObject[["standardized_file_format"]] <-
+          self$`standardized_file_format`
+      }
       if (!is.null(self$`@id`)) {
         DocumentObject[["@id"]] <-
           self$`@id`
@@ -367,6 +380,9 @@ Document <- R6::R6Class(
       }
       if (!is.null(this_object$`urls`)) {
         self$`urls` <- ApiClient$new()$deserializeObj(this_object$`urls`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`standardized_file_format`)) {
+        self$`standardized_file_format` <- this_object$`standardized_file_format`
       }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
@@ -523,6 +539,14 @@ Document <- R6::R6Class(
           paste(unlist(lapply(self$`urls`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`standardized_file_format`)) {
+          sprintf(
+          '"standardized_file_format":
+            %s
+                    ',
+          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`standardized_file_format`, perl=TRUE))
+          )
+        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -591,6 +615,7 @@ Document <- R6::R6Class(
       }
       self$`characterization_method` <- this_object$`characterization_method`
       self$`urls` <- ApiClient$new()$deserializeObj(this_object$`urls`, "set[character]", loadNamespace("igvfclient"))
+      self$`standardized_file_format` <- this_object$`standardized_file_format`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
