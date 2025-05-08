@@ -25,26 +25,17 @@
 #' @field n_records  numeric [optional]
 #' @field n_reads  numeric [optional]
 #' @field n_barcodes  numeric [optional]
-#' @field frac_reads_in_genes_library  numeric [optional]
 #' @field total_umis  numeric [optional]
 #' @field n_barcode_umis  numeric [optional]
 #' @field median_reads_per_barcode  numeric [optional]
 #' @field mean_reads_per_barcode  numeric [optional]
-#' @field median_genes_per_barcode  numeric [optional]
 #' @field median_umis_per_barcode  numeric [optional]
 #' @field mean_umis_per_barcode  numeric [optional]
-#' @field pct_duplicates  numeric [optional]
-#' @field n_genes  numeric [optional]
-#' @field frac_dup  numeric [optional]
-#' @field frac_mito  numeric [optional]
-#' @field frac_mito_genes  numeric [optional]
-#' @field frac_reads_in_genes_barcode  numeric [optional]
-#' @field joint_barcodes_passing  numeric [optional]
 #' @field gt_records  numeric [optional]
-#' @field numBarcodesOnOnlist  numeric [optional]
-#' @field percentageBarcodesOnOnlist  numeric [optional]
-#' @field numReadsOnOnlist  numeric [optional]
-#' @field percentageReadsOnOnlist  numeric [optional]
+#' @field num_barcodes_on_onlist  numeric [optional]
+#' @field percentage_barcodes_on_onlist  numeric [optional]
+#' @field num_reads_on_onlist  numeric [optional]
+#' @field percentage_reads_on_onlist  numeric [optional]
 #' @field rnaseq_kb_info  \link{RNASeqKBInfo} [optional]
 #' @field n_targets  numeric [optional]
 #' @field n_bootstraps  numeric [optional]
@@ -54,7 +45,7 @@
 #' @field p_pseudoaligned  numeric [optional]
 #' @field p_unique  numeric [optional]
 #' @field index_version  numeric [optional]
-#' @field k-mer length  numeric [optional]
+#' @field kmer_length  numeric [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the quality metric. character [optional]
@@ -85,26 +76,17 @@ SingleCellRnaSeqQualityMetric <- R6::R6Class(
     `n_records` = NULL,
     `n_reads` = NULL,
     `n_barcodes` = NULL,
-    `frac_reads_in_genes_library` = NULL,
     `total_umis` = NULL,
     `n_barcode_umis` = NULL,
     `median_reads_per_barcode` = NULL,
     `mean_reads_per_barcode` = NULL,
-    `median_genes_per_barcode` = NULL,
     `median_umis_per_barcode` = NULL,
     `mean_umis_per_barcode` = NULL,
-    `pct_duplicates` = NULL,
-    `n_genes` = NULL,
-    `frac_dup` = NULL,
-    `frac_mito` = NULL,
-    `frac_mito_genes` = NULL,
-    `frac_reads_in_genes_barcode` = NULL,
-    `joint_barcodes_passing` = NULL,
     `gt_records` = NULL,
-    `numBarcodesOnOnlist` = NULL,
-    `percentageBarcodesOnOnlist` = NULL,
-    `numReadsOnOnlist` = NULL,
-    `percentageReadsOnOnlist` = NULL,
+    `num_barcodes_on_onlist` = NULL,
+    `percentage_barcodes_on_onlist` = NULL,
+    `num_reads_on_onlist` = NULL,
+    `percentage_reads_on_onlist` = NULL,
     `rnaseq_kb_info` = NULL,
     `n_targets` = NULL,
     `n_bootstraps` = NULL,
@@ -114,11 +96,11 @@ SingleCellRnaSeqQualityMetric <- R6::R6Class(
     `p_pseudoaligned` = NULL,
     `p_unique` = NULL,
     `index_version` = NULL,
-    `k-mer length` = NULL,
+    `kmer_length` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
-    `_field_list` = c("status", "release_timestamp", "attachment", "lab", "award", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "quality_metric_of", "analysis_step_version", "n_records", "n_reads", "n_barcodes", "frac_reads_in_genes_library", "total_umis", "n_barcode_umis", "median_reads_per_barcode", "mean_reads_per_barcode", "median_genes_per_barcode", "median_umis_per_barcode", "mean_umis_per_barcode", "pct_duplicates", "n_genes", "frac_dup", "frac_mito", "frac_mito_genes", "frac_reads_in_genes_barcode", "joint_barcodes_passing", "gt_records", "numBarcodesOnOnlist", "percentageBarcodesOnOnlist", "numReadsOnOnlist", "percentageReadsOnOnlist", "rnaseq_kb_info", "n_targets", "n_bootstraps", "n_processed", "n_pseudoaligned", "n_unique", "p_pseudoaligned", "p_unique", "index_version", "k-mer length", "@id", "@type", "summary"),
+    `_field_list` = c("status", "release_timestamp", "attachment", "lab", "award", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "quality_metric_of", "analysis_step_version", "n_records", "n_reads", "n_barcodes", "total_umis", "n_barcode_umis", "median_reads_per_barcode", "mean_reads_per_barcode", "median_umis_per_barcode", "mean_umis_per_barcode", "gt_records", "num_barcodes_on_onlist", "percentage_barcodes_on_onlist", "num_reads_on_onlist", "percentage_reads_on_onlist", "rnaseq_kb_info", "n_targets", "n_bootstraps", "n_processed", "n_pseudoaligned", "n_unique", "p_pseudoaligned", "p_unique", "index_version", "kmer_length", "@id", "@type", "summary"),
     `additional_properties` = list(),
     #' Initialize a new SingleCellRnaSeqQualityMetric class.
     #'
@@ -143,26 +125,17 @@ SingleCellRnaSeqQualityMetric <- R6::R6Class(
     #' @param n_records 
     #' @param n_reads 
     #' @param n_barcodes 
-    #' @param frac_reads_in_genes_library 
     #' @param total_umis 
     #' @param n_barcode_umis 
     #' @param median_reads_per_barcode 
     #' @param mean_reads_per_barcode 
-    #' @param median_genes_per_barcode 
     #' @param median_umis_per_barcode 
     #' @param mean_umis_per_barcode 
-    #' @param pct_duplicates 
-    #' @param n_genes 
-    #' @param frac_dup 
-    #' @param frac_mito 
-    #' @param frac_mito_genes 
-    #' @param frac_reads_in_genes_barcode 
-    #' @param joint_barcodes_passing 
     #' @param gt_records 
-    #' @param numBarcodesOnOnlist 
-    #' @param percentageBarcodesOnOnlist 
-    #' @param numReadsOnOnlist 
-    #' @param percentageReadsOnOnlist 
+    #' @param num_barcodes_on_onlist 
+    #' @param percentage_barcodes_on_onlist 
+    #' @param num_reads_on_onlist 
+    #' @param percentage_reads_on_onlist 
     #' @param rnaseq_kb_info rnaseq_kb_info
     #' @param n_targets 
     #' @param n_bootstraps 
@@ -172,14 +145,14 @@ SingleCellRnaSeqQualityMetric <- R6::R6Class(
     #' @param p_pseudoaligned 
     #' @param p_unique 
     #' @param index_version 
-    #' @param k-mer length 
+    #' @param kmer_length 
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the quality metric.
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`status` = NULL, `release_timestamp` = NULL, `attachment` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `quality_metric_of` = NULL, `analysis_step_version` = NULL, `n_records` = NULL, `n_reads` = NULL, `n_barcodes` = NULL, `frac_reads_in_genes_library` = NULL, `total_umis` = NULL, `n_barcode_umis` = NULL, `median_reads_per_barcode` = NULL, `mean_reads_per_barcode` = NULL, `median_genes_per_barcode` = NULL, `median_umis_per_barcode` = NULL, `mean_umis_per_barcode` = NULL, `pct_duplicates` = NULL, `n_genes` = NULL, `frac_dup` = NULL, `frac_mito` = NULL, `frac_mito_genes` = NULL, `frac_reads_in_genes_barcode` = NULL, `joint_barcodes_passing` = NULL, `gt_records` = NULL, `numBarcodesOnOnlist` = NULL, `percentageBarcodesOnOnlist` = NULL, `numReadsOnOnlist` = NULL, `percentageReadsOnOnlist` = NULL, `rnaseq_kb_info` = NULL, `n_targets` = NULL, `n_bootstraps` = NULL, `n_processed` = NULL, `n_pseudoaligned` = NULL, `n_unique` = NULL, `p_pseudoaligned` = NULL, `p_unique` = NULL, `index_version` = NULL, `k-mer length` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`status` = NULL, `release_timestamp` = NULL, `attachment` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `quality_metric_of` = NULL, `analysis_step_version` = NULL, `n_records` = NULL, `n_reads` = NULL, `n_barcodes` = NULL, `total_umis` = NULL, `n_barcode_umis` = NULL, `median_reads_per_barcode` = NULL, `mean_reads_per_barcode` = NULL, `median_umis_per_barcode` = NULL, `mean_umis_per_barcode` = NULL, `gt_records` = NULL, `num_barcodes_on_onlist` = NULL, `percentage_barcodes_on_onlist` = NULL, `num_reads_on_onlist` = NULL, `percentage_reads_on_onlist` = NULL, `rnaseq_kb_info` = NULL, `n_targets` = NULL, `n_bootstraps` = NULL, `n_processed` = NULL, `n_pseudoaligned` = NULL, `n_unique` = NULL, `p_pseudoaligned` = NULL, `p_unique` = NULL, `index_version` = NULL, `kmer_length` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`status`)) {
         if (!(`status` %in% c("archived", "deleted", "in progress", "preview", "released"))) {
           stop(paste("Error! \"", `status`, "\" cannot be assigned to `status`. Must be \"archived\", \"deleted\", \"in progress\", \"preview\", \"released\".", sep = ""))
@@ -278,9 +251,6 @@ SingleCellRnaSeqQualityMetric <- R6::R6Class(
       if (!is.null(`n_barcodes`)) {
         self$`n_barcodes` <- `n_barcodes`
       }
-      if (!is.null(`frac_reads_in_genes_library`)) {
-        self$`frac_reads_in_genes_library` <- `frac_reads_in_genes_library`
-      }
       if (!is.null(`total_umis`)) {
         self$`total_umis` <- `total_umis`
       }
@@ -293,50 +263,26 @@ SingleCellRnaSeqQualityMetric <- R6::R6Class(
       if (!is.null(`mean_reads_per_barcode`)) {
         self$`mean_reads_per_barcode` <- `mean_reads_per_barcode`
       }
-      if (!is.null(`median_genes_per_barcode`)) {
-        self$`median_genes_per_barcode` <- `median_genes_per_barcode`
-      }
       if (!is.null(`median_umis_per_barcode`)) {
         self$`median_umis_per_barcode` <- `median_umis_per_barcode`
       }
       if (!is.null(`mean_umis_per_barcode`)) {
         self$`mean_umis_per_barcode` <- `mean_umis_per_barcode`
       }
-      if (!is.null(`pct_duplicates`)) {
-        self$`pct_duplicates` <- `pct_duplicates`
-      }
-      if (!is.null(`n_genes`)) {
-        self$`n_genes` <- `n_genes`
-      }
-      if (!is.null(`frac_dup`)) {
-        self$`frac_dup` <- `frac_dup`
-      }
-      if (!is.null(`frac_mito`)) {
-        self$`frac_mito` <- `frac_mito`
-      }
-      if (!is.null(`frac_mito_genes`)) {
-        self$`frac_mito_genes` <- `frac_mito_genes`
-      }
-      if (!is.null(`frac_reads_in_genes_barcode`)) {
-        self$`frac_reads_in_genes_barcode` <- `frac_reads_in_genes_barcode`
-      }
-      if (!is.null(`joint_barcodes_passing`)) {
-        self$`joint_barcodes_passing` <- `joint_barcodes_passing`
-      }
       if (!is.null(`gt_records`)) {
         self$`gt_records` <- `gt_records`
       }
-      if (!is.null(`numBarcodesOnOnlist`)) {
-        self$`numBarcodesOnOnlist` <- `numBarcodesOnOnlist`
+      if (!is.null(`num_barcodes_on_onlist`)) {
+        self$`num_barcodes_on_onlist` <- `num_barcodes_on_onlist`
       }
-      if (!is.null(`percentageBarcodesOnOnlist`)) {
-        self$`percentageBarcodesOnOnlist` <- `percentageBarcodesOnOnlist`
+      if (!is.null(`percentage_barcodes_on_onlist`)) {
+        self$`percentage_barcodes_on_onlist` <- `percentage_barcodes_on_onlist`
       }
-      if (!is.null(`numReadsOnOnlist`)) {
-        self$`numReadsOnOnlist` <- `numReadsOnOnlist`
+      if (!is.null(`num_reads_on_onlist`)) {
+        self$`num_reads_on_onlist` <- `num_reads_on_onlist`
       }
-      if (!is.null(`percentageReadsOnOnlist`)) {
-        self$`percentageReadsOnOnlist` <- `percentageReadsOnOnlist`
+      if (!is.null(`percentage_reads_on_onlist`)) {
+        self$`percentage_reads_on_onlist` <- `percentage_reads_on_onlist`
       }
       if (!is.null(`rnaseq_kb_info`)) {
         stopifnot(R6::is.R6(`rnaseq_kb_info`))
@@ -366,8 +312,8 @@ SingleCellRnaSeqQualityMetric <- R6::R6Class(
       if (!is.null(`index_version`)) {
         self$`index_version` <- `index_version`
       }
-      if (!is.null(`k-mer length`)) {
-        self$`k-mer length` <- `k-mer length`
+      if (!is.null(`kmer_length`)) {
+        self$`kmer_length` <- `kmer_length`
       }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
@@ -473,10 +419,6 @@ SingleCellRnaSeqQualityMetric <- R6::R6Class(
         SingleCellRnaSeqQualityMetricObject[["n_barcodes"]] <-
           self$`n_barcodes`
       }
-      if (!is.null(self$`frac_reads_in_genes_library`)) {
-        SingleCellRnaSeqQualityMetricObject[["frac_reads_in_genes_library"]] <-
-          self$`frac_reads_in_genes_library`
-      }
       if (!is.null(self$`total_umis`)) {
         SingleCellRnaSeqQualityMetricObject[["total_umis"]] <-
           self$`total_umis`
@@ -493,10 +435,6 @@ SingleCellRnaSeqQualityMetric <- R6::R6Class(
         SingleCellRnaSeqQualityMetricObject[["mean_reads_per_barcode"]] <-
           self$`mean_reads_per_barcode`
       }
-      if (!is.null(self$`median_genes_per_barcode`)) {
-        SingleCellRnaSeqQualityMetricObject[["median_genes_per_barcode"]] <-
-          self$`median_genes_per_barcode`
-      }
       if (!is.null(self$`median_umis_per_barcode`)) {
         SingleCellRnaSeqQualityMetricObject[["median_umis_per_barcode"]] <-
           self$`median_umis_per_barcode`
@@ -505,53 +443,25 @@ SingleCellRnaSeqQualityMetric <- R6::R6Class(
         SingleCellRnaSeqQualityMetricObject[["mean_umis_per_barcode"]] <-
           self$`mean_umis_per_barcode`
       }
-      if (!is.null(self$`pct_duplicates`)) {
-        SingleCellRnaSeqQualityMetricObject[["pct_duplicates"]] <-
-          self$`pct_duplicates`
-      }
-      if (!is.null(self$`n_genes`)) {
-        SingleCellRnaSeqQualityMetricObject[["n_genes"]] <-
-          self$`n_genes`
-      }
-      if (!is.null(self$`frac_dup`)) {
-        SingleCellRnaSeqQualityMetricObject[["frac_dup"]] <-
-          self$`frac_dup`
-      }
-      if (!is.null(self$`frac_mito`)) {
-        SingleCellRnaSeqQualityMetricObject[["frac_mito"]] <-
-          self$`frac_mito`
-      }
-      if (!is.null(self$`frac_mito_genes`)) {
-        SingleCellRnaSeqQualityMetricObject[["frac_mito_genes"]] <-
-          self$`frac_mito_genes`
-      }
-      if (!is.null(self$`frac_reads_in_genes_barcode`)) {
-        SingleCellRnaSeqQualityMetricObject[["frac_reads_in_genes_barcode"]] <-
-          self$`frac_reads_in_genes_barcode`
-      }
-      if (!is.null(self$`joint_barcodes_passing`)) {
-        SingleCellRnaSeqQualityMetricObject[["joint_barcodes_passing"]] <-
-          self$`joint_barcodes_passing`
-      }
       if (!is.null(self$`gt_records`)) {
         SingleCellRnaSeqQualityMetricObject[["gt_records"]] <-
           self$`gt_records`
       }
-      if (!is.null(self$`numBarcodesOnOnlist`)) {
-        SingleCellRnaSeqQualityMetricObject[["numBarcodesOnOnlist"]] <-
-          self$`numBarcodesOnOnlist`
+      if (!is.null(self$`num_barcodes_on_onlist`)) {
+        SingleCellRnaSeqQualityMetricObject[["num_barcodes_on_onlist"]] <-
+          self$`num_barcodes_on_onlist`
       }
-      if (!is.null(self$`percentageBarcodesOnOnlist`)) {
-        SingleCellRnaSeqQualityMetricObject[["percentageBarcodesOnOnlist"]] <-
-          self$`percentageBarcodesOnOnlist`
+      if (!is.null(self$`percentage_barcodes_on_onlist`)) {
+        SingleCellRnaSeqQualityMetricObject[["percentage_barcodes_on_onlist"]] <-
+          self$`percentage_barcodes_on_onlist`
       }
-      if (!is.null(self$`numReadsOnOnlist`)) {
-        SingleCellRnaSeqQualityMetricObject[["numReadsOnOnlist"]] <-
-          self$`numReadsOnOnlist`
+      if (!is.null(self$`num_reads_on_onlist`)) {
+        SingleCellRnaSeqQualityMetricObject[["num_reads_on_onlist"]] <-
+          self$`num_reads_on_onlist`
       }
-      if (!is.null(self$`percentageReadsOnOnlist`)) {
-        SingleCellRnaSeqQualityMetricObject[["percentageReadsOnOnlist"]] <-
-          self$`percentageReadsOnOnlist`
+      if (!is.null(self$`percentage_reads_on_onlist`)) {
+        SingleCellRnaSeqQualityMetricObject[["percentage_reads_on_onlist"]] <-
+          self$`percentage_reads_on_onlist`
       }
       if (!is.null(self$`rnaseq_kb_info`)) {
         SingleCellRnaSeqQualityMetricObject[["rnaseq_kb_info"]] <-
@@ -589,9 +499,9 @@ SingleCellRnaSeqQualityMetric <- R6::R6Class(
         SingleCellRnaSeqQualityMetricObject[["index_version"]] <-
           self$`index_version`
       }
-      if (!is.null(self$`k-mer length`)) {
-        SingleCellRnaSeqQualityMetricObject[["k-mer length"]] <-
-          self$`k-mer length`
+      if (!is.null(self$`kmer_length`)) {
+        SingleCellRnaSeqQualityMetricObject[["kmer_length"]] <-
+          self$`kmer_length`
       }
       if (!is.null(self$`@id`)) {
         SingleCellRnaSeqQualityMetricObject[["@id"]] <-
@@ -680,9 +590,6 @@ SingleCellRnaSeqQualityMetric <- R6::R6Class(
       if (!is.null(this_object$`n_barcodes`)) {
         self$`n_barcodes` <- this_object$`n_barcodes`
       }
-      if (!is.null(this_object$`frac_reads_in_genes_library`)) {
-        self$`frac_reads_in_genes_library` <- this_object$`frac_reads_in_genes_library`
-      }
       if (!is.null(this_object$`total_umis`)) {
         self$`total_umis` <- this_object$`total_umis`
       }
@@ -695,50 +602,26 @@ SingleCellRnaSeqQualityMetric <- R6::R6Class(
       if (!is.null(this_object$`mean_reads_per_barcode`)) {
         self$`mean_reads_per_barcode` <- this_object$`mean_reads_per_barcode`
       }
-      if (!is.null(this_object$`median_genes_per_barcode`)) {
-        self$`median_genes_per_barcode` <- this_object$`median_genes_per_barcode`
-      }
       if (!is.null(this_object$`median_umis_per_barcode`)) {
         self$`median_umis_per_barcode` <- this_object$`median_umis_per_barcode`
       }
       if (!is.null(this_object$`mean_umis_per_barcode`)) {
         self$`mean_umis_per_barcode` <- this_object$`mean_umis_per_barcode`
       }
-      if (!is.null(this_object$`pct_duplicates`)) {
-        self$`pct_duplicates` <- this_object$`pct_duplicates`
-      }
-      if (!is.null(this_object$`n_genes`)) {
-        self$`n_genes` <- this_object$`n_genes`
-      }
-      if (!is.null(this_object$`frac_dup`)) {
-        self$`frac_dup` <- this_object$`frac_dup`
-      }
-      if (!is.null(this_object$`frac_mito`)) {
-        self$`frac_mito` <- this_object$`frac_mito`
-      }
-      if (!is.null(this_object$`frac_mito_genes`)) {
-        self$`frac_mito_genes` <- this_object$`frac_mito_genes`
-      }
-      if (!is.null(this_object$`frac_reads_in_genes_barcode`)) {
-        self$`frac_reads_in_genes_barcode` <- this_object$`frac_reads_in_genes_barcode`
-      }
-      if (!is.null(this_object$`joint_barcodes_passing`)) {
-        self$`joint_barcodes_passing` <- this_object$`joint_barcodes_passing`
-      }
       if (!is.null(this_object$`gt_records`)) {
         self$`gt_records` <- this_object$`gt_records`
       }
-      if (!is.null(this_object$`numBarcodesOnOnlist`)) {
-        self$`numBarcodesOnOnlist` <- this_object$`numBarcodesOnOnlist`
+      if (!is.null(this_object$`num_barcodes_on_onlist`)) {
+        self$`num_barcodes_on_onlist` <- this_object$`num_barcodes_on_onlist`
       }
-      if (!is.null(this_object$`percentageBarcodesOnOnlist`)) {
-        self$`percentageBarcodesOnOnlist` <- this_object$`percentageBarcodesOnOnlist`
+      if (!is.null(this_object$`percentage_barcodes_on_onlist`)) {
+        self$`percentage_barcodes_on_onlist` <- this_object$`percentage_barcodes_on_onlist`
       }
-      if (!is.null(this_object$`numReadsOnOnlist`)) {
-        self$`numReadsOnOnlist` <- this_object$`numReadsOnOnlist`
+      if (!is.null(this_object$`num_reads_on_onlist`)) {
+        self$`num_reads_on_onlist` <- this_object$`num_reads_on_onlist`
       }
-      if (!is.null(this_object$`percentageReadsOnOnlist`)) {
-        self$`percentageReadsOnOnlist` <- this_object$`percentageReadsOnOnlist`
+      if (!is.null(this_object$`percentage_reads_on_onlist`)) {
+        self$`percentage_reads_on_onlist` <- this_object$`percentage_reads_on_onlist`
       }
       if (!is.null(this_object$`rnaseq_kb_info`)) {
         `rnaseq_kb_info_object` <- RNASeqKBInfo$new()
@@ -769,8 +652,8 @@ SingleCellRnaSeqQualityMetric <- R6::R6Class(
       if (!is.null(this_object$`index_version`)) {
         self$`index_version` <- this_object$`index_version`
       }
-      if (!is.null(this_object$`k-mer length`)) {
-        self$`k-mer length` <- this_object$`k-mer length`
+      if (!is.null(this_object$`kmer_length`)) {
+        self$`kmer_length` <- this_object$`kmer_length`
       }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
@@ -943,14 +826,6 @@ SingleCellRnaSeqQualityMetric <- R6::R6Class(
           self$`n_barcodes`
           )
         },
-        if (!is.null(self$`frac_reads_in_genes_library`)) {
-          sprintf(
-          '"frac_reads_in_genes_library":
-            %f
-                    ',
-          self$`frac_reads_in_genes_library`
-          )
-        },
         if (!is.null(self$`total_umis`)) {
           sprintf(
           '"total_umis":
@@ -983,14 +858,6 @@ SingleCellRnaSeqQualityMetric <- R6::R6Class(
           self$`mean_reads_per_barcode`
           )
         },
-        if (!is.null(self$`median_genes_per_barcode`)) {
-          sprintf(
-          '"median_genes_per_barcode":
-            %f
-                    ',
-          self$`median_genes_per_barcode`
-          )
-        },
         if (!is.null(self$`median_umis_per_barcode`)) {
           sprintf(
           '"median_umis_per_barcode":
@@ -1007,62 +874,6 @@ SingleCellRnaSeqQualityMetric <- R6::R6Class(
           self$`mean_umis_per_barcode`
           )
         },
-        if (!is.null(self$`pct_duplicates`)) {
-          sprintf(
-          '"pct_duplicates":
-            %f
-                    ',
-          self$`pct_duplicates`
-          )
-        },
-        if (!is.null(self$`n_genes`)) {
-          sprintf(
-          '"n_genes":
-            %f
-                    ',
-          self$`n_genes`
-          )
-        },
-        if (!is.null(self$`frac_dup`)) {
-          sprintf(
-          '"frac_dup":
-            %f
-                    ',
-          self$`frac_dup`
-          )
-        },
-        if (!is.null(self$`frac_mito`)) {
-          sprintf(
-          '"frac_mito":
-            %f
-                    ',
-          self$`frac_mito`
-          )
-        },
-        if (!is.null(self$`frac_mito_genes`)) {
-          sprintf(
-          '"frac_mito_genes":
-            %f
-                    ',
-          self$`frac_mito_genes`
-          )
-        },
-        if (!is.null(self$`frac_reads_in_genes_barcode`)) {
-          sprintf(
-          '"frac_reads_in_genes_barcode":
-            %f
-                    ',
-          self$`frac_reads_in_genes_barcode`
-          )
-        },
-        if (!is.null(self$`joint_barcodes_passing`)) {
-          sprintf(
-          '"joint_barcodes_passing":
-            %f
-                    ',
-          self$`joint_barcodes_passing`
-          )
-        },
         if (!is.null(self$`gt_records`)) {
           sprintf(
           '"gt_records":
@@ -1071,36 +882,36 @@ SingleCellRnaSeqQualityMetric <- R6::R6Class(
           self$`gt_records`
           )
         },
-        if (!is.null(self$`numBarcodesOnOnlist`)) {
+        if (!is.null(self$`num_barcodes_on_onlist`)) {
           sprintf(
-          '"numBarcodesOnOnlist":
+          '"num_barcodes_on_onlist":
             %f
                     ',
-          self$`numBarcodesOnOnlist`
+          self$`num_barcodes_on_onlist`
           )
         },
-        if (!is.null(self$`percentageBarcodesOnOnlist`)) {
+        if (!is.null(self$`percentage_barcodes_on_onlist`)) {
           sprintf(
-          '"percentageBarcodesOnOnlist":
+          '"percentage_barcodes_on_onlist":
             %f
                     ',
-          self$`percentageBarcodesOnOnlist`
+          self$`percentage_barcodes_on_onlist`
           )
         },
-        if (!is.null(self$`numReadsOnOnlist`)) {
+        if (!is.null(self$`num_reads_on_onlist`)) {
           sprintf(
-          '"numReadsOnOnlist":
+          '"num_reads_on_onlist":
             %f
                     ',
-          self$`numReadsOnOnlist`
+          self$`num_reads_on_onlist`
           )
         },
-        if (!is.null(self$`percentageReadsOnOnlist`)) {
+        if (!is.null(self$`percentage_reads_on_onlist`)) {
           sprintf(
-          '"percentageReadsOnOnlist":
+          '"percentage_reads_on_onlist":
             %f
                     ',
-          self$`percentageReadsOnOnlist`
+          self$`percentage_reads_on_onlist`
           )
         },
         if (!is.null(self$`rnaseq_kb_info`)) {
@@ -1175,12 +986,12 @@ SingleCellRnaSeqQualityMetric <- R6::R6Class(
           self$`index_version`
           )
         },
-        if (!is.null(self$`k-mer length`)) {
+        if (!is.null(self$`kmer_length`)) {
           sprintf(
-          '"k-mer length":
+          '"kmer_length":
             %f
                     ',
-          self$`k-mer length`
+          self$`kmer_length`
           )
         },
         if (!is.null(self$`@id`)) {
@@ -1247,26 +1058,17 @@ SingleCellRnaSeqQualityMetric <- R6::R6Class(
       self$`n_records` <- this_object$`n_records`
       self$`n_reads` <- this_object$`n_reads`
       self$`n_barcodes` <- this_object$`n_barcodes`
-      self$`frac_reads_in_genes_library` <- this_object$`frac_reads_in_genes_library`
       self$`total_umis` <- this_object$`total_umis`
       self$`n_barcode_umis` <- this_object$`n_barcode_umis`
       self$`median_reads_per_barcode` <- this_object$`median_reads_per_barcode`
       self$`mean_reads_per_barcode` <- this_object$`mean_reads_per_barcode`
-      self$`median_genes_per_barcode` <- this_object$`median_genes_per_barcode`
       self$`median_umis_per_barcode` <- this_object$`median_umis_per_barcode`
       self$`mean_umis_per_barcode` <- this_object$`mean_umis_per_barcode`
-      self$`pct_duplicates` <- this_object$`pct_duplicates`
-      self$`n_genes` <- this_object$`n_genes`
-      self$`frac_dup` <- this_object$`frac_dup`
-      self$`frac_mito` <- this_object$`frac_mito`
-      self$`frac_mito_genes` <- this_object$`frac_mito_genes`
-      self$`frac_reads_in_genes_barcode` <- this_object$`frac_reads_in_genes_barcode`
-      self$`joint_barcodes_passing` <- this_object$`joint_barcodes_passing`
       self$`gt_records` <- this_object$`gt_records`
-      self$`numBarcodesOnOnlist` <- this_object$`numBarcodesOnOnlist`
-      self$`percentageBarcodesOnOnlist` <- this_object$`percentageBarcodesOnOnlist`
-      self$`numReadsOnOnlist` <- this_object$`numReadsOnOnlist`
-      self$`percentageReadsOnOnlist` <- this_object$`percentageReadsOnOnlist`
+      self$`num_barcodes_on_onlist` <- this_object$`num_barcodes_on_onlist`
+      self$`percentage_barcodes_on_onlist` <- this_object$`percentage_barcodes_on_onlist`
+      self$`num_reads_on_onlist` <- this_object$`num_reads_on_onlist`
+      self$`percentage_reads_on_onlist` <- this_object$`percentage_reads_on_onlist`
       self$`rnaseq_kb_info` <- RNASeqKBInfo$new()$fromJSON(jsonlite::toJSON(this_object$`rnaseq_kb_info`, auto_unbox = TRUE, digits = NA))
       self$`n_targets` <- this_object$`n_targets`
       self$`n_bootstraps` <- this_object$`n_bootstraps`
@@ -1276,7 +1078,7 @@ SingleCellRnaSeqQualityMetric <- R6::R6Class(
       self$`p_pseudoaligned` <- this_object$`p_pseudoaligned`
       self$`p_unique` <- this_object$`p_unique`
       self$`index_version` <- this_object$`index_version`
-      self$`k-mer length` <- this_object$`k-mer length`
+      self$`kmer_length` <- this_object$`kmer_length`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`

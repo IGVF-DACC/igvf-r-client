@@ -4863,7 +4863,7 @@ var_control_for_id <- c("inner_example") # array[character] | Filter by control_
 var_control_for_accession <- c("inner_example") # array[character] | Filter by control_for.accession (Optional)
 var_control_for_aliases <- c("inner_example") # array[character] | Filter by control_for.aliases (Optional)
 var_control_for_status <- c("inner_example") # array[character] | Filter by control_for.status (Optional)
-var_control_type <- c("control transduction") # array[character] | Filter by control_type (Optional)
+var_control_type <- c("baseline") # array[character] | Filter by control_type (Optional)
 var_controlled_access <- c("inner_example") # array[character] | Filter by controlled_access (Optional)
 var_creation_timestamp <- c("inner_example") # array[character] | Filter by creation_timestamp (Optional)
 var_data_use_limitation_summaries <- c("inner_example") # array[character] | Filter by data_use_limitation_summaries (Optional)
@@ -5031,7 +5031,7 @@ Name | Type | Description  | Notes
  **control_for_accession** | list( **character** )| Filter by control_for.accession | [optional] 
  **control_for_aliases** | list( **character** )| Filter by control_for.aliases | [optional] 
  **control_for_status** | list( **character** )| Filter by control_for.status | [optional] 
- **control_type** | Enum [control transduction, low FACS signal, non-targeting, pre-selection, unsorted FACS input, untransfected, untreated] | Filter by control_type | [optional] 
+ **control_type** | Enum [baseline, control transduction, low FACS signal, non-targeting, pre-selection, unsorted FACS input, untransfected, untreated] | Filter by control_type | [optional] 
  **controlled_access** | list( **character** )| Filter by controlled_access | [optional] 
  **creation_timestamp** | list( **character** )| Filter by creation_timestamp | [optional] 
  **data_use_limitation_summaries** | list( **character** )| Filter by data_use_limitation_summaries | [optional] 
@@ -8862,7 +8862,7 @@ Name | Type | Description  | Notes
 | **500** | Internal server error |  -  |
 
 # **SingleCellAtacSeqQualityMetrics**
-> SingleCellAtacSeqQualityMetricResults SingleCellAtacSeqQualityMetrics(frame, query = var.query, limit = var.limit, sort = var.sort, id = var.id, aliases = var.aliases, analysis_step_version = var.analysis_step_version, award_id = var.award_id, award_component = var.award_component, creation_timestamp = var.creation_timestamp, description = var.description, joint_barcodes_passing = var.joint_barcodes_passing, lab_id = var.lab_id, lab_title = var.lab_title, multi_mappings = var.multi_mappings, n_barcodes = var.n_barcodes, n_barcodes_on_onlist = var.n_barcodes_on_onlist, n_candidates = var.n_candidates, n_corrected_barcodes = var.n_corrected_barcodes, n_fragments = var.n_fragments, n_mapped_reads = var.n_mapped_reads, n_mappings = var.n_mappings, n_multi_mappings = var.n_multi_mappings, n_output_mappings = var.n_output_mappings, n_reads = var.n_reads, n_reads_with_multi_mappings = var.n_reads_with_multi_mappings, n_uni_mappings = var.n_uni_mappings, n_uniquely_mapped_reads = var.n_uniquely_mapped_reads, notes = var.notes, pct_duplicates = var.pct_duplicates, quality_metric_of = var.quality_metric_of, release_timestamp = var.release_timestamp, status = var.status, submitted_by_id = var.submitted_by_id, submitted_by_title = var.submitted_by_title, submitter_comment = var.submitter_comment, summary = var.summary, total = var.total, uni_mappings = var.uni_mappings, uuid = var.uuid)
+> SingleCellAtacSeqQualityMetricResults SingleCellAtacSeqQualityMetrics(frame, query = var.query, limit = var.limit, sort = var.sort, id = var.id, aliases = var.aliases, analysis_step_version = var.analysis_step_version, award_id = var.award_id, award_component = var.award_component, creation_timestamp = var.creation_timestamp, description = var.description, lab_id = var.lab_id, lab_title = var.lab_title, multi_mappings = var.multi_mappings, n_barcodes_on_onlist = var.n_barcodes_on_onlist, n_candidates = var.n_candidates, n_corrected_barcodes = var.n_corrected_barcodes, n_mapped_reads = var.n_mapped_reads, n_mappings = var.n_mappings, n_multi_mappings = var.n_multi_mappings, n_output_mappings = var.n_output_mappings, n_reads = var.n_reads, n_reads_with_multi_mappings = var.n_reads_with_multi_mappings, n_uni_mappings = var.n_uni_mappings, n_uniquely_mapped_reads = var.n_uniquely_mapped_reads, notes = var.notes, pct_duplicates = var.pct_duplicates, quality_metric_of = var.quality_metric_of, release_timestamp = var.release_timestamp, status = var.status, submitted_by_id = var.submitted_by_id, submitted_by_title = var.submitted_by_title, submitter_comment = var.submitter_comment, summary = var.summary, total = var.total, uni_mappings = var.uni_mappings, uuid = var.uuid)
 
 List items in the SingleCellAtacSeqQualityMetric collection.
 
@@ -8886,15 +8886,12 @@ var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Opt
 var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 var_creation_timestamp <- c("inner_example") # array[character] | Filter by creation_timestamp (Optional)
 var_description <- c("inner_example") # array[character] | Filter by description (Optional)
-var_joint_barcodes_passing <- c(123) # array[numeric] | Filter by joint_barcodes_passing (Optional)
 var_lab_id <- c("inner_example") # array[character] | Filter by lab.@id (Optional)
 var_lab_title <- c("inner_example") # array[character] | Filter by lab.title (Optional)
 var_multi_mappings <- c(123) # array[numeric] | Filter by multi_mappings (Optional)
-var_n_barcodes <- c(123) # array[numeric] | Filter by n_barcodes (Optional)
 var_n_barcodes_on_onlist <- c(123) # array[numeric] | Filter by n_barcodes_on_onlist (Optional)
 var_n_candidates <- c(123) # array[numeric] | Filter by n_candidates (Optional)
 var_n_corrected_barcodes <- c(123) # array[numeric] | Filter by n_corrected_barcodes (Optional)
-var_n_fragments <- c(123) # array[numeric] | Filter by n_fragments (Optional)
 var_n_mapped_reads <- c(123) # array[numeric] | Filter by n_mapped_reads (Optional)
 var_n_mappings <- c(123) # array[numeric] | Filter by n_mappings (Optional)
 var_n_multi_mappings <- c(123) # array[numeric] | Filter by n_multi_mappings (Optional)
@@ -8921,8 +8918,8 @@ api_instance <- IgvfApi$new()
 api_instance$api_client$username <- Sys.getenv("USERNAME")
 api_instance$api_client$password <- Sys.getenv("PASSWORD")
 # to save the result into a file, simply add the optional `data_file` parameter, e.g.
-# result <- api_instance$SingleCellAtacSeqQualityMetrics(var_frame, query = var_query, limit = var_limit, sort = var_sort, id = var_id, aliases = var_aliases, analysis_step_version = var_analysis_step_version, award_id = var_award_id, award_component = var_award_component, creation_timestamp = var_creation_timestamp, description = var_description, joint_barcodes_passing = var_joint_barcodes_passing, lab_id = var_lab_id, lab_title = var_lab_title, multi_mappings = var_multi_mappings, n_barcodes = var_n_barcodes, n_barcodes_on_onlist = var_n_barcodes_on_onlist, n_candidates = var_n_candidates, n_corrected_barcodes = var_n_corrected_barcodes, n_fragments = var_n_fragments, n_mapped_reads = var_n_mapped_reads, n_mappings = var_n_mappings, n_multi_mappings = var_n_multi_mappings, n_output_mappings = var_n_output_mappings, n_reads = var_n_reads, n_reads_with_multi_mappings = var_n_reads_with_multi_mappings, n_uni_mappings = var_n_uni_mappings, n_uniquely_mapped_reads = var_n_uniquely_mapped_reads, notes = var_notes, pct_duplicates = var_pct_duplicates, quality_metric_of = var_quality_metric_of, release_timestamp = var_release_timestamp, status = var_status, submitted_by_id = var_submitted_by_id, submitted_by_title = var_submitted_by_title, submitter_comment = var_submitter_comment, summary = var_summary, total = var_total, uni_mappings = var_uni_mappings, uuid = var_uuiddata_file = "result.txt")
-result <- api_instance$SingleCellAtacSeqQualityMetrics(var_frame, query = var_query, limit = var_limit, sort = var_sort, id = var_id, aliases = var_aliases, analysis_step_version = var_analysis_step_version, award_id = var_award_id, award_component = var_award_component, creation_timestamp = var_creation_timestamp, description = var_description, joint_barcodes_passing = var_joint_barcodes_passing, lab_id = var_lab_id, lab_title = var_lab_title, multi_mappings = var_multi_mappings, n_barcodes = var_n_barcodes, n_barcodes_on_onlist = var_n_barcodes_on_onlist, n_candidates = var_n_candidates, n_corrected_barcodes = var_n_corrected_barcodes, n_fragments = var_n_fragments, n_mapped_reads = var_n_mapped_reads, n_mappings = var_n_mappings, n_multi_mappings = var_n_multi_mappings, n_output_mappings = var_n_output_mappings, n_reads = var_n_reads, n_reads_with_multi_mappings = var_n_reads_with_multi_mappings, n_uni_mappings = var_n_uni_mappings, n_uniquely_mapped_reads = var_n_uniquely_mapped_reads, notes = var_notes, pct_duplicates = var_pct_duplicates, quality_metric_of = var_quality_metric_of, release_timestamp = var_release_timestamp, status = var_status, submitted_by_id = var_submitted_by_id, submitted_by_title = var_submitted_by_title, submitter_comment = var_submitter_comment, summary = var_summary, total = var_total, uni_mappings = var_uni_mappings, uuid = var_uuid)
+# result <- api_instance$SingleCellAtacSeqQualityMetrics(var_frame, query = var_query, limit = var_limit, sort = var_sort, id = var_id, aliases = var_aliases, analysis_step_version = var_analysis_step_version, award_id = var_award_id, award_component = var_award_component, creation_timestamp = var_creation_timestamp, description = var_description, lab_id = var_lab_id, lab_title = var_lab_title, multi_mappings = var_multi_mappings, n_barcodes_on_onlist = var_n_barcodes_on_onlist, n_candidates = var_n_candidates, n_corrected_barcodes = var_n_corrected_barcodes, n_mapped_reads = var_n_mapped_reads, n_mappings = var_n_mappings, n_multi_mappings = var_n_multi_mappings, n_output_mappings = var_n_output_mappings, n_reads = var_n_reads, n_reads_with_multi_mappings = var_n_reads_with_multi_mappings, n_uni_mappings = var_n_uni_mappings, n_uniquely_mapped_reads = var_n_uniquely_mapped_reads, notes = var_notes, pct_duplicates = var_pct_duplicates, quality_metric_of = var_quality_metric_of, release_timestamp = var_release_timestamp, status = var_status, submitted_by_id = var_submitted_by_id, submitted_by_title = var_submitted_by_title, submitter_comment = var_submitter_comment, summary = var_summary, total = var_total, uni_mappings = var_uni_mappings, uuid = var_uuiddata_file = "result.txt")
+result <- api_instance$SingleCellAtacSeqQualityMetrics(var_frame, query = var_query, limit = var_limit, sort = var_sort, id = var_id, aliases = var_aliases, analysis_step_version = var_analysis_step_version, award_id = var_award_id, award_component = var_award_component, creation_timestamp = var_creation_timestamp, description = var_description, lab_id = var_lab_id, lab_title = var_lab_title, multi_mappings = var_multi_mappings, n_barcodes_on_onlist = var_n_barcodes_on_onlist, n_candidates = var_n_candidates, n_corrected_barcodes = var_n_corrected_barcodes, n_mapped_reads = var_n_mapped_reads, n_mappings = var_n_mappings, n_multi_mappings = var_n_multi_mappings, n_output_mappings = var_n_output_mappings, n_reads = var_n_reads, n_reads_with_multi_mappings = var_n_reads_with_multi_mappings, n_uni_mappings = var_n_uni_mappings, n_uniquely_mapped_reads = var_n_uniquely_mapped_reads, notes = var_notes, pct_duplicates = var_pct_duplicates, quality_metric_of = var_quality_metric_of, release_timestamp = var_release_timestamp, status = var_status, submitted_by_id = var_submitted_by_id, submitted_by_title = var_submitted_by_title, submitter_comment = var_submitter_comment, summary = var_summary, total = var_total, uni_mappings = var_uni_mappings, uuid = var_uuid)
 dput(result)
 ```
 
@@ -8941,15 +8938,12 @@ Name | Type | Description  | Notes
  **award_component** | list( **character** )| Filter by award.component | [optional] 
  **creation_timestamp** | list( **character** )| Filter by creation_timestamp | [optional] 
  **description** | list( **character** )| Filter by description | [optional] 
- **joint_barcodes_passing** | list( **numeric** )| Filter by joint_barcodes_passing | [optional] 
  **lab_id** | list( **character** )| Filter by lab.@id | [optional] 
  **lab_title** | list( **character** )| Filter by lab.title | [optional] 
  **multi_mappings** | list( **numeric** )| Filter by multi_mappings | [optional] 
- **n_barcodes** | list( **numeric** )| Filter by n_barcodes | [optional] 
  **n_barcodes_on_onlist** | list( **numeric** )| Filter by n_barcodes_on_onlist | [optional] 
  **n_candidates** | list( **numeric** )| Filter by n_candidates | [optional] 
  **n_corrected_barcodes** | list( **numeric** )| Filter by n_corrected_barcodes | [optional] 
- **n_fragments** | list( **numeric** )| Filter by n_fragments | [optional] 
  **n_mapped_reads** | list( **numeric** )| Filter by n_mapped_reads | [optional] 
  **n_mappings** | list( **numeric** )| Filter by n_mappings | [optional] 
  **n_multi_mappings** | list( **numeric** )| Filter by n_multi_mappings | [optional] 
@@ -8993,7 +8987,7 @@ Name | Type | Description  | Notes
 | **500** | Internal server error |  -  |
 
 # **SingleCellRnaSeqQualityMetrics**
-> SingleCellRnaSeqQualityMetricResults SingleCellRnaSeqQualityMetrics(frame, query = var.query, limit = var.limit, sort = var.sort, id = var.id, aliases = var.aliases, analysis_step_version = var.analysis_step_version, award_id = var.award_id, award_component = var.award_component, creation_timestamp = var.creation_timestamp, description = var.description, frac_dup = var.frac_dup, frac_mito = var.frac_mito, frac_mito_genes = var.frac_mito_genes, frac_reads_in_genes_barcode = var.frac_reads_in_genes_barcode, frac_reads_in_genes_library = var.frac_reads_in_genes_library, gt_records = var.gt_records, index_version = var.index_version, joint_barcodes_passing = var.joint_barcodes_passing, k_mer_length = var.k_mer_length, lab_id = var.lab_id, lab_title = var.lab_title, mean_reads_per_barcode = var.mean_reads_per_barcode, mean_umis_per_barcode = var.mean_umis_per_barcode, median_genes_per_barcode = var.median_genes_per_barcode, median_reads_per_barcode = var.median_reads_per_barcode, median_umis_per_barcode = var.median_umis_per_barcode, n_barcode_umis = var.n_barcode_umis, n_barcodes = var.n_barcodes, n_bootstraps = var.n_bootstraps, n_genes = var.n_genes, n_processed = var.n_processed, n_pseudoaligned = var.n_pseudoaligned, n_reads = var.n_reads, n_records = var.n_records, n_targets = var.n_targets, n_unique = var.n_unique, notes = var.notes, num_barcodes_on_onlist = var.num_barcodes_on_onlist, num_reads_on_onlist = var.num_reads_on_onlist, p_pseudoaligned = var.p_pseudoaligned, p_unique = var.p_unique, pct_duplicates = var.pct_duplicates, percentage_barcodes_on_onlist = var.percentage_barcodes_on_onlist, percentage_reads_on_onlist = var.percentage_reads_on_onlist, quality_metric_of = var.quality_metric_of, release_timestamp = var.release_timestamp, status = var.status, submitted_by_id = var.submitted_by_id, submitted_by_title = var.submitted_by_title, submitter_comment = var.submitter_comment, summary = var.summary, total_umis = var.total_umis, uuid = var.uuid)
+> SingleCellRnaSeqQualityMetricResults SingleCellRnaSeqQualityMetrics(frame, query = var.query, limit = var.limit, sort = var.sort, id = var.id, aliases = var.aliases, analysis_step_version = var.analysis_step_version, award_id = var.award_id, award_component = var.award_component, creation_timestamp = var.creation_timestamp, description = var.description, gt_records = var.gt_records, index_version = var.index_version, kmer_length = var.kmer_length, lab_id = var.lab_id, lab_title = var.lab_title, mean_reads_per_barcode = var.mean_reads_per_barcode, mean_umis_per_barcode = var.mean_umis_per_barcode, median_reads_per_barcode = var.median_reads_per_barcode, median_umis_per_barcode = var.median_umis_per_barcode, n_barcode_umis = var.n_barcode_umis, n_barcodes = var.n_barcodes, n_bootstraps = var.n_bootstraps, n_processed = var.n_processed, n_pseudoaligned = var.n_pseudoaligned, n_reads = var.n_reads, n_records = var.n_records, n_targets = var.n_targets, n_unique = var.n_unique, notes = var.notes, num_barcodes_on_onlist = var.num_barcodes_on_onlist, num_reads_on_onlist = var.num_reads_on_onlist, p_pseudoaligned = var.p_pseudoaligned, p_unique = var.p_unique, percentage_barcodes_on_onlist = var.percentage_barcodes_on_onlist, percentage_reads_on_onlist = var.percentage_reads_on_onlist, quality_metric_of = var.quality_metric_of, release_timestamp = var.release_timestamp, status = var.status, submitted_by_id = var.submitted_by_id, submitted_by_title = var.submitted_by_title, submitter_comment = var.submitter_comment, summary = var.summary, total_umis = var.total_umis, uuid = var.uuid)
 
 List items in the SingleCellRnaSeqQualityMetric collection.
 
@@ -9017,26 +9011,18 @@ var_award_id <- c("inner_example") # array[character] | Filter by award.@id (Opt
 var_award_component <- c("inner_example") # array[character] | Filter by award.component (Optional)
 var_creation_timestamp <- c("inner_example") # array[character] | Filter by creation_timestamp (Optional)
 var_description <- c("inner_example") # array[character] | Filter by description (Optional)
-var_frac_dup <- c(123) # array[numeric] | Filter by frac_dup (Optional)
-var_frac_mito <- c(123) # array[numeric] | Filter by frac_mito (Optional)
-var_frac_mito_genes <- c(123) # array[numeric] | Filter by frac_mito_genes (Optional)
-var_frac_reads_in_genes_barcode <- c(123) # array[numeric] | Filter by frac_reads_in_genes_barcode (Optional)
-var_frac_reads_in_genes_library <- c(123) # array[numeric] | Filter by frac_reads_in_genes_library (Optional)
 var_gt_records <- c(123) # array[numeric] | Filter by gt_records (Optional)
 var_index_version <- c(123) # array[numeric] | Filter by index_version (Optional)
-var_joint_barcodes_passing <- c(123) # array[numeric] | Filter by joint_barcodes_passing (Optional)
-var_k_mer_length <- c(123) # array[numeric] | Filter by k-mer length (Optional)
+var_kmer_length <- c(123) # array[numeric] | Filter by kmer_length (Optional)
 var_lab_id <- c("inner_example") # array[character] | Filter by lab.@id (Optional)
 var_lab_title <- c("inner_example") # array[character] | Filter by lab.title (Optional)
 var_mean_reads_per_barcode <- c(123) # array[numeric] | Filter by mean_reads_per_barcode (Optional)
 var_mean_umis_per_barcode <- c(123) # array[numeric] | Filter by mean_umis_per_barcode (Optional)
-var_median_genes_per_barcode <- c(123) # array[numeric] | Filter by median_genes_per_barcode (Optional)
 var_median_reads_per_barcode <- c(123) # array[numeric] | Filter by median_reads_per_barcode (Optional)
 var_median_umis_per_barcode <- c(123) # array[numeric] | Filter by median_umis_per_barcode (Optional)
 var_n_barcode_umis <- c(123) # array[numeric] | Filter by n_barcode_umis (Optional)
 var_n_barcodes <- c(123) # array[numeric] | Filter by n_barcodes (Optional)
 var_n_bootstraps <- c(123) # array[numeric] | Filter by n_bootstraps (Optional)
-var_n_genes <- c(123) # array[numeric] | Filter by n_genes (Optional)
 var_n_processed <- c(123) # array[numeric] | Filter by n_processed (Optional)
 var_n_pseudoaligned <- c(123) # array[numeric] | Filter by n_pseudoaligned (Optional)
 var_n_reads <- c(123) # array[numeric] | Filter by n_reads (Optional)
@@ -9044,13 +9030,12 @@ var_n_records <- c(123) # array[numeric] | Filter by n_records (Optional)
 var_n_targets <- c(123) # array[numeric] | Filter by n_targets (Optional)
 var_n_unique <- c(123) # array[numeric] | Filter by n_unique (Optional)
 var_notes <- c("inner_example") # array[character] | Filter by notes (Optional)
-var_num_barcodes_on_onlist <- c(123) # array[numeric] | Filter by numBarcodesOnOnlist (Optional)
-var_num_reads_on_onlist <- c(123) # array[numeric] | Filter by numReadsOnOnlist (Optional)
+var_num_barcodes_on_onlist <- c(123) # array[numeric] | Filter by num_barcodes_on_onlist (Optional)
+var_num_reads_on_onlist <- c(123) # array[numeric] | Filter by num_reads_on_onlist (Optional)
 var_p_pseudoaligned <- c(123) # array[numeric] | Filter by p_pseudoaligned (Optional)
 var_p_unique <- c(123) # array[numeric] | Filter by p_unique (Optional)
-var_pct_duplicates <- c(123) # array[numeric] | Filter by pct_duplicates (Optional)
-var_percentage_barcodes_on_onlist <- c(123) # array[numeric] | Filter by percentageBarcodesOnOnlist (Optional)
-var_percentage_reads_on_onlist <- c(123) # array[numeric] | Filter by percentageReadsOnOnlist (Optional)
+var_percentage_barcodes_on_onlist <- c(123) # array[numeric] | Filter by percentage_barcodes_on_onlist (Optional)
+var_percentage_reads_on_onlist <- c(123) # array[numeric] | Filter by percentage_reads_on_onlist (Optional)
 var_quality_metric_of <- c("inner_example") # array[character] | Filter by quality_metric_of (Optional)
 var_release_timestamp <- c("inner_example") # array[character] | Filter by release_timestamp (Optional)
 var_status <- c("archived") # array[character] | Filter by status (Optional)
@@ -9066,8 +9051,8 @@ api_instance <- IgvfApi$new()
 api_instance$api_client$username <- Sys.getenv("USERNAME")
 api_instance$api_client$password <- Sys.getenv("PASSWORD")
 # to save the result into a file, simply add the optional `data_file` parameter, e.g.
-# result <- api_instance$SingleCellRnaSeqQualityMetrics(var_frame, query = var_query, limit = var_limit, sort = var_sort, id = var_id, aliases = var_aliases, analysis_step_version = var_analysis_step_version, award_id = var_award_id, award_component = var_award_component, creation_timestamp = var_creation_timestamp, description = var_description, frac_dup = var_frac_dup, frac_mito = var_frac_mito, frac_mito_genes = var_frac_mito_genes, frac_reads_in_genes_barcode = var_frac_reads_in_genes_barcode, frac_reads_in_genes_library = var_frac_reads_in_genes_library, gt_records = var_gt_records, index_version = var_index_version, joint_barcodes_passing = var_joint_barcodes_passing, k_mer_length = var_k_mer_length, lab_id = var_lab_id, lab_title = var_lab_title, mean_reads_per_barcode = var_mean_reads_per_barcode, mean_umis_per_barcode = var_mean_umis_per_barcode, median_genes_per_barcode = var_median_genes_per_barcode, median_reads_per_barcode = var_median_reads_per_barcode, median_umis_per_barcode = var_median_umis_per_barcode, n_barcode_umis = var_n_barcode_umis, n_barcodes = var_n_barcodes, n_bootstraps = var_n_bootstraps, n_genes = var_n_genes, n_processed = var_n_processed, n_pseudoaligned = var_n_pseudoaligned, n_reads = var_n_reads, n_records = var_n_records, n_targets = var_n_targets, n_unique = var_n_unique, notes = var_notes, num_barcodes_on_onlist = var_num_barcodes_on_onlist, num_reads_on_onlist = var_num_reads_on_onlist, p_pseudoaligned = var_p_pseudoaligned, p_unique = var_p_unique, pct_duplicates = var_pct_duplicates, percentage_barcodes_on_onlist = var_percentage_barcodes_on_onlist, percentage_reads_on_onlist = var_percentage_reads_on_onlist, quality_metric_of = var_quality_metric_of, release_timestamp = var_release_timestamp, status = var_status, submitted_by_id = var_submitted_by_id, submitted_by_title = var_submitted_by_title, submitter_comment = var_submitter_comment, summary = var_summary, total_umis = var_total_umis, uuid = var_uuiddata_file = "result.txt")
-result <- api_instance$SingleCellRnaSeqQualityMetrics(var_frame, query = var_query, limit = var_limit, sort = var_sort, id = var_id, aliases = var_aliases, analysis_step_version = var_analysis_step_version, award_id = var_award_id, award_component = var_award_component, creation_timestamp = var_creation_timestamp, description = var_description, frac_dup = var_frac_dup, frac_mito = var_frac_mito, frac_mito_genes = var_frac_mito_genes, frac_reads_in_genes_barcode = var_frac_reads_in_genes_barcode, frac_reads_in_genes_library = var_frac_reads_in_genes_library, gt_records = var_gt_records, index_version = var_index_version, joint_barcodes_passing = var_joint_barcodes_passing, k_mer_length = var_k_mer_length, lab_id = var_lab_id, lab_title = var_lab_title, mean_reads_per_barcode = var_mean_reads_per_barcode, mean_umis_per_barcode = var_mean_umis_per_barcode, median_genes_per_barcode = var_median_genes_per_barcode, median_reads_per_barcode = var_median_reads_per_barcode, median_umis_per_barcode = var_median_umis_per_barcode, n_barcode_umis = var_n_barcode_umis, n_barcodes = var_n_barcodes, n_bootstraps = var_n_bootstraps, n_genes = var_n_genes, n_processed = var_n_processed, n_pseudoaligned = var_n_pseudoaligned, n_reads = var_n_reads, n_records = var_n_records, n_targets = var_n_targets, n_unique = var_n_unique, notes = var_notes, num_barcodes_on_onlist = var_num_barcodes_on_onlist, num_reads_on_onlist = var_num_reads_on_onlist, p_pseudoaligned = var_p_pseudoaligned, p_unique = var_p_unique, pct_duplicates = var_pct_duplicates, percentage_barcodes_on_onlist = var_percentage_barcodes_on_onlist, percentage_reads_on_onlist = var_percentage_reads_on_onlist, quality_metric_of = var_quality_metric_of, release_timestamp = var_release_timestamp, status = var_status, submitted_by_id = var_submitted_by_id, submitted_by_title = var_submitted_by_title, submitter_comment = var_submitter_comment, summary = var_summary, total_umis = var_total_umis, uuid = var_uuid)
+# result <- api_instance$SingleCellRnaSeqQualityMetrics(var_frame, query = var_query, limit = var_limit, sort = var_sort, id = var_id, aliases = var_aliases, analysis_step_version = var_analysis_step_version, award_id = var_award_id, award_component = var_award_component, creation_timestamp = var_creation_timestamp, description = var_description, gt_records = var_gt_records, index_version = var_index_version, kmer_length = var_kmer_length, lab_id = var_lab_id, lab_title = var_lab_title, mean_reads_per_barcode = var_mean_reads_per_barcode, mean_umis_per_barcode = var_mean_umis_per_barcode, median_reads_per_barcode = var_median_reads_per_barcode, median_umis_per_barcode = var_median_umis_per_barcode, n_barcode_umis = var_n_barcode_umis, n_barcodes = var_n_barcodes, n_bootstraps = var_n_bootstraps, n_processed = var_n_processed, n_pseudoaligned = var_n_pseudoaligned, n_reads = var_n_reads, n_records = var_n_records, n_targets = var_n_targets, n_unique = var_n_unique, notes = var_notes, num_barcodes_on_onlist = var_num_barcodes_on_onlist, num_reads_on_onlist = var_num_reads_on_onlist, p_pseudoaligned = var_p_pseudoaligned, p_unique = var_p_unique, percentage_barcodes_on_onlist = var_percentage_barcodes_on_onlist, percentage_reads_on_onlist = var_percentage_reads_on_onlist, quality_metric_of = var_quality_metric_of, release_timestamp = var_release_timestamp, status = var_status, submitted_by_id = var_submitted_by_id, submitted_by_title = var_submitted_by_title, submitter_comment = var_submitter_comment, summary = var_summary, total_umis = var_total_umis, uuid = var_uuiddata_file = "result.txt")
+result <- api_instance$SingleCellRnaSeqQualityMetrics(var_frame, query = var_query, limit = var_limit, sort = var_sort, id = var_id, aliases = var_aliases, analysis_step_version = var_analysis_step_version, award_id = var_award_id, award_component = var_award_component, creation_timestamp = var_creation_timestamp, description = var_description, gt_records = var_gt_records, index_version = var_index_version, kmer_length = var_kmer_length, lab_id = var_lab_id, lab_title = var_lab_title, mean_reads_per_barcode = var_mean_reads_per_barcode, mean_umis_per_barcode = var_mean_umis_per_barcode, median_reads_per_barcode = var_median_reads_per_barcode, median_umis_per_barcode = var_median_umis_per_barcode, n_barcode_umis = var_n_barcode_umis, n_barcodes = var_n_barcodes, n_bootstraps = var_n_bootstraps, n_processed = var_n_processed, n_pseudoaligned = var_n_pseudoaligned, n_reads = var_n_reads, n_records = var_n_records, n_targets = var_n_targets, n_unique = var_n_unique, notes = var_notes, num_barcodes_on_onlist = var_num_barcodes_on_onlist, num_reads_on_onlist = var_num_reads_on_onlist, p_pseudoaligned = var_p_pseudoaligned, p_unique = var_p_unique, percentage_barcodes_on_onlist = var_percentage_barcodes_on_onlist, percentage_reads_on_onlist = var_percentage_reads_on_onlist, quality_metric_of = var_quality_metric_of, release_timestamp = var_release_timestamp, status = var_status, submitted_by_id = var_submitted_by_id, submitted_by_title = var_submitted_by_title, submitter_comment = var_submitter_comment, summary = var_summary, total_umis = var_total_umis, uuid = var_uuid)
 dput(result)
 ```
 
@@ -9086,26 +9071,18 @@ Name | Type | Description  | Notes
  **award_component** | list( **character** )| Filter by award.component | [optional] 
  **creation_timestamp** | list( **character** )| Filter by creation_timestamp | [optional] 
  **description** | list( **character** )| Filter by description | [optional] 
- **frac_dup** | list( **numeric** )| Filter by frac_dup | [optional] 
- **frac_mito** | list( **numeric** )| Filter by frac_mito | [optional] 
- **frac_mito_genes** | list( **numeric** )| Filter by frac_mito_genes | [optional] 
- **frac_reads_in_genes_barcode** | list( **numeric** )| Filter by frac_reads_in_genes_barcode | [optional] 
- **frac_reads_in_genes_library** | list( **numeric** )| Filter by frac_reads_in_genes_library | [optional] 
  **gt_records** | list( **numeric** )| Filter by gt_records | [optional] 
  **index_version** | list( **numeric** )| Filter by index_version | [optional] 
- **joint_barcodes_passing** | list( **numeric** )| Filter by joint_barcodes_passing | [optional] 
- **k_mer_length** | list( **numeric** )| Filter by k-mer length | [optional] 
+ **kmer_length** | list( **numeric** )| Filter by kmer_length | [optional] 
  **lab_id** | list( **character** )| Filter by lab.@id | [optional] 
  **lab_title** | list( **character** )| Filter by lab.title | [optional] 
  **mean_reads_per_barcode** | list( **numeric** )| Filter by mean_reads_per_barcode | [optional] 
  **mean_umis_per_barcode** | list( **numeric** )| Filter by mean_umis_per_barcode | [optional] 
- **median_genes_per_barcode** | list( **numeric** )| Filter by median_genes_per_barcode | [optional] 
  **median_reads_per_barcode** | list( **numeric** )| Filter by median_reads_per_barcode | [optional] 
  **median_umis_per_barcode** | list( **numeric** )| Filter by median_umis_per_barcode | [optional] 
  **n_barcode_umis** | list( **numeric** )| Filter by n_barcode_umis | [optional] 
  **n_barcodes** | list( **numeric** )| Filter by n_barcodes | [optional] 
  **n_bootstraps** | list( **numeric** )| Filter by n_bootstraps | [optional] 
- **n_genes** | list( **numeric** )| Filter by n_genes | [optional] 
  **n_processed** | list( **numeric** )| Filter by n_processed | [optional] 
  **n_pseudoaligned** | list( **numeric** )| Filter by n_pseudoaligned | [optional] 
  **n_reads** | list( **numeric** )| Filter by n_reads | [optional] 
@@ -9113,13 +9090,12 @@ Name | Type | Description  | Notes
  **n_targets** | list( **numeric** )| Filter by n_targets | [optional] 
  **n_unique** | list( **numeric** )| Filter by n_unique | [optional] 
  **notes** | list( **character** )| Filter by notes | [optional] 
- **num_barcodes_on_onlist** | list( **numeric** )| Filter by numBarcodesOnOnlist | [optional] 
- **num_reads_on_onlist** | list( **numeric** )| Filter by numReadsOnOnlist | [optional] 
+ **num_barcodes_on_onlist** | list( **numeric** )| Filter by num_barcodes_on_onlist | [optional] 
+ **num_reads_on_onlist** | list( **numeric** )| Filter by num_reads_on_onlist | [optional] 
  **p_pseudoaligned** | list( **numeric** )| Filter by p_pseudoaligned | [optional] 
  **p_unique** | list( **numeric** )| Filter by p_unique | [optional] 
- **pct_duplicates** | list( **numeric** )| Filter by pct_duplicates | [optional] 
- **percentage_barcodes_on_onlist** | list( **numeric** )| Filter by percentageBarcodesOnOnlist | [optional] 
- **percentage_reads_on_onlist** | list( **numeric** )| Filter by percentageReadsOnOnlist | [optional] 
+ **percentage_barcodes_on_onlist** | list( **numeric** )| Filter by percentage_barcodes_on_onlist | [optional] 
+ **percentage_reads_on_onlist** | list( **numeric** )| Filter by percentage_reads_on_onlist | [optional] 
  **quality_metric_of** | list( **character** )| Filter by quality_metric_of | [optional] 
  **release_timestamp** | list( **character** )| Filter by release_timestamp | [optional] 
  **status** | Enum [archived, deleted, in progress, preview, released] | Filter by status | [optional] 

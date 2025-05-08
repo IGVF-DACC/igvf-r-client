@@ -22,10 +22,7 @@
 #' @field description A plain text description of the object. character [optional]
 #' @field quality_metric_of The file(s) to which this quality metric applies. list(character) [optional]
 #' @field analysis_step_version The analysis step version of the quality metric. character [optional]
-#' @field n_fragments  numeric [optional]
-#' @field n_barcodes  numeric [optional]
 #' @field pct_duplicates  numeric [optional]
-#' @field joint_barcodes_passing  numeric [optional]
 #' @field n_reads Total count of sequencing reads processed. numeric [optional]
 #' @field n_mapped_reads Reads successfully aligned to the reference genome. numeric [optional]
 #' @field n_uniquely_mapped_reads Reads aligned to a single location in the genome. numeric [optional]
@@ -70,10 +67,7 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
     `description` = NULL,
     `quality_metric_of` = NULL,
     `analysis_step_version` = NULL,
-    `n_fragments` = NULL,
-    `n_barcodes` = NULL,
     `pct_duplicates` = NULL,
-    `joint_barcodes_passing` = NULL,
     `n_reads` = NULL,
     `n_mapped_reads` = NULL,
     `n_uniquely_mapped_reads` = NULL,
@@ -94,7 +88,7 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
-    `_field_list` = c("status", "release_timestamp", "attachment", "lab", "award", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "quality_metric_of", "analysis_step_version", "n_fragments", "n_barcodes", "pct_duplicates", "joint_barcodes_passing", "n_reads", "n_mapped_reads", "n_uniquely_mapped_reads", "n_reads_with_multi_mappings", "n_candidates", "n_mappings", "n_uni_mappings", "n_multi_mappings", "n_barcodes_on_onlist", "n_corrected_barcodes", "n_output_mappings", "uni_mappings", "multi_mappings", "total", "atac_fragments_alignment_stats", "atac_bam_summary_stats", "atac_fragment_summary_stats", "@id", "@type", "summary"),
+    `_field_list` = c("status", "release_timestamp", "attachment", "lab", "award", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "quality_metric_of", "analysis_step_version", "pct_duplicates", "n_reads", "n_mapped_reads", "n_uniquely_mapped_reads", "n_reads_with_multi_mappings", "n_candidates", "n_mappings", "n_uni_mappings", "n_multi_mappings", "n_barcodes_on_onlist", "n_corrected_barcodes", "n_output_mappings", "uni_mappings", "multi_mappings", "total", "atac_fragments_alignment_stats", "atac_bam_summary_stats", "atac_fragment_summary_stats", "@id", "@type", "summary"),
     `additional_properties` = list(),
     #' Initialize a new SingleCellAtacSeqQualityMetric class.
     #'
@@ -116,10 +110,7 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
     #' @param description A plain text description of the object.
     #' @param quality_metric_of The file(s) to which this quality metric applies.
     #' @param analysis_step_version The analysis step version of the quality metric.
-    #' @param n_fragments 
-    #' @param n_barcodes 
     #' @param pct_duplicates 
-    #' @param joint_barcodes_passing 
     #' @param n_reads Total count of sequencing reads processed.
     #' @param n_mapped_reads Reads successfully aligned to the reference genome.
     #' @param n_uniquely_mapped_reads Reads aligned to a single location in the genome.
@@ -143,7 +134,7 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`status` = NULL, `release_timestamp` = NULL, `attachment` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `quality_metric_of` = NULL, `analysis_step_version` = NULL, `n_fragments` = NULL, `n_barcodes` = NULL, `pct_duplicates` = NULL, `joint_barcodes_passing` = NULL, `n_reads` = NULL, `n_mapped_reads` = NULL, `n_uniquely_mapped_reads` = NULL, `n_reads_with_multi_mappings` = NULL, `n_candidates` = NULL, `n_mappings` = NULL, `n_uni_mappings` = NULL, `n_multi_mappings` = NULL, `n_barcodes_on_onlist` = NULL, `n_corrected_barcodes` = NULL, `n_output_mappings` = NULL, `uni_mappings` = NULL, `multi_mappings` = NULL, `total` = NULL, `atac_fragments_alignment_stats` = NULL, `atac_bam_summary_stats` = NULL, `atac_fragment_summary_stats` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`status` = NULL, `release_timestamp` = NULL, `attachment` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `quality_metric_of` = NULL, `analysis_step_version` = NULL, `pct_duplicates` = NULL, `n_reads` = NULL, `n_mapped_reads` = NULL, `n_uniquely_mapped_reads` = NULL, `n_reads_with_multi_mappings` = NULL, `n_candidates` = NULL, `n_mappings` = NULL, `n_uni_mappings` = NULL, `n_multi_mappings` = NULL, `n_barcodes_on_onlist` = NULL, `n_corrected_barcodes` = NULL, `n_output_mappings` = NULL, `uni_mappings` = NULL, `multi_mappings` = NULL, `total` = NULL, `atac_fragments_alignment_stats` = NULL, `atac_bam_summary_stats` = NULL, `atac_fragment_summary_stats` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`status`)) {
         if (!(`status` %in% c("archived", "deleted", "in progress", "preview", "released"))) {
           stop(paste("Error! \"", `status`, "\" cannot be assigned to `status`. Must be \"archived\", \"deleted\", \"in progress\", \"preview\", \"released\".", sep = ""))
@@ -233,17 +224,8 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
         }
         self$`analysis_step_version` <- `analysis_step_version`
       }
-      if (!is.null(`n_fragments`)) {
-        self$`n_fragments` <- `n_fragments`
-      }
-      if (!is.null(`n_barcodes`)) {
-        self$`n_barcodes` <- `n_barcodes`
-      }
       if (!is.null(`pct_duplicates`)) {
         self$`pct_duplicates` <- `pct_duplicates`
-      }
-      if (!is.null(`joint_barcodes_passing`)) {
-        self$`joint_barcodes_passing` <- `joint_barcodes_passing`
       }
       if (!is.null(`n_reads`)) {
         self$`n_reads` <- `n_reads`
@@ -391,21 +373,9 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
         SingleCellAtacSeqQualityMetricObject[["analysis_step_version"]] <-
           self$`analysis_step_version`
       }
-      if (!is.null(self$`n_fragments`)) {
-        SingleCellAtacSeqQualityMetricObject[["n_fragments"]] <-
-          self$`n_fragments`
-      }
-      if (!is.null(self$`n_barcodes`)) {
-        SingleCellAtacSeqQualityMetricObject[["n_barcodes"]] <-
-          self$`n_barcodes`
-      }
       if (!is.null(self$`pct_duplicates`)) {
         SingleCellAtacSeqQualityMetricObject[["pct_duplicates"]] <-
           self$`pct_duplicates`
-      }
-      if (!is.null(self$`joint_barcodes_passing`)) {
-        SingleCellAtacSeqQualityMetricObject[["joint_barcodes_passing"]] <-
-          self$`joint_barcodes_passing`
       }
       if (!is.null(self$`n_reads`)) {
         SingleCellAtacSeqQualityMetricObject[["n_reads"]] <-
@@ -553,17 +523,8 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
       if (!is.null(this_object$`analysis_step_version`)) {
         self$`analysis_step_version` <- this_object$`analysis_step_version`
       }
-      if (!is.null(this_object$`n_fragments`)) {
-        self$`n_fragments` <- this_object$`n_fragments`
-      }
-      if (!is.null(this_object$`n_barcodes`)) {
-        self$`n_barcodes` <- this_object$`n_barcodes`
-      }
       if (!is.null(this_object$`pct_duplicates`)) {
         self$`pct_duplicates` <- this_object$`pct_duplicates`
-      }
-      if (!is.null(this_object$`joint_barcodes_passing`)) {
-        self$`joint_barcodes_passing` <- this_object$`joint_barcodes_passing`
       }
       if (!is.null(this_object$`n_reads`)) {
         self$`n_reads` <- this_object$`n_reads`
@@ -769,36 +730,12 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`analysis_step_version`, perl=TRUE)
           )
         },
-        if (!is.null(self$`n_fragments`)) {
-          sprintf(
-          '"n_fragments":
-            %f
-                    ',
-          self$`n_fragments`
-          )
-        },
-        if (!is.null(self$`n_barcodes`)) {
-          sprintf(
-          '"n_barcodes":
-            %f
-                    ',
-          self$`n_barcodes`
-          )
-        },
         if (!is.null(self$`pct_duplicates`)) {
           sprintf(
           '"pct_duplicates":
             %f
                     ',
           self$`pct_duplicates`
-          )
-        },
-        if (!is.null(self$`joint_barcodes_passing`)) {
-          sprintf(
-          '"joint_barcodes_passing":
-            %f
-                    ',
-          self$`joint_barcodes_passing`
           )
         },
         if (!is.null(self$`n_reads`)) {
@@ -998,10 +935,7 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
       self$`description` <- this_object$`description`
       self$`quality_metric_of` <- ApiClient$new()$deserializeObj(this_object$`quality_metric_of`, "set[character]", loadNamespace("igvfclient"))
       self$`analysis_step_version` <- this_object$`analysis_step_version`
-      self$`n_fragments` <- this_object$`n_fragments`
-      self$`n_barcodes` <- this_object$`n_barcodes`
       self$`pct_duplicates` <- this_object$`pct_duplicates`
-      self$`joint_barcodes_passing` <- this_object$`joint_barcodes_passing`
       self$`n_reads` <- this_object$`n_reads`
       self$`n_mapped_reads` <- this_object$`n_mapped_reads`
       self$`n_uniquely_mapped_reads` <- this_object$`n_uniquely_mapped_reads`

@@ -288,8 +288,8 @@ MeasurementSet <- R6::R6Class(
         self$`dbxrefs` <- `dbxrefs`
       }
       if (!is.null(`control_type`)) {
-        if (!(`control_type` %in% c("control transduction", "low FACS signal", "non-targeting", "pre-selection", "unsorted FACS input", "untransfected", "untreated"))) {
-          stop(paste("Error! \"", `control_type`, "\" cannot be assigned to `control_type`. Must be \"control transduction\", \"low FACS signal\", \"non-targeting\", \"pre-selection\", \"unsorted FACS input\", \"untransfected\", \"untreated\".", sep = ""))
+        if (!(`control_type` %in% c("baseline", "control transduction", "low FACS signal", "non-targeting", "pre-selection", "unsorted FACS input", "untransfected", "untreated"))) {
+          stop(paste("Error! \"", `control_type`, "\" cannot be assigned to `control_type`. Must be \"baseline\", \"control transduction\", \"low FACS signal\", \"non-targeting\", \"pre-selection\", \"unsorted FACS input\", \"untransfected\", \"untreated\".", sep = ""))
         }
         if (!(is.character(`control_type`) && length(`control_type`) == 1)) {
           stop(paste("Error! Invalid data for `control_type`. Must be a string:", `control_type`))
@@ -752,8 +752,8 @@ MeasurementSet <- R6::R6Class(
         self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`control_type`)) {
-        if (!is.null(this_object$`control_type`) && !(this_object$`control_type` %in% c("control transduction", "low FACS signal", "non-targeting", "pre-selection", "unsorted FACS input", "untransfected", "untreated"))) {
-          stop(paste("Error! \"", this_object$`control_type`, "\" cannot be assigned to `control_type`. Must be \"control transduction\", \"low FACS signal\", \"non-targeting\", \"pre-selection\", \"unsorted FACS input\", \"untransfected\", \"untreated\".", sep = ""))
+        if (!is.null(this_object$`control_type`) && !(this_object$`control_type` %in% c("baseline", "control transduction", "low FACS signal", "non-targeting", "pre-selection", "unsorted FACS input", "untransfected", "untreated"))) {
+          stop(paste("Error! \"", this_object$`control_type`, "\" cannot be assigned to `control_type`. Must be \"baseline\", \"control transduction\", \"low FACS signal\", \"non-targeting\", \"pre-selection\", \"unsorted FACS input\", \"untransfected\", \"untreated\".", sep = ""))
         }
         self$`control_type` <- this_object$`control_type`
       }
@@ -1304,8 +1304,8 @@ MeasurementSet <- R6::R6Class(
       self$`submitter_comment` <- this_object$`submitter_comment`
       self$`description` <- this_object$`description`
       self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
-      if (!is.null(this_object$`control_type`) && !(this_object$`control_type` %in% c("control transduction", "low FACS signal", "non-targeting", "pre-selection", "unsorted FACS input", "untransfected", "untreated"))) {
-        stop(paste("Error! \"", this_object$`control_type`, "\" cannot be assigned to `control_type`. Must be \"control transduction\", \"low FACS signal\", \"non-targeting\", \"pre-selection\", \"unsorted FACS input\", \"untransfected\", \"untreated\".", sep = ""))
+      if (!is.null(this_object$`control_type`) && !(this_object$`control_type` %in% c("baseline", "control transduction", "low FACS signal", "non-targeting", "pre-selection", "unsorted FACS input", "untransfected", "untreated"))) {
+        stop(paste("Error! \"", this_object$`control_type`, "\" cannot be assigned to `control_type`. Must be \"baseline\", \"control transduction\", \"low FACS signal\", \"non-targeting\", \"pre-selection\", \"unsorted FACS input\", \"untransfected\", \"untreated\".", sep = ""))
       }
       self$`control_type` <- this_object$`control_type`
       self$`samples` <- ApiClient$new()$deserializeObj(this_object$`samples`, "set[character]", loadNamespace("igvfclient"))
