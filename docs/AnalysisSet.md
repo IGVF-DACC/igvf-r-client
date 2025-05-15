@@ -30,7 +30,7 @@ Name | Type | Description | Notes
 **donors** | **set[character]** | The donors of the samples associated with this analysis set. | [optional] 
 **file_set_type** | **character** | The level of this analysis set. | [optional] [Enum: [intermediate analysis, principal analysis]] 
 **external_image_data_url** | **character** | Links to the external site where images and related data produced by this analysis are stored. | [optional] [Pattern: ^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$] 
-**demultiplexed_sample** | **character** | The sample associated with this analysis set inferred through demultiplexing. | [optional] 
+**demultiplexed_samples** | **set[character]** | The sample(s) associated with this analysis set inferred through demultiplexing. | [optional] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** |  | [optional] 

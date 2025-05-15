@@ -1,7 +1,7 @@
 #' Create a new RNASeqKBInfo
 #'
 #' @description
-#' 
+#' The content of the kb-python RNAseq kb_info.json file.
 #'
 #' @docType class
 #' @title RNASeqKBInfo

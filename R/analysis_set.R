@@ -32,7 +32,7 @@
 #' @field donors The donors of the samples associated with this analysis set. list(character) [optional]
 #' @field file_set_type The level of this analysis set. character [optional]
 #' @field external_image_data_url Links to the external site where images and related data produced by this analysis are stored. character [optional]
-#' @field demultiplexed_sample The sample associated with this analysis set inferred through demultiplexing. character [optional]
+#' @field demultiplexed_samples The sample(s) associated with this analysis set inferred through demultiplexing. list(character) [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary  character [optional]
@@ -79,7 +79,7 @@ AnalysisSet <- R6::R6Class(
     `donors` = NULL,
     `file_set_type` = NULL,
     `external_image_data_url` = NULL,
-    `demultiplexed_sample` = NULL,
+    `demultiplexed_samples` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -125,7 +125,7 @@ AnalysisSet <- R6::R6Class(
     #' @param donors The donors of the samples associated with this analysis set.
     #' @param file_set_type The level of this analysis set.
     #' @param external_image_data_url Links to the external site where images and related data produced by this analysis are stored.
-    #' @param demultiplexed_sample The sample associated with this analysis set inferred through demultiplexing.
+    #' @param demultiplexed_samples The sample(s) associated with this analysis set inferred through demultiplexing.
     #' @param @id @id
     #' @param @type @type
     #' @param summary summary
@@ -143,7 +143,7 @@ AnalysisSet <- R6::R6Class(
     #' @param workflows A workflow for computational analysis of genomic data. A workflow is made up of analysis steps.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `external_image_data_url` = NULL, `demultiplexed_sample` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `assay_titles` = NULL, `protocols` = NULL, `sample_summary` = NULL, `functional_assay_mechanisms` = NULL, `workflows` = NULL, ...) {
+    initialize = function(`input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `external_image_data_url` = NULL, `demultiplexed_samples` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `assay_titles` = NULL, `protocols` = NULL, `sample_summary` = NULL, `functional_assay_mechanisms` = NULL, `workflows` = NULL, ...) {
       if (!is.null(`input_file_sets`)) {
         stopifnot(is.vector(`input_file_sets`), length(`input_file_sets`) != 0)
         sapply(`input_file_sets`, function(x) stopifnot(is.character(x)))
@@ -291,11 +291,10 @@ AnalysisSet <- R6::R6Class(
         }
         self$`external_image_data_url` <- `external_image_data_url`
       }
-      if (!is.null(`demultiplexed_sample`)) {
-        if (!(is.character(`demultiplexed_sample`) && length(`demultiplexed_sample`) == 1)) {
-          stop(paste("Error! Invalid data for `demultiplexed_sample`. Must be a string:", `demultiplexed_sample`))
-        }
-        self$`demultiplexed_sample` <- `demultiplexed_sample`
+      if (!is.null(`demultiplexed_samples`)) {
+        stopifnot(is.vector(`demultiplexed_samples`), length(`demultiplexed_samples`) != 0)
+        sapply(`demultiplexed_samples`, function(x) stopifnot(is.character(x)))
+        self$`demultiplexed_samples` <- `demultiplexed_samples`
       }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
@@ -487,9 +486,9 @@ AnalysisSet <- R6::R6Class(
         AnalysisSetObject[["external_image_data_url"]] <-
           self$`external_image_data_url`
       }
-      if (!is.null(self$`demultiplexed_sample`)) {
-        AnalysisSetObject[["demultiplexed_sample"]] <-
-          self$`demultiplexed_sample`
+      if (!is.null(self$`demultiplexed_samples`)) {
+        AnalysisSetObject[["demultiplexed_samples"]] <-
+          self$`demultiplexed_samples`
       }
       if (!is.null(self$`@id`)) {
         AnalysisSetObject[["@id"]] <-
@@ -644,8 +643,8 @@ AnalysisSet <- R6::R6Class(
       if (!is.null(this_object$`external_image_data_url`)) {
         self$`external_image_data_url` <- this_object$`external_image_data_url`
       }
-      if (!is.null(this_object$`demultiplexed_sample`)) {
-        self$`demultiplexed_sample` <- this_object$`demultiplexed_sample`
+      if (!is.null(this_object$`demultiplexed_samples`)) {
+        self$`demultiplexed_samples` <- ApiClient$new()$deserializeObj(this_object$`demultiplexed_samples`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
@@ -903,12 +902,12 @@ AnalysisSet <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`external_image_data_url`, perl=TRUE)
           )
         },
-        if (!is.null(self$`demultiplexed_sample`)) {
+        if (!is.null(self$`demultiplexed_samples`)) {
           sprintf(
-          '"demultiplexed_sample":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`demultiplexed_sample`, perl=TRUE)
+          '"demultiplexed_samples":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`demultiplexed_samples`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`@id`)) {
@@ -1076,7 +1075,7 @@ AnalysisSet <- R6::R6Class(
       }
       self$`file_set_type` <- this_object$`file_set_type`
       self$`external_image_data_url` <- this_object$`external_image_data_url`
-      self$`demultiplexed_sample` <- this_object$`demultiplexed_sample`
+      self$`demultiplexed_samples` <- ApiClient$new()$deserializeObj(this_object$`demultiplexed_samples`, "set[character]", loadNamespace("igvfclient"))
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
@@ -1163,6 +1162,7 @@ AnalysisSet <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1206,6 +1206,7 @@ AnalysisSet <- R6::R6Class(
       if (!str_detect(self$`external_image_data_url`, "^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$")) {
         invalid_fields["external_image_data_url"] <- "Invalid value for `external_image_data_url`, must conform to the pattern ^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$."
       }
+
 
 
 

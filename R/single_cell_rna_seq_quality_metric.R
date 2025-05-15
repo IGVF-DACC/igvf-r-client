@@ -22,30 +22,30 @@
 #' @field description A plain text description of the object. character [optional]
 #' @field quality_metric_of The file(s) to which this quality metric applies. list(character) [optional]
 #' @field analysis_step_version The analysis step version of the quality metric. character [optional]
-#' @field n_records  numeric [optional]
-#' @field n_reads  numeric [optional]
-#' @field n_barcodes  numeric [optional]
-#' @field total_umis  numeric [optional]
-#' @field n_barcode_umis  numeric [optional]
-#' @field median_reads_per_barcode  numeric [optional]
-#' @field mean_reads_per_barcode  numeric [optional]
-#' @field median_umis_per_barcode  numeric [optional]
-#' @field mean_umis_per_barcode  numeric [optional]
-#' @field gt_records  numeric [optional]
-#' @field num_barcodes_on_onlist  numeric [optional]
-#' @field percentage_barcodes_on_onlist  numeric [optional]
-#' @field num_reads_on_onlist  numeric [optional]
-#' @field percentage_reads_on_onlist  numeric [optional]
+#' @field n_records Number of records in BUS file. numeric [optional]
+#' @field n_reads Total number of input reads. numeric [optional]
+#' @field n_barcodes Total number of valid cell barcodes detected. numeric [optional]
+#' @field total_umis Total number of UMIs detected. numeric [optional]
+#' @field n_barcode_umis Total number of UMIs associated with cell barcodes. numeric [optional]
+#' @field median_reads_per_barcode Median number of reads per cell barcode. numeric [optional]
+#' @field mean_reads_per_barcode Mean number of reads per cell barcode. numeric [optional]
+#' @field median_umis_per_barcode Median number of UMIs per cell barcode. numeric [optional]
+#' @field mean_umis_per_barcode Mean number of UMIs per cell barcode. numeric [optional]
+#' @field gt_records Number of BUS records for Good-Toulmin estimation. numeric [optional]
+#' @field num_barcodes_on_onlist Number of cell barcodes matching an expected list of barcodes (onlist). numeric [optional]
+#' @field percentage_barcodes_on_onlist Percentage of cell barcodes matching an expected list of barcodes (onlist). numeric [optional]
+#' @field num_reads_on_onlist Number of reads associated with barcodes on the onlist. numeric [optional]
+#' @field percentage_reads_on_onlist Percentage of reads associated with barcodes on the onlist. numeric [optional]
 #' @field rnaseq_kb_info  \link{RNASeqKBInfo} [optional]
-#' @field n_targets  numeric [optional]
-#' @field n_bootstraps  numeric [optional]
-#' @field n_processed  numeric [optional]
-#' @field n_pseudoaligned  numeric [optional]
-#' @field n_unique  numeric [optional]
-#' @field p_pseudoaligned  numeric [optional]
-#' @field p_unique  numeric [optional]
-#' @field index_version  numeric [optional]
-#' @field kmer_length  numeric [optional]
+#' @field n_targets Total number of target sequences (e.g., transcripts) in the index. numeric [optional]
+#' @field n_bootstraps Number of bootstrap iterations used to estimate expression uncertainty. numeric [optional]
+#' @field n_processed Number of valid reads processed by Kallisto. numeric [optional]
+#' @field n_pseudoaligned Number of reads that could be pseudoaligned to the transcriptome index. numeric [optional]
+#' @field n_unique Number of reads that could be pseudoaligned to a unique target sequence. numeric [optional]
+#' @field p_pseudoaligned Percentage of reads that could be pseudoaligned to the transcriptome index. numeric [optional]
+#' @field p_unique Percentage of reads that could be pseudoaligned to a unique target sequence. numeric [optional]
+#' @field index_version Version of Kallisto index command used for building the transcriptome index. numeric [optional]
+#' @field kmer_length Length of k-mers used for building the transcriptome index. numeric [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the quality metric. character [optional]
@@ -122,30 +122,30 @@ SingleCellRnaSeqQualityMetric <- R6::R6Class(
     #' @param description A plain text description of the object.
     #' @param quality_metric_of The file(s) to which this quality metric applies.
     #' @param analysis_step_version The analysis step version of the quality metric.
-    #' @param n_records 
-    #' @param n_reads 
-    #' @param n_barcodes 
-    #' @param total_umis 
-    #' @param n_barcode_umis 
-    #' @param median_reads_per_barcode 
-    #' @param mean_reads_per_barcode 
-    #' @param median_umis_per_barcode 
-    #' @param mean_umis_per_barcode 
-    #' @param gt_records 
-    #' @param num_barcodes_on_onlist 
-    #' @param percentage_barcodes_on_onlist 
-    #' @param num_reads_on_onlist 
-    #' @param percentage_reads_on_onlist 
+    #' @param n_records Number of records in BUS file.
+    #' @param n_reads Total number of input reads.
+    #' @param n_barcodes Total number of valid cell barcodes detected.
+    #' @param total_umis Total number of UMIs detected.
+    #' @param n_barcode_umis Total number of UMIs associated with cell barcodes.
+    #' @param median_reads_per_barcode Median number of reads per cell barcode.
+    #' @param mean_reads_per_barcode Mean number of reads per cell barcode.
+    #' @param median_umis_per_barcode Median number of UMIs per cell barcode.
+    #' @param mean_umis_per_barcode Mean number of UMIs per cell barcode.
+    #' @param gt_records Number of BUS records for Good-Toulmin estimation.
+    #' @param num_barcodes_on_onlist Number of cell barcodes matching an expected list of barcodes (onlist).
+    #' @param percentage_barcodes_on_onlist Percentage of cell barcodes matching an expected list of barcodes (onlist).
+    #' @param num_reads_on_onlist Number of reads associated with barcodes on the onlist.
+    #' @param percentage_reads_on_onlist Percentage of reads associated with barcodes on the onlist.
     #' @param rnaseq_kb_info rnaseq_kb_info
-    #' @param n_targets 
-    #' @param n_bootstraps 
-    #' @param n_processed 
-    #' @param n_pseudoaligned 
-    #' @param n_unique 
-    #' @param p_pseudoaligned 
-    #' @param p_unique 
-    #' @param index_version 
-    #' @param kmer_length 
+    #' @param n_targets Total number of target sequences (e.g., transcripts) in the index.
+    #' @param n_bootstraps Number of bootstrap iterations used to estimate expression uncertainty.
+    #' @param n_processed Number of valid reads processed by Kallisto.
+    #' @param n_pseudoaligned Number of reads that could be pseudoaligned to the transcriptome index.
+    #' @param n_unique Number of reads that could be pseudoaligned to a unique target sequence.
+    #' @param p_pseudoaligned Percentage of reads that could be pseudoaligned to the transcriptome index.
+    #' @param p_unique Percentage of reads that could be pseudoaligned to a unique target sequence.
+    #' @param index_version Version of Kallisto index command used for building the transcriptome index.
+    #' @param kmer_length Length of k-mers used for building the transcriptome index.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the quality metric.

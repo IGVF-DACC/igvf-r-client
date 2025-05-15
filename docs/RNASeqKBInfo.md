@@ -1,6 +1,6 @@
 # igvfclient::RNASeqKBInfo
 
-
+The content of the kb-python RNAseq kb_info.json file.
 
 ## Properties
 Name | Type | Description | Notes
