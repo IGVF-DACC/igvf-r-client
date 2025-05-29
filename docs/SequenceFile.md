@@ -5,6 +5,8 @@ A file containing sequencing results in bam, fastq, or pod5 formats.
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**base_modifications** | **set[character]** | The chemical modifications to bases in a DNA sequence that are detected in this file. | [optional] [Enum: ] 
+**preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **externally_hosted** | **character** | Indicates whether the file is externally hosted and not stored on portal. | [optional] 
 **external_host_url** | **character** | A link to the resource where the file is externally hosted. | [optional] 
 **controlled_access** | **character** | Boolean value, indicating the file being controlled access, if true. | [optional] 
@@ -53,7 +55,6 @@ Name | Type | Description | Notes
 **sequencing_run** | **integer** | An ordinal number indicating which sequencing run of the associated library that the file belongs to. | [optional] [Min: 1] 
 **illumina_read_type** | **character** | The read type of the file. Relevant only for files produced using an Illumina sequencing platform. | [optional] [Enum: [R1, R2, R3, I1, I2]] 
 **index** | **character** | An Illumina index associated with the file. | [optional] 
-**base_modifications** | **set[character]** | The chemical modifications to bases in a DNA sequence that are detected in this file. | [optional] [Enum: ] 
 **read_names** | **set[character]** | The read names of a sequence file based on how it will be used by uniform pipelines. | [optional] [Enum: ] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 

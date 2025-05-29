@@ -7,6 +7,8 @@
 #' @title TabularFile
 #' @description TabularFile Class
 #' @format An \code{R6Class} generator object
+#' @field base_modifications The chemical modifications to bases in a DNA sequence that are detected in this file. list(character) [optional]
+#' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field cell_type_annotation The inferred cell type this file is associated with based on single-cell expression profiling. character [optional]
 #' @field controlled_access Boolean value, indicating the file being controlled access, if true. character [optional]
 #' @field anvil_url URL linking to the controlled access file that has been deposited at AnVIL workspace. character [optional]
@@ -68,6 +70,8 @@
 TabularFile <- R6::R6Class(
   "TabularFile",
   public = list(
+    `base_modifications` = NULL,
+    `preview_timestamp` = NULL,
     `cell_type_annotation` = NULL,
     `controlled_access` = NULL,
     `anvil_url` = NULL,
@@ -128,6 +132,8 @@ TabularFile <- R6::R6Class(
     #' @description
     #' Initialize a new TabularFile class.
     #'
+    #' @param base_modifications The chemical modifications to bases in a DNA sequence that are detected in this file.
+    #' @param preview_timestamp The date the object was previewed.
     #' @param cell_type_annotation The inferred cell type this file is associated with based on single-cell expression profiling.
     #' @param controlled_access Boolean value, indicating the file being controlled access, if true.
     #' @param anvil_url URL linking to the controlled access file that has been deposited at AnVIL workspace.
@@ -185,7 +191,18 @@ TabularFile <- R6::R6Class(
     #' @param primer_design_for Link(s) to the MeasurementSets using this file as a primer design.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`cell_type_annotation` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `catalog_adapters` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `workflow` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `barcode_map_for` = NULL, `primer_design_for` = NULL, ...) {
+    initialize = function(`base_modifications` = NULL, `preview_timestamp` = NULL, `cell_type_annotation` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `catalog_adapters` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `workflow` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `barcode_map_for` = NULL, `primer_design_for` = NULL, ...) {
+      if (!is.null(`base_modifications`)) {
+        stopifnot(is.vector(`base_modifications`), length(`base_modifications`) != 0)
+        sapply(`base_modifications`, function(x) stopifnot(is.character(x)))
+        self$`base_modifications` <- `base_modifications`
+      }
+      if (!is.null(`preview_timestamp`)) {
+        if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
+          stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
+        }
+        self$`preview_timestamp` <- `preview_timestamp`
+      }
       if (!is.null(`cell_type_annotation`)) {
         if (!(is.character(`cell_type_annotation`) && length(`cell_type_annotation`) == 1)) {
           stop(paste("Error! Invalid data for `cell_type_annotation`. Must be a string:", `cell_type_annotation`))
@@ -220,8 +237,8 @@ TabularFile <- R6::R6Class(
         self$`release_timestamp` <- `release_timestamp`
       }
       if (!is.null(`file_format_type`)) {
-        if (!(`file_format_type` %in% c("bed12", "bed3", "bed3+", "bed5", "bed6", "bed6+", "bed9", "bed9+", "mpra_starr"))) {
-          stop(paste("Error! \"", `file_format_type`, "\" cannot be assigned to `file_format_type`. Must be \"bed12\", \"bed3\", \"bed3+\", \"bed5\", \"bed6\", \"bed6+\", \"bed9\", \"bed9+\", \"mpra_starr\".", sep = ""))
+        if (!(`file_format_type` %in% c("bed12", "bed3", "bed3+", "bed5", "bed6", "bed6+", "bed9", "bed9+", "mpra_starr", "mpra_element", "mpra_variant"))) {
+          stop(paste("Error! \"", `file_format_type`, "\" cannot be assigned to `file_format_type`. Must be \"bed12\", \"bed3\", \"bed3+\", \"bed5\", \"bed6\", \"bed6+\", \"bed9\", \"bed9+\", \"mpra_starr\", \"mpra_element\", \"mpra_variant\".", sep = ""))
         }
         if (!(is.character(`file_format_type`) && length(`file_format_type`) == 1)) {
           stop(paste("Error! Invalid data for `file_format_type`. Must be a string:", `file_format_type`))
@@ -524,6 +541,14 @@ TabularFile <- R6::R6Class(
     #' @export
     toJSON = function() {
       TabularFileObject <- list()
+      if (!is.null(self$`base_modifications`)) {
+        TabularFileObject[["base_modifications"]] <-
+          self$`base_modifications`
+      }
+      if (!is.null(self$`preview_timestamp`)) {
+        TabularFileObject[["preview_timestamp"]] <-
+          self$`preview_timestamp`
+      }
       if (!is.null(self$`cell_type_annotation`)) {
         TabularFileObject[["cell_type_annotation"]] <-
           self$`cell_type_annotation`
@@ -756,6 +781,12 @@ TabularFile <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`base_modifications`)) {
+        self$`base_modifications` <- ApiClient$new()$deserializeObj(this_object$`base_modifications`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`preview_timestamp`)) {
+        self$`preview_timestamp` <- this_object$`preview_timestamp`
+      }
       if (!is.null(this_object$`cell_type_annotation`)) {
         self$`cell_type_annotation` <- this_object$`cell_type_annotation`
       }
@@ -775,8 +806,8 @@ TabularFile <- R6::R6Class(
         self$`release_timestamp` <- this_object$`release_timestamp`
       }
       if (!is.null(this_object$`file_format_type`)) {
-        if (!is.null(this_object$`file_format_type`) && !(this_object$`file_format_type` %in% c("bed12", "bed3", "bed3+", "bed5", "bed6", "bed6+", "bed9", "bed9+", "mpra_starr"))) {
-          stop(paste("Error! \"", this_object$`file_format_type`, "\" cannot be assigned to `file_format_type`. Must be \"bed12\", \"bed3\", \"bed3+\", \"bed5\", \"bed6\", \"bed6+\", \"bed9\", \"bed9+\", \"mpra_starr\".", sep = ""))
+        if (!is.null(this_object$`file_format_type`) && !(this_object$`file_format_type` %in% c("bed12", "bed3", "bed3+", "bed5", "bed6", "bed6+", "bed9", "bed9+", "mpra_starr", "mpra_element", "mpra_variant"))) {
+          stop(paste("Error! \"", this_object$`file_format_type`, "\" cannot be assigned to `file_format_type`. Must be \"bed12\", \"bed3\", \"bed3+\", \"bed5\", \"bed6\", \"bed6+\", \"bed9\", \"bed9+\", \"mpra_starr\", \"mpra_element\", \"mpra_variant\".", sep = ""))
         }
         self$`file_format_type` <- this_object$`file_format_type`
       }
@@ -950,6 +981,22 @@ TabularFile <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`base_modifications`)) {
+          sprintf(
+          '"base_modifications":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`base_modifications`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`preview_timestamp`)) {
+          sprintf(
+          '"preview_timestamp":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`preview_timestamp`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`cell_type_annotation`)) {
           sprintf(
           '"cell_type_annotation":
@@ -1404,6 +1451,8 @@ TabularFile <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`base_modifications` <- ApiClient$new()$deserializeObj(this_object$`base_modifications`, "set[character]", loadNamespace("igvfclient"))
+      self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`cell_type_annotation` <- this_object$`cell_type_annotation`
       self$`controlled_access` <- this_object$`controlled_access`
       self$`anvil_url` <- this_object$`anvil_url`
@@ -1412,8 +1461,8 @@ TabularFile <- R6::R6Class(
       }
       self$`assembly` <- this_object$`assembly`
       self$`release_timestamp` <- this_object$`release_timestamp`
-      if (!is.null(this_object$`file_format_type`) && !(this_object$`file_format_type` %in% c("bed12", "bed3", "bed3+", "bed5", "bed6", "bed6+", "bed9", "bed9+", "mpra_starr"))) {
-        stop(paste("Error! \"", this_object$`file_format_type`, "\" cannot be assigned to `file_format_type`. Must be \"bed12\", \"bed3\", \"bed3+\", \"bed5\", \"bed6\", \"bed6+\", \"bed9\", \"bed9+\", \"mpra_starr\".", sep = ""))
+      if (!is.null(this_object$`file_format_type`) && !(this_object$`file_format_type` %in% c("bed12", "bed3", "bed3+", "bed5", "bed6", "bed6+", "bed9", "bed9+", "mpra_starr", "mpra_element", "mpra_variant"))) {
+        stop(paste("Error! \"", this_object$`file_format_type`, "\" cannot be assigned to `file_format_type`. Must be \"bed12\", \"bed3\", \"bed3+\", \"bed5\", \"bed6\", \"bed6+\", \"bed9\", \"bed9+\", \"mpra_starr\", \"mpra_element\", \"mpra_variant\".", sep = ""))
       }
       self$`file_format_type` <- this_object$`file_format_type`
       if (!is.null(this_object$`transcriptome_annotation`) && !(this_object$`transcriptome_annotation` %in% c("GENCODE 22", "GENCODE 28", "GENCODE 32", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M17", "GENCODE M25", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36", "GENCODE 32, GENCODE M23"))) {
@@ -1510,6 +1559,7 @@ TabularFile <- R6::R6Class(
 
 
 
+
       if (!str_detect(self$`revoke_detail`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         return(FALSE)
       }
@@ -1572,6 +1622,7 @@ TabularFile <- R6::R6Class(
     #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
+
 
 
 

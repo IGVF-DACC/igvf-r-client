@@ -7,6 +7,7 @@
 #' @title ReferenceFile
 #' @description ReferenceFile Class
 #' @format An \code{R6Class} generator object
+#' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field source_url Link to external resource, such as NCBI or GENCODE, where the reference data was obtained. character [optional]
 #' @field controlled_access Boolean value, indicating the file being controlled access, if true. character [optional]
 #' @field anvil_url URL linking to the controlled access file that has been deposited at AnVIL workspace. character [optional]
@@ -67,6 +68,7 @@
 ReferenceFile <- R6::R6Class(
   "ReferenceFile",
   public = list(
+    `preview_timestamp` = NULL,
     `source_url` = NULL,
     `controlled_access` = NULL,
     `anvil_url` = NULL,
@@ -126,6 +128,7 @@ ReferenceFile <- R6::R6Class(
     #' @description
     #' Initialize a new ReferenceFile class.
     #'
+    #' @param preview_timestamp The date the object was previewed.
     #' @param source_url Link to external resource, such as NCBI or GENCODE, where the reference data was obtained.
     #' @param controlled_access Boolean value, indicating the file being controlled access, if true.
     #' @param anvil_url URL linking to the controlled access file that has been deposited at AnVIL workspace.
@@ -182,7 +185,13 @@ ReferenceFile <- R6::R6Class(
     #' @param upload_credentials The upload credentials for S3 to submit the file content.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`source_url` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `catalog_adapters` = NULL, `sources` = NULL, `external` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `workflow` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `source_url` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `catalog_adapters` = NULL, `sources` = NULL, `external` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `workflow` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
+      if (!is.null(`preview_timestamp`)) {
+        if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
+          stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
+        }
+        self$`preview_timestamp` <- `preview_timestamp`
+      }
       if (!is.null(`source_url`)) {
         if (!(is.character(`source_url`) && length(`source_url`) == 1)) {
           stop(paste("Error! Invalid data for `source_url`. Must be a string:", `source_url`))
@@ -217,8 +226,8 @@ ReferenceFile <- R6::R6Class(
         self$`release_timestamp` <- `release_timestamp`
       }
       if (!is.null(`file_format_type`)) {
-        if (!(`file_format_type` %in% c("bed12", "bed3", "bed3+", "bed5", "bed6", "bed6+", "bed9", "bed9+", "mpra_starr"))) {
-          stop(paste("Error! \"", `file_format_type`, "\" cannot be assigned to `file_format_type`. Must be \"bed12\", \"bed3\", \"bed3+\", \"bed5\", \"bed6\", \"bed6+\", \"bed9\", \"bed9+\", \"mpra_starr\".", sep = ""))
+        if (!(`file_format_type` %in% c("bed12", "bed3", "bed3+", "bed5", "bed6", "bed6+", "bed9", "bed9+", "mpra_starr", "mpra_element", "mpra_variant"))) {
+          stop(paste("Error! \"", `file_format_type`, "\" cannot be assigned to `file_format_type`. Must be \"bed12\", \"bed3\", \"bed3+\", \"bed5\", \"bed6\", \"bed6+\", \"bed9\", \"bed9+\", \"mpra_starr\", \"mpra_element\", \"mpra_variant\".", sep = ""))
         }
         if (!(is.character(`file_format_type`) && length(`file_format_type`) == 1)) {
           stop(paste("Error! Invalid data for `file_format_type`. Must be a string:", `file_format_type`))
@@ -516,6 +525,10 @@ ReferenceFile <- R6::R6Class(
     #' @export
     toJSON = function() {
       ReferenceFileObject <- list()
+      if (!is.null(self$`preview_timestamp`)) {
+        ReferenceFileObject[["preview_timestamp"]] <-
+          self$`preview_timestamp`
+      }
       if (!is.null(self$`source_url`)) {
         ReferenceFileObject[["source_url"]] <-
           self$`source_url`
@@ -744,6 +757,9 @@ ReferenceFile <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`preview_timestamp`)) {
+        self$`preview_timestamp` <- this_object$`preview_timestamp`
+      }
       if (!is.null(this_object$`source_url`)) {
         self$`source_url` <- this_object$`source_url`
       }
@@ -763,8 +779,8 @@ ReferenceFile <- R6::R6Class(
         self$`release_timestamp` <- this_object$`release_timestamp`
       }
       if (!is.null(this_object$`file_format_type`)) {
-        if (!is.null(this_object$`file_format_type`) && !(this_object$`file_format_type` %in% c("bed12", "bed3", "bed3+", "bed5", "bed6", "bed6+", "bed9", "bed9+", "mpra_starr"))) {
-          stop(paste("Error! \"", this_object$`file_format_type`, "\" cannot be assigned to `file_format_type`. Must be \"bed12\", \"bed3\", \"bed3+\", \"bed5\", \"bed6\", \"bed6+\", \"bed9\", \"bed9+\", \"mpra_starr\".", sep = ""))
+        if (!is.null(this_object$`file_format_type`) && !(this_object$`file_format_type` %in% c("bed12", "bed3", "bed3+", "bed5", "bed6", "bed6+", "bed9", "bed9+", "mpra_starr", "mpra_element", "mpra_variant"))) {
+          stop(paste("Error! \"", this_object$`file_format_type`, "\" cannot be assigned to `file_format_type`. Must be \"bed12\", \"bed3\", \"bed3+\", \"bed5\", \"bed6\", \"bed6+\", \"bed9\", \"bed9+\", \"mpra_starr\", \"mpra_element\", \"mpra_variant\".", sep = ""))
         }
         self$`file_format_type` <- this_object$`file_format_type`
       }
@@ -935,6 +951,14 @@ ReferenceFile <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`preview_timestamp`)) {
+          sprintf(
+          '"preview_timestamp":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`preview_timestamp`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`source_url`)) {
           sprintf(
           '"source_url":
@@ -1381,6 +1405,7 @@ ReferenceFile <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`source_url` <- this_object$`source_url`
       self$`controlled_access` <- this_object$`controlled_access`
       self$`anvil_url` <- this_object$`anvil_url`
@@ -1389,8 +1414,8 @@ ReferenceFile <- R6::R6Class(
       }
       self$`assembly` <- this_object$`assembly`
       self$`release_timestamp` <- this_object$`release_timestamp`
-      if (!is.null(this_object$`file_format_type`) && !(this_object$`file_format_type` %in% c("bed12", "bed3", "bed3+", "bed5", "bed6", "bed6+", "bed9", "bed9+", "mpra_starr"))) {
-        stop(paste("Error! \"", this_object$`file_format_type`, "\" cannot be assigned to `file_format_type`. Must be \"bed12\", \"bed3\", \"bed3+\", \"bed5\", \"bed6\", \"bed6+\", \"bed9\", \"bed9+\", \"mpra_starr\".", sep = ""))
+      if (!is.null(this_object$`file_format_type`) && !(this_object$`file_format_type` %in% c("bed12", "bed3", "bed3+", "bed5", "bed6", "bed6+", "bed9", "bed9+", "mpra_starr", "mpra_element", "mpra_variant"))) {
+        stop(paste("Error! \"", this_object$`file_format_type`, "\" cannot be assigned to `file_format_type`. Must be \"bed12\", \"bed3\", \"bed3+\", \"bed5\", \"bed6\", \"bed6+\", \"bed9\", \"bed9+\", \"mpra_starr\", \"mpra_element\", \"mpra_variant\".", sep = ""))
       }
       self$`file_format_type` <- this_object$`file_format_type`
       if (!is.null(this_object$`transcriptome_annotation`) && !(this_object$`transcriptome_annotation` %in% c("GENCODE 22", "GENCODE 28", "GENCODE 32", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M17", "GENCODE M25", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36", "GENCODE 32, GENCODE M23"))) {

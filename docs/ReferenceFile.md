@@ -5,12 +5,13 @@ A file containing diverse reference related information.
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **source_url** | **character** | Link to external resource, such as NCBI or GENCODE, where the reference data was obtained. | [optional] 
 **controlled_access** | **character** | Boolean value, indicating the file being controlled access, if true. | [optional] 
 **anvil_url** | **character** | URL linking to the controlled access file that has been deposited at AnVIL workspace. | [optional] 
 **assembly** | **character** | Genome assembly applicable for the reference data. | [optional] [Enum: [GRCh38, hg19, Cast - GRCm39, GRCm39, mm10, GRCh38, mm10, custom]] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
-**file_format_type** | **character** | The subtype of bed files. | [optional] [Enum: [bed12, bed3, bed3+, bed5, bed6, bed6+, bed9, bed9+, mpra_starr]] 
+**file_format_type** | **character** | The subtype of bed files. | [optional] [Enum: [bed12, bed3, bed3+, bed5, bed6, bed6+, bed9, bed9+, mpra_starr, mpra_element, mpra_variant]] 
 **transcriptome_annotation** | **character** | The annotation and version of the reference resource. | [optional] [Enum: [GENCODE 22, GENCODE 28, GENCODE 32, GENCODE 40, GENCODE 41, GENCODE 42, GENCODE 43, GENCODE 44, GENCODE 45, GENCODE 47, GENCODE Cast - M32, GENCODE M17, GENCODE M25, GENCODE M30, GENCODE M31, GENCODE M32, GENCODE M33, GENCODE M34, GENCODE M36, GENCODE 32, GENCODE M23]] 
 **documents** | **set[character]** | Documents that provide additional information (not data file). | [optional] 
 **lab** | **character** | Lab associated with the submission. | [optional] 

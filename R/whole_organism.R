@@ -7,6 +7,7 @@
 #' @title WholeOrganism
 #' @description WholeOrganism Class
 #' @format An \code{R6Class} generator object
+#' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field taxa The species of the organism. character [optional]
 #' @field publications The publications associated with this object. list(character) [optional]
@@ -79,6 +80,7 @@
 WholeOrganism <- R6::R6Class(
   "WholeOrganism",
   public = list(
+    `preview_timestamp` = NULL,
     `release_timestamp` = NULL,
     `taxa` = NULL,
     `publications` = NULL,
@@ -150,6 +152,7 @@ WholeOrganism <- R6::R6Class(
     #' @description
     #' Initialize a new WholeOrganism class.
     #'
+    #' @param preview_timestamp The date the object was previewed.
     #' @param release_timestamp The date the object was released.
     #' @param taxa The species of the organism.
     #' @param publications The publications associated with this object.
@@ -218,7 +221,13 @@ WholeOrganism <- R6::R6Class(
     #' @param classifications The general category of this type of sample.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `taxa` = NULL, `publications` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `annotated_from` = NULL, `lower_bound_age` = NULL, `upper_bound_age` = NULL, `age_units` = NULL, `sample_terms` = NULL, `disease_terms` = NULL, `pooled_from` = NULL, `part_of` = NULL, `originated_from` = NULL, `treatments` = NULL, `donors` = NULL, `biomarkers` = NULL, `embryonic` = NULL, `modifications` = NULL, `cellular_sub_pool` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `sex` = NULL, `age` = NULL, `upper_bound_age_in_hours` = NULL, `lower_bound_age_in_hours` = NULL, `parts` = NULL, `pooled_in` = NULL, `classifications` = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `taxa` = NULL, `publications` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `annotated_from` = NULL, `lower_bound_age` = NULL, `upper_bound_age` = NULL, `age_units` = NULL, `sample_terms` = NULL, `disease_terms` = NULL, `pooled_from` = NULL, `part_of` = NULL, `originated_from` = NULL, `treatments` = NULL, `donors` = NULL, `biomarkers` = NULL, `embryonic` = NULL, `modifications` = NULL, `cellular_sub_pool` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `sex` = NULL, `age` = NULL, `upper_bound_age_in_hours` = NULL, `lower_bound_age_in_hours` = NULL, `parts` = NULL, `pooled_in` = NULL, `classifications` = NULL, ...) {
+      if (!is.null(`preview_timestamp`)) {
+        if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
+          stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
+        }
+        self$`preview_timestamp` <- `preview_timestamp`
+      }
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -600,6 +609,10 @@ WholeOrganism <- R6::R6Class(
     #' @export
     toJSON = function() {
       WholeOrganismObject <- list()
+      if (!is.null(self$`preview_timestamp`)) {
+        WholeOrganismObject[["preview_timestamp"]] <-
+          self$`preview_timestamp`
+      }
       if (!is.null(self$`release_timestamp`)) {
         WholeOrganismObject[["release_timestamp"]] <-
           self$`release_timestamp`
@@ -876,6 +889,9 @@ WholeOrganism <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`preview_timestamp`)) {
+        self$`preview_timestamp` <- this_object$`preview_timestamp`
+      }
       if (!is.null(this_object$`release_timestamp`)) {
         self$`release_timestamp` <- this_object$`release_timestamp`
       }
@@ -1106,6 +1122,14 @@ WholeOrganism <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`preview_timestamp`)) {
+          sprintf(
+          '"preview_timestamp":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`preview_timestamp`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`release_timestamp`)) {
           sprintf(
           '"release_timestamp":
@@ -1648,6 +1672,7 @@ WholeOrganism <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`release_timestamp` <- this_object$`release_timestamp`
       if (!is.null(this_object$`taxa`) && !(this_object$`taxa` %in% c("Homo sapiens", "Mus musculus"))) {
         stop(paste("Error! \"", this_object$`taxa`, "\" cannot be assigned to `taxa`. Must be \"Homo sapiens\", \"Mus musculus\".", sep = ""))

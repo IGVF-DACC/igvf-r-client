@@ -5,6 +5,7 @@ A file containing configuration settings or information defining the structure o
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **documents** | **set[character]** | Documents that provide additional information (not data file). | [optional] 
 **lab** | **character** | Lab associated with the submission. | [optional] 

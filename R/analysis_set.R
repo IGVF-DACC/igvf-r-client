@@ -7,6 +7,7 @@
 #' @title AnalysisSet
 #' @description AnalysisSet Class
 #' @format An \code{R6Class} generator object
+#' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field input_file_sets The file set(s) required for this analysis. list(character) [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field publications The publications associated with this object. list(character) [optional]
@@ -54,6 +55,7 @@
 AnalysisSet <- R6::R6Class(
   "AnalysisSet",
   public = list(
+    `preview_timestamp` = NULL,
     `input_file_sets` = NULL,
     `release_timestamp` = NULL,
     `publications` = NULL,
@@ -100,6 +102,7 @@ AnalysisSet <- R6::R6Class(
     #' @description
     #' Initialize a new AnalysisSet class.
     #'
+    #' @param preview_timestamp The date the object was previewed.
     #' @param input_file_sets The file set(s) required for this analysis.
     #' @param release_timestamp The date the object was released.
     #' @param publications The publications associated with this object.
@@ -143,7 +146,13 @@ AnalysisSet <- R6::R6Class(
     #' @param workflows A workflow for computational analysis of genomic data. A workflow is made up of analysis steps.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `external_image_data_url` = NULL, `demultiplexed_samples` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `assay_titles` = NULL, `protocols` = NULL, `sample_summary` = NULL, `functional_assay_mechanisms` = NULL, `workflows` = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `external_image_data_url` = NULL, `demultiplexed_samples` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `assay_titles` = NULL, `protocols` = NULL, `sample_summary` = NULL, `functional_assay_mechanisms` = NULL, `workflows` = NULL, ...) {
+      if (!is.null(`preview_timestamp`)) {
+        if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
+          stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
+        }
+        self$`preview_timestamp` <- `preview_timestamp`
+      }
       if (!is.null(`input_file_sets`)) {
         stopifnot(is.vector(`input_file_sets`), length(`input_file_sets`) != 0)
         sapply(`input_file_sets`, function(x) stopifnot(is.character(x)))
@@ -386,6 +395,10 @@ AnalysisSet <- R6::R6Class(
     #' @export
     toJSON = function() {
       AnalysisSetObject <- list()
+      if (!is.null(self$`preview_timestamp`)) {
+        AnalysisSetObject[["preview_timestamp"]] <-
+          self$`preview_timestamp`
+      }
       if (!is.null(self$`input_file_sets`)) {
         AnalysisSetObject[["input_file_sets"]] <-
           self$`input_file_sets`
@@ -562,6 +575,9 @@ AnalysisSet <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`preview_timestamp`)) {
+        self$`preview_timestamp` <- this_object$`preview_timestamp`
+      }
       if (!is.null(this_object$`input_file_sets`)) {
         self$`input_file_sets` <- ApiClient$new()$deserializeObj(this_object$`input_file_sets`, "set[character]", loadNamespace("igvfclient"))
       }
@@ -702,6 +718,14 @@ AnalysisSet <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`preview_timestamp`)) {
+          sprintf(
+          '"preview_timestamp":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`preview_timestamp`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`input_file_sets`)) {
           sprintf(
           '"input_file_sets":
@@ -1044,6 +1068,7 @@ AnalysisSet <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`input_file_sets` <- ApiClient$new()$deserializeObj(this_object$`input_file_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`release_timestamp` <- this_object$`release_timestamp`
       self$`publications` <- ApiClient$new()$deserializeObj(this_object$`publications`, "set[character]", loadNamespace("igvfclient"))

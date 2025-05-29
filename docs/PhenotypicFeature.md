@@ -5,6 +5,7 @@ A phenotypic feature of a donor the sample is coming from. For example, the dono
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **status** | **character** | The status of the metadata object. | [optional] [Enum: [archived, deleted, in progress, preview, released]] 
 **lab** | **character** | Lab associated with the submission. | [optional] 

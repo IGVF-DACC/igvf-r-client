@@ -7,6 +7,7 @@
 #' @title PlatformTerm
 #' @description PlatformTerm Class
 #' @format An \code{R6Class} generator object
+#' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field status The status of the metadata object. character [optional]
 #' @field schema_version The version of the JSON schema that the server uses to validate the object. character [optional]
@@ -38,6 +39,7 @@
 PlatformTerm <- R6::R6Class(
   "PlatformTerm",
   public = list(
+    `preview_timestamp` = NULL,
     `release_timestamp` = NULL,
     `status` = NULL,
     `schema_version` = NULL,
@@ -68,6 +70,7 @@ PlatformTerm <- R6::R6Class(
     #' @description
     #' Initialize a new PlatformTerm class.
     #'
+    #' @param preview_timestamp The date the object was previewed.
     #' @param release_timestamp The date the object was released.
     #' @param status The status of the metadata object.
     #' @param schema_version The version of the JSON schema that the server uses to validate the object.
@@ -95,7 +98,13 @@ PlatformTerm <- R6::R6Class(
     #' @param ontology The ontology in which the term is recorded.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `status` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `term_id` = NULL, `term_name` = NULL, `deprecated_ntr_terms` = NULL, `is_a` = NULL, `company` = NULL, `sequencing_kits` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `name` = NULL, `definition` = NULL, `comments` = NULL, `synonyms` = NULL, `ancestors` = NULL, `ontology` = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `status` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `term_id` = NULL, `term_name` = NULL, `deprecated_ntr_terms` = NULL, `is_a` = NULL, `company` = NULL, `sequencing_kits` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `name` = NULL, `definition` = NULL, `comments` = NULL, `synonyms` = NULL, `ancestors` = NULL, `ontology` = NULL, ...) {
+      if (!is.null(`preview_timestamp`)) {
+        if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
+          stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
+        }
+        self$`preview_timestamp` <- `preview_timestamp`
+      }
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -254,6 +263,10 @@ PlatformTerm <- R6::R6Class(
     #' @export
     toJSON = function() {
       PlatformTermObject <- list()
+      if (!is.null(self$`preview_timestamp`)) {
+        PlatformTermObject[["preview_timestamp"]] <-
+          self$`preview_timestamp`
+      }
       if (!is.null(self$`release_timestamp`)) {
         PlatformTermObject[["release_timestamp"]] <-
           self$`release_timestamp`
@@ -366,6 +379,9 @@ PlatformTerm <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`preview_timestamp`)) {
+        self$`preview_timestamp` <- this_object$`preview_timestamp`
+      }
       if (!is.null(this_object$`release_timestamp`)) {
         self$`release_timestamp` <- this_object$`release_timestamp`
       }
@@ -458,6 +474,14 @@ PlatformTerm <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`preview_timestamp`)) {
+          sprintf(
+          '"preview_timestamp":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`preview_timestamp`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`release_timestamp`)) {
           sprintf(
           '"release_timestamp":
@@ -672,6 +696,7 @@ PlatformTerm <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`release_timestamp` <- this_object$`release_timestamp`
       if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("archived", "deleted", "in progress", "preview", "released"))) {
         stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"archived\", \"deleted\", \"in progress\", \"preview\", \"released\".", sep = ""))

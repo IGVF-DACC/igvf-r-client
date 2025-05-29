@@ -7,6 +7,7 @@
 #' @title Publication
 #' @description Publication Class
 #' @format An \code{R6Class} generator object
+#' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field status The status of the metadata object. character [optional]
 #' @field lab Lab associated with the submission. character [optional]
@@ -50,6 +51,7 @@ Publication <- R6::R6Class(
   "Publication",
   inherit = AnyType,
   public = list(
+    `preview_timestamp` = NULL,
     `release_timestamp` = NULL,
     `status` = NULL,
     `lab` = NULL,
@@ -84,13 +86,14 @@ Publication <- R6::R6Class(
     `workflows` = NULL,
     `software` = NULL,
     `software_versions` = NULL,
-    `_field_list` = c("release_timestamp", "status", "lab", "award", "attachment", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "title", "abstract", "authors", "date_published", "date_revised", "issue", "page", "volume", "journal", "publication_identifiers", "published_by", "@id", "@type", "summary", "publication_year", "samples", "donors", "file_sets", "workflows", "software", "software_versions"),
+    `_field_list` = c("preview_timestamp", "release_timestamp", "status", "lab", "award", "attachment", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "title", "abstract", "authors", "date_published", "date_revised", "issue", "page", "volume", "journal", "publication_identifiers", "published_by", "@id", "@type", "summary", "publication_year", "samples", "donors", "file_sets", "workflows", "software", "software_versions"),
     `additional_properties` = list(),
     #' Initialize a new Publication class.
     #'
     #' @description
     #' Initialize a new Publication class.
     #'
+    #' @param preview_timestamp The date the object was previewed.
     #' @param release_timestamp The date the object was released.
     #' @param status The status of the metadata object.
     #' @param lab Lab associated with the submission.
@@ -128,7 +131,13 @@ Publication <- R6::R6Class(
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `status` = NULL, `lab` = NULL, `award` = NULL, `attachment` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `title` = NULL, `abstract` = NULL, `authors` = NULL, `date_published` = NULL, `date_revised` = NULL, `issue` = NULL, `page` = NULL, `volume` = NULL, `journal` = NULL, `publication_identifiers` = NULL, `published_by` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `publication_year` = NULL, `samples` = NULL, `donors` = NULL, `file_sets` = NULL, `workflows` = NULL, `software` = NULL, `software_versions` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `status` = NULL, `lab` = NULL, `award` = NULL, `attachment` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `title` = NULL, `abstract` = NULL, `authors` = NULL, `date_published` = NULL, `date_revised` = NULL, `issue` = NULL, `page` = NULL, `volume` = NULL, `journal` = NULL, `publication_identifiers` = NULL, `published_by` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `publication_year` = NULL, `samples` = NULL, `donors` = NULL, `file_sets` = NULL, `workflows` = NULL, `software` = NULL, `software_versions` = NULL, additional_properties = NULL, ...) {
+      if (!is.null(`preview_timestamp`)) {
+        if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
+          stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
+        }
+        self$`preview_timestamp` <- `preview_timestamp`
+      }
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -339,6 +348,10 @@ Publication <- R6::R6Class(
     #' @export
     toJSON = function() {
       PublicationObject <- list()
+      if (!is.null(self$`preview_timestamp`)) {
+        PublicationObject[["preview_timestamp"]] <-
+          self$`preview_timestamp`
+      }
       if (!is.null(self$`release_timestamp`)) {
         PublicationObject[["release_timestamp"]] <-
           self$`release_timestamp`
@@ -491,6 +504,9 @@ Publication <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`preview_timestamp`)) {
+        self$`preview_timestamp` <- this_object$`preview_timestamp`
+      }
       if (!is.null(this_object$`release_timestamp`)) {
         self$`release_timestamp` <- this_object$`release_timestamp`
       }
@@ -616,6 +632,14 @@ Publication <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`preview_timestamp`)) {
+          sprintf(
+          '"preview_timestamp":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`preview_timestamp`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`release_timestamp`)) {
           sprintf(
           '"release_timestamp":
@@ -907,6 +931,7 @@ Publication <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`release_timestamp` <- this_object$`release_timestamp`
       if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("archived", "deleted", "in progress", "preview", "released"))) {
         stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"archived\", \"deleted\", \"in progress\", \"preview\", \"released\".", sep = ""))

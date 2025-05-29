@@ -5,6 +5,7 @@ Schema for submission of a MPRA uniform pipeline quality metric.
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **status** | **character** | The status of the metadata object. | [optional] [Enum: [archived, deleted, in progress, preview, released]] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **attachment** | [**Attachment**](Attachment.md) |  | [optional] 

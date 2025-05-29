@@ -5,6 +5,7 @@ A sample that is used as a medium to perform biological measurement without the 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **publications** | **set[character]** | The publications associated with this object. | [optional] 
 **url** | **character** | An external resource with additional information. | [optional] 

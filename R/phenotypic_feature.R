@@ -7,6 +7,7 @@
 #' @title PhenotypicFeature
 #' @description PhenotypicFeature Class
 #' @format An \code{R6Class} generator object
+#' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field status The status of the metadata object. character [optional]
 #' @field lab Lab associated with the submission. character [optional]
@@ -33,6 +34,7 @@
 PhenotypicFeature <- R6::R6Class(
   "PhenotypicFeature",
   public = list(
+    `preview_timestamp` = NULL,
     `release_timestamp` = NULL,
     `status` = NULL,
     `lab` = NULL,
@@ -58,6 +60,7 @@ PhenotypicFeature <- R6::R6Class(
     #' @description
     #' Initialize a new PhenotypicFeature class.
     #'
+    #' @param preview_timestamp The date the object was previewed.
     #' @param release_timestamp The date the object was released.
     #' @param status The status of the metadata object.
     #' @param lab Lab associated with the submission.
@@ -80,7 +83,13 @@ PhenotypicFeature <- R6::R6Class(
     #' @param summary summary
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `status` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `feature` = NULL, `quantity` = NULL, `quantity_units` = NULL, `quality` = NULL, `observation_date` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `status` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `feature` = NULL, `quantity` = NULL, `quantity_units` = NULL, `quality` = NULL, `observation_date` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, ...) {
+      if (!is.null(`preview_timestamp`)) {
+        if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
+          stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
+        }
+        self$`preview_timestamp` <- `preview_timestamp`
+      }
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -215,6 +224,10 @@ PhenotypicFeature <- R6::R6Class(
     #' @export
     toJSON = function() {
       PhenotypicFeatureObject <- list()
+      if (!is.null(self$`preview_timestamp`)) {
+        PhenotypicFeatureObject[["preview_timestamp"]] <-
+          self$`preview_timestamp`
+      }
       if (!is.null(self$`release_timestamp`)) {
         PhenotypicFeatureObject[["release_timestamp"]] <-
           self$`release_timestamp`
@@ -307,6 +320,9 @@ PhenotypicFeature <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`preview_timestamp`)) {
+        self$`preview_timestamp` <- this_object$`preview_timestamp`
+      }
       if (!is.null(this_object$`release_timestamp`)) {
         self$`release_timestamp` <- this_object$`release_timestamp`
       }
@@ -387,6 +403,14 @@ PhenotypicFeature <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`preview_timestamp`)) {
+          sprintf(
+          '"preview_timestamp":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`preview_timestamp`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`release_timestamp`)) {
           sprintf(
           '"release_timestamp":
@@ -561,6 +585,7 @@ PhenotypicFeature <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`release_timestamp` <- this_object$`release_timestamp`
       if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("archived", "deleted", "in progress", "preview", "released"))) {
         stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"archived\", \"deleted\", \"in progress\", \"preview\", \"released\".", sep = ""))

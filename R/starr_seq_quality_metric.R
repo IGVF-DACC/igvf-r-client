@@ -7,6 +7,7 @@
 #' @title StarrSeqQualityMetric
 #' @description StarrSeqQualityMetric Class
 #' @format An \code{R6Class} generator object
+#' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field status The status of the metadata object. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field attachment  \link{Attachment} [optional]
@@ -37,6 +38,7 @@ StarrSeqQualityMetric <- R6::R6Class(
   "StarrSeqQualityMetric",
   inherit = AnyType,
   public = list(
+    `preview_timestamp` = NULL,
     `status` = NULL,
     `release_timestamp` = NULL,
     `attachment` = NULL,
@@ -58,13 +60,14 @@ StarrSeqQualityMetric <- R6::R6Class(
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
-    `_field_list` = c("status", "release_timestamp", "attachment", "lab", "award", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "quality_metric_of", "analysis_step_version", "coverage", "coverage_per_basepair", "rna_correlation_in_peaks", "@id", "@type", "summary"),
+    `_field_list` = c("preview_timestamp", "status", "release_timestamp", "attachment", "lab", "award", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "quality_metric_of", "analysis_step_version", "coverage", "coverage_per_basepair", "rna_correlation_in_peaks", "@id", "@type", "summary"),
     `additional_properties` = list(),
     #' Initialize a new StarrSeqQualityMetric class.
     #'
     #' @description
     #' Initialize a new StarrSeqQualityMetric class.
     #'
+    #' @param preview_timestamp The date the object was previewed.
     #' @param status The status of the metadata object.
     #' @param release_timestamp The date the object was released.
     #' @param attachment attachment
@@ -89,7 +92,13 @@ StarrSeqQualityMetric <- R6::R6Class(
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`status` = NULL, `release_timestamp` = NULL, `attachment` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `quality_metric_of` = NULL, `analysis_step_version` = NULL, `coverage` = NULL, `coverage_per_basepair` = NULL, `rna_correlation_in_peaks` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `status` = NULL, `release_timestamp` = NULL, `attachment` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `quality_metric_of` = NULL, `analysis_step_version` = NULL, `coverage` = NULL, `coverage_per_basepair` = NULL, `rna_correlation_in_peaks` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, additional_properties = NULL, ...) {
+      if (!is.null(`preview_timestamp`)) {
+        if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
+          stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
+        }
+        self$`preview_timestamp` <- `preview_timestamp`
+      }
       if (!is.null(`status`)) {
         if (!(`status` %in% c("archived", "deleted", "in progress", "preview", "released"))) {
           stop(paste("Error! \"", `status`, "\" cannot be assigned to `status`. Must be \"archived\", \"deleted\", \"in progress\", \"preview\", \"released\".", sep = ""))
@@ -220,6 +229,10 @@ StarrSeqQualityMetric <- R6::R6Class(
     #' @export
     toJSON = function() {
       StarrSeqQualityMetricObject <- list()
+      if (!is.null(self$`preview_timestamp`)) {
+        StarrSeqQualityMetricObject[["preview_timestamp"]] <-
+          self$`preview_timestamp`
+      }
       if (!is.null(self$`status`)) {
         StarrSeqQualityMetricObject[["status"]] <-
           self$`status`
@@ -320,6 +333,9 @@ StarrSeqQualityMetric <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`preview_timestamp`)) {
+        self$`preview_timestamp` <- this_object$`preview_timestamp`
+      }
       if (!is.null(this_object$`status`)) {
         if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("archived", "deleted", "in progress", "preview", "released"))) {
           stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"archived\", \"deleted\", \"in progress\", \"preview\", \"released\".", sep = ""))
@@ -406,6 +422,14 @@ StarrSeqQualityMetric <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`preview_timestamp`)) {
+          sprintf(
+          '"preview_timestamp":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`preview_timestamp`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`status`)) {
           sprintf(
           '"status":
@@ -593,6 +617,7 @@ StarrSeqQualityMetric <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`preview_timestamp` <- this_object$`preview_timestamp`
       if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("archived", "deleted", "in progress", "preview", "released"))) {
         stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"archived\", \"deleted\", \"in progress\", \"preview\", \"released\".", sep = ""))
       }

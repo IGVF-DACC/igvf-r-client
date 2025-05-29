@@ -5,6 +5,7 @@ An image to be displayed on an IGVF portal page. This is not a data object.
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **status** | **character** | The status of the metadata object. | [optional] [Enum: [archived, deleted, in progress, preview, released]] 
 **attachment** | [**Attachment1**](Attachment_1.md) |  | [optional] 

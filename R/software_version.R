@@ -7,6 +7,7 @@
 #' @title SoftwareVersion
 #' @description SoftwareVersion Class
 #' @format An \code{R6Class} generator object
+#' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field source_url An external resource to track the version of the software download. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field publications The publications associated with this object. list(character) [optional]
@@ -34,6 +35,7 @@
 SoftwareVersion <- R6::R6Class(
   "SoftwareVersion",
   public = list(
+    `preview_timestamp` = NULL,
     `source_url` = NULL,
     `release_timestamp` = NULL,
     `publications` = NULL,
@@ -60,6 +62,7 @@ SoftwareVersion <- R6::R6Class(
     #' @description
     #' Initialize a new SoftwareVersion class.
     #'
+    #' @param preview_timestamp The date the object was previewed.
     #' @param source_url An external resource to track the version of the software download.
     #' @param release_timestamp The date the object was released.
     #' @param publications The publications associated with this object.
@@ -83,7 +86,13 @@ SoftwareVersion <- R6::R6Class(
     #' @param name A unique identifier for a software version.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`source_url` = NULL, `release_timestamp` = NULL, `publications` = NULL, `lab` = NULL, `award` = NULL, `status` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `software` = NULL, `version` = NULL, `download_id` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `name` = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `source_url` = NULL, `release_timestamp` = NULL, `publications` = NULL, `lab` = NULL, `award` = NULL, `status` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `software` = NULL, `version` = NULL, `download_id` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `name` = NULL, ...) {
+      if (!is.null(`preview_timestamp`)) {
+        if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
+          stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
+        }
+        self$`preview_timestamp` <- `preview_timestamp`
+      }
       if (!is.null(`source_url`)) {
         if (!(is.character(`source_url`) && length(`source_url`) == 1)) {
           stop(paste("Error! Invalid data for `source_url`. Must be a string:", `source_url`))
@@ -220,6 +229,10 @@ SoftwareVersion <- R6::R6Class(
     #' @export
     toJSON = function() {
       SoftwareVersionObject <- list()
+      if (!is.null(self$`preview_timestamp`)) {
+        SoftwareVersionObject[["preview_timestamp"]] <-
+          self$`preview_timestamp`
+      }
       if (!is.null(self$`source_url`)) {
         SoftwareVersionObject[["source_url"]] <-
           self$`source_url`
@@ -316,6 +329,9 @@ SoftwareVersion <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`preview_timestamp`)) {
+        self$`preview_timestamp` <- this_object$`preview_timestamp`
+      }
       if (!is.null(this_object$`source_url`)) {
         self$`source_url` <- this_object$`source_url`
       }
@@ -393,6 +409,14 @@ SoftwareVersion <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`preview_timestamp`)) {
+          sprintf(
+          '"preview_timestamp":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`preview_timestamp`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`source_url`)) {
           sprintf(
           '"source_url":
@@ -575,6 +599,7 @@ SoftwareVersion <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`source_url` <- this_object$`source_url`
       self$`release_timestamp` <- this_object$`release_timestamp`
       self$`publications` <- ApiClient$new()$deserializeObj(this_object$`publications`, "set[character]", loadNamespace("igvfclient"))

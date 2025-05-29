@@ -7,6 +7,7 @@
 #' @title Gene
 #' @description Gene Class
 #' @format An \code{R6Class} generator object
+#' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field transcriptome_annotation The annotation and version of the reference resource. character [optional]
 #' @field taxa The species of the organism. character [optional]
@@ -42,6 +43,7 @@ Gene <- R6::R6Class(
   "Gene",
   inherit = AnyType,
   public = list(
+    `preview_timestamp` = NULL,
     `release_timestamp` = NULL,
     `transcriptome_annotation` = NULL,
     `taxa` = NULL,
@@ -68,13 +70,14 @@ Gene <- R6::R6Class(
     `summary` = NULL,
     `title` = NULL,
     `geneid_with_version` = NULL,
-    `_field_list` = c("release_timestamp", "transcriptome_annotation", "taxa", "status", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "collections", "geneid", "symbol", "name", "synonyms", "study_sets", "dbxrefs", "locations", "version_number", "@id", "@type", "summary", "title", "geneid_with_version"),
+    `_field_list` = c("preview_timestamp", "release_timestamp", "transcriptome_annotation", "taxa", "status", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "collections", "geneid", "symbol", "name", "synonyms", "study_sets", "dbxrefs", "locations", "version_number", "@id", "@type", "summary", "title", "geneid_with_version"),
     `additional_properties` = list(),
     #' Initialize a new Gene class.
     #'
     #' @description
     #' Initialize a new Gene class.
     #'
+    #' @param preview_timestamp The date the object was previewed.
     #' @param release_timestamp The date the object was released.
     #' @param transcriptome_annotation The annotation and version of the reference resource.
     #' @param taxa The species of the organism.
@@ -104,7 +107,13 @@ Gene <- R6::R6Class(
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `transcriptome_annotation` = NULL, `taxa` = NULL, `status` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `collections` = NULL, `geneid` = NULL, `symbol` = NULL, `name` = NULL, `synonyms` = NULL, `study_sets` = NULL, `dbxrefs` = NULL, `locations` = NULL, `version_number` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `title` = NULL, `geneid_with_version` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `transcriptome_annotation` = NULL, `taxa` = NULL, `status` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `collections` = NULL, `geneid` = NULL, `symbol` = NULL, `name` = NULL, `synonyms` = NULL, `study_sets` = NULL, `dbxrefs` = NULL, `locations` = NULL, `version_number` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `title` = NULL, `geneid_with_version` = NULL, additional_properties = NULL, ...) {
+      if (!is.null(`preview_timestamp`)) {
+        if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
+          stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
+        }
+        self$`preview_timestamp` <- `preview_timestamp`
+      }
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -278,6 +287,10 @@ Gene <- R6::R6Class(
     #' @export
     toJSON = function() {
       GeneObject <- list()
+      if (!is.null(self$`preview_timestamp`)) {
+        GeneObject[["preview_timestamp"]] <-
+          self$`preview_timestamp`
+      }
       if (!is.null(self$`release_timestamp`)) {
         GeneObject[["release_timestamp"]] <-
           self$`release_timestamp`
@@ -398,6 +411,9 @@ Gene <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`preview_timestamp`)) {
+        self$`preview_timestamp` <- this_object$`preview_timestamp`
+      }
       if (!is.null(this_object$`release_timestamp`)) {
         self$`release_timestamp` <- this_object$`release_timestamp`
       }
@@ -503,6 +519,14 @@ Gene <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`preview_timestamp`)) {
+          sprintf(
+          '"preview_timestamp":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`preview_timestamp`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`release_timestamp`)) {
           sprintf(
           '"release_timestamp":
@@ -730,6 +754,7 @@ Gene <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`release_timestamp` <- this_object$`release_timestamp`
       if (!is.null(this_object$`transcriptome_annotation`) && !(this_object$`transcriptome_annotation` %in% c("GENCODE 22", "GENCODE 28", "GENCODE 32", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M17", "GENCODE M25", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36", "GENCODE 32, GENCODE M23"))) {
         stop(paste("Error! \"", this_object$`transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 22\", \"GENCODE 28\", \"GENCODE 32\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M17\", \"GENCODE M25\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\", \"GENCODE 32, GENCODE M23\".", sep = ""))

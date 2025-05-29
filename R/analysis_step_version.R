@@ -7,6 +7,7 @@
 #' @title AnalysisStepVersion
 #' @description AnalysisStepVersion Class
 #' @format An \code{R6Class} generator object
+#' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field status The status of the metadata object. character [optional]
 #' @field lab Lab associated with the submission. character [optional]
@@ -24,12 +25,14 @@
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the object. character [optional]
+#' @field workflows The workflows that this analysis step version is a part of. list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
 AnalysisStepVersion <- R6::R6Class(
   "AnalysisStepVersion",
   public = list(
+    `preview_timestamp` = NULL,
     `release_timestamp` = NULL,
     `status` = NULL,
     `lab` = NULL,
@@ -47,11 +50,13 @@ AnalysisStepVersion <- R6::R6Class(
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
+    `workflows` = NULL,
     #' Initialize a new AnalysisStepVersion class.
     #'
     #' @description
     #' Initialize a new AnalysisStepVersion class.
     #'
+    #' @param preview_timestamp The date the object was previewed.
     #' @param release_timestamp The date the object was released.
     #' @param status The status of the metadata object.
     #' @param lab Lab associated with the submission.
@@ -69,9 +74,16 @@ AnalysisStepVersion <- R6::R6Class(
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the object.
+    #' @param workflows The workflows that this analysis step version is a part of.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `status` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step` = NULL, `software_versions` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `status` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step` = NULL, `software_versions` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `workflows` = NULL, ...) {
+      if (!is.null(`preview_timestamp`)) {
+        if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
+          stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
+        }
+        self$`preview_timestamp` <- `preview_timestamp`
+      }
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -174,6 +186,11 @@ AnalysisStepVersion <- R6::R6Class(
         }
         self$`summary` <- `summary`
       }
+      if (!is.null(`workflows`)) {
+        stopifnot(is.vector(`workflows`), length(`workflows`) != 0)
+        sapply(`workflows`, function(x) stopifnot(is.character(x)))
+        self$`workflows` <- `workflows`
+      }
     },
     #' To JSON string
     #'
@@ -184,6 +201,10 @@ AnalysisStepVersion <- R6::R6Class(
     #' @export
     toJSON = function() {
       AnalysisStepVersionObject <- list()
+      if (!is.null(self$`preview_timestamp`)) {
+        AnalysisStepVersionObject[["preview_timestamp"]] <-
+          self$`preview_timestamp`
+      }
       if (!is.null(self$`release_timestamp`)) {
         AnalysisStepVersionObject[["release_timestamp"]] <-
           self$`release_timestamp`
@@ -252,6 +273,10 @@ AnalysisStepVersion <- R6::R6Class(
         AnalysisStepVersionObject[["summary"]] <-
           self$`summary`
       }
+      if (!is.null(self$`workflows`)) {
+        AnalysisStepVersionObject[["workflows"]] <-
+          self$`workflows`
+      }
       AnalysisStepVersionObject
     },
     #' Deserialize JSON string into an instance of AnalysisStepVersion
@@ -264,6 +289,9 @@ AnalysisStepVersion <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`preview_timestamp`)) {
+        self$`preview_timestamp` <- this_object$`preview_timestamp`
+      }
       if (!is.null(this_object$`release_timestamp`)) {
         self$`release_timestamp` <- this_object$`release_timestamp`
       }
@@ -318,6 +346,9 @@ AnalysisStepVersion <- R6::R6Class(
       if (!is.null(this_object$`summary`)) {
         self$`summary` <- this_object$`summary`
       }
+      if (!is.null(this_object$`workflows`)) {
+        self$`workflows` <- ApiClient$new()$deserializeObj(this_object$`workflows`, "set[character]", loadNamespace("igvfclient"))
+      }
       self
     },
     #' To JSON string
@@ -329,6 +360,14 @@ AnalysisStepVersion <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`preview_timestamp`)) {
+          sprintf(
+          '"preview_timestamp":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`preview_timestamp`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`release_timestamp`)) {
           sprintf(
           '"release_timestamp":
@@ -464,6 +503,14 @@ AnalysisStepVersion <- R6::R6Class(
                     ',
           gsub('(?<!\\\\)\\"', '\\\\"', self$`summary`, perl=TRUE)
           )
+        },
+        if (!is.null(self$`workflows`)) {
+          sprintf(
+          '"workflows":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`workflows`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -479,6 +526,7 @@ AnalysisStepVersion <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`release_timestamp` <- this_object$`release_timestamp`
       if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("archived", "deleted", "in progress", "preview", "released"))) {
         stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"archived\", \"deleted\", \"in progress\", \"preview\", \"released\".", sep = ""))
@@ -499,6 +547,7 @@ AnalysisStepVersion <- R6::R6Class(
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
+      self$`workflows` <- ApiClient$new()$deserializeObj(this_object$`workflows`, "set[character]", loadNamespace("igvfclient"))
       self
     },
     #' Validate JSON input with respect to AnalysisStepVersion
@@ -547,6 +596,7 @@ AnalysisStepVersion <- R6::R6Class(
       }
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -574,6 +624,7 @@ AnalysisStepVersion <- R6::R6Class(
       if (!str_detect(self$`description`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         invalid_fields["description"] <- "Invalid value for `description`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
+
 
 
       invalid_fields

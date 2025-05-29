@@ -5,6 +5,7 @@ Construct library set is a file set that hosts raw data files (e.g. FASTQs) resu
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **control_file_sets** | **set[character]** | File sets that can serve as scientific controls for this file set. | [optional] 
 **small_scale_loci_list** | [**set[Locus1]**](Locus_1.md) | A small scale (&lt;&#x3D;100) list of specific chromosomal region(s). | [optional] 
 **large_scale_loci_list** | **character** | A large scale list (&gt;100) of specific chromosomal regions. | [optional] 
@@ -32,7 +33,7 @@ Name | Type | Description | Notes
 **submitter_comment** | **character** | Additional information specified by the submitter to be displayed as a comment on the portal. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **description** | **character** | A plain text description of the object. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **file_set_type** | **character** | The type or category of this construct library set. | [optional] [Enum: [guide library, reporter library, expression vector library, editing template library]] 
-**control_type** | **character** | The type of control this file set represents. | [optional] [Enum: [control transduction, non-targeting]] 
+**control_type** | **character** | The type of control this file set represents. | [optional] [Enum: [reference transduction, non-targeting]] 
 **scope** | **character** | The scope or scale that this construct library is designed to target. | [optional] [Enum: [tile, exon, genes, loci, genome-wide, interactors, alleles, targeton, control]] 
 **selection_criteria** | **set[character]** | The criteria used to select the sequence material cloned into the library. | [optional] [Enum: ] 
 **integrated_content_files** | **set[character]** | The files containing sequence material of interest either used for insert design or directly cloned into vectors in this library. | [optional] 
@@ -60,5 +61,7 @@ Name | Type | Description | Notes
 **data_use_limitation_summaries** | **set[character]** | The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
 **controlled_access** | **character** | The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
 **applied_to_samples** | **set[character]** | The samples that link to this construct library set. | [optional] 
+**file_sets** | **set[character]** | The file sets that used this construct library set. | [optional] 
+**assay_titles** | **set[character]** | The assay titles of the file sets that used this construct library set. | [optional] 
 
 

@@ -7,6 +7,7 @@
 #' @title Page
 #' @description Page Class
 #' @format An \code{R6Class} generator object
+#' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field lab Lab associated with the submission. character [optional]
 #' @field award Grant associated with the submission. character [optional]
@@ -36,6 +37,7 @@ Page <- R6::R6Class(
   "Page",
   inherit = AnyType,
   public = list(
+    `preview_timestamp` = NULL,
     `release_timestamp` = NULL,
     `lab` = NULL,
     `award` = NULL,
@@ -56,13 +58,14 @@ Page <- R6::R6Class(
     `@type` = NULL,
     `summary` = NULL,
     `canonical_uri` = NULL,
-    `_field_list` = c("release_timestamp", "lab", "award", "status", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "parent", "name", "title", "layout", "@id", "@type", "summary", "canonical_uri"),
+    `_field_list` = c("preview_timestamp", "release_timestamp", "lab", "award", "status", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "parent", "name", "title", "layout", "@id", "@type", "summary", "canonical_uri"),
     `additional_properties` = list(),
     #' Initialize a new Page class.
     #'
     #' @description
     #' Initialize a new Page class.
     #'
+    #' @param preview_timestamp The date the object was previewed.
     #' @param release_timestamp The date the object was released.
     #' @param lab Lab associated with the submission.
     #' @param award Grant associated with the submission.
@@ -86,7 +89,13 @@ Page <- R6::R6Class(
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `lab` = NULL, `award` = NULL, `status` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `parent` = NULL, `name` = NULL, `title` = NULL, `layout` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `canonical_uri` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `lab` = NULL, `award` = NULL, `status` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `parent` = NULL, `name` = NULL, `title` = NULL, `layout` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `canonical_uri` = NULL, additional_properties = NULL, ...) {
+      if (!is.null(`preview_timestamp`)) {
+        if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
+          stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
+        }
+        self$`preview_timestamp` <- `preview_timestamp`
+      }
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -221,6 +230,10 @@ Page <- R6::R6Class(
     #' @export
     toJSON = function() {
       PageObject <- list()
+      if (!is.null(self$`preview_timestamp`)) {
+        PageObject[["preview_timestamp"]] <-
+          self$`preview_timestamp`
+      }
       if (!is.null(self$`release_timestamp`)) {
         PageObject[["release_timestamp"]] <-
           self$`release_timestamp`
@@ -317,6 +330,9 @@ Page <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`preview_timestamp`)) {
+        self$`preview_timestamp` <- this_object$`preview_timestamp`
+      }
       if (!is.null(this_object$`release_timestamp`)) {
         self$`release_timestamp` <- this_object$`release_timestamp`
       }
@@ -400,6 +416,14 @@ Page <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`preview_timestamp`)) {
+          sprintf(
+          '"preview_timestamp":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`preview_timestamp`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`release_timestamp`)) {
           sprintf(
           '"release_timestamp":
@@ -579,6 +603,7 @@ Page <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`release_timestamp` <- this_object$`release_timestamp`
       self$`lab` <- this_object$`lab`
       self$`award` <- this_object$`award`

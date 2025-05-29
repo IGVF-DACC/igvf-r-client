@@ -7,6 +7,7 @@
 #' @title ConstructLibrarySet
 #' @description ConstructLibrarySet Class
 #' @format An \code{R6Class} generator object
+#' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field control_file_sets File sets that can serve as scientific controls for this file set. list(character) [optional]
 #' @field small_scale_loci_list A small scale (<=100) list of specific chromosomal region(s). list(\link{Locus1}) [optional]
 #' @field large_scale_loci_list A large scale list (>100) of specific chromosomal regions. character [optional]
@@ -62,6 +63,8 @@
 #' @field data_use_limitation_summaries The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. list(character) [optional]
 #' @field controlled_access The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. character [optional]
 #' @field applied_to_samples The samples that link to this construct library set. list(character) [optional]
+#' @field file_sets The file sets that used this construct library set. list(character) [optional]
+#' @field assay_titles The assay titles of the file sets that used this construct library set. list(character) [optional]
 #' @field _field_list a list of fields list(character)
 #' @field additional_properties additional properties list(character) [optional]
 #' @importFrom R6 R6Class
@@ -71,6 +74,7 @@ ConstructLibrarySet <- R6::R6Class(
   "ConstructLibrarySet",
   inherit = AnyType,
   public = list(
+    `preview_timestamp` = NULL,
     `control_file_sets` = NULL,
     `small_scale_loci_list` = NULL,
     `large_scale_loci_list` = NULL,
@@ -126,13 +130,16 @@ ConstructLibrarySet <- R6::R6Class(
     `data_use_limitation_summaries` = NULL,
     `controlled_access` = NULL,
     `applied_to_samples` = NULL,
-    `_field_list` = c("control_file_sets", "small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "sources", "lot_id", "product_id", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "file_set_type", "control_type", "scope", "selection_criteria", "integrated_content_files", "associated_phenotypes", "orf_list", "exon", "tile", "guide_type", "tiling_modality", "average_guide_coverage", "lower_bound_guide_coverage", "upper_bound_guide_coverage", "average_insert_size", "lower_bound_insert_size", "upper_bound_insert_size", "targeton", "@id", "@type", "summary", "files", "control_for", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access", "applied_to_samples"),
+    `file_sets` = NULL,
+    `assay_titles` = NULL,
+    `_field_list` = c("preview_timestamp", "control_file_sets", "small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "sources", "lot_id", "product_id", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "file_set_type", "control_type", "scope", "selection_criteria", "integrated_content_files", "associated_phenotypes", "orf_list", "exon", "tile", "guide_type", "tiling_modality", "average_guide_coverage", "lower_bound_guide_coverage", "upper_bound_guide_coverage", "average_insert_size", "lower_bound_insert_size", "upper_bound_insert_size", "targeton", "@id", "@type", "summary", "files", "control_for", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access", "applied_to_samples", "file_sets", "assay_titles"),
     `additional_properties` = list(),
     #' Initialize a new ConstructLibrarySet class.
     #'
     #' @description
     #' Initialize a new ConstructLibrarySet class.
     #'
+    #' @param preview_timestamp The date the object was previewed.
     #' @param control_file_sets File sets that can serve as scientific controls for this file set.
     #' @param small_scale_loci_list A small scale (<=100) list of specific chromosomal region(s).
     #' @param large_scale_loci_list A large scale list (>100) of specific chromosomal regions.
@@ -188,10 +195,18 @@ ConstructLibrarySet <- R6::R6Class(
     #' @param data_use_limitation_summaries The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set.
     #' @param controlled_access The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set.
     #' @param applied_to_samples The samples that link to this construct library set.
+    #' @param file_sets The file sets that used this construct library set.
+    #' @param assay_titles The assay titles of the file sets that used this construct library set.
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`control_file_sets` = NULL, `small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `file_set_type` = NULL, `control_type` = NULL, `scope` = NULL, `selection_criteria` = NULL, `integrated_content_files` = NULL, `associated_phenotypes` = NULL, `orf_list` = NULL, `exon` = NULL, `tile` = NULL, `guide_type` = NULL, `tiling_modality` = NULL, `average_guide_coverage` = NULL, `lower_bound_guide_coverage` = NULL, `upper_bound_guide_coverage` = NULL, `average_insert_size` = NULL, `lower_bound_insert_size` = NULL, `upper_bound_insert_size` = NULL, `targeton` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `applied_to_samples` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `control_file_sets` = NULL, `small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `file_set_type` = NULL, `control_type` = NULL, `scope` = NULL, `selection_criteria` = NULL, `integrated_content_files` = NULL, `associated_phenotypes` = NULL, `orf_list` = NULL, `exon` = NULL, `tile` = NULL, `guide_type` = NULL, `tiling_modality` = NULL, `average_guide_coverage` = NULL, `lower_bound_guide_coverage` = NULL, `upper_bound_guide_coverage` = NULL, `average_insert_size` = NULL, `lower_bound_insert_size` = NULL, `upper_bound_insert_size` = NULL, `targeton` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `applied_to_samples` = NULL, `file_sets` = NULL, `assay_titles` = NULL, additional_properties = NULL, ...) {
+      if (!is.null(`preview_timestamp`)) {
+        if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
+          stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
+        }
+        self$`preview_timestamp` <- `preview_timestamp`
+      }
       if (!is.null(`control_file_sets`)) {
         stopifnot(is.vector(`control_file_sets`), length(`control_file_sets`) != 0)
         sapply(`control_file_sets`, function(x) stopifnot(is.character(x)))
@@ -352,8 +367,8 @@ ConstructLibrarySet <- R6::R6Class(
         self$`file_set_type` <- `file_set_type`
       }
       if (!is.null(`control_type`)) {
-        if (!(`control_type` %in% c("control transduction", "non-targeting"))) {
-          stop(paste("Error! \"", `control_type`, "\" cannot be assigned to `control_type`. Must be \"control transduction\", \"non-targeting\".", sep = ""))
+        if (!(`control_type` %in% c("reference transduction", "non-targeting"))) {
+          stop(paste("Error! \"", `control_type`, "\" cannot be assigned to `control_type`. Must be \"reference transduction\", \"non-targeting\".", sep = ""))
         }
         if (!(is.character(`control_type`) && length(`control_type`) == 1)) {
           stop(paste("Error! Invalid data for `control_type`. Must be a string:", `control_type`))
@@ -512,6 +527,16 @@ ConstructLibrarySet <- R6::R6Class(
         sapply(`applied_to_samples`, function(x) stopifnot(is.character(x)))
         self$`applied_to_samples` <- `applied_to_samples`
       }
+      if (!is.null(`file_sets`)) {
+        stopifnot(is.vector(`file_sets`), length(`file_sets`) != 0)
+        sapply(`file_sets`, function(x) stopifnot(is.character(x)))
+        self$`file_sets` <- `file_sets`
+      }
+      if (!is.null(`assay_titles`)) {
+        stopifnot(is.vector(`assay_titles`), length(`assay_titles`) != 0)
+        sapply(`assay_titles`, function(x) stopifnot(is.character(x)))
+        self$`assay_titles` <- `assay_titles`
+      }
       if (!is.null(additional_properties)) {
         for (key in names(additional_properties)) {
           self$additional_properties[[key]] <- additional_properties[[key]]
@@ -527,6 +552,10 @@ ConstructLibrarySet <- R6::R6Class(
     #' @export
     toJSON = function() {
       ConstructLibrarySetObject <- list()
+      if (!is.null(self$`preview_timestamp`)) {
+        ConstructLibrarySetObject[["preview_timestamp"]] <-
+          self$`preview_timestamp`
+      }
       if (!is.null(self$`control_file_sets`)) {
         ConstructLibrarySetObject[["control_file_sets"]] <-
           self$`control_file_sets`
@@ -747,6 +776,14 @@ ConstructLibrarySet <- R6::R6Class(
         ConstructLibrarySetObject[["applied_to_samples"]] <-
           self$`applied_to_samples`
       }
+      if (!is.null(self$`file_sets`)) {
+        ConstructLibrarySetObject[["file_sets"]] <-
+          self$`file_sets`
+      }
+      if (!is.null(self$`assay_titles`)) {
+        ConstructLibrarySetObject[["assay_titles"]] <-
+          self$`assay_titles`
+      }
       for (key in names(self$additional_properties)) {
         ConstructLibrarySetObject[[key]] <- self$additional_properties[[key]]
       }
@@ -763,6 +800,9 @@ ConstructLibrarySet <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`preview_timestamp`)) {
+        self$`preview_timestamp` <- this_object$`preview_timestamp`
+      }
       if (!is.null(this_object$`control_file_sets`)) {
         self$`control_file_sets` <- ApiClient$new()$deserializeObj(this_object$`control_file_sets`, "set[character]", loadNamespace("igvfclient"))
       }
@@ -851,8 +891,8 @@ ConstructLibrarySet <- R6::R6Class(
         self$`file_set_type` <- this_object$`file_set_type`
       }
       if (!is.null(this_object$`control_type`)) {
-        if (!is.null(this_object$`control_type`) && !(this_object$`control_type` %in% c("control transduction", "non-targeting"))) {
-          stop(paste("Error! \"", this_object$`control_type`, "\" cannot be assigned to `control_type`. Must be \"control transduction\", \"non-targeting\".", sep = ""))
+        if (!is.null(this_object$`control_type`) && !(this_object$`control_type` %in% c("reference transduction", "non-targeting"))) {
+          stop(paste("Error! \"", this_object$`control_type`, "\" cannot be assigned to `control_type`. Must be \"reference transduction\", \"non-targeting\".", sep = ""))
         }
         self$`control_type` <- this_object$`control_type`
       }
@@ -948,6 +988,12 @@ ConstructLibrarySet <- R6::R6Class(
       if (!is.null(this_object$`applied_to_samples`)) {
         self$`applied_to_samples` <- ApiClient$new()$deserializeObj(this_object$`applied_to_samples`, "set[character]", loadNamespace("igvfclient"))
       }
+      if (!is.null(this_object$`file_sets`)) {
+        self$`file_sets` <- ApiClient$new()$deserializeObj(this_object$`file_sets`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`assay_titles`)) {
+        self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
+      }
       # process additional properties/fields in the payload
       for (key in names(this_object)) {
         if (!(key %in% self$`_field_list`)) { # json key not in list of fields
@@ -966,6 +1012,14 @@ ConstructLibrarySet <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`preview_timestamp`)) {
+          sprintf(
+          '"preview_timestamp":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`preview_timestamp`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`control_file_sets`)) {
           sprintf(
           '"control_file_sets":
@@ -1405,6 +1459,22 @@ ConstructLibrarySet <- R6::R6Class(
           ',
           paste(unlist(lapply(self$`applied_to_samples`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
+        },
+        if (!is.null(self$`file_sets`)) {
+          sprintf(
+          '"file_sets":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`file_sets`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`assay_titles`)) {
+          sprintf(
+          '"assay_titles":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`assay_titles`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -1425,6 +1495,7 @@ ConstructLibrarySet <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`control_file_sets` <- ApiClient$new()$deserializeObj(this_object$`control_file_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`small_scale_loci_list` <- ApiClient$new()$deserializeObj(this_object$`small_scale_loci_list`, "set[Locus1]", loadNamespace("igvfclient"))
       self$`large_scale_loci_list` <- this_object$`large_scale_loci_list`
@@ -1458,8 +1529,8 @@ ConstructLibrarySet <- R6::R6Class(
         stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"guide library\", \"reporter library\", \"expression vector library\", \"editing template library\".", sep = ""))
       }
       self$`file_set_type` <- this_object$`file_set_type`
-      if (!is.null(this_object$`control_type`) && !(this_object$`control_type` %in% c("control transduction", "non-targeting"))) {
-        stop(paste("Error! \"", this_object$`control_type`, "\" cannot be assigned to `control_type`. Must be \"control transduction\", \"non-targeting\".", sep = ""))
+      if (!is.null(this_object$`control_type`) && !(this_object$`control_type` %in% c("reference transduction", "non-targeting"))) {
+        stop(paste("Error! \"", this_object$`control_type`, "\" cannot be assigned to `control_type`. Must be \"reference transduction\", \"non-targeting\".", sep = ""))
       }
       self$`control_type` <- this_object$`control_type`
       if (!is.null(this_object$`scope`) && !(this_object$`scope` %in% c("tile", "exon", "genes", "loci", "genome-wide", "interactors", "alleles", "targeton", "control"))) {
@@ -1498,6 +1569,8 @@ ConstructLibrarySet <- R6::R6Class(
       self$`data_use_limitation_summaries` <- ApiClient$new()$deserializeObj(this_object$`data_use_limitation_summaries`, "set[character]", loadNamespace("igvfclient"))
       self$`controlled_access` <- this_object$`controlled_access`
       self$`applied_to_samples` <- ApiClient$new()$deserializeObj(this_object$`applied_to_samples`, "set[character]", loadNamespace("igvfclient"))
+      self$`file_sets` <- ApiClient$new()$deserializeObj(this_object$`file_sets`, "set[character]", loadNamespace("igvfclient"))
+      self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
       # process additional properties/fields in the payload
       for (key in names(this_object)) {
         if (!(key %in% self$`_field_list`)) { # json key not in list of fields
@@ -1598,6 +1671,8 @@ ConstructLibrarySet <- R6::R6Class(
 
 
 
+
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1665,6 +1740,8 @@ ConstructLibrarySet <- R6::R6Class(
       if (!str_detect(self$`targeton`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         invalid_fields["targeton"] <- "Invalid value for `targeton`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
+
+
 
 
 

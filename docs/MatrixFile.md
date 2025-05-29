@@ -5,6 +5,7 @@ A file containing quantification data in a multi-dimension format.
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **reference_files** | **set[character]** | Link to the reference files used to generate this file. | [optional] 
 **filtered** | **character** | Indicates whether the file has gone through some filtering step, for example, removal of PCR duplicates or filtering based on significance calling. | [optional] 

@@ -5,6 +5,7 @@ A file set for reference files which are utilized in the analysis of IGVF experi
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **taxa** | **character** | The species of the organism. | [optional] [Enum: [Homo sapiens, Mus musculus]] 
 **publications** | **set[character]** | The publications associated with this object. | [optional] 

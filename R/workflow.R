@@ -7,6 +7,7 @@
 #' @title Workflow
 #' @description Workflow Class
 #' @format An \code{R6Class} generator object
+#' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field source_url An external resource to the code base of the workflow in github. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field publications The publications associated with this object. list(character) [optional]
@@ -29,8 +30,9 @@
 #' @field name The preferred viewable name of the workflow. character [optional]
 #' @field workflow_repositories Resources hosting the workflow. list(character) [optional]
 #' @field standards_page A link to a page describing the standards for this workflow. character [optional]
-#' @field workflow_version The version of this workflow. integer [optional]
+#' @field workflow_version The version of this workflow. character [optional]
 #' @field uniform_pipeline Indicates whether the pipeline is developed by the IGVF consortium. character [optional]
+#' @field analysis_step_versions The available versions of the analysis steps linked to this workflow. list(character) [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the object. character [optional]
@@ -41,6 +43,7 @@
 Workflow <- R6::R6Class(
   "Workflow",
   public = list(
+    `preview_timestamp` = NULL,
     `source_url` = NULL,
     `release_timestamp` = NULL,
     `publications` = NULL,
@@ -65,6 +68,7 @@ Workflow <- R6::R6Class(
     `standards_page` = NULL,
     `workflow_version` = NULL,
     `uniform_pipeline` = NULL,
+    `analysis_step_versions` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -74,6 +78,7 @@ Workflow <- R6::R6Class(
     #' @description
     #' Initialize a new Workflow class.
     #'
+    #' @param preview_timestamp The date the object was previewed.
     #' @param source_url An external resource to the code base of the workflow in github.
     #' @param release_timestamp The date the object was released.
     #' @param publications The publications associated with this object.
@@ -98,13 +103,20 @@ Workflow <- R6::R6Class(
     #' @param standards_page A link to a page describing the standards for this workflow.
     #' @param workflow_version The version of this workflow.
     #' @param uniform_pipeline Indicates whether the pipeline is developed by the IGVF consortium.
+    #' @param analysis_step_versions The available versions of the analysis steps linked to this workflow.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the object.
     #' @param analysis_steps The analysis steps which are part of this workflow.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`source_url` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `name` = NULL, `workflow_repositories` = NULL, `standards_page` = NULL, `workflow_version` = NULL, `uniform_pipeline` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `analysis_steps` = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `source_url` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `name` = NULL, `workflow_repositories` = NULL, `standards_page` = NULL, `workflow_version` = NULL, `uniform_pipeline` = NULL, `analysis_step_versions` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `analysis_steps` = NULL, ...) {
+      if (!is.null(`preview_timestamp`)) {
+        if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
+          stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
+        }
+        self$`preview_timestamp` <- `preview_timestamp`
+      }
       if (!is.null(`source_url`)) {
         if (!(is.character(`source_url`) && length(`source_url`) == 1)) {
           stop(paste("Error! Invalid data for `source_url`. Must be a string:", `source_url`))
@@ -235,8 +247,8 @@ Workflow <- R6::R6Class(
         self$`standards_page` <- `standards_page`
       }
       if (!is.null(`workflow_version`)) {
-        if (!(is.numeric(`workflow_version`) && length(`workflow_version`) == 1)) {
-          stop(paste("Error! Invalid data for `workflow_version`. Must be an integer:", `workflow_version`))
+        if (!(is.character(`workflow_version`) && length(`workflow_version`) == 1)) {
+          stop(paste("Error! Invalid data for `workflow_version`. Must be a string:", `workflow_version`))
         }
         self$`workflow_version` <- `workflow_version`
       }
@@ -245,6 +257,11 @@ Workflow <- R6::R6Class(
           stop(paste("Error! Invalid data for `uniform_pipeline`. Must be a boolean:", `uniform_pipeline`))
         }
         self$`uniform_pipeline` <- `uniform_pipeline`
+      }
+      if (!is.null(`analysis_step_versions`)) {
+        stopifnot(is.vector(`analysis_step_versions`), length(`analysis_step_versions`) != 0)
+        sapply(`analysis_step_versions`, function(x) stopifnot(is.character(x)))
+        self$`analysis_step_versions` <- `analysis_step_versions`
       }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
@@ -278,6 +295,10 @@ Workflow <- R6::R6Class(
     #' @export
     toJSON = function() {
       WorkflowObject <- list()
+      if (!is.null(self$`preview_timestamp`)) {
+        WorkflowObject[["preview_timestamp"]] <-
+          self$`preview_timestamp`
+      }
       if (!is.null(self$`source_url`)) {
         WorkflowObject[["source_url"]] <-
           self$`source_url`
@@ -374,6 +395,10 @@ Workflow <- R6::R6Class(
         WorkflowObject[["uniform_pipeline"]] <-
           self$`uniform_pipeline`
       }
+      if (!is.null(self$`analysis_step_versions`)) {
+        WorkflowObject[["analysis_step_versions"]] <-
+          self$`analysis_step_versions`
+      }
       if (!is.null(self$`@id`)) {
         WorkflowObject[["@id"]] <-
           self$`@id`
@@ -402,6 +427,9 @@ Workflow <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`preview_timestamp`)) {
+        self$`preview_timestamp` <- this_object$`preview_timestamp`
+      }
       if (!is.null(this_object$`source_url`)) {
         self$`source_url` <- this_object$`source_url`
       }
@@ -477,6 +505,9 @@ Workflow <- R6::R6Class(
       if (!is.null(this_object$`uniform_pipeline`)) {
         self$`uniform_pipeline` <- this_object$`uniform_pipeline`
       }
+      if (!is.null(this_object$`analysis_step_versions`)) {
+        self$`analysis_step_versions` <- ApiClient$new()$deserializeObj(this_object$`analysis_step_versions`, "set[character]", loadNamespace("igvfclient"))
+      }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
       }
@@ -500,6 +531,14 @@ Workflow <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`preview_timestamp`)) {
+          sprintf(
+          '"preview_timestamp":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`preview_timestamp`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`source_url`)) {
           sprintf(
           '"source_url":
@@ -679,9 +718,9 @@ Workflow <- R6::R6Class(
         if (!is.null(self$`workflow_version`)) {
           sprintf(
           '"workflow_version":
-            %f
+            "%s"
                     ',
-          self$`workflow_version`
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`workflow_version`, perl=TRUE)
           )
         },
         if (!is.null(self$`uniform_pipeline`)) {
@@ -690,6 +729,14 @@ Workflow <- R6::R6Class(
             %s
                     ',
           tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`uniform_pipeline`, perl=TRUE))
+          )
+        },
+        if (!is.null(self$`analysis_step_versions`)) {
+          sprintf(
+          '"analysis_step_versions":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`analysis_step_versions`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`@id`)) {
@@ -738,6 +785,7 @@ Workflow <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`source_url` <- this_object$`source_url`
       self$`release_timestamp` <- this_object$`release_timestamp`
       self$`publications` <- ApiClient$new()$deserializeObj(this_object$`publications`, "set[character]", loadNamespace("igvfclient"))
@@ -765,6 +813,7 @@ Workflow <- R6::R6Class(
       self$`standards_page` <- this_object$`standards_page`
       self$`workflow_version` <- this_object$`workflow_version`
       self$`uniform_pipeline` <- this_object$`uniform_pipeline`
+      self$`analysis_step_versions` <- ApiClient$new()$deserializeObj(this_object$`analysis_step_versions`, "set[character]", loadNamespace("igvfclient"))
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
@@ -833,9 +882,10 @@ Workflow <- R6::R6Class(
       }
 
 
-      if (self$`workflow_version` < 1) {
+      if (!str_detect(self$`workflow_version`, "^v(?!0\\.0\\.0$)([0-9]+\\.[0-9]+\\.[0-9]+(\\.[0-9]+)?|0\\.0\\.0\\.[1-9][0-9]*)$")) {
         return(FALSE)
       }
+
 
 
       TRUE
@@ -883,9 +933,10 @@ Workflow <- R6::R6Class(
       }
 
 
-      if (self$`workflow_version` < 1) {
-        invalid_fields["workflow_version"] <- "Invalid value for `workflow_version`, must be bigger than or equal to 1."
+      if (!str_detect(self$`workflow_version`, "^v(?!0\\.0\\.0$)([0-9]+\\.[0-9]+\\.[0-9]+(\\.[0-9]+)?|0\\.0\\.0\\.[1-9][0-9]*)$")) {
+        invalid_fields["workflow_version"] <- "Invalid value for `workflow_version`, must conform to the pattern ^v(?!0\\.0\\.0$)([0-9]+\\.[0-9]+\\.[0-9]+(\\.[0-9]+)?|0\\.0\\.0\\.[1-9][0-9]*)$."
       }
+
 
 
       invalid_fields

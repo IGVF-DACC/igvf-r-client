@@ -5,6 +5,8 @@ A file containing alignment data in bam or cram format.
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**base_modifications** | **set[character]** | The chemical modifications to bases in a DNA sequence that are detected in this file. | [optional] [Enum: ] 
+**preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **controlled_access** | **character** | Boolean value, indicating the file being controlled access, if true. | [optional] 
 **anvil_url** | **character** | URL linking to the controlled access file that has been deposited at AnVIL workspace. | [optional] 
 **transcriptome_annotation** | **character** | The annotation and version of the reference resource. | [optional] [Enum: [GENCODE 22, GENCODE 28, GENCODE 32, GENCODE 40, GENCODE 41, GENCODE 42, GENCODE 43, GENCODE 44, GENCODE 45, GENCODE 47, GENCODE Cast - M32, GENCODE M17, GENCODE M25, GENCODE M30, GENCODE M31, GENCODE M32, GENCODE M33, GENCODE M34, GENCODE M36, GENCODE 32, GENCODE M23]] 
@@ -45,7 +47,6 @@ Name | Type | Description | Notes
 **checkfiles_version** | **character** | The Checkfiles GitHub version release the file was validated with. | [optional] 
 **read_count** | **integer** | Number of reads in a bam file. Including both mapped, unmapped, and multi-mapped read counts. | [optional] [Min: 0] 
 **redacted** | **character** | Indicates whether the alignments data have been sanitized (redacted) to prevent leakage of private and potentially identifying genomic information. | [optional] 
-**base_modifications** | **set[character]** | The chemical modifications to bases in a DNA sequence that are detected in this file. | [optional] [Enum: ] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** | A summary of the alignment file. | [optional] 

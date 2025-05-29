@@ -5,6 +5,7 @@ A file set of computational predictions. Prediction sets contain results of anal
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **input_file_sets** | **set[character]** | The file set(s) required for this prediction set. | [optional] 
 **small_scale_loci_list** | [**set[Locus1]**](Locus_1.md) | A small scale (&lt;&#x3D;100) list of specific chromosomal region(s) whose functionality is investigated in this prediction set. This property describes the input variables of the prediction set. For example, this list consists of the genetic variants whose functionality is predicted in this prediction set. | [optional] 
 **large_scale_loci_list** | **character** | A large scale list (&gt;100) of specific chromosomal regions whose functionality is investigated in this prediction set. This property describes the input variables of the prediction set. For example, this list consists of the genetic variants whose functionality is predicted in this prediction set. | [optional] 

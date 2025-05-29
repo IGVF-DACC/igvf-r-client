@@ -5,6 +5,7 @@ A rodent donor of a biosample. Submission of any sample originating from a roden
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **taxa** | **character** | The species of the organism. | [optional] [Enum: [Mus musculus]] 
 **publications** | **set[character]** | The publications associated with this object. | [optional] 

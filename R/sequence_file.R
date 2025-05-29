@@ -7,6 +7,8 @@
 #' @title SequenceFile
 #' @description SequenceFile Class
 #' @format An \code{R6Class} generator object
+#' @field base_modifications The chemical modifications to bases in a DNA sequence that are detected in this file. list(character) [optional]
+#' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field externally_hosted Indicates whether the file is externally hosted and not stored on portal. character [optional]
 #' @field external_host_url A link to the resource where the file is externally hosted. character [optional]
 #' @field controlled_access Boolean value, indicating the file being controlled access, if true. character [optional]
@@ -55,7 +57,6 @@
 #' @field sequencing_run An ordinal number indicating which sequencing run of the associated library that the file belongs to. integer [optional]
 #' @field illumina_read_type The read type of the file. Relevant only for files produced using an Illumina sequencing platform. character [optional]
 #' @field index An Illumina index associated with the file. character [optional]
-#' @field base_modifications The chemical modifications to bases in a DNA sequence that are detected in this file. list(character) [optional]
 #' @field read_names The read names of a sequence file based on how it will be used by uniform pipelines. list(character) [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
@@ -77,6 +78,8 @@
 SequenceFile <- R6::R6Class(
   "SequenceFile",
   public = list(
+    `base_modifications` = NULL,
+    `preview_timestamp` = NULL,
     `externally_hosted` = NULL,
     `external_host_url` = NULL,
     `controlled_access` = NULL,
@@ -125,7 +128,6 @@ SequenceFile <- R6::R6Class(
     `sequencing_run` = NULL,
     `illumina_read_type` = NULL,
     `index` = NULL,
-    `base_modifications` = NULL,
     `read_names` = NULL,
     `@id` = NULL,
     `@type` = NULL,
@@ -146,6 +148,8 @@ SequenceFile <- R6::R6Class(
     #' @description
     #' Initialize a new SequenceFile class.
     #'
+    #' @param base_modifications The chemical modifications to bases in a DNA sequence that are detected in this file.
+    #' @param preview_timestamp The date the object was previewed.
     #' @param externally_hosted Indicates whether the file is externally hosted and not stored on portal.
     #' @param external_host_url A link to the resource where the file is externally hosted.
     #' @param controlled_access Boolean value, indicating the file being controlled access, if true.
@@ -194,7 +198,6 @@ SequenceFile <- R6::R6Class(
     #' @param sequencing_run An ordinal number indicating which sequencing run of the associated library that the file belongs to.
     #' @param illumina_read_type The read type of the file. Relevant only for files produced using an Illumina sequencing platform.
     #' @param index An Illumina index associated with the file.
-    #' @param base_modifications The chemical modifications to bases in a DNA sequence that are detected in this file.
     #' @param read_names The read names of a sequence file based on how it will be used by uniform pipelines.
     #' @param @id @id
     #' @param @type @type
@@ -212,7 +215,18 @@ SequenceFile <- R6::R6Class(
     #' @param seqspecs Link(s) to the associated seqspec YAML configuration file(s).
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`externally_hosted` = NULL, `external_host_url` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `release_timestamp` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `flowcell_id` = NULL, `lane` = NULL, `read_count` = NULL, `minimum_read_length` = NULL, `maximum_read_length` = NULL, `mean_read_length` = NULL, `seqspec_document` = NULL, `sequencing_platform` = NULL, `sequencing_kit` = NULL, `sequencing_run` = NULL, `illumina_read_type` = NULL, `index` = NULL, `base_modifications` = NULL, `read_names` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `workflow` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `seqspecs` = NULL, ...) {
+    initialize = function(`base_modifications` = NULL, `preview_timestamp` = NULL, `externally_hosted` = NULL, `external_host_url` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `release_timestamp` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `flowcell_id` = NULL, `lane` = NULL, `read_count` = NULL, `minimum_read_length` = NULL, `maximum_read_length` = NULL, `mean_read_length` = NULL, `seqspec_document` = NULL, `sequencing_platform` = NULL, `sequencing_kit` = NULL, `sequencing_run` = NULL, `illumina_read_type` = NULL, `index` = NULL, `read_names` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `workflow` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `seqspecs` = NULL, ...) {
+      if (!is.null(`base_modifications`)) {
+        stopifnot(is.vector(`base_modifications`), length(`base_modifications`) != 0)
+        sapply(`base_modifications`, function(x) stopifnot(is.character(x)))
+        self$`base_modifications` <- `base_modifications`
+      }
+      if (!is.null(`preview_timestamp`)) {
+        if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
+          stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
+        }
+        self$`preview_timestamp` <- `preview_timestamp`
+      }
       if (!is.null(`externally_hosted`)) {
         if (!(is.logical(`externally_hosted`) && length(`externally_hosted`) == 1)) {
           stop(paste("Error! Invalid data for `externally_hosted`. Must be a boolean:", `externally_hosted`))
@@ -506,11 +520,6 @@ SequenceFile <- R6::R6Class(
         }
         self$`index` <- `index`
       }
-      if (!is.null(`base_modifications`)) {
-        stopifnot(is.vector(`base_modifications`), length(`base_modifications`) != 0)
-        sapply(`base_modifications`, function(x) stopifnot(is.character(x)))
-        self$`base_modifications` <- `base_modifications`
-      }
       if (!is.null(`read_names`)) {
         stopifnot(is.vector(`read_names`), length(`read_names`) != 0)
         sapply(`read_names`, function(x) stopifnot(is.character(x)))
@@ -599,6 +608,14 @@ SequenceFile <- R6::R6Class(
     #' @export
     toJSON = function() {
       SequenceFileObject <- list()
+      if (!is.null(self$`base_modifications`)) {
+        SequenceFileObject[["base_modifications"]] <-
+          self$`base_modifications`
+      }
+      if (!is.null(self$`preview_timestamp`)) {
+        SequenceFileObject[["preview_timestamp"]] <-
+          self$`preview_timestamp`
+      }
       if (!is.null(self$`externally_hosted`)) {
         SequenceFileObject[["externally_hosted"]] <-
           self$`externally_hosted`
@@ -791,10 +808,6 @@ SequenceFile <- R6::R6Class(
         SequenceFileObject[["index"]] <-
           self$`index`
       }
-      if (!is.null(self$`base_modifications`)) {
-        SequenceFileObject[["base_modifications"]] <-
-          self$`base_modifications`
-      }
       if (!is.null(self$`read_names`)) {
         SequenceFileObject[["read_names"]] <-
           self$`read_names`
@@ -867,6 +880,12 @@ SequenceFile <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`base_modifications`)) {
+        self$`base_modifications` <- ApiClient$new()$deserializeObj(this_object$`base_modifications`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`preview_timestamp`)) {
+        self$`preview_timestamp` <- this_object$`preview_timestamp`
+      }
       if (!is.null(this_object$`externally_hosted`)) {
         self$`externally_hosted` <- this_object$`externally_hosted`
       }
@@ -1026,9 +1045,6 @@ SequenceFile <- R6::R6Class(
       if (!is.null(this_object$`index`)) {
         self$`index` <- this_object$`index`
       }
-      if (!is.null(this_object$`base_modifications`)) {
-        self$`base_modifications` <- ApiClient$new()$deserializeObj(this_object$`base_modifications`, "set[character]", loadNamespace("igvfclient"))
-      }
       if (!is.null(this_object$`read_names`)) {
         self$`read_names` <- ApiClient$new()$deserializeObj(this_object$`read_names`, "set[character]", loadNamespace("igvfclient"))
       }
@@ -1085,6 +1101,22 @@ SequenceFile <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`base_modifications`)) {
+          sprintf(
+          '"base_modifications":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`base_modifications`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`preview_timestamp`)) {
+          sprintf(
+          '"preview_timestamp":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`preview_timestamp`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`externally_hosted`)) {
           sprintf(
           '"externally_hosted":
@@ -1469,14 +1501,6 @@ SequenceFile <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`index`, perl=TRUE)
           )
         },
-        if (!is.null(self$`base_modifications`)) {
-          sprintf(
-          '"base_modifications":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`base_modifications`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
         if (!is.null(self$`read_names`)) {
           sprintf(
           '"read_names":
@@ -1611,6 +1635,8 @@ SequenceFile <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`base_modifications` <- ApiClient$new()$deserializeObj(this_object$`base_modifications`, "set[character]", loadNamespace("igvfclient"))
+      self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`externally_hosted` <- this_object$`externally_hosted`
       self$`external_host_url` <- this_object$`external_host_url`
       self$`controlled_access` <- this_object$`controlled_access`
@@ -1674,7 +1700,6 @@ SequenceFile <- R6::R6Class(
       }
       self$`illumina_read_type` <- this_object$`illumina_read_type`
       self$`index` <- this_object$`index`
-      self$`base_modifications` <- ApiClient$new()$deserializeObj(this_object$`base_modifications`, "set[character]", loadNamespace("igvfclient"))
       self$`read_names` <- ApiClient$new()$deserializeObj(this_object$`read_names`, "set[character]", loadNamespace("igvfclient"))
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
@@ -1720,6 +1745,7 @@ SequenceFile <- R6::R6Class(
     #' @return true if the values in all fields are valid.
     #' @export
     isValid = function() {
+
 
 
 
@@ -1810,7 +1836,6 @@ SequenceFile <- R6::R6Class(
 
 
 
-
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1822,6 +1847,7 @@ SequenceFile <- R6::R6Class(
     #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
+
 
 
 
@@ -1903,7 +1929,6 @@ SequenceFile <- R6::R6Class(
       if (self$`sequencing_run` < 1) {
         invalid_fields["sequencing_run"] <- "Invalid value for `sequencing_run`, must be bigger than or equal to 1."
       }
-
 
 
 

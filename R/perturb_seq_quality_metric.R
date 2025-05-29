@@ -7,6 +7,7 @@
 #' @title PerturbSeqQualityMetric
 #' @description PerturbSeqQualityMetric Class
 #' @format An \code{R6Class} generator object
+#' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field status The status of the metadata object. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field attachment  \link{Attachment} [optional]
@@ -47,6 +48,7 @@ PerturbSeqQualityMetric <- R6::R6Class(
   "PerturbSeqQualityMetric",
   inherit = AnyType,
   public = list(
+    `preview_timestamp` = NULL,
     `status` = NULL,
     `release_timestamp` = NULL,
     `attachment` = NULL,
@@ -78,13 +80,14 @@ PerturbSeqQualityMetric <- R6::R6Class(
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
-    `_field_list` = c("status", "release_timestamp", "attachment", "lab", "award", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "quality_metric_of", "analysis_step_version", "total_cells_passing_filters", "pct_cells_assigned_guide", "avg_cells_per_target", "moi", "avg_umis_per_cell", "total_guides", "total_targets", "guide_diversity", "mean_mitochondrial_reads", "total_reads", "paired_reads_mapped", "alignment_percentage", "total_detected_scrna_barcodes", "@id", "@type", "summary"),
+    `_field_list` = c("preview_timestamp", "status", "release_timestamp", "attachment", "lab", "award", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "quality_metric_of", "analysis_step_version", "total_cells_passing_filters", "pct_cells_assigned_guide", "avg_cells_per_target", "moi", "avg_umis_per_cell", "total_guides", "total_targets", "guide_diversity", "mean_mitochondrial_reads", "total_reads", "paired_reads_mapped", "alignment_percentage", "total_detected_scrna_barcodes", "@id", "@type", "summary"),
     `additional_properties` = list(),
     #' Initialize a new PerturbSeqQualityMetric class.
     #'
     #' @description
     #' Initialize a new PerturbSeqQualityMetric class.
     #'
+    #' @param preview_timestamp The date the object was previewed.
     #' @param status The status of the metadata object.
     #' @param release_timestamp The date the object was released.
     #' @param attachment attachment
@@ -119,7 +122,13 @@ PerturbSeqQualityMetric <- R6::R6Class(
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`status` = NULL, `release_timestamp` = NULL, `attachment` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `quality_metric_of` = NULL, `analysis_step_version` = NULL, `total_cells_passing_filters` = NULL, `pct_cells_assigned_guide` = NULL, `avg_cells_per_target` = NULL, `moi` = NULL, `avg_umis_per_cell` = NULL, `total_guides` = NULL, `total_targets` = NULL, `guide_diversity` = NULL, `mean_mitochondrial_reads` = NULL, `total_reads` = NULL, `paired_reads_mapped` = NULL, `alignment_percentage` = NULL, `total_detected_scrna_barcodes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `status` = NULL, `release_timestamp` = NULL, `attachment` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `quality_metric_of` = NULL, `analysis_step_version` = NULL, `total_cells_passing_filters` = NULL, `pct_cells_assigned_guide` = NULL, `avg_cells_per_target` = NULL, `moi` = NULL, `avg_umis_per_cell` = NULL, `total_guides` = NULL, `total_targets` = NULL, `guide_diversity` = NULL, `mean_mitochondrial_reads` = NULL, `total_reads` = NULL, `paired_reads_mapped` = NULL, `alignment_percentage` = NULL, `total_detected_scrna_barcodes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, additional_properties = NULL, ...) {
+      if (!is.null(`preview_timestamp`)) {
+        if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
+          stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
+        }
+        self$`preview_timestamp` <- `preview_timestamp`
+      }
       if (!is.null(`status`)) {
         if (!(`status` %in% c("archived", "deleted", "in progress", "preview", "released"))) {
           stop(paste("Error! \"", `status`, "\" cannot be assigned to `status`. Must be \"archived\", \"deleted\", \"in progress\", \"preview\", \"released\".", sep = ""))
@@ -280,6 +289,10 @@ PerturbSeqQualityMetric <- R6::R6Class(
     #' @export
     toJSON = function() {
       PerturbSeqQualityMetricObject <- list()
+      if (!is.null(self$`preview_timestamp`)) {
+        PerturbSeqQualityMetricObject[["preview_timestamp"]] <-
+          self$`preview_timestamp`
+      }
       if (!is.null(self$`status`)) {
         PerturbSeqQualityMetricObject[["status"]] <-
           self$`status`
@@ -420,6 +433,9 @@ PerturbSeqQualityMetric <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`preview_timestamp`)) {
+        self$`preview_timestamp` <- this_object$`preview_timestamp`
+      }
       if (!is.null(this_object$`status`)) {
         if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("archived", "deleted", "in progress", "preview", "released"))) {
           stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"archived\", \"deleted\", \"in progress\", \"preview\", \"released\".", sep = ""))
@@ -536,6 +552,14 @@ PerturbSeqQualityMetric <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`preview_timestamp`)) {
+          sprintf(
+          '"preview_timestamp":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`preview_timestamp`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`status`)) {
           sprintf(
           '"status":
@@ -803,6 +827,7 @@ PerturbSeqQualityMetric <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`preview_timestamp` <- this_object$`preview_timestamp`
       if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("archived", "deleted", "in progress", "preview", "released"))) {
         stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"archived\", \"deleted\", \"in progress\", \"preview\", \"released\".", sep = ""))
       }

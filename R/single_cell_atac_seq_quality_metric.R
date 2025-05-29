@@ -7,6 +7,7 @@
 #' @title SingleCellAtacSeqQualityMetric
 #' @description SingleCellAtacSeqQualityMetric Class
 #' @format An \code{R6Class} generator object
+#' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field status The status of the metadata object. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field attachment  \link{Attachment} [optional]
@@ -52,6 +53,7 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
   "SingleCellAtacSeqQualityMetric",
   inherit = AnyType,
   public = list(
+    `preview_timestamp` = NULL,
     `status` = NULL,
     `release_timestamp` = NULL,
     `attachment` = NULL,
@@ -88,13 +90,14 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
-    `_field_list` = c("status", "release_timestamp", "attachment", "lab", "award", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "quality_metric_of", "analysis_step_version", "pct_duplicates", "n_reads", "n_mapped_reads", "n_uniquely_mapped_reads", "n_reads_with_multi_mappings", "n_candidates", "n_mappings", "n_uni_mappings", "n_multi_mappings", "n_barcodes_on_onlist", "n_corrected_barcodes", "n_output_mappings", "uni_mappings", "multi_mappings", "total", "atac_fragments_alignment_stats", "atac_bam_summary_stats", "atac_fragment_summary_stats", "@id", "@type", "summary"),
+    `_field_list` = c("preview_timestamp", "status", "release_timestamp", "attachment", "lab", "award", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "quality_metric_of", "analysis_step_version", "pct_duplicates", "n_reads", "n_mapped_reads", "n_uniquely_mapped_reads", "n_reads_with_multi_mappings", "n_candidates", "n_mappings", "n_uni_mappings", "n_multi_mappings", "n_barcodes_on_onlist", "n_corrected_barcodes", "n_output_mappings", "uni_mappings", "multi_mappings", "total", "atac_fragments_alignment_stats", "atac_bam_summary_stats", "atac_fragment_summary_stats", "@id", "@type", "summary"),
     `additional_properties` = list(),
     #' Initialize a new SingleCellAtacSeqQualityMetric class.
     #'
     #' @description
     #' Initialize a new SingleCellAtacSeqQualityMetric class.
     #'
+    #' @param preview_timestamp The date the object was previewed.
     #' @param status The status of the metadata object.
     #' @param release_timestamp The date the object was released.
     #' @param attachment attachment
@@ -134,7 +137,13 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`status` = NULL, `release_timestamp` = NULL, `attachment` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `quality_metric_of` = NULL, `analysis_step_version` = NULL, `pct_duplicates` = NULL, `n_reads` = NULL, `n_mapped_reads` = NULL, `n_uniquely_mapped_reads` = NULL, `n_reads_with_multi_mappings` = NULL, `n_candidates` = NULL, `n_mappings` = NULL, `n_uni_mappings` = NULL, `n_multi_mappings` = NULL, `n_barcodes_on_onlist` = NULL, `n_corrected_barcodes` = NULL, `n_output_mappings` = NULL, `uni_mappings` = NULL, `multi_mappings` = NULL, `total` = NULL, `atac_fragments_alignment_stats` = NULL, `atac_bam_summary_stats` = NULL, `atac_fragment_summary_stats` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `status` = NULL, `release_timestamp` = NULL, `attachment` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `quality_metric_of` = NULL, `analysis_step_version` = NULL, `pct_duplicates` = NULL, `n_reads` = NULL, `n_mapped_reads` = NULL, `n_uniquely_mapped_reads` = NULL, `n_reads_with_multi_mappings` = NULL, `n_candidates` = NULL, `n_mappings` = NULL, `n_uni_mappings` = NULL, `n_multi_mappings` = NULL, `n_barcodes_on_onlist` = NULL, `n_corrected_barcodes` = NULL, `n_output_mappings` = NULL, `uni_mappings` = NULL, `multi_mappings` = NULL, `total` = NULL, `atac_fragments_alignment_stats` = NULL, `atac_bam_summary_stats` = NULL, `atac_fragment_summary_stats` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, additional_properties = NULL, ...) {
+      if (!is.null(`preview_timestamp`)) {
+        if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
+          stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
+        }
+        self$`preview_timestamp` <- `preview_timestamp`
+      }
       if (!is.null(`status`)) {
         if (!(`status` %in% c("archived", "deleted", "in progress", "preview", "released"))) {
           stop(paste("Error! \"", `status`, "\" cannot be assigned to `status`. Must be \"archived\", \"deleted\", \"in progress\", \"preview\", \"released\".", sep = ""))
@@ -313,6 +322,10 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
     #' @export
     toJSON = function() {
       SingleCellAtacSeqQualityMetricObject <- list()
+      if (!is.null(self$`preview_timestamp`)) {
+        SingleCellAtacSeqQualityMetricObject[["preview_timestamp"]] <-
+          self$`preview_timestamp`
+      }
       if (!is.null(self$`status`)) {
         SingleCellAtacSeqQualityMetricObject[["status"]] <-
           self$`status`
@@ -473,6 +486,9 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`preview_timestamp`)) {
+        self$`preview_timestamp` <- this_object$`preview_timestamp`
+      }
       if (!is.null(this_object$`status`)) {
         if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("archived", "deleted", "in progress", "preview", "released"))) {
           stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"archived\", \"deleted\", \"in progress\", \"preview\", \"released\".", sep = ""))
@@ -610,6 +626,14 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`preview_timestamp`)) {
+          sprintf(
+          '"preview_timestamp":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`preview_timestamp`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`status`)) {
           sprintf(
           '"status":
@@ -917,6 +941,7 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`preview_timestamp` <- this_object$`preview_timestamp`
       if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("archived", "deleted", "in progress", "preview", "released"))) {
         stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"archived\", \"deleted\", \"in progress\", \"preview\", \"released\".", sep = ""))
       }

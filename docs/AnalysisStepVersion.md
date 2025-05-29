@@ -5,6 +5,7 @@ A step version in a computational analysis workflow.
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **status** | **character** | The status of the metadata object. | [optional] [Enum: [archived, deleted, in progress, preview, released]] 
 **lab** | **character** | Lab associated with the submission. | [optional] 
@@ -22,5 +23,6 @@ Name | Type | Description | Notes
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** | A summary of the object. | [optional] 
+**workflows** | **set[character]** | The workflows that this analysis step version is a part of. | [optional] 
 
 

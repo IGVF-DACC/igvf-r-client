@@ -5,6 +5,7 @@ A software used for computational  analysis. For example, Bowtie2 alignment soft
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **source_url** | **character** | An external resource to the codebase. | [optional] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **publications** | **set[character]** | The publications associated with this object. | [optional] 

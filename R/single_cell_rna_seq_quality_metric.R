@@ -7,6 +7,7 @@
 #' @title SingleCellRnaSeqQualityMetric
 #' @description SingleCellRnaSeqQualityMetric Class
 #' @format An \code{R6Class} generator object
+#' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field status The status of the metadata object. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field attachment  \link{Attachment} [optional]
@@ -58,6 +59,7 @@ SingleCellRnaSeqQualityMetric <- R6::R6Class(
   "SingleCellRnaSeqQualityMetric",
   inherit = AnyType,
   public = list(
+    `preview_timestamp` = NULL,
     `status` = NULL,
     `release_timestamp` = NULL,
     `attachment` = NULL,
@@ -100,13 +102,14 @@ SingleCellRnaSeqQualityMetric <- R6::R6Class(
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
-    `_field_list` = c("status", "release_timestamp", "attachment", "lab", "award", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "quality_metric_of", "analysis_step_version", "n_records", "n_reads", "n_barcodes", "total_umis", "n_barcode_umis", "median_reads_per_barcode", "mean_reads_per_barcode", "median_umis_per_barcode", "mean_umis_per_barcode", "gt_records", "num_barcodes_on_onlist", "percentage_barcodes_on_onlist", "num_reads_on_onlist", "percentage_reads_on_onlist", "rnaseq_kb_info", "n_targets", "n_bootstraps", "n_processed", "n_pseudoaligned", "n_unique", "p_pseudoaligned", "p_unique", "index_version", "kmer_length", "@id", "@type", "summary"),
+    `_field_list` = c("preview_timestamp", "status", "release_timestamp", "attachment", "lab", "award", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "quality_metric_of", "analysis_step_version", "n_records", "n_reads", "n_barcodes", "total_umis", "n_barcode_umis", "median_reads_per_barcode", "mean_reads_per_barcode", "median_umis_per_barcode", "mean_umis_per_barcode", "gt_records", "num_barcodes_on_onlist", "percentage_barcodes_on_onlist", "num_reads_on_onlist", "percentage_reads_on_onlist", "rnaseq_kb_info", "n_targets", "n_bootstraps", "n_processed", "n_pseudoaligned", "n_unique", "p_pseudoaligned", "p_unique", "index_version", "kmer_length", "@id", "@type", "summary"),
     `additional_properties` = list(),
     #' Initialize a new SingleCellRnaSeqQualityMetric class.
     #'
     #' @description
     #' Initialize a new SingleCellRnaSeqQualityMetric class.
     #'
+    #' @param preview_timestamp The date the object was previewed.
     #' @param status The status of the metadata object.
     #' @param release_timestamp The date the object was released.
     #' @param attachment attachment
@@ -152,7 +155,13 @@ SingleCellRnaSeqQualityMetric <- R6::R6Class(
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`status` = NULL, `release_timestamp` = NULL, `attachment` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `quality_metric_of` = NULL, `analysis_step_version` = NULL, `n_records` = NULL, `n_reads` = NULL, `n_barcodes` = NULL, `total_umis` = NULL, `n_barcode_umis` = NULL, `median_reads_per_barcode` = NULL, `mean_reads_per_barcode` = NULL, `median_umis_per_barcode` = NULL, `mean_umis_per_barcode` = NULL, `gt_records` = NULL, `num_barcodes_on_onlist` = NULL, `percentage_barcodes_on_onlist` = NULL, `num_reads_on_onlist` = NULL, `percentage_reads_on_onlist` = NULL, `rnaseq_kb_info` = NULL, `n_targets` = NULL, `n_bootstraps` = NULL, `n_processed` = NULL, `n_pseudoaligned` = NULL, `n_unique` = NULL, `p_pseudoaligned` = NULL, `p_unique` = NULL, `index_version` = NULL, `kmer_length` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `status` = NULL, `release_timestamp` = NULL, `attachment` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `quality_metric_of` = NULL, `analysis_step_version` = NULL, `n_records` = NULL, `n_reads` = NULL, `n_barcodes` = NULL, `total_umis` = NULL, `n_barcode_umis` = NULL, `median_reads_per_barcode` = NULL, `mean_reads_per_barcode` = NULL, `median_umis_per_barcode` = NULL, `mean_umis_per_barcode` = NULL, `gt_records` = NULL, `num_barcodes_on_onlist` = NULL, `percentage_barcodes_on_onlist` = NULL, `num_reads_on_onlist` = NULL, `percentage_reads_on_onlist` = NULL, `rnaseq_kb_info` = NULL, `n_targets` = NULL, `n_bootstraps` = NULL, `n_processed` = NULL, `n_pseudoaligned` = NULL, `n_unique` = NULL, `p_pseudoaligned` = NULL, `p_unique` = NULL, `index_version` = NULL, `kmer_length` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, additional_properties = NULL, ...) {
+      if (!is.null(`preview_timestamp`)) {
+        if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
+          stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
+        }
+        self$`preview_timestamp` <- `preview_timestamp`
+      }
       if (!is.null(`status`)) {
         if (!(`status` %in% c("archived", "deleted", "in progress", "preview", "released"))) {
           stop(paste("Error! \"", `status`, "\" cannot be assigned to `status`. Must be \"archived\", \"deleted\", \"in progress\", \"preview\", \"released\".", sep = ""))
@@ -347,6 +356,10 @@ SingleCellRnaSeqQualityMetric <- R6::R6Class(
     #' @export
     toJSON = function() {
       SingleCellRnaSeqQualityMetricObject <- list()
+      if (!is.null(self$`preview_timestamp`)) {
+        SingleCellRnaSeqQualityMetricObject[["preview_timestamp"]] <-
+          self$`preview_timestamp`
+      }
       if (!is.null(self$`status`)) {
         SingleCellRnaSeqQualityMetricObject[["status"]] <-
           self$`status`
@@ -531,6 +544,9 @@ SingleCellRnaSeqQualityMetric <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`preview_timestamp`)) {
+        self$`preview_timestamp` <- this_object$`preview_timestamp`
+      }
       if (!is.null(this_object$`status`)) {
         if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("archived", "deleted", "in progress", "preview", "released"))) {
           stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"archived\", \"deleted\", \"in progress\", \"preview\", \"released\".", sep = ""))
@@ -682,6 +698,14 @@ SingleCellRnaSeqQualityMetric <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`preview_timestamp`)) {
+          sprintf(
+          '"preview_timestamp":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`preview_timestamp`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`status`)) {
           sprintf(
           '"status":
@@ -1037,6 +1061,7 @@ SingleCellRnaSeqQualityMetric <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`preview_timestamp` <- this_object$`preview_timestamp`
       if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("archived", "deleted", "in progress", "preview", "released"))) {
         stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"archived\", \"deleted\", \"in progress\", \"preview\", \"released\".", sep = ""))
       }

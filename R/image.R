@@ -7,6 +7,7 @@
 #' @title Image
 #' @description Image Class
 #' @format An \code{R6Class} generator object
+#' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field status The status of the metadata object. character [optional]
 #' @field attachment  \link{Attachment1} [optional]
@@ -32,6 +33,7 @@ Image <- R6::R6Class(
   "Image",
   inherit = AnyType,
   public = list(
+    `preview_timestamp` = NULL,
     `release_timestamp` = NULL,
     `status` = NULL,
     `attachment` = NULL,
@@ -48,13 +50,14 @@ Image <- R6::R6Class(
     `@type` = NULL,
     `summary` = NULL,
     `download_url` = NULL,
-    `_field_list` = c("release_timestamp", "status", "attachment", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "caption", "@id", "@type", "summary", "download_url"),
+    `_field_list` = c("preview_timestamp", "release_timestamp", "status", "attachment", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "caption", "@id", "@type", "summary", "download_url"),
     `additional_properties` = list(),
     #' Initialize a new Image class.
     #'
     #' @description
     #' Initialize a new Image class.
     #'
+    #' @param preview_timestamp The date the object was previewed.
     #' @param release_timestamp The date the object was released.
     #' @param status The status of the metadata object.
     #' @param attachment attachment
@@ -74,7 +77,13 @@ Image <- R6::R6Class(
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`release_timestamp` = NULL, `status` = NULL, `attachment` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `caption` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `download_url` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `status` = NULL, `attachment` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `caption` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `download_url` = NULL, additional_properties = NULL, ...) {
+      if (!is.null(`preview_timestamp`)) {
+        if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
+          stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
+        }
+        self$`preview_timestamp` <- `preview_timestamp`
+      }
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -185,6 +194,10 @@ Image <- R6::R6Class(
     #' @export
     toJSON = function() {
       ImageObject <- list()
+      if (!is.null(self$`preview_timestamp`)) {
+        ImageObject[["preview_timestamp"]] <-
+          self$`preview_timestamp`
+      }
       if (!is.null(self$`release_timestamp`)) {
         ImageObject[["release_timestamp"]] <-
           self$`release_timestamp`
@@ -265,6 +278,9 @@ Image <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`preview_timestamp`)) {
+        self$`preview_timestamp` <- this_object$`preview_timestamp`
+      }
       if (!is.null(this_object$`release_timestamp`)) {
         self$`release_timestamp` <- this_object$`release_timestamp`
       }
@@ -336,6 +352,14 @@ Image <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`preview_timestamp`)) {
+          sprintf(
+          '"preview_timestamp":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`preview_timestamp`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`release_timestamp`)) {
           sprintf(
           '"release_timestamp":
@@ -483,6 +507,7 @@ Image <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`release_timestamp` <- this_object$`release_timestamp`
       if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("archived", "deleted", "in progress", "preview", "released"))) {
         stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"archived\", \"deleted\", \"in progress\", \"preview\", \"released\".", sep = ""))
