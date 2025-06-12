@@ -39,6 +39,7 @@
 #' @field file_set_type The category that best describes this prediction set. character [optional]
 #' @field scope The scope or scale that this prediction set is designed to target. character [optional]
 #' @field assessed_genes A list of gene(s) assessed in this prediction set. This property is used to describe the gene(s) being investigated, especially how the input variables in the prediction set affect some critical functionality of the gene(s). For example, the effect could be predicted from genetic variants on the binding affinity of a transcription factor encoded by a gene (assessed_genes). It differs from small_scale_gene_list and large_scale_gene_list, as these are used when the input variables of the prediction set are genes. list(character) [optional]
+#' @field associated_phenotypes Ontological terms for diseases or phenotypes associated with this prediction set. list(character) [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the prediction set. character [optional]
@@ -90,6 +91,7 @@ PredictionSet <- R6::R6Class(
     `file_set_type` = NULL,
     `scope` = NULL,
     `assessed_genes` = NULL,
+    `associated_phenotypes` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -100,7 +102,7 @@ PredictionSet <- R6::R6Class(
     `construct_library_sets` = NULL,
     `data_use_limitation_summaries` = NULL,
     `controlled_access` = NULL,
-    `_field_list` = c("preview_timestamp", "input_file_sets", "small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "url", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "dbxrefs", "control_type", "samples", "donors", "file_set_type", "scope", "assessed_genes", "@id", "@type", "summary", "files", "control_for", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access"),
+    `_field_list` = c("preview_timestamp", "input_file_sets", "small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "url", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "dbxrefs", "control_type", "samples", "donors", "file_set_type", "scope", "assessed_genes", "associated_phenotypes", "@id", "@type", "summary", "files", "control_for", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access"),
     `additional_properties` = list(),
     #' Initialize a new PredictionSet class.
     #'
@@ -139,6 +141,7 @@ PredictionSet <- R6::R6Class(
     #' @param file_set_type The category that best describes this prediction set.
     #' @param scope The scope or scale that this prediction set is designed to target.
     #' @param assessed_genes A list of gene(s) assessed in this prediction set. This property is used to describe the gene(s) being investigated, especially how the input variables in the prediction set affect some critical functionality of the gene(s). For example, the effect could be predicted from genetic variants on the binding affinity of a transcription factor encoded by a gene (assessed_genes). It differs from small_scale_gene_list and large_scale_gene_list, as these are used when the input variables of the prediction set are genes.
+    #' @param associated_phenotypes Ontological terms for diseases or phenotypes associated with this prediction set.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the prediction set.
@@ -152,7 +155,7 @@ PredictionSet <- R6::R6Class(
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `input_file_sets` = NULL, `small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `scope` = NULL, `assessed_genes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `input_file_sets` = NULL, `small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `scope` = NULL, `assessed_genes` = NULL, `associated_phenotypes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -341,6 +344,11 @@ PredictionSet <- R6::R6Class(
         stopifnot(is.vector(`assessed_genes`), length(`assessed_genes`) != 0)
         sapply(`assessed_genes`, function(x) stopifnot(is.character(x)))
         self$`assessed_genes` <- `assessed_genes`
+      }
+      if (!is.null(`associated_phenotypes`)) {
+        stopifnot(is.vector(`associated_phenotypes`), length(`associated_phenotypes`) != 0)
+        sapply(`associated_phenotypes`, function(x) stopifnot(is.character(x)))
+        self$`associated_phenotypes` <- `associated_phenotypes`
       }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
@@ -539,6 +547,10 @@ PredictionSet <- R6::R6Class(
         PredictionSetObject[["assessed_genes"]] <-
           self$`assessed_genes`
       }
+      if (!is.null(self$`associated_phenotypes`)) {
+        PredictionSetObject[["associated_phenotypes"]] <-
+          self$`associated_phenotypes`
+      }
       if (!is.null(self$`@id`)) {
         PredictionSetObject[["@id"]] <-
           self$`@id`
@@ -699,6 +711,9 @@ PredictionSet <- R6::R6Class(
       }
       if (!is.null(this_object$`assessed_genes`)) {
         self$`assessed_genes` <- ApiClient$new()$deserializeObj(this_object$`assessed_genes`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`associated_phenotypes`)) {
+        self$`associated_phenotypes` <- ApiClient$new()$deserializeObj(this_object$`associated_phenotypes`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
@@ -1004,6 +1019,14 @@ PredictionSet <- R6::R6Class(
           paste(unlist(lapply(self$`assessed_genes`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`associated_phenotypes`)) {
+          sprintf(
+          '"associated_phenotypes":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`associated_phenotypes`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -1144,6 +1167,7 @@ PredictionSet <- R6::R6Class(
       }
       self$`scope` <- this_object$`scope`
       self$`assessed_genes` <- ApiClient$new()$deserializeObj(this_object$`assessed_genes`, "set[character]", loadNamespace("igvfclient"))
+      self$`associated_phenotypes` <- ApiClient$new()$deserializeObj(this_object$`associated_phenotypes`, "set[character]", loadNamespace("igvfclient"))
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
@@ -1228,6 +1252,7 @@ PredictionSet <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1266,6 +1291,7 @@ PredictionSet <- R6::R6Class(
       if (!str_detect(self$`description`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         invalid_fields["description"] <- "Invalid value for `description`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
+
 
 
 

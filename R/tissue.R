@@ -61,8 +61,8 @@
 #' @field protocols Links to the protocol(s) for preparing the samples on Protocols.io. list(character) [optional]
 #' @field pmi The amount of time elapsed since death. integer [optional]
 #' @field pmi_units The unit in which the PMI time was reported. character [optional]
-#' @field ccf_id HubMap Common Coordinate Framework unique identifier corresponding to the organ, biological structure, and spatial location of the tissue specimen. character [optional]
-#' @field preservation_method The method by which the tissue was preserved: cryopreservation (slow-freeze) or flash-freezing. character [optional]
+#' @field ccf_id HubMap Common Coordinate Framework unique identifier corresponding to the organ, biological structure, and spatial location of the tissue specimen within an organ. character [optional]
+#' @field preservation_method The method by which the tissue/organ was preserved: cryopreservation (slow-freeze) or flash-freezing. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the sample. character [optional]
@@ -214,8 +214,8 @@ Tissue <- R6::R6Class(
     #' @param protocols Links to the protocol(s) for preparing the samples on Protocols.io.
     #' @param pmi The amount of time elapsed since death.
     #' @param pmi_units The unit in which the PMI time was reported.
-    #' @param ccf_id HubMap Common Coordinate Framework unique identifier corresponding to the organ, biological structure, and spatial location of the tissue specimen.
-    #' @param preservation_method The method by which the tissue was preserved: cryopreservation (slow-freeze) or flash-freezing.
+    #' @param ccf_id HubMap Common Coordinate Framework unique identifier corresponding to the organ, biological structure, and spatial location of the tissue specimen within an organ.
+    #' @param preservation_method The method by which the tissue/organ was preserved: cryopreservation (slow-freeze) or flash-freezing.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the sample.
