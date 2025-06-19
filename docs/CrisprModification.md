@@ -28,7 +28,7 @@ Name | Type | Description | Notes
 **modality** | **character** | The purpose or intended effect of a modification. | [optional] [Enum: [activation, base editing, cutting, interference, knockout, localizing, prime editing]] 
 **tagged_proteins** | **set[character]** | The tagged proteins in which the Cas nuclease is fused to an antibody. | [optional] 
 **cas** | **character** | The name of the CRISPR associated protein used in the modification. | [optional] [Enum: [Cas9, Cas12a, Cas13, dCas9, nCas9, SpG, SpRY]] 
-**fused_domain** | **character** | The name of the molecule fused to a Cas protein. | [optional] [Enum: [2xVP64, 2xVP64-2A-Puro, 2xVP64-2A-Thy1.1, 3xVP64, ABE8e, ABE8.20, ANTI-FLAG, BE4, BE4max, eA3A, eA3A-T31A, eA3A-T44D-S45A, KOX1-KRAB, M-MLV RT (PE2), p300, TdCBE, TdCGBE, TdDE, VPH, VP64, VP64-p65-Rta (VPR), ZIM3-KRAB]] 
+**fused_domain** | **character** | The name of the molecule fused to a Cas protein. | [optional] [Enum: [2xVP64, 2xVP64-2A-Puro, 2xVP64-2A-Thy1.1, 3xVP64, ABE8e, ABE8.20, ANTI-FLAG, BE4, BE4max, eA3A, eA3A-T31A, eA3A-T44D-S45A, KOX1-KRAB, M-MLV RT (PE2), p300, TdCBE, TdCGBE, TdDE, Tet1, VPH, VP64, VP64-p65-Rta (VPR), ZIM3-KRAB]] 
 **cas_species** | **character** | The originating species of the Cas nuclease. | [optional] [Enum: [Streptococcus pyogenes (Sp), Staphylococcus aureus (Sa), Campylobacter jejuni (Cj), Neisseria meningitidis (Nm)]] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 

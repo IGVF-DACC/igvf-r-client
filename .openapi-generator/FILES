@@ -45,8 +45,6 @@ R/gene.R
 R/gene_location.R
 R/gene_location1.R
 R/gene_results.R
-R/genome_browser_annotation_file.R
-R/genome_browser_annotation_file_results.R
 R/human_donor.R
 R/human_donor_results.R
 R/igvf_api.R
@@ -187,8 +185,6 @@ docs/Gene.md
 docs/GeneLocation.md
 docs/GeneLocation1.md
 docs/GeneResults.md
-docs/GenomeBrowserAnnotationFile.md
-docs/GenomeBrowserAnnotationFileResults.md
 docs/HumanDonor.md
 docs/HumanDonorResults.md
 docs/IgvfApi.md
