@@ -28,7 +28,6 @@
 #' @field submitter_comment Additional information specified by the submitter to be displayed as a comment on the portal. character [optional]
 #' @field description A plain text description of the object. character [optional]
 #' @field dbxrefs Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file sets. list(character) [optional]
-#' @field control_type The type of control this file set represents. character [optional]
 #' @field samples Samples associated with this analysis set. list(character) [optional]
 #' @field donors The donors of the samples associated with this analysis set. list(character) [optional]
 #' @field file_set_type The level of this analysis set. character [optional]
@@ -76,7 +75,6 @@ AnalysisSet <- R6::R6Class(
     `submitter_comment` = NULL,
     `description` = NULL,
     `dbxrefs` = NULL,
-    `control_type` = NULL,
     `samples` = NULL,
     `donors` = NULL,
     `file_set_type` = NULL,
@@ -123,7 +121,6 @@ AnalysisSet <- R6::R6Class(
     #' @param submitter_comment Additional information specified by the submitter to be displayed as a comment on the portal.
     #' @param description A plain text description of the object.
     #' @param dbxrefs Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file sets.
-    #' @param control_type The type of control this file set represents.
     #' @param samples Samples associated with this analysis set.
     #' @param donors The donors of the samples associated with this analysis set.
     #' @param file_set_type The level of this analysis set.
@@ -146,7 +143,7 @@ AnalysisSet <- R6::R6Class(
     #' @param workflows A workflow for computational analysis of genomic data. A workflow is made up of analysis steps.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `external_image_data_url` = NULL, `demultiplexed_samples` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `assay_titles` = NULL, `protocols` = NULL, `sample_summary` = NULL, `functional_assay_mechanisms` = NULL, `workflows` = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `external_image_data_url` = NULL, `demultiplexed_samples` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `assay_titles` = NULL, `protocols` = NULL, `sample_summary` = NULL, `functional_assay_mechanisms` = NULL, `workflows` = NULL, ...) {
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -268,12 +265,6 @@ AnalysisSet <- R6::R6Class(
         stopifnot(is.vector(`dbxrefs`), length(`dbxrefs`) != 0)
         sapply(`dbxrefs`, function(x) stopifnot(is.character(x)))
         self$`dbxrefs` <- `dbxrefs`
-      }
-      if (!is.null(`control_type`)) {
-        if (!(is.character(`control_type`) && length(`control_type`) == 1)) {
-          stop(paste("Error! Invalid data for `control_type`. Must be a string:", `control_type`))
-        }
-        self$`control_type` <- `control_type`
       }
       if (!is.null(`samples`)) {
         stopifnot(is.vector(`samples`), length(`samples`) != 0)
@@ -479,10 +470,6 @@ AnalysisSet <- R6::R6Class(
         AnalysisSetObject[["dbxrefs"]] <-
           self$`dbxrefs`
       }
-      if (!is.null(self$`control_type`)) {
-        AnalysisSetObject[["control_type"]] <-
-          self$`control_type`
-      }
       if (!is.null(self$`samples`)) {
         AnalysisSetObject[["samples"]] <-
           self$`samples`
@@ -640,9 +627,6 @@ AnalysisSet <- R6::R6Class(
       }
       if (!is.null(this_object$`dbxrefs`)) {
         self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
-      }
-      if (!is.null(this_object$`control_type`)) {
-        self$`control_type` <- this_object$`control_type`
       }
       if (!is.null(this_object$`samples`)) {
         self$`samples` <- ApiClient$new()$deserializeObj(this_object$`samples`, "set[character]", loadNamespace("igvfclient"))
@@ -886,14 +870,6 @@ AnalysisSet <- R6::R6Class(
           paste(unlist(lapply(self$`dbxrefs`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
-        if (!is.null(self$`control_type`)) {
-          sprintf(
-          '"control_type":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`control_type`, perl=TRUE)
-          )
-        },
         if (!is.null(self$`samples`)) {
           sprintf(
           '"samples":
@@ -1092,7 +1068,6 @@ AnalysisSet <- R6::R6Class(
       self$`submitter_comment` <- this_object$`submitter_comment`
       self$`description` <- this_object$`description`
       self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
-      self$`control_type` <- this_object$`control_type`
       self$`samples` <- ApiClient$new()$deserializeObj(this_object$`samples`, "set[character]", loadNamespace("igvfclient"))
       self$`donors` <- ApiClient$new()$deserializeObj(this_object$`donors`, "set[character]", loadNamespace("igvfclient"))
       if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("intermediate analysis", "principal analysis"))) {

@@ -33,7 +33,6 @@
 #' @field submitter_comment Additional information specified by the submitter to be displayed as a comment on the portal. character [optional]
 #' @field description A plain text description of the object. character [optional]
 #' @field dbxrefs Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file sets. list(character) [optional]
-#' @field control_type The type of control this file set represents. character [optional]
 #' @field samples The sample(s) associated with this file set. list(character) [optional]
 #' @field donors The donor(s) associated with this file set. list(character) [optional]
 #' @field file_set_type The category that best describes this prediction set. character [optional]
@@ -85,7 +84,6 @@ PredictionSet <- R6::R6Class(
     `submitter_comment` = NULL,
     `description` = NULL,
     `dbxrefs` = NULL,
-    `control_type` = NULL,
     `samples` = NULL,
     `donors` = NULL,
     `file_set_type` = NULL,
@@ -102,7 +100,7 @@ PredictionSet <- R6::R6Class(
     `construct_library_sets` = NULL,
     `data_use_limitation_summaries` = NULL,
     `controlled_access` = NULL,
-    `_field_list` = c("preview_timestamp", "input_file_sets", "small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "url", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "dbxrefs", "control_type", "samples", "donors", "file_set_type", "scope", "assessed_genes", "associated_phenotypes", "@id", "@type", "summary", "files", "control_for", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access"),
+    `_field_list` = c("preview_timestamp", "input_file_sets", "small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "url", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "dbxrefs", "samples", "donors", "file_set_type", "scope", "assessed_genes", "associated_phenotypes", "@id", "@type", "summary", "files", "control_for", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access"),
     `additional_properties` = list(),
     #' Initialize a new PredictionSet class.
     #'
@@ -135,7 +133,6 @@ PredictionSet <- R6::R6Class(
     #' @param submitter_comment Additional information specified by the submitter to be displayed as a comment on the portal.
     #' @param description A plain text description of the object.
     #' @param dbxrefs Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file sets.
-    #' @param control_type The type of control this file set represents.
     #' @param samples The sample(s) associated with this file set.
     #' @param donors The donor(s) associated with this file set.
     #' @param file_set_type The category that best describes this prediction set.
@@ -155,7 +152,7 @@ PredictionSet <- R6::R6Class(
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `input_file_sets` = NULL, `small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `scope` = NULL, `assessed_genes` = NULL, `associated_phenotypes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `input_file_sets` = NULL, `small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `scope` = NULL, `assessed_genes` = NULL, `associated_phenotypes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -306,12 +303,6 @@ PredictionSet <- R6::R6Class(
         sapply(`dbxrefs`, function(x) stopifnot(is.character(x)))
         self$`dbxrefs` <- `dbxrefs`
       }
-      if (!is.null(`control_type`)) {
-        if (!(is.character(`control_type`) && length(`control_type`) == 1)) {
-          stop(paste("Error! Invalid data for `control_type`. Must be a string:", `control_type`))
-        }
-        self$`control_type` <- `control_type`
-      }
       if (!is.null(`samples`)) {
         stopifnot(is.vector(`samples`), length(`samples`) != 0)
         sapply(`samples`, function(x) stopifnot(is.character(x)))
@@ -323,8 +314,8 @@ PredictionSet <- R6::R6Class(
         self$`donors` <- `donors`
       }
       if (!is.null(`file_set_type`)) {
-        if (!(`file_set_type` %in% c("activity level", "binding effect", "functional effect", "pathogenicity", "protein stability"))) {
-          stop(paste("Error! \"", `file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"activity level\", \"binding effect\", \"functional effect\", \"pathogenicity\", \"protein stability\".", sep = ""))
+        if (!(`file_set_type` %in% c("activity level", "binding effect", "functional effect", "protein stability"))) {
+          stop(paste("Error! \"", `file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"activity level\", \"binding effect\", \"functional effect\", \"protein stability\".", sep = ""))
         }
         if (!(is.character(`file_set_type`) && length(`file_set_type`) == 1)) {
           stop(paste("Error! Invalid data for `file_set_type`. Must be a string:", `file_set_type`))
@@ -523,10 +514,6 @@ PredictionSet <- R6::R6Class(
         PredictionSetObject[["dbxrefs"]] <-
           self$`dbxrefs`
       }
-      if (!is.null(self$`control_type`)) {
-        PredictionSetObject[["control_type"]] <-
-          self$`control_type`
-      }
       if (!is.null(self$`samples`)) {
         PredictionSetObject[["samples"]] <-
           self$`samples`
@@ -688,9 +675,6 @@ PredictionSet <- R6::R6Class(
       if (!is.null(this_object$`dbxrefs`)) {
         self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
       }
-      if (!is.null(this_object$`control_type`)) {
-        self$`control_type` <- this_object$`control_type`
-      }
       if (!is.null(this_object$`samples`)) {
         self$`samples` <- ApiClient$new()$deserializeObj(this_object$`samples`, "set[character]", loadNamespace("igvfclient"))
       }
@@ -698,8 +682,8 @@ PredictionSet <- R6::R6Class(
         self$`donors` <- ApiClient$new()$deserializeObj(this_object$`donors`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`file_set_type`)) {
-        if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("activity level", "binding effect", "functional effect", "pathogenicity", "protein stability"))) {
-          stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"activity level\", \"binding effect\", \"functional effect\", \"pathogenicity\", \"protein stability\".", sep = ""))
+        if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("activity level", "binding effect", "functional effect", "protein stability"))) {
+          stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"activity level\", \"binding effect\", \"functional effect\", \"protein stability\".", sep = ""))
         }
         self$`file_set_type` <- this_object$`file_set_type`
       }
@@ -971,14 +955,6 @@ PredictionSet <- R6::R6Class(
           paste(unlist(lapply(self$`dbxrefs`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
-        if (!is.null(self$`control_type`)) {
-          sprintf(
-          '"control_type":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`control_type`, perl=TRUE)
-          )
-        },
         if (!is.null(self$`samples`)) {
           sprintf(
           '"samples":
@@ -1155,11 +1131,10 @@ PredictionSet <- R6::R6Class(
       self$`submitter_comment` <- this_object$`submitter_comment`
       self$`description` <- this_object$`description`
       self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
-      self$`control_type` <- this_object$`control_type`
       self$`samples` <- ApiClient$new()$deserializeObj(this_object$`samples`, "set[character]", loadNamespace("igvfclient"))
       self$`donors` <- ApiClient$new()$deserializeObj(this_object$`donors`, "set[character]", loadNamespace("igvfclient"))
-      if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("activity level", "binding effect", "functional effect", "pathogenicity", "protein stability"))) {
-        stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"activity level\", \"binding effect\", \"functional effect\", \"pathogenicity\", \"protein stability\".", sep = ""))
+      if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("activity level", "binding effect", "functional effect", "protein stability"))) {
+        stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"activity level\", \"binding effect\", \"functional effect\", \"protein stability\".", sep = ""))
       }
       self$`file_set_type` <- this_object$`file_set_type`
       if (!is.null(this_object$`scope`) && !(this_object$`scope` %in% c("genes", "loci", "genome-wide"))) {

@@ -28,7 +28,6 @@
 #' @field submitter_comment Additional information specified by the submitter to be displayed as a comment on the portal. character [optional]
 #' @field description A plain text description of the object. character [optional]
 #' @field dbxrefs Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file sets. list(character) [optional]
-#' @field control_type The type of control this file set represents. character [optional]
 #' @field samples The sample(s) associated with this file set. list(character) [optional]
 #' @field donors The donors of the samples associated with this measurement set. list(character) [optional]
 #' @field file_set_type The category that best describes this measurement set. character [optional]
@@ -36,6 +35,7 @@
 #' @field protocols Links to the protocol(s) for conducting the assay on Protocols.io. list(character) [optional]
 #' @field preferred_assay_title The custom lab preferred label for the experiment performed in this measurement set. character [optional]
 #' @field multiome_size The number of datasets included in the multiome experiment this measurement set is a part of. integer [optional]
+#' @field control_types The types of control this measurement set represents. list(character) [optional]
 #' @field sequencing_library_types Description of the libraries sequenced in this measurement set. list(character) [optional]
 #' @field primer_designs The primer designs used in this measurement set. list(character) [optional]
 #' @field strand_specificity The strand-specificity of the sequencing results within Perturb-seq, scCRISPR screen, TAP-seq, and CERES-seq assays. character [optional]
@@ -85,7 +85,6 @@ MeasurementSet <- R6::R6Class(
     `submitter_comment` = NULL,
     `description` = NULL,
     `dbxrefs` = NULL,
-    `control_type` = NULL,
     `samples` = NULL,
     `donors` = NULL,
     `file_set_type` = NULL,
@@ -93,6 +92,7 @@ MeasurementSet <- R6::R6Class(
     `protocols` = NULL,
     `preferred_assay_title` = NULL,
     `multiome_size` = NULL,
+    `control_types` = NULL,
     `sequencing_library_types` = NULL,
     `primer_designs` = NULL,
     `strand_specificity` = NULL,
@@ -141,7 +141,6 @@ MeasurementSet <- R6::R6Class(
     #' @param submitter_comment Additional information specified by the submitter to be displayed as a comment on the portal.
     #' @param description A plain text description of the object.
     #' @param dbxrefs Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file sets.
-    #' @param control_type The type of control this file set represents.
     #' @param samples The sample(s) associated with this file set.
     #' @param donors The donors of the samples associated with this measurement set.
     #' @param file_set_type The category that best describes this measurement set.
@@ -149,6 +148,7 @@ MeasurementSet <- R6::R6Class(
     #' @param protocols Links to the protocol(s) for conducting the assay on Protocols.io.
     #' @param preferred_assay_title The custom lab preferred label for the experiment performed in this measurement set.
     #' @param multiome_size The number of datasets included in the multiome experiment this measurement set is a part of.
+    #' @param control_types The types of control this measurement set represents.
     #' @param sequencing_library_types Description of the libraries sequenced in this measurement set.
     #' @param primer_designs The primer designs used in this measurement set.
     #' @param strand_specificity The strand-specificity of the sequencing results within Perturb-seq, scCRISPR screen, TAP-seq, and CERES-seq assays.
@@ -173,7 +173,7 @@ MeasurementSet <- R6::R6Class(
     #' @param externally_hosted externally_hosted
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `control_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `control_type` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `assay_term` = NULL, `protocols` = NULL, `preferred_assay_title` = NULL, `multiome_size` = NULL, `sequencing_library_types` = NULL, `primer_designs` = NULL, `strand_specificity` = NULL, `auxiliary_sets` = NULL, `external_image_url` = NULL, `targeted_genes` = NULL, `functional_assay_mechanisms` = NULL, `onlist_method` = NULL, `onlist_files` = NULL, `barcode_replacement_file` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `related_multiome_datasets` = NULL, `externally_hosted` = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `control_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `assay_term` = NULL, `protocols` = NULL, `preferred_assay_title` = NULL, `multiome_size` = NULL, `control_types` = NULL, `sequencing_library_types` = NULL, `primer_designs` = NULL, `strand_specificity` = NULL, `auxiliary_sets` = NULL, `external_image_url` = NULL, `targeted_genes` = NULL, `functional_assay_mechanisms` = NULL, `onlist_method` = NULL, `onlist_files` = NULL, `barcode_replacement_file` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `related_multiome_datasets` = NULL, `externally_hosted` = NULL, ...) {
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -296,15 +296,6 @@ MeasurementSet <- R6::R6Class(
         sapply(`dbxrefs`, function(x) stopifnot(is.character(x)))
         self$`dbxrefs` <- `dbxrefs`
       }
-      if (!is.null(`control_type`)) {
-        if (!(`control_type` %in% c("baseline", "reference transduction", "low FACS signal", "non-targeting", "unsorted FACS input", "untransfected", "untreated"))) {
-          stop(paste("Error! \"", `control_type`, "\" cannot be assigned to `control_type`. Must be \"baseline\", \"reference transduction\", \"low FACS signal\", \"non-targeting\", \"unsorted FACS input\", \"untransfected\", \"untreated\".", sep = ""))
-        }
-        if (!(is.character(`control_type`) && length(`control_type`) == 1)) {
-          stop(paste("Error! Invalid data for `control_type`. Must be a string:", `control_type`))
-        }
-        self$`control_type` <- `control_type`
-      }
       if (!is.null(`samples`)) {
         stopifnot(is.vector(`samples`), length(`samples`) != 0)
         sapply(`samples`, function(x) stopifnot(is.character(x)))
@@ -349,6 +340,11 @@ MeasurementSet <- R6::R6Class(
           stop(paste("Error! Invalid data for `multiome_size`. Must be an integer:", `multiome_size`))
         }
         self$`multiome_size` <- `multiome_size`
+      }
+      if (!is.null(`control_types`)) {
+        stopifnot(is.vector(`control_types`), length(`control_types`) != 0)
+        sapply(`control_types`, function(x) stopifnot(is.character(x)))
+        self$`control_types` <- `control_types`
       }
       if (!is.null(`sequencing_library_types`)) {
         stopifnot(is.vector(`sequencing_library_types`), length(`sequencing_library_types`) != 0)
@@ -569,10 +565,6 @@ MeasurementSet <- R6::R6Class(
         MeasurementSetObject[["dbxrefs"]] <-
           self$`dbxrefs`
       }
-      if (!is.null(self$`control_type`)) {
-        MeasurementSetObject[["control_type"]] <-
-          self$`control_type`
-      }
       if (!is.null(self$`samples`)) {
         MeasurementSetObject[["samples"]] <-
           self$`samples`
@@ -600,6 +592,10 @@ MeasurementSet <- R6::R6Class(
       if (!is.null(self$`multiome_size`)) {
         MeasurementSetObject[["multiome_size"]] <-
           self$`multiome_size`
+      }
+      if (!is.null(self$`control_types`)) {
+        MeasurementSetObject[["control_types"]] <-
+          self$`control_types`
       }
       if (!is.null(self$`sequencing_library_types`)) {
         MeasurementSetObject[["sequencing_library_types"]] <-
@@ -767,12 +763,6 @@ MeasurementSet <- R6::R6Class(
       if (!is.null(this_object$`dbxrefs`)) {
         self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
       }
-      if (!is.null(this_object$`control_type`)) {
-        if (!is.null(this_object$`control_type`) && !(this_object$`control_type` %in% c("baseline", "reference transduction", "low FACS signal", "non-targeting", "unsorted FACS input", "untransfected", "untreated"))) {
-          stop(paste("Error! \"", this_object$`control_type`, "\" cannot be assigned to `control_type`. Must be \"baseline\", \"reference transduction\", \"low FACS signal\", \"non-targeting\", \"unsorted FACS input\", \"untransfected\", \"untreated\".", sep = ""))
-        }
-        self$`control_type` <- this_object$`control_type`
-      }
       if (!is.null(this_object$`samples`)) {
         self$`samples` <- ApiClient$new()$deserializeObj(this_object$`samples`, "set[character]", loadNamespace("igvfclient"))
       }
@@ -799,6 +789,9 @@ MeasurementSet <- R6::R6Class(
       }
       if (!is.null(this_object$`multiome_size`)) {
         self$`multiome_size` <- this_object$`multiome_size`
+      }
+      if (!is.null(this_object$`control_types`)) {
+        self$`control_types` <- ApiClient$new()$deserializeObj(this_object$`control_types`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`sequencing_library_types`)) {
         self$`sequencing_library_types` <- ApiClient$new()$deserializeObj(this_object$`sequencing_library_types`, "set[character]", loadNamespace("igvfclient"))
@@ -1051,14 +1044,6 @@ MeasurementSet <- R6::R6Class(
           paste(unlist(lapply(self$`dbxrefs`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
-        if (!is.null(self$`control_type`)) {
-          sprintf(
-          '"control_type":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`control_type`, perl=TRUE)
-          )
-        },
         if (!is.null(self$`samples`)) {
           sprintf(
           '"samples":
@@ -1113,6 +1098,14 @@ MeasurementSet <- R6::R6Class(
             %f
                     ',
           self$`multiome_size`
+          )
+        },
+        if (!is.null(self$`control_types`)) {
+          sprintf(
+          '"control_types":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`control_types`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`sequencing_library_types`)) {
@@ -1329,10 +1322,6 @@ MeasurementSet <- R6::R6Class(
       self$`submitter_comment` <- this_object$`submitter_comment`
       self$`description` <- this_object$`description`
       self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
-      if (!is.null(this_object$`control_type`) && !(this_object$`control_type` %in% c("baseline", "reference transduction", "low FACS signal", "non-targeting", "unsorted FACS input", "untransfected", "untreated"))) {
-        stop(paste("Error! \"", this_object$`control_type`, "\" cannot be assigned to `control_type`. Must be \"baseline\", \"reference transduction\", \"low FACS signal\", \"non-targeting\", \"unsorted FACS input\", \"untransfected\", \"untreated\".", sep = ""))
-      }
-      self$`control_type` <- this_object$`control_type`
       self$`samples` <- ApiClient$new()$deserializeObj(this_object$`samples`, "set[character]", loadNamespace("igvfclient"))
       self$`donors` <- ApiClient$new()$deserializeObj(this_object$`donors`, "set[character]", loadNamespace("igvfclient"))
       if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("experimental data"))) {
@@ -1346,6 +1335,7 @@ MeasurementSet <- R6::R6Class(
       }
       self$`preferred_assay_title` <- this_object$`preferred_assay_title`
       self$`multiome_size` <- this_object$`multiome_size`
+      self$`control_types` <- ApiClient$new()$deserializeObj(this_object$`control_types`, "set[character]", loadNamespace("igvfclient"))
       self$`sequencing_library_types` <- ApiClient$new()$deserializeObj(this_object$`sequencing_library_types`, "set[character]", loadNamespace("igvfclient"))
       self$`primer_designs` <- ApiClient$new()$deserializeObj(this_object$`primer_designs`, "set[character]", loadNamespace("igvfclient"))
       if (!is.null(this_object$`strand_specificity`) && !(this_object$`strand_specificity` %in% c("5 prime to 3 prime", "3 prime to 5 prime", "unstranded"))) {
@@ -1441,6 +1431,7 @@ MeasurementSet <- R6::R6Class(
 
 
 
+
       if (!str_detect(self$`external_image_url`, "^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$")) {
         return(FALSE)
       }
@@ -1498,6 +1489,7 @@ MeasurementSet <- R6::R6Class(
       if (self$`multiome_size` < 2) {
         invalid_fields["multiome_size"] <- "Invalid value for `multiome_size`, must be bigger than or equal to 2."
       }
+
 
 
 

@@ -33,7 +33,7 @@ Name | Type | Description | Notes
 **submitter_comment** | **character** | Additional information specified by the submitter to be displayed as a comment on the portal. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **description** | **character** | A plain text description of the object. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **file_set_type** | **character** | The type or category of this construct library set. | [optional] [Enum: [guide library, reporter library, expression vector library, editing template library]] 
-**control_type** | **character** | The type of control this file set represents. | [optional] [Enum: [reference transduction, non-targeting]] 
+**control_types** | **set[character]** | The types of control this construct library set set represents. | [optional] [Enum: ] 
 **scope** | **character** | The scope or scale that this construct library is designed to target. | [optional] [Enum: [tile, exon, genes, loci, genome-wide, interactors, alleles, targeton, control]] 
 **selection_criteria** | **set[character]** | The criteria used to select the sequence material cloned into the library. | [optional] [Enum: ] 
 **integrated_content_files** | **set[character]** | The files containing sequence material of interest either used for insert design or directly cloned into vectors in this library. | [optional] 
