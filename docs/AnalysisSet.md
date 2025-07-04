@@ -46,5 +46,6 @@ Name | Type | Description | Notes
 **sample_summary** | **character** | A summary of the samples associated with input file sets of this analysis set. | [optional] 
 **functional_assay_mechanisms** | **set[character]** | The biological processes measured by the functional assays. | [optional] 
 **workflows** | **array[character]** | A workflow for computational analysis of genomic data. A workflow is made up of analysis steps. | [optional] 
+**targeted_genes** | **array[character]** | A list of genes targeted by the input measurement sets assays. | [optional] 
 
 
