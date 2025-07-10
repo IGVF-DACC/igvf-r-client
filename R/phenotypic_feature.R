@@ -183,8 +183,8 @@ PhenotypicFeature <- R6::R6Class(
         self$`quantity_units` <- `quantity_units`
       }
       if (!is.null(`quality`)) {
-        if (!(`quality` %in% c("none", "sparse", "moderate", "frequent", "unknown", "I", "II", "III", "IV", "V", "VI", "2/2", "2/3", "2/4", "3/3", "3/4", "4/4"))) {
-          stop(paste("Error! \"", `quality`, "\" cannot be assigned to `quality`. Must be \"none\", \"sparse\", \"moderate\", \"frequent\", \"unknown\", \"I\", \"II\", \"III\", \"IV\", \"V\", \"VI\", \"2/2\", \"2/3\", \"2/4\", \"3/3\", \"3/4\", \"4/4\".", sep = ""))
+        if (!(`quality` %in% c("none", "sparse", "moderate", "frequent", "unknown", "I", "II", "III", "IV", "V", "VI", "E2/E2", "E2/E3", "E2/E4", "E3/E3", "E3/E4", "E4/E4"))) {
+          stop(paste("Error! \"", `quality`, "\" cannot be assigned to `quality`. Must be \"none\", \"sparse\", \"moderate\", \"frequent\", \"unknown\", \"I\", \"II\", \"III\", \"IV\", \"V\", \"VI\", \"E2/E2\", \"E2/E3\", \"E2/E4\", \"E3/E3\", \"E3/E4\", \"E4/E4\".", sep = ""))
         }
         if (!(is.character(`quality`) && length(`quality`) == 1)) {
           stop(paste("Error! Invalid data for `quality`. Must be a string:", `quality`))
@@ -375,8 +375,8 @@ PhenotypicFeature <- R6::R6Class(
         self$`quantity_units` <- this_object$`quantity_units`
       }
       if (!is.null(this_object$`quality`)) {
-        if (!is.null(this_object$`quality`) && !(this_object$`quality` %in% c("none", "sparse", "moderate", "frequent", "unknown", "I", "II", "III", "IV", "V", "VI", "2/2", "2/3", "2/4", "3/3", "3/4", "4/4"))) {
-          stop(paste("Error! \"", this_object$`quality`, "\" cannot be assigned to `quality`. Must be \"none\", \"sparse\", \"moderate\", \"frequent\", \"unknown\", \"I\", \"II\", \"III\", \"IV\", \"V\", \"VI\", \"2/2\", \"2/3\", \"2/4\", \"3/3\", \"3/4\", \"4/4\".", sep = ""))
+        if (!is.null(this_object$`quality`) && !(this_object$`quality` %in% c("none", "sparse", "moderate", "frequent", "unknown", "I", "II", "III", "IV", "V", "VI", "E2/E2", "E2/E3", "E2/E4", "E3/E3", "E3/E4", "E4/E4"))) {
+          stop(paste("Error! \"", this_object$`quality`, "\" cannot be assigned to `quality`. Must be \"none\", \"sparse\", \"moderate\", \"frequent\", \"unknown\", \"I\", \"II\", \"III\", \"IV\", \"V\", \"VI\", \"E2/E2\", \"E2/E3\", \"E2/E4\", \"E3/E3\", \"E3/E4\", \"E4/E4\".", sep = ""))
         }
         self$`quality` <- this_object$`quality`
       }
@@ -607,8 +607,8 @@ PhenotypicFeature <- R6::R6Class(
         stop(paste("Error! \"", this_object$`quantity_units`, "\" cannot be assigned to `quantity_units`. Must be \"meter\", \"micromole\", \"nanogram\", \"microgram\", \"milligram\", \"gram\", \"kilogram\", \"milli-International Unit per milliliter\", \"picogram per milliliter\", \"nanogram per milliliter\", \"milligram per deciliter\", \"UPDRS\", \"MMSE\".", sep = ""))
       }
       self$`quantity_units` <- this_object$`quantity_units`
-      if (!is.null(this_object$`quality`) && !(this_object$`quality` %in% c("none", "sparse", "moderate", "frequent", "unknown", "I", "II", "III", "IV", "V", "VI", "2/2", "2/3", "2/4", "3/3", "3/4", "4/4"))) {
-        stop(paste("Error! \"", this_object$`quality`, "\" cannot be assigned to `quality`. Must be \"none\", \"sparse\", \"moderate\", \"frequent\", \"unknown\", \"I\", \"II\", \"III\", \"IV\", \"V\", \"VI\", \"2/2\", \"2/3\", \"2/4\", \"3/3\", \"3/4\", \"4/4\".", sep = ""))
+      if (!is.null(this_object$`quality`) && !(this_object$`quality` %in% c("none", "sparse", "moderate", "frequent", "unknown", "I", "II", "III", "IV", "V", "VI", "E2/E2", "E2/E3", "E2/E4", "E3/E3", "E3/E4", "E4/E4"))) {
+        stop(paste("Error! \"", this_object$`quality`, "\" cannot be assigned to `quality`. Must be \"none\", \"sparse\", \"moderate\", \"frequent\", \"unknown\", \"I\", \"II\", \"III\", \"IV\", \"V\", \"VI\", \"E2/E2\", \"E2/E3\", \"E2/E4\", \"E3/E3\", \"E3/E4\", \"E4/E4\".", sep = ""))
       }
       self$`quality` <- this_object$`quality`
       self$`observation_date` <- this_object$`observation_date`
