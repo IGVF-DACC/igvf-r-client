@@ -5,6 +5,7 @@ Measurement set is a file set that hosts raw data files (e.g. FASTQs) resulting 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**preferred_assay_titles** | **array[character]** | The custom lab preferred label for the experiment performed. | [optional] [Enum: ] 
 **preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **control_file_sets** | **set[character]** | File sets that can serve as scientific controls for this file set. | [optional] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
@@ -31,7 +32,6 @@ Name | Type | Description | Notes
 **file_set_type** | **character** | The category that best describes this measurement set. | [optional] [Enum: [experimental data]] 
 **assay_term** | **character** | The assay used to produce data in this measurement set. | [optional] 
 **protocols** | **set[character]** | Links to the protocol(s) for conducting the assay on Protocols.io. | [optional] 
-**preferred_assay_title** | **character** | The custom lab preferred label for the experiment performed in this measurement set. | [optional] [Enum: [RNA-seq, scRNA-seq, snRNA-seq, scNT-seq, scNT-seq2, scNT-seq3, scMultiome-NT-seq, Parse SPLiT-seq, ATAC-seq, varACCESS, ACCESS-ATAC, scATAC-seq, scACCESS-ATAC, snATAC-seq, mtscMultiome, DOGMA-seq, 10x multiome, 10x multiome with MULTI-seq, 10x with Scale pre-indexing, MULTI-seq, SHARE-seq, Histone ChIP-seq, TF ChIP-seq, CUT&amp;RUN, MPRA, MPRA (scQer), electroporated MPRA, AAV-MPRA, lentiMPRA, STARR-seq, Cell painting, Variant painting via fluorescence, Variant painting via immunostaining, Arrayed Y2H v1, Arrayed Y2H v2, Arrayed Y2H v3, Pooled Y2H v1, Pooled Y2H v2, Pooled Y2H v3, Arrayed semi-qY2H v1, Arrayed semi-qY2H v2, Arrayed semi-qY2H v3, Arrayed yN2H, Arrayed mN2H, smFISH, MERFISH, Proliferation CRISPR screen, Migration CRISPR screen, CRISPR FlowFISH screen, CRISPR FACS screen, CRISPR MACS screen, CRISPR mCherry screen, HCR-FlowFISH screen, scCRISPR screen, Perturb-seq, Parse Perturb-seq, TAP-seq, Variant-EFFECTS, SGE, Immune-SGE, MIAA, snmC-Seq2, snMCT-seq, snM3C-seq, VAMP-seq, VAMP-seq (MultiSTEP), LABEL-seq, Hi-C, HiCAR, Spatial transcriptomics, HT-recruit, ONT dRNA, ONT Fiber-seq, ONT direct WGS, Bisulfite-seq, WGS]] 
 **multiome_size** | **integer** | The number of datasets included in the multiome experiment this measurement set is a part of. | [optional] [Min: 2] 
 **control_types** | **set[character]** | The types of control this measurement set represents. | [optional] [Enum: ] 
 **sequencing_library_types** | **set[character]** | Description of the libraries sequenced in this measurement set. | [optional] [Enum: ] 
@@ -54,6 +54,7 @@ Name | Type | Description | Notes
 **construct_library_sets** | **set[character]** | The construct library sets associated with the samples of this file set. | [optional] 
 **data_use_limitation_summaries** | **set[character]** | The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
 **controlled_access** | **character** | The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
+**assay_titles** | **array[character]** | Ontology term names from Ontology of Biomedical Investigations (OBI) for assays | [optional] 
 **related_multiome_datasets** | **set[character]** | Related datasets included in the multiome experiment this measurement set is a part of. | [optional] 
 **externally_hosted** | **character** |  | [optional] 
 

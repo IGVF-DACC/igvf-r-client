@@ -33,6 +33,7 @@
 #' @field file_set_type The level of this analysis set. character [optional]
 #' @field external_image_data_url Links to the external site where images and related data produced by this analysis are stored. character [optional]
 #' @field demultiplexed_samples The sample(s) associated with this analysis set inferred through demultiplexing. list(character) [optional]
+#' @field uniform_pipeline_status The status of the single cell or Perturb-seq uniform pipeline processing for this analysis set, if applicable. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary  character [optional]
@@ -43,7 +44,8 @@
 #' @field construct_library_sets The construct library sets associated with the samples of this file set. list(character) [optional]
 #' @field data_use_limitation_summaries The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. list(character) [optional]
 #' @field controlled_access The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. character [optional]
-#' @field assay_titles Title(s) of assays that produced data analyzed in the analysis set. list(character) [optional]
+#' @field preferred_assay_titles Preferred Assay Title(s) of assays that produced data analyzed in the analysis set. list(character) [optional]
+#' @field assay_titles Ontology term names from Ontology of Biomedical Investigations (OBI) for assays list(character) [optional]
 #' @field protocols Links to the protocol(s) for conducting the assay on Protocols.io. list(character) [optional]
 #' @field sample_summary A summary of the samples associated with input file sets of this analysis set. character [optional]
 #' @field functional_assay_mechanisms The biological processes measured by the functional assays. list(character) [optional]
@@ -81,6 +83,7 @@ AnalysisSet <- R6::R6Class(
     `file_set_type` = NULL,
     `external_image_data_url` = NULL,
     `demultiplexed_samples` = NULL,
+    `uniform_pipeline_status` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -91,6 +94,7 @@ AnalysisSet <- R6::R6Class(
     `construct_library_sets` = NULL,
     `data_use_limitation_summaries` = NULL,
     `controlled_access` = NULL,
+    `preferred_assay_titles` = NULL,
     `assay_titles` = NULL,
     `protocols` = NULL,
     `sample_summary` = NULL,
@@ -128,6 +132,7 @@ AnalysisSet <- R6::R6Class(
     #' @param file_set_type The level of this analysis set.
     #' @param external_image_data_url Links to the external site where images and related data produced by this analysis are stored.
     #' @param demultiplexed_samples The sample(s) associated with this analysis set inferred through demultiplexing.
+    #' @param uniform_pipeline_status The status of the single cell or Perturb-seq uniform pipeline processing for this analysis set, if applicable.
     #' @param @id @id
     #' @param @type @type
     #' @param summary summary
@@ -138,7 +143,8 @@ AnalysisSet <- R6::R6Class(
     #' @param construct_library_sets The construct library sets associated with the samples of this file set.
     #' @param data_use_limitation_summaries The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set.
     #' @param controlled_access The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set.
-    #' @param assay_titles Title(s) of assays that produced data analyzed in the analysis set.
+    #' @param preferred_assay_titles Preferred Assay Title(s) of assays that produced data analyzed in the analysis set.
+    #' @param assay_titles Ontology term names from Ontology of Biomedical Investigations (OBI) for assays
     #' @param protocols Links to the protocol(s) for conducting the assay on Protocols.io.
     #' @param sample_summary A summary of the samples associated with input file sets of this analysis set.
     #' @param functional_assay_mechanisms The biological processes measured by the functional assays.
@@ -146,7 +152,7 @@ AnalysisSet <- R6::R6Class(
     #' @param targeted_genes A list of genes targeted by the input measurement sets assays.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `external_image_data_url` = NULL, `demultiplexed_samples` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `assay_titles` = NULL, `protocols` = NULL, `sample_summary` = NULL, `functional_assay_mechanisms` = NULL, `workflows` = NULL, `targeted_genes` = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `external_image_data_url` = NULL, `demultiplexed_samples` = NULL, `uniform_pipeline_status` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `preferred_assay_titles` = NULL, `assay_titles` = NULL, `protocols` = NULL, `sample_summary` = NULL, `functional_assay_mechanisms` = NULL, `workflows` = NULL, `targeted_genes` = NULL, ...) {
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -299,6 +305,15 @@ AnalysisSet <- R6::R6Class(
         sapply(`demultiplexed_samples`, function(x) stopifnot(is.character(x)))
         self$`demultiplexed_samples` <- `demultiplexed_samples`
       }
+      if (!is.null(`uniform_pipeline_status`)) {
+        if (!(`uniform_pipeline_status` %in% c("preprocessing", "processing", "error", "completed"))) {
+          stop(paste("Error! \"", `uniform_pipeline_status`, "\" cannot be assigned to `uniform_pipeline_status`. Must be \"preprocessing\", \"processing\", \"error\", \"completed\".", sep = ""))
+        }
+        if (!(is.character(`uniform_pipeline_status`) && length(`uniform_pipeline_status`) == 1)) {
+          stop(paste("Error! Invalid data for `uniform_pipeline_status`. Must be a string:", `uniform_pipeline_status`))
+        }
+        self$`uniform_pipeline_status` <- `uniform_pipeline_status`
+      }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
           stop(paste("Error! Invalid data for `@id`. Must be a string:", `@id`))
@@ -352,6 +367,11 @@ AnalysisSet <- R6::R6Class(
           stop(paste("Error! Invalid data for `controlled_access`. Must be a boolean:", `controlled_access`))
         }
         self$`controlled_access` <- `controlled_access`
+      }
+      if (!is.null(`preferred_assay_titles`)) {
+        stopifnot(is.vector(`preferred_assay_titles`), length(`preferred_assay_titles`) != 0)
+        sapply(`preferred_assay_titles`, function(x) stopifnot(is.character(x)))
+        self$`preferred_assay_titles` <- `preferred_assay_titles`
       }
       if (!is.null(`assay_titles`)) {
         stopifnot(is.vector(`assay_titles`), length(`assay_titles`) != 0)
@@ -498,6 +518,10 @@ AnalysisSet <- R6::R6Class(
         AnalysisSetObject[["demultiplexed_samples"]] <-
           self$`demultiplexed_samples`
       }
+      if (!is.null(self$`uniform_pipeline_status`)) {
+        AnalysisSetObject[["uniform_pipeline_status"]] <-
+          self$`uniform_pipeline_status`
+      }
       if (!is.null(self$`@id`)) {
         AnalysisSetObject[["@id"]] <-
           self$`@id`
@@ -537,6 +561,10 @@ AnalysisSet <- R6::R6Class(
       if (!is.null(self$`controlled_access`)) {
         AnalysisSetObject[["controlled_access"]] <-
           self$`controlled_access`
+      }
+      if (!is.null(self$`preferred_assay_titles`)) {
+        AnalysisSetObject[["preferred_assay_titles"]] <-
+          self$`preferred_assay_titles`
       }
       if (!is.null(self$`assay_titles`)) {
         AnalysisSetObject[["assay_titles"]] <-
@@ -658,6 +686,12 @@ AnalysisSet <- R6::R6Class(
       if (!is.null(this_object$`demultiplexed_samples`)) {
         self$`demultiplexed_samples` <- ApiClient$new()$deserializeObj(this_object$`demultiplexed_samples`, "set[character]", loadNamespace("igvfclient"))
       }
+      if (!is.null(this_object$`uniform_pipeline_status`)) {
+        if (!is.null(this_object$`uniform_pipeline_status`) && !(this_object$`uniform_pipeline_status` %in% c("preprocessing", "processing", "error", "completed"))) {
+          stop(paste("Error! \"", this_object$`uniform_pipeline_status`, "\" cannot be assigned to `uniform_pipeline_status`. Must be \"preprocessing\", \"processing\", \"error\", \"completed\".", sep = ""))
+        }
+        self$`uniform_pipeline_status` <- this_object$`uniform_pipeline_status`
+      }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
       }
@@ -687,6 +721,9 @@ AnalysisSet <- R6::R6Class(
       }
       if (!is.null(this_object$`controlled_access`)) {
         self$`controlled_access` <- this_object$`controlled_access`
+      }
+      if (!is.null(this_object$`preferred_assay_titles`)) {
+        self$`preferred_assay_titles` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_titles`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`assay_titles`)) {
         self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
@@ -925,6 +962,14 @@ AnalysisSet <- R6::R6Class(
           paste(unlist(lapply(self$`demultiplexed_samples`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`uniform_pipeline_status`)) {
+          sprintf(
+          '"uniform_pipeline_status":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`uniform_pipeline_status`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -1003,6 +1048,14 @@ AnalysisSet <- R6::R6Class(
             %s
                     ',
           tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`controlled_access`, perl=TRUE))
+          )
+        },
+        if (!is.null(self$`preferred_assay_titles`)) {
+          sprintf(
+          '"preferred_assay_titles":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`preferred_assay_titles`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`assay_titles`)) {
@@ -1099,6 +1152,10 @@ AnalysisSet <- R6::R6Class(
       self$`file_set_type` <- this_object$`file_set_type`
       self$`external_image_data_url` <- this_object$`external_image_data_url`
       self$`demultiplexed_samples` <- ApiClient$new()$deserializeObj(this_object$`demultiplexed_samples`, "set[character]", loadNamespace("igvfclient"))
+      if (!is.null(this_object$`uniform_pipeline_status`) && !(this_object$`uniform_pipeline_status` %in% c("preprocessing", "processing", "error", "completed"))) {
+        stop(paste("Error! \"", this_object$`uniform_pipeline_status`, "\" cannot be assigned to `uniform_pipeline_status`. Must be \"preprocessing\", \"processing\", \"error\", \"completed\".", sep = ""))
+      }
+      self$`uniform_pipeline_status` <- this_object$`uniform_pipeline_status`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
@@ -1109,6 +1166,7 @@ AnalysisSet <- R6::R6Class(
       self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`data_use_limitation_summaries` <- ApiClient$new()$deserializeObj(this_object$`data_use_limitation_summaries`, "set[character]", loadNamespace("igvfclient"))
       self$`controlled_access` <- this_object$`controlled_access`
+      self$`preferred_assay_titles` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_titles`, "set[character]", loadNamespace("igvfclient"))
       self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
       self$`protocols` <- ApiClient$new()$deserializeObj(this_object$`protocols`, "set[character]", loadNamespace("igvfclient"))
       self$`sample_summary` <- this_object$`sample_summary`
@@ -1187,6 +1245,7 @@ AnalysisSet <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1230,6 +1289,7 @@ AnalysisSet <- R6::R6Class(
       if (!str_detect(self$`external_image_data_url`, "^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$")) {
         invalid_fields["external_image_data_url"] <- "Invalid value for `external_image_data_url`, must conform to the pattern ^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$."
       }
+
 
 
 

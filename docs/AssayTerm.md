@@ -5,6 +5,7 @@ An ontology term from Ontology of Biomedical Investigations (OBI) for assays.
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**preferred_assay_titles** | **array[character]** | The custom lab preferred label for the experiment performed. | [optional] [Enum: ] 
 **preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **status** | **character** | The status of the metadata object. | [optional] [Enum: [archived, deleted, in progress, preview, released]] 
@@ -20,7 +21,6 @@ Name | Type | Description | Notes
 **term_name** | **character** | Ontology term describing a biological sample, assay, trait, or disease. | [optional] [Pattern: ^(?![\\s\&quot;&#39;])[\\S|\\s]*[^\\s\&quot;&#39;]$] 
 **deprecated_ntr_terms** | **set[character]** | A list of deprecated NTR terms previously associated with this ontology term. | [optional] 
 **is_a** | **set[character]** | A list of ontology terms which are the nearest ancestor to this ontology term. | [optional] 
-**preferred_assay_titles** | **set[character]** | The custom lab preferred labels that this assay term may be associated with. | [optional] [Enum: ] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** | A summary of the ontology term. | [optional] 

@@ -7,6 +7,7 @@
 #' @title AssayTerm
 #' @description AssayTerm Class
 #' @format An \code{R6Class} generator object
+#' @field preferred_assay_titles The custom lab preferred label for the experiment performed. list(character) [optional]
 #' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field status The status of the metadata object. character [optional]
@@ -22,7 +23,6 @@
 #' @field term_name Ontology term describing a biological sample, assay, trait, or disease. character [optional]
 #' @field deprecated_ntr_terms A list of deprecated NTR terms previously associated with this ontology term. list(character) [optional]
 #' @field is_a A list of ontology terms which are the nearest ancestor to this ontology term. list(character) [optional]
-#' @field preferred_assay_titles The custom lab preferred labels that this assay term may be associated with. list(character) [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the ontology term. character [optional]
@@ -41,6 +41,7 @@
 AssayTerm <- R6::R6Class(
   "AssayTerm",
   public = list(
+    `preferred_assay_titles` = NULL,
     `preview_timestamp` = NULL,
     `release_timestamp` = NULL,
     `status` = NULL,
@@ -56,7 +57,6 @@ AssayTerm <- R6::R6Class(
     `term_name` = NULL,
     `deprecated_ntr_terms` = NULL,
     `is_a` = NULL,
-    `preferred_assay_titles` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -74,6 +74,7 @@ AssayTerm <- R6::R6Class(
     #' @description
     #' Initialize a new AssayTerm class.
     #'
+    #' @param preferred_assay_titles The custom lab preferred label for the experiment performed.
     #' @param preview_timestamp The date the object was previewed.
     #' @param release_timestamp The date the object was released.
     #' @param status The status of the metadata object.
@@ -89,7 +90,6 @@ AssayTerm <- R6::R6Class(
     #' @param term_name Ontology term describing a biological sample, assay, trait, or disease.
     #' @param deprecated_ntr_terms A list of deprecated NTR terms previously associated with this ontology term.
     #' @param is_a A list of ontology terms which are the nearest ancestor to this ontology term.
-    #' @param preferred_assay_titles The custom lab preferred labels that this assay term may be associated with.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the ontology term.
@@ -104,7 +104,12 @@ AssayTerm <- R6::R6Class(
     #' @param objective_slims The purpose of the assay.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `status` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `term_id` = NULL, `term_name` = NULL, `deprecated_ntr_terms` = NULL, `is_a` = NULL, `preferred_assay_titles` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `name` = NULL, `definition` = NULL, `comments` = NULL, `synonyms` = NULL, `ancestors` = NULL, `ontology` = NULL, `assay_slims` = NULL, `category_slims` = NULL, `objective_slims` = NULL, ...) {
+    initialize = function(`preferred_assay_titles` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `status` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `term_id` = NULL, `term_name` = NULL, `deprecated_ntr_terms` = NULL, `is_a` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `name` = NULL, `definition` = NULL, `comments` = NULL, `synonyms` = NULL, `ancestors` = NULL, `ontology` = NULL, `assay_slims` = NULL, `category_slims` = NULL, `objective_slims` = NULL, ...) {
+      if (!is.null(`preferred_assay_titles`)) {
+        stopifnot(is.vector(`preferred_assay_titles`), length(`preferred_assay_titles`) != 0)
+        sapply(`preferred_assay_titles`, function(x) stopifnot(is.character(x)))
+        self$`preferred_assay_titles` <- `preferred_assay_titles`
+      }
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -195,11 +200,6 @@ AssayTerm <- R6::R6Class(
         sapply(`is_a`, function(x) stopifnot(is.character(x)))
         self$`is_a` <- `is_a`
       }
-      if (!is.null(`preferred_assay_titles`)) {
-        stopifnot(is.vector(`preferred_assay_titles`), length(`preferred_assay_titles`) != 0)
-        sapply(`preferred_assay_titles`, function(x) stopifnot(is.character(x)))
-        self$`preferred_assay_titles` <- `preferred_assay_titles`
-      }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
           stop(paste("Error! Invalid data for `@id`. Must be a string:", `@id`))
@@ -275,6 +275,10 @@ AssayTerm <- R6::R6Class(
     #' @export
     toJSON = function() {
       AssayTermObject <- list()
+      if (!is.null(self$`preferred_assay_titles`)) {
+        AssayTermObject[["preferred_assay_titles"]] <-
+          self$`preferred_assay_titles`
+      }
       if (!is.null(self$`preview_timestamp`)) {
         AssayTermObject[["preview_timestamp"]] <-
           self$`preview_timestamp`
@@ -334,10 +338,6 @@ AssayTerm <- R6::R6Class(
       if (!is.null(self$`is_a`)) {
         AssayTermObject[["is_a"]] <-
           self$`is_a`
-      }
-      if (!is.null(self$`preferred_assay_titles`)) {
-        AssayTermObject[["preferred_assay_titles"]] <-
-          self$`preferred_assay_titles`
       }
       if (!is.null(self$`@id`)) {
         AssayTermObject[["@id"]] <-
@@ -399,6 +399,9 @@ AssayTerm <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`preferred_assay_titles`)) {
+        self$`preferred_assay_titles` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_titles`, "array[character]", loadNamespace("igvfclient"))
+      }
       if (!is.null(this_object$`preview_timestamp`)) {
         self$`preview_timestamp` <- this_object$`preview_timestamp`
       }
@@ -447,9 +450,6 @@ AssayTerm <- R6::R6Class(
       if (!is.null(this_object$`is_a`)) {
         self$`is_a` <- ApiClient$new()$deserializeObj(this_object$`is_a`, "set[character]", loadNamespace("igvfclient"))
       }
-      if (!is.null(this_object$`preferred_assay_titles`)) {
-        self$`preferred_assay_titles` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_titles`, "set[character]", loadNamespace("igvfclient"))
-      }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
       }
@@ -497,6 +497,14 @@ AssayTerm <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`preferred_assay_titles`)) {
+          sprintf(
+          '"preferred_assay_titles":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`preferred_assay_titles`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`preview_timestamp`)) {
           sprintf(
           '"preview_timestamp":
@@ -617,14 +625,6 @@ AssayTerm <- R6::R6Class(
           paste(unlist(lapply(self$`is_a`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
-        if (!is.null(self$`preferred_assay_titles`)) {
-          sprintf(
-          '"preferred_assay_titles":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`preferred_assay_titles`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -735,6 +735,7 @@ AssayTerm <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`preferred_assay_titles` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_titles`, "array[character]", loadNamespace("igvfclient"))
       self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`release_timestamp` <- this_object$`release_timestamp`
       if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("archived", "deleted", "in progress", "preview", "released"))) {
@@ -753,7 +754,6 @@ AssayTerm <- R6::R6Class(
       self$`term_name` <- this_object$`term_name`
       self$`deprecated_ntr_terms` <- ApiClient$new()$deserializeObj(this_object$`deprecated_ntr_terms`, "set[character]", loadNamespace("igvfclient"))
       self$`is_a` <- ApiClient$new()$deserializeObj(this_object$`is_a`, "set[character]", loadNamespace("igvfclient"))
-      self$`preferred_assay_titles` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_titles`, "set[character]", loadNamespace("igvfclient"))
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
@@ -829,7 +829,6 @@ AssayTerm <- R6::R6Class(
 
 
 
-
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -865,7 +864,6 @@ AssayTerm <- R6::R6Class(
       if (!str_detect(self$`term_name`, "^(?![\\s\"'])[\\S|\\s]*[^\\s\"']$")) {
         invalid_fields["term_name"] <- "Invalid value for `term_name`, must conform to the pattern ^(?![\\s\"'])[\\S|\\s]*[^\\s\"']$."
       }
-
 
 
 

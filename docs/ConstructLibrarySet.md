@@ -62,6 +62,7 @@ Name | Type | Description | Notes
 **controlled_access** | **character** | The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
 **applied_to_samples** | **set[character]** | The samples that link to this construct library set. | [optional] 
 **file_sets** | **set[character]** | The file sets that used this construct library set. | [optional] 
-**assay_titles** | **set[character]** | The assay titles of the file sets that used this construct library set. | [optional] 
+**preferred_assay_titles** | **set[character]** | The preferred assay titles of the file sets that used this construct library set. | [optional] 
+**assay_titles** | **set[character]** | Ontology term names from Ontology of Biomedical Investigations (OBI) for assays. | [optional] 
 
 
