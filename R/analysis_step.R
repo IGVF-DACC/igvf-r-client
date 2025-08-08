@@ -23,14 +23,12 @@
 #' @field analysis_step_types The classification of the software. list(character) [optional]
 #' @field step_label Unique lowercased label of the analysis step that includes the relevant assays, the software used, and the purpose of the step, e.g. rampage-grit-peak-calling-step character [optional]
 #' @field title The preferred viewable name of the analysis step, likely the same as the step label. character [optional]
-#' @field workflow The computational workflow in which this analysis step belongs. character [optional]
 #' @field parents The precursor steps. list(character) [optional]
 #' @field input_content_types The content types used as input for the analysis step. list(character) [optional]
 #' @field output_content_types The content types produced as output by the analysis step. list(character) [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the object. character [optional]
-#' @field name Full name of the analysis step. character [optional]
 #' @field analysis_step_versions The analysis step versions associated with this analysis step. list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -54,14 +52,12 @@ AnalysisStep <- R6::R6Class(
     `analysis_step_types` = NULL,
     `step_label` = NULL,
     `title` = NULL,
-    `workflow` = NULL,
     `parents` = NULL,
     `input_content_types` = NULL,
     `output_content_types` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
-    `name` = NULL,
     `analysis_step_versions` = NULL,
     #' Initialize a new AnalysisStep class.
     #'
@@ -84,18 +80,16 @@ AnalysisStep <- R6::R6Class(
     #' @param analysis_step_types The classification of the software.
     #' @param step_label Unique lowercased label of the analysis step that includes the relevant assays, the software used, and the purpose of the step, e.g. rampage-grit-peak-calling-step
     #' @param title The preferred viewable name of the analysis step, likely the same as the step label.
-    #' @param workflow The computational workflow in which this analysis step belongs.
     #' @param parents The precursor steps.
     #' @param input_content_types The content types used as input for the analysis step.
     #' @param output_content_types The content types produced as output by the analysis step.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the object.
-    #' @param name Full name of the analysis step.
     #' @param analysis_step_versions The analysis step versions associated with this analysis step.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `status` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_types` = NULL, `step_label` = NULL, `title` = NULL, `workflow` = NULL, `parents` = NULL, `input_content_types` = NULL, `output_content_types` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `name` = NULL, `analysis_step_versions` = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `status` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_types` = NULL, `step_label` = NULL, `title` = NULL, `parents` = NULL, `input_content_types` = NULL, `output_content_types` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `analysis_step_versions` = NULL, ...) {
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -193,12 +187,6 @@ AnalysisStep <- R6::R6Class(
         }
         self$`title` <- `title`
       }
-      if (!is.null(`workflow`)) {
-        if (!(is.character(`workflow`) && length(`workflow`) == 1)) {
-          stop(paste("Error! Invalid data for `workflow`. Must be a string:", `workflow`))
-        }
-        self$`workflow` <- `workflow`
-      }
       if (!is.null(`parents`)) {
         stopifnot(is.vector(`parents`), length(`parents`) != 0)
         sapply(`parents`, function(x) stopifnot(is.character(x)))
@@ -230,12 +218,6 @@ AnalysisStep <- R6::R6Class(
           stop(paste("Error! Invalid data for `summary`. Must be a string:", `summary`))
         }
         self$`summary` <- `summary`
-      }
-      if (!is.null(`name`)) {
-        if (!(is.character(`name`) && length(`name`) == 1)) {
-          stop(paste("Error! Invalid data for `name`. Must be a string:", `name`))
-        }
-        self$`name` <- `name`
       }
       if (!is.null(`analysis_step_versions`)) {
         stopifnot(is.vector(`analysis_step_versions`), length(`analysis_step_versions`) != 0)
@@ -316,10 +298,6 @@ AnalysisStep <- R6::R6Class(
         AnalysisStepObject[["title"]] <-
           self$`title`
       }
-      if (!is.null(self$`workflow`)) {
-        AnalysisStepObject[["workflow"]] <-
-          self$`workflow`
-      }
       if (!is.null(self$`parents`)) {
         AnalysisStepObject[["parents"]] <-
           self$`parents`
@@ -343,10 +321,6 @@ AnalysisStep <- R6::R6Class(
       if (!is.null(self$`summary`)) {
         AnalysisStepObject[["summary"]] <-
           self$`summary`
-      }
-      if (!is.null(self$`name`)) {
-        AnalysisStepObject[["name"]] <-
-          self$`name`
       }
       if (!is.null(self$`analysis_step_versions`)) {
         AnalysisStepObject[["analysis_step_versions"]] <-
@@ -415,9 +389,6 @@ AnalysisStep <- R6::R6Class(
       if (!is.null(this_object$`title`)) {
         self$`title` <- this_object$`title`
       }
-      if (!is.null(this_object$`workflow`)) {
-        self$`workflow` <- this_object$`workflow`
-      }
       if (!is.null(this_object$`parents`)) {
         self$`parents` <- ApiClient$new()$deserializeObj(this_object$`parents`, "set[character]", loadNamespace("igvfclient"))
       }
@@ -435,9 +406,6 @@ AnalysisStep <- R6::R6Class(
       }
       if (!is.null(this_object$`summary`)) {
         self$`summary` <- this_object$`summary`
-      }
-      if (!is.null(this_object$`name`)) {
-        self$`name` <- this_object$`name`
       }
       if (!is.null(this_object$`analysis_step_versions`)) {
         self$`analysis_step_versions` <- ApiClient$new()$deserializeObj(this_object$`analysis_step_versions`, "set[character]", loadNamespace("igvfclient"))
@@ -581,14 +549,6 @@ AnalysisStep <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`title`, perl=TRUE)
           )
         },
-        if (!is.null(self$`workflow`)) {
-          sprintf(
-          '"workflow":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`workflow`, perl=TRUE)
-          )
-        },
         if (!is.null(self$`parents`)) {
           sprintf(
           '"parents":
@@ -637,14 +597,6 @@ AnalysisStep <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`summary`, perl=TRUE)
           )
         },
-        if (!is.null(self$`name`)) {
-          sprintf(
-          '"name":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`name`, perl=TRUE)
-          )
-        },
         if (!is.null(self$`analysis_step_versions`)) {
           sprintf(
           '"analysis_step_versions":
@@ -686,14 +638,12 @@ AnalysisStep <- R6::R6Class(
       self$`analysis_step_types` <- ApiClient$new()$deserializeObj(this_object$`analysis_step_types`, "set[character]", loadNamespace("igvfclient"))
       self$`step_label` <- this_object$`step_label`
       self$`title` <- this_object$`title`
-      self$`workflow` <- this_object$`workflow`
       self$`parents` <- ApiClient$new()$deserializeObj(this_object$`parents`, "set[character]", loadNamespace("igvfclient"))
       self$`input_content_types` <- ApiClient$new()$deserializeObj(this_object$`input_content_types`, "set[character]", loadNamespace("igvfclient"))
       self$`output_content_types` <- ApiClient$new()$deserializeObj(this_object$`output_content_types`, "set[character]", loadNamespace("igvfclient"))
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
-      self$`name` <- this_object$`name`
       self$`analysis_step_versions` <- ApiClient$new()$deserializeObj(this_object$`analysis_step_versions`, "set[character]", loadNamespace("igvfclient"))
       self
     },

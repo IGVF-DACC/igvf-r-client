@@ -52,7 +52,7 @@ Name | Type | Description | Notes
 **quality_metrics** | **set[character]** | The quality metrics that are associated with this file. | [optional] 
 **assay_titles** | **set[character]** | Title(s) of assay from the file set this file belongs to. | [optional] 
 **preferred_assay_titles** | **set[character]** | Preferred assay titles from the file set this file belongs to. | [optional] 
-**workflow** | **character** | The workflow used to produce this file. | [optional] 
+**workflows** | **set[character]** | The workflows associated with the analysis step version used to produce this file. | [optional] 
 **href** | **character** | The download path to obtain file. | [optional] 
 **s3_uri** | **character** | The S3 URI of public file object. | [optional] 
 **upload_credentials** | **object** | The upload credentials for S3 to submit the file content. | [optional] 

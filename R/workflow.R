@@ -36,7 +36,6 @@
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the object. character [optional]
-#' @field analysis_steps The analysis steps which are part of this workflow. list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -72,7 +71,6 @@ Workflow <- R6::R6Class(
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
-    `analysis_steps` = NULL,
     #' Initialize a new Workflow class.
     #'
     #' @description
@@ -107,10 +105,9 @@ Workflow <- R6::R6Class(
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the object.
-    #' @param analysis_steps The analysis steps which are part of this workflow.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `source_url` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `name` = NULL, `workflow_repositories` = NULL, `standards_page` = NULL, `workflow_version` = NULL, `uniform_pipeline` = NULL, `analysis_step_versions` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `analysis_steps` = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `source_url` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `name` = NULL, `workflow_repositories` = NULL, `standards_page` = NULL, `workflow_version` = NULL, `uniform_pipeline` = NULL, `analysis_step_versions` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, ...) {
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -280,11 +277,6 @@ Workflow <- R6::R6Class(
         }
         self$`summary` <- `summary`
       }
-      if (!is.null(`analysis_steps`)) {
-        stopifnot(is.vector(`analysis_steps`), length(`analysis_steps`) != 0)
-        sapply(`analysis_steps`, function(x) stopifnot(is.character(x)))
-        self$`analysis_steps` <- `analysis_steps`
-      }
     },
     #' To JSON string
     #'
@@ -411,10 +403,6 @@ Workflow <- R6::R6Class(
         WorkflowObject[["summary"]] <-
           self$`summary`
       }
-      if (!is.null(self$`analysis_steps`)) {
-        WorkflowObject[["analysis_steps"]] <-
-          self$`analysis_steps`
-      }
       WorkflowObject
     },
     #' Deserialize JSON string into an instance of Workflow
@@ -516,9 +504,6 @@ Workflow <- R6::R6Class(
       }
       if (!is.null(this_object$`summary`)) {
         self$`summary` <- this_object$`summary`
-      }
-      if (!is.null(this_object$`analysis_steps`)) {
-        self$`analysis_steps` <- ApiClient$new()$deserializeObj(this_object$`analysis_steps`, "set[character]", loadNamespace("igvfclient"))
       }
       self
     },
@@ -762,14 +747,6 @@ Workflow <- R6::R6Class(
                     ',
           gsub('(?<!\\\\)\\"', '\\\\"', self$`summary`, perl=TRUE)
           )
-        },
-        if (!is.null(self$`analysis_steps`)) {
-          sprintf(
-          '"analysis_steps":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`analysis_steps`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -817,7 +794,6 @@ Workflow <- R6::R6Class(
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
-      self$`analysis_steps` <- ApiClient$new()$deserializeObj(this_object$`analysis_steps`, "set[character]", loadNamespace("igvfclient"))
       self
     },
     #' Validate JSON input with respect to Workflow
@@ -887,7 +863,6 @@ Workflow <- R6::R6Class(
       }
 
 
-
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -936,7 +911,6 @@ Workflow <- R6::R6Class(
       if (!str_detect(self$`workflow_version`, "^v(?!0\\.0\\.0$)([0-9]+\\.[0-9]+\\.[0-9]+(\\.[0-9]+)?|0\\.0\\.0\\.[1-9][0-9]*)$")) {
         invalid_fields["workflow_version"] <- "Invalid value for `workflow_version`, must conform to the pattern ^v(?!0\\.0\\.0$)([0-9]+\\.[0-9]+\\.[0-9]+(\\.[0-9]+)?|0\\.0\\.0\\.[1-9][0-9]*)$."
       }
-
 
 
       invalid_fields

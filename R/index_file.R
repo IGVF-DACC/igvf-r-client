@@ -52,7 +52,7 @@
 #' @field quality_metrics The quality metrics that are associated with this file. list(character) [optional]
 #' @field assay_titles Title(s) of assay from the file set this file belongs to. list(character) [optional]
 #' @field preferred_assay_titles Preferred assay titles from the file set this file belongs to. list(character) [optional]
-#' @field workflow The workflow used to produce this file. character [optional]
+#' @field workflows The workflows associated with the analysis step version used to produce this file. list(character) [optional]
 #' @field href The download path to obtain file. character [optional]
 #' @field s3_uri The S3 URI of public file object. character [optional]
 #' @field upload_credentials The upload credentials for S3 to submit the file content. object [optional]
@@ -111,7 +111,7 @@ IndexFile <- R6::R6Class(
     `quality_metrics` = NULL,
     `assay_titles` = NULL,
     `preferred_assay_titles` = NULL,
-    `workflow` = NULL,
+    `workflows` = NULL,
     `href` = NULL,
     `s3_uri` = NULL,
     `upload_credentials` = NULL,
@@ -169,7 +169,7 @@ IndexFile <- R6::R6Class(
     #' @param quality_metrics The quality metrics that are associated with this file.
     #' @param assay_titles Title(s) of assay from the file set this file belongs to.
     #' @param preferred_assay_titles Preferred assay titles from the file set this file belongs to.
-    #' @param workflow The workflow used to produce this file.
+    #' @param workflows The workflows associated with the analysis step version used to produce this file.
     #' @param href The download path to obtain file.
     #' @param s3_uri The S3 URI of public file object.
     #' @param upload_credentials The upload credentials for S3 to submit the file content.
@@ -179,7 +179,7 @@ IndexFile <- R6::R6Class(
     #' @param redacted Indicates whether the alignments data have been sanitized (redacted) to prevent leakage of private and potentially identifying genomic information.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflow` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `assembly` = NULL, `transcriptome_annotation` = NULL, `filtered` = NULL, `redacted` = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `assembly` = NULL, `transcriptome_annotation` = NULL, `filtered` = NULL, `redacted` = NULL, ...) {
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -444,11 +444,10 @@ IndexFile <- R6::R6Class(
         sapply(`preferred_assay_titles`, function(x) stopifnot(is.character(x)))
         self$`preferred_assay_titles` <- `preferred_assay_titles`
       }
-      if (!is.null(`workflow`)) {
-        if (!(is.character(`workflow`) && length(`workflow`) == 1)) {
-          stop(paste("Error! Invalid data for `workflow`. Must be a string:", `workflow`))
-        }
-        self$`workflow` <- `workflow`
+      if (!is.null(`workflows`)) {
+        stopifnot(is.vector(`workflows`), length(`workflows`) != 0)
+        sapply(`workflows`, function(x) stopifnot(is.character(x)))
+        self$`workflows` <- `workflows`
       }
       if (!is.null(`href`)) {
         if (!(is.character(`href`) && length(`href`) == 1)) {
@@ -679,9 +678,9 @@ IndexFile <- R6::R6Class(
         IndexFileObject[["preferred_assay_titles"]] <-
           self$`preferred_assay_titles`
       }
-      if (!is.null(self$`workflow`)) {
-        IndexFileObject[["workflow"]] <-
-          self$`workflow`
+      if (!is.null(self$`workflows`)) {
+        IndexFileObject[["workflows"]] <-
+          self$`workflows`
       }
       if (!is.null(self$`href`)) {
         IndexFileObject[["href"]] <-
@@ -867,8 +866,8 @@ IndexFile <- R6::R6Class(
       if (!is.null(this_object$`preferred_assay_titles`)) {
         self$`preferred_assay_titles` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_titles`, "set[character]", loadNamespace("igvfclient"))
       }
-      if (!is.null(this_object$`workflow`)) {
-        self$`workflow` <- this_object$`workflow`
+      if (!is.null(this_object$`workflows`)) {
+        self$`workflows` <- ApiClient$new()$deserializeObj(this_object$`workflows`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`href`)) {
         self$`href` <- this_object$`href`
@@ -1262,12 +1261,12 @@ IndexFile <- R6::R6Class(
           paste(unlist(lapply(self$`preferred_assay_titles`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
-        if (!is.null(self$`workflow`)) {
+        if (!is.null(self$`workflows`)) {
           sprintf(
-          '"workflow":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`workflow`, perl=TRUE)
+          '"workflows":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`workflows`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`href`)) {
@@ -1394,7 +1393,7 @@ IndexFile <- R6::R6Class(
       self$`quality_metrics` <- ApiClient$new()$deserializeObj(this_object$`quality_metrics`, "set[character]", loadNamespace("igvfclient"))
       self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
       self$`preferred_assay_titles` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_titles`, "set[character]", loadNamespace("igvfclient"))
-      self$`workflow` <- this_object$`workflow`
+      self$`workflows` <- ApiClient$new()$deserializeObj(this_object$`workflows`, "set[character]", loadNamespace("igvfclient"))
       self$`href` <- this_object$`href`
       self$`s3_uri` <- this_object$`s3_uri`
       self$`upload_credentials` <- this_object$`upload_credentials`
@@ -1484,6 +1483,7 @@ IndexFile <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1539,6 +1539,7 @@ IndexFile <- R6::R6Class(
       if (!str_detect(self$`md5sum`, "[a-f\\d]{32}|[A-F\\d]{32}")) {
         invalid_fields["md5sum"] <- "Invalid value for `md5sum`, must conform to the pattern [a-f\\d]{32}|[A-F\\d]{32}."
       }
+
 
 
 

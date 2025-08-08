@@ -34,6 +34,5 @@ Name | Type | Description | Notes
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** | A summary of the object. | [optional] 
-**analysis_steps** | **set[character]** | The analysis steps which are part of this workflow. | [optional] 
 
 

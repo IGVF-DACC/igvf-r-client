@@ -16,6 +16,7 @@
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field file_format_type The subtype of bed files. character [optional]
 #' @field transcriptome_annotation The annotation and version of the reference resource. character [optional]
+#' @field reference_files Link to the reference files used to generate this file. list(character) [optional]
 #' @field filtered Indicates whether the file has gone through some filtering step, for example, removal of PCR duplicates or filtering based on significance calling. character [optional]
 #' @field documents Documents that provide additional information (not data file). list(character) [optional]
 #' @field lab Lab associated with the submission. character [optional]
@@ -59,7 +60,7 @@
 #' @field quality_metrics The quality metrics that are associated with this file. list(character) [optional]
 #' @field assay_titles Title(s) of assay from the file set this file belongs to. list(character) [optional]
 #' @field preferred_assay_titles Preferred assay titles from the file set this file belongs to. list(character) [optional]
-#' @field workflow The workflow used to produce this file. character [optional]
+#' @field workflows The workflows associated with the analysis step version used to produce this file. list(character) [optional]
 #' @field href The download path to obtain file. character [optional]
 #' @field s3_uri The S3 URI of public file object. character [optional]
 #' @field upload_credentials The upload credentials for S3 to submit the file content. object [optional]
@@ -80,6 +81,7 @@ TabularFile <- R6::R6Class(
     `release_timestamp` = NULL,
     `file_format_type` = NULL,
     `transcriptome_annotation` = NULL,
+    `reference_files` = NULL,
     `filtered` = NULL,
     `documents` = NULL,
     `lab` = NULL,
@@ -123,7 +125,7 @@ TabularFile <- R6::R6Class(
     `quality_metrics` = NULL,
     `assay_titles` = NULL,
     `preferred_assay_titles` = NULL,
-    `workflow` = NULL,
+    `workflows` = NULL,
     `href` = NULL,
     `s3_uri` = NULL,
     `upload_credentials` = NULL,
@@ -143,6 +145,7 @@ TabularFile <- R6::R6Class(
     #' @param release_timestamp The date the object was released.
     #' @param file_format_type The subtype of bed files.
     #' @param transcriptome_annotation The annotation and version of the reference resource.
+    #' @param reference_files Link to the reference files used to generate this file.
     #' @param filtered Indicates whether the file has gone through some filtering step, for example, removal of PCR duplicates or filtering based on significance calling.
     #' @param documents Documents that provide additional information (not data file).
     #' @param lab Lab associated with the submission.
@@ -186,7 +189,7 @@ TabularFile <- R6::R6Class(
     #' @param quality_metrics The quality metrics that are associated with this file.
     #' @param assay_titles Title(s) of assay from the file set this file belongs to.
     #' @param preferred_assay_titles Preferred assay titles from the file set this file belongs to.
-    #' @param workflow The workflow used to produce this file.
+    #' @param workflows The workflows associated with the analysis step version used to produce this file.
     #' @param href The download path to obtain file.
     #' @param s3_uri The S3 URI of public file object.
     #' @param upload_credentials The upload credentials for S3 to submit the file content.
@@ -194,7 +197,7 @@ TabularFile <- R6::R6Class(
     #' @param primer_design_for Link(s) to the MeasurementSets using this file as a primer design.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`base_modifications` = NULL, `preview_timestamp` = NULL, `cell_type_annotation` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `catalog_adapters` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflow` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `barcode_map_for` = NULL, `primer_design_for` = NULL, ...) {
+    initialize = function(`base_modifications` = NULL, `preview_timestamp` = NULL, `cell_type_annotation` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `reference_files` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `catalog_adapters` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `barcode_map_for` = NULL, `primer_design_for` = NULL, ...) {
       if (!is.null(`base_modifications`)) {
         stopifnot(is.vector(`base_modifications`), length(`base_modifications`) != 0)
         sapply(`base_modifications`, function(x) stopifnot(is.character(x)))
@@ -256,6 +259,11 @@ TabularFile <- R6::R6Class(
           stop(paste("Error! Invalid data for `transcriptome_annotation`. Must be a string:", `transcriptome_annotation`))
         }
         self$`transcriptome_annotation` <- `transcriptome_annotation`
+      }
+      if (!is.null(`reference_files`)) {
+        stopifnot(is.vector(`reference_files`), length(`reference_files`) != 0)
+        sapply(`reference_files`, function(x) stopifnot(is.character(x)))
+        self$`reference_files` <- `reference_files`
       }
       if (!is.null(`filtered`)) {
         if (!(is.logical(`filtered`) && length(`filtered`) == 1)) {
@@ -393,8 +401,8 @@ TabularFile <- R6::R6Class(
         self$`derived_manually` <- `derived_manually`
       }
       if (!is.null(`file_format`)) {
-        if (!(`file_format` %in% c("bed", "bedpe", "bigBed", "csv", "gtf", "tar", "tsv", "vcf"))) {
-          stop(paste("Error! \"", `file_format`, "\" cannot be assigned to `file_format`. Must be \"bed\", \"bedpe\", \"bigBed\", \"csv\", \"gtf\", \"tar\", \"tsv\", \"vcf\".", sep = ""))
+        if (!(`file_format` %in% c("bed", "bedpe", "bigBed", "csv", "gtf", "gvcf", "tar", "tsv", "vcf"))) {
+          stop(paste("Error! \"", `file_format`, "\" cannot be assigned to `file_format`. Must be \"bed\", \"bedpe\", \"bigBed\", \"csv\", \"gtf\", \"gvcf\", \"tar\", \"tsv\", \"vcf\".", sep = ""))
         }
         if (!(is.character(`file_format`) && length(`file_format`) == 1)) {
           stop(paste("Error! Invalid data for `file_format`. Must be a string:", `file_format`))
@@ -508,11 +516,10 @@ TabularFile <- R6::R6Class(
         sapply(`preferred_assay_titles`, function(x) stopifnot(is.character(x)))
         self$`preferred_assay_titles` <- `preferred_assay_titles`
       }
-      if (!is.null(`workflow`)) {
-        if (!(is.character(`workflow`) && length(`workflow`) == 1)) {
-          stop(paste("Error! Invalid data for `workflow`. Must be a string:", `workflow`))
-        }
-        self$`workflow` <- `workflow`
+      if (!is.null(`workflows`)) {
+        stopifnot(is.vector(`workflows`), length(`workflows`) != 0)
+        sapply(`workflows`, function(x) stopifnot(is.character(x)))
+        self$`workflows` <- `workflows`
       }
       if (!is.null(`href`)) {
         if (!(is.character(`href`) && length(`href`) == 1)) {
@@ -584,6 +591,10 @@ TabularFile <- R6::R6Class(
       if (!is.null(self$`transcriptome_annotation`)) {
         TabularFileObject[["transcriptome_annotation"]] <-
           self$`transcriptome_annotation`
+      }
+      if (!is.null(self$`reference_files`)) {
+        TabularFileObject[["reference_files"]] <-
+          self$`reference_files`
       }
       if (!is.null(self$`filtered`)) {
         TabularFileObject[["filtered"]] <-
@@ -757,9 +768,9 @@ TabularFile <- R6::R6Class(
         TabularFileObject[["preferred_assay_titles"]] <-
           self$`preferred_assay_titles`
       }
-      if (!is.null(self$`workflow`)) {
-        TabularFileObject[["workflow"]] <-
-          self$`workflow`
+      if (!is.null(self$`workflows`)) {
+        TabularFileObject[["workflows"]] <-
+          self$`workflows`
       }
       if (!is.null(self$`href`)) {
         TabularFileObject[["href"]] <-
@@ -828,6 +839,9 @@ TabularFile <- R6::R6Class(
           stop(paste("Error! \"", this_object$`transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 22\", \"GENCODE 24\", \"GENCODE 28\", \"GENCODE 32\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M17\", \"GENCODE M25\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\", \"GENCODE 32, GENCODE M23\".", sep = ""))
         }
         self$`transcriptome_annotation` <- this_object$`transcriptome_annotation`
+      }
+      if (!is.null(this_object$`reference_files`)) {
+        self$`reference_files` <- ApiClient$new()$deserializeObj(this_object$`reference_files`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`filtered`)) {
         self$`filtered` <- this_object$`filtered`
@@ -902,8 +916,8 @@ TabularFile <- R6::R6Class(
         self$`derived_manually` <- this_object$`derived_manually`
       }
       if (!is.null(this_object$`file_format`)) {
-        if (!is.null(this_object$`file_format`) && !(this_object$`file_format` %in% c("bed", "bedpe", "bigBed", "csv", "gtf", "tar", "tsv", "vcf"))) {
-          stop(paste("Error! \"", this_object$`file_format`, "\" cannot be assigned to `file_format`. Must be \"bed\", \"bedpe\", \"bigBed\", \"csv\", \"gtf\", \"tar\", \"tsv\", \"vcf\".", sep = ""))
+        if (!is.null(this_object$`file_format`) && !(this_object$`file_format` %in% c("bed", "bedpe", "bigBed", "csv", "gtf", "gvcf", "tar", "tsv", "vcf"))) {
+          stop(paste("Error! \"", this_object$`file_format`, "\" cannot be assigned to `file_format`. Must be \"bed\", \"bedpe\", \"bigBed\", \"csv\", \"gtf\", \"gvcf\", \"tar\", \"tsv\", \"vcf\".", sep = ""))
         }
         self$`file_format` <- this_object$`file_format`
       }
@@ -967,8 +981,8 @@ TabularFile <- R6::R6Class(
       if (!is.null(this_object$`preferred_assay_titles`)) {
         self$`preferred_assay_titles` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_titles`, "set[character]", loadNamespace("igvfclient"))
       }
-      if (!is.null(this_object$`workflow`)) {
-        self$`workflow` <- this_object$`workflow`
+      if (!is.null(this_object$`workflows`)) {
+        self$`workflows` <- ApiClient$new()$deserializeObj(this_object$`workflows`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`href`)) {
         self$`href` <- this_object$`href`
@@ -1066,6 +1080,14 @@ TabularFile <- R6::R6Class(
             "%s"
                     ',
           gsub('(?<!\\\\)\\"', '\\\\"', self$`transcriptome_annotation`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`reference_files`)) {
+          sprintf(
+          '"reference_files":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`reference_files`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`filtered`)) {
@@ -1412,12 +1434,12 @@ TabularFile <- R6::R6Class(
           paste(unlist(lapply(self$`preferred_assay_titles`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
-        if (!is.null(self$`workflow`)) {
+        if (!is.null(self$`workflows`)) {
           sprintf(
-          '"workflow":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`workflow`, perl=TRUE)
+          '"workflows":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`workflows`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`href`)) {
@@ -1492,6 +1514,7 @@ TabularFile <- R6::R6Class(
         stop(paste("Error! \"", this_object$`transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 22\", \"GENCODE 24\", \"GENCODE 28\", \"GENCODE 32\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M17\", \"GENCODE M25\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\", \"GENCODE 32, GENCODE M23\".", sep = ""))
       }
       self$`transcriptome_annotation` <- this_object$`transcriptome_annotation`
+      self$`reference_files` <- ApiClient$new()$deserializeObj(this_object$`reference_files`, "set[character]", loadNamespace("igvfclient"))
       self$`filtered` <- this_object$`filtered`
       self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
       self$`lab` <- this_object$`lab`
@@ -1518,8 +1541,8 @@ TabularFile <- R6::R6Class(
       self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
       self$`derived_from` <- ApiClient$new()$deserializeObj(this_object$`derived_from`, "set[character]", loadNamespace("igvfclient"))
       self$`derived_manually` <- this_object$`derived_manually`
-      if (!is.null(this_object$`file_format`) && !(this_object$`file_format` %in% c("bed", "bedpe", "bigBed", "csv", "gtf", "tar", "tsv", "vcf"))) {
-        stop(paste("Error! \"", this_object$`file_format`, "\" cannot be assigned to `file_format`. Must be \"bed\", \"bedpe\", \"bigBed\", \"csv\", \"gtf\", \"tar\", \"tsv\", \"vcf\".", sep = ""))
+      if (!is.null(this_object$`file_format`) && !(this_object$`file_format` %in% c("bed", "bedpe", "bigBed", "csv", "gtf", "gvcf", "tar", "tsv", "vcf"))) {
+        stop(paste("Error! \"", this_object$`file_format`, "\" cannot be assigned to `file_format`. Must be \"bed\", \"bedpe\", \"bigBed\", \"csv\", \"gtf\", \"gvcf\", \"tar\", \"tsv\", \"vcf\".", sep = ""))
       }
       self$`file_format` <- this_object$`file_format`
       self$`file_format_specifications` <- ApiClient$new()$deserializeObj(this_object$`file_format_specifications`, "set[character]", loadNamespace("igvfclient"))
@@ -1544,7 +1567,7 @@ TabularFile <- R6::R6Class(
       self$`quality_metrics` <- ApiClient$new()$deserializeObj(this_object$`quality_metrics`, "set[character]", loadNamespace("igvfclient"))
       self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
       self$`preferred_assay_titles` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_titles`, "set[character]", loadNamespace("igvfclient"))
-      self$`workflow` <- this_object$`workflow`
+      self$`workflows` <- ApiClient$new()$deserializeObj(this_object$`workflows`, "set[character]", loadNamespace("igvfclient"))
       self$`href` <- this_object$`href`
       self$`s3_uri` <- this_object$`s3_uri`
       self$`upload_credentials` <- this_object$`upload_credentials`
@@ -1580,6 +1603,7 @@ TabularFile <- R6::R6Class(
     #' @return true if the values in all fields are valid.
     #' @export
     isValid = function() {
+
 
 
 
@@ -1636,6 +1660,7 @@ TabularFile <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1647,6 +1672,7 @@ TabularFile <- R6::R6Class(
     #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
+
 
 
 
@@ -1692,6 +1718,7 @@ TabularFile <- R6::R6Class(
       if (!str_detect(self$`md5sum`, "[a-f\\d]{32}|[A-F\\d]{32}")) {
         invalid_fields["md5sum"] <- "Invalid value for `md5sum`, must conform to the pattern [a-f\\d]{32}|[A-F\\d]{32}."
       }
+
 
 
 

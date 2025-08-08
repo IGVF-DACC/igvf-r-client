@@ -57,11 +57,13 @@
 #' @field quality_metrics The quality metrics that are associated with this file. list(character) [optional]
 #' @field assay_titles Title(s) of assay from the file set this file belongs to. list(character) [optional]
 #' @field preferred_assay_titles Preferred assay titles from the file set this file belongs to. list(character) [optional]
-#' @field workflow The workflow used to produce this file. character [optional]
+#' @field workflows The workflows associated with the analysis step version used to produce this file. list(character) [optional]
 #' @field href The download path to obtain file. character [optional]
 #' @field s3_uri The S3 URI of public file object. character [optional]
 #' @field upload_credentials The upload credentials for S3 to submit the file content. object [optional]
 #' @field content_summary A summary of the data in the alignment file. character [optional]
+#' @field transcriptome_annotation The annotation and version of the reference resource. character [optional]
+#' @field assembly The assembly associated with the alignment file. character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -118,11 +120,13 @@ AlignmentFile <- R6::R6Class(
     `quality_metrics` = NULL,
     `assay_titles` = NULL,
     `preferred_assay_titles` = NULL,
-    `workflow` = NULL,
+    `workflows` = NULL,
     `href` = NULL,
     `s3_uri` = NULL,
     `upload_credentials` = NULL,
     `content_summary` = NULL,
+    `transcriptome_annotation` = NULL,
+    `assembly` = NULL,
     #' Initialize a new AlignmentFile class.
     #'
     #' @description
@@ -178,14 +182,16 @@ AlignmentFile <- R6::R6Class(
     #' @param quality_metrics The quality metrics that are associated with this file.
     #' @param assay_titles Title(s) of assay from the file set this file belongs to.
     #' @param preferred_assay_titles Preferred assay titles from the file set this file belongs to.
-    #' @param workflow The workflow used to produce this file.
+    #' @param workflows The workflows associated with the analysis step version used to produce this file.
     #' @param href The download path to obtain file.
     #' @param s3_uri The S3 URI of public file object.
     #' @param upload_credentials The upload credentials for S3 to submit the file content.
     #' @param content_summary A summary of the data in the alignment file.
+    #' @param transcriptome_annotation The annotation and version of the reference resource.
+    #' @param assembly The assembly associated with the alignment file.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`base_modifications` = NULL, `preview_timestamp` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `release_timestamp` = NULL, `reference_files` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `read_count` = NULL, `redacted` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflow` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `content_summary` = NULL, ...) {
+    initialize = function(`base_modifications` = NULL, `preview_timestamp` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `release_timestamp` = NULL, `reference_files` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `read_count` = NULL, `redacted` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `content_summary` = NULL, `transcriptome_annotation` = NULL, `assembly` = NULL, ...) {
       if (!is.null(`base_modifications`)) {
         stopifnot(is.vector(`base_modifications`), length(`base_modifications`) != 0)
         sapply(`base_modifications`, function(x) stopifnot(is.character(x)))
@@ -478,11 +484,10 @@ AlignmentFile <- R6::R6Class(
         sapply(`preferred_assay_titles`, function(x) stopifnot(is.character(x)))
         self$`preferred_assay_titles` <- `preferred_assay_titles`
       }
-      if (!is.null(`workflow`)) {
-        if (!(is.character(`workflow`) && length(`workflow`) == 1)) {
-          stop(paste("Error! Invalid data for `workflow`. Must be a string:", `workflow`))
-        }
-        self$`workflow` <- `workflow`
+      if (!is.null(`workflows`)) {
+        stopifnot(is.vector(`workflows`), length(`workflows`) != 0)
+        sapply(`workflows`, function(x) stopifnot(is.character(x)))
+        self$`workflows` <- `workflows`
       }
       if (!is.null(`href`)) {
         if (!(is.character(`href`) && length(`href`) == 1)) {
@@ -504,6 +509,24 @@ AlignmentFile <- R6::R6Class(
           stop(paste("Error! Invalid data for `content_summary`. Must be a string:", `content_summary`))
         }
         self$`content_summary` <- `content_summary`
+      }
+      if (!is.null(`transcriptome_annotation`)) {
+        if (!(`transcriptome_annotation` %in% c("GENCODE 22", "GENCODE 24", "GENCODE 28", "GENCODE 32", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M17", "GENCODE M25", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36", "GENCODE 32, GENCODE M23", "Mixed transcriptome annotations"))) {
+          stop(paste("Error! \"", `transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 22\", \"GENCODE 24\", \"GENCODE 28\", \"GENCODE 32\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M17\", \"GENCODE M25\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\", \"GENCODE 32, GENCODE M23\", \"Mixed transcriptome annotations\".", sep = ""))
+        }
+        if (!(is.character(`transcriptome_annotation`) && length(`transcriptome_annotation`) == 1)) {
+          stop(paste("Error! Invalid data for `transcriptome_annotation`. Must be a string:", `transcriptome_annotation`))
+        }
+        self$`transcriptome_annotation` <- `transcriptome_annotation`
+      }
+      if (!is.null(`assembly`)) {
+        if (!(`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, mm10", "custom", "Mixed genome assemblies"))) {
+          stop(paste("Error! \"", `assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, mm10\", \"custom\", \"Mixed genome assemblies\".", sep = ""))
+        }
+        if (!(is.character(`assembly`) && length(`assembly`) == 1)) {
+          stop(paste("Error! Invalid data for `assembly`. Must be a string:", `assembly`))
+        }
+        self$`assembly` <- `assembly`
       }
     },
     #' To JSON string
@@ -715,9 +738,9 @@ AlignmentFile <- R6::R6Class(
         AlignmentFileObject[["preferred_assay_titles"]] <-
           self$`preferred_assay_titles`
       }
-      if (!is.null(self$`workflow`)) {
-        AlignmentFileObject[["workflow"]] <-
-          self$`workflow`
+      if (!is.null(self$`workflows`)) {
+        AlignmentFileObject[["workflows"]] <-
+          self$`workflows`
       }
       if (!is.null(self$`href`)) {
         AlignmentFileObject[["href"]] <-
@@ -734,6 +757,14 @@ AlignmentFile <- R6::R6Class(
       if (!is.null(self$`content_summary`)) {
         AlignmentFileObject[["content_summary"]] <-
           self$`content_summary`
+      }
+      if (!is.null(self$`transcriptome_annotation`)) {
+        AlignmentFileObject[["transcriptome_annotation"]] <-
+          self$`transcriptome_annotation`
+      }
+      if (!is.null(self$`assembly`)) {
+        AlignmentFileObject[["assembly"]] <-
+          self$`assembly`
       }
       AlignmentFileObject
     },
@@ -906,8 +937,8 @@ AlignmentFile <- R6::R6Class(
       if (!is.null(this_object$`preferred_assay_titles`)) {
         self$`preferred_assay_titles` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_titles`, "set[character]", loadNamespace("igvfclient"))
       }
-      if (!is.null(this_object$`workflow`)) {
-        self$`workflow` <- this_object$`workflow`
+      if (!is.null(this_object$`workflows`)) {
+        self$`workflows` <- ApiClient$new()$deserializeObj(this_object$`workflows`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`href`)) {
         self$`href` <- this_object$`href`
@@ -920,6 +951,18 @@ AlignmentFile <- R6::R6Class(
       }
       if (!is.null(this_object$`content_summary`)) {
         self$`content_summary` <- this_object$`content_summary`
+      }
+      if (!is.null(this_object$`transcriptome_annotation`)) {
+        if (!is.null(this_object$`transcriptome_annotation`) && !(this_object$`transcriptome_annotation` %in% c("GENCODE 22", "GENCODE 24", "GENCODE 28", "GENCODE 32", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M17", "GENCODE M25", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36", "GENCODE 32, GENCODE M23", "Mixed transcriptome annotations"))) {
+          stop(paste("Error! \"", this_object$`transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 22\", \"GENCODE 24\", \"GENCODE 28\", \"GENCODE 32\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M17\", \"GENCODE M25\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\", \"GENCODE 32, GENCODE M23\", \"Mixed transcriptome annotations\".", sep = ""))
+        }
+        self$`transcriptome_annotation` <- this_object$`transcriptome_annotation`
+      }
+      if (!is.null(this_object$`assembly`)) {
+        if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, mm10", "custom", "Mixed genome assemblies"))) {
+          stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, mm10\", \"custom\", \"Mixed genome assemblies\".", sep = ""))
+        }
+        self$`assembly` <- this_object$`assembly`
       }
       self
     },
@@ -1332,12 +1375,12 @@ AlignmentFile <- R6::R6Class(
           paste(unlist(lapply(self$`preferred_assay_titles`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
-        if (!is.null(self$`workflow`)) {
+        if (!is.null(self$`workflows`)) {
           sprintf(
-          '"workflow":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`workflow`, perl=TRUE)
+          '"workflows":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`workflows`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`href`)) {
@@ -1370,6 +1413,22 @@ AlignmentFile <- R6::R6Class(
             "%s"
                     ',
           gsub('(?<!\\\\)\\"', '\\\\"', self$`content_summary`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`transcriptome_annotation`)) {
+          sprintf(
+          '"transcriptome_annotation":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`transcriptome_annotation`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`assembly`)) {
+          sprintf(
+          '"assembly":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`assembly`, perl=TRUE)
           )
         }
       )
@@ -1445,11 +1504,19 @@ AlignmentFile <- R6::R6Class(
       self$`quality_metrics` <- ApiClient$new()$deserializeObj(this_object$`quality_metrics`, "set[character]", loadNamespace("igvfclient"))
       self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
       self$`preferred_assay_titles` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_titles`, "set[character]", loadNamespace("igvfclient"))
-      self$`workflow` <- this_object$`workflow`
+      self$`workflows` <- ApiClient$new()$deserializeObj(this_object$`workflows`, "set[character]", loadNamespace("igvfclient"))
       self$`href` <- this_object$`href`
       self$`s3_uri` <- this_object$`s3_uri`
       self$`upload_credentials` <- this_object$`upload_credentials`
       self$`content_summary` <- this_object$`content_summary`
+      if (!is.null(this_object$`transcriptome_annotation`) && !(this_object$`transcriptome_annotation` %in% c("GENCODE 22", "GENCODE 24", "GENCODE 28", "GENCODE 32", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M17", "GENCODE M25", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36", "GENCODE 32, GENCODE M23", "Mixed transcriptome annotations"))) {
+        stop(paste("Error! \"", this_object$`transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 22\", \"GENCODE 24\", \"GENCODE 28\", \"GENCODE 32\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M17\", \"GENCODE M25\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\", \"GENCODE 32, GENCODE M23\", \"Mixed transcriptome annotations\".", sep = ""))
+      }
+      self$`transcriptome_annotation` <- this_object$`transcriptome_annotation`
+      if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, mm10", "custom", "Mixed genome assemblies"))) {
+        stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, mm10\", \"custom\", \"Mixed genome assemblies\".", sep = ""))
+      }
+      self$`assembly` <- this_object$`assembly`
       self
     },
     #' Validate JSON input with respect to AlignmentFile
@@ -1538,6 +1605,7 @@ AlignmentFile <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1599,6 +1667,7 @@ AlignmentFile <- R6::R6Class(
       if (self$`read_count` < 0) {
         invalid_fields["read_count"] <- "Invalid value for `read_count`, must be bigger than or equal to 0."
       }
+
 
 
 
