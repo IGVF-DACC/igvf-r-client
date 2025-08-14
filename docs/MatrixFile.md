@@ -40,7 +40,7 @@ Name | Type | Description | Notes
 **upload_status** | **character** | The upload/validation status of the file. | [optional] [Enum: [pending, file not found, invalidated, validated, validation exempted]] 
 **validation_error_detail** | **character** | Explanation of why the file failed the automated content checks. | [optional] 
 **checkfiles_version** | **character** | The Checkfiles GitHub version release the file was validated with. | [optional] 
-**principal_dimension** | **character** | The principal dimension of the matrix. | [optional] [Enum: [cell, fragment, gene, time, treatment, variant, genomic position, spot barcode]] 
+**principal_dimension** | **character** | The principal dimension of the matrix. | [optional] [Enum: [cell, fragment, gene, mitochondrial variants, time, treatment, variant, genomic position, spot barcode]] 
 **secondary_dimensions** | **set[character]** | The secondary, tertiary....n levels of dimensions of the matrix. | [optional] [Enum: ] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 

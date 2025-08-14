@@ -395,8 +395,8 @@ MatrixFile <- R6::R6Class(
         self$`checkfiles_version` <- `checkfiles_version`
       }
       if (!is.null(`principal_dimension`)) {
-        if (!(`principal_dimension` %in% c("cell", "fragment", "gene", "time", "treatment", "variant", "genomic position", "spot barcode"))) {
-          stop(paste("Error! \"", `principal_dimension`, "\" cannot be assigned to `principal_dimension`. Must be \"cell\", \"fragment\", \"gene\", \"time\", \"treatment\", \"variant\", \"genomic position\", \"spot barcode\".", sep = ""))
+        if (!(`principal_dimension` %in% c("cell", "fragment", "gene", "mitochondrial variants", "time", "treatment", "variant", "genomic position", "spot barcode"))) {
+          stop(paste("Error! \"", `principal_dimension`, "\" cannot be assigned to `principal_dimension`. Must be \"cell\", \"fragment\", \"gene\", \"mitochondrial variants\", \"time\", \"treatment\", \"variant\", \"genomic position\", \"spot barcode\".", sep = ""))
         }
         if (!(is.character(`principal_dimension`) && length(`principal_dimension`) == 1)) {
           stop(paste("Error! Invalid data for `principal_dimension`. Must be a string:", `principal_dimension`))
@@ -857,8 +857,8 @@ MatrixFile <- R6::R6Class(
         self$`checkfiles_version` <- this_object$`checkfiles_version`
       }
       if (!is.null(this_object$`principal_dimension`)) {
-        if (!is.null(this_object$`principal_dimension`) && !(this_object$`principal_dimension` %in% c("cell", "fragment", "gene", "time", "treatment", "variant", "genomic position", "spot barcode"))) {
-          stop(paste("Error! \"", this_object$`principal_dimension`, "\" cannot be assigned to `principal_dimension`. Must be \"cell\", \"fragment\", \"gene\", \"time\", \"treatment\", \"variant\", \"genomic position\", \"spot barcode\".", sep = ""))
+        if (!is.null(this_object$`principal_dimension`) && !(this_object$`principal_dimension` %in% c("cell", "fragment", "gene", "mitochondrial variants", "time", "treatment", "variant", "genomic position", "spot barcode"))) {
+          stop(paste("Error! \"", this_object$`principal_dimension`, "\" cannot be assigned to `principal_dimension`. Must be \"cell\", \"fragment\", \"gene\", \"mitochondrial variants\", \"time\", \"treatment\", \"variant\", \"genomic position\", \"spot barcode\".", sep = ""))
         }
         self$`principal_dimension` <- this_object$`principal_dimension`
       }
@@ -1423,8 +1423,8 @@ MatrixFile <- R6::R6Class(
       self$`upload_status` <- this_object$`upload_status`
       self$`validation_error_detail` <- this_object$`validation_error_detail`
       self$`checkfiles_version` <- this_object$`checkfiles_version`
-      if (!is.null(this_object$`principal_dimension`) && !(this_object$`principal_dimension` %in% c("cell", "fragment", "gene", "time", "treatment", "variant", "genomic position", "spot barcode"))) {
-        stop(paste("Error! \"", this_object$`principal_dimension`, "\" cannot be assigned to `principal_dimension`. Must be \"cell\", \"fragment\", \"gene\", \"time\", \"treatment\", \"variant\", \"genomic position\", \"spot barcode\".", sep = ""))
+      if (!is.null(this_object$`principal_dimension`) && !(this_object$`principal_dimension` %in% c("cell", "fragment", "gene", "mitochondrial variants", "time", "treatment", "variant", "genomic position", "spot barcode"))) {
+        stop(paste("Error! \"", this_object$`principal_dimension`, "\" cannot be assigned to `principal_dimension`. Must be \"cell\", \"fragment\", \"gene\", \"mitochondrial variants\", \"time\", \"treatment\", \"variant\", \"genomic position\", \"spot barcode\".", sep = ""))
       }
       self$`principal_dimension` <- this_object$`principal_dimension`
       self$`secondary_dimensions` <- ApiClient$new()$deserializeObj(this_object$`secondary_dimensions`, "set[character]", loadNamespace("igvfclient"))

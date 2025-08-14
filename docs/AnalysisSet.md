@@ -32,6 +32,7 @@ Name | Type | Description | Notes
 **external_image_data_url** | **character** | Links to the external site where images and related data produced by this analysis are stored. | [optional] [Pattern: ^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$] 
 **demultiplexed_samples** | **set[character]** | The sample(s) associated with this analysis set inferred through demultiplexing. | [optional] 
 **uniform_pipeline_status** | **character** | The status of the single cell or Perturb-seq uniform pipeline processing for this analysis set, if applicable. | [optional] [Enum: [preprocessing, processing, error, completed]] 
+**pipeline_parameters** | **set[character]** | The document(s) or file(s) providing necessary configurations for reproducing the analysis. | [optional] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** |  | [optional] 

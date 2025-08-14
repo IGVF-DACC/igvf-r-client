@@ -34,6 +34,7 @@
 #' @field external_image_data_url Links to the external site where images and related data produced by this analysis are stored. character [optional]
 #' @field demultiplexed_samples The sample(s) associated with this analysis set inferred through demultiplexing. list(character) [optional]
 #' @field uniform_pipeline_status The status of the single cell or Perturb-seq uniform pipeline processing for this analysis set, if applicable. character [optional]
+#' @field pipeline_parameters The document(s) or file(s) providing necessary configurations for reproducing the analysis. list(character) [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary  character [optional]
@@ -84,6 +85,7 @@ AnalysisSet <- R6::R6Class(
     `external_image_data_url` = NULL,
     `demultiplexed_samples` = NULL,
     `uniform_pipeline_status` = NULL,
+    `pipeline_parameters` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -133,6 +135,7 @@ AnalysisSet <- R6::R6Class(
     #' @param external_image_data_url Links to the external site where images and related data produced by this analysis are stored.
     #' @param demultiplexed_samples The sample(s) associated with this analysis set inferred through demultiplexing.
     #' @param uniform_pipeline_status The status of the single cell or Perturb-seq uniform pipeline processing for this analysis set, if applicable.
+    #' @param pipeline_parameters The document(s) or file(s) providing necessary configurations for reproducing the analysis.
     #' @param @id @id
     #' @param @type @type
     #' @param summary summary
@@ -152,7 +155,7 @@ AnalysisSet <- R6::R6Class(
     #' @param targeted_genes A list of genes targeted by the input measurement sets assays.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `external_image_data_url` = NULL, `demultiplexed_samples` = NULL, `uniform_pipeline_status` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `preferred_assay_titles` = NULL, `assay_titles` = NULL, `protocols` = NULL, `sample_summary` = NULL, `functional_assay_mechanisms` = NULL, `workflows` = NULL, `targeted_genes` = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `external_image_data_url` = NULL, `demultiplexed_samples` = NULL, `uniform_pipeline_status` = NULL, `pipeline_parameters` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `preferred_assay_titles` = NULL, `assay_titles` = NULL, `protocols` = NULL, `sample_summary` = NULL, `functional_assay_mechanisms` = NULL, `workflows` = NULL, `targeted_genes` = NULL, ...) {
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -313,6 +316,11 @@ AnalysisSet <- R6::R6Class(
           stop(paste("Error! Invalid data for `uniform_pipeline_status`. Must be a string:", `uniform_pipeline_status`))
         }
         self$`uniform_pipeline_status` <- `uniform_pipeline_status`
+      }
+      if (!is.null(`pipeline_parameters`)) {
+        stopifnot(is.vector(`pipeline_parameters`), length(`pipeline_parameters`) != 0)
+        sapply(`pipeline_parameters`, function(x) stopifnot(is.character(x)))
+        self$`pipeline_parameters` <- `pipeline_parameters`
       }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
@@ -522,6 +530,10 @@ AnalysisSet <- R6::R6Class(
         AnalysisSetObject[["uniform_pipeline_status"]] <-
           self$`uniform_pipeline_status`
       }
+      if (!is.null(self$`pipeline_parameters`)) {
+        AnalysisSetObject[["pipeline_parameters"]] <-
+          self$`pipeline_parameters`
+      }
       if (!is.null(self$`@id`)) {
         AnalysisSetObject[["@id"]] <-
           self$`@id`
@@ -691,6 +703,9 @@ AnalysisSet <- R6::R6Class(
           stop(paste("Error! \"", this_object$`uniform_pipeline_status`, "\" cannot be assigned to `uniform_pipeline_status`. Must be \"preprocessing\", \"processing\", \"error\", \"completed\".", sep = ""))
         }
         self$`uniform_pipeline_status` <- this_object$`uniform_pipeline_status`
+      }
+      if (!is.null(this_object$`pipeline_parameters`)) {
+        self$`pipeline_parameters` <- ApiClient$new()$deserializeObj(this_object$`pipeline_parameters`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
@@ -970,6 +985,14 @@ AnalysisSet <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`uniform_pipeline_status`, perl=TRUE)
           )
         },
+        if (!is.null(self$`pipeline_parameters`)) {
+          sprintf(
+          '"pipeline_parameters":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`pipeline_parameters`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -1156,6 +1179,7 @@ AnalysisSet <- R6::R6Class(
         stop(paste("Error! \"", this_object$`uniform_pipeline_status`, "\" cannot be assigned to `uniform_pipeline_status`. Must be \"preprocessing\", \"processing\", \"error\", \"completed\".", sep = ""))
       }
       self$`uniform_pipeline_status` <- this_object$`uniform_pipeline_status`
+      self$`pipeline_parameters` <- ApiClient$new()$deserializeObj(this_object$`pipeline_parameters`, "set[character]", loadNamespace("igvfclient"))
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
@@ -1246,6 +1270,7 @@ AnalysisSet <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1289,6 +1314,7 @@ AnalysisSet <- R6::R6Class(
       if (!str_detect(self$`external_image_data_url`, "^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$")) {
         invalid_fields["external_image_data_url"] <- "Invalid value for `external_image_data_url`, must conform to the pattern ^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$."
       }
+
 
 
 
