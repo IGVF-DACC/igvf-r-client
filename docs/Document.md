@@ -19,7 +19,7 @@ Name | Type | Description | Notes
 **submitted_by** | **character** | The user who submitted the object. | [optional] 
 **submitter_comment** | **character** | Additional information specified by the submitter to be displayed as a comment on the portal. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **description** | **character** | A plain text description of the object. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
-**document_type** | **character** | The category that best describes the document. | [optional] [Enum: [cell fate change protocol, characterization, computational protocol, experimental protocol, file format specification, image, library structure seqspec, model source data, pipeline parameters, plate map, plasmid map, plasmid sequence, quality control report, standards]] 
+**document_type** | **character** | The category that best describes the document. | [optional] [Enum: [cell fate change protocol, characterization, computational protocol, experimental protocol, file format specification, image, library structure seqspec, model source data, pipeline log, pipeline parameters, plate map, plasmid map, plasmid sequence, quality control report, standards]] 
 **characterization_method** | **character** | The method used for the characterization. | [optional] [Enum: [FACS, immunoblot, immunofluorescence, immunoprecipitation, mass spectrometry, PCR, restriction digest, RT-qPCR, sequencing]] 
 **urls** | **set[character]** | External resources with additional information to the document. | [optional] 
 **standardized_file_format** | **character** | Specifies whether this format is an IGVF-standardized file format defined by Focus Groups or produced by a uniform pipeline. | [optional] 

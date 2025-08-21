@@ -50,5 +50,6 @@ Name | Type | Description | Notes
 **functional_assay_mechanisms** | **set[character]** | The biological processes measured by the functional assays. | [optional] 
 **workflows** | **array[character]** | A workflow for computational analysis of genomic data. A workflow is made up of analysis steps. | [optional] 
 **targeted_genes** | **array[character]** | A list of genes targeted by the input measurement sets assays. | [optional] 
+**primer_designs** | **array[character]** | The primer designs used by the inputs of this analysis set. | [optional] 
 
 

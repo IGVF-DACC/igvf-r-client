@@ -52,6 +52,7 @@
 #' @field functional_assay_mechanisms The biological processes measured by the functional assays. list(character) [optional]
 #' @field workflows A workflow for computational analysis of genomic data. A workflow is made up of analysis steps. list(character) [optional]
 #' @field targeted_genes A list of genes targeted by the input measurement sets assays. list(character) [optional]
+#' @field primer_designs The primer designs used by the inputs of this analysis set. list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -103,6 +104,7 @@ AnalysisSet <- R6::R6Class(
     `functional_assay_mechanisms` = NULL,
     `workflows` = NULL,
     `targeted_genes` = NULL,
+    `primer_designs` = NULL,
     #' Initialize a new AnalysisSet class.
     #'
     #' @description
@@ -153,9 +155,10 @@ AnalysisSet <- R6::R6Class(
     #' @param functional_assay_mechanisms The biological processes measured by the functional assays.
     #' @param workflows A workflow for computational analysis of genomic data. A workflow is made up of analysis steps.
     #' @param targeted_genes A list of genes targeted by the input measurement sets assays.
+    #' @param primer_designs The primer designs used by the inputs of this analysis set.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `external_image_data_url` = NULL, `demultiplexed_samples` = NULL, `uniform_pipeline_status` = NULL, `pipeline_parameters` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `preferred_assay_titles` = NULL, `assay_titles` = NULL, `protocols` = NULL, `sample_summary` = NULL, `functional_assay_mechanisms` = NULL, `workflows` = NULL, `targeted_genes` = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `external_image_data_url` = NULL, `demultiplexed_samples` = NULL, `uniform_pipeline_status` = NULL, `pipeline_parameters` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `preferred_assay_titles` = NULL, `assay_titles` = NULL, `protocols` = NULL, `sample_summary` = NULL, `functional_assay_mechanisms` = NULL, `workflows` = NULL, `targeted_genes` = NULL, `primer_designs` = NULL, ...) {
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -412,6 +415,11 @@ AnalysisSet <- R6::R6Class(
         sapply(`targeted_genes`, function(x) stopifnot(is.character(x)))
         self$`targeted_genes` <- `targeted_genes`
       }
+      if (!is.null(`primer_designs`)) {
+        stopifnot(is.vector(`primer_designs`), length(`primer_designs`) != 0)
+        sapply(`primer_designs`, function(x) stopifnot(is.character(x)))
+        self$`primer_designs` <- `primer_designs`
+      }
     },
     #' To JSON string
     #'
@@ -602,6 +610,10 @@ AnalysisSet <- R6::R6Class(
         AnalysisSetObject[["targeted_genes"]] <-
           self$`targeted_genes`
       }
+      if (!is.null(self$`primer_designs`)) {
+        AnalysisSetObject[["primer_designs"]] <-
+          self$`primer_designs`
+      }
       AnalysisSetObject
     },
     #' Deserialize JSON string into an instance of AnalysisSet
@@ -757,6 +769,9 @@ AnalysisSet <- R6::R6Class(
       }
       if (!is.null(this_object$`targeted_genes`)) {
         self$`targeted_genes` <- ApiClient$new()$deserializeObj(this_object$`targeted_genes`, "array[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`primer_designs`)) {
+        self$`primer_designs` <- ApiClient$new()$deserializeObj(this_object$`primer_designs`, "array[character]", loadNamespace("igvfclient"))
       }
       self
     },
@@ -1128,6 +1143,14 @@ AnalysisSet <- R6::R6Class(
           ',
           paste(unlist(lapply(self$`targeted_genes`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
+        },
+        if (!is.null(self$`primer_designs`)) {
+          sprintf(
+          '"primer_designs":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`primer_designs`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -1197,6 +1220,7 @@ AnalysisSet <- R6::R6Class(
       self$`functional_assay_mechanisms` <- ApiClient$new()$deserializeObj(this_object$`functional_assay_mechanisms`, "set[character]", loadNamespace("igvfclient"))
       self$`workflows` <- ApiClient$new()$deserializeObj(this_object$`workflows`, "array[character]", loadNamespace("igvfclient"))
       self$`targeted_genes` <- ApiClient$new()$deserializeObj(this_object$`targeted_genes`, "array[character]", loadNamespace("igvfclient"))
+      self$`primer_designs` <- ApiClient$new()$deserializeObj(this_object$`primer_designs`, "array[character]", loadNamespace("igvfclient"))
       self
     },
     #' Validate JSON input with respect to AnalysisSet
