@@ -5,6 +5,7 @@ A file containing a trained model.
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**catalog_collections** | **set[character]** | The collections in the IGVF catalog that contain the data in this file. | [optional] [Enum: ] 
 **preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **externally_hosted** | **character** | Indicates whether the file is externally hosted and not stored on portal. | [optional] 
 **external_host_url** | **character** | A link to the resource where the file is externally hosted. | [optional] 

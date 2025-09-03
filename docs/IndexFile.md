@@ -5,6 +5,7 @@ A binary file which is indexed.
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**catalog_collections** | **set[character]** | The collections in the IGVF catalog that contain the data in this file. | [optional] [Enum: ] 
 **preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **controlled_access** | **character** | Boolean value, indicating the file being controlled access, if true. | [optional] 

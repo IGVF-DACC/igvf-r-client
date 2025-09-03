@@ -5,6 +5,7 @@ A file containing image data.
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**catalog_collections** | **set[character]** | The collections in the IGVF catalog that contain the data in this file. | [optional] [Enum: ] 
 **preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **documents** | **set[character]** | Documents that provide additional information (not data file). | [optional] 

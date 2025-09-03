@@ -5,6 +5,7 @@ A file containing quantification data in a multi-dimension format.
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**catalog_collections** | **set[character]** | The collections in the IGVF catalog that contain the data in this file. | [optional] [Enum: ] 
 **preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **reference_files** | **set[character]** | Link to the reference files used to generate this file. | [optional] 

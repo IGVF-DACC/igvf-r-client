@@ -7,6 +7,7 @@
 #' @title ImageFile
 #' @description ImageFile Class
 #' @format An \code{R6Class} generator object
+#' @field catalog_collections The collections in the IGVF catalog that contain the data in this file. list(character) [optional]
 #' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field documents Documents that provide additional information (not data file). list(character) [optional]
@@ -60,6 +61,7 @@
 ImageFile <- R6::R6Class(
   "ImageFile",
   public = list(
+    `catalog_collections` = NULL,
     `preview_timestamp` = NULL,
     `release_timestamp` = NULL,
     `documents` = NULL,
@@ -112,6 +114,7 @@ ImageFile <- R6::R6Class(
     #' @description
     #' Initialize a new ImageFile class.
     #'
+    #' @param catalog_collections The collections in the IGVF catalog that contain the data in this file.
     #' @param preview_timestamp The date the object was previewed.
     #' @param release_timestamp The date the object was released.
     #' @param documents Documents that provide additional information (not data file).
@@ -161,7 +164,12 @@ ImageFile <- R6::R6Class(
     #' @param upload_credentials The upload credentials for S3 to submit the file content.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
+    initialize = function(`catalog_collections` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
+      if (!is.null(`catalog_collections`)) {
+        stopifnot(is.vector(`catalog_collections`), length(`catalog_collections`) != 0)
+        sapply(`catalog_collections`, function(x) stopifnot(is.character(x)))
+        self$`catalog_collections` <- `catalog_collections`
+      }
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -444,6 +452,10 @@ ImageFile <- R6::R6Class(
     #' @export
     toJSON = function() {
       ImageFileObject <- list()
+      if (!is.null(self$`catalog_collections`)) {
+        ImageFileObject[["catalog_collections"]] <-
+          self$`catalog_collections`
+      }
       if (!is.null(self$`preview_timestamp`)) {
         ImageFileObject[["preview_timestamp"]] <-
           self$`preview_timestamp`
@@ -644,6 +656,9 @@ ImageFile <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`catalog_collections`)) {
+        self$`catalog_collections` <- ApiClient$new()$deserializeObj(this_object$`catalog_collections`, "set[character]", loadNamespace("igvfclient"))
+      }
       if (!is.null(this_object$`preview_timestamp`)) {
         self$`preview_timestamp` <- this_object$`preview_timestamp`
       }
@@ -805,6 +820,14 @@ ImageFile <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`catalog_collections`)) {
+          sprintf(
+          '"catalog_collections":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`catalog_collections`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`preview_timestamp`)) {
           sprintf(
           '"preview_timestamp":
@@ -1195,6 +1218,7 @@ ImageFile <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`catalog_collections` <- ApiClient$new()$deserializeObj(this_object$`catalog_collections`, "set[character]", loadNamespace("igvfclient"))
       self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`release_timestamp` <- this_object$`release_timestamp`
       self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
@@ -1284,6 +1308,7 @@ ImageFile <- R6::R6Class(
 
 
 
+
       if (!str_detect(self$`revoke_detail`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         return(FALSE)
       }
@@ -1345,6 +1370,7 @@ ImageFile <- R6::R6Class(
     #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
+
 
 
 

@@ -7,6 +7,7 @@
 #' @title IndexFile
 #' @description IndexFile Class
 #' @format An \code{R6Class} generator object
+#' @field catalog_collections The collections in the IGVF catalog that contain the data in this file. list(character) [optional]
 #' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field controlled_access Boolean value, indicating the file being controlled access, if true. character [optional]
@@ -66,6 +67,7 @@
 IndexFile <- R6::R6Class(
   "IndexFile",
   public = list(
+    `catalog_collections` = NULL,
     `preview_timestamp` = NULL,
     `release_timestamp` = NULL,
     `controlled_access` = NULL,
@@ -124,6 +126,7 @@ IndexFile <- R6::R6Class(
     #' @description
     #' Initialize a new IndexFile class.
     #'
+    #' @param catalog_collections The collections in the IGVF catalog that contain the data in this file.
     #' @param preview_timestamp The date the object was previewed.
     #' @param release_timestamp The date the object was released.
     #' @param controlled_access Boolean value, indicating the file being controlled access, if true.
@@ -179,7 +182,12 @@ IndexFile <- R6::R6Class(
     #' @param redacted Indicates whether the alignments data have been sanitized (redacted) to prevent leakage of private and potentially identifying genomic information.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `assembly` = NULL, `transcriptome_annotation` = NULL, `filtered` = NULL, `redacted` = NULL, ...) {
+    initialize = function(`catalog_collections` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `assembly` = NULL, `transcriptome_annotation` = NULL, `filtered` = NULL, `redacted` = NULL, ...) {
+      if (!is.null(`catalog_collections`)) {
+        stopifnot(is.vector(`catalog_collections`), length(`catalog_collections`) != 0)
+        sapply(`catalog_collections`, function(x) stopifnot(is.character(x)))
+        self$`catalog_collections` <- `catalog_collections`
+      }
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -498,6 +506,10 @@ IndexFile <- R6::R6Class(
     #' @export
     toJSON = function() {
       IndexFileObject <- list()
+      if (!is.null(self$`catalog_collections`)) {
+        IndexFileObject[["catalog_collections"]] <-
+          self$`catalog_collections`
+      }
       if (!is.null(self$`preview_timestamp`)) {
         IndexFileObject[["preview_timestamp"]] <-
           self$`preview_timestamp`
@@ -722,6 +734,9 @@ IndexFile <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`catalog_collections`)) {
+        self$`catalog_collections` <- ApiClient$new()$deserializeObj(this_object$`catalog_collections`, "set[character]", loadNamespace("igvfclient"))
+      }
       if (!is.null(this_object$`preview_timestamp`)) {
         self$`preview_timestamp` <- this_object$`preview_timestamp`
       }
@@ -901,6 +916,14 @@ IndexFile <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`catalog_collections`)) {
+          sprintf(
+          '"catalog_collections":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`catalog_collections`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`preview_timestamp`)) {
           sprintf(
           '"preview_timestamp":
@@ -1339,6 +1362,7 @@ IndexFile <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`catalog_collections` <- ApiClient$new()$deserializeObj(this_object$`catalog_collections`, "set[character]", loadNamespace("igvfclient"))
       self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`release_timestamp` <- this_object$`release_timestamp`
       self$`controlled_access` <- this_object$`controlled_access`
@@ -1434,6 +1458,7 @@ IndexFile <- R6::R6Class(
 
 
 
+
       if (!str_detect(self$`revoke_detail`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         return(FALSE)
       }
@@ -1495,6 +1520,7 @@ IndexFile <- R6::R6Class(
     #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
+
 
 
 

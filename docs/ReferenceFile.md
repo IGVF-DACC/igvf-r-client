@@ -5,6 +5,7 @@ A file containing diverse reference related information.
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**catalog_collections** | **set[character]** | The collections in the IGVF catalog that contain the data in this file. | [optional] [Enum: ] 
 **preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **source_url** | **character** | Link to external resource, such as NCBI or GENCODE, where the reference data was obtained. | [optional] 
 **controlled_access** | **character** | Boolean value, indicating the file being controlled access, if true. | [optional] 

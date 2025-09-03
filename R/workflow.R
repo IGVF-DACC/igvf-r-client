@@ -7,6 +7,7 @@
 #' @title Workflow
 #' @description Workflow Class
 #' @format An \code{R6Class} generator object
+#' @field preferred_assay_titles The custom lab preferred label for the experiment performed. list(character) [optional]
 #' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field source_url An external resource to the code base of the workflow in github. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
@@ -42,6 +43,7 @@
 Workflow <- R6::R6Class(
   "Workflow",
   public = list(
+    `preferred_assay_titles` = NULL,
     `preview_timestamp` = NULL,
     `source_url` = NULL,
     `release_timestamp` = NULL,
@@ -76,6 +78,7 @@ Workflow <- R6::R6Class(
     #' @description
     #' Initialize a new Workflow class.
     #'
+    #' @param preferred_assay_titles The custom lab preferred label for the experiment performed.
     #' @param preview_timestamp The date the object was previewed.
     #' @param source_url An external resource to the code base of the workflow in github.
     #' @param release_timestamp The date the object was released.
@@ -107,7 +110,12 @@ Workflow <- R6::R6Class(
     #' @param summary A summary of the object.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `source_url` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `name` = NULL, `workflow_repositories` = NULL, `standards_page` = NULL, `workflow_version` = NULL, `uniform_pipeline` = NULL, `analysis_step_versions` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, ...) {
+    initialize = function(`preferred_assay_titles` = NULL, `preview_timestamp` = NULL, `source_url` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `name` = NULL, `workflow_repositories` = NULL, `standards_page` = NULL, `workflow_version` = NULL, `uniform_pipeline` = NULL, `analysis_step_versions` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, ...) {
+      if (!is.null(`preferred_assay_titles`)) {
+        stopifnot(is.vector(`preferred_assay_titles`), length(`preferred_assay_titles`) != 0)
+        sapply(`preferred_assay_titles`, function(x) stopifnot(is.character(x)))
+        self$`preferred_assay_titles` <- `preferred_assay_titles`
+      }
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -287,6 +295,10 @@ Workflow <- R6::R6Class(
     #' @export
     toJSON = function() {
       WorkflowObject <- list()
+      if (!is.null(self$`preferred_assay_titles`)) {
+        WorkflowObject[["preferred_assay_titles"]] <-
+          self$`preferred_assay_titles`
+      }
       if (!is.null(self$`preview_timestamp`)) {
         WorkflowObject[["preview_timestamp"]] <-
           self$`preview_timestamp`
@@ -415,6 +427,9 @@ Workflow <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`preferred_assay_titles`)) {
+        self$`preferred_assay_titles` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_titles`, "array[character]", loadNamespace("igvfclient"))
+      }
       if (!is.null(this_object$`preview_timestamp`)) {
         self$`preview_timestamp` <- this_object$`preview_timestamp`
       }
@@ -516,6 +531,14 @@ Workflow <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`preferred_assay_titles`)) {
+          sprintf(
+          '"preferred_assay_titles":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`preferred_assay_titles`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`preview_timestamp`)) {
           sprintf(
           '"preview_timestamp":
@@ -762,6 +785,7 @@ Workflow <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`preferred_assay_titles` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_titles`, "array[character]", loadNamespace("igvfclient"))
       self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`source_url` <- this_object$`source_url`
       self$`release_timestamp` <- this_object$`release_timestamp`
@@ -824,7 +848,7 @@ Workflow <- R6::R6Class(
     #' @return true if the values in all fields are valid.
     #' @export
     isValid = function() {
-      if (!str_detect(self$`source_url`, "^https?://github\\.com/(\\S+)$")) {
+      if (!str_detect(self$`source_url`, "^https?://(github\\.com/\\S+|support\\.parsebiosciences\\.com/\\S*)$")) {
         return(FALSE)
       }
 
@@ -874,8 +898,8 @@ Workflow <- R6::R6Class(
     #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
-      if (!str_detect(self$`source_url`, "^https?://github\\.com/(\\S+)$")) {
-        invalid_fields["source_url"] <- "Invalid value for `source_url`, must conform to the pattern ^https?://github\\.com/(\\S+)$."
+      if (!str_detect(self$`source_url`, "^https?://(github\\.com/\\S+|support\\.parsebiosciences\\.com/\\S*)$")) {
+        invalid_fields["source_url"] <- "Invalid value for `source_url`, must conform to the pattern ^https?://(github\\.com/\\S+|support\\.parsebiosciences\\.com/\\S*)$."
       }
 
 

@@ -5,6 +5,7 @@ A file containing textual data with a tabular structure.
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**catalog_collections** | **set[character]** | The collections in the IGVF catalog that contain the data in this file. | [optional] [Enum: ] 
 **base_modifications** | **set[character]** | The chemical modifications to bases in a DNA sequence that are detected in this file. | [optional] [Enum: ] 
 **preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **cell_type_annotation** | **character** | The inferred cell type this file is associated with based on single-cell expression profiling. | [optional] 
