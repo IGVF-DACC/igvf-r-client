@@ -36,7 +36,7 @@ Name | Type | Description | Notes
 **control_types** | **set[character]** | The types of control this measurement set represents. | [optional] [Enum: ] 
 **sequencing_library_types** | **set[character]** | Description of the libraries sequenced in this measurement set. | [optional] [Enum: ] 
 **primer_designs** | **set[character]** | The primer designs used in this measurement set. | [optional] 
-**strand_specificity** | **character** | The strand-specificity of the sequencing results within Perturb-seq, scCRISPR screen, TAP-seq, and CERES-seq assays. | [optional] [Enum: [5 prime to 3 prime, 3 prime to 5 prime, unstranded]] 
+**strand_specificity** | **character** | Indicates whether a transcriptomic library is forward, reverse, or unstranded based on the strand-specific protocol used. | [optional] [Enum: [5 prime to 3 prime, 3 prime to 5 prime, unstranded]] 
 **auxiliary_sets** | **set[character]** | The auxiliary sets of files produced alongside raw data from this measurement set. | [optional] 
 **external_image_url** | **character** | Links to the external site where images produced by this measurement are stored. | [optional] [Pattern: ^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$] 
 **targeted_genes** | **set[character]** | A list of genes targeted in this assay. For example, TF ChIP-seq attempts to identify binding sites of a protein encoded by a specific gene. In CRISPR FlowFISH, the modified samples are sorted based on expression of a specific gene. This property differs from small_scale_gene_list in Construct Library Set, which describes genes targeted by the content integrated in the constructs (such as guide RNAs.) | [optional] 

@@ -38,7 +38,7 @@
 #' @field control_types The types of control this measurement set represents. list(character) [optional]
 #' @field sequencing_library_types Description of the libraries sequenced in this measurement set. list(character) [optional]
 #' @field primer_designs The primer designs used in this measurement set. list(character) [optional]
-#' @field strand_specificity The strand-specificity of the sequencing results within Perturb-seq, scCRISPR screen, TAP-seq, and CERES-seq assays. character [optional]
+#' @field strand_specificity Indicates whether a transcriptomic library is forward, reverse, or unstranded based on the strand-specific protocol used. character [optional]
 #' @field auxiliary_sets The auxiliary sets of files produced alongside raw data from this measurement set. list(character) [optional]
 #' @field external_image_url Links to the external site where images produced by this measurement are stored. character [optional]
 #' @field targeted_genes A list of genes targeted in this assay. For example, TF ChIP-seq attempts to identify binding sites of a protein encoded by a specific gene. In CRISPR FlowFISH, the modified samples are sorted based on expression of a specific gene. This property differs from small_scale_gene_list in Construct Library Set, which describes genes targeted by the content integrated in the constructs (such as guide RNAs.) list(character) [optional]
@@ -153,7 +153,7 @@ MeasurementSet <- R6::R6Class(
     #' @param control_types The types of control this measurement set represents.
     #' @param sequencing_library_types Description of the libraries sequenced in this measurement set.
     #' @param primer_designs The primer designs used in this measurement set.
-    #' @param strand_specificity The strand-specificity of the sequencing results within Perturb-seq, scCRISPR screen, TAP-seq, and CERES-seq assays.
+    #' @param strand_specificity Indicates whether a transcriptomic library is forward, reverse, or unstranded based on the strand-specific protocol used.
     #' @param auxiliary_sets The auxiliary sets of files produced alongside raw data from this measurement set.
     #' @param external_image_url Links to the external site where images produced by this measurement are stored.
     #' @param targeted_genes A list of genes targeted in this assay. For example, TF ChIP-seq attempts to identify binding sites of a protein encoded by a specific gene. In CRISPR FlowFISH, the modified samples are sorted based on expression of a specific gene. This property differs from small_scale_gene_list in Construct Library Set, which describes genes targeted by the content integrated in the constructs (such as guide RNAs.)

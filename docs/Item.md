@@ -134,7 +134,7 @@ Name | Type | Description | Notes
 **read_names** | **set[character]** | The read names of a sequence file based on how it will be used by uniform pipelines. | [optional] [Enum: ] 
 **seqspecs** | **set[character]** | Link(s) to the associated seqspec YAML configuration file(s). | [optional] 
 **cell_type_annotation** | **character** | The inferred cell type this file is associated with based on single-cell expression profiling. | [optional] 
-**strand_specificity** | **character** | The strand-specificity of the sequencing results within Perturb-seq, scCRISPR screen, TAP-seq, and CERES-seq assays. | [optional] [Enum: [5 prime to 3 prime, 3 prime to 5 prime, unstranded]] 
+**strand_specificity** | **character** | Indicates whether a transcriptomic library is forward, reverse, or unstranded based on the strand-specific protocol used. | [optional] [Enum: [5 prime to 3 prime, 3 prime to 5 prime, unstranded]] 
 **normalized** | **character** | Indicates if the signal file is normalized. | [optional] 
 **start_view_position** | **character** | The 0-based coordinate for the default starting position when viewing the signal in a genome browser. | [optional] [Pattern: ^(chr(X|Y|M|[1-9]|1[0-9]|2[0-2]):[0-9]+)$] 
 **barcode_map_for** | **set[character]** | Link(s) to the Multiplexed samples using this file as barcode map. | [optional] 
