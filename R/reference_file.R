@@ -7,11 +7,11 @@
 #' @title ReferenceFile
 #' @description ReferenceFile Class
 #' @format An \code{R6Class} generator object
+#' @field anvil_url URL linking to the controlled access file that has been deposited at AnVIL workspace. character [optional]
 #' @field catalog_collections The collections in the IGVF catalog that contain the data in this file. list(character) [optional]
 #' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field source_url Link to external resource, such as NCBI or GENCODE, where the reference data was obtained. character [optional]
 #' @field controlled_access Boolean value, indicating the file being controlled access, if true. character [optional]
-#' @field anvil_url URL linking to the controlled access file that has been deposited at AnVIL workspace. character [optional]
 #' @field assembly Genome assembly applicable for the reference data. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field file_format_type The subtype of bed files. character [optional]
@@ -70,11 +70,11 @@
 ReferenceFile <- R6::R6Class(
   "ReferenceFile",
   public = list(
+    `anvil_url` = NULL,
     `catalog_collections` = NULL,
     `preview_timestamp` = NULL,
     `source_url` = NULL,
     `controlled_access` = NULL,
-    `anvil_url` = NULL,
     `assembly` = NULL,
     `release_timestamp` = NULL,
     `file_format_type` = NULL,
@@ -132,11 +132,11 @@ ReferenceFile <- R6::R6Class(
     #' @description
     #' Initialize a new ReferenceFile class.
     #'
+    #' @param anvil_url URL linking to the controlled access file that has been deposited at AnVIL workspace.
     #' @param catalog_collections The collections in the IGVF catalog that contain the data in this file.
     #' @param preview_timestamp The date the object was previewed.
     #' @param source_url Link to external resource, such as NCBI or GENCODE, where the reference data was obtained.
     #' @param controlled_access Boolean value, indicating the file being controlled access, if true.
-    #' @param anvil_url URL linking to the controlled access file that has been deposited at AnVIL workspace.
     #' @param assembly Genome assembly applicable for the reference data.
     #' @param release_timestamp The date the object was released.
     #' @param file_format_type The subtype of bed files.
@@ -191,7 +191,13 @@ ReferenceFile <- R6::R6Class(
     #' @param upload_credentials The upload credentials for S3 to submit the file content.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`catalog_collections` = NULL, `preview_timestamp` = NULL, `source_url` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `catalog_adapters` = NULL, `sources` = NULL, `external` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
+    initialize = function(`anvil_url` = NULL, `catalog_collections` = NULL, `preview_timestamp` = NULL, `source_url` = NULL, `controlled_access` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `catalog_adapters` = NULL, `sources` = NULL, `external` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
+      if (!is.null(`anvil_url`)) {
+        if (!(is.character(`anvil_url`) && length(`anvil_url`) == 1)) {
+          stop(paste("Error! Invalid data for `anvil_url`. Must be a string:", `anvil_url`))
+        }
+        self$`anvil_url` <- `anvil_url`
+      }
       if (!is.null(`catalog_collections`)) {
         stopifnot(is.vector(`catalog_collections`), length(`catalog_collections`) != 0)
         sapply(`catalog_collections`, function(x) stopifnot(is.character(x)))
@@ -214,12 +220,6 @@ ReferenceFile <- R6::R6Class(
           stop(paste("Error! Invalid data for `controlled_access`. Must be a boolean:", `controlled_access`))
         }
         self$`controlled_access` <- `controlled_access`
-      }
-      if (!is.null(`anvil_url`)) {
-        if (!(is.character(`anvil_url`) && length(`anvil_url`) == 1)) {
-          stop(paste("Error! Invalid data for `anvil_url`. Must be a string:", `anvil_url`))
-        }
-        self$`anvil_url` <- `anvil_url`
       }
       if (!is.null(`assembly`)) {
         if (!(`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, mm10", "custom"))) {
@@ -540,6 +540,10 @@ ReferenceFile <- R6::R6Class(
     #' @export
     toJSON = function() {
       ReferenceFileObject <- list()
+      if (!is.null(self$`anvil_url`)) {
+        ReferenceFileObject[["anvil_url"]] <-
+          self$`anvil_url`
+      }
       if (!is.null(self$`catalog_collections`)) {
         ReferenceFileObject[["catalog_collections"]] <-
           self$`catalog_collections`
@@ -555,10 +559,6 @@ ReferenceFile <- R6::R6Class(
       if (!is.null(self$`controlled_access`)) {
         ReferenceFileObject[["controlled_access"]] <-
           self$`controlled_access`
-      }
-      if (!is.null(self$`anvil_url`)) {
-        ReferenceFileObject[["anvil_url"]] <-
-          self$`anvil_url`
       }
       if (!is.null(self$`assembly`)) {
         ReferenceFileObject[["assembly"]] <-
@@ -780,6 +780,9 @@ ReferenceFile <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`anvil_url`)) {
+        self$`anvil_url` <- this_object$`anvil_url`
+      }
       if (!is.null(this_object$`catalog_collections`)) {
         self$`catalog_collections` <- ApiClient$new()$deserializeObj(this_object$`catalog_collections`, "set[character]", loadNamespace("igvfclient"))
       }
@@ -791,9 +794,6 @@ ReferenceFile <- R6::R6Class(
       }
       if (!is.null(this_object$`controlled_access`)) {
         self$`controlled_access` <- this_object$`controlled_access`
-      }
-      if (!is.null(this_object$`anvil_url`)) {
-        self$`anvil_url` <- this_object$`anvil_url`
       }
       if (!is.null(this_object$`assembly`)) {
         if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, mm10", "custom"))) {
@@ -980,6 +980,14 @@ ReferenceFile <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`anvil_url`)) {
+          sprintf(
+          '"anvil_url":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`anvil_url`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`catalog_collections`)) {
           sprintf(
           '"catalog_collections":
@@ -1010,14 +1018,6 @@ ReferenceFile <- R6::R6Class(
             %s
                     ',
           tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`controlled_access`, perl=TRUE))
-          )
-        },
-        if (!is.null(self$`anvil_url`)) {
-          sprintf(
-          '"anvil_url":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`anvil_url`, perl=TRUE)
           )
         },
         if (!is.null(self$`assembly`)) {
@@ -1450,11 +1450,11 @@ ReferenceFile <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`anvil_url` <- this_object$`anvil_url`
       self$`catalog_collections` <- ApiClient$new()$deserializeObj(this_object$`catalog_collections`, "set[character]", loadNamespace("igvfclient"))
       self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`source_url` <- this_object$`source_url`
       self$`controlled_access` <- this_object$`controlled_access`
-      self$`anvil_url` <- this_object$`anvil_url`
       if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, mm10", "custom"))) {
         stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, mm10\", \"custom\".", sep = ""))
       }

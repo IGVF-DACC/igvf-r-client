@@ -7,12 +7,12 @@
 #' @title TabularFile
 #' @description TabularFile Class
 #' @format An \code{R6Class} generator object
+#' @field anvil_url URL linking to the controlled access file that has been deposited at AnVIL workspace. character [optional]
 #' @field catalog_collections The collections in the IGVF catalog that contain the data in this file. list(character) [optional]
 #' @field base_modifications The chemical modifications to bases in a DNA sequence that are detected in this file. list(character) [optional]
 #' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field cell_type_annotation The inferred cell type this file is associated with based on single-cell expression profiling. character [optional]
 #' @field controlled_access Boolean value, indicating the file being controlled access, if true. character [optional]
-#' @field anvil_url URL linking to the controlled access file that has been deposited at AnVIL workspace. character [optional]
 #' @field assembly Genome assembly applicable for the tabular data. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field file_format_type The subtype of bed files. character [optional]
@@ -73,12 +73,12 @@
 TabularFile <- R6::R6Class(
   "TabularFile",
   public = list(
+    `anvil_url` = NULL,
     `catalog_collections` = NULL,
     `base_modifications` = NULL,
     `preview_timestamp` = NULL,
     `cell_type_annotation` = NULL,
     `controlled_access` = NULL,
-    `anvil_url` = NULL,
     `assembly` = NULL,
     `release_timestamp` = NULL,
     `file_format_type` = NULL,
@@ -138,12 +138,12 @@ TabularFile <- R6::R6Class(
     #' @description
     #' Initialize a new TabularFile class.
     #'
+    #' @param anvil_url URL linking to the controlled access file that has been deposited at AnVIL workspace.
     #' @param catalog_collections The collections in the IGVF catalog that contain the data in this file.
     #' @param base_modifications The chemical modifications to bases in a DNA sequence that are detected in this file.
     #' @param preview_timestamp The date the object was previewed.
     #' @param cell_type_annotation The inferred cell type this file is associated with based on single-cell expression profiling.
     #' @param controlled_access Boolean value, indicating the file being controlled access, if true.
-    #' @param anvil_url URL linking to the controlled access file that has been deposited at AnVIL workspace.
     #' @param assembly Genome assembly applicable for the tabular data.
     #' @param release_timestamp The date the object was released.
     #' @param file_format_type The subtype of bed files.
@@ -200,7 +200,13 @@ TabularFile <- R6::R6Class(
     #' @param primer_design_for Link(s) to the MeasurementSets using this file as a primer design.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`catalog_collections` = NULL, `base_modifications` = NULL, `preview_timestamp` = NULL, `cell_type_annotation` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `reference_files` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `catalog_adapters` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `barcode_map_for` = NULL, `primer_design_for` = NULL, ...) {
+    initialize = function(`anvil_url` = NULL, `catalog_collections` = NULL, `base_modifications` = NULL, `preview_timestamp` = NULL, `cell_type_annotation` = NULL, `controlled_access` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `reference_files` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `catalog_adapters` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `barcode_map_for` = NULL, `primer_design_for` = NULL, ...) {
+      if (!is.null(`anvil_url`)) {
+        if (!(is.character(`anvil_url`) && length(`anvil_url`) == 1)) {
+          stop(paste("Error! Invalid data for `anvil_url`. Must be a string:", `anvil_url`))
+        }
+        self$`anvil_url` <- `anvil_url`
+      }
       if (!is.null(`catalog_collections`)) {
         stopifnot(is.vector(`catalog_collections`), length(`catalog_collections`) != 0)
         sapply(`catalog_collections`, function(x) stopifnot(is.character(x)))
@@ -228,12 +234,6 @@ TabularFile <- R6::R6Class(
           stop(paste("Error! Invalid data for `controlled_access`. Must be a boolean:", `controlled_access`))
         }
         self$`controlled_access` <- `controlled_access`
-      }
-      if (!is.null(`anvil_url`)) {
-        if (!(is.character(`anvil_url`) && length(`anvil_url`) == 1)) {
-          stop(paste("Error! Invalid data for `anvil_url`. Must be a string:", `anvil_url`))
-        }
-        self$`anvil_url` <- `anvil_url`
       }
       if (!is.null(`assembly`)) {
         if (!(`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, mm10", "custom"))) {
@@ -564,6 +564,10 @@ TabularFile <- R6::R6Class(
     #' @export
     toJSON = function() {
       TabularFileObject <- list()
+      if (!is.null(self$`anvil_url`)) {
+        TabularFileObject[["anvil_url"]] <-
+          self$`anvil_url`
+      }
       if (!is.null(self$`catalog_collections`)) {
         TabularFileObject[["catalog_collections"]] <-
           self$`catalog_collections`
@@ -583,10 +587,6 @@ TabularFile <- R6::R6Class(
       if (!is.null(self$`controlled_access`)) {
         TabularFileObject[["controlled_access"]] <-
           self$`controlled_access`
-      }
-      if (!is.null(self$`anvil_url`)) {
-        TabularFileObject[["anvil_url"]] <-
-          self$`anvil_url`
       }
       if (!is.null(self$`assembly`)) {
         TabularFileObject[["assembly"]] <-
@@ -816,6 +816,9 @@ TabularFile <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`anvil_url`)) {
+        self$`anvil_url` <- this_object$`anvil_url`
+      }
       if (!is.null(this_object$`catalog_collections`)) {
         self$`catalog_collections` <- ApiClient$new()$deserializeObj(this_object$`catalog_collections`, "set[character]", loadNamespace("igvfclient"))
       }
@@ -830,9 +833,6 @@ TabularFile <- R6::R6Class(
       }
       if (!is.null(this_object$`controlled_access`)) {
         self$`controlled_access` <- this_object$`controlled_access`
-      }
-      if (!is.null(this_object$`anvil_url`)) {
-        self$`anvil_url` <- this_object$`anvil_url`
       }
       if (!is.null(this_object$`assembly`)) {
         if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, mm10", "custom"))) {
@@ -1025,6 +1025,14 @@ TabularFile <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`anvil_url`)) {
+          sprintf(
+          '"anvil_url":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`anvil_url`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`catalog_collections`)) {
           sprintf(
           '"catalog_collections":
@@ -1063,14 +1071,6 @@ TabularFile <- R6::R6Class(
             %s
                     ',
           tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`controlled_access`, perl=TRUE))
-          )
-        },
-        if (!is.null(self$`anvil_url`)) {
-          sprintf(
-          '"anvil_url":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`anvil_url`, perl=TRUE)
           )
         },
         if (!is.null(self$`assembly`)) {
@@ -1519,12 +1519,12 @@ TabularFile <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`anvil_url` <- this_object$`anvil_url`
       self$`catalog_collections` <- ApiClient$new()$deserializeObj(this_object$`catalog_collections`, "set[character]", loadNamespace("igvfclient"))
       self$`base_modifications` <- ApiClient$new()$deserializeObj(this_object$`base_modifications`, "set[character]", loadNamespace("igvfclient"))
       self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`cell_type_annotation` <- this_object$`cell_type_annotation`
       self$`controlled_access` <- this_object$`controlled_access`
-      self$`anvil_url` <- this_object$`anvil_url`
       if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, mm10", "custom"))) {
         stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, mm10\", \"custom\".", sep = ""))
       }

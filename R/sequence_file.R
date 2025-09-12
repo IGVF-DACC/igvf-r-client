@@ -7,12 +7,12 @@
 #' @title SequenceFile
 #' @description SequenceFile Class
 #' @format An \code{R6Class} generator object
+#' @field anvil_url URL linking to the controlled access file that has been deposited at AnVIL workspace. character [optional]
 #' @field base_modifications The chemical modifications to bases in a DNA sequence that are detected in this file. list(character) [optional]
 #' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field externally_hosted Indicates whether the file is externally hosted and not stored on portal. character [optional]
 #' @field external_host_url A link to the resource where the file is externally hosted. character [optional]
 #' @field controlled_access Boolean value, indicating the file being controlled access, if true. character [optional]
-#' @field anvil_url URL linking to the controlled access file that has been deposited at AnVIL workspace. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field documents Documents that provide additional information (not data file). list(character) [optional]
 #' @field lab Lab associated with the submission. character [optional]
@@ -79,12 +79,12 @@
 SequenceFile <- R6::R6Class(
   "SequenceFile",
   public = list(
+    `anvil_url` = NULL,
     `base_modifications` = NULL,
     `preview_timestamp` = NULL,
     `externally_hosted` = NULL,
     `external_host_url` = NULL,
     `controlled_access` = NULL,
-    `anvil_url` = NULL,
     `release_timestamp` = NULL,
     `documents` = NULL,
     `lab` = NULL,
@@ -150,12 +150,12 @@ SequenceFile <- R6::R6Class(
     #' @description
     #' Initialize a new SequenceFile class.
     #'
+    #' @param anvil_url URL linking to the controlled access file that has been deposited at AnVIL workspace.
     #' @param base_modifications The chemical modifications to bases in a DNA sequence that are detected in this file.
     #' @param preview_timestamp The date the object was previewed.
     #' @param externally_hosted Indicates whether the file is externally hosted and not stored on portal.
     #' @param external_host_url A link to the resource where the file is externally hosted.
     #' @param controlled_access Boolean value, indicating the file being controlled access, if true.
-    #' @param anvil_url URL linking to the controlled access file that has been deposited at AnVIL workspace.
     #' @param release_timestamp The date the object was released.
     #' @param documents Documents that provide additional information (not data file).
     #' @param lab Lab associated with the submission.
@@ -218,7 +218,13 @@ SequenceFile <- R6::R6Class(
     #' @param seqspecs Link(s) to the associated seqspec YAML configuration file(s).
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`base_modifications` = NULL, `preview_timestamp` = NULL, `externally_hosted` = NULL, `external_host_url` = NULL, `controlled_access` = NULL, `anvil_url` = NULL, `release_timestamp` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `flowcell_id` = NULL, `lane` = NULL, `read_count` = NULL, `minimum_read_length` = NULL, `maximum_read_length` = NULL, `mean_read_length` = NULL, `seqspec_document` = NULL, `sequencing_platform` = NULL, `sequencing_kit` = NULL, `sequencing_run` = NULL, `illumina_read_type` = NULL, `index` = NULL, `read_names` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `seqspecs` = NULL, ...) {
+    initialize = function(`anvil_url` = NULL, `base_modifications` = NULL, `preview_timestamp` = NULL, `externally_hosted` = NULL, `external_host_url` = NULL, `controlled_access` = NULL, `release_timestamp` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `flowcell_id` = NULL, `lane` = NULL, `read_count` = NULL, `minimum_read_length` = NULL, `maximum_read_length` = NULL, `mean_read_length` = NULL, `seqspec_document` = NULL, `sequencing_platform` = NULL, `sequencing_kit` = NULL, `sequencing_run` = NULL, `illumina_read_type` = NULL, `index` = NULL, `read_names` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `seqspecs` = NULL, ...) {
+      if (!is.null(`anvil_url`)) {
+        if (!(is.character(`anvil_url`) && length(`anvil_url`) == 1)) {
+          stop(paste("Error! Invalid data for `anvil_url`. Must be a string:", `anvil_url`))
+        }
+        self$`anvil_url` <- `anvil_url`
+      }
       if (!is.null(`base_modifications`)) {
         stopifnot(is.vector(`base_modifications`), length(`base_modifications`) != 0)
         sapply(`base_modifications`, function(x) stopifnot(is.character(x)))
@@ -247,12 +253,6 @@ SequenceFile <- R6::R6Class(
           stop(paste("Error! Invalid data for `controlled_access`. Must be a boolean:", `controlled_access`))
         }
         self$`controlled_access` <- `controlled_access`
-      }
-      if (!is.null(`anvil_url`)) {
-        if (!(is.character(`anvil_url`) && length(`anvil_url`) == 1)) {
-          stop(paste("Error! Invalid data for `anvil_url`. Must be a string:", `anvil_url`))
-        }
-        self$`anvil_url` <- `anvil_url`
       }
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
@@ -615,6 +615,10 @@ SequenceFile <- R6::R6Class(
     #' @export
     toJSON = function() {
       SequenceFileObject <- list()
+      if (!is.null(self$`anvil_url`)) {
+        SequenceFileObject[["anvil_url"]] <-
+          self$`anvil_url`
+      }
       if (!is.null(self$`base_modifications`)) {
         SequenceFileObject[["base_modifications"]] <-
           self$`base_modifications`
@@ -634,10 +638,6 @@ SequenceFile <- R6::R6Class(
       if (!is.null(self$`controlled_access`)) {
         SequenceFileObject[["controlled_access"]] <-
           self$`controlled_access`
-      }
-      if (!is.null(self$`anvil_url`)) {
-        SequenceFileObject[["anvil_url"]] <-
-          self$`anvil_url`
       }
       if (!is.null(self$`release_timestamp`)) {
         SequenceFileObject[["release_timestamp"]] <-
@@ -891,6 +891,9 @@ SequenceFile <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`anvil_url`)) {
+        self$`anvil_url` <- this_object$`anvil_url`
+      }
       if (!is.null(this_object$`base_modifications`)) {
         self$`base_modifications` <- ApiClient$new()$deserializeObj(this_object$`base_modifications`, "set[character]", loadNamespace("igvfclient"))
       }
@@ -905,9 +908,6 @@ SequenceFile <- R6::R6Class(
       }
       if (!is.null(this_object$`controlled_access`)) {
         self$`controlled_access` <- this_object$`controlled_access`
-      }
-      if (!is.null(this_object$`anvil_url`)) {
-        self$`anvil_url` <- this_object$`anvil_url`
       }
       if (!is.null(this_object$`release_timestamp`)) {
         self$`release_timestamp` <- this_object$`release_timestamp`
@@ -1115,6 +1115,14 @@ SequenceFile <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`anvil_url`)) {
+          sprintf(
+          '"anvil_url":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`anvil_url`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`base_modifications`)) {
           sprintf(
           '"base_modifications":
@@ -1153,14 +1161,6 @@ SequenceFile <- R6::R6Class(
             %s
                     ',
           tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`controlled_access`, perl=TRUE))
-          )
-        },
-        if (!is.null(self$`anvil_url`)) {
-          sprintf(
-          '"anvil_url":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`anvil_url`, perl=TRUE)
           )
         },
         if (!is.null(self$`release_timestamp`)) {
@@ -1657,12 +1657,12 @@ SequenceFile <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`anvil_url` <- this_object$`anvil_url`
       self$`base_modifications` <- ApiClient$new()$deserializeObj(this_object$`base_modifications`, "set[character]", loadNamespace("igvfclient"))
       self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`externally_hosted` <- this_object$`externally_hosted`
       self$`external_host_url` <- this_object$`external_host_url`
       self$`controlled_access` <- this_object$`controlled_access`
-      self$`anvil_url` <- this_object$`anvil_url`
       self$`release_timestamp` <- this_object$`release_timestamp`
       self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
       self$`lab` <- this_object$`lab`

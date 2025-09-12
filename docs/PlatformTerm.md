@@ -20,7 +20,7 @@ Name | Type | Description | Notes
 **term_name** | **character** | Ontology term describing a biological sample, assay, trait, or disease. | [optional] [Pattern: ^(?![\\s\&quot;&#39;])[\\S|\\s]*[^\\s\&quot;&#39;]$] 
 **deprecated_ntr_terms** | **set[character]** | A list of deprecated NTR terms previously associated with this ontology term. | [optional] 
 **is_a** | **set[character]** | A list of ontology terms which are the nearest ancestor to this ontology term. | [optional] 
-**company** | **character** | The company that developed and sells the instrument. | [optional] [Enum: [10X Genomics, Element Biosciences, Illumina, Life Technologies, Oxford Nanopore Technologies, Pacific Biosciences, Parse Biosciences, Roche, Singular Genomics]] 
+**company** | **character** | The company that developed and sells the instrument. | [optional] [Enum: [10X Genomics, Element Biosciences, Illumina, Life Technologies, Oxford Nanopore Technologies, Pacific Biosciences, Parse Biosciences, Roche, Singular Genomics, Ultima Genomics]] 
 **sequencing_kits** | **set[character]** | The available sequencing kits for this platform. | [optional] [Enum: ] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 

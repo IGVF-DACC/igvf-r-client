@@ -190,8 +190,8 @@ PlatformTerm <- R6::R6Class(
         self$`is_a` <- `is_a`
       }
       if (!is.null(`company`)) {
-        if (!(`company` %in% c("10X Genomics", "Element Biosciences", "Illumina", "Life Technologies", "Oxford Nanopore Technologies", "Pacific Biosciences", "Parse Biosciences", "Roche", "Singular Genomics"))) {
-          stop(paste("Error! \"", `company`, "\" cannot be assigned to `company`. Must be \"10X Genomics\", \"Element Biosciences\", \"Illumina\", \"Life Technologies\", \"Oxford Nanopore Technologies\", \"Pacific Biosciences\", \"Parse Biosciences\", \"Roche\", \"Singular Genomics\".", sep = ""))
+        if (!(`company` %in% c("10X Genomics", "Element Biosciences", "Illumina", "Life Technologies", "Oxford Nanopore Technologies", "Pacific Biosciences", "Parse Biosciences", "Roche", "Singular Genomics", "Ultima Genomics"))) {
+          stop(paste("Error! \"", `company`, "\" cannot be assigned to `company`. Must be \"10X Genomics\", \"Element Biosciences\", \"Illumina\", \"Life Technologies\", \"Oxford Nanopore Technologies\", \"Pacific Biosciences\", \"Parse Biosciences\", \"Roche\", \"Singular Genomics\", \"Ultima Genomics\".", sep = ""))
         }
         if (!(is.character(`company`) && length(`company`) == 1)) {
           stop(paste("Error! Invalid data for `company`. Must be a string:", `company`))
@@ -428,8 +428,8 @@ PlatformTerm <- R6::R6Class(
         self$`is_a` <- ApiClient$new()$deserializeObj(this_object$`is_a`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`company`)) {
-        if (!is.null(this_object$`company`) && !(this_object$`company` %in% c("10X Genomics", "Element Biosciences", "Illumina", "Life Technologies", "Oxford Nanopore Technologies", "Pacific Biosciences", "Parse Biosciences", "Roche", "Singular Genomics"))) {
-          stop(paste("Error! \"", this_object$`company`, "\" cannot be assigned to `company`. Must be \"10X Genomics\", \"Element Biosciences\", \"Illumina\", \"Life Technologies\", \"Oxford Nanopore Technologies\", \"Pacific Biosciences\", \"Parse Biosciences\", \"Roche\", \"Singular Genomics\".", sep = ""))
+        if (!is.null(this_object$`company`) && !(this_object$`company` %in% c("10X Genomics", "Element Biosciences", "Illumina", "Life Technologies", "Oxford Nanopore Technologies", "Pacific Biosciences", "Parse Biosciences", "Roche", "Singular Genomics", "Ultima Genomics"))) {
+          stop(paste("Error! \"", this_object$`company`, "\" cannot be assigned to `company`. Must be \"10X Genomics\", \"Element Biosciences\", \"Illumina\", \"Life Technologies\", \"Oxford Nanopore Technologies\", \"Pacific Biosciences\", \"Parse Biosciences\", \"Roche\", \"Singular Genomics\", \"Ultima Genomics\".", sep = ""))
         }
         self$`company` <- this_object$`company`
       }
@@ -714,8 +714,8 @@ PlatformTerm <- R6::R6Class(
       self$`term_name` <- this_object$`term_name`
       self$`deprecated_ntr_terms` <- ApiClient$new()$deserializeObj(this_object$`deprecated_ntr_terms`, "set[character]", loadNamespace("igvfclient"))
       self$`is_a` <- ApiClient$new()$deserializeObj(this_object$`is_a`, "set[character]", loadNamespace("igvfclient"))
-      if (!is.null(this_object$`company`) && !(this_object$`company` %in% c("10X Genomics", "Element Biosciences", "Illumina", "Life Technologies", "Oxford Nanopore Technologies", "Pacific Biosciences", "Parse Biosciences", "Roche", "Singular Genomics"))) {
-        stop(paste("Error! \"", this_object$`company`, "\" cannot be assigned to `company`. Must be \"10X Genomics\", \"Element Biosciences\", \"Illumina\", \"Life Technologies\", \"Oxford Nanopore Technologies\", \"Pacific Biosciences\", \"Parse Biosciences\", \"Roche\", \"Singular Genomics\".", sep = ""))
+      if (!is.null(this_object$`company`) && !(this_object$`company` %in% c("10X Genomics", "Element Biosciences", "Illumina", "Life Technologies", "Oxford Nanopore Technologies", "Pacific Biosciences", "Parse Biosciences", "Roche", "Singular Genomics", "Ultima Genomics"))) {
+        stop(paste("Error! \"", this_object$`company`, "\" cannot be assigned to `company`. Must be \"10X Genomics\", \"Element Biosciences\", \"Illumina\", \"Life Technologies\", \"Oxford Nanopore Technologies\", \"Pacific Biosciences\", \"Parse Biosciences\", \"Roche\", \"Singular Genomics\", \"Ultima Genomics\".", sep = ""))
       }
       self$`company` <- this_object$`company`
       self$`sequencing_kits` <- ApiClient$new()$deserializeObj(this_object$`sequencing_kits`, "set[character]", loadNamespace("igvfclient"))
