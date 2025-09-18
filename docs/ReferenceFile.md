@@ -5,15 +5,17 @@ A file containing diverse reference related information.
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**externally_hosted** | **character** | Indicates whether the file is externally hosted and not stored on portal. | [optional] 
+**external_host_url** | **character** | A link to the resource where the file is externally hosted. | [optional] 
 **anvil_url** | **character** | URL linking to the controlled access file that has been deposited at AnVIL workspace. | [optional] 
 **catalog_collections** | **set[character]** | The collections in the IGVF catalog that contain the data in this file. | [optional] [Enum: ] 
 **preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **source_url** | **character** | Link to external resource, such as NCBI or GENCODE, where the reference data was obtained. | [optional] 
 **controlled_access** | **character** | Boolean value, indicating the file being controlled access, if true. | [optional] 
-**assembly** | **character** | Genome assembly applicable for the reference data. | [optional] [Enum: [GRCh38, hg19, Cast - GRCm39, GRCm39, mm10, GRCh38, mm10, custom]] 
+**assembly** | **character** | Genome assembly applicable for the reference data. | [optional] [Enum: [GRCh38, hg19, Cast - GRCm39, GRCm39, mm10, GRCh38, mm10, C57BL_6J_T2T_v1 + GRCm39_X, CAST_EiJ_T2T_v1, custom]] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **file_format_type** | **character** | The subtype of bed files. | [optional] [Enum: [bed12, bed3, bed3+, bed5, bed6, bed6+, bed9, bed9+, mpra_starr, mpra_element, mpra_variant]] 
-**transcriptome_annotation** | **character** | The annotation and version of the reference resource. | [optional] [Enum: [GENCODE 22, GENCODE 24, GENCODE 28, GENCODE 32, GENCODE 40, GENCODE 41, GENCODE 42, GENCODE 43, GENCODE 44, GENCODE 45, GENCODE 47, GENCODE Cast - M32, GENCODE M17, GENCODE M25, GENCODE M30, GENCODE M31, GENCODE M32, GENCODE M33, GENCODE M34, GENCODE M36, GENCODE 32, GENCODE M23]] 
+**transcriptome_annotation** | **character** | The annotation and version of the reference resource. | [optional] [Enum: [GENCODE 22, GENCODE 24, GENCODE 28, GENCODE 32, GENCODE 38, GENCODE 40, GENCODE 41, GENCODE 42, GENCODE 43, GENCODE 44, GENCODE 45, GENCODE 47, GENCODE Cast - M32, GENCODE M17, GENCODE M25, GENCODE M30, GENCODE M31, GENCODE M32, GENCODE M33, GENCODE M34, GENCODE M36, GENCODE 32, GENCODE M23]] 
 **documents** | **set[character]** | Documents that provide additional information (not data file). | [optional] 
 **lab** | **character** | Lab associated with the submission. | [optional] 
 **award** | **character** | Grant associated with the submission. | [optional] 
@@ -47,7 +49,6 @@ Name | Type | Description | Notes
 **checkfiles_version** | **character** | The Checkfiles GitHub version release the file was validated with. | [optional] 
 **catalog_adapters** | **set[character]** | IGVF Catalog Adapters that ingests this file | [optional] 
 **sources** | **set[character]** | The originating lab(s) or vendor(s). | [optional] 
-**external** | **character** | Indicates whether the file was obtained from an external, non-IGVF source. | [optional] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** | A summary of the reference file. | [optional] 

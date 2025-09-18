@@ -7,6 +7,8 @@
 #' @title ReferenceFile
 #' @description ReferenceFile Class
 #' @format An \code{R6Class} generator object
+#' @field externally_hosted Indicates whether the file is externally hosted and not stored on portal. character [optional]
+#' @field external_host_url A link to the resource where the file is externally hosted. character [optional]
 #' @field anvil_url URL linking to the controlled access file that has been deposited at AnVIL workspace. character [optional]
 #' @field catalog_collections The collections in the IGVF catalog that contain the data in this file. list(character) [optional]
 #' @field preview_timestamp The date the object was previewed. character [optional]
@@ -49,7 +51,6 @@
 #' @field checkfiles_version The Checkfiles GitHub version release the file was validated with. character [optional]
 #' @field catalog_adapters IGVF Catalog Adapters that ingests this file list(character) [optional]
 #' @field sources The originating lab(s) or vendor(s). list(character) [optional]
-#' @field external Indicates whether the file was obtained from an external, non-IGVF source. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the reference file. character [optional]
@@ -70,6 +71,8 @@
 ReferenceFile <- R6::R6Class(
   "ReferenceFile",
   public = list(
+    `externally_hosted` = NULL,
+    `external_host_url` = NULL,
     `anvil_url` = NULL,
     `catalog_collections` = NULL,
     `preview_timestamp` = NULL,
@@ -112,7 +115,6 @@ ReferenceFile <- R6::R6Class(
     `checkfiles_version` = NULL,
     `catalog_adapters` = NULL,
     `sources` = NULL,
-    `external` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -132,6 +134,8 @@ ReferenceFile <- R6::R6Class(
     #' @description
     #' Initialize a new ReferenceFile class.
     #'
+    #' @param externally_hosted Indicates whether the file is externally hosted and not stored on portal.
+    #' @param external_host_url A link to the resource where the file is externally hosted.
     #' @param anvil_url URL linking to the controlled access file that has been deposited at AnVIL workspace.
     #' @param catalog_collections The collections in the IGVF catalog that contain the data in this file.
     #' @param preview_timestamp The date the object was previewed.
@@ -174,7 +178,6 @@ ReferenceFile <- R6::R6Class(
     #' @param checkfiles_version The Checkfiles GitHub version release the file was validated with.
     #' @param catalog_adapters IGVF Catalog Adapters that ingests this file
     #' @param sources The originating lab(s) or vendor(s).
-    #' @param external Indicates whether the file was obtained from an external, non-IGVF source.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the reference file.
@@ -191,7 +194,19 @@ ReferenceFile <- R6::R6Class(
     #' @param upload_credentials The upload credentials for S3 to submit the file content.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`anvil_url` = NULL, `catalog_collections` = NULL, `preview_timestamp` = NULL, `source_url` = NULL, `controlled_access` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `catalog_adapters` = NULL, `sources` = NULL, `external` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
+    initialize = function(`externally_hosted` = NULL, `external_host_url` = NULL, `anvil_url` = NULL, `catalog_collections` = NULL, `preview_timestamp` = NULL, `source_url` = NULL, `controlled_access` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `catalog_adapters` = NULL, `sources` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
+      if (!is.null(`externally_hosted`)) {
+        if (!(is.logical(`externally_hosted`) && length(`externally_hosted`) == 1)) {
+          stop(paste("Error! Invalid data for `externally_hosted`. Must be a boolean:", `externally_hosted`))
+        }
+        self$`externally_hosted` <- `externally_hosted`
+      }
+      if (!is.null(`external_host_url`)) {
+        if (!(is.character(`external_host_url`) && length(`external_host_url`) == 1)) {
+          stop(paste("Error! Invalid data for `external_host_url`. Must be a string:", `external_host_url`))
+        }
+        self$`external_host_url` <- `external_host_url`
+      }
       if (!is.null(`anvil_url`)) {
         if (!(is.character(`anvil_url`) && length(`anvil_url`) == 1)) {
           stop(paste("Error! Invalid data for `anvil_url`. Must be a string:", `anvil_url`))
@@ -222,8 +237,8 @@ ReferenceFile <- R6::R6Class(
         self$`controlled_access` <- `controlled_access`
       }
       if (!is.null(`assembly`)) {
-        if (!(`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, mm10", "custom"))) {
-          stop(paste("Error! \"", `assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, mm10\", \"custom\".", sep = ""))
+        if (!(`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, mm10", "C57BL_6J_T2T_v1 + GRCm39_X", "CAST_EiJ_T2T_v1", "custom"))) {
+          stop(paste("Error! \"", `assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, mm10\", \"C57BL_6J_T2T_v1 + GRCm39_X\", \"CAST_EiJ_T2T_v1\", \"custom\".", sep = ""))
         }
         if (!(is.character(`assembly`) && length(`assembly`) == 1)) {
           stop(paste("Error! Invalid data for `assembly`. Must be a string:", `assembly`))
@@ -246,8 +261,8 @@ ReferenceFile <- R6::R6Class(
         self$`file_format_type` <- `file_format_type`
       }
       if (!is.null(`transcriptome_annotation`)) {
-        if (!(`transcriptome_annotation` %in% c("GENCODE 22", "GENCODE 24", "GENCODE 28", "GENCODE 32", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M17", "GENCODE M25", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36", "GENCODE 32, GENCODE M23"))) {
-          stop(paste("Error! \"", `transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 22\", \"GENCODE 24\", \"GENCODE 28\", \"GENCODE 32\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M17\", \"GENCODE M25\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\", \"GENCODE 32, GENCODE M23\".", sep = ""))
+        if (!(`transcriptome_annotation` %in% c("GENCODE 22", "GENCODE 24", "GENCODE 28", "GENCODE 32", "GENCODE 38", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M17", "GENCODE M25", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36", "GENCODE 32, GENCODE M23"))) {
+          stop(paste("Error! \"", `transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 22\", \"GENCODE 24\", \"GENCODE 28\", \"GENCODE 32\", \"GENCODE 38\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M17\", \"GENCODE M25\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\", \"GENCODE 32, GENCODE M23\".", sep = ""))
         }
         if (!(is.character(`transcriptome_annotation`) && length(`transcriptome_annotation`) == 1)) {
           stop(paste("Error! Invalid data for `transcriptome_annotation`. Must be a string:", `transcriptome_annotation`))
@@ -452,12 +467,6 @@ ReferenceFile <- R6::R6Class(
         sapply(`sources`, function(x) stopifnot(is.character(x)))
         self$`sources` <- `sources`
       }
-      if (!is.null(`external`)) {
-        if (!(is.logical(`external`) && length(`external`) == 1)) {
-          stop(paste("Error! Invalid data for `external`. Must be a boolean:", `external`))
-        }
-        self$`external` <- `external`
-      }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
           stop(paste("Error! Invalid data for `@id`. Must be a string:", `@id`))
@@ -540,6 +549,14 @@ ReferenceFile <- R6::R6Class(
     #' @export
     toJSON = function() {
       ReferenceFileObject <- list()
+      if (!is.null(self$`externally_hosted`)) {
+        ReferenceFileObject[["externally_hosted"]] <-
+          self$`externally_hosted`
+      }
+      if (!is.null(self$`external_host_url`)) {
+        ReferenceFileObject[["external_host_url"]] <-
+          self$`external_host_url`
+      }
       if (!is.null(self$`anvil_url`)) {
         ReferenceFileObject[["anvil_url"]] <-
           self$`anvil_url`
@@ -708,10 +725,6 @@ ReferenceFile <- R6::R6Class(
         ReferenceFileObject[["sources"]] <-
           self$`sources`
       }
-      if (!is.null(self$`external`)) {
-        ReferenceFileObject[["external"]] <-
-          self$`external`
-      }
       if (!is.null(self$`@id`)) {
         ReferenceFileObject[["@id"]] <-
           self$`@id`
@@ -780,6 +793,12 @@ ReferenceFile <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`externally_hosted`)) {
+        self$`externally_hosted` <- this_object$`externally_hosted`
+      }
+      if (!is.null(this_object$`external_host_url`)) {
+        self$`external_host_url` <- this_object$`external_host_url`
+      }
       if (!is.null(this_object$`anvil_url`)) {
         self$`anvil_url` <- this_object$`anvil_url`
       }
@@ -796,8 +815,8 @@ ReferenceFile <- R6::R6Class(
         self$`controlled_access` <- this_object$`controlled_access`
       }
       if (!is.null(this_object$`assembly`)) {
-        if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, mm10", "custom"))) {
-          stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, mm10\", \"custom\".", sep = ""))
+        if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, mm10", "C57BL_6J_T2T_v1 + GRCm39_X", "CAST_EiJ_T2T_v1", "custom"))) {
+          stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, mm10\", \"C57BL_6J_T2T_v1 + GRCm39_X\", \"CAST_EiJ_T2T_v1\", \"custom\".", sep = ""))
         }
         self$`assembly` <- this_object$`assembly`
       }
@@ -811,8 +830,8 @@ ReferenceFile <- R6::R6Class(
         self$`file_format_type` <- this_object$`file_format_type`
       }
       if (!is.null(this_object$`transcriptome_annotation`)) {
-        if (!is.null(this_object$`transcriptome_annotation`) && !(this_object$`transcriptome_annotation` %in% c("GENCODE 22", "GENCODE 24", "GENCODE 28", "GENCODE 32", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M17", "GENCODE M25", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36", "GENCODE 32, GENCODE M23"))) {
-          stop(paste("Error! \"", this_object$`transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 22\", \"GENCODE 24\", \"GENCODE 28\", \"GENCODE 32\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M17\", \"GENCODE M25\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\", \"GENCODE 32, GENCODE M23\".", sep = ""))
+        if (!is.null(this_object$`transcriptome_annotation`) && !(this_object$`transcriptome_annotation` %in% c("GENCODE 22", "GENCODE 24", "GENCODE 28", "GENCODE 32", "GENCODE 38", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M17", "GENCODE M25", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36", "GENCODE 32, GENCODE M23"))) {
+          stop(paste("Error! \"", this_object$`transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 22\", \"GENCODE 24\", \"GENCODE 28\", \"GENCODE 32\", \"GENCODE 38\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M17\", \"GENCODE M25\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\", \"GENCODE 32, GENCODE M23\".", sep = ""))
         }
         self$`transcriptome_annotation` <- this_object$`transcriptome_annotation`
       }
@@ -924,9 +943,6 @@ ReferenceFile <- R6::R6Class(
       if (!is.null(this_object$`sources`)) {
         self$`sources` <- ApiClient$new()$deserializeObj(this_object$`sources`, "set[character]", loadNamespace("igvfclient"))
       }
-      if (!is.null(this_object$`external`)) {
-        self$`external` <- this_object$`external`
-      }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
       }
@@ -980,6 +996,22 @@ ReferenceFile <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`externally_hosted`)) {
+          sprintf(
+          '"externally_hosted":
+            %s
+                    ',
+          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`externally_hosted`, perl=TRUE))
+          )
+        },
+        if (!is.null(self$`external_host_url`)) {
+          sprintf(
+          '"external_host_url":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`external_host_url`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`anvil_url`)) {
           sprintf(
           '"anvil_url":
@@ -1316,14 +1348,6 @@ ReferenceFile <- R6::R6Class(
           paste(unlist(lapply(self$`sources`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
-        if (!is.null(self$`external`)) {
-          sprintf(
-          '"external":
-            %s
-                    ',
-          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`external`, perl=TRUE))
-          )
-        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -1450,13 +1474,15 @@ ReferenceFile <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`externally_hosted` <- this_object$`externally_hosted`
+      self$`external_host_url` <- this_object$`external_host_url`
       self$`anvil_url` <- this_object$`anvil_url`
       self$`catalog_collections` <- ApiClient$new()$deserializeObj(this_object$`catalog_collections`, "set[character]", loadNamespace("igvfclient"))
       self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`source_url` <- this_object$`source_url`
       self$`controlled_access` <- this_object$`controlled_access`
-      if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, mm10", "custom"))) {
-        stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, mm10\", \"custom\".", sep = ""))
+      if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, mm10", "C57BL_6J_T2T_v1 + GRCm39_X", "CAST_EiJ_T2T_v1", "custom"))) {
+        stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, mm10\", \"C57BL_6J_T2T_v1 + GRCm39_X\", \"CAST_EiJ_T2T_v1\", \"custom\".", sep = ""))
       }
       self$`assembly` <- this_object$`assembly`
       self$`release_timestamp` <- this_object$`release_timestamp`
@@ -1464,8 +1490,8 @@ ReferenceFile <- R6::R6Class(
         stop(paste("Error! \"", this_object$`file_format_type`, "\" cannot be assigned to `file_format_type`. Must be \"bed12\", \"bed3\", \"bed3+\", \"bed5\", \"bed6\", \"bed6+\", \"bed9\", \"bed9+\", \"mpra_starr\", \"mpra_element\", \"mpra_variant\".", sep = ""))
       }
       self$`file_format_type` <- this_object$`file_format_type`
-      if (!is.null(this_object$`transcriptome_annotation`) && !(this_object$`transcriptome_annotation` %in% c("GENCODE 22", "GENCODE 24", "GENCODE 28", "GENCODE 32", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M17", "GENCODE M25", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36", "GENCODE 32, GENCODE M23"))) {
-        stop(paste("Error! \"", this_object$`transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 22\", \"GENCODE 24\", \"GENCODE 28\", \"GENCODE 32\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M17\", \"GENCODE M25\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\", \"GENCODE 32, GENCODE M23\".", sep = ""))
+      if (!is.null(this_object$`transcriptome_annotation`) && !(this_object$`transcriptome_annotation` %in% c("GENCODE 22", "GENCODE 24", "GENCODE 28", "GENCODE 32", "GENCODE 38", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M17", "GENCODE M25", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36", "GENCODE 32, GENCODE M23"))) {
+        stop(paste("Error! \"", this_object$`transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 22\", \"GENCODE 24\", \"GENCODE 28\", \"GENCODE 32\", \"GENCODE 38\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M17\", \"GENCODE M25\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\", \"GENCODE 32, GENCODE M23\".", sep = ""))
       }
       self$`transcriptome_annotation` <- this_object$`transcriptome_annotation`
       self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
@@ -1510,7 +1536,6 @@ ReferenceFile <- R6::R6Class(
       self$`checkfiles_version` <- this_object$`checkfiles_version`
       self$`catalog_adapters` <- ApiClient$new()$deserializeObj(this_object$`catalog_adapters`, "set[character]", loadNamespace("igvfclient"))
       self$`sources` <- ApiClient$new()$deserializeObj(this_object$`sources`, "set[character]", loadNamespace("igvfclient"))
-      self$`external` <- this_object$`external`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`

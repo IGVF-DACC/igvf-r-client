@@ -34,8 +34,8 @@ GeneLocation1 <- R6::R6Class(
     #' @export
     initialize = function(`assembly`, `chromosome`, `start`, `end`, ...) {
       if (!missing(`assembly`)) {
-        if (!(`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, mm10", "custom"))) {
-          stop(paste("Error! \"", `assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, mm10\", \"custom\".", sep = ""))
+        if (!(`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, mm10", "C57BL_6J_T2T_v1 + GRCm39_X", "CAST_EiJ_T2T_v1", "custom"))) {
+          stop(paste("Error! \"", `assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, mm10\", \"C57BL_6J_T2T_v1 + GRCm39_X\", \"CAST_EiJ_T2T_v1\", \"custom\".", sep = ""))
         }
         if (!(is.character(`assembly`) && length(`assembly`) == 1)) {
           stop(paste("Error! Invalid data for `assembly`. Must be a string:", `assembly`))
@@ -99,8 +99,8 @@ GeneLocation1 <- R6::R6Class(
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`assembly`)) {
-        if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, mm10", "custom"))) {
-          stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, mm10\", \"custom\".", sep = ""))
+        if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, mm10", "C57BL_6J_T2T_v1 + GRCm39_X", "CAST_EiJ_T2T_v1", "custom"))) {
+          stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, mm10\", \"C57BL_6J_T2T_v1 + GRCm39_X\", \"CAST_EiJ_T2T_v1\", \"custom\".", sep = ""))
         }
         self$`assembly` <- this_object$`assembly`
       }
@@ -170,8 +170,8 @@ GeneLocation1 <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
-      if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, mm10", "custom"))) {
-        stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, mm10\", \"custom\".", sep = ""))
+      if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, mm10", "C57BL_6J_T2T_v1 + GRCm39_X", "CAST_EiJ_T2T_v1", "custom"))) {
+        stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, mm10\", \"C57BL_6J_T2T_v1 + GRCm39_X\", \"CAST_EiJ_T2T_v1\", \"custom\".", sep = ""))
       }
       self$`assembly` <- this_object$`assembly`
       self$`chromosome` <- this_object$`chromosome`

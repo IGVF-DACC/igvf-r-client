@@ -7,8 +7,9 @@
 #' @title ModelSet
 #' @description ModelSet Class
 #' @format An \code{R6Class} generator object
+#' @field preferred_assay_titles The assay(s) that served as input tranining data for the derivation of this model set. list(character) [optional]
 #' @field preview_timestamp The date the object was previewed. character [optional]
-#' @field input_file_sets The file set(s) that served as inputs for the derivation of this model set. list(character) [optional]
+#' @field input_file_sets The file set(s) that served as input training data for the derivation of this model set. list(character) [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field publications The publications associated with this object. list(character) [optional]
 #' @field documents Documents that provide additional information (not data file). list(character) [optional]
@@ -56,6 +57,7 @@
 ModelSet <- R6::R6Class(
   "ModelSet",
   public = list(
+    `preferred_assay_titles` = NULL,
     `preview_timestamp` = NULL,
     `input_file_sets` = NULL,
     `release_timestamp` = NULL,
@@ -104,8 +106,9 @@ ModelSet <- R6::R6Class(
     #' @description
     #' Initialize a new ModelSet class.
     #'
+    #' @param preferred_assay_titles The assay(s) that served as input tranining data for the derivation of this model set.
     #' @param preview_timestamp The date the object was previewed.
-    #' @param input_file_sets The file set(s) that served as inputs for the derivation of this model set.
+    #' @param input_file_sets The file set(s) that served as input training data for the derivation of this model set.
     #' @param release_timestamp The date the object was released.
     #' @param publications The publications associated with this object.
     #' @param documents Documents that provide additional information (not data file).
@@ -149,7 +152,12 @@ ModelSet <- R6::R6Class(
     #' @param software_versions The software versions used to produce this predictive model.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `model_name` = NULL, `model_version` = NULL, `prediction_objects` = NULL, `model_zoo_location` = NULL, `assessed_genes` = NULL, `external_input_data` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `externally_hosted` = NULL, `software_versions` = NULL, ...) {
+    initialize = function(`preferred_assay_titles` = NULL, `preview_timestamp` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `model_name` = NULL, `model_version` = NULL, `prediction_objects` = NULL, `model_zoo_location` = NULL, `assessed_genes` = NULL, `external_input_data` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `externally_hosted` = NULL, `software_versions` = NULL, ...) {
+      if (!is.null(`preferred_assay_titles`)) {
+        stopifnot(is.vector(`preferred_assay_titles`), length(`preferred_assay_titles`) != 0)
+        sapply(`preferred_assay_titles`, function(x) stopifnot(is.character(x)))
+        self$`preferred_assay_titles` <- `preferred_assay_titles`
+      }
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -406,6 +414,10 @@ ModelSet <- R6::R6Class(
     #' @export
     toJSON = function() {
       ModelSetObject <- list()
+      if (!is.null(self$`preferred_assay_titles`)) {
+        ModelSetObject[["preferred_assay_titles"]] <-
+          self$`preferred_assay_titles`
+      }
       if (!is.null(self$`preview_timestamp`)) {
         ModelSetObject[["preview_timestamp"]] <-
           self$`preview_timestamp`
@@ -590,6 +602,9 @@ ModelSet <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`preferred_assay_titles`)) {
+        self$`preferred_assay_titles` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_titles`, "array[character]", loadNamespace("igvfclient"))
+      }
       if (!is.null(this_object$`preview_timestamp`)) {
         self$`preview_timestamp` <- this_object$`preview_timestamp`
       }
@@ -736,6 +751,14 @@ ModelSet <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`preferred_assay_titles`)) {
+          sprintf(
+          '"preferred_assay_titles":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`preferred_assay_titles`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`preview_timestamp`)) {
           sprintf(
           '"preview_timestamp":
@@ -1094,6 +1117,7 @@ ModelSet <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`preferred_assay_titles` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_titles`, "array[character]", loadNamespace("igvfclient"))
       self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`input_file_sets` <- ApiClient$new()$deserializeObj(this_object$`input_file_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`release_timestamp` <- this_object$`release_timestamp`

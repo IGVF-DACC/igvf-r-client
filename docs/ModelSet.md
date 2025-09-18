@@ -5,8 +5,9 @@ A file set grouping files that represent trained predictive models. Model file s
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**preferred_assay_titles** | **array[character]** | The assay(s) that served as input tranining data for the derivation of this model set. | [optional] [Enum: ] 
 **preview_timestamp** | **character** | The date the object was previewed. | [optional] 
-**input_file_sets** | **set[character]** | The file set(s) that served as inputs for the derivation of this model set. | [optional] 
+**input_file_sets** | **set[character]** | The file set(s) that served as input training data for the derivation of this model set. | [optional] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **publications** | **set[character]** | The publications associated with this object. | [optional] 
 **documents** | **set[character]** | Documents that provide additional information (not data file). | [optional] 
