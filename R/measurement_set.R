@@ -40,7 +40,7 @@
 #' @field primer_designs The primer designs used in this measurement set. list(character) [optional]
 #' @field strand_specificity Indicates whether a transcriptomic library is forward, reverse, or unstranded based on the strand-specific protocol used. character [optional]
 #' @field auxiliary_sets The auxiliary sets of files produced alongside raw data from this measurement set. list(character) [optional]
-#' @field external_image_url Links to the external site where images produced by this measurement are stored. character [optional]
+#' @field external_image_urls Links to the external site where images produced by this measurement are stored. list(character) [optional]
 #' @field targeted_genes A list of genes targeted in this assay. For example, TF ChIP-seq attempts to identify binding sites of a protein encoded by a specific gene. In CRISPR FlowFISH, the modified samples are sorted based on expression of a specific gene. This property differs from small_scale_gene_list in Construct Library Set, which describes genes targeted by the content integrated in the constructs (such as guide RNAs.) list(character) [optional]
 #' @field functional_assay_mechanisms The biological processes measured by this functional assay. For example, a VAMP-seq (MultiSTEP) assay measures the effects of variants on protein carboxylation and secretion processes. list(character) [optional]
 #' @field onlist_method The method by which the onlist files will be combined by the seqspec onlist tool to generate the final barcode inclusion list for the single cell uniform pipeline. character [optional]
@@ -98,7 +98,7 @@ MeasurementSet <- R6::R6Class(
     `primer_designs` = NULL,
     `strand_specificity` = NULL,
     `auxiliary_sets` = NULL,
-    `external_image_url` = NULL,
+    `external_image_urls` = NULL,
     `targeted_genes` = NULL,
     `functional_assay_mechanisms` = NULL,
     `onlist_method` = NULL,
@@ -155,7 +155,7 @@ MeasurementSet <- R6::R6Class(
     #' @param primer_designs The primer designs used in this measurement set.
     #' @param strand_specificity Indicates whether a transcriptomic library is forward, reverse, or unstranded based on the strand-specific protocol used.
     #' @param auxiliary_sets The auxiliary sets of files produced alongside raw data from this measurement set.
-    #' @param external_image_url Links to the external site where images produced by this measurement are stored.
+    #' @param external_image_urls Links to the external site where images produced by this measurement are stored.
     #' @param targeted_genes A list of genes targeted in this assay. For example, TF ChIP-seq attempts to identify binding sites of a protein encoded by a specific gene. In CRISPR FlowFISH, the modified samples are sorted based on expression of a specific gene. This property differs from small_scale_gene_list in Construct Library Set, which describes genes targeted by the content integrated in the constructs (such as guide RNAs.)
     #' @param functional_assay_mechanisms The biological processes measured by this functional assay. For example, a VAMP-seq (MultiSTEP) assay measures the effects of variants on protein carboxylation and secretion processes.
     #' @param onlist_method The method by which the onlist files will be combined by the seqspec onlist tool to generate the final barcode inclusion list for the single cell uniform pipeline.
@@ -176,7 +176,7 @@ MeasurementSet <- R6::R6Class(
     #' @param externally_hosted externally_hosted
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preferred_assay_titles` = NULL, `preview_timestamp` = NULL, `control_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `assay_term` = NULL, `protocols` = NULL, `multiome_size` = NULL, `control_types` = NULL, `sequencing_library_types` = NULL, `primer_designs` = NULL, `strand_specificity` = NULL, `auxiliary_sets` = NULL, `external_image_url` = NULL, `targeted_genes` = NULL, `functional_assay_mechanisms` = NULL, `onlist_method` = NULL, `onlist_files` = NULL, `barcode_replacement_file` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `assay_titles` = NULL, `related_multiome_datasets` = NULL, `externally_hosted` = NULL, ...) {
+    initialize = function(`preferred_assay_titles` = NULL, `preview_timestamp` = NULL, `control_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `assay_term` = NULL, `protocols` = NULL, `multiome_size` = NULL, `control_types` = NULL, `sequencing_library_types` = NULL, `primer_designs` = NULL, `strand_specificity` = NULL, `auxiliary_sets` = NULL, `external_image_urls` = NULL, `targeted_genes` = NULL, `functional_assay_mechanisms` = NULL, `onlist_method` = NULL, `onlist_files` = NULL, `barcode_replacement_file` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `assay_titles` = NULL, `related_multiome_datasets` = NULL, `externally_hosted` = NULL, ...) {
       if (!is.null(`preferred_assay_titles`)) {
         stopifnot(is.vector(`preferred_assay_titles`), length(`preferred_assay_titles`) != 0)
         sapply(`preferred_assay_titles`, function(x) stopifnot(is.character(x)))
@@ -369,11 +369,10 @@ MeasurementSet <- R6::R6Class(
         sapply(`auxiliary_sets`, function(x) stopifnot(is.character(x)))
         self$`auxiliary_sets` <- `auxiliary_sets`
       }
-      if (!is.null(`external_image_url`)) {
-        if (!(is.character(`external_image_url`) && length(`external_image_url`) == 1)) {
-          stop(paste("Error! Invalid data for `external_image_url`. Must be a string:", `external_image_url`))
-        }
-        self$`external_image_url` <- `external_image_url`
+      if (!is.null(`external_image_urls`)) {
+        stopifnot(is.vector(`external_image_urls`), length(`external_image_urls`) != 0)
+        sapply(`external_image_urls`, function(x) stopifnot(is.character(x)))
+        self$`external_image_urls` <- `external_image_urls`
       }
       if (!is.null(`targeted_genes`)) {
         stopifnot(is.vector(`targeted_genes`), length(`targeted_genes`) != 0)
@@ -617,9 +616,9 @@ MeasurementSet <- R6::R6Class(
         MeasurementSetObject[["auxiliary_sets"]] <-
           self$`auxiliary_sets`
       }
-      if (!is.null(self$`external_image_url`)) {
-        MeasurementSetObject[["external_image_url"]] <-
-          self$`external_image_url`
+      if (!is.null(self$`external_image_urls`)) {
+        MeasurementSetObject[["external_image_urls"]] <-
+          self$`external_image_urls`
       }
       if (!is.null(self$`targeted_genes`)) {
         MeasurementSetObject[["targeted_genes"]] <-
@@ -813,8 +812,8 @@ MeasurementSet <- R6::R6Class(
       if (!is.null(this_object$`auxiliary_sets`)) {
         self$`auxiliary_sets` <- ApiClient$new()$deserializeObj(this_object$`auxiliary_sets`, "set[character]", loadNamespace("igvfclient"))
       }
-      if (!is.null(this_object$`external_image_url`)) {
-        self$`external_image_url` <- this_object$`external_image_url`
+      if (!is.null(this_object$`external_image_urls`)) {
+        self$`external_image_urls` <- ApiClient$new()$deserializeObj(this_object$`external_image_urls`, "array[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`targeted_genes`)) {
         self$`targeted_genes` <- ApiClient$new()$deserializeObj(this_object$`targeted_genes`, "set[character]", loadNamespace("igvfclient"))
@@ -1148,12 +1147,12 @@ MeasurementSet <- R6::R6Class(
           paste(unlist(lapply(self$`auxiliary_sets`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
-        if (!is.null(self$`external_image_url`)) {
+        if (!is.null(self$`external_image_urls`)) {
           sprintf(
-          '"external_image_url":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`external_image_url`, perl=TRUE)
+          '"external_image_urls":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`external_image_urls`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`targeted_genes`)) {
@@ -1356,7 +1355,7 @@ MeasurementSet <- R6::R6Class(
       }
       self$`strand_specificity` <- this_object$`strand_specificity`
       self$`auxiliary_sets` <- ApiClient$new()$deserializeObj(this_object$`auxiliary_sets`, "set[character]", loadNamespace("igvfclient"))
-      self$`external_image_url` <- this_object$`external_image_url`
+      self$`external_image_urls` <- ApiClient$new()$deserializeObj(this_object$`external_image_urls`, "array[character]", loadNamespace("igvfclient"))
       self$`targeted_genes` <- ApiClient$new()$deserializeObj(this_object$`targeted_genes`, "set[character]", loadNamespace("igvfclient"))
       self$`functional_assay_mechanisms` <- ApiClient$new()$deserializeObj(this_object$`functional_assay_mechanisms`, "set[character]", loadNamespace("igvfclient"))
       if (!is.null(this_object$`onlist_method`) && !(this_object$`onlist_method` %in% c("no combination", "product", "multi"))) {
@@ -1446,10 +1445,6 @@ MeasurementSet <- R6::R6Class(
 
 
 
-      if (!str_detect(self$`external_image_url`, "^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$")) {
-        return(FALSE)
-      }
-
 
 
 
@@ -1507,10 +1502,6 @@ MeasurementSet <- R6::R6Class(
 
 
 
-
-      if (!str_detect(self$`external_image_url`, "^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$")) {
-        invalid_fields["external_image_url"] <- "Invalid value for `external_image_url`, must conform to the pattern ^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$."
-      }
 
 
 
