@@ -59,5 +59,6 @@ Name | Type | Description | Notes
 **transcriptome_annotation** | **character** | The annotation and version of the reference resource. | [optional] 
 **filtered** | **character** | Indicates whether reads that did not pass a filtering step, such as PCR duplicates, have been removed from the file. | [optional] 
 **redacted** | **character** | Indicates whether the alignments data have been sanitized (redacted) to prevent leakage of private and potentially identifying genomic information. | [optional] 
+**reference_files** | **set[character]** | The reference files of the file that this index file is derived from. | [optional] 
 
 

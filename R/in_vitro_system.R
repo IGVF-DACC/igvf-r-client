@@ -590,8 +590,8 @@ InVitroSystem <- R6::R6Class(
         self$`targeted_sample_term` <- `targeted_sample_term`
       }
       if (!is.null(`growth_medium`)) {
-        if (!(`growth_medium` %in% c("DMEM with serum", "DMEM without serum", "SMBM with serum", "SMBM without serum"))) {
-          stop(paste("Error! \"", `growth_medium`, "\" cannot be assigned to `growth_medium`. Must be \"DMEM with serum\", \"DMEM without serum\", \"SMBM with serum\", \"SMBM without serum\".", sep = ""))
+        if (!(`growth_medium` %in% c("DMEM with serum", "DMEM without serum", "SMBM with serum", "SMBM without serum", "1 kPa hydrogel", "50 kPa hydrogel", "tissue culture plastic plates (no hydrogel)"))) {
+          stop(paste("Error! \"", `growth_medium`, "\" cannot be assigned to `growth_medium`. Must be \"DMEM with serum\", \"DMEM without serum\", \"SMBM with serum\", \"SMBM without serum\", \"1 kPa hydrogel\", \"50 kPa hydrogel\", \"tissue culture plastic plates (no hydrogel)\".", sep = ""))
         }
         if (!(is.character(`growth_medium`) && length(`growth_medium`) == 1)) {
           stop(paste("Error! Invalid data for `growth_medium`. Must be a string:", `growth_medium`))
@@ -1206,8 +1206,8 @@ InVitroSystem <- R6::R6Class(
         self$`targeted_sample_term` <- this_object$`targeted_sample_term`
       }
       if (!is.null(this_object$`growth_medium`)) {
-        if (!is.null(this_object$`growth_medium`) && !(this_object$`growth_medium` %in% c("DMEM with serum", "DMEM without serum", "SMBM with serum", "SMBM without serum"))) {
-          stop(paste("Error! \"", this_object$`growth_medium`, "\" cannot be assigned to `growth_medium`. Must be \"DMEM with serum\", \"DMEM without serum\", \"SMBM with serum\", \"SMBM without serum\".", sep = ""))
+        if (!is.null(this_object$`growth_medium`) && !(this_object$`growth_medium` %in% c("DMEM with serum", "DMEM without serum", "SMBM with serum", "SMBM without serum", "1 kPa hydrogel", "50 kPa hydrogel", "tissue culture plastic plates (no hydrogel)"))) {
+          stop(paste("Error! \"", this_object$`growth_medium`, "\" cannot be assigned to `growth_medium`. Must be \"DMEM with serum\", \"DMEM without serum\", \"SMBM with serum\", \"SMBM without serum\", \"1 kPa hydrogel\", \"50 kPa hydrogel\", \"tissue culture plastic plates (no hydrogel)\".", sep = ""))
         }
         self$`growth_medium` <- this_object$`growth_medium`
       }
@@ -1975,8 +1975,8 @@ InVitroSystem <- R6::R6Class(
       self$`demultiplexed_from` <- this_object$`demultiplexed_from`
       self$`passage_number` <- this_object$`passage_number`
       self$`targeted_sample_term` <- this_object$`targeted_sample_term`
-      if (!is.null(this_object$`growth_medium`) && !(this_object$`growth_medium` %in% c("DMEM with serum", "DMEM without serum", "SMBM with serum", "SMBM without serum"))) {
-        stop(paste("Error! \"", this_object$`growth_medium`, "\" cannot be assigned to `growth_medium`. Must be \"DMEM with serum\", \"DMEM without serum\", \"SMBM with serum\", \"SMBM without serum\".", sep = ""))
+      if (!is.null(this_object$`growth_medium`) && !(this_object$`growth_medium` %in% c("DMEM with serum", "DMEM without serum", "SMBM with serum", "SMBM without serum", "1 kPa hydrogel", "50 kPa hydrogel", "tissue culture plastic plates (no hydrogel)"))) {
+        stop(paste("Error! \"", this_object$`growth_medium`, "\" cannot be assigned to `growth_medium`. Must be \"DMEM with serum\", \"DMEM without serum\", \"SMBM with serum\", \"SMBM without serum\", \"1 kPa hydrogel\", \"50 kPa hydrogel\", \"tissue culture plastic plates (no hydrogel)\".", sep = ""))
       }
       self$`growth_medium` <- this_object$`growth_medium`
       self$`biosample_qualifiers` <- ApiClient$new()$deserializeObj(this_object$`biosample_qualifiers`, "set[character]", loadNamespace("igvfclient"))

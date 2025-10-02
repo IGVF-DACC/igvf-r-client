@@ -64,7 +64,7 @@ Name | Type | Description | Notes
 **demultiplexed_from** | **character** | The biosample this in vitro system sample was demultiplexed from using computational methods. | [optional] 
 **passage_number** | **integer** | Number of passages including the passages from the source. | [optional] [Min: 0] 
 **targeted_sample_term** | **character** | Ontology term identifying the targeted endpoint biosample resulting from differentation or reprogramming. | [optional] 
-**growth_medium** | **character** | A growth medium of the in vitro system. | [optional] [Enum: [DMEM with serum, DMEM without serum, SMBM with serum, SMBM without serum]] 
+**growth_medium** | **character** | A growth medium of the in vitro system. | [optional] [Enum: [DMEM with serum, DMEM without serum, SMBM with serum, SMBM without serum, 1 kPa hydrogel, 50 kPa hydrogel, tissue culture plastic plates (no hydrogel)]] 
 **biosample_qualifiers** | **set[character]** | An array of various cell states. This property provides additional information about a cell at a finer-grained level compared to what ontologies currently capture. For example, exhausted T-cells. | [optional] [Enum: ] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 

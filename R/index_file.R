@@ -61,6 +61,7 @@
 #' @field transcriptome_annotation The annotation and version of the reference resource. character [optional]
 #' @field filtered Indicates whether reads that did not pass a filtering step, such as PCR duplicates, have been removed from the file. character [optional]
 #' @field redacted Indicates whether the alignments data have been sanitized (redacted) to prevent leakage of private and potentially identifying genomic information. character [optional]
+#' @field reference_files The reference files of the file that this index file is derived from. list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -121,6 +122,7 @@ IndexFile <- R6::R6Class(
     `transcriptome_annotation` = NULL,
     `filtered` = NULL,
     `redacted` = NULL,
+    `reference_files` = NULL,
     #' Initialize a new IndexFile class.
     #'
     #' @description
@@ -180,9 +182,10 @@ IndexFile <- R6::R6Class(
     #' @param transcriptome_annotation The annotation and version of the reference resource.
     #' @param filtered Indicates whether reads that did not pass a filtering step, such as PCR duplicates, have been removed from the file.
     #' @param redacted Indicates whether the alignments data have been sanitized (redacted) to prevent leakage of private and potentially identifying genomic information.
+    #' @param reference_files The reference files of the file that this index file is derived from.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`anvil_url` = NULL, `catalog_collections` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `controlled_access` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `assembly` = NULL, `transcriptome_annotation` = NULL, `filtered` = NULL, `redacted` = NULL, ...) {
+    initialize = function(`anvil_url` = NULL, `catalog_collections` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `controlled_access` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `assembly` = NULL, `transcriptome_annotation` = NULL, `filtered` = NULL, `redacted` = NULL, `reference_files` = NULL, ...) {
       if (!is.null(`anvil_url`)) {
         if (!(is.character(`anvil_url`) && length(`anvil_url`) == 1)) {
           stop(paste("Error! Invalid data for `anvil_url`. Must be a string:", `anvil_url`))
@@ -496,6 +499,11 @@ IndexFile <- R6::R6Class(
         }
         self$`redacted` <- `redacted`
       }
+      if (!is.null(`reference_files`)) {
+        stopifnot(is.vector(`reference_files`), length(`reference_files`) != 0)
+        sapply(`reference_files`, function(x) stopifnot(is.character(x)))
+        self$`reference_files` <- `reference_files`
+      }
     },
     #' To JSON string
     #'
@@ -722,6 +730,10 @@ IndexFile <- R6::R6Class(
         IndexFileObject[["redacted"]] <-
           self$`redacted`
       }
+      if (!is.null(self$`reference_files`)) {
+        IndexFileObject[["reference_files"]] <-
+          self$`reference_files`
+      }
       IndexFileObject
     },
     #' Deserialize JSON string into an instance of IndexFile
@@ -904,6 +916,9 @@ IndexFile <- R6::R6Class(
       }
       if (!is.null(this_object$`redacted`)) {
         self$`redacted` <- this_object$`redacted`
+      }
+      if (!is.null(this_object$`reference_files`)) {
+        self$`reference_files` <- ApiClient$new()$deserializeObj(this_object$`reference_files`, "set[character]", loadNamespace("igvfclient"))
       }
       self
     },
@@ -1347,6 +1362,14 @@ IndexFile <- R6::R6Class(
                     ',
           tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`redacted`, perl=TRUE))
           )
+        },
+        if (!is.null(self$`reference_files`)) {
+          sprintf(
+          '"reference_files":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`reference_files`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -1425,6 +1448,7 @@ IndexFile <- R6::R6Class(
       self$`transcriptome_annotation` <- this_object$`transcriptome_annotation`
       self$`filtered` <- this_object$`filtered`
       self$`redacted` <- this_object$`redacted`
+      self$`reference_files` <- ApiClient$new()$deserializeObj(this_object$`reference_files`, "set[character]", loadNamespace("igvfclient"))
       self
     },
     #' Validate JSON input with respect to IndexFile
@@ -1509,6 +1533,7 @@ IndexFile <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1565,6 +1590,7 @@ IndexFile <- R6::R6Class(
       if (!str_detect(self$`md5sum`, "[a-f\\d]{32}|[A-F\\d]{32}")) {
         invalid_fields["md5sum"] <- "Invalid value for `md5sum`, must conform to the pattern [a-f\\d]{32}|[A-F\\d]{32}."
       }
+
 
 
 

@@ -256,8 +256,8 @@ Treatment <- R6::R6Class(
         self$`pH` <- `pH`
       }
       if (!is.null(`purpose`)) {
-        if (!(`purpose` %in% c("activation", "agonist", "antagonist", "control", "differentiation", "de-differentiation", "perturbation", "selection", "stimulation"))) {
-          stop(paste("Error! \"", `purpose`, "\" cannot be assigned to `purpose`. Must be \"activation\", \"agonist\", \"antagonist\", \"control\", \"differentiation\", \"de-differentiation\", \"perturbation\", \"selection\", \"stimulation\".", sep = ""))
+        if (!(`purpose` %in% c("activation", "agonist", "antagonist", "control", "de-differentiation", "differentiation", "perturbation", "selection", "stimulation"))) {
+          stop(paste("Error! \"", `purpose`, "\" cannot be assigned to `purpose`. Must be \"activation\", \"agonist\", \"antagonist\", \"control\", \"de-differentiation\", \"differentiation\", \"perturbation\", \"selection\", \"stimulation\".", sep = ""))
         }
         if (!(is.character(`purpose`) && length(`purpose`) == 1)) {
           stop(paste("Error! Invalid data for `purpose`. Must be a string:", `purpose`))
@@ -289,8 +289,8 @@ Treatment <- R6::R6Class(
         self$`temperature_units` <- `temperature_units`
       }
       if (!is.null(`treatment_type`)) {
-        if (!(`treatment_type` %in% c("chemical", "protein", "environmental"))) {
-          stop(paste("Error! \"", `treatment_type`, "\" cannot be assigned to `treatment_type`. Must be \"chemical\", \"protein\", \"environmental\".", sep = ""))
+        if (!(`treatment_type` %in% c("chemical", "protein"))) {
+          stop(paste("Error! \"", `treatment_type`, "\" cannot be assigned to `treatment_type`. Must be \"chemical\", \"protein\".", sep = ""))
         }
         if (!(is.character(`treatment_type`) && length(`treatment_type`) == 1)) {
           stop(paste("Error! Invalid data for `treatment_type`. Must be a string:", `treatment_type`))
@@ -575,8 +575,8 @@ Treatment <- R6::R6Class(
         self$`pH` <- this_object$`pH`
       }
       if (!is.null(this_object$`purpose`)) {
-        if (!is.null(this_object$`purpose`) && !(this_object$`purpose` %in% c("activation", "agonist", "antagonist", "control", "differentiation", "de-differentiation", "perturbation", "selection", "stimulation"))) {
-          stop(paste("Error! \"", this_object$`purpose`, "\" cannot be assigned to `purpose`. Must be \"activation\", \"agonist\", \"antagonist\", \"control\", \"differentiation\", \"de-differentiation\", \"perturbation\", \"selection\", \"stimulation\".", sep = ""))
+        if (!is.null(this_object$`purpose`) && !(this_object$`purpose` %in% c("activation", "agonist", "antagonist", "control", "de-differentiation", "differentiation", "perturbation", "selection", "stimulation"))) {
+          stop(paste("Error! \"", this_object$`purpose`, "\" cannot be assigned to `purpose`. Must be \"activation\", \"agonist\", \"antagonist\", \"control\", \"de-differentiation\", \"differentiation\", \"perturbation\", \"selection\", \"stimulation\".", sep = ""))
         }
         self$`purpose` <- this_object$`purpose`
       }
@@ -599,8 +599,8 @@ Treatment <- R6::R6Class(
         self$`temperature_units` <- this_object$`temperature_units`
       }
       if (!is.null(this_object$`treatment_type`)) {
-        if (!is.null(this_object$`treatment_type`) && !(this_object$`treatment_type` %in% c("chemical", "protein", "environmental"))) {
-          stop(paste("Error! \"", this_object$`treatment_type`, "\" cannot be assigned to `treatment_type`. Must be \"chemical\", \"protein\", \"environmental\".", sep = ""))
+        if (!is.null(this_object$`treatment_type`) && !(this_object$`treatment_type` %in% c("chemical", "protein"))) {
+          stop(paste("Error! \"", this_object$`treatment_type`, "\" cannot be assigned to `treatment_type`. Must be \"chemical\", \"protein\".", sep = ""))
         }
         self$`treatment_type` <- this_object$`treatment_type`
       }
@@ -961,8 +961,8 @@ Treatment <- R6::R6Class(
       }
       self$`duration_units` <- this_object$`duration_units`
       self$`pH` <- this_object$`pH`
-      if (!is.null(this_object$`purpose`) && !(this_object$`purpose` %in% c("activation", "agonist", "antagonist", "control", "differentiation", "de-differentiation", "perturbation", "selection", "stimulation"))) {
-        stop(paste("Error! \"", this_object$`purpose`, "\" cannot be assigned to `purpose`. Must be \"activation\", \"agonist\", \"antagonist\", \"control\", \"differentiation\", \"de-differentiation\", \"perturbation\", \"selection\", \"stimulation\".", sep = ""))
+      if (!is.null(this_object$`purpose`) && !(this_object$`purpose` %in% c("activation", "agonist", "antagonist", "control", "de-differentiation", "differentiation", "perturbation", "selection", "stimulation"))) {
+        stop(paste("Error! \"", this_object$`purpose`, "\" cannot be assigned to `purpose`. Must be \"activation\", \"agonist\", \"antagonist\", \"control\", \"de-differentiation\", \"differentiation\", \"perturbation\", \"selection\", \"stimulation\".", sep = ""))
       }
       self$`purpose` <- this_object$`purpose`
       self$`post_treatment_time` <- this_object$`post_treatment_time`
@@ -975,8 +975,8 @@ Treatment <- R6::R6Class(
         stop(paste("Error! \"", this_object$`temperature_units`, "\" cannot be assigned to `temperature_units`. Must be \"Celsius\".", sep = ""))
       }
       self$`temperature_units` <- this_object$`temperature_units`
-      if (!is.null(this_object$`treatment_type`) && !(this_object$`treatment_type` %in% c("chemical", "protein", "environmental"))) {
-        stop(paste("Error! \"", this_object$`treatment_type`, "\" cannot be assigned to `treatment_type`. Must be \"chemical\", \"protein\", \"environmental\".", sep = ""))
+      if (!is.null(this_object$`treatment_type`) && !(this_object$`treatment_type` %in% c("chemical", "protein"))) {
+        stop(paste("Error! \"", this_object$`treatment_type`, "\" cannot be assigned to `treatment_type`. Must be \"chemical\", \"protein\".", sep = ""))
       }
       self$`treatment_type` <- this_object$`treatment_type`
       self$`treatment_term_id` <- this_object$`treatment_term_id`
