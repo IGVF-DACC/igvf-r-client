@@ -32,12 +32,14 @@
 #' @field sex Sex of the donor. character [optional]
 #' @field phenotypic_features A list of associated phenotypic features of the donor. list(character) [optional]
 #' @field virtual Virtual donors are not representing actual human or model organism donors, samples coming from which were used in experiments, but rather capturing metadata about hypothetical donors that the reported analysis results are relevant for. character [optional]
+#' @field supersedes The donor(s) that this donor supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
 #' @field related_donors Familial relations of this donor. list(\link{RelatedDonor}) [optional]
 #' @field ethnicities Ethnicity of the donor. list(character) [optional]
 #' @field human_donor_identifiers Identifiers of this human donor. list(character) [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the human donor. character [optional]
+#' @field superseded_by Donor(s) this donor is superseded by virtue of those donor(s) being newer, better, or a fixed version of etc. than this one. list(character) [optional]
 #' @field _field_list a list of fields list(character)
 #' @field additional_properties additional properties list(character) [optional]
 #' @importFrom R6 R6Class
@@ -72,13 +74,15 @@ HumanDonor <- R6::R6Class(
     `sex` = NULL,
     `phenotypic_features` = NULL,
     `virtual` = NULL,
+    `supersedes` = NULL,
     `related_donors` = NULL,
     `ethnicities` = NULL,
     `human_donor_identifiers` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
-    `_field_list` = c("preview_timestamp", "release_timestamp", "taxa", "publications", "url", "documents", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "dbxrefs", "sex", "phenotypic_features", "virtual", "related_donors", "ethnicities", "human_donor_identifiers", "@id", "@type", "summary"),
+    `superseded_by` = NULL,
+    `_field_list` = c("preview_timestamp", "release_timestamp", "taxa", "publications", "url", "documents", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "dbxrefs", "sex", "phenotypic_features", "virtual", "supersedes", "related_donors", "ethnicities", "human_donor_identifiers", "@id", "@type", "summary", "superseded_by"),
     `additional_properties` = list(),
     #' Initialize a new HumanDonor class.
     #'
@@ -110,16 +114,18 @@ HumanDonor <- R6::R6Class(
     #' @param sex Sex of the donor.
     #' @param phenotypic_features A list of associated phenotypic features of the donor.
     #' @param virtual Virtual donors are not representing actual human or model organism donors, samples coming from which were used in experiments, but rather capturing metadata about hypothetical donors that the reported analysis results are relevant for.
+    #' @param supersedes The donor(s) that this donor supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
     #' @param related_donors Familial relations of this donor.
     #' @param ethnicities Ethnicity of the donor.
     #' @param human_donor_identifiers Identifiers of this human donor.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the human donor.
+    #' @param superseded_by Donor(s) this donor is superseded by virtue of those donor(s) being newer, better, or a fixed version of etc. than this one.
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `taxa` = NULL, `publications` = NULL, `url` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `sex` = NULL, `phenotypic_features` = NULL, `virtual` = NULL, `related_donors` = NULL, `ethnicities` = NULL, `human_donor_identifiers` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `taxa` = NULL, `publications` = NULL, `url` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `sex` = NULL, `phenotypic_features` = NULL, `virtual` = NULL, `supersedes` = NULL, `related_donors` = NULL, `ethnicities` = NULL, `human_donor_identifiers` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `superseded_by` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -272,6 +278,11 @@ HumanDonor <- R6::R6Class(
         }
         self$`virtual` <- `virtual`
       }
+      if (!is.null(`supersedes`)) {
+        stopifnot(is.vector(`supersedes`), length(`supersedes`) != 0)
+        sapply(`supersedes`, function(x) stopifnot(is.character(x)))
+        self$`supersedes` <- `supersedes`
+      }
       if (!is.null(`related_donors`)) {
         stopifnot(is.vector(`related_donors`), length(`related_donors`) != 0)
         sapply(`related_donors`, function(x) stopifnot(R6::is.R6(x)))
@@ -303,6 +314,11 @@ HumanDonor <- R6::R6Class(
           stop(paste("Error! Invalid data for `summary`. Must be a string:", `summary`))
         }
         self$`summary` <- `summary`
+      }
+      if (!is.null(`superseded_by`)) {
+        stopifnot(is.vector(`superseded_by`), length(`superseded_by`) != 0)
+        sapply(`superseded_by`, function(x) stopifnot(is.character(x)))
+        self$`superseded_by` <- `superseded_by`
       }
       if (!is.null(additional_properties)) {
         for (key in names(additional_properties)) {
@@ -419,6 +435,10 @@ HumanDonor <- R6::R6Class(
         HumanDonorObject[["virtual"]] <-
           self$`virtual`
       }
+      if (!is.null(self$`supersedes`)) {
+        HumanDonorObject[["supersedes"]] <-
+          self$`supersedes`
+      }
       if (!is.null(self$`related_donors`)) {
         HumanDonorObject[["related_donors"]] <-
           lapply(self$`related_donors`, function(x) x$toJSON())
@@ -442,6 +462,10 @@ HumanDonor <- R6::R6Class(
       if (!is.null(self$`summary`)) {
         HumanDonorObject[["summary"]] <-
           self$`summary`
+      }
+      if (!is.null(self$`superseded_by`)) {
+        HumanDonorObject[["superseded_by"]] <-
+          self$`superseded_by`
       }
       for (key in names(self$additional_properties)) {
         HumanDonorObject[[key]] <- self$additional_properties[[key]]
@@ -543,6 +567,9 @@ HumanDonor <- R6::R6Class(
       if (!is.null(this_object$`virtual`)) {
         self$`virtual` <- this_object$`virtual`
       }
+      if (!is.null(this_object$`supersedes`)) {
+        self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
+      }
       if (!is.null(this_object$`related_donors`)) {
         self$`related_donors` <- ApiClient$new()$deserializeObj(this_object$`related_donors`, "set[RelatedDonor]", loadNamespace("igvfclient"))
       }
@@ -560,6 +587,9 @@ HumanDonor <- R6::R6Class(
       }
       if (!is.null(this_object$`summary`)) {
         self$`summary` <- this_object$`summary`
+      }
+      if (!is.null(this_object$`superseded_by`)) {
+        self$`superseded_by` <- ApiClient$new()$deserializeObj(this_object$`superseded_by`, "set[character]", loadNamespace("igvfclient"))
       }
       # process additional properties/fields in the payload
       for (key in names(this_object)) {
@@ -779,6 +809,14 @@ HumanDonor <- R6::R6Class(
           tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`virtual`, perl=TRUE))
           )
         },
+        if (!is.null(self$`supersedes`)) {
+          sprintf(
+          '"supersedes":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`supersedes`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`related_donors`)) {
           sprintf(
           '"related_donors":
@@ -825,6 +863,14 @@ HumanDonor <- R6::R6Class(
             "%s"
                     ',
           gsub('(?<!\\\\)\\"', '\\\\"', self$`summary`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`superseded_by`)) {
+          sprintf(
+          '"superseded_by":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`superseded_by`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         }
       )
@@ -880,12 +926,14 @@ HumanDonor <- R6::R6Class(
       self$`sex` <- this_object$`sex`
       self$`phenotypic_features` <- ApiClient$new()$deserializeObj(this_object$`phenotypic_features`, "set[character]", loadNamespace("igvfclient"))
       self$`virtual` <- this_object$`virtual`
+      self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
       self$`related_donors` <- ApiClient$new()$deserializeObj(this_object$`related_donors`, "set[RelatedDonor]", loadNamespace("igvfclient"))
       self$`ethnicities` <- ApiClient$new()$deserializeObj(this_object$`ethnicities`, "set[character]", loadNamespace("igvfclient"))
       self$`human_donor_identifiers` <- ApiClient$new()$deserializeObj(this_object$`human_donor_identifiers`, "set[character]", loadNamespace("igvfclient"))
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
+      self$`superseded_by` <- ApiClient$new()$deserializeObj(this_object$`superseded_by`, "set[character]", loadNamespace("igvfclient"))
       # process additional properties/fields in the payload
       for (key in names(this_object)) {
         if (!(key %in% self$`_field_list`)) { # json key not in list of fields
@@ -953,6 +1001,8 @@ HumanDonor <- R6::R6Class(
 
 
 
+
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -988,6 +1038,8 @@ HumanDonor <- R6::R6Class(
       if (!str_detect(self$`description`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         invalid_fields["description"] <- "Invalid value for `description`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
+
+
 
 
 

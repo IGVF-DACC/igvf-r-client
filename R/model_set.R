@@ -33,6 +33,7 @@
 #' @field samples The sample(s) associated with this file set. list(character) [optional]
 #' @field donors The donor(s) associated with this file set. list(character) [optional]
 #' @field file_set_type The category that best describes this predictive model set. character [optional]
+#' @field supersedes The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
 #' @field model_name The custom lab name given to this predictive model set. character [optional]
 #' @field model_version The semantic version number for this predictive model set. character [optional]
 #' @field prediction_objects The objects this predictive model set is targeting. list(character) [optional]
@@ -44,6 +45,7 @@
 #' @field summary  character [optional]
 #' @field files The files associated with this file set. list(character) [optional]
 #' @field control_for The file sets for which this file set is a control. list(character) [optional]
+#' @field superseded_by File set(s) this file set is superseded by virtue of those file set(s) being newer, better, or a fixed version of etc. than this one. list(character) [optional]
 #' @field submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created. character [optional]
 #' @field input_for The file sets that use this file set as an input. list(character) [optional]
 #' @field construct_library_sets The construct library sets associated with the samples of this file set. list(character) [optional]
@@ -83,6 +85,7 @@ ModelSet <- R6::R6Class(
     `samples` = NULL,
     `donors` = NULL,
     `file_set_type` = NULL,
+    `supersedes` = NULL,
     `model_name` = NULL,
     `model_version` = NULL,
     `prediction_objects` = NULL,
@@ -94,6 +97,7 @@ ModelSet <- R6::R6Class(
     `summary` = NULL,
     `files` = NULL,
     `control_for` = NULL,
+    `superseded_by` = NULL,
     `submitted_files_timestamp` = NULL,
     `input_for` = NULL,
     `construct_library_sets` = NULL,
@@ -132,6 +136,7 @@ ModelSet <- R6::R6Class(
     #' @param samples The sample(s) associated with this file set.
     #' @param donors The donor(s) associated with this file set.
     #' @param file_set_type The category that best describes this predictive model set.
+    #' @param supersedes The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
     #' @param model_name The custom lab name given to this predictive model set.
     #' @param model_version The semantic version number for this predictive model set.
     #' @param prediction_objects The objects this predictive model set is targeting.
@@ -143,6 +148,7 @@ ModelSet <- R6::R6Class(
     #' @param summary summary
     #' @param files The files associated with this file set.
     #' @param control_for The file sets for which this file set is a control.
+    #' @param superseded_by File set(s) this file set is superseded by virtue of those file set(s) being newer, better, or a fixed version of etc. than this one.
     #' @param submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created.
     #' @param input_for The file sets that use this file set as an input.
     #' @param construct_library_sets The construct library sets associated with the samples of this file set.
@@ -152,7 +158,7 @@ ModelSet <- R6::R6Class(
     #' @param software_versions The software versions used to produce this predictive model.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preferred_assay_titles` = NULL, `preview_timestamp` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `model_name` = NULL, `model_version` = NULL, `prediction_objects` = NULL, `model_zoo_location` = NULL, `assessed_genes` = NULL, `external_input_data` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `externally_hosted` = NULL, `software_versions` = NULL, ...) {
+    initialize = function(`preferred_assay_titles` = NULL, `preview_timestamp` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `model_name` = NULL, `model_version` = NULL, `prediction_objects` = NULL, `model_zoo_location` = NULL, `assessed_genes` = NULL, `external_input_data` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `externally_hosted` = NULL, `software_versions` = NULL, ...) {
       if (!is.null(`preferred_assay_titles`)) {
         stopifnot(is.vector(`preferred_assay_titles`), length(`preferred_assay_titles`) != 0)
         sapply(`preferred_assay_titles`, function(x) stopifnot(is.character(x)))
@@ -305,6 +311,11 @@ ModelSet <- R6::R6Class(
         }
         self$`file_set_type` <- `file_set_type`
       }
+      if (!is.null(`supersedes`)) {
+        stopifnot(is.vector(`supersedes`), length(`supersedes`) != 0)
+        sapply(`supersedes`, function(x) stopifnot(is.character(x)))
+        self$`supersedes` <- `supersedes`
+      }
       if (!is.null(`model_name`)) {
         if (!(is.character(`model_name`) && length(`model_name`) == 1)) {
           stop(paste("Error! Invalid data for `model_name`. Must be a string:", `model_name`))
@@ -365,6 +376,11 @@ ModelSet <- R6::R6Class(
         stopifnot(is.vector(`control_for`), length(`control_for`) != 0)
         sapply(`control_for`, function(x) stopifnot(is.character(x)))
         self$`control_for` <- `control_for`
+      }
+      if (!is.null(`superseded_by`)) {
+        stopifnot(is.vector(`superseded_by`), length(`superseded_by`) != 0)
+        sapply(`superseded_by`, function(x) stopifnot(is.character(x)))
+        self$`superseded_by` <- `superseded_by`
       }
       if (!is.null(`submitted_files_timestamp`)) {
         if (!(is.character(`submitted_files_timestamp`) && length(`submitted_files_timestamp`) == 1)) {
@@ -518,6 +534,10 @@ ModelSet <- R6::R6Class(
         ModelSetObject[["file_set_type"]] <-
           self$`file_set_type`
       }
+      if (!is.null(self$`supersedes`)) {
+        ModelSetObject[["supersedes"]] <-
+          self$`supersedes`
+      }
       if (!is.null(self$`model_name`)) {
         ModelSetObject[["model_name"]] <-
           self$`model_name`
@@ -561,6 +581,10 @@ ModelSet <- R6::R6Class(
       if (!is.null(self$`control_for`)) {
         ModelSetObject[["control_for"]] <-
           self$`control_for`
+      }
+      if (!is.null(self$`superseded_by`)) {
+        ModelSetObject[["superseded_by"]] <-
+          self$`superseded_by`
       }
       if (!is.null(self$`submitted_files_timestamp`)) {
         ModelSetObject[["submitted_files_timestamp"]] <-
@@ -686,6 +710,9 @@ ModelSet <- R6::R6Class(
         }
         self$`file_set_type` <- this_object$`file_set_type`
       }
+      if (!is.null(this_object$`supersedes`)) {
+        self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
+      }
       if (!is.null(this_object$`model_name`)) {
         self$`model_name` <- this_object$`model_name`
       }
@@ -718,6 +745,9 @@ ModelSet <- R6::R6Class(
       }
       if (!is.null(this_object$`control_for`)) {
         self$`control_for` <- ApiClient$new()$deserializeObj(this_object$`control_for`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`superseded_by`)) {
+        self$`superseded_by` <- ApiClient$new()$deserializeObj(this_object$`superseded_by`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`submitted_files_timestamp`)) {
         self$`submitted_files_timestamp` <- this_object$`submitted_files_timestamp`
@@ -959,6 +989,14 @@ ModelSet <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`file_set_type`, perl=TRUE)
           )
         },
+        if (!is.null(self$`supersedes`)) {
+          sprintf(
+          '"supersedes":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`supersedes`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`model_name`)) {
           sprintf(
           '"model_name":
@@ -1045,6 +1083,14 @@ ModelSet <- R6::R6Class(
              [%s]
           ',
           paste(unlist(lapply(self$`control_for`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`superseded_by`)) {
+          sprintf(
+          '"superseded_by":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`superseded_by`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`submitted_files_timestamp`)) {
@@ -1149,6 +1195,7 @@ ModelSet <- R6::R6Class(
         stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"decision tree\", \"logistic regression\", \"neural network\", \"random forest\", \"support vector machine\", \"variant binding effect\".", sep = ""))
       }
       self$`file_set_type` <- this_object$`file_set_type`
+      self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
       self$`model_name` <- this_object$`model_name`
       self$`model_version` <- this_object$`model_version`
       self$`prediction_objects` <- ApiClient$new()$deserializeObj(this_object$`prediction_objects`, "set[character]", loadNamespace("igvfclient"))
@@ -1160,6 +1207,7 @@ ModelSet <- R6::R6Class(
       self$`summary` <- this_object$`summary`
       self$`files` <- ApiClient$new()$deserializeObj(this_object$`files`, "set[character]", loadNamespace("igvfclient"))
       self$`control_for` <- ApiClient$new()$deserializeObj(this_object$`control_for`, "set[character]", loadNamespace("igvfclient"))
+      self$`superseded_by` <- ApiClient$new()$deserializeObj(this_object$`superseded_by`, "set[character]", loadNamespace("igvfclient"))
       self$`submitted_files_timestamp` <- this_object$`submitted_files_timestamp`
       self$`input_for` <- ApiClient$new()$deserializeObj(this_object$`input_for`, "set[character]", loadNamespace("igvfclient"))
       self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
@@ -1226,6 +1274,7 @@ ModelSet <- R6::R6Class(
 
 
 
+
       if (!str_detect(self$`model_version`, "^v(?!0\\.0\\.0$)[0-9]+\\.[0-9]+\\.[0-9]+$")) {
         return(FALSE)
       }
@@ -1234,6 +1283,7 @@ ModelSet <- R6::R6Class(
       if (!str_detect(self$`model_zoo_location`, "^https?://kipoi\\.org/models/(\\S+)$")) {
         return(FALSE)
       }
+
 
 
 
@@ -1282,6 +1332,7 @@ ModelSet <- R6::R6Class(
 
 
 
+
       if (!str_detect(self$`model_version`, "^v(?!0\\.0\\.0$)[0-9]+\\.[0-9]+\\.[0-9]+$")) {
         invalid_fields["model_version"] <- "Invalid value for `model_version`, must conform to the pattern ^v(?!0\\.0\\.0$)[0-9]+\\.[0-9]+\\.[0-9]+$."
       }
@@ -1290,6 +1341,7 @@ ModelSet <- R6::R6Class(
       if (!str_detect(self$`model_zoo_location`, "^https?://kipoi\\.org/models/(\\S+)$")) {
         invalid_fields["model_zoo_location"] <- "Invalid value for `model_zoo_location`, must conform to the pattern ^https?://kipoi\\.org/models/(\\S+)$."
       }
+
 
 
 

@@ -52,11 +52,13 @@
 #' @field lower_bound_insert_size Lower bound of the size of the inserts cloned in vectors in the library. integer [optional]
 #' @field upper_bound_insert_size Upper bound of the size of the inserts cloned in vectors in the library. integer [optional]
 #' @field targeton An identifier in plain text for the specific targeton in an editing template library. The associated gene must be listed in the small_scale_gene_list property. character [optional]
+#' @field supersedes The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary  character [optional]
 #' @field files The files associated with this file set. list(character) [optional]
 #' @field control_for The file sets for which this file set is a control. list(character) [optional]
+#' @field superseded_by File set(s) this file set is superseded by virtue of those file set(s) being newer, better, or a fixed version of etc. than this one. list(character) [optional]
 #' @field submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created. character [optional]
 #' @field input_for The file sets that use this file set as an input. list(character) [optional]
 #' @field construct_library_sets The construct library sets associated with the samples of this file set. list(character) [optional]
@@ -121,11 +123,13 @@ ConstructLibrarySet <- R6::R6Class(
     `lower_bound_insert_size` = NULL,
     `upper_bound_insert_size` = NULL,
     `targeton` = NULL,
+    `supersedes` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
     `files` = NULL,
     `control_for` = NULL,
+    `superseded_by` = NULL,
     `submitted_files_timestamp` = NULL,
     `input_for` = NULL,
     `construct_library_sets` = NULL,
@@ -136,7 +140,7 @@ ConstructLibrarySet <- R6::R6Class(
     `preferred_assay_titles` = NULL,
     `assay_titles` = NULL,
     `donors` = NULL,
-    `_field_list` = c("preview_timestamp", "control_file_sets", "small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "sources", "lot_id", "product_id", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "file_set_type", "control_types", "scope", "selection_criteria", "integrated_content_files", "associated_phenotypes", "orf_list", "exon", "tile", "guide_type", "tiling_modality", "average_guide_coverage", "lower_bound_guide_coverage", "upper_bound_guide_coverage", "average_insert_size", "lower_bound_insert_size", "upper_bound_insert_size", "targeton", "@id", "@type", "summary", "files", "control_for", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access", "samples", "file_sets", "preferred_assay_titles", "assay_titles", "donors"),
+    `_field_list` = c("preview_timestamp", "control_file_sets", "small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "sources", "lot_id", "product_id", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "file_set_type", "control_types", "scope", "selection_criteria", "integrated_content_files", "associated_phenotypes", "orf_list", "exon", "tile", "guide_type", "tiling_modality", "average_guide_coverage", "lower_bound_guide_coverage", "upper_bound_guide_coverage", "average_insert_size", "lower_bound_insert_size", "upper_bound_insert_size", "targeton", "supersedes", "@id", "@type", "summary", "files", "control_for", "superseded_by", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access", "samples", "file_sets", "preferred_assay_titles", "assay_titles", "donors"),
     `additional_properties` = list(),
     #' Initialize a new ConstructLibrarySet class.
     #'
@@ -188,11 +192,13 @@ ConstructLibrarySet <- R6::R6Class(
     #' @param lower_bound_insert_size Lower bound of the size of the inserts cloned in vectors in the library.
     #' @param upper_bound_insert_size Upper bound of the size of the inserts cloned in vectors in the library.
     #' @param targeton An identifier in plain text for the specific targeton in an editing template library. The associated gene must be listed in the small_scale_gene_list property.
+    #' @param supersedes The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
     #' @param @id @id
     #' @param @type @type
     #' @param summary summary
     #' @param files The files associated with this file set.
     #' @param control_for The file sets for which this file set is a control.
+    #' @param superseded_by File set(s) this file set is superseded by virtue of those file set(s) being newer, better, or a fixed version of etc. than this one.
     #' @param submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created.
     #' @param input_for The file sets that use this file set as an input.
     #' @param construct_library_sets The construct library sets associated with the samples of this file set.
@@ -206,7 +212,7 @@ ConstructLibrarySet <- R6::R6Class(
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `control_file_sets` = NULL, `small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `file_set_type` = NULL, `control_types` = NULL, `scope` = NULL, `selection_criteria` = NULL, `integrated_content_files` = NULL, `associated_phenotypes` = NULL, `orf_list` = NULL, `exon` = NULL, `tile` = NULL, `guide_type` = NULL, `tiling_modality` = NULL, `average_guide_coverage` = NULL, `lower_bound_guide_coverage` = NULL, `upper_bound_guide_coverage` = NULL, `average_insert_size` = NULL, `lower_bound_insert_size` = NULL, `upper_bound_insert_size` = NULL, `targeton` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `samples` = NULL, `file_sets` = NULL, `preferred_assay_titles` = NULL, `assay_titles` = NULL, `donors` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `control_file_sets` = NULL, `small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `file_set_type` = NULL, `control_types` = NULL, `scope` = NULL, `selection_criteria` = NULL, `integrated_content_files` = NULL, `associated_phenotypes` = NULL, `orf_list` = NULL, `exon` = NULL, `tile` = NULL, `guide_type` = NULL, `tiling_modality` = NULL, `average_guide_coverage` = NULL, `lower_bound_guide_coverage` = NULL, `upper_bound_guide_coverage` = NULL, `average_insert_size` = NULL, `lower_bound_insert_size` = NULL, `upper_bound_insert_size` = NULL, `targeton` = NULL, `supersedes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `samples` = NULL, `file_sets` = NULL, `preferred_assay_titles` = NULL, `assay_titles` = NULL, `donors` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -470,6 +476,11 @@ ConstructLibrarySet <- R6::R6Class(
         }
         self$`targeton` <- `targeton`
       }
+      if (!is.null(`supersedes`)) {
+        stopifnot(is.vector(`supersedes`), length(`supersedes`) != 0)
+        sapply(`supersedes`, function(x) stopifnot(is.character(x)))
+        self$`supersedes` <- `supersedes`
+      }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
           stop(paste("Error! Invalid data for `@id`. Must be a string:", `@id`))
@@ -496,6 +507,11 @@ ConstructLibrarySet <- R6::R6Class(
         stopifnot(is.vector(`control_for`), length(`control_for`) != 0)
         sapply(`control_for`, function(x) stopifnot(is.character(x)))
         self$`control_for` <- `control_for`
+      }
+      if (!is.null(`superseded_by`)) {
+        stopifnot(is.vector(`superseded_by`), length(`superseded_by`) != 0)
+        sapply(`superseded_by`, function(x) stopifnot(is.character(x)))
+        self$`superseded_by` <- `superseded_by`
       }
       if (!is.null(`submitted_files_timestamp`)) {
         if (!(is.character(`submitted_files_timestamp`) && length(`submitted_files_timestamp`) == 1)) {
@@ -744,6 +760,10 @@ ConstructLibrarySet <- R6::R6Class(
         ConstructLibrarySetObject[["targeton"]] <-
           self$`targeton`
       }
+      if (!is.null(self$`supersedes`)) {
+        ConstructLibrarySetObject[["supersedes"]] <-
+          self$`supersedes`
+      }
       if (!is.null(self$`@id`)) {
         ConstructLibrarySetObject[["@id"]] <-
           self$`@id`
@@ -763,6 +783,10 @@ ConstructLibrarySet <- R6::R6Class(
       if (!is.null(self$`control_for`)) {
         ConstructLibrarySetObject[["control_for"]] <-
           self$`control_for`
+      }
+      if (!is.null(self$`superseded_by`)) {
+        ConstructLibrarySetObject[["superseded_by"]] <-
+          self$`superseded_by`
       }
       if (!is.null(self$`submitted_files_timestamp`)) {
         ConstructLibrarySetObject[["submitted_files_timestamp"]] <-
@@ -972,6 +996,9 @@ ConstructLibrarySet <- R6::R6Class(
       if (!is.null(this_object$`targeton`)) {
         self$`targeton` <- this_object$`targeton`
       }
+      if (!is.null(this_object$`supersedes`)) {
+        self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
+      }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
       }
@@ -986,6 +1013,9 @@ ConstructLibrarySet <- R6::R6Class(
       }
       if (!is.null(this_object$`control_for`)) {
         self$`control_for` <- ApiClient$new()$deserializeObj(this_object$`control_for`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`superseded_by`)) {
+        self$`superseded_by` <- ApiClient$new()$deserializeObj(this_object$`superseded_by`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`submitted_files_timestamp`)) {
         self$`submitted_files_timestamp` <- this_object$`submitted_files_timestamp`
@@ -1395,6 +1425,14 @@ ConstructLibrarySet <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`targeton`, perl=TRUE)
           )
         },
+        if (!is.null(self$`supersedes`)) {
+          sprintf(
+          '"supersedes":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`supersedes`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -1433,6 +1471,14 @@ ConstructLibrarySet <- R6::R6Class(
              [%s]
           ',
           paste(unlist(lapply(self$`control_for`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`superseded_by`)) {
+          sprintf(
+          '"superseded_by":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`superseded_by`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`submitted_files_timestamp`)) {
@@ -1594,11 +1640,13 @@ ConstructLibrarySet <- R6::R6Class(
       self$`lower_bound_insert_size` <- this_object$`lower_bound_insert_size`
       self$`upper_bound_insert_size` <- this_object$`upper_bound_insert_size`
       self$`targeton` <- this_object$`targeton`
+      self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
       self$`files` <- ApiClient$new()$deserializeObj(this_object$`files`, "set[character]", loadNamespace("igvfclient"))
       self$`control_for` <- ApiClient$new()$deserializeObj(this_object$`control_for`, "set[character]", loadNamespace("igvfclient"))
+      self$`superseded_by` <- ApiClient$new()$deserializeObj(this_object$`superseded_by`, "set[character]", loadNamespace("igvfclient"))
       self$`submitted_files_timestamp` <- this_object$`submitted_files_timestamp`
       self$`input_for` <- ApiClient$new()$deserializeObj(this_object$`input_for`, "set[character]", loadNamespace("igvfclient"))
       self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
@@ -1714,6 +1762,8 @@ ConstructLibrarySet <- R6::R6Class(
 
 
 
+
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1782,6 +1832,8 @@ ConstructLibrarySet <- R6::R6Class(
       if (!str_detect(self$`targeton`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         invalid_fields["targeton"] <- "Invalid value for `targeton`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
+
+
 
 
 

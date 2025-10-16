@@ -31,12 +31,14 @@
 #' @field samples The sample(s) associated with this file set. list(character) [optional]
 #' @field donors The donors of the samples associated with this auxiliary set. list(character) [optional]
 #' @field file_set_type The category that best describes this auxiliary file set. character [optional]
+#' @field supersedes The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
 #' @field barcode_map The link to the barcode mapping tabular file. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary  character [optional]
 #' @field files The files associated with this file set. list(character) [optional]
 #' @field control_for The file sets for which this file set is a control. list(character) [optional]
+#' @field superseded_by File set(s) this file set is superseded by virtue of those file set(s) being newer, better, or a fixed version of etc. than this one. list(character) [optional]
 #' @field submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created. character [optional]
 #' @field input_for The file sets that use this file set as an input. list(character) [optional]
 #' @field construct_library_sets The construct library sets associated with the samples of this file set. list(character) [optional]
@@ -75,12 +77,14 @@ AuxiliarySet <- R6::R6Class(
     `samples` = NULL,
     `donors` = NULL,
     `file_set_type` = NULL,
+    `supersedes` = NULL,
     `barcode_map` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
     `files` = NULL,
     `control_for` = NULL,
+    `superseded_by` = NULL,
     `submitted_files_timestamp` = NULL,
     `input_for` = NULL,
     `construct_library_sets` = NULL,
@@ -118,12 +122,14 @@ AuxiliarySet <- R6::R6Class(
     #' @param samples The sample(s) associated with this file set.
     #' @param donors The donors of the samples associated with this auxiliary set.
     #' @param file_set_type The category that best describes this auxiliary file set.
+    #' @param supersedes The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
     #' @param barcode_map The link to the barcode mapping tabular file.
     #' @param @id @id
     #' @param @type @type
     #' @param summary summary
     #' @param files The files associated with this file set.
     #' @param control_for The file sets for which this file set is a control.
+    #' @param superseded_by File set(s) this file set is superseded by virtue of those file set(s) being newer, better, or a fixed version of etc. than this one.
     #' @param submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created.
     #' @param input_for The file sets that use this file set as an input.
     #' @param construct_library_sets The construct library sets associated with the samples of this file set.
@@ -134,7 +140,7 @@ AuxiliarySet <- R6::R6Class(
     #' @param assay_titles Ontology term names from Ontology of Biomedical Investigations (OBI) for assays
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `barcode_map` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `measurement_sets` = NULL, `preferred_assay_titles` = NULL, `assay_titles` = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `barcode_map` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `measurement_sets` = NULL, `preferred_assay_titles` = NULL, `assay_titles` = NULL, ...) {
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -277,6 +283,11 @@ AuxiliarySet <- R6::R6Class(
         }
         self$`file_set_type` <- `file_set_type`
       }
+      if (!is.null(`supersedes`)) {
+        stopifnot(is.vector(`supersedes`), length(`supersedes`) != 0)
+        sapply(`supersedes`, function(x) stopifnot(is.character(x)))
+        self$`supersedes` <- `supersedes`
+      }
       if (!is.null(`barcode_map`)) {
         if (!(is.character(`barcode_map`) && length(`barcode_map`) == 1)) {
           stop(paste("Error! Invalid data for `barcode_map`. Must be a string:", `barcode_map`))
@@ -309,6 +320,11 @@ AuxiliarySet <- R6::R6Class(
         stopifnot(is.vector(`control_for`), length(`control_for`) != 0)
         sapply(`control_for`, function(x) stopifnot(is.character(x)))
         self$`control_for` <- `control_for`
+      }
+      if (!is.null(`superseded_by`)) {
+        stopifnot(is.vector(`superseded_by`), length(`superseded_by`) != 0)
+        sapply(`superseded_by`, function(x) stopifnot(is.character(x)))
+        self$`superseded_by` <- `superseded_by`
       }
       if (!is.null(`submitted_files_timestamp`)) {
         if (!(is.character(`submitted_files_timestamp`) && length(`submitted_files_timestamp`) == 1)) {
@@ -458,6 +474,10 @@ AuxiliarySet <- R6::R6Class(
         AuxiliarySetObject[["file_set_type"]] <-
           self$`file_set_type`
       }
+      if (!is.null(self$`supersedes`)) {
+        AuxiliarySetObject[["supersedes"]] <-
+          self$`supersedes`
+      }
       if (!is.null(self$`barcode_map`)) {
         AuxiliarySetObject[["barcode_map"]] <-
           self$`barcode_map`
@@ -481,6 +501,10 @@ AuxiliarySet <- R6::R6Class(
       if (!is.null(self$`control_for`)) {
         AuxiliarySetObject[["control_for"]] <-
           self$`control_for`
+      }
+      if (!is.null(self$`superseded_by`)) {
+        AuxiliarySetObject[["superseded_by"]] <-
+          self$`superseded_by`
       }
       if (!is.null(self$`submitted_files_timestamp`)) {
         AuxiliarySetObject[["submitted_files_timestamp"]] <-
@@ -604,6 +628,9 @@ AuxiliarySet <- R6::R6Class(
         }
         self$`file_set_type` <- this_object$`file_set_type`
       }
+      if (!is.null(this_object$`supersedes`)) {
+        self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
+      }
       if (!is.null(this_object$`barcode_map`)) {
         self$`barcode_map` <- this_object$`barcode_map`
       }
@@ -621,6 +648,9 @@ AuxiliarySet <- R6::R6Class(
       }
       if (!is.null(this_object$`control_for`)) {
         self$`control_for` <- ApiClient$new()$deserializeObj(this_object$`control_for`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`superseded_by`)) {
+        self$`superseded_by` <- ApiClient$new()$deserializeObj(this_object$`superseded_by`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`submitted_files_timestamp`)) {
         self$`submitted_files_timestamp` <- this_object$`submitted_files_timestamp`
@@ -849,6 +879,14 @@ AuxiliarySet <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`file_set_type`, perl=TRUE)
           )
         },
+        if (!is.null(self$`supersedes`)) {
+          sprintf(
+          '"supersedes":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`supersedes`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`barcode_map`)) {
           sprintf(
           '"barcode_map":
@@ -895,6 +933,14 @@ AuxiliarySet <- R6::R6Class(
              [%s]
           ',
           paste(unlist(lapply(self$`control_for`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`superseded_by`)) {
+          sprintf(
+          '"superseded_by":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`superseded_by`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`submitted_files_timestamp`)) {
@@ -1005,12 +1051,14 @@ AuxiliarySet <- R6::R6Class(
         stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"cell hashing barcode sequencing\", \"cell sorting\", \"circularized RNA barcode detection\", \"gRNA sequencing\", \"lipid-conjugated oligo sequencing\", \"MORF barcode sequencing\", \"quantification DNA barcode sequencing\".", sep = ""))
       }
       self$`file_set_type` <- this_object$`file_set_type`
+      self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
       self$`barcode_map` <- this_object$`barcode_map`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
       self$`files` <- ApiClient$new()$deserializeObj(this_object$`files`, "set[character]", loadNamespace("igvfclient"))
       self$`control_for` <- ApiClient$new()$deserializeObj(this_object$`control_for`, "set[character]", loadNamespace("igvfclient"))
+      self$`superseded_by` <- ApiClient$new()$deserializeObj(this_object$`superseded_by`, "set[character]", loadNamespace("igvfclient"))
       self$`submitted_files_timestamp` <- this_object$`submitted_files_timestamp`
       self$`input_for` <- ApiClient$new()$deserializeObj(this_object$`input_for`, "set[character]", loadNamespace("igvfclient"))
       self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
@@ -1085,6 +1133,8 @@ AuxiliarySet <- R6::R6Class(
 
 
 
+
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1120,6 +1170,8 @@ AuxiliarySet <- R6::R6Class(
       if (!str_detect(self$`description`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         invalid_fields["description"] <- "Invalid value for `description`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
+
+
 
 
 

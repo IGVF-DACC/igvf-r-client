@@ -59,6 +59,7 @@
 #' @field time_post_library_delivery The time that elapsed past the time-point when the construct library sets were introduced. numeric [optional]
 #' @field time_post_library_delivery_units The units of time that elapsed past the point when the construct library sets were introduced. character [optional]
 #' @field protocols Links to the protocol(s) for preparing the samples on Protocols.io. list(character) [optional]
+#' @field supersedes The sample(s) that this sample supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the sample. character [optional]
@@ -67,6 +68,7 @@
 #' @field sorted_fractions The fractions into which this sample has been sorted. list(character) [optional]
 #' @field origin_of The samples which originate from this sample, such as through a process of cell differentiation. list(character) [optional]
 #' @field institutional_certificates The institutional certificates under which use of this sample is approved. list(character) [optional]
+#' @field superseded_by Sample(s) this sample is superseded by virtue of those sample(s) being newer, better, or a fixed version of etc. than this one. list(character) [optional]
 #' @field sex  character [optional]
 #' @field age Age of organism at the time of collection of the sample. character [optional]
 #' @field upper_bound_age_in_hours Upper bound of age of organism in hours at the time of collection of the sample. numeric [optional]
@@ -132,6 +134,7 @@ WholeOrganism <- R6::R6Class(
     `time_post_library_delivery` = NULL,
     `time_post_library_delivery_units` = NULL,
     `protocols` = NULL,
+    `supersedes` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -140,6 +143,7 @@ WholeOrganism <- R6::R6Class(
     `sorted_fractions` = NULL,
     `origin_of` = NULL,
     `institutional_certificates` = NULL,
+    `superseded_by` = NULL,
     `sex` = NULL,
     `age` = NULL,
     `upper_bound_age_in_hours` = NULL,
@@ -204,6 +208,7 @@ WholeOrganism <- R6::R6Class(
     #' @param time_post_library_delivery The time that elapsed past the time-point when the construct library sets were introduced.
     #' @param time_post_library_delivery_units The units of time that elapsed past the point when the construct library sets were introduced.
     #' @param protocols Links to the protocol(s) for preparing the samples on Protocols.io.
+    #' @param supersedes The sample(s) that this sample supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the sample.
@@ -212,6 +217,7 @@ WholeOrganism <- R6::R6Class(
     #' @param sorted_fractions The fractions into which this sample has been sorted.
     #' @param origin_of The samples which originate from this sample, such as through a process of cell differentiation.
     #' @param institutional_certificates The institutional certificates under which use of this sample is approved.
+    #' @param superseded_by Sample(s) this sample is superseded by virtue of those sample(s) being newer, better, or a fixed version of etc. than this one.
     #' @param sex sex
     #' @param age Age of organism at the time of collection of the sample.
     #' @param upper_bound_age_in_hours Upper bound of age of organism in hours at the time of collection of the sample.
@@ -221,7 +227,7 @@ WholeOrganism <- R6::R6Class(
     #' @param classifications The general category of this type of sample.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `taxa` = NULL, `publications` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `annotated_from` = NULL, `lower_bound_age` = NULL, `upper_bound_age` = NULL, `age_units` = NULL, `sample_terms` = NULL, `disease_terms` = NULL, `pooled_from` = NULL, `part_of` = NULL, `originated_from` = NULL, `treatments` = NULL, `donors` = NULL, `biomarkers` = NULL, `embryonic` = NULL, `modifications` = NULL, `cellular_sub_pool` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `sex` = NULL, `age` = NULL, `upper_bound_age_in_hours` = NULL, `lower_bound_age_in_hours` = NULL, `parts` = NULL, `pooled_in` = NULL, `classifications` = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `taxa` = NULL, `publications` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `annotated_from` = NULL, `lower_bound_age` = NULL, `upper_bound_age` = NULL, `age_units` = NULL, `sample_terms` = NULL, `disease_terms` = NULL, `pooled_from` = NULL, `part_of` = NULL, `originated_from` = NULL, `treatments` = NULL, `donors` = NULL, `biomarkers` = NULL, `embryonic` = NULL, `modifications` = NULL, `cellular_sub_pool` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `sex` = NULL, `age` = NULL, `upper_bound_age_in_hours` = NULL, `lower_bound_age_in_hours` = NULL, `parts` = NULL, `pooled_in` = NULL, `classifications` = NULL, ...) {
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -521,6 +527,11 @@ WholeOrganism <- R6::R6Class(
         sapply(`protocols`, function(x) stopifnot(is.character(x)))
         self$`protocols` <- `protocols`
       }
+      if (!is.null(`supersedes`)) {
+        stopifnot(is.vector(`supersedes`), length(`supersedes`) != 0)
+        sapply(`supersedes`, function(x) stopifnot(is.character(x)))
+        self$`supersedes` <- `supersedes`
+      }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
           stop(paste("Error! Invalid data for `@id`. Must be a string:", `@id`))
@@ -562,6 +573,11 @@ WholeOrganism <- R6::R6Class(
         stopifnot(is.vector(`institutional_certificates`), length(`institutional_certificates`) != 0)
         sapply(`institutional_certificates`, function(x) stopifnot(is.character(x)))
         self$`institutional_certificates` <- `institutional_certificates`
+      }
+      if (!is.null(`superseded_by`)) {
+        stopifnot(is.vector(`superseded_by`), length(`superseded_by`) != 0)
+        sapply(`superseded_by`, function(x) stopifnot(is.character(x)))
+        self$`superseded_by` <- `superseded_by`
       }
       if (!is.null(`sex`)) {
         if (!(`sex` %in% c("female", "male", "mixed", "unspecified"))) {
@@ -817,6 +833,10 @@ WholeOrganism <- R6::R6Class(
         WholeOrganismObject[["protocols"]] <-
           self$`protocols`
       }
+      if (!is.null(self$`supersedes`)) {
+        WholeOrganismObject[["supersedes"]] <-
+          self$`supersedes`
+      }
       if (!is.null(self$`@id`)) {
         WholeOrganismObject[["@id"]] <-
           self$`@id`
@@ -848,6 +868,10 @@ WholeOrganism <- R6::R6Class(
       if (!is.null(self$`institutional_certificates`)) {
         WholeOrganismObject[["institutional_certificates"]] <-
           self$`institutional_certificates`
+      }
+      if (!is.null(self$`superseded_by`)) {
+        WholeOrganismObject[["superseded_by"]] <-
+          self$`superseded_by`
       }
       if (!is.null(self$`sex`)) {
         WholeOrganismObject[["sex"]] <-
@@ -1063,6 +1087,9 @@ WholeOrganism <- R6::R6Class(
       if (!is.null(this_object$`protocols`)) {
         self$`protocols` <- ApiClient$new()$deserializeObj(this_object$`protocols`, "set[character]", loadNamespace("igvfclient"))
       }
+      if (!is.null(this_object$`supersedes`)) {
+        self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
+      }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
       }
@@ -1086,6 +1113,9 @@ WholeOrganism <- R6::R6Class(
       }
       if (!is.null(this_object$`institutional_certificates`)) {
         self$`institutional_certificates` <- ApiClient$new()$deserializeObj(this_object$`institutional_certificates`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`superseded_by`)) {
+        self$`superseded_by` <- ApiClient$new()$deserializeObj(this_object$`superseded_by`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`sex`)) {
         if (!is.null(this_object$`sex`) && !(this_object$`sex` %in% c("female", "male", "mixed", "unspecified"))) {
@@ -1538,6 +1568,14 @@ WholeOrganism <- R6::R6Class(
           paste(unlist(lapply(self$`protocols`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`supersedes`)) {
+          sprintf(
+          '"supersedes":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`supersedes`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -1600,6 +1638,14 @@ WholeOrganism <- R6::R6Class(
              [%s]
           ',
           paste(unlist(lapply(self$`institutional_certificates`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`superseded_by`)) {
+          sprintf(
+          '"superseded_by":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`superseded_by`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`sex`)) {
@@ -1742,6 +1788,7 @@ WholeOrganism <- R6::R6Class(
       }
       self$`time_post_library_delivery_units` <- this_object$`time_post_library_delivery_units`
       self$`protocols` <- ApiClient$new()$deserializeObj(this_object$`protocols`, "set[character]", loadNamespace("igvfclient"))
+      self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
@@ -1750,6 +1797,7 @@ WholeOrganism <- R6::R6Class(
       self$`sorted_fractions` <- ApiClient$new()$deserializeObj(this_object$`sorted_fractions`, "set[character]", loadNamespace("igvfclient"))
       self$`origin_of` <- ApiClient$new()$deserializeObj(this_object$`origin_of`, "set[character]", loadNamespace("igvfclient"))
       self$`institutional_certificates` <- ApiClient$new()$deserializeObj(this_object$`institutional_certificates`, "set[character]", loadNamespace("igvfclient"))
+      self$`superseded_by` <- ApiClient$new()$deserializeObj(this_object$`superseded_by`, "set[character]", loadNamespace("igvfclient"))
       if (!is.null(this_object$`sex`) && !(this_object$`sex` %in% c("female", "male", "mixed", "unspecified"))) {
         stop(paste("Error! \"", this_object$`sex`, "\" cannot be assigned to `sex`. Must be \"female\", \"male\", \"mixed\", \"unspecified\".", sep = ""))
       }
@@ -1847,6 +1895,8 @@ WholeOrganism <- R6::R6Class(
 
 
 
+
+
       if (!str_detect(self$`age`, "^((\\d+(\\.[1-9])?(\\-\\d+(\\.[1-9])?)?)|(unknown)|([1-8]?\\d)|(90 or above))$")) {
         return(FALSE)
       }
@@ -1915,6 +1965,8 @@ WholeOrganism <- R6::R6Class(
       if (self$`moi` < 0) {
         invalid_fields["moi"] <- "Invalid value for `moi`, must be bigger than or equal to 0."
       }
+
+
 
 
 

@@ -30,11 +30,13 @@ Name | Type | Description | Notes
 **sex** | **character** | Sex of the donor. | [optional] [Enum: [male, female, unspecified]] 
 **phenotypic_features** | **set[character]** | A list of associated phenotypic features of the donor. | [optional] 
 **virtual** | **character** | Virtual donors are not representing actual human or model organism donors, samples coming from which were used in experiments, but rather capturing metadata about hypothetical donors that the reported analysis results are relevant for. | [optional] 
+**supersedes** | **set[character]** | The donor(s) that this donor supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. | [optional] 
 **related_donors** | [**set[RelatedDonor]**](Related_Donor.md) | Familial relations of this donor. | [optional] 
 **ethnicities** | **set[character]** | Ethnicity of the donor. | [optional] [Enum: ] 
 **human_donor_identifiers** | **set[character]** | Identifiers of this human donor. | [optional] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** | A summary of the human donor. | [optional] 
+**superseded_by** | **set[character]** | Donor(s) this donor is superseded by virtue of those donor(s) being newer, better, or a fixed version of etc. than this one. | [optional] 
 
 

@@ -32,6 +32,7 @@
 #' @field samples The sample(s) associated with this file set. list(character) [optional]
 #' @field donors The donors of the samples associated with this measurement set. list(character) [optional]
 #' @field file_set_type The category that best describes this measurement set. character [optional]
+#' @field supersedes The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
 #' @field assay_term The assay used to produce data in this measurement set. character [optional]
 #' @field protocols Links to the protocol(s) for conducting the assay on Protocols.io. list(character) [optional]
 #' @field multiome_size The number of datasets included in the multiome experiment this measurement set is a part of. integer [optional]
@@ -46,11 +47,13 @@
 #' @field onlist_method The method by which the onlist files will be combined by the seqspec onlist tool to generate the final barcode inclusion list for the single cell uniform pipeline. character [optional]
 #' @field onlist_files The barcode region onlist files listed in associated seqspec yaml files. list(character) [optional]
 #' @field barcode_replacement_file A file containing original barcodes and the new barcodes used to replace the original barcodes. One common application is to use in preprocessing Parse SPLiT-seq data with the single cell uniform pipeline. character [optional]
+#' @field library_preparation_kit A kit utilized in the library preparation procedure. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary  character [optional]
 #' @field files The files associated with this file set. list(character) [optional]
 #' @field control_for The file sets for which this file set is a control. list(character) [optional]
+#' @field superseded_by File set(s) this file set is superseded by virtue of those file set(s) being newer, better, or a fixed version of etc. than this one. list(character) [optional]
 #' @field submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created. character [optional]
 #' @field input_for The file sets that use this file set as an input. list(character) [optional]
 #' @field construct_library_sets The construct library sets associated with the samples of this file set. list(character) [optional]
@@ -90,6 +93,7 @@ MeasurementSet <- R6::R6Class(
     `samples` = NULL,
     `donors` = NULL,
     `file_set_type` = NULL,
+    `supersedes` = NULL,
     `assay_term` = NULL,
     `protocols` = NULL,
     `multiome_size` = NULL,
@@ -104,11 +108,13 @@ MeasurementSet <- R6::R6Class(
     `onlist_method` = NULL,
     `onlist_files` = NULL,
     `barcode_replacement_file` = NULL,
+    `library_preparation_kit` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
     `files` = NULL,
     `control_for` = NULL,
+    `superseded_by` = NULL,
     `submitted_files_timestamp` = NULL,
     `input_for` = NULL,
     `construct_library_sets` = NULL,
@@ -147,6 +153,7 @@ MeasurementSet <- R6::R6Class(
     #' @param samples The sample(s) associated with this file set.
     #' @param donors The donors of the samples associated with this measurement set.
     #' @param file_set_type The category that best describes this measurement set.
+    #' @param supersedes The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
     #' @param assay_term The assay used to produce data in this measurement set.
     #' @param protocols Links to the protocol(s) for conducting the assay on Protocols.io.
     #' @param multiome_size The number of datasets included in the multiome experiment this measurement set is a part of.
@@ -161,11 +168,13 @@ MeasurementSet <- R6::R6Class(
     #' @param onlist_method The method by which the onlist files will be combined by the seqspec onlist tool to generate the final barcode inclusion list for the single cell uniform pipeline.
     #' @param onlist_files The barcode region onlist files listed in associated seqspec yaml files.
     #' @param barcode_replacement_file A file containing original barcodes and the new barcodes used to replace the original barcodes. One common application is to use in preprocessing Parse SPLiT-seq data with the single cell uniform pipeline.
+    #' @param library_preparation_kit A kit utilized in the library preparation procedure.
     #' @param @id @id
     #' @param @type @type
     #' @param summary summary
     #' @param files The files associated with this file set.
     #' @param control_for The file sets for which this file set is a control.
+    #' @param superseded_by File set(s) this file set is superseded by virtue of those file set(s) being newer, better, or a fixed version of etc. than this one.
     #' @param submitted_files_timestamp The timestamp the first file object in the file_set or associated auxiliary sets was created.
     #' @param input_for The file sets that use this file set as an input.
     #' @param construct_library_sets The construct library sets associated with the samples of this file set.
@@ -176,7 +185,7 @@ MeasurementSet <- R6::R6Class(
     #' @param externally_hosted externally_hosted
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preferred_assay_titles` = NULL, `preview_timestamp` = NULL, `control_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `assay_term` = NULL, `protocols` = NULL, `multiome_size` = NULL, `control_types` = NULL, `sequencing_library_types` = NULL, `primer_designs` = NULL, `strand_specificity` = NULL, `auxiliary_sets` = NULL, `external_image_urls` = NULL, `targeted_genes` = NULL, `functional_assay_mechanisms` = NULL, `onlist_method` = NULL, `onlist_files` = NULL, `barcode_replacement_file` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `assay_titles` = NULL, `related_multiome_datasets` = NULL, `externally_hosted` = NULL, ...) {
+    initialize = function(`preferred_assay_titles` = NULL, `preview_timestamp` = NULL, `control_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `assay_term` = NULL, `protocols` = NULL, `multiome_size` = NULL, `control_types` = NULL, `sequencing_library_types` = NULL, `primer_designs` = NULL, `strand_specificity` = NULL, `auxiliary_sets` = NULL, `external_image_urls` = NULL, `targeted_genes` = NULL, `functional_assay_mechanisms` = NULL, `onlist_method` = NULL, `onlist_files` = NULL, `barcode_replacement_file` = NULL, `library_preparation_kit` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `assay_titles` = NULL, `related_multiome_datasets` = NULL, `externally_hosted` = NULL, ...) {
       if (!is.null(`preferred_assay_titles`)) {
         stopifnot(is.vector(`preferred_assay_titles`), length(`preferred_assay_titles`) != 0)
         sapply(`preferred_assay_titles`, function(x) stopifnot(is.character(x)))
@@ -323,6 +332,11 @@ MeasurementSet <- R6::R6Class(
         }
         self$`file_set_type` <- `file_set_type`
       }
+      if (!is.null(`supersedes`)) {
+        stopifnot(is.vector(`supersedes`), length(`supersedes`) != 0)
+        sapply(`supersedes`, function(x) stopifnot(is.character(x)))
+        self$`supersedes` <- `supersedes`
+      }
       if (!is.null(`assay_term`)) {
         if (!(is.character(`assay_term`) && length(`assay_term`) == 1)) {
           stop(paste("Error! Invalid data for `assay_term`. Must be a string:", `assay_term`))
@@ -404,6 +418,15 @@ MeasurementSet <- R6::R6Class(
         }
         self$`barcode_replacement_file` <- `barcode_replacement_file`
       }
+      if (!is.null(`library_preparation_kit`)) {
+        if (!(`library_preparation_kit` %in% c("10X Chromium Single Cell 3 prime v1", "10X Chromium Single Cell 3 prime v2", "10X Chromium Single Cell 3 prime v3", "10X Chromium Single Cell 3 prime v3.1", "10X Chromium Single Cell 3 prime v4", "10X Chromium Single Cell 5 prime v1", "10X Chromium Single Cell 5 prime v2", "10X Chromium Single Cell 5 prime v3"))) {
+          stop(paste("Error! \"", `library_preparation_kit`, "\" cannot be assigned to `library_preparation_kit`. Must be \"10X Chromium Single Cell 3 prime v1\", \"10X Chromium Single Cell 3 prime v2\", \"10X Chromium Single Cell 3 prime v3\", \"10X Chromium Single Cell 3 prime v3.1\", \"10X Chromium Single Cell 3 prime v4\", \"10X Chromium Single Cell 5 prime v1\", \"10X Chromium Single Cell 5 prime v2\", \"10X Chromium Single Cell 5 prime v3\".", sep = ""))
+        }
+        if (!(is.character(`library_preparation_kit`) && length(`library_preparation_kit`) == 1)) {
+          stop(paste("Error! Invalid data for `library_preparation_kit`. Must be a string:", `library_preparation_kit`))
+        }
+        self$`library_preparation_kit` <- `library_preparation_kit`
+      }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
           stop(paste("Error! Invalid data for `@id`. Must be a string:", `@id`))
@@ -430,6 +453,11 @@ MeasurementSet <- R6::R6Class(
         stopifnot(is.vector(`control_for`), length(`control_for`) != 0)
         sapply(`control_for`, function(x) stopifnot(is.character(x)))
         self$`control_for` <- `control_for`
+      }
+      if (!is.null(`superseded_by`)) {
+        stopifnot(is.vector(`superseded_by`), length(`superseded_by`) != 0)
+        sapply(`superseded_by`, function(x) stopifnot(is.character(x)))
+        self$`superseded_by` <- `superseded_by`
       }
       if (!is.null(`submitted_files_timestamp`)) {
         if (!(is.character(`submitted_files_timestamp`) && length(`submitted_files_timestamp`) == 1)) {
@@ -584,6 +612,10 @@ MeasurementSet <- R6::R6Class(
         MeasurementSetObject[["file_set_type"]] <-
           self$`file_set_type`
       }
+      if (!is.null(self$`supersedes`)) {
+        MeasurementSetObject[["supersedes"]] <-
+          self$`supersedes`
+      }
       if (!is.null(self$`assay_term`)) {
         MeasurementSetObject[["assay_term"]] <-
           self$`assay_term`
@@ -640,6 +672,10 @@ MeasurementSet <- R6::R6Class(
         MeasurementSetObject[["barcode_replacement_file"]] <-
           self$`barcode_replacement_file`
       }
+      if (!is.null(self$`library_preparation_kit`)) {
+        MeasurementSetObject[["library_preparation_kit"]] <-
+          self$`library_preparation_kit`
+      }
       if (!is.null(self$`@id`)) {
         MeasurementSetObject[["@id"]] <-
           self$`@id`
@@ -659,6 +695,10 @@ MeasurementSet <- R6::R6Class(
       if (!is.null(self$`control_for`)) {
         MeasurementSetObject[["control_for"]] <-
           self$`control_for`
+      }
+      if (!is.null(self$`superseded_by`)) {
+        MeasurementSetObject[["superseded_by"]] <-
+          self$`superseded_by`
       }
       if (!is.null(self$`submitted_files_timestamp`)) {
         MeasurementSetObject[["submitted_files_timestamp"]] <-
@@ -785,6 +825,9 @@ MeasurementSet <- R6::R6Class(
         }
         self$`file_set_type` <- this_object$`file_set_type`
       }
+      if (!is.null(this_object$`supersedes`)) {
+        self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
+      }
       if (!is.null(this_object$`assay_term`)) {
         self$`assay_term` <- this_object$`assay_term`
       }
@@ -833,6 +876,12 @@ MeasurementSet <- R6::R6Class(
       if (!is.null(this_object$`barcode_replacement_file`)) {
         self$`barcode_replacement_file` <- this_object$`barcode_replacement_file`
       }
+      if (!is.null(this_object$`library_preparation_kit`)) {
+        if (!is.null(this_object$`library_preparation_kit`) && !(this_object$`library_preparation_kit` %in% c("10X Chromium Single Cell 3 prime v1", "10X Chromium Single Cell 3 prime v2", "10X Chromium Single Cell 3 prime v3", "10X Chromium Single Cell 3 prime v3.1", "10X Chromium Single Cell 3 prime v4", "10X Chromium Single Cell 5 prime v1", "10X Chromium Single Cell 5 prime v2", "10X Chromium Single Cell 5 prime v3"))) {
+          stop(paste("Error! \"", this_object$`library_preparation_kit`, "\" cannot be assigned to `library_preparation_kit`. Must be \"10X Chromium Single Cell 3 prime v1\", \"10X Chromium Single Cell 3 prime v2\", \"10X Chromium Single Cell 3 prime v3\", \"10X Chromium Single Cell 3 prime v3.1\", \"10X Chromium Single Cell 3 prime v4\", \"10X Chromium Single Cell 5 prime v1\", \"10X Chromium Single Cell 5 prime v2\", \"10X Chromium Single Cell 5 prime v3\".", sep = ""))
+        }
+        self$`library_preparation_kit` <- this_object$`library_preparation_kit`
+      }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
       }
@@ -847,6 +896,9 @@ MeasurementSet <- R6::R6Class(
       }
       if (!is.null(this_object$`control_for`)) {
         self$`control_for` <- ApiClient$new()$deserializeObj(this_object$`control_for`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`superseded_by`)) {
+        self$`superseded_by` <- ApiClient$new()$deserializeObj(this_object$`superseded_by`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`submitted_files_timestamp`)) {
         self$`submitted_files_timestamp` <- this_object$`submitted_files_timestamp`
@@ -1083,6 +1135,14 @@ MeasurementSet <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`file_set_type`, perl=TRUE)
           )
         },
+        if (!is.null(self$`supersedes`)) {
+          sprintf(
+          '"supersedes":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`supersedes`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`assay_term`)) {
           sprintf(
           '"assay_term":
@@ -1195,6 +1255,14 @@ MeasurementSet <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`barcode_replacement_file`, perl=TRUE)
           )
         },
+        if (!is.null(self$`library_preparation_kit`)) {
+          sprintf(
+          '"library_preparation_kit":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`library_preparation_kit`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -1233,6 +1301,14 @@ MeasurementSet <- R6::R6Class(
              [%s]
           ',
           paste(unlist(lapply(self$`control_for`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`superseded_by`)) {
+          sprintf(
+          '"superseded_by":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`superseded_by`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`submitted_files_timestamp`)) {
@@ -1344,6 +1420,7 @@ MeasurementSet <- R6::R6Class(
         stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"experimental data\".", sep = ""))
       }
       self$`file_set_type` <- this_object$`file_set_type`
+      self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
       self$`assay_term` <- this_object$`assay_term`
       self$`protocols` <- ApiClient$new()$deserializeObj(this_object$`protocols`, "set[character]", loadNamespace("igvfclient"))
       self$`multiome_size` <- this_object$`multiome_size`
@@ -1364,11 +1441,16 @@ MeasurementSet <- R6::R6Class(
       self$`onlist_method` <- this_object$`onlist_method`
       self$`onlist_files` <- ApiClient$new()$deserializeObj(this_object$`onlist_files`, "set[character]", loadNamespace("igvfclient"))
       self$`barcode_replacement_file` <- this_object$`barcode_replacement_file`
+      if (!is.null(this_object$`library_preparation_kit`) && !(this_object$`library_preparation_kit` %in% c("10X Chromium Single Cell 3 prime v1", "10X Chromium Single Cell 3 prime v2", "10X Chromium Single Cell 3 prime v3", "10X Chromium Single Cell 3 prime v3.1", "10X Chromium Single Cell 3 prime v4", "10X Chromium Single Cell 5 prime v1", "10X Chromium Single Cell 5 prime v2", "10X Chromium Single Cell 5 prime v3"))) {
+        stop(paste("Error! \"", this_object$`library_preparation_kit`, "\" cannot be assigned to `library_preparation_kit`. Must be \"10X Chromium Single Cell 3 prime v1\", \"10X Chromium Single Cell 3 prime v2\", \"10X Chromium Single Cell 3 prime v3\", \"10X Chromium Single Cell 3 prime v3.1\", \"10X Chromium Single Cell 3 prime v4\", \"10X Chromium Single Cell 5 prime v1\", \"10X Chromium Single Cell 5 prime v2\", \"10X Chromium Single Cell 5 prime v3\".", sep = ""))
+      }
+      self$`library_preparation_kit` <- this_object$`library_preparation_kit`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
       self$`files` <- ApiClient$new()$deserializeObj(this_object$`files`, "set[character]", loadNamespace("igvfclient"))
       self$`control_for` <- ApiClient$new()$deserializeObj(this_object$`control_for`, "set[character]", loadNamespace("igvfclient"))
+      self$`superseded_by` <- ApiClient$new()$deserializeObj(this_object$`superseded_by`, "set[character]", loadNamespace("igvfclient"))
       self$`submitted_files_timestamp` <- this_object$`submitted_files_timestamp`
       self$`input_for` <- ApiClient$new()$deserializeObj(this_object$`input_for`, "set[character]", loadNamespace("igvfclient"))
       self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
@@ -1437,9 +1519,11 @@ MeasurementSet <- R6::R6Class(
 
 
 
-      if (self$`multiome_size` < 2) {
+
+      if (self$`multiome_size` < 1) {
         return(FALSE)
       }
+
 
 
 
@@ -1495,9 +1579,11 @@ MeasurementSet <- R6::R6Class(
 
 
 
-      if (self$`multiome_size` < 2) {
-        invalid_fields["multiome_size"] <- "Invalid value for `multiome_size`, must be bigger than or equal to 2."
+
+      if (self$`multiome_size` < 1) {
+        invalid_fields["multiome_size"] <- "Invalid value for `multiome_size`, must be bigger than or equal to 1."
       }
+
 
 
 

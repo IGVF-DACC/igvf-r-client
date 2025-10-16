@@ -41,6 +41,7 @@ Name | Type | Description | Notes
 **time_post_library_delivery** | **numeric** | The time that elapsed past the time-point when the construct library sets were introduced. | [optional] 
 **time_post_library_delivery_units** | **character** | The units of time that elapsed past the point when the construct library sets were introduced. | [optional] [Enum: [minute, hour, day, week, month]] 
 **protocols** | **set[character]** | Links to the protocol(s) for preparing the samples on Protocols.io. | [optional] 
+**supersedes** | **set[character]** | The sample(s) that this sample supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. | [optional] 
 **sample_material** | **character** |  | [optional] [Enum: [undefined, inorganic, synthetic, organic]] 
 **taxa** | **character** |  | [optional] [Enum: [Saccharomyces cerevisiae, Homo sapiens]] 
 **sample_terms** | **set[character]** | Ontology terms identifying a technical sample. | [optional] 
@@ -52,6 +53,7 @@ Name | Type | Description | Notes
 **sorted_fractions** | **set[character]** | The fractions into which this sample has been sorted. | [optional] 
 **origin_of** | **set[character]** | The samples which originate from this sample, such as through a process of cell differentiation. | [optional] 
 **institutional_certificates** | **set[character]** | The institutional certificates under which use of this sample is approved. | [optional] 
+**superseded_by** | **set[character]** | Sample(s) this sample is superseded by virtue of those sample(s) being newer, better, or a fixed version of etc. than this one. | [optional] 
 **classifications** | **set[character]** | The general category of this type of sample. | [optional] 
 
 

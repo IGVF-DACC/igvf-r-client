@@ -9,6 +9,8 @@
 #' @format An \code{R6Class} generator object
 #' @field anvil_url URL linking to the controlled access file that has been deposited at AnVIL workspace. character [optional]
 #' @field catalog_collections The collections in the IGVF catalog that contain the data in this file. list(character) [optional]
+#' @field catalog_class The class curated in the IGVF catalog that the data in this file belongs to. character [optional]
+#' @field catalog_notes DACC notes for data loading in the IGVF catalog character [optional]
 #' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field cell_type_annotation The inferred cell type this file is associated with based on single-cell expression profiling. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
@@ -45,6 +47,7 @@
 #' @field upload_status The upload/validation status of the file. character [optional]
 #' @field validation_error_detail Explanation of why the file failed the automated content checks. character [optional]
 #' @field checkfiles_version The Checkfiles GitHub version release the file was validated with. character [optional]
+#' @field supersedes The file(s) that this file supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
 #' @field strand_specificity The strandedness of the signal file: plus, minus, or unstranded. character [optional]
 #' @field normalized Indicates if the signal file is normalized. character [optional]
 #' @field start_view_position The 0-based coordinate for the default starting position when viewing the signal in a genome browser. character [optional]
@@ -56,6 +59,7 @@
 #' @field gene_list_for File Set(s) that this file is a gene list for. list(character) [optional]
 #' @field loci_list_for File Set(s) that this file is a loci list for. list(character) [optional]
 #' @field quality_metrics The quality metrics that are associated with this file. list(character) [optional]
+#' @field superseded_by File(s) this file is superseded by virtue of those file(s) being newer, better, or a fixed version of etc. than this one. list(character) [optional]
 #' @field assay_titles Title(s) of assay from the file set this file belongs to. list(character) [optional]
 #' @field preferred_assay_titles Preferred assay titles from the file set this file belongs to. list(character) [optional]
 #' @field workflows The workflows associated with the analysis step version used to produce this file. list(character) [optional]
@@ -73,6 +77,8 @@ SignalFile <- R6::R6Class(
   public = list(
     `anvil_url` = NULL,
     `catalog_collections` = NULL,
+    `catalog_class` = NULL,
+    `catalog_notes` = NULL,
     `preview_timestamp` = NULL,
     `cell_type_annotation` = NULL,
     `release_timestamp` = NULL,
@@ -109,6 +115,7 @@ SignalFile <- R6::R6Class(
     `upload_status` = NULL,
     `validation_error_detail` = NULL,
     `checkfiles_version` = NULL,
+    `supersedes` = NULL,
     `strand_specificity` = NULL,
     `normalized` = NULL,
     `start_view_position` = NULL,
@@ -120,6 +127,7 @@ SignalFile <- R6::R6Class(
     `gene_list_for` = NULL,
     `loci_list_for` = NULL,
     `quality_metrics` = NULL,
+    `superseded_by` = NULL,
     `assay_titles` = NULL,
     `preferred_assay_titles` = NULL,
     `workflows` = NULL,
@@ -136,6 +144,8 @@ SignalFile <- R6::R6Class(
     #'
     #' @param anvil_url URL linking to the controlled access file that has been deposited at AnVIL workspace.
     #' @param catalog_collections The collections in the IGVF catalog that contain the data in this file.
+    #' @param catalog_class The class curated in the IGVF catalog that the data in this file belongs to.
+    #' @param catalog_notes DACC notes for data loading in the IGVF catalog
     #' @param preview_timestamp The date the object was previewed.
     #' @param cell_type_annotation The inferred cell type this file is associated with based on single-cell expression profiling.
     #' @param release_timestamp The date the object was released.
@@ -172,6 +182,7 @@ SignalFile <- R6::R6Class(
     #' @param upload_status The upload/validation status of the file.
     #' @param validation_error_detail Explanation of why the file failed the automated content checks.
     #' @param checkfiles_version The Checkfiles GitHub version release the file was validated with.
+    #' @param supersedes The file(s) that this file supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
     #' @param strand_specificity The strandedness of the signal file: plus, minus, or unstranded.
     #' @param normalized Indicates if the signal file is normalized.
     #' @param start_view_position The 0-based coordinate for the default starting position when viewing the signal in a genome browser.
@@ -183,6 +194,7 @@ SignalFile <- R6::R6Class(
     #' @param gene_list_for File Set(s) that this file is a gene list for.
     #' @param loci_list_for File Set(s) that this file is a loci list for.
     #' @param quality_metrics The quality metrics that are associated with this file.
+    #' @param superseded_by File(s) this file is superseded by virtue of those file(s) being newer, better, or a fixed version of etc. than this one.
     #' @param assay_titles Title(s) of assay from the file set this file belongs to.
     #' @param preferred_assay_titles Preferred assay titles from the file set this file belongs to.
     #' @param workflows The workflows associated with the analysis step version used to produce this file.
@@ -194,7 +206,7 @@ SignalFile <- R6::R6Class(
     #' @param assembly The assembly associated with the signal file.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`anvil_url` = NULL, `catalog_collections` = NULL, `preview_timestamp` = NULL, `cell_type_annotation` = NULL, `release_timestamp` = NULL, `reference_files` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `strand_specificity` = NULL, `normalized` = NULL, `start_view_position` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `content_summary` = NULL, `transcriptome_annotation` = NULL, `assembly` = NULL, ...) {
+    initialize = function(`anvil_url` = NULL, `catalog_collections` = NULL, `catalog_class` = NULL, `catalog_notes` = NULL, `preview_timestamp` = NULL, `cell_type_annotation` = NULL, `release_timestamp` = NULL, `reference_files` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `supersedes` = NULL, `strand_specificity` = NULL, `normalized` = NULL, `start_view_position` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `superseded_by` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `content_summary` = NULL, `transcriptome_annotation` = NULL, `assembly` = NULL, ...) {
       if (!is.null(`anvil_url`)) {
         if (!(is.character(`anvil_url`) && length(`anvil_url`) == 1)) {
           stop(paste("Error! Invalid data for `anvil_url`. Must be a string:", `anvil_url`))
@@ -205,6 +217,21 @@ SignalFile <- R6::R6Class(
         stopifnot(is.vector(`catalog_collections`), length(`catalog_collections`) != 0)
         sapply(`catalog_collections`, function(x) stopifnot(is.character(x)))
         self$`catalog_collections` <- `catalog_collections`
+      }
+      if (!is.null(`catalog_class`)) {
+        if (!(`catalog_class` %in% c("biological relationship", "observed data", "prediction"))) {
+          stop(paste("Error! \"", `catalog_class`, "\" cannot be assigned to `catalog_class`. Must be \"biological relationship\", \"observed data\", \"prediction\".", sep = ""))
+        }
+        if (!(is.character(`catalog_class`) && length(`catalog_class`) == 1)) {
+          stop(paste("Error! Invalid data for `catalog_class`. Must be a string:", `catalog_class`))
+        }
+        self$`catalog_class` <- `catalog_class`
+      }
+      if (!is.null(`catalog_notes`)) {
+        if (!(is.character(`catalog_notes`) && length(`catalog_notes`) == 1)) {
+          stop(paste("Error! Invalid data for `catalog_notes`. Must be a string:", `catalog_notes`))
+        }
+        self$`catalog_notes` <- `catalog_notes`
       }
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
@@ -423,6 +450,11 @@ SignalFile <- R6::R6Class(
         }
         self$`checkfiles_version` <- `checkfiles_version`
       }
+      if (!is.null(`supersedes`)) {
+        stopifnot(is.vector(`supersedes`), length(`supersedes`) != 0)
+        sapply(`supersedes`, function(x) stopifnot(is.character(x)))
+        self$`supersedes` <- `supersedes`
+      }
       if (!is.null(`strand_specificity`)) {
         if (!(`strand_specificity` %in% c("plus", "minus", "unstranded"))) {
           stop(paste("Error! \"", `strand_specificity`, "\" cannot be assigned to `strand_specificity`. Must be \"plus\", \"minus\", \"unstranded\".", sep = ""))
@@ -485,6 +517,11 @@ SignalFile <- R6::R6Class(
         stopifnot(is.vector(`quality_metrics`), length(`quality_metrics`) != 0)
         sapply(`quality_metrics`, function(x) stopifnot(is.character(x)))
         self$`quality_metrics` <- `quality_metrics`
+      }
+      if (!is.null(`superseded_by`)) {
+        stopifnot(is.vector(`superseded_by`), length(`superseded_by`) != 0)
+        sapply(`superseded_by`, function(x) stopifnot(is.character(x)))
+        self$`superseded_by` <- `superseded_by`
       }
       if (!is.null(`assay_titles`)) {
         stopifnot(is.vector(`assay_titles`), length(`assay_titles`) != 0)
@@ -551,6 +588,14 @@ SignalFile <- R6::R6Class(
       if (!is.null(self$`catalog_collections`)) {
         SignalFileObject[["catalog_collections"]] <-
           self$`catalog_collections`
+      }
+      if (!is.null(self$`catalog_class`)) {
+        SignalFileObject[["catalog_class"]] <-
+          self$`catalog_class`
+      }
+      if (!is.null(self$`catalog_notes`)) {
+        SignalFileObject[["catalog_notes"]] <-
+          self$`catalog_notes`
       }
       if (!is.null(self$`preview_timestamp`)) {
         SignalFileObject[["preview_timestamp"]] <-
@@ -696,6 +741,10 @@ SignalFile <- R6::R6Class(
         SignalFileObject[["checkfiles_version"]] <-
           self$`checkfiles_version`
       }
+      if (!is.null(self$`supersedes`)) {
+        SignalFileObject[["supersedes"]] <-
+          self$`supersedes`
+      }
       if (!is.null(self$`strand_specificity`)) {
         SignalFileObject[["strand_specificity"]] <-
           self$`strand_specificity`
@@ -739,6 +788,10 @@ SignalFile <- R6::R6Class(
       if (!is.null(self$`quality_metrics`)) {
         SignalFileObject[["quality_metrics"]] <-
           self$`quality_metrics`
+      }
+      if (!is.null(self$`superseded_by`)) {
+        SignalFileObject[["superseded_by"]] <-
+          self$`superseded_by`
       }
       if (!is.null(self$`assay_titles`)) {
         SignalFileObject[["assay_titles"]] <-
@@ -793,6 +846,15 @@ SignalFile <- R6::R6Class(
       }
       if (!is.null(this_object$`catalog_collections`)) {
         self$`catalog_collections` <- ApiClient$new()$deserializeObj(this_object$`catalog_collections`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`catalog_class`)) {
+        if (!is.null(this_object$`catalog_class`) && !(this_object$`catalog_class` %in% c("biological relationship", "observed data", "prediction"))) {
+          stop(paste("Error! \"", this_object$`catalog_class`, "\" cannot be assigned to `catalog_class`. Must be \"biological relationship\", \"observed data\", \"prediction\".", sep = ""))
+        }
+        self$`catalog_class` <- this_object$`catalog_class`
+      }
+      if (!is.null(this_object$`catalog_notes`)) {
+        self$`catalog_notes` <- this_object$`catalog_notes`
       }
       if (!is.null(this_object$`preview_timestamp`)) {
         self$`preview_timestamp` <- this_object$`preview_timestamp`
@@ -911,6 +973,9 @@ SignalFile <- R6::R6Class(
       if (!is.null(this_object$`checkfiles_version`)) {
         self$`checkfiles_version` <- this_object$`checkfiles_version`
       }
+      if (!is.null(this_object$`supersedes`)) {
+        self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
+      }
       if (!is.null(this_object$`strand_specificity`)) {
         if (!is.null(this_object$`strand_specificity`) && !(this_object$`strand_specificity` %in% c("plus", "minus", "unstranded"))) {
           stop(paste("Error! \"", this_object$`strand_specificity`, "\" cannot be assigned to `strand_specificity`. Must be \"plus\", \"minus\", \"unstranded\".", sep = ""))
@@ -946,6 +1011,9 @@ SignalFile <- R6::R6Class(
       }
       if (!is.null(this_object$`quality_metrics`)) {
         self$`quality_metrics` <- ApiClient$new()$deserializeObj(this_object$`quality_metrics`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`superseded_by`)) {
+        self$`superseded_by` <- ApiClient$new()$deserializeObj(this_object$`superseded_by`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`assay_titles`)) {
         self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
@@ -999,6 +1067,22 @@ SignalFile <- R6::R6Class(
              [%s]
           ',
           paste(unlist(lapply(self$`catalog_collections`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`catalog_class`)) {
+          sprintf(
+          '"catalog_class":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`catalog_class`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`catalog_notes`)) {
+          sprintf(
+          '"catalog_notes":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`catalog_notes`, perl=TRUE)
           )
         },
         if (!is.null(self$`preview_timestamp`)) {
@@ -1289,6 +1373,14 @@ SignalFile <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`checkfiles_version`, perl=TRUE)
           )
         },
+        if (!is.null(self$`supersedes`)) {
+          sprintf(
+          '"supersedes":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`supersedes`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`strand_specificity`)) {
           sprintf(
           '"strand_specificity":
@@ -1375,6 +1467,14 @@ SignalFile <- R6::R6Class(
              [%s]
           ',
           paste(unlist(lapply(self$`quality_metrics`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`superseded_by`)) {
+          sprintf(
+          '"superseded_by":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`superseded_by`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`assay_titles`)) {
@@ -1465,6 +1565,11 @@ SignalFile <- R6::R6Class(
       this_object <- jsonlite::fromJSON(input_json)
       self$`anvil_url` <- this_object$`anvil_url`
       self$`catalog_collections` <- ApiClient$new()$deserializeObj(this_object$`catalog_collections`, "set[character]", loadNamespace("igvfclient"))
+      if (!is.null(this_object$`catalog_class`) && !(this_object$`catalog_class` %in% c("biological relationship", "observed data", "prediction"))) {
+        stop(paste("Error! \"", this_object$`catalog_class`, "\" cannot be assigned to `catalog_class`. Must be \"biological relationship\", \"observed data\", \"prediction\".", sep = ""))
+      }
+      self$`catalog_class` <- this_object$`catalog_class`
+      self$`catalog_notes` <- this_object$`catalog_notes`
       self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`cell_type_annotation` <- this_object$`cell_type_annotation`
       self$`release_timestamp` <- this_object$`release_timestamp`
@@ -1510,6 +1615,7 @@ SignalFile <- R6::R6Class(
       self$`upload_status` <- this_object$`upload_status`
       self$`validation_error_detail` <- this_object$`validation_error_detail`
       self$`checkfiles_version` <- this_object$`checkfiles_version`
+      self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
       if (!is.null(this_object$`strand_specificity`) && !(this_object$`strand_specificity` %in% c("plus", "minus", "unstranded"))) {
         stop(paste("Error! \"", this_object$`strand_specificity`, "\" cannot be assigned to `strand_specificity`. Must be \"plus\", \"minus\", \"unstranded\".", sep = ""))
       }
@@ -1524,6 +1630,7 @@ SignalFile <- R6::R6Class(
       self$`gene_list_for` <- ApiClient$new()$deserializeObj(this_object$`gene_list_for`, "set[character]", loadNamespace("igvfclient"))
       self$`loci_list_for` <- ApiClient$new()$deserializeObj(this_object$`loci_list_for`, "set[character]", loadNamespace("igvfclient"))
       self$`quality_metrics` <- ApiClient$new()$deserializeObj(this_object$`quality_metrics`, "set[character]", loadNamespace("igvfclient"))
+      self$`superseded_by` <- ApiClient$new()$deserializeObj(this_object$`superseded_by`, "set[character]", loadNamespace("igvfclient"))
       self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
       self$`preferred_assay_titles` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_titles`, "set[character]", loadNamespace("igvfclient"))
       self$`workflows` <- ApiClient$new()$deserializeObj(this_object$`workflows`, "set[character]", loadNamespace("igvfclient"))
@@ -1563,6 +1670,10 @@ SignalFile <- R6::R6Class(
     #' @return true if the values in all fields are valid.
     #' @export
     isValid = function() {
+
+      if (!str_detect(self$`catalog_notes`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
+        return(FALSE)
+      }
 
 
 
@@ -1610,9 +1721,11 @@ SignalFile <- R6::R6Class(
         return(FALSE)
       }
 
+
       if (!str_detect(self$`start_view_position`, "^(chr(X|Y|M|[1-9]|1[0-9]|2[0-2]):[0-9]+)$")) {
         return(FALSE)
       }
+
 
 
 
@@ -1633,6 +1746,10 @@ SignalFile <- R6::R6Class(
     #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
+
+      if (!str_detect(self$`catalog_notes`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
+        invalid_fields["catalog_notes"] <- "Invalid value for `catalog_notes`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
+      }
 
 
 
@@ -1680,9 +1797,11 @@ SignalFile <- R6::R6Class(
         invalid_fields["md5sum"] <- "Invalid value for `md5sum`, must conform to the pattern [a-f\\d]{32}|[A-F\\d]{32}."
       }
 
+
       if (!str_detect(self$`start_view_position`, "^(chr(X|Y|M|[1-9]|1[0-9]|2[0-2]):[0-9]+)$")) {
         invalid_fields["start_view_position"] <- "Invalid value for `start_view_position`, must conform to the pattern ^(chr(X|Y|M|[1-9]|1[0-9]|2[0-2]):[0-9]+)$."
       }
+
 
 
 
