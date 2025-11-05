@@ -23,7 +23,7 @@
 #' @field description A plain text description of the object. character [optional]
 #' @field quality_metric_of The file(s) to which this quality metric applies. list(character) [optional]
 #' @field analysis_step_version The analysis step version of the quality metric. character [optional]
-#' @field pct_duplicates  numeric [optional]
+#' @field pct_duplicates Percentage of reads that are duplicatively mapped to the same genomic region. numeric [optional]
 #' @field n_reads Total count of sequencing reads processed. numeric [optional]
 #' @field n_mapped_reads Reads successfully aligned to the reference genome. numeric [optional]
 #' @field n_uniquely_mapped_reads Reads aligned to a single location in the genome. numeric [optional]
@@ -113,7 +113,7 @@ SingleCellAtacSeqQualityMetric <- R6::R6Class(
     #' @param description A plain text description of the object.
     #' @param quality_metric_of The file(s) to which this quality metric applies.
     #' @param analysis_step_version The analysis step version of the quality metric.
-    #' @param pct_duplicates 
+    #' @param pct_duplicates Percentage of reads that are duplicatively mapped to the same genomic region.
     #' @param n_reads Total count of sequencing reads processed.
     #' @param n_mapped_reads Reads successfully aligned to the reference genome.
     #' @param n_uniquely_mapped_reads Reads aligned to a single location in the genome.

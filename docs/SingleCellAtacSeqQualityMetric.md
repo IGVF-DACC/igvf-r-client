@@ -21,7 +21,7 @@ Name | Type | Description | Notes
 **description** | **character** | A plain text description of the object. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **quality_metric_of** | **set[character]** | The file(s) to which this quality metric applies. | [optional] 
 **analysis_step_version** | **character** | The analysis step version of the quality metric. | [optional] 
-**pct_duplicates** | **numeric** |  | [optional] 
+**pct_duplicates** | **numeric** | Percentage of reads that are duplicatively mapped to the same genomic region. | [optional] 
 **n_reads** | **numeric** | Total count of sequencing reads processed. | [optional] 
 **n_mapped_reads** | **numeric** | Reads successfully aligned to the reference genome. | [optional] 
 **n_uniquely_mapped_reads** | **numeric** | Reads aligned to a single location in the genome. | [optional] 
