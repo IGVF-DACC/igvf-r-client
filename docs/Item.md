@@ -396,7 +396,7 @@ Name | Type | Description | Notes
 **duration** | **numeric** | Duration indicates the time elapsed between the start and end of the treatment. | [optional] 
 **duration_units** | **character** | A unit of time. | [optional] [Enum: [second, minute, hour, day]] 
 **pH** | **numeric** | Final pH of the solution containing a chemical compound (if applicable) | [optional] 
-**purpose** | **character** | The intended purpose for treating the samples. | [optional] [Enum: [activation, agonist, antagonist, control, de-differentiation, differentiation, perturbation, selection, stimulation]] 
+**purpose** | **character** | The intended purpose for treating the samples. | [optional] [Enum: [activation, acute activation, agonist, antagonist, chronic activation, control, de-differentiation, differentiation, perturbation, selection, stimulation]] 
 **post_treatment_time** | **numeric** | Post treatment time in conjunction with post treatment time units is used to specify the time that has passed between the point when biosamples were removed from the treatment solution before being sampled or treated with the next treatment. | [optional] 
 **post_treatment_time_units** | **character** | A unit of time. | [optional] [Enum: [minute, hour, day, week, month]] 
 **temperature** | **numeric** | The temperature in Celsius to which the sample was exposed | [optional] 

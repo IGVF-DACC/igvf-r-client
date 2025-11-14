@@ -256,8 +256,8 @@ Treatment <- R6::R6Class(
         self$`pH` <- `pH`
       }
       if (!is.null(`purpose`)) {
-        if (!(`purpose` %in% c("activation", "agonist", "antagonist", "control", "de-differentiation", "differentiation", "perturbation", "selection", "stimulation"))) {
-          stop(paste("Error! \"", `purpose`, "\" cannot be assigned to `purpose`. Must be \"activation\", \"agonist\", \"antagonist\", \"control\", \"de-differentiation\", \"differentiation\", \"perturbation\", \"selection\", \"stimulation\".", sep = ""))
+        if (!(`purpose` %in% c("activation", "acute activation", "agonist", "antagonist", "chronic activation", "control", "de-differentiation", "differentiation", "perturbation", "selection", "stimulation"))) {
+          stop(paste("Error! \"", `purpose`, "\" cannot be assigned to `purpose`. Must be \"activation\", \"acute activation\", \"agonist\", \"antagonist\", \"chronic activation\", \"control\", \"de-differentiation\", \"differentiation\", \"perturbation\", \"selection\", \"stimulation\".", sep = ""))
         }
         if (!(is.character(`purpose`) && length(`purpose`) == 1)) {
           stop(paste("Error! Invalid data for `purpose`. Must be a string:", `purpose`))
@@ -575,8 +575,8 @@ Treatment <- R6::R6Class(
         self$`pH` <- this_object$`pH`
       }
       if (!is.null(this_object$`purpose`)) {
-        if (!is.null(this_object$`purpose`) && !(this_object$`purpose` %in% c("activation", "agonist", "antagonist", "control", "de-differentiation", "differentiation", "perturbation", "selection", "stimulation"))) {
-          stop(paste("Error! \"", this_object$`purpose`, "\" cannot be assigned to `purpose`. Must be \"activation\", \"agonist\", \"antagonist\", \"control\", \"de-differentiation\", \"differentiation\", \"perturbation\", \"selection\", \"stimulation\".", sep = ""))
+        if (!is.null(this_object$`purpose`) && !(this_object$`purpose` %in% c("activation", "acute activation", "agonist", "antagonist", "chronic activation", "control", "de-differentiation", "differentiation", "perturbation", "selection", "stimulation"))) {
+          stop(paste("Error! \"", this_object$`purpose`, "\" cannot be assigned to `purpose`. Must be \"activation\", \"acute activation\", \"agonist\", \"antagonist\", \"chronic activation\", \"control\", \"de-differentiation\", \"differentiation\", \"perturbation\", \"selection\", \"stimulation\".", sep = ""))
         }
         self$`purpose` <- this_object$`purpose`
       }
@@ -961,8 +961,8 @@ Treatment <- R6::R6Class(
       }
       self$`duration_units` <- this_object$`duration_units`
       self$`pH` <- this_object$`pH`
-      if (!is.null(this_object$`purpose`) && !(this_object$`purpose` %in% c("activation", "agonist", "antagonist", "control", "de-differentiation", "differentiation", "perturbation", "selection", "stimulation"))) {
-        stop(paste("Error! \"", this_object$`purpose`, "\" cannot be assigned to `purpose`. Must be \"activation\", \"agonist\", \"antagonist\", \"control\", \"de-differentiation\", \"differentiation\", \"perturbation\", \"selection\", \"stimulation\".", sep = ""))
+      if (!is.null(this_object$`purpose`) && !(this_object$`purpose` %in% c("activation", "acute activation", "agonist", "antagonist", "chronic activation", "control", "de-differentiation", "differentiation", "perturbation", "selection", "stimulation"))) {
+        stop(paste("Error! \"", this_object$`purpose`, "\" cannot be assigned to `purpose`. Must be \"activation\", \"acute activation\", \"agonist\", \"antagonist\", \"chronic activation\", \"control\", \"de-differentiation\", \"differentiation\", \"perturbation\", \"selection\", \"stimulation\".", sep = ""))
       }
       self$`purpose` <- this_object$`purpose`
       self$`post_treatment_time` <- this_object$`post_treatment_time`
