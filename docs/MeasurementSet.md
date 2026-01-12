@@ -57,8 +57,9 @@ Name | Type | Description | Notes
 **construct_library_sets** | **set[character]** | The construct library sets associated with the samples of this file set. | [optional] 
 **data_use_limitation_summaries** | **set[character]** | The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
 **controlled_access** | **character** | The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
+**is_on_anvil** | **character** | Indicates whether this file set has been submitted to AnVIL. | [optional] 
 **assay_titles** | **array[character]** | Ontology term names from Ontology of Biomedical Investigations (OBI) for assays | [optional] 
-**related_multiome_datasets** | **set[character]** | Related datasets included in the multiome experiment this measurement set is a part of. | [optional] 
+**related_measurement_sets** | [**set[RelatedMeasurementSetGroup]**](Related_Measurement_Set_Group.md) | Measurement sets related to this one, grouped by relationship type. | [optional] 
 **externally_hosted** | **character** |  | [optional] 
 
 

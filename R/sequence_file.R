@@ -48,6 +48,7 @@
 #' @field supersedes The file(s) that this file supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
 #' @field flowcell_id The alphanumeric identifier for the flowcell of a sequencing machine. character [optional]
 #' @field lane An integer identifying the lane of a sequencing machine. integer [optional]
+#' @field tile An integer identifying the tile of a gene of interest. integer [optional]
 #' @field read_count Number of reads in a fastq file. integer [optional]
 #' @field minimum_read_length For high-throughput sequencing, the minimum number of contiguous nucleotides determined by sequencing. integer [optional]
 #' @field maximum_read_length For high-throughput sequencing, the maximum number of contiguous nucleotides determined by sequencing. integer [optional]
@@ -122,6 +123,7 @@ SequenceFile <- R6::R6Class(
     `supersedes` = NULL,
     `flowcell_id` = NULL,
     `lane` = NULL,
+    `tile` = NULL,
     `read_count` = NULL,
     `minimum_read_length` = NULL,
     `maximum_read_length` = NULL,
@@ -195,6 +197,7 @@ SequenceFile <- R6::R6Class(
     #' @param supersedes The file(s) that this file supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
     #' @param flowcell_id The alphanumeric identifier for the flowcell of a sequencing machine.
     #' @param lane An integer identifying the lane of a sequencing machine.
+    #' @param tile An integer identifying the tile of a gene of interest.
     #' @param read_count Number of reads in a fastq file.
     #' @param minimum_read_length For high-throughput sequencing, the minimum number of contiguous nucleotides determined by sequencing.
     #' @param maximum_read_length For high-throughput sequencing, the maximum number of contiguous nucleotides determined by sequencing.
@@ -224,7 +227,7 @@ SequenceFile <- R6::R6Class(
     #' @param seqspecs Link(s) to the associated seqspec YAML configuration file(s).
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`anvil_url` = NULL, `base_modifications` = NULL, `preview_timestamp` = NULL, `externally_hosted` = NULL, `external_host_url` = NULL, `controlled_access` = NULL, `release_timestamp` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `supersedes` = NULL, `flowcell_id` = NULL, `lane` = NULL, `read_count` = NULL, `minimum_read_length` = NULL, `maximum_read_length` = NULL, `mean_read_length` = NULL, `seqspec_document` = NULL, `sequencing_platform` = NULL, `sequencing_kit` = NULL, `sequencing_run` = NULL, `illumina_read_type` = NULL, `index` = NULL, `read_names` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `superseded_by` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `seqspecs` = NULL, ...) {
+    initialize = function(`anvil_url` = NULL, `base_modifications` = NULL, `preview_timestamp` = NULL, `externally_hosted` = NULL, `external_host_url` = NULL, `controlled_access` = NULL, `release_timestamp` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `supersedes` = NULL, `flowcell_id` = NULL, `lane` = NULL, `tile` = NULL, `read_count` = NULL, `minimum_read_length` = NULL, `maximum_read_length` = NULL, `mean_read_length` = NULL, `seqspec_document` = NULL, `sequencing_platform` = NULL, `sequencing_kit` = NULL, `sequencing_run` = NULL, `illumina_read_type` = NULL, `index` = NULL, `read_names` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `superseded_by` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `seqspecs` = NULL, ...) {
       if (!is.null(`anvil_url`)) {
         if (!(is.character(`anvil_url`) && length(`anvil_url`) == 1)) {
           stop(paste("Error! Invalid data for `anvil_url`. Must be a string:", `anvil_url`))
@@ -470,6 +473,12 @@ SequenceFile <- R6::R6Class(
           stop(paste("Error! Invalid data for `lane`. Must be an integer:", `lane`))
         }
         self$`lane` <- `lane`
+      }
+      if (!is.null(`tile`)) {
+        if (!(is.numeric(`tile`) && length(`tile`) == 1)) {
+          stop(paste("Error! Invalid data for `tile`. Must be an integer:", `tile`))
+        }
+        self$`tile` <- `tile`
       }
       if (!is.null(`read_count`)) {
         if (!(is.numeric(`read_count`) && length(`read_count`) == 1)) {
@@ -795,6 +804,10 @@ SequenceFile <- R6::R6Class(
         SequenceFileObject[["lane"]] <-
           self$`lane`
       }
+      if (!is.null(self$`tile`)) {
+        SequenceFileObject[["tile"]] <-
+          self$`tile`
+      }
       if (!is.null(self$`read_count`)) {
         SequenceFileObject[["read_count"]] <-
           self$`read_count`
@@ -1046,6 +1059,9 @@ SequenceFile <- R6::R6Class(
       }
       if (!is.null(this_object$`lane`)) {
         self$`lane` <- this_object$`lane`
+      }
+      if (!is.null(this_object$`tile`)) {
+        self$`tile` <- this_object$`tile`
       }
       if (!is.null(this_object$`read_count`)) {
         self$`read_count` <- this_object$`read_count`
@@ -1473,6 +1489,14 @@ SequenceFile <- R6::R6Class(
           self$`lane`
           )
         },
+        if (!is.null(self$`tile`)) {
+          sprintf(
+          '"tile":
+            %f
+                    ',
+          self$`tile`
+          )
+        },
         if (!is.null(self$`read_count`)) {
           sprintf(
           '"read_count":
@@ -1753,6 +1777,7 @@ SequenceFile <- R6::R6Class(
       self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
       self$`flowcell_id` <- this_object$`flowcell_id`
       self$`lane` <- this_object$`lane`
+      self$`tile` <- this_object$`tile`
       self$`read_count` <- this_object$`read_count`
       self$`minimum_read_length` <- this_object$`minimum_read_length`
       self$`maximum_read_length` <- this_object$`maximum_read_length`
@@ -1871,6 +1896,10 @@ SequenceFile <- R6::R6Class(
         return(FALSE)
       }
 
+      if (self$`tile` < 1) {
+        return(FALSE)
+      }
+
       if (self$`read_count` < 0) {
         return(FALSE)
       }
@@ -1975,6 +2004,10 @@ SequenceFile <- R6::R6Class(
 
       if (self$`lane` < 1) {
         invalid_fields["lane"] <- "Invalid value for `lane`, must be bigger than or equal to 1."
+      }
+
+      if (self$`tile` < 1) {
+        invalid_fields["tile"] <- "Invalid value for `tile`, must be bigger than or equal to 1."
       }
 
       if (self$`read_count` < 0) {

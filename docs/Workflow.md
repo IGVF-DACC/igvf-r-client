@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **preferred_assay_titles** | **array[character]** | The custom lab preferred label for the experiment performed. | [optional] [Enum: ] 
 **preview_timestamp** | **character** | The date the object was previewed. | [optional] 
-**source_url** | **character** | An external resource to the code base of the workflow in github. | [optional] [Pattern: ^https?://(github\\.com/\\S+|support\\.parsebiosciences\\.com/\\S*)$] 
+**source_url** | **character** | An external resource to the code base of the workflow in github. | [optional] [Pattern: ^https?://(github\\.com/\\S+|support\\.parsebiosciences\\.com/\\S*|www\\.10xgenomics\\.com/\\S*)$] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **publications** | **set[character]** | The publications associated with this object. | [optional] 
 **documents** | **set[character]** | Documents that provide additional information (not data file). | [optional] 

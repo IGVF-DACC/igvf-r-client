@@ -33,7 +33,7 @@ Name | Type | Description | Notes
 **dbxrefs** | **set[character]** | Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file sets. | [optional] 
 **samples** | **set[character]** | The sample(s) associated with this file set. | [optional] 
 **donors** | **set[character]** | The donor(s) associated with this file set. | [optional] 
-**file_set_type** | **character** | The category that best describes this prediction set. | [optional] [Enum: [activity level, binding effect, functional effect, protein stability]] 
+**file_set_type** | **character** | The category that best describes this prediction set. | [optional] [Enum: [activity level, binding effect, functional effect, protein-protein interaction, protein stability]] 
 **supersedes** | **set[character]** | The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. | [optional] 
 **scope** | **character** | The scope or scale that this prediction set is designed to target. | [optional] [Enum: [genes, loci, genome-wide]] 
 **assessed_genes** | **set[character]** | A list of gene(s) assessed in this prediction set. This property is used to describe the gene(s) being investigated, especially how the input variables in the prediction set affect some critical functionality of the gene(s). For example, the effect could be predicted from genetic variants on the binding affinity of a transcription factor encoded by a gene (assessed_genes). It differs from small_scale_gene_list and large_scale_gene_list, as these are used when the input variables of the prediction set are genes. | [optional] 
@@ -49,6 +49,7 @@ Name | Type | Description | Notes
 **construct_library_sets** | **set[character]** | The construct library sets associated with the samples of this file set. | [optional] 
 **data_use_limitation_summaries** | **set[character]** | The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
 **controlled_access** | **character** | The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
+**is_on_anvil** | **character** | Indicates whether this file set has been submitted to AnVIL. | [optional] 
 **software_versions** | **set[character]** | The software versions used to produce this prediction. | [optional] 
 
 

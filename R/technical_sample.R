@@ -47,6 +47,8 @@
 #' @field sample_material  character [optional]
 #' @field taxa  character [optional]
 #' @field sample_terms Ontology terms identifying a technical sample. list(character) [optional]
+#' @field treatments A list of treatments applied to the technical sample with the purpose of perturbation. list(character) [optional]
+#' @field part_of Links to technical sample which represents a larger sample from which this sample was taken. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of this sample. character [optional]
@@ -56,7 +58,9 @@
 #' @field origin_of The samples which originate from this sample, such as through a process of cell differentiation. list(character) [optional]
 #' @field institutional_certificates The institutional certificates under which use of this sample is approved. list(character) [optional]
 #' @field superseded_by Sample(s) this sample is superseded by virtue of those sample(s) being newer, better, or a fixed version of etc. than this one. list(character) [optional]
+#' @field is_on_anvil Indicates whether the sample has been submitted to AnVIL. character [optional]
 #' @field classifications The general category of this type of sample. list(character) [optional]
+#' @field parts The parts into which this sample has been divided. list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -103,6 +107,8 @@ TechnicalSample <- R6::R6Class(
     `sample_material` = NULL,
     `taxa` = NULL,
     `sample_terms` = NULL,
+    `treatments` = NULL,
+    `part_of` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -112,7 +118,9 @@ TechnicalSample <- R6::R6Class(
     `origin_of` = NULL,
     `institutional_certificates` = NULL,
     `superseded_by` = NULL,
+    `is_on_anvil` = NULL,
     `classifications` = NULL,
+    `parts` = NULL,
     #' Initialize a new TechnicalSample class.
     #'
     #' @description
@@ -158,6 +166,8 @@ TechnicalSample <- R6::R6Class(
     #' @param sample_material sample_material
     #' @param taxa taxa
     #' @param sample_terms Ontology terms identifying a technical sample.
+    #' @param treatments A list of treatments applied to the technical sample with the purpose of perturbation.
+    #' @param part_of Links to technical sample which represents a larger sample from which this sample was taken.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of this sample.
@@ -167,10 +177,12 @@ TechnicalSample <- R6::R6Class(
     #' @param origin_of The samples which originate from this sample, such as through a process of cell differentiation.
     #' @param institutional_certificates The institutional certificates under which use of this sample is approved.
     #' @param superseded_by Sample(s) this sample is superseded by virtue of those sample(s) being newer, better, or a fixed version of etc. than this one.
+    #' @param is_on_anvil Indicates whether the sample has been submitted to AnVIL.
     #' @param classifications The general category of this type of sample.
+    #' @param parts The parts into which this sample has been divided.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `sample_material` = NULL, `taxa` = NULL, `sample_terms` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `classifications` = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `sample_material` = NULL, `taxa` = NULL, `sample_terms` = NULL, `treatments` = NULL, `part_of` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `is_on_anvil` = NULL, `classifications` = NULL, `parts` = NULL, ...) {
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -409,6 +421,17 @@ TechnicalSample <- R6::R6Class(
         sapply(`sample_terms`, function(x) stopifnot(is.character(x)))
         self$`sample_terms` <- `sample_terms`
       }
+      if (!is.null(`treatments`)) {
+        stopifnot(is.vector(`treatments`), length(`treatments`) != 0)
+        sapply(`treatments`, function(x) stopifnot(is.character(x)))
+        self$`treatments` <- `treatments`
+      }
+      if (!is.null(`part_of`)) {
+        if (!(is.character(`part_of`) && length(`part_of`) == 1)) {
+          stop(paste("Error! Invalid data for `part_of`. Must be a string:", `part_of`))
+        }
+        self$`part_of` <- `part_of`
+      }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
           stop(paste("Error! Invalid data for `@id`. Must be a string:", `@id`))
@@ -456,10 +479,21 @@ TechnicalSample <- R6::R6Class(
         sapply(`superseded_by`, function(x) stopifnot(is.character(x)))
         self$`superseded_by` <- `superseded_by`
       }
+      if (!is.null(`is_on_anvil`)) {
+        if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
+          stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
+        }
+        self$`is_on_anvil` <- `is_on_anvil`
+      }
       if (!is.null(`classifications`)) {
         stopifnot(is.vector(`classifications`), length(`classifications`) != 0)
         sapply(`classifications`, function(x) stopifnot(is.character(x)))
         self$`classifications` <- `classifications`
+      }
+      if (!is.null(`parts`)) {
+        stopifnot(is.vector(`parts`), length(`parts`) != 0)
+        sapply(`parts`, function(x) stopifnot(is.character(x)))
+        self$`parts` <- `parts`
       }
     },
     #' To JSON string
@@ -631,6 +665,14 @@ TechnicalSample <- R6::R6Class(
         TechnicalSampleObject[["sample_terms"]] <-
           self$`sample_terms`
       }
+      if (!is.null(self$`treatments`)) {
+        TechnicalSampleObject[["treatments"]] <-
+          self$`treatments`
+      }
+      if (!is.null(self$`part_of`)) {
+        TechnicalSampleObject[["part_of"]] <-
+          self$`part_of`
+      }
       if (!is.null(self$`@id`)) {
         TechnicalSampleObject[["@id"]] <-
           self$`@id`
@@ -667,9 +709,17 @@ TechnicalSample <- R6::R6Class(
         TechnicalSampleObject[["superseded_by"]] <-
           self$`superseded_by`
       }
+      if (!is.null(self$`is_on_anvil`)) {
+        TechnicalSampleObject[["is_on_anvil"]] <-
+          self$`is_on_anvil`
+      }
       if (!is.null(self$`classifications`)) {
         TechnicalSampleObject[["classifications"]] <-
           self$`classifications`
+      }
+      if (!is.null(self$`parts`)) {
+        TechnicalSampleObject[["parts"]] <-
+          self$`parts`
       }
       TechnicalSampleObject
     },
@@ -821,6 +871,12 @@ TechnicalSample <- R6::R6Class(
       if (!is.null(this_object$`sample_terms`)) {
         self$`sample_terms` <- ApiClient$new()$deserializeObj(this_object$`sample_terms`, "set[character]", loadNamespace("igvfclient"))
       }
+      if (!is.null(this_object$`treatments`)) {
+        self$`treatments` <- ApiClient$new()$deserializeObj(this_object$`treatments`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`part_of`)) {
+        self$`part_of` <- this_object$`part_of`
+      }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
       }
@@ -848,8 +904,14 @@ TechnicalSample <- R6::R6Class(
       if (!is.null(this_object$`superseded_by`)) {
         self$`superseded_by` <- ApiClient$new()$deserializeObj(this_object$`superseded_by`, "set[character]", loadNamespace("igvfclient"))
       }
+      if (!is.null(this_object$`is_on_anvil`)) {
+        self$`is_on_anvil` <- this_object$`is_on_anvil`
+      }
       if (!is.null(this_object$`classifications`)) {
         self$`classifications` <- ApiClient$new()$deserializeObj(this_object$`classifications`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`parts`)) {
+        self$`parts` <- ApiClient$new()$deserializeObj(this_object$`parts`, "set[character]", loadNamespace("igvfclient"))
       }
       self
     },
@@ -1182,6 +1244,22 @@ TechnicalSample <- R6::R6Class(
           paste(unlist(lapply(self$`sample_terms`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`treatments`)) {
+          sprintf(
+          '"treatments":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`treatments`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`part_of`)) {
+          sprintf(
+          '"part_of":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`part_of`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -1254,12 +1332,28 @@ TechnicalSample <- R6::R6Class(
           paste(unlist(lapply(self$`superseded_by`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`is_on_anvil`)) {
+          sprintf(
+          '"is_on_anvil":
+            %s
+                    ',
+          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`is_on_anvil`, perl=TRUE))
+          )
+        },
         if (!is.null(self$`classifications`)) {
           sprintf(
           '"classifications":
              [%s]
           ',
           paste(unlist(lapply(self$`classifications`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`parts`)) {
+          sprintf(
+          '"parts":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`parts`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         }
       )
@@ -1334,6 +1428,8 @@ TechnicalSample <- R6::R6Class(
       }
       self$`taxa` <- this_object$`taxa`
       self$`sample_terms` <- ApiClient$new()$deserializeObj(this_object$`sample_terms`, "set[character]", loadNamespace("igvfclient"))
+      self$`treatments` <- ApiClient$new()$deserializeObj(this_object$`treatments`, "set[character]", loadNamespace("igvfclient"))
+      self$`part_of` <- this_object$`part_of`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
@@ -1343,7 +1439,9 @@ TechnicalSample <- R6::R6Class(
       self$`origin_of` <- ApiClient$new()$deserializeObj(this_object$`origin_of`, "set[character]", loadNamespace("igvfclient"))
       self$`institutional_certificates` <- ApiClient$new()$deserializeObj(this_object$`institutional_certificates`, "set[character]", loadNamespace("igvfclient"))
       self$`superseded_by` <- ApiClient$new()$deserializeObj(this_object$`superseded_by`, "set[character]", loadNamespace("igvfclient"))
+      self$`is_on_anvil` <- this_object$`is_on_anvil`
       self$`classifications` <- ApiClient$new()$deserializeObj(this_object$`classifications`, "set[character]", loadNamespace("igvfclient"))
+      self$`parts` <- ApiClient$new()$deserializeObj(this_object$`parts`, "set[character]", loadNamespace("igvfclient"))
       self
     },
     #' Validate JSON input with respect to TechnicalSample
@@ -1424,6 +1522,8 @@ TechnicalSample <- R6::R6Class(
 
 
 
+
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1474,6 +1574,8 @@ TechnicalSample <- R6::R6Class(
       if (self$`moi` < 0) {
         invalid_fields["moi"] <- "Invalid value for `moi`, must be bigger than or equal to 0."
       }
+
+
 
 
 

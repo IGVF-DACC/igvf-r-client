@@ -45,6 +45,8 @@ Name | Type | Description | Notes
 **sample_material** | **character** |  | [optional] [Enum: [undefined, inorganic, synthetic, organic]] 
 **taxa** | **character** |  | [optional] [Enum: [Saccharomyces cerevisiae, Homo sapiens]] 
 **sample_terms** | **set[character]** | Ontology terms identifying a technical sample. | [optional] 
+**treatments** | **set[character]** | A list of treatments applied to the technical sample with the purpose of perturbation. | [optional] 
+**part_of** | **character** | Links to technical sample which represents a larger sample from which this sample was taken. | [optional] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** | A summary of this sample. | [optional] 
@@ -54,6 +56,8 @@ Name | Type | Description | Notes
 **origin_of** | **set[character]** | The samples which originate from this sample, such as through a process of cell differentiation. | [optional] 
 **institutional_certificates** | **set[character]** | The institutional certificates under which use of this sample is approved. | [optional] 
 **superseded_by** | **set[character]** | Sample(s) this sample is superseded by virtue of those sample(s) being newer, better, or a fixed version of etc. than this one. | [optional] 
+**is_on_anvil** | **character** | Indicates whether the sample has been submitted to AnVIL. | [optional] 
 **classifications** | **set[character]** | The general category of this type of sample. | [optional] 
+**parts** | **set[character]** | The parts into which this sample has been divided. | [optional] 
 
 

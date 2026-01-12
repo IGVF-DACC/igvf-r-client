@@ -32,7 +32,7 @@ Name | Type | Description | Notes
 **post_treatment_time_units** | **character** | A unit of time. | [optional] [Enum: [minute, hour, day, week, month]] 
 **temperature** | **numeric** | The temperature in Celsius to which the sample was exposed | [optional] 
 **temperature_units** | **character** | A unit of temperature. | [optional] [Enum: [Celsius]] 
-**treatment_type** | **character** | The classification of treatment agent that specifies its exact molecular nature.  | [optional] [Enum: [chemical, protein]] 
+**treatment_type** | **character** | The classification of treatment agent that specifies its exact molecular nature.  | [optional] [Enum: [chemical, protein, thermal]] 
 **treatment_term_id** | **character** | Ontology identifier describing a component in the treatment. | [optional] [Pattern: ^((CHEBI:[0-9]{1,7})|(UniProtKB:[A-Z0-9]{6})|(NTR:[0-9]{2,8}))$] 
 **treatment_term_name** | **character** | Ontology term describing a component in the treatment that is the principal component affecting the biosample being treated. Examples: interferon gamma, interleukin-4, Fibroblast growth factor 2, 20-hydroxyecdysone, 5-bromouridine etc. | [optional] 
 **depletion** | **character** | Treatment is depleted. | [optional] 

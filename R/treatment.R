@@ -289,8 +289,8 @@ Treatment <- R6::R6Class(
         self$`temperature_units` <- `temperature_units`
       }
       if (!is.null(`treatment_type`)) {
-        if (!(`treatment_type` %in% c("chemical", "protein"))) {
-          stop(paste("Error! \"", `treatment_type`, "\" cannot be assigned to `treatment_type`. Must be \"chemical\", \"protein\".", sep = ""))
+        if (!(`treatment_type` %in% c("chemical", "protein", "thermal"))) {
+          stop(paste("Error! \"", `treatment_type`, "\" cannot be assigned to `treatment_type`. Must be \"chemical\", \"protein\", \"thermal\".", sep = ""))
         }
         if (!(is.character(`treatment_type`) && length(`treatment_type`) == 1)) {
           stop(paste("Error! Invalid data for `treatment_type`. Must be a string:", `treatment_type`))
@@ -599,8 +599,8 @@ Treatment <- R6::R6Class(
         self$`temperature_units` <- this_object$`temperature_units`
       }
       if (!is.null(this_object$`treatment_type`)) {
-        if (!is.null(this_object$`treatment_type`) && !(this_object$`treatment_type` %in% c("chemical", "protein"))) {
-          stop(paste("Error! \"", this_object$`treatment_type`, "\" cannot be assigned to `treatment_type`. Must be \"chemical\", \"protein\".", sep = ""))
+        if (!is.null(this_object$`treatment_type`) && !(this_object$`treatment_type` %in% c("chemical", "protein", "thermal"))) {
+          stop(paste("Error! \"", this_object$`treatment_type`, "\" cannot be assigned to `treatment_type`. Must be \"chemical\", \"protein\", \"thermal\".", sep = ""))
         }
         self$`treatment_type` <- this_object$`treatment_type`
       }
@@ -975,8 +975,8 @@ Treatment <- R6::R6Class(
         stop(paste("Error! \"", this_object$`temperature_units`, "\" cannot be assigned to `temperature_units`. Must be \"Celsius\".", sep = ""))
       }
       self$`temperature_units` <- this_object$`temperature_units`
-      if (!is.null(this_object$`treatment_type`) && !(this_object$`treatment_type` %in% c("chemical", "protein"))) {
-        stop(paste("Error! \"", this_object$`treatment_type`, "\" cannot be assigned to `treatment_type`. Must be \"chemical\", \"protein\".", sep = ""))
+      if (!is.null(this_object$`treatment_type`) && !(this_object$`treatment_type` %in% c("chemical", "protein", "thermal"))) {
+        stop(paste("Error! \"", this_object$`treatment_type`, "\" cannot be assigned to `treatment_type`. Must be \"chemical\", \"protein\", \"thermal\".", sep = ""))
       }
       self$`treatment_type` <- this_object$`treatment_type`
       self$`treatment_term_id` <- this_object$`treatment_term_id`

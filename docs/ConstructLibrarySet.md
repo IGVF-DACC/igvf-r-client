@@ -62,6 +62,7 @@ Name | Type | Description | Notes
 **construct_library_sets** | **set[character]** | The construct library sets associated with the samples of this file set. | [optional] 
 **data_use_limitation_summaries** | **set[character]** | The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
 **controlled_access** | **character** | The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
+**is_on_anvil** | **character** | Indicates whether this file set has been submitted to AnVIL. | [optional] 
 **samples** | **set[character]** | The samples this construct library set was applied to. | [optional] 
 **file_sets** | **set[character]** | The file sets that used this construct library set. | [optional] 
 **preferred_assay_titles** | **set[character]** | The preferred assay titles of the file sets that used this construct library set. | [optional] 

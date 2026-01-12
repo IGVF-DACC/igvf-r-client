@@ -106,6 +106,7 @@ R/publication_results.R
 R/reference_file.R
 R/reference_file_results.R
 R/related_donor.R
+R/related_measurement_set_group.R
 R/rna_seq_kb_info.R
 R/rodent_donor.R
 R/rodent_donor_results.R
@@ -247,6 +248,7 @@ docs/RNASeqKBInfo.md
 docs/ReferenceFile.md
 docs/ReferenceFileResults.md
 docs/RelatedDonor.md
+docs/RelatedMeasurementSetGroup.md
 docs/RodentDonor.md
 docs/RodentDonorResults.md
 docs/SampleTerm.md

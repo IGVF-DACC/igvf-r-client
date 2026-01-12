@@ -848,7 +848,7 @@ Workflow <- R6::R6Class(
     #' @return true if the values in all fields are valid.
     #' @export
     isValid = function() {
-      if (!str_detect(self$`source_url`, "^https?://(github\\.com/\\S+|support\\.parsebiosciences\\.com/\\S*)$")) {
+      if (!str_detect(self$`source_url`, "^https?://(github\\.com/\\S+|support\\.parsebiosciences\\.com/\\S*|www\\.10xgenomics\\.com/\\S*)$")) {
         return(FALSE)
       }
 
@@ -898,8 +898,8 @@ Workflow <- R6::R6Class(
     #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
-      if (!str_detect(self$`source_url`, "^https?://(github\\.com/\\S+|support\\.parsebiosciences\\.com/\\S*)$")) {
-        invalid_fields["source_url"] <- "Invalid value for `source_url`, must conform to the pattern ^https?://(github\\.com/\\S+|support\\.parsebiosciences\\.com/\\S*)$."
+      if (!str_detect(self$`source_url`, "^https?://(github\\.com/\\S+|support\\.parsebiosciences\\.com/\\S*|www\\.10xgenomics\\.com/\\S*)$")) {
+        invalid_fields["source_url"] <- "Invalid value for `source_url`, must conform to the pattern ^https?://(github\\.com/\\S+|support\\.parsebiosciences\\.com/\\S*|www\\.10xgenomics\\.com/\\S*)$."
       }
 
 

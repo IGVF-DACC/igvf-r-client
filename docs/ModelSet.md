@@ -49,6 +49,7 @@ Name | Type | Description | Notes
 **construct_library_sets** | **set[character]** | The construct library sets associated with the samples of this file set. | [optional] 
 **data_use_limitation_summaries** | **set[character]** | The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
 **controlled_access** | **character** | The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
+**is_on_anvil** | **character** | Indicates whether this file set has been submitted to AnVIL. | [optional] 
 **externally_hosted** | **character** |  | [optional] 
 **software_versions** | **set[character]** | The software versions used to produce this predictive model. | [optional] 
 

@@ -31,6 +31,7 @@ Name | Type | Description | Notes
 **phenotypic_features** | **set[character]** | A list of associated phenotypic features of the donor. | [optional] 
 **virtual** | **character** | Virtual donors are not representing actual human or model organism donors, samples coming from which were used in experiments, but rather capturing metadata about hypothetical donors that the reported analysis results are relevant for. | [optional] 
 **supersedes** | **set[character]** | The donor(s) that this donor supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. | [optional] 
+**is_on_anvil** | **character** | Indicates whether the donor has been submitted to AnVIL. | [optional] 
 **related_donors** | [**set[RelatedDonor]**](Related_Donor.md) | Familial relations of this donor. | [optional] 
 **ethnicities** | **set[character]** | Ethnicity of the donor. | [optional] [Enum: ] 
 **human_donor_identifiers** | **set[character]** | Identifiers of this human donor. | [optional] 

@@ -36,6 +36,7 @@
 #' @field phenotypic_features A list of associated phenotypic features of the donor. list(character) [optional]
 #' @field virtual Virtual donors are not representing actual human or model organism donors, samples coming from which were used in experiments, but rather capturing metadata about hypothetical donors that the reported analysis results are relevant for. character [optional]
 #' @field supersedes The donor(s) that this donor supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
+#' @field is_on_anvil Indicates whether the donor has been submitted to AnVIL. character [optional]
 #' @field strain_background The specific parent strain designation of a non-human donor. character [optional]
 #' @field strain The specific strain designation of a non-human donor. character [optional]
 #' @field genotype The genotype of the strain according to accepted nomenclature conventions. character [optional]
@@ -80,6 +81,7 @@ RodentDonor <- R6::R6Class(
     `phenotypic_features` = NULL,
     `virtual` = NULL,
     `supersedes` = NULL,
+    `is_on_anvil` = NULL,
     `strain_background` = NULL,
     `strain` = NULL,
     `genotype` = NULL,
@@ -123,6 +125,7 @@ RodentDonor <- R6::R6Class(
     #' @param phenotypic_features A list of associated phenotypic features of the donor.
     #' @param virtual Virtual donors are not representing actual human or model organism donors, samples coming from which were used in experiments, but rather capturing metadata about hypothetical donors that the reported analysis results are relevant for.
     #' @param supersedes The donor(s) that this donor supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
+    #' @param is_on_anvil Indicates whether the donor has been submitted to AnVIL.
     #' @param strain_background The specific parent strain designation of a non-human donor.
     #' @param strain The specific strain designation of a non-human donor.
     #' @param genotype The genotype of the strain according to accepted nomenclature conventions.
@@ -134,7 +137,7 @@ RodentDonor <- R6::R6Class(
     #' @param superseded_by Donor(s) this donor is superseded by virtue of those donor(s) being newer, better, or a fixed version of etc. than this one.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `taxa` = NULL, `publications` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `sex` = NULL, `phenotypic_features` = NULL, `virtual` = NULL, `supersedes` = NULL, `strain_background` = NULL, `strain` = NULL, `genotype` = NULL, `individual_rodent` = NULL, `rodent_identifier` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `superseded_by` = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `taxa` = NULL, `publications` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `sex` = NULL, `phenotypic_features` = NULL, `virtual` = NULL, `supersedes` = NULL, `is_on_anvil` = NULL, `strain_background` = NULL, `strain` = NULL, `genotype` = NULL, `individual_rodent` = NULL, `rodent_identifier` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `superseded_by` = NULL, ...) {
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -308,6 +311,12 @@ RodentDonor <- R6::R6Class(
         stopifnot(is.vector(`supersedes`), length(`supersedes`) != 0)
         sapply(`supersedes`, function(x) stopifnot(is.character(x)))
         self$`supersedes` <- `supersedes`
+      }
+      if (!is.null(`is_on_anvil`)) {
+        if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
+          stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
+        }
+        self$`is_on_anvil` <- `is_on_anvil`
       }
       if (!is.null(`strain_background`)) {
         if (!(`strain_background` %in% c("A/J (AJ)", "B6129S1F1/J", "B6AF1/J", "B6CASTF1/J", "B6NODF1/J", "B6NZOF1/J", "B6PWKF1/J", "B6WSBF1/J", "C57BL/6J (B6)", "129S1/SvImJ (129)", "NOD/ShiLtJ (NOD)", "NZO/H1LtJ (NZO)", "CAST/EiJ (CAST)", "PWK/PhJ (PWK)", "WSB/EiJ (WSB)", "CAST (M. m. castaneus)", "WSB (M. m. domesticus)", "PWK (M. m. musculus)", "CC001/Unc", "CC002/Unc", "CC003/Unc", "CC004/TauUnc", "CC005/TauUnc", "CC006/TauUnc", "CC007/Unc", "CC008/GeniUnc", "CC009/Unc", "CC010/GeniUnc", "CC011/Unc", "CC012/GeniUnc", "CC013/GeniUnc", "CC015/Unc", "CC017/Unc", "CC018/Unc", "CC024/GeniUnc", "CC025/GeniUnc", "CC028/GeniUnc", "CC029/Unc", "CC030/GeniUnc", "CC032/GeniUnc", "CC036/Unc", "CC037/TauUnc", "CC038/GeniUnc", "CC041/TauUnc", "CC043/GeniUnc", "CC055/TauUnc", "CC057/Unc", "CC060/Unc", "CC062/Unc", "CC065/Unc", "CC071/TauUnc", "CC074/Unc"))) {
@@ -490,6 +499,10 @@ RodentDonor <- R6::R6Class(
         RodentDonorObject[["supersedes"]] <-
           self$`supersedes`
       }
+      if (!is.null(self$`is_on_anvil`)) {
+        RodentDonorObject[["is_on_anvil"]] <-
+          self$`is_on_anvil`
+      }
       if (!is.null(self$`strain_background`)) {
         RodentDonorObject[["strain_background"]] <-
           self$`strain_background`
@@ -633,6 +646,9 @@ RodentDonor <- R6::R6Class(
       }
       if (!is.null(this_object$`supersedes`)) {
         self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`is_on_anvil`)) {
+        self$`is_on_anvil` <- this_object$`is_on_anvil`
       }
       if (!is.null(this_object$`strain_background`)) {
         if (!is.null(this_object$`strain_background`) && !(this_object$`strain_background` %in% c("A/J (AJ)", "B6129S1F1/J", "B6AF1/J", "B6CASTF1/J", "B6NODF1/J", "B6NZOF1/J", "B6PWKF1/J", "B6WSBF1/J", "C57BL/6J (B6)", "129S1/SvImJ (129)", "NOD/ShiLtJ (NOD)", "NZO/H1LtJ (NZO)", "CAST/EiJ (CAST)", "PWK/PhJ (PWK)", "WSB/EiJ (WSB)", "CAST (M. m. castaneus)", "WSB (M. m. domesticus)", "PWK (M. m. musculus)", "CC001/Unc", "CC002/Unc", "CC003/Unc", "CC004/TauUnc", "CC005/TauUnc", "CC006/TauUnc", "CC007/Unc", "CC008/GeniUnc", "CC009/Unc", "CC010/GeniUnc", "CC011/Unc", "CC012/GeniUnc", "CC013/GeniUnc", "CC015/Unc", "CC017/Unc", "CC018/Unc", "CC024/GeniUnc", "CC025/GeniUnc", "CC028/GeniUnc", "CC029/Unc", "CC030/GeniUnc", "CC032/GeniUnc", "CC036/Unc", "CC037/TauUnc", "CC038/GeniUnc", "CC041/TauUnc", "CC043/GeniUnc", "CC055/TauUnc", "CC057/Unc", "CC060/Unc", "CC062/Unc", "CC065/Unc", "CC071/TauUnc", "CC074/Unc"))) {
@@ -907,6 +923,14 @@ RodentDonor <- R6::R6Class(
           paste(unlist(lapply(self$`supersedes`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`is_on_anvil`)) {
+          sprintf(
+          '"is_on_anvil":
+            %s
+                    ',
+          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`is_on_anvil`, perl=TRUE))
+          )
+        },
         if (!is.null(self$`strain_background`)) {
           sprintf(
           '"strain_background":
@@ -1031,6 +1055,7 @@ RodentDonor <- R6::R6Class(
       self$`phenotypic_features` <- ApiClient$new()$deserializeObj(this_object$`phenotypic_features`, "set[character]", loadNamespace("igvfclient"))
       self$`virtual` <- this_object$`virtual`
       self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
+      self$`is_on_anvil` <- this_object$`is_on_anvil`
       if (!is.null(this_object$`strain_background`) && !(this_object$`strain_background` %in% c("A/J (AJ)", "B6129S1F1/J", "B6AF1/J", "B6CASTF1/J", "B6NODF1/J", "B6NZOF1/J", "B6PWKF1/J", "B6WSBF1/J", "C57BL/6J (B6)", "129S1/SvImJ (129)", "NOD/ShiLtJ (NOD)", "NZO/H1LtJ (NZO)", "CAST/EiJ (CAST)", "PWK/PhJ (PWK)", "WSB/EiJ (WSB)", "CAST (M. m. castaneus)", "WSB (M. m. domesticus)", "PWK (M. m. musculus)", "CC001/Unc", "CC002/Unc", "CC003/Unc", "CC004/TauUnc", "CC005/TauUnc", "CC006/TauUnc", "CC007/Unc", "CC008/GeniUnc", "CC009/Unc", "CC010/GeniUnc", "CC011/Unc", "CC012/GeniUnc", "CC013/GeniUnc", "CC015/Unc", "CC017/Unc", "CC018/Unc", "CC024/GeniUnc", "CC025/GeniUnc", "CC028/GeniUnc", "CC029/Unc", "CC030/GeniUnc", "CC032/GeniUnc", "CC036/Unc", "CC037/TauUnc", "CC038/GeniUnc", "CC041/TauUnc", "CC043/GeniUnc", "CC055/TauUnc", "CC057/Unc", "CC060/Unc", "CC062/Unc", "CC065/Unc", "CC071/TauUnc", "CC074/Unc"))) {
         stop(paste("Error! \"", this_object$`strain_background`, "\" cannot be assigned to `strain_background`. Must be \"A/J (AJ)\", \"B6129S1F1/J\", \"B6AF1/J\", \"B6CASTF1/J\", \"B6NODF1/J\", \"B6NZOF1/J\", \"B6PWKF1/J\", \"B6WSBF1/J\", \"C57BL/6J (B6)\", \"129S1/SvImJ (129)\", \"NOD/ShiLtJ (NOD)\", \"NZO/H1LtJ (NZO)\", \"CAST/EiJ (CAST)\", \"PWK/PhJ (PWK)\", \"WSB/EiJ (WSB)\", \"CAST (M. m. castaneus)\", \"WSB (M. m. domesticus)\", \"PWK (M. m. musculus)\", \"CC001/Unc\", \"CC002/Unc\", \"CC003/Unc\", \"CC004/TauUnc\", \"CC005/TauUnc\", \"CC006/TauUnc\", \"CC007/Unc\", \"CC008/GeniUnc\", \"CC009/Unc\", \"CC010/GeniUnc\", \"CC011/Unc\", \"CC012/GeniUnc\", \"CC013/GeniUnc\", \"CC015/Unc\", \"CC017/Unc\", \"CC018/Unc\", \"CC024/GeniUnc\", \"CC025/GeniUnc\", \"CC028/GeniUnc\", \"CC029/Unc\", \"CC030/GeniUnc\", \"CC032/GeniUnc\", \"CC036/Unc\", \"CC037/TauUnc\", \"CC038/GeniUnc\", \"CC041/TauUnc\", \"CC043/GeniUnc\", \"CC055/TauUnc\", \"CC057/Unc\", \"CC060/Unc\", \"CC062/Unc\", \"CC065/Unc\", \"CC071/TauUnc\", \"CC074/Unc\".", sep = ""))
       }
