@@ -7,6 +7,7 @@
 #' @title ModelSet
 #' @description ModelSet Class
 #' @format An \code{R6Class} generator object
+#' @field doi The Digital Object Identifier (DOI) associated with this object. character [optional]
 #' @field preferred_assay_titles The assay(s) that served as input tranining data for the derivation of this model set. list(character) [optional]
 #' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field input_file_sets The file set(s) that served as input training data for the derivation of this model set. list(character) [optional]
@@ -51,7 +52,6 @@
 #' @field construct_library_sets The construct library sets associated with the samples of this file set. list(character) [optional]
 #' @field data_use_limitation_summaries The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. list(character) [optional]
 #' @field controlled_access The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. character [optional]
-#' @field is_on_anvil Indicates whether this file set has been submitted to AnVIL. character [optional]
 #' @field externally_hosted  character [optional]
 #' @field software_versions The software versions used to produce this predictive model. list(character) [optional]
 #' @importFrom R6 R6Class
@@ -60,6 +60,7 @@
 ModelSet <- R6::R6Class(
   "ModelSet",
   public = list(
+    `doi` = NULL,
     `preferred_assay_titles` = NULL,
     `preview_timestamp` = NULL,
     `input_file_sets` = NULL,
@@ -104,7 +105,6 @@ ModelSet <- R6::R6Class(
     `construct_library_sets` = NULL,
     `data_use_limitation_summaries` = NULL,
     `controlled_access` = NULL,
-    `is_on_anvil` = NULL,
     `externally_hosted` = NULL,
     `software_versions` = NULL,
     #' Initialize a new ModelSet class.
@@ -112,6 +112,7 @@ ModelSet <- R6::R6Class(
     #' @description
     #' Initialize a new ModelSet class.
     #'
+    #' @param doi The Digital Object Identifier (DOI) associated with this object.
     #' @param preferred_assay_titles The assay(s) that served as input tranining data for the derivation of this model set.
     #' @param preview_timestamp The date the object was previewed.
     #' @param input_file_sets The file set(s) that served as input training data for the derivation of this model set.
@@ -156,12 +157,17 @@ ModelSet <- R6::R6Class(
     #' @param construct_library_sets The construct library sets associated with the samples of this file set.
     #' @param data_use_limitation_summaries The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set.
     #' @param controlled_access The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set.
-    #' @param is_on_anvil Indicates whether this file set has been submitted to AnVIL.
     #' @param externally_hosted externally_hosted
     #' @param software_versions The software versions used to produce this predictive model.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preferred_assay_titles` = NULL, `preview_timestamp` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `model_name` = NULL, `model_version` = NULL, `prediction_objects` = NULL, `model_zoo_location` = NULL, `assessed_genes` = NULL, `external_input_data` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `is_on_anvil` = NULL, `externally_hosted` = NULL, `software_versions` = NULL, ...) {
+    initialize = function(`doi` = NULL, `preferred_assay_titles` = NULL, `preview_timestamp` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `model_name` = NULL, `model_version` = NULL, `prediction_objects` = NULL, `model_zoo_location` = NULL, `assessed_genes` = NULL, `external_input_data` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `externally_hosted` = NULL, `software_versions` = NULL, ...) {
+      if (!is.null(`doi`)) {
+        if (!(is.character(`doi`) && length(`doi`) == 1)) {
+          stop(paste("Error! Invalid data for `doi`. Must be a string:", `doi`))
+        }
+        self$`doi` <- `doi`
+      }
       if (!is.null(`preferred_assay_titles`)) {
         stopifnot(is.vector(`preferred_assay_titles`), length(`preferred_assay_titles`) != 0)
         sapply(`preferred_assay_titles`, function(x) stopifnot(is.character(x)))
@@ -412,12 +418,6 @@ ModelSet <- R6::R6Class(
         }
         self$`controlled_access` <- `controlled_access`
       }
-      if (!is.null(`is_on_anvil`)) {
-        if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
-          stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
-        }
-        self$`is_on_anvil` <- `is_on_anvil`
-      }
       if (!is.null(`externally_hosted`)) {
         if (!(is.logical(`externally_hosted`) && length(`externally_hosted`) == 1)) {
           stop(paste("Error! Invalid data for `externally_hosted`. Must be a boolean:", `externally_hosted`))
@@ -439,6 +439,10 @@ ModelSet <- R6::R6Class(
     #' @export
     toJSON = function() {
       ModelSetObject <- list()
+      if (!is.null(self$`doi`)) {
+        ModelSetObject[["doi"]] <-
+          self$`doi`
+      }
       if (!is.null(self$`preferred_assay_titles`)) {
         ModelSetObject[["preferred_assay_titles"]] <-
           self$`preferred_assay_titles`
@@ -615,10 +619,6 @@ ModelSet <- R6::R6Class(
         ModelSetObject[["controlled_access"]] <-
           self$`controlled_access`
       }
-      if (!is.null(self$`is_on_anvil`)) {
-        ModelSetObject[["is_on_anvil"]] <-
-          self$`is_on_anvil`
-      }
       if (!is.null(self$`externally_hosted`)) {
         ModelSetObject[["externally_hosted"]] <-
           self$`externally_hosted`
@@ -639,6 +639,9 @@ ModelSet <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`doi`)) {
+        self$`doi` <- this_object$`doi`
+      }
       if (!is.null(this_object$`preferred_assay_titles`)) {
         self$`preferred_assay_titles` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_titles`, "array[character]", loadNamespace("igvfclient"))
       }
@@ -777,9 +780,6 @@ ModelSet <- R6::R6Class(
       if (!is.null(this_object$`controlled_access`)) {
         self$`controlled_access` <- this_object$`controlled_access`
       }
-      if (!is.null(this_object$`is_on_anvil`)) {
-        self$`is_on_anvil` <- this_object$`is_on_anvil`
-      }
       if (!is.null(this_object$`externally_hosted`)) {
         self$`externally_hosted` <- this_object$`externally_hosted`
       }
@@ -797,6 +797,14 @@ ModelSet <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`doi`)) {
+          sprintf(
+          '"doi":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`doi`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`preferred_assay_titles`)) {
           sprintf(
           '"preferred_assay_titles":
@@ -1149,14 +1157,6 @@ ModelSet <- R6::R6Class(
           tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`controlled_access`, perl=TRUE))
           )
         },
-        if (!is.null(self$`is_on_anvil`)) {
-          sprintf(
-          '"is_on_anvil":
-            %s
-                    ',
-          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`is_on_anvil`, perl=TRUE))
-          )
-        },
         if (!is.null(self$`externally_hosted`)) {
           sprintf(
           '"externally_hosted":
@@ -1187,6 +1187,7 @@ ModelSet <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`doi` <- this_object$`doi`
       self$`preferred_assay_titles` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_titles`, "array[character]", loadNamespace("igvfclient"))
       self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`input_file_sets` <- ApiClient$new()$deserializeObj(this_object$`input_file_sets`, "set[character]", loadNamespace("igvfclient"))
@@ -1237,7 +1238,6 @@ ModelSet <- R6::R6Class(
       self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`data_use_limitation_summaries` <- ApiClient$new()$deserializeObj(this_object$`data_use_limitation_summaries`, "set[character]", loadNamespace("igvfclient"))
       self$`controlled_access` <- this_object$`controlled_access`
-      self$`is_on_anvil` <- this_object$`is_on_anvil`
       self$`externally_hosted` <- this_object$`externally_hosted`
       self$`software_versions` <- ApiClient$new()$deserializeObj(this_object$`software_versions`, "set[character]", loadNamespace("igvfclient"))
       self
@@ -1270,6 +1270,10 @@ ModelSet <- R6::R6Class(
     #' @return true if the values in all fields are valid.
     #' @export
     isValid = function() {
+      if (!str_detect(self$`doi`, "^(10.65695/IGVFDS\\d{4}[A-Z]{4})$")) {
+        return(FALSE)
+      }
+
 
 
 
@@ -1328,6 +1332,10 @@ ModelSet <- R6::R6Class(
     #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
+      if (!str_detect(self$`doi`, "^(10.65695/IGVFDS\\d{4}[A-Z]{4})$")) {
+        invalid_fields["doi"] <- "Invalid value for `doi`, must conform to the pattern ^(10.65695/IGVFDS\\d{4}[A-Z]{4})$."
+      }
+
 
 
 

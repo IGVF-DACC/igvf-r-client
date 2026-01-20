@@ -5,6 +5,7 @@ Auxiliary set is a file set that hosts raw data files (e.g. FASTQs) resulting fr
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**doi** | **character** | The Digital Object Identifier (DOI) associated with this object. | [optional] [Pattern: ^(10.65695/IGVFDS\\d{4}[A-Z]{4})$] 
 **preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **publications** | **set[character]** | The publications associated with this object. | [optional] 
@@ -42,7 +43,6 @@ Name | Type | Description | Notes
 **construct_library_sets** | **set[character]** | The construct library sets associated with the samples of this file set. | [optional] 
 **data_use_limitation_summaries** | **set[character]** | The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
 **controlled_access** | **character** | The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
-**is_on_anvil** | **character** | Indicates whether this file set has been submitted to AnVIL. | [optional] 
 **measurement_sets** | **set[character]** | The measurement sets that link to this auxiliary set. | [optional] 
 **preferred_assay_titles** | **set[character]** | The preferred assay titles of the measurement sets that used this auxiliary set. | [optional] 
 **assay_titles** | **set[character]** | Ontology term names from Ontology of Biomedical Investigations (OBI) for assays | [optional] 

@@ -58,7 +58,6 @@
 #' @field origin_of The samples which originate from this sample, such as through a process of cell differentiation. list(character) [optional]
 #' @field institutional_certificates The institutional certificates under which use of this sample is approved. list(character) [optional]
 #' @field superseded_by Sample(s) this sample is superseded by virtue of those sample(s) being newer, better, or a fixed version of etc. than this one. list(character) [optional]
-#' @field is_on_anvil Indicates whether the sample has been submitted to AnVIL. character [optional]
 #' @field classifications The general category of this type of sample. list(character) [optional]
 #' @field parts The parts into which this sample has been divided. list(character) [optional]
 #' @importFrom R6 R6Class
@@ -118,7 +117,6 @@ TechnicalSample <- R6::R6Class(
     `origin_of` = NULL,
     `institutional_certificates` = NULL,
     `superseded_by` = NULL,
-    `is_on_anvil` = NULL,
     `classifications` = NULL,
     `parts` = NULL,
     #' Initialize a new TechnicalSample class.
@@ -177,12 +175,11 @@ TechnicalSample <- R6::R6Class(
     #' @param origin_of The samples which originate from this sample, such as through a process of cell differentiation.
     #' @param institutional_certificates The institutional certificates under which use of this sample is approved.
     #' @param superseded_by Sample(s) this sample is superseded by virtue of those sample(s) being newer, better, or a fixed version of etc. than this one.
-    #' @param is_on_anvil Indicates whether the sample has been submitted to AnVIL.
     #' @param classifications The general category of this type of sample.
     #' @param parts The parts into which this sample has been divided.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `sample_material` = NULL, `taxa` = NULL, `sample_terms` = NULL, `treatments` = NULL, `part_of` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `is_on_anvil` = NULL, `classifications` = NULL, `parts` = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `sample_material` = NULL, `taxa` = NULL, `sample_terms` = NULL, `treatments` = NULL, `part_of` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `classifications` = NULL, `parts` = NULL, ...) {
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -368,8 +365,8 @@ TechnicalSample <- R6::R6Class(
         self$`moi` <- `moi`
       }
       if (!is.null(`nucleic_acid_delivery`)) {
-        if (!(`nucleic_acid_delivery` %in% c("adenoviral transduction", "lipofectamine", "electroporation", "lentiviral transduction", "transfection", "nucleofection"))) {
-          stop(paste("Error! \"", `nucleic_acid_delivery`, "\" cannot be assigned to `nucleic_acid_delivery`. Must be \"adenoviral transduction\", \"lipofectamine\", \"electroporation\", \"lentiviral transduction\", \"transfection\", \"nucleofection\".", sep = ""))
+        if (!(`nucleic_acid_delivery` %in% c("adenoviral transduction", "lipofectamine", "electroporation", "lentiviral transduction", "transfection", "transformation", "nucleofection"))) {
+          stop(paste("Error! \"", `nucleic_acid_delivery`, "\" cannot be assigned to `nucleic_acid_delivery`. Must be \"adenoviral transduction\", \"lipofectamine\", \"electroporation\", \"lentiviral transduction\", \"transfection\", \"transformation\", \"nucleofection\".", sep = ""))
         }
         if (!(is.character(`nucleic_acid_delivery`) && length(`nucleic_acid_delivery`) == 1)) {
           stop(paste("Error! Invalid data for `nucleic_acid_delivery`. Must be a string:", `nucleic_acid_delivery`))
@@ -478,12 +475,6 @@ TechnicalSample <- R6::R6Class(
         stopifnot(is.vector(`superseded_by`), length(`superseded_by`) != 0)
         sapply(`superseded_by`, function(x) stopifnot(is.character(x)))
         self$`superseded_by` <- `superseded_by`
-      }
-      if (!is.null(`is_on_anvil`)) {
-        if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
-          stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
-        }
-        self$`is_on_anvil` <- `is_on_anvil`
       }
       if (!is.null(`classifications`)) {
         stopifnot(is.vector(`classifications`), length(`classifications`) != 0)
@@ -709,10 +700,6 @@ TechnicalSample <- R6::R6Class(
         TechnicalSampleObject[["superseded_by"]] <-
           self$`superseded_by`
       }
-      if (!is.null(self$`is_on_anvil`)) {
-        TechnicalSampleObject[["is_on_anvil"]] <-
-          self$`is_on_anvil`
-      }
       if (!is.null(self$`classifications`)) {
         TechnicalSampleObject[["classifications"]] <-
           self$`classifications`
@@ -836,8 +823,8 @@ TechnicalSample <- R6::R6Class(
         self$`moi` <- this_object$`moi`
       }
       if (!is.null(this_object$`nucleic_acid_delivery`)) {
-        if (!is.null(this_object$`nucleic_acid_delivery`) && !(this_object$`nucleic_acid_delivery` %in% c("adenoviral transduction", "lipofectamine", "electroporation", "lentiviral transduction", "transfection", "nucleofection"))) {
-          stop(paste("Error! \"", this_object$`nucleic_acid_delivery`, "\" cannot be assigned to `nucleic_acid_delivery`. Must be \"adenoviral transduction\", \"lipofectamine\", \"electroporation\", \"lentiviral transduction\", \"transfection\", \"nucleofection\".", sep = ""))
+        if (!is.null(this_object$`nucleic_acid_delivery`) && !(this_object$`nucleic_acid_delivery` %in% c("adenoviral transduction", "lipofectamine", "electroporation", "lentiviral transduction", "transfection", "transformation", "nucleofection"))) {
+          stop(paste("Error! \"", this_object$`nucleic_acid_delivery`, "\" cannot be assigned to `nucleic_acid_delivery`. Must be \"adenoviral transduction\", \"lipofectamine\", \"electroporation\", \"lentiviral transduction\", \"transfection\", \"transformation\", \"nucleofection\".", sep = ""))
         }
         self$`nucleic_acid_delivery` <- this_object$`nucleic_acid_delivery`
       }
@@ -903,9 +890,6 @@ TechnicalSample <- R6::R6Class(
       }
       if (!is.null(this_object$`superseded_by`)) {
         self$`superseded_by` <- ApiClient$new()$deserializeObj(this_object$`superseded_by`, "set[character]", loadNamespace("igvfclient"))
-      }
-      if (!is.null(this_object$`is_on_anvil`)) {
-        self$`is_on_anvil` <- this_object$`is_on_anvil`
       }
       if (!is.null(this_object$`classifications`)) {
         self$`classifications` <- ApiClient$new()$deserializeObj(this_object$`classifications`, "set[character]", loadNamespace("igvfclient"))
@@ -1332,14 +1316,6 @@ TechnicalSample <- R6::R6Class(
           paste(unlist(lapply(self$`superseded_by`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
-        if (!is.null(self$`is_on_anvil`)) {
-          sprintf(
-          '"is_on_anvil":
-            %s
-                    ',
-          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`is_on_anvil`, perl=TRUE))
-          )
-        },
         if (!is.null(self$`classifications`)) {
           sprintf(
           '"classifications":
@@ -1408,8 +1384,8 @@ TechnicalSample <- R6::R6Class(
       self$`virtual` <- this_object$`virtual`
       self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`moi` <- this_object$`moi`
-      if (!is.null(this_object$`nucleic_acid_delivery`) && !(this_object$`nucleic_acid_delivery` %in% c("adenoviral transduction", "lipofectamine", "electroporation", "lentiviral transduction", "transfection", "nucleofection"))) {
-        stop(paste("Error! \"", this_object$`nucleic_acid_delivery`, "\" cannot be assigned to `nucleic_acid_delivery`. Must be \"adenoviral transduction\", \"lipofectamine\", \"electroporation\", \"lentiviral transduction\", \"transfection\", \"nucleofection\".", sep = ""))
+      if (!is.null(this_object$`nucleic_acid_delivery`) && !(this_object$`nucleic_acid_delivery` %in% c("adenoviral transduction", "lipofectamine", "electroporation", "lentiviral transduction", "transfection", "transformation", "nucleofection"))) {
+        stop(paste("Error! \"", this_object$`nucleic_acid_delivery`, "\" cannot be assigned to `nucleic_acid_delivery`. Must be \"adenoviral transduction\", \"lipofectamine\", \"electroporation\", \"lentiviral transduction\", \"transfection\", \"transformation\", \"nucleofection\".", sep = ""))
       }
       self$`nucleic_acid_delivery` <- this_object$`nucleic_acid_delivery`
       self$`time_post_library_delivery` <- this_object$`time_post_library_delivery`
@@ -1439,7 +1415,6 @@ TechnicalSample <- R6::R6Class(
       self$`origin_of` <- ApiClient$new()$deserializeObj(this_object$`origin_of`, "set[character]", loadNamespace("igvfclient"))
       self$`institutional_certificates` <- ApiClient$new()$deserializeObj(this_object$`institutional_certificates`, "set[character]", loadNamespace("igvfclient"))
       self$`superseded_by` <- ApiClient$new()$deserializeObj(this_object$`superseded_by`, "set[character]", loadNamespace("igvfclient"))
-      self$`is_on_anvil` <- this_object$`is_on_anvil`
       self$`classifications` <- ApiClient$new()$deserializeObj(this_object$`classifications`, "set[character]", loadNamespace("igvfclient"))
       self$`parts` <- ApiClient$new()$deserializeObj(this_object$`parts`, "set[character]", loadNamespace("igvfclient"))
       self

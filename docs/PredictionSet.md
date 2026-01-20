@@ -5,6 +5,7 @@ A file set of computational predictions. Prediction sets contain results of anal
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**doi** | **character** | The Digital Object Identifier (DOI) associated with this object. | [optional] [Pattern: ^(10.65695/IGVFDS\\d{4}[A-Z]{4})$] 
 **preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **input_file_sets** | **set[character]** | The file set(s) required for this prediction set. | [optional] 
 **small_scale_loci_list** | [**set[Locus1]**](Locus_1.md) | A small scale (&lt;&#x3D;100) list of specific chromosomal region(s) whose functionality is investigated in this prediction set. This property describes the input variables of the prediction set. For example, this list consists of the genetic variants whose functionality is predicted in this prediction set. | [optional] 
@@ -49,7 +50,6 @@ Name | Type | Description | Notes
 **construct_library_sets** | **set[character]** | The construct library sets associated with the samples of this file set. | [optional] 
 **data_use_limitation_summaries** | **set[character]** | The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
 **controlled_access** | **character** | The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
-**is_on_anvil** | **character** | Indicates whether this file set has been submitted to AnVIL. | [optional] 
 **software_versions** | **set[character]** | The software versions used to produce this prediction. | [optional] 
 
 

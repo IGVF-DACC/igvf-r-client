@@ -7,6 +7,7 @@
 #' @title MeasurementSet
 #' @description MeasurementSet Class
 #' @format An \code{R6Class} generator object
+#' @field doi The Digital Object Identifier (DOI) associated with this object. character [optional]
 #' @field preferred_assay_titles The custom lab preferred label for the experiment performed. list(character) [optional]
 #' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field control_file_sets File sets that can serve as scientific controls for this file set. list(character) [optional]
@@ -59,7 +60,6 @@
 #' @field construct_library_sets The construct library sets associated with the samples of this file set. list(character) [optional]
 #' @field data_use_limitation_summaries The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. list(character) [optional]
 #' @field controlled_access The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. character [optional]
-#' @field is_on_anvil Indicates whether this file set has been submitted to AnVIL. character [optional]
 #' @field assay_titles Ontology term names from Ontology of Biomedical Investigations (OBI) for assays list(character) [optional]
 #' @field related_measurement_sets Measurement sets related to this one, grouped by relationship type. list(\link{RelatedMeasurementSetGroup}) [optional]
 #' @field externally_hosted  character [optional]
@@ -72,6 +72,7 @@ MeasurementSet <- R6::R6Class(
   "MeasurementSet",
   inherit = AnyType,
   public = list(
+    `doi` = NULL,
     `preferred_assay_titles` = NULL,
     `preview_timestamp` = NULL,
     `control_file_sets` = NULL,
@@ -124,17 +125,17 @@ MeasurementSet <- R6::R6Class(
     `construct_library_sets` = NULL,
     `data_use_limitation_summaries` = NULL,
     `controlled_access` = NULL,
-    `is_on_anvil` = NULL,
     `assay_titles` = NULL,
     `related_measurement_sets` = NULL,
     `externally_hosted` = NULL,
-    `_field_list` = c("preferred_assay_titles", "preview_timestamp", "control_file_sets", "release_timestamp", "publications", "documents", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "dbxrefs", "samples", "donors", "file_set_type", "supersedes", "assay_term", "protocols", "multiome_size", "control_types", "sequencing_library_types", "primer_designs", "strand_specificity", "auxiliary_sets", "external_image_urls", "targeted_genes", "functional_assay_mechanisms", "onlist_method", "onlist_files", "barcode_replacement_file", "library_preparation_kit", "@id", "@type", "summary", "files", "control_for", "superseded_by", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access", "is_on_anvil", "assay_titles", "related_measurement_sets", "externally_hosted"),
+    `_field_list` = c("doi", "preferred_assay_titles", "preview_timestamp", "control_file_sets", "release_timestamp", "publications", "documents", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "dbxrefs", "samples", "donors", "file_set_type", "supersedes", "assay_term", "protocols", "multiome_size", "control_types", "sequencing_library_types", "primer_designs", "strand_specificity", "auxiliary_sets", "external_image_urls", "targeted_genes", "functional_assay_mechanisms", "onlist_method", "onlist_files", "barcode_replacement_file", "library_preparation_kit", "@id", "@type", "summary", "files", "control_for", "superseded_by", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access", "assay_titles", "related_measurement_sets", "externally_hosted"),
     `additional_properties` = list(),
     #' Initialize a new MeasurementSet class.
     #'
     #' @description
     #' Initialize a new MeasurementSet class.
     #'
+    #' @param doi The Digital Object Identifier (DOI) associated with this object.
     #' @param preferred_assay_titles The custom lab preferred label for the experiment performed.
     #' @param preview_timestamp The date the object was previewed.
     #' @param control_file_sets File sets that can serve as scientific controls for this file set.
@@ -187,14 +188,19 @@ MeasurementSet <- R6::R6Class(
     #' @param construct_library_sets The construct library sets associated with the samples of this file set.
     #' @param data_use_limitation_summaries The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set.
     #' @param controlled_access The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set.
-    #' @param is_on_anvil Indicates whether this file set has been submitted to AnVIL.
     #' @param assay_titles Ontology term names from Ontology of Biomedical Investigations (OBI) for assays
     #' @param related_measurement_sets Measurement sets related to this one, grouped by relationship type.
     #' @param externally_hosted externally_hosted
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preferred_assay_titles` = NULL, `preview_timestamp` = NULL, `control_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `assay_term` = NULL, `protocols` = NULL, `multiome_size` = NULL, `control_types` = NULL, `sequencing_library_types` = NULL, `primer_designs` = NULL, `strand_specificity` = NULL, `auxiliary_sets` = NULL, `external_image_urls` = NULL, `targeted_genes` = NULL, `functional_assay_mechanisms` = NULL, `onlist_method` = NULL, `onlist_files` = NULL, `barcode_replacement_file` = NULL, `library_preparation_kit` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `is_on_anvil` = NULL, `assay_titles` = NULL, `related_measurement_sets` = NULL, `externally_hosted` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`doi` = NULL, `preferred_assay_titles` = NULL, `preview_timestamp` = NULL, `control_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `assay_term` = NULL, `protocols` = NULL, `multiome_size` = NULL, `control_types` = NULL, `sequencing_library_types` = NULL, `primer_designs` = NULL, `strand_specificity` = NULL, `auxiliary_sets` = NULL, `external_image_urls` = NULL, `targeted_genes` = NULL, `functional_assay_mechanisms` = NULL, `onlist_method` = NULL, `onlist_files` = NULL, `barcode_replacement_file` = NULL, `library_preparation_kit` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `assay_titles` = NULL, `related_measurement_sets` = NULL, `externally_hosted` = NULL, additional_properties = NULL, ...) {
+      if (!is.null(`doi`)) {
+        if (!(is.character(`doi`) && length(`doi`) == 1)) {
+          stop(paste("Error! Invalid data for `doi`. Must be a string:", `doi`))
+        }
+        self$`doi` <- `doi`
+      }
       if (!is.null(`preferred_assay_titles`)) {
         stopifnot(is.vector(`preferred_assay_titles`), length(`preferred_assay_titles`) != 0)
         sapply(`preferred_assay_titles`, function(x) stopifnot(is.character(x)))
@@ -495,12 +501,6 @@ MeasurementSet <- R6::R6Class(
         }
         self$`controlled_access` <- `controlled_access`
       }
-      if (!is.null(`is_on_anvil`)) {
-        if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
-          stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
-        }
-        self$`is_on_anvil` <- `is_on_anvil`
-      }
       if (!is.null(`assay_titles`)) {
         stopifnot(is.vector(`assay_titles`), length(`assay_titles`) != 0)
         sapply(`assay_titles`, function(x) stopifnot(is.character(x)))
@@ -532,6 +532,10 @@ MeasurementSet <- R6::R6Class(
     #' @export
     toJSON = function() {
       MeasurementSetObject <- list()
+      if (!is.null(self$`doi`)) {
+        MeasurementSetObject[["doi"]] <-
+          self$`doi`
+      }
       if (!is.null(self$`preferred_assay_titles`)) {
         MeasurementSetObject[["preferred_assay_titles"]] <-
           self$`preferred_assay_titles`
@@ -740,10 +744,6 @@ MeasurementSet <- R6::R6Class(
         MeasurementSetObject[["controlled_access"]] <-
           self$`controlled_access`
       }
-      if (!is.null(self$`is_on_anvil`)) {
-        MeasurementSetObject[["is_on_anvil"]] <-
-          self$`is_on_anvil`
-      }
       if (!is.null(self$`assay_titles`)) {
         MeasurementSetObject[["assay_titles"]] <-
           self$`assay_titles`
@@ -772,6 +772,9 @@ MeasurementSet <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`doi`)) {
+        self$`doi` <- this_object$`doi`
+      }
       if (!is.null(this_object$`preferred_assay_titles`)) {
         self$`preferred_assay_titles` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_titles`, "array[character]", loadNamespace("igvfclient"))
       }
@@ -943,9 +946,6 @@ MeasurementSet <- R6::R6Class(
       if (!is.null(this_object$`controlled_access`)) {
         self$`controlled_access` <- this_object$`controlled_access`
       }
-      if (!is.null(this_object$`is_on_anvil`)) {
-        self$`is_on_anvil` <- this_object$`is_on_anvil`
-      }
       if (!is.null(this_object$`assay_titles`)) {
         self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "array[character]", loadNamespace("igvfclient"))
       }
@@ -973,6 +973,14 @@ MeasurementSet <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`doi`)) {
+          sprintf(
+          '"doi":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`doi`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`preferred_assay_titles`)) {
           sprintf(
           '"preferred_assay_titles":
@@ -1389,14 +1397,6 @@ MeasurementSet <- R6::R6Class(
           tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`controlled_access`, perl=TRUE))
           )
         },
-        if (!is.null(self$`is_on_anvil`)) {
-          sprintf(
-          '"is_on_anvil":
-            %s
-                    ',
-          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`is_on_anvil`, perl=TRUE))
-          )
-        },
         if (!is.null(self$`assay_titles`)) {
           sprintf(
           '"assay_titles":
@@ -1440,6 +1440,7 @@ MeasurementSet <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`doi` <- this_object$`doi`
       self$`preferred_assay_titles` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_titles`, "array[character]", loadNamespace("igvfclient"))
       self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`control_file_sets` <- ApiClient$new()$deserializeObj(this_object$`control_file_sets`, "set[character]", loadNamespace("igvfclient"))
@@ -1507,7 +1508,6 @@ MeasurementSet <- R6::R6Class(
       self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`data_use_limitation_summaries` <- ApiClient$new()$deserializeObj(this_object$`data_use_limitation_summaries`, "set[character]", loadNamespace("igvfclient"))
       self$`controlled_access` <- this_object$`controlled_access`
-      self$`is_on_anvil` <- this_object$`is_on_anvil`
       self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "array[character]", loadNamespace("igvfclient"))
       self$`related_measurement_sets` <- ApiClient$new()$deserializeObj(this_object$`related_measurement_sets`, "set[RelatedMeasurementSetGroup]", loadNamespace("igvfclient"))
       self$`externally_hosted` <- this_object$`externally_hosted`
@@ -1548,6 +1548,10 @@ MeasurementSet <- R6::R6Class(
     #' @return true if the values in all fields are valid.
     #' @export
     isValid = function() {
+      if (!str_detect(self$`doi`, "^(10.65695/IGVFDS\\d{4}[A-Z]{4})$")) {
+        return(FALSE)
+      }
+
 
 
 
@@ -1608,6 +1612,10 @@ MeasurementSet <- R6::R6Class(
     #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
+      if (!str_detect(self$`doi`, "^(10.65695/IGVFDS\\d{4}[A-Z]{4})$")) {
+        invalid_fields["doi"] <- "Invalid value for `doi`, must conform to the pattern ^(10.65695/IGVFDS\\d{4}[A-Z]{4})$."
+      }
+
 
 
 

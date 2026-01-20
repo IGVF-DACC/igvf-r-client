@@ -5,6 +5,7 @@ A file set for analyses. Analysis sets represent the results of a computational 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**doi** | **character** | The Digital Object Identifier (DOI) associated with this object. | [optional] [Pattern: ^(10.65695/IGVFDS\\d{4}[A-Z]{4})$] 
 **preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **input_file_sets** | **set[character]** | The file set(s) required for this analysis. | [optional] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
@@ -45,7 +46,6 @@ Name | Type | Description | Notes
 **construct_library_sets** | **set[character]** | The construct library sets associated with the samples of this file set. | [optional] 
 **data_use_limitation_summaries** | **set[character]** | The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
 **controlled_access** | **character** | The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
-**is_on_anvil** | **character** | Indicates whether this file set has been submitted to AnVIL. | [optional] 
 **preferred_assay_titles** | **set[character]** | Preferred Assay Title(s) of assays that produced data analyzed in the analysis set. | [optional] 
 **assay_titles** | **set[character]** | Ontology term names from Ontology of Biomedical Investigations (OBI) for assays | [optional] 
 **protocols** | **set[character]** | Links to the protocol(s) for conducting the assay on Protocols.io. | [optional] 

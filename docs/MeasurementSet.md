@@ -5,6 +5,7 @@ Measurement set is a file set that hosts raw data files (e.g. FASTQs) resulting 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**doi** | **character** | The Digital Object Identifier (DOI) associated with this object. | [optional] [Pattern: ^(10.65695/IGVFDS\\d{4}[A-Z]{4})$] 
 **preferred_assay_titles** | **array[character]** | The custom lab preferred label for the experiment performed. | [optional] [Enum: ] 
 **preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **control_file_sets** | **set[character]** | File sets that can serve as scientific controls for this file set. | [optional] 
@@ -57,7 +58,6 @@ Name | Type | Description | Notes
 **construct_library_sets** | **set[character]** | The construct library sets associated with the samples of this file set. | [optional] 
 **data_use_limitation_summaries** | **set[character]** | The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
 **controlled_access** | **character** | The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
-**is_on_anvil** | **character** | Indicates whether this file set has been submitted to AnVIL. | [optional] 
 **assay_titles** | **array[character]** | Ontology term names from Ontology of Biomedical Investigations (OBI) for assays | [optional] 
 **related_measurement_sets** | [**set[RelatedMeasurementSetGroup]**](Related_Measurement_Set_Group.md) | Measurement sets related to this one, grouped by relationship type. | [optional] 
 **externally_hosted** | **character** |  | [optional] 
