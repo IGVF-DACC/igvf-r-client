@@ -39,6 +39,7 @@ Name | Type | Description | Notes
 **time_post_library_delivery_units** | **character** | The units of time that elapsed past the point when the construct library sets were introduced. | [optional] [Enum: [minute, hour, day, week, month]] 
 **protocols** | **set[character]** | Links to the protocol(s) for preparing the samples on Protocols.io. | [optional] 
 **supersedes** | **set[character]** | The sample(s) that this sample supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. | [optional] 
+**selection_conditions** | **set[character]** | The conditions used for selecting the sample. | [optional] [Enum: ] 
 **multiplexed_samples** | **set[character]** | The samples multiplexed together to produce this sample. | [optional] 
 **multiplexing_methods** | **set[character]** | The methods used for multiplexing and demultiplexing. | [optional] [Enum: ] 
 **cellular_sub_pool** | **character** | Cellular sub-pool fraction of the sample. Also known as PKR and sub-library. | [optional] [Pattern: ^[a-zA-Z\\d_.()-]+(?:\\s[a-zA-Z\\d_.()-]+)*$] 

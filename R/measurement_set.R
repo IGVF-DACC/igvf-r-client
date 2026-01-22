@@ -39,7 +39,7 @@
 #' @field multiome_size The number of datasets included in the multiome experiment this measurement set is a part of. integer [optional]
 #' @field control_types The types of control this measurement set represents. list(character) [optional]
 #' @field sequencing_library_types Description of the libraries sequenced in this measurement set. list(character) [optional]
-#' @field primer_designs The primer designs used in this measurement set. list(character) [optional]
+#' @field enrichment_designs Files describing the assay-specific enrichment strategy (e.g., primer designs for PCR-based methods or probe/bait designs for hybrid capture) that define which regions are preferentially sequenced in this measurement set. list(character) [optional]
 #' @field strand_specificity Indicates whether a transcriptomic library is forward, reverse, or unstranded based on the strand-specific protocol used. character [optional]
 #' @field auxiliary_sets The auxiliary sets of files produced alongside raw data from this measurement set. list(character) [optional]
 #' @field external_image_urls Links to the external site where images produced by this measurement are stored. list(character) [optional]
@@ -104,7 +104,7 @@ MeasurementSet <- R6::R6Class(
     `multiome_size` = NULL,
     `control_types` = NULL,
     `sequencing_library_types` = NULL,
-    `primer_designs` = NULL,
+    `enrichment_designs` = NULL,
     `strand_specificity` = NULL,
     `auxiliary_sets` = NULL,
     `external_image_urls` = NULL,
@@ -128,7 +128,7 @@ MeasurementSet <- R6::R6Class(
     `assay_titles` = NULL,
     `related_measurement_sets` = NULL,
     `externally_hosted` = NULL,
-    `_field_list` = c("doi", "preferred_assay_titles", "preview_timestamp", "control_file_sets", "release_timestamp", "publications", "documents", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "dbxrefs", "samples", "donors", "file_set_type", "supersedes", "assay_term", "protocols", "multiome_size", "control_types", "sequencing_library_types", "primer_designs", "strand_specificity", "auxiliary_sets", "external_image_urls", "targeted_genes", "functional_assay_mechanisms", "onlist_method", "onlist_files", "barcode_replacement_file", "library_preparation_kit", "@id", "@type", "summary", "files", "control_for", "superseded_by", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access", "assay_titles", "related_measurement_sets", "externally_hosted"),
+    `_field_list` = c("doi", "preferred_assay_titles", "preview_timestamp", "control_file_sets", "release_timestamp", "publications", "documents", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "dbxrefs", "samples", "donors", "file_set_type", "supersedes", "assay_term", "protocols", "multiome_size", "control_types", "sequencing_library_types", "enrichment_designs", "strand_specificity", "auxiliary_sets", "external_image_urls", "targeted_genes", "functional_assay_mechanisms", "onlist_method", "onlist_files", "barcode_replacement_file", "library_preparation_kit", "@id", "@type", "summary", "files", "control_for", "superseded_by", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access", "assay_titles", "related_measurement_sets", "externally_hosted"),
     `additional_properties` = list(),
     #' Initialize a new MeasurementSet class.
     #'
@@ -167,7 +167,7 @@ MeasurementSet <- R6::R6Class(
     #' @param multiome_size The number of datasets included in the multiome experiment this measurement set is a part of.
     #' @param control_types The types of control this measurement set represents.
     #' @param sequencing_library_types Description of the libraries sequenced in this measurement set.
-    #' @param primer_designs The primer designs used in this measurement set.
+    #' @param enrichment_designs Files describing the assay-specific enrichment strategy (e.g., primer designs for PCR-based methods or probe/bait designs for hybrid capture) that define which regions are preferentially sequenced in this measurement set.
     #' @param strand_specificity Indicates whether a transcriptomic library is forward, reverse, or unstranded based on the strand-specific protocol used.
     #' @param auxiliary_sets The auxiliary sets of files produced alongside raw data from this measurement set.
     #' @param external_image_urls Links to the external site where images produced by this measurement are stored.
@@ -194,7 +194,7 @@ MeasurementSet <- R6::R6Class(
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`doi` = NULL, `preferred_assay_titles` = NULL, `preview_timestamp` = NULL, `control_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `assay_term` = NULL, `protocols` = NULL, `multiome_size` = NULL, `control_types` = NULL, `sequencing_library_types` = NULL, `primer_designs` = NULL, `strand_specificity` = NULL, `auxiliary_sets` = NULL, `external_image_urls` = NULL, `targeted_genes` = NULL, `functional_assay_mechanisms` = NULL, `onlist_method` = NULL, `onlist_files` = NULL, `barcode_replacement_file` = NULL, `library_preparation_kit` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `assay_titles` = NULL, `related_measurement_sets` = NULL, `externally_hosted` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`doi` = NULL, `preferred_assay_titles` = NULL, `preview_timestamp` = NULL, `control_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `assay_term` = NULL, `protocols` = NULL, `multiome_size` = NULL, `control_types` = NULL, `sequencing_library_types` = NULL, `enrichment_designs` = NULL, `strand_specificity` = NULL, `auxiliary_sets` = NULL, `external_image_urls` = NULL, `targeted_genes` = NULL, `functional_assay_mechanisms` = NULL, `onlist_method` = NULL, `onlist_files` = NULL, `barcode_replacement_file` = NULL, `library_preparation_kit` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `assay_titles` = NULL, `related_measurement_sets` = NULL, `externally_hosted` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`doi`)) {
         if (!(is.character(`doi`) && length(`doi`) == 1)) {
           stop(paste("Error! Invalid data for `doi`. Must be a string:", `doi`))
@@ -379,10 +379,10 @@ MeasurementSet <- R6::R6Class(
         sapply(`sequencing_library_types`, function(x) stopifnot(is.character(x)))
         self$`sequencing_library_types` <- `sequencing_library_types`
       }
-      if (!is.null(`primer_designs`)) {
-        stopifnot(is.vector(`primer_designs`), length(`primer_designs`) != 0)
-        sapply(`primer_designs`, function(x) stopifnot(is.character(x)))
-        self$`primer_designs` <- `primer_designs`
+      if (!is.null(`enrichment_designs`)) {
+        stopifnot(is.vector(`enrichment_designs`), length(`enrichment_designs`) != 0)
+        sapply(`enrichment_designs`, function(x) stopifnot(is.character(x)))
+        self$`enrichment_designs` <- `enrichment_designs`
       }
       if (!is.null(`strand_specificity`)) {
         if (!(`strand_specificity` %in% c("5 prime to 3 prime", "3 prime to 5 prime", "unstranded"))) {
@@ -660,9 +660,9 @@ MeasurementSet <- R6::R6Class(
         MeasurementSetObject[["sequencing_library_types"]] <-
           self$`sequencing_library_types`
       }
-      if (!is.null(self$`primer_designs`)) {
-        MeasurementSetObject[["primer_designs"]] <-
-          self$`primer_designs`
+      if (!is.null(self$`enrichment_designs`)) {
+        MeasurementSetObject[["enrichment_designs"]] <-
+          self$`enrichment_designs`
       }
       if (!is.null(self$`strand_specificity`)) {
         MeasurementSetObject[["strand_specificity"]] <-
@@ -874,8 +874,8 @@ MeasurementSet <- R6::R6Class(
       if (!is.null(this_object$`sequencing_library_types`)) {
         self$`sequencing_library_types` <- ApiClient$new()$deserializeObj(this_object$`sequencing_library_types`, "set[character]", loadNamespace("igvfclient"))
       }
-      if (!is.null(this_object$`primer_designs`)) {
-        self$`primer_designs` <- ApiClient$new()$deserializeObj(this_object$`primer_designs`, "set[character]", loadNamespace("igvfclient"))
+      if (!is.null(this_object$`enrichment_designs`)) {
+        self$`enrichment_designs` <- ApiClient$new()$deserializeObj(this_object$`enrichment_designs`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`strand_specificity`)) {
         if (!is.null(this_object$`strand_specificity`) && !(this_object$`strand_specificity` %in% c("5 prime to 3 prime", "3 prime to 5 prime", "unstranded"))) {
@@ -1229,12 +1229,12 @@ MeasurementSet <- R6::R6Class(
           paste(unlist(lapply(self$`sequencing_library_types`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
-        if (!is.null(self$`primer_designs`)) {
+        if (!is.null(self$`enrichment_designs`)) {
           sprintf(
-          '"primer_designs":
+          '"enrichment_designs":
              [%s]
           ',
-          paste(unlist(lapply(self$`primer_designs`, function(x) paste0('"', x, '"'))), collapse = ",")
+          paste(unlist(lapply(self$`enrichment_designs`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`strand_specificity`)) {
@@ -1478,7 +1478,7 @@ MeasurementSet <- R6::R6Class(
       self$`multiome_size` <- this_object$`multiome_size`
       self$`control_types` <- ApiClient$new()$deserializeObj(this_object$`control_types`, "set[character]", loadNamespace("igvfclient"))
       self$`sequencing_library_types` <- ApiClient$new()$deserializeObj(this_object$`sequencing_library_types`, "set[character]", loadNamespace("igvfclient"))
-      self$`primer_designs` <- ApiClient$new()$deserializeObj(this_object$`primer_designs`, "set[character]", loadNamespace("igvfclient"))
+      self$`enrichment_designs` <- ApiClient$new()$deserializeObj(this_object$`enrichment_designs`, "set[character]", loadNamespace("igvfclient"))
       if (!is.null(this_object$`strand_specificity`) && !(this_object$`strand_specificity` %in% c("5 prime to 3 prime", "3 prime to 5 prime", "unstranded"))) {
         stop(paste("Error! \"", this_object$`strand_specificity`, "\" cannot be assigned to `strand_specificity`. Must be \"5 prime to 3 prime\", \"3 prime to 5 prime\", \"unstranded\".", sep = ""))
       }

@@ -58,6 +58,7 @@ Name | Type | Description | Notes
 **time_post_library_delivery_units** | **character** | The units of time that elapsed past the point when the construct library sets were introduced. | [optional] [Enum: [minute, hour, day, week, month]] 
 **protocols** | **set[character]** | Links to the protocol(s) for preparing the samples on Protocols.io. | [optional] 
 **supersedes** | **set[character]** | The sample(s) that this sample supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. | [optional] 
+**selection_conditions** | **set[character]** | The conditions used for selecting the sample. | [optional] [Enum: ] 
 **classifications** | **set[character]** | The general category of this type of in vitro system. | [optional] [Enum: ] 
 **time_post_change** | **numeric** | The time that elapsed past the time-point when the cell fate change treatments were introduced. | [optional] 
 **time_post_change_units** | **character** | The units of time that elapsed past the point when the cell fate change treatments were introduced. | [optional] [Enum: [minute, hour, day, week, month]] 

@@ -58,6 +58,7 @@ Name | Type | Description | Notes
 **time_post_library_delivery_units** | **character** | The units of time that elapsed past the point when the construct library sets were introduced. | [optional] [Enum: [minute, hour, day, week, month]] 
 **protocols** | **set[character]** | Links to the protocol(s) for preparing the samples on Protocols.io. | [optional] 
 **supersedes** | **set[character]** | The sample(s) that this sample supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. | [optional] 
+**selection_conditions** | **set[character]** | The conditions used for selecting the sample. | [optional] [Enum: ] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** | A summary of the sample. | [optional] 

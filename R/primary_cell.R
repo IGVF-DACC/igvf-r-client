@@ -60,6 +60,7 @@
 #' @field time_post_library_delivery_units The units of time that elapsed past the point when the construct library sets were introduced. character [optional]
 #' @field protocols Links to the protocol(s) for preparing the samples on Protocols.io. list(character) [optional]
 #' @field supersedes The sample(s) that this sample supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
+#' @field selection_conditions The conditions used for selecting the sample. list(character) [optional]
 #' @field passage_number Number of passages including the passages from the source. integer [optional]
 #' @field biosample_qualifiers An array of various cell states. This property provides additional information about a cell at a finer-grained level compared to what ontologies currently capture. For example, exhausted T-cells. list(character) [optional]
 #' @field @id  character [optional]
@@ -137,6 +138,7 @@ PrimaryCell <- R6::R6Class(
     `time_post_library_delivery_units` = NULL,
     `protocols` = NULL,
     `supersedes` = NULL,
+    `selection_conditions` = NULL,
     `passage_number` = NULL,
     `biosample_qualifiers` = NULL,
     `@id` = NULL,
@@ -213,6 +215,7 @@ PrimaryCell <- R6::R6Class(
     #' @param time_post_library_delivery_units The units of time that elapsed past the point when the construct library sets were introduced.
     #' @param protocols Links to the protocol(s) for preparing the samples on Protocols.io.
     #' @param supersedes The sample(s) that this sample supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
+    #' @param selection_conditions The conditions used for selecting the sample.
     #' @param passage_number Number of passages including the passages from the source.
     #' @param biosample_qualifiers An array of various cell states. This property provides additional information about a cell at a finer-grained level compared to what ontologies currently capture. For example, exhausted T-cells.
     #' @param @id @id
@@ -233,7 +236,7 @@ PrimaryCell <- R6::R6Class(
     #' @param classifications The general category of this type of sample.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `taxa` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `annotated_from` = NULL, `lower_bound_age` = NULL, `upper_bound_age` = NULL, `age_units` = NULL, `sample_terms` = NULL, `disease_terms` = NULL, `pooled_from` = NULL, `part_of` = NULL, `originated_from` = NULL, `treatments` = NULL, `donors` = NULL, `biomarkers` = NULL, `embryonic` = NULL, `modifications` = NULL, `cellular_sub_pool` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `passage_number` = NULL, `biosample_qualifiers` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `sex` = NULL, `age` = NULL, `upper_bound_age_in_hours` = NULL, `lower_bound_age_in_hours` = NULL, `parts` = NULL, `pooled_in` = NULL, `classifications` = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `taxa` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `annotated_from` = NULL, `lower_bound_age` = NULL, `upper_bound_age` = NULL, `age_units` = NULL, `sample_terms` = NULL, `disease_terms` = NULL, `pooled_from` = NULL, `part_of` = NULL, `originated_from` = NULL, `treatments` = NULL, `donors` = NULL, `biomarkers` = NULL, `embryonic` = NULL, `modifications` = NULL, `cellular_sub_pool` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `selection_conditions` = NULL, `passage_number` = NULL, `biosample_qualifiers` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `sex` = NULL, `age` = NULL, `upper_bound_age_in_hours` = NULL, `lower_bound_age_in_hours` = NULL, `parts` = NULL, `pooled_in` = NULL, `classifications` = NULL, ...) {
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -537,6 +540,11 @@ PrimaryCell <- R6::R6Class(
         stopifnot(is.vector(`supersedes`), length(`supersedes`) != 0)
         sapply(`supersedes`, function(x) stopifnot(is.character(x)))
         self$`supersedes` <- `supersedes`
+      }
+      if (!is.null(`selection_conditions`)) {
+        stopifnot(is.vector(`selection_conditions`), length(`selection_conditions`) != 0)
+        sapply(`selection_conditions`, function(x) stopifnot(is.character(x)))
+        self$`selection_conditions` <- `selection_conditions`
       }
       if (!is.null(`passage_number`)) {
         if (!(is.numeric(`passage_number`) && length(`passage_number`) == 1)) {
@@ -854,6 +862,10 @@ PrimaryCell <- R6::R6Class(
         PrimaryCellObject[["supersedes"]] <-
           self$`supersedes`
       }
+      if (!is.null(self$`selection_conditions`)) {
+        PrimaryCellObject[["selection_conditions"]] <-
+          self$`selection_conditions`
+      }
       if (!is.null(self$`passage_number`)) {
         PrimaryCellObject[["passage_number"]] <-
           self$`passage_number`
@@ -1114,6 +1126,9 @@ PrimaryCell <- R6::R6Class(
       }
       if (!is.null(this_object$`supersedes`)) {
         self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`selection_conditions`)) {
+        self$`selection_conditions` <- ApiClient$new()$deserializeObj(this_object$`selection_conditions`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`passage_number`)) {
         self$`passage_number` <- this_object$`passage_number`
@@ -1607,6 +1622,14 @@ PrimaryCell <- R6::R6Class(
           paste(unlist(lapply(self$`supersedes`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`selection_conditions`)) {
+          sprintf(
+          '"selection_conditions":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`selection_conditions`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`passage_number`)) {
           sprintf(
           '"passage_number":
@@ -1836,6 +1859,7 @@ PrimaryCell <- R6::R6Class(
       self$`time_post_library_delivery_units` <- this_object$`time_post_library_delivery_units`
       self$`protocols` <- ApiClient$new()$deserializeObj(this_object$`protocols`, "set[character]", loadNamespace("igvfclient"))
       self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
+      self$`selection_conditions` <- ApiClient$new()$deserializeObj(this_object$`selection_conditions`, "set[character]", loadNamespace("igvfclient"))
       self$`passage_number` <- this_object$`passage_number`
       self$`biosample_qualifiers` <- ApiClient$new()$deserializeObj(this_object$`biosample_qualifiers`, "set[character]", loadNamespace("igvfclient"))
       self$`@id` <- this_object$`@id`
@@ -1940,6 +1964,7 @@ PrimaryCell <- R6::R6Class(
 
 
 
+
       if (self$`passage_number` < 0) {
         return(FALSE)
       }
@@ -2019,6 +2044,7 @@ PrimaryCell <- R6::R6Class(
       if (self$`moi` < 0) {
         invalid_fields["moi"] <- "Invalid value for `moi`, must be bigger than or equal to 0."
       }
+
 
 
 

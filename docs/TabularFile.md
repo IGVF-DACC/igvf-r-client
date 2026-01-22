@@ -68,6 +68,6 @@ Name | Type | Description | Notes
 **s3_uri** | **character** | The S3 URI of public file object. | [optional] 
 **upload_credentials** | **object** | The upload credentials for S3 to submit the file content. | [optional] 
 **barcode_map_for** | **set[character]** | Link(s) to the Multiplexed samples using this file as barcode map. | [optional] 
-**primer_design_for** | **set[character]** | Link(s) to the MeasurementSets using this file as a primer design. | [optional] 
+**enrichment_design_for** | **set[character]** | Link(s) to the measurement sets using this file as a enrichment design. | [optional] 
 
 

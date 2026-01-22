@@ -44,6 +44,7 @@
 #' @field time_post_library_delivery_units The units of time that elapsed past the point when the construct library sets were introduced. character [optional]
 #' @field protocols Links to the protocol(s) for preparing the samples on Protocols.io. list(character) [optional]
 #' @field supersedes The sample(s) that this sample supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
+#' @field selection_conditions The conditions used for selecting the sample. list(character) [optional]
 #' @field sample_material  character [optional]
 #' @field taxa  character [optional]
 #' @field sample_terms Ontology terms identifying a technical sample. list(character) [optional]
@@ -103,6 +104,7 @@ TechnicalSample <- R6::R6Class(
     `time_post_library_delivery_units` = NULL,
     `protocols` = NULL,
     `supersedes` = NULL,
+    `selection_conditions` = NULL,
     `sample_material` = NULL,
     `taxa` = NULL,
     `sample_terms` = NULL,
@@ -161,6 +163,7 @@ TechnicalSample <- R6::R6Class(
     #' @param time_post_library_delivery_units The units of time that elapsed past the point when the construct library sets were introduced.
     #' @param protocols Links to the protocol(s) for preparing the samples on Protocols.io.
     #' @param supersedes The sample(s) that this sample supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
+    #' @param selection_conditions The conditions used for selecting the sample.
     #' @param sample_material sample_material
     #' @param taxa taxa
     #' @param sample_terms Ontology terms identifying a technical sample.
@@ -179,7 +182,7 @@ TechnicalSample <- R6::R6Class(
     #' @param parts The parts into which this sample has been divided.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `sample_material` = NULL, `taxa` = NULL, `sample_terms` = NULL, `treatments` = NULL, `part_of` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `classifications` = NULL, `parts` = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `selection_conditions` = NULL, `sample_material` = NULL, `taxa` = NULL, `sample_terms` = NULL, `treatments` = NULL, `part_of` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `classifications` = NULL, `parts` = NULL, ...) {
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -394,6 +397,11 @@ TechnicalSample <- R6::R6Class(
         stopifnot(is.vector(`supersedes`), length(`supersedes`) != 0)
         sapply(`supersedes`, function(x) stopifnot(is.character(x)))
         self$`supersedes` <- `supersedes`
+      }
+      if (!is.null(`selection_conditions`)) {
+        stopifnot(is.vector(`selection_conditions`), length(`selection_conditions`) != 0)
+        sapply(`selection_conditions`, function(x) stopifnot(is.character(x)))
+        self$`selection_conditions` <- `selection_conditions`
       }
       if (!is.null(`sample_material`)) {
         if (!(`sample_material` %in% c("undefined", "inorganic", "synthetic", "organic"))) {
@@ -644,6 +652,10 @@ TechnicalSample <- R6::R6Class(
         TechnicalSampleObject[["supersedes"]] <-
           self$`supersedes`
       }
+      if (!is.null(self$`selection_conditions`)) {
+        TechnicalSampleObject[["selection_conditions"]] <-
+          self$`selection_conditions`
+      }
       if (!is.null(self$`sample_material`)) {
         TechnicalSampleObject[["sample_material"]] <-
           self$`sample_material`
@@ -842,6 +854,9 @@ TechnicalSample <- R6::R6Class(
       }
       if (!is.null(this_object$`supersedes`)) {
         self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`selection_conditions`)) {
+        self$`selection_conditions` <- ApiClient$new()$deserializeObj(this_object$`selection_conditions`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`sample_material`)) {
         if (!is.null(this_object$`sample_material`) && !(this_object$`sample_material` %in% c("undefined", "inorganic", "synthetic", "organic"))) {
@@ -1204,6 +1219,14 @@ TechnicalSample <- R6::R6Class(
           paste(unlist(lapply(self$`supersedes`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`selection_conditions`)) {
+          sprintf(
+          '"selection_conditions":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`selection_conditions`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`sample_material`)) {
           sprintf(
           '"sample_material":
@@ -1395,6 +1418,7 @@ TechnicalSample <- R6::R6Class(
       self$`time_post_library_delivery_units` <- this_object$`time_post_library_delivery_units`
       self$`protocols` <- ApiClient$new()$deserializeObj(this_object$`protocols`, "set[character]", loadNamespace("igvfclient"))
       self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
+      self$`selection_conditions` <- ApiClient$new()$deserializeObj(this_object$`selection_conditions`, "set[character]", loadNamespace("igvfclient"))
       if (!is.null(this_object$`sample_material`) && !(this_object$`sample_material` %in% c("undefined", "inorganic", "synthetic", "organic"))) {
         stop(paste("Error! \"", this_object$`sample_material`, "\" cannot be assigned to `sample_material`. Must be \"undefined\", \"inorganic\", \"synthetic\", \"organic\".", sep = ""))
       }
@@ -1499,6 +1523,7 @@ TechnicalSample <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1549,6 +1574,7 @@ TechnicalSample <- R6::R6Class(
       if (self$`moi` < 0) {
         invalid_fields["moi"] <- "Invalid value for `moi`, must be bigger than or equal to 0."
       }
+
 
 
 
