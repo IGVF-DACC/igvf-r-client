@@ -8,6 +8,7 @@
 #' @description Locus Class
 #' @format An \code{R6Class} generator object
 #' @field start The 1-based, closed (inclusive) starting coordinate. integer
+#' @field name A human-readable name or identifier for the locus. character [optional]
 #' @field end The 1-based, closed (inclusive) ending coordinate. integer
 #' @field chromosome The number (or letter) designation for the chromosome, e.g. chr1 or chrX character
 #' @field assembly The genome assembly to which coordinates relate (e.g., GRCh38). character
@@ -21,10 +22,11 @@ Locus <- R6::R6Class(
   inherit = AnyType,
   public = list(
     `start` = NULL,
+    `name` = NULL,
     `end` = NULL,
     `chromosome` = NULL,
     `assembly` = NULL,
-    `_field_list` = c("start", "end", "chromosome", "assembly"),
+    `_field_list` = c("start", "name", "end", "chromosome", "assembly"),
     `additional_properties` = list(),
     #' Initialize a new Locus class.
     #'
@@ -35,10 +37,11 @@ Locus <- R6::R6Class(
     #' @param end The 1-based, closed (inclusive) ending coordinate.
     #' @param chromosome The number (or letter) designation for the chromosome, e.g. chr1 or chrX
     #' @param assembly The genome assembly to which coordinates relate (e.g., GRCh38).
+    #' @param name A human-readable name or identifier for the locus.
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`start`, `end`, `chromosome`, `assembly`, additional_properties = NULL, ...) {
+    initialize = function(`start`, `end`, `chromosome`, `assembly`, `name` = NULL, additional_properties = NULL, ...) {
       if (!missing(`start`)) {
         if (!(is.numeric(`start`) && length(`start`) == 1)) {
           stop(paste("Error! Invalid data for `start`. Must be an integer:", `start`))
@@ -66,6 +69,12 @@ Locus <- R6::R6Class(
         }
         self$`assembly` <- `assembly`
       }
+      if (!is.null(`name`)) {
+        if (!(is.character(`name`) && length(`name`) == 1)) {
+          stop(paste("Error! Invalid data for `name`. Must be a string:", `name`))
+        }
+        self$`name` <- `name`
+      }
       if (!is.null(additional_properties)) {
         for (key in names(additional_properties)) {
           self$additional_properties[[key]] <- additional_properties[[key]]
@@ -84,6 +93,10 @@ Locus <- R6::R6Class(
       if (!is.null(self$`start`)) {
         LocusObject[["start"]] <-
           self$`start`
+      }
+      if (!is.null(self$`name`)) {
+        LocusObject[["name"]] <-
+          self$`name`
       }
       if (!is.null(self$`end`)) {
         LocusObject[["end"]] <-
@@ -115,6 +128,9 @@ Locus <- R6::R6Class(
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`start`)) {
         self$`start` <- this_object$`start`
+      }
+      if (!is.null(this_object$`name`)) {
+        self$`name` <- this_object$`name`
       }
       if (!is.null(this_object$`end`)) {
         self$`end` <- this_object$`end`
@@ -152,6 +168,14 @@ Locus <- R6::R6Class(
             %f
                     ',
           self$`start`
+          )
+        },
+        if (!is.null(self$`name`)) {
+          sprintf(
+          '"name":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`name`, perl=TRUE)
           )
         },
         if (!is.null(self$`end`)) {
@@ -198,6 +222,7 @@ Locus <- R6::R6Class(
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`start` <- this_object$`start`
+      self$`name` <- this_object$`name`
       self$`end` <- this_object$`end`
       self$`chromosome` <- this_object$`chromosome`
       if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "GRCm39"))) {

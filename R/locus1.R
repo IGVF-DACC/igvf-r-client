@@ -7,6 +7,7 @@
 #' @title Locus1
 #' @description Locus1 Class
 #' @format An \code{R6Class} generator object
+#' @field name A human-readable name or identifier for the locus. character [optional]
 #' @field assembly The genome assembly to which coordinates relate (e.g., GRCh38). character
 #' @field chromosome The number (or letter) designation for the chromosome, e.g. chr1 or chrX character
 #' @field start The 1-based, closed (inclusive) starting coordinate. integer
@@ -17,6 +18,7 @@
 Locus1 <- R6::R6Class(
   "Locus1",
   public = list(
+    `name` = NULL,
     `assembly` = NULL,
     `chromosome` = NULL,
     `start` = NULL,
@@ -30,9 +32,10 @@ Locus1 <- R6::R6Class(
     #' @param chromosome The number (or letter) designation for the chromosome, e.g. chr1 or chrX
     #' @param start The 1-based, closed (inclusive) starting coordinate.
     #' @param end The 1-based, closed (inclusive) ending coordinate.
+    #' @param name A human-readable name or identifier for the locus.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`assembly`, `chromosome`, `start`, `end`, ...) {
+    initialize = function(`assembly`, `chromosome`, `start`, `end`, `name` = NULL, ...) {
       if (!missing(`assembly`)) {
         if (!(`assembly` %in% c("GRCh38", "GRCm39"))) {
           stop(paste("Error! \"", `assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"GRCm39\".", sep = ""))
@@ -60,6 +63,12 @@ Locus1 <- R6::R6Class(
         }
         self$`end` <- `end`
       }
+      if (!is.null(`name`)) {
+        if (!(is.character(`name`) && length(`name`) == 1)) {
+          stop(paste("Error! Invalid data for `name`. Must be a string:", `name`))
+        }
+        self$`name` <- `name`
+      }
     },
     #' To JSON string
     #'
@@ -70,6 +79,10 @@ Locus1 <- R6::R6Class(
     #' @export
     toJSON = function() {
       Locus1Object <- list()
+      if (!is.null(self$`name`)) {
+        Locus1Object[["name"]] <-
+          self$`name`
+      }
       if (!is.null(self$`assembly`)) {
         Locus1Object[["assembly"]] <-
           self$`assembly`
@@ -98,6 +111,9 @@ Locus1 <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`name`)) {
+        self$`name` <- this_object$`name`
+      }
       if (!is.null(this_object$`assembly`)) {
         if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "GRCm39"))) {
           stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"GRCm39\".", sep = ""))
@@ -124,6 +140,14 @@ Locus1 <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`name`)) {
+          sprintf(
+          '"name":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`name`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`assembly`)) {
           sprintf(
           '"assembly":
@@ -170,6 +194,7 @@ Locus1 <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`name` <- this_object$`name`
       if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "GRCm39"))) {
         stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"GRCm39\".", sep = ""))
       }
