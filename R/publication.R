@@ -32,6 +32,7 @@
 #' @field journal The journal of the publication. character [optional]
 #' @field publication_identifiers The publication identifiers associated with this publication object. list(character) [optional]
 #' @field published_by The affiliation of the lab with a larger organization, such as IGVF. list(character) [optional]
+#' @field website_url A link to an external interactive website hosting data and analytic tools associated with the publication. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the publication. character [optional]
@@ -76,6 +77,7 @@ Publication <- R6::R6Class(
     `journal` = NULL,
     `publication_identifiers` = NULL,
     `published_by` = NULL,
+    `website_url` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -86,7 +88,7 @@ Publication <- R6::R6Class(
     `workflows` = NULL,
     `software` = NULL,
     `software_versions` = NULL,
-    `_field_list` = c("preview_timestamp", "release_timestamp", "status", "lab", "award", "attachment", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "title", "abstract", "authors", "date_published", "date_revised", "issue", "page", "volume", "journal", "publication_identifiers", "published_by", "@id", "@type", "summary", "publication_year", "samples", "donors", "file_sets", "workflows", "software", "software_versions"),
+    `_field_list` = c("preview_timestamp", "release_timestamp", "status", "lab", "award", "attachment", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "title", "abstract", "authors", "date_published", "date_revised", "issue", "page", "volume", "journal", "publication_identifiers", "published_by", "website_url", "@id", "@type", "summary", "publication_year", "samples", "donors", "file_sets", "workflows", "software", "software_versions"),
     `additional_properties` = list(),
     #' Initialize a new Publication class.
     #'
@@ -118,6 +120,7 @@ Publication <- R6::R6Class(
     #' @param journal The journal of the publication.
     #' @param publication_identifiers The publication identifiers associated with this publication object.
     #' @param published_by The affiliation of the lab with a larger organization, such as IGVF.
+    #' @param website_url A link to an external interactive website hosting data and analytic tools associated with the publication.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the publication.
@@ -131,7 +134,7 @@ Publication <- R6::R6Class(
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `status` = NULL, `lab` = NULL, `award` = NULL, `attachment` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `title` = NULL, `abstract` = NULL, `authors` = NULL, `date_published` = NULL, `date_revised` = NULL, `issue` = NULL, `page` = NULL, `volume` = NULL, `journal` = NULL, `publication_identifiers` = NULL, `published_by` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `publication_year` = NULL, `samples` = NULL, `donors` = NULL, `file_sets` = NULL, `workflows` = NULL, `software` = NULL, `software_versions` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `status` = NULL, `lab` = NULL, `award` = NULL, `attachment` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `title` = NULL, `abstract` = NULL, `authors` = NULL, `date_published` = NULL, `date_revised` = NULL, `issue` = NULL, `page` = NULL, `volume` = NULL, `journal` = NULL, `publication_identifiers` = NULL, `published_by` = NULL, `website_url` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `publication_year` = NULL, `samples` = NULL, `donors` = NULL, `file_sets` = NULL, `workflows` = NULL, `software` = NULL, `software_versions` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -279,6 +282,12 @@ Publication <- R6::R6Class(
         stopifnot(is.vector(`published_by`), length(`published_by`) != 0)
         sapply(`published_by`, function(x) stopifnot(is.character(x)))
         self$`published_by` <- `published_by`
+      }
+      if (!is.null(`website_url`)) {
+        if (!(is.character(`website_url`) && length(`website_url`) == 1)) {
+          stop(paste("Error! Invalid data for `website_url`. Must be a string:", `website_url`))
+        }
+        self$`website_url` <- `website_url`
       }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
@@ -448,6 +457,10 @@ Publication <- R6::R6Class(
         PublicationObject[["published_by"]] <-
           self$`published_by`
       }
+      if (!is.null(self$`website_url`)) {
+        PublicationObject[["website_url"]] <-
+          self$`website_url`
+      }
       if (!is.null(self$`@id`)) {
         PublicationObject[["@id"]] <-
           self$`@id`
@@ -583,6 +596,9 @@ Publication <- R6::R6Class(
       }
       if (!is.null(this_object$`published_by`)) {
         self$`published_by` <- ApiClient$new()$deserializeObj(this_object$`published_by`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`website_url`)) {
+        self$`website_url` <- this_object$`website_url`
       }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
@@ -832,6 +848,14 @@ Publication <- R6::R6Class(
           paste(unlist(lapply(self$`published_by`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`website_url`)) {
+          sprintf(
+          '"website_url":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`website_url`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -959,6 +983,7 @@ Publication <- R6::R6Class(
       self$`journal` <- this_object$`journal`
       self$`publication_identifiers` <- ApiClient$new()$deserializeObj(this_object$`publication_identifiers`, "set[character]", loadNamespace("igvfclient"))
       self$`published_by` <- ApiClient$new()$deserializeObj(this_object$`published_by`, "set[character]", loadNamespace("igvfclient"))
+      self$`website_url` <- this_object$`website_url`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`

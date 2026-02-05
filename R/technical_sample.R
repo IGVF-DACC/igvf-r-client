@@ -50,13 +50,14 @@
 #' @field sample_terms Ontology terms identifying a technical sample. list(character) [optional]
 #' @field treatments A list of treatments applied to the technical sample with the purpose of perturbation. list(character) [optional]
 #' @field part_of Links to technical sample which represents a larger sample from which this sample was taken. character [optional]
+#' @field originated_from Links to a technical sample that was originated from due to the introduction of a genetic modification. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of this sample. character [optional]
 #' @field file_sets The file sets linked to this sample. list(character) [optional]
 #' @field multiplexed_in The multiplexed samples in which this sample is included. list(character) [optional]
 #' @field sorted_fractions The fractions into which this sample has been sorted. list(character) [optional]
-#' @field origin_of The samples which originate from this sample, such as through a process of cell differentiation. list(character) [optional]
+#' @field origin_of The samples which originate from this sample, such as through a process of cell fate change or the introduction of a genetic material. list(character) [optional]
 #' @field institutional_certificates The institutional certificates under which use of this sample is approved. list(character) [optional]
 #' @field superseded_by Sample(s) this sample is superseded by virtue of those sample(s) being newer, better, or a fixed version of etc. than this one. list(character) [optional]
 #' @field classifications The general category of this type of sample. list(character) [optional]
@@ -110,6 +111,7 @@ TechnicalSample <- R6::R6Class(
     `sample_terms` = NULL,
     `treatments` = NULL,
     `part_of` = NULL,
+    `originated_from` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -169,20 +171,21 @@ TechnicalSample <- R6::R6Class(
     #' @param sample_terms Ontology terms identifying a technical sample.
     #' @param treatments A list of treatments applied to the technical sample with the purpose of perturbation.
     #' @param part_of Links to technical sample which represents a larger sample from which this sample was taken.
+    #' @param originated_from Links to a technical sample that was originated from due to the introduction of a genetic modification.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of this sample.
     #' @param file_sets The file sets linked to this sample.
     #' @param multiplexed_in The multiplexed samples in which this sample is included.
     #' @param sorted_fractions The fractions into which this sample has been sorted.
-    #' @param origin_of The samples which originate from this sample, such as through a process of cell differentiation.
+    #' @param origin_of The samples which originate from this sample, such as through a process of cell fate change or the introduction of a genetic material.
     #' @param institutional_certificates The institutional certificates under which use of this sample is approved.
     #' @param superseded_by Sample(s) this sample is superseded by virtue of those sample(s) being newer, better, or a fixed version of etc. than this one.
     #' @param classifications The general category of this type of sample.
     #' @param parts The parts into which this sample has been divided.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `selection_conditions` = NULL, `sample_material` = NULL, `taxa` = NULL, `sample_terms` = NULL, `treatments` = NULL, `part_of` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `classifications` = NULL, `parts` = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `selection_conditions` = NULL, `sample_material` = NULL, `taxa` = NULL, `sample_terms` = NULL, `treatments` = NULL, `part_of` = NULL, `originated_from` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `classifications` = NULL, `parts` = NULL, ...) {
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -437,6 +440,12 @@ TechnicalSample <- R6::R6Class(
         }
         self$`part_of` <- `part_of`
       }
+      if (!is.null(`originated_from`)) {
+        if (!(is.character(`originated_from`) && length(`originated_from`) == 1)) {
+          stop(paste("Error! Invalid data for `originated_from`. Must be a string:", `originated_from`))
+        }
+        self$`originated_from` <- `originated_from`
+      }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
           stop(paste("Error! Invalid data for `@id`. Must be a string:", `@id`))
@@ -676,6 +685,10 @@ TechnicalSample <- R6::R6Class(
         TechnicalSampleObject[["part_of"]] <-
           self$`part_of`
       }
+      if (!is.null(self$`originated_from`)) {
+        TechnicalSampleObject[["originated_from"]] <-
+          self$`originated_from`
+      }
       if (!is.null(self$`@id`)) {
         TechnicalSampleObject[["@id"]] <-
           self$`@id`
@@ -878,6 +891,9 @@ TechnicalSample <- R6::R6Class(
       }
       if (!is.null(this_object$`part_of`)) {
         self$`part_of` <- this_object$`part_of`
+      }
+      if (!is.null(this_object$`originated_from`)) {
+        self$`originated_from` <- this_object$`originated_from`
       }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
@@ -1267,6 +1283,14 @@ TechnicalSample <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`part_of`, perl=TRUE)
           )
         },
+        if (!is.null(self$`originated_from`)) {
+          sprintf(
+          '"originated_from":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`originated_from`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -1430,6 +1454,7 @@ TechnicalSample <- R6::R6Class(
       self$`sample_terms` <- ApiClient$new()$deserializeObj(this_object$`sample_terms`, "set[character]", loadNamespace("igvfclient"))
       self$`treatments` <- ApiClient$new()$deserializeObj(this_object$`treatments`, "set[character]", loadNamespace("igvfclient"))
       self$`part_of` <- this_object$`part_of`
+      self$`originated_from` <- this_object$`originated_from`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`

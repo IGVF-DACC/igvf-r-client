@@ -69,7 +69,7 @@
 #' @field file_sets The file sets linked to this sample. list(character) [optional]
 #' @field multiplexed_in The multiplexed samples in which this sample is included. list(character) [optional]
 #' @field sorted_fractions The fractions into which this sample has been sorted. list(character) [optional]
-#' @field origin_of The samples which originate from this sample, such as through a process of cell differentiation. list(character) [optional]
+#' @field origin_of The samples which originate from this sample, such as through a process of cell fate change or the introduction of a genetic material. list(character) [optional]
 #' @field institutional_certificates The institutional certificates under which use of this sample is approved. list(character) [optional]
 #' @field superseded_by Sample(s) this sample is superseded by virtue of those sample(s) being newer, better, or a fixed version of etc. than this one. list(character) [optional]
 #' @field sex  character [optional]
@@ -224,7 +224,7 @@ PrimaryCell <- R6::R6Class(
     #' @param file_sets The file sets linked to this sample.
     #' @param multiplexed_in The multiplexed samples in which this sample is included.
     #' @param sorted_fractions The fractions into which this sample has been sorted.
-    #' @param origin_of The samples which originate from this sample, such as through a process of cell differentiation.
+    #' @param origin_of The samples which originate from this sample, such as through a process of cell fate change or the introduction of a genetic material.
     #' @param institutional_certificates The institutional certificates under which use of this sample is approved.
     #' @param superseded_by Sample(s) this sample is superseded by virtue of those sample(s) being newer, better, or a fixed version of etc. than this one.
     #' @param sex sex

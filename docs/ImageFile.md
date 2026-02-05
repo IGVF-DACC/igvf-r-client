@@ -43,6 +43,7 @@ Name | Type | Description | Notes
 **validation_error_detail** | **character** | Explanation of why the file failed the automated content checks. | [optional] 
 **checkfiles_version** | **character** | The Checkfiles GitHub version release the file was validated with. | [optional] 
 **supersedes** | **set[character]** | The file(s) that this file supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. | [optional] 
+**imaging_platform** | **character** | The measurement device used to produce imaging data. | [optional] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** | A summary of the image file. | [optional] 

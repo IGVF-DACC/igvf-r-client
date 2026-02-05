@@ -65,7 +65,7 @@ Name | Type | Description | Notes
 **file_sets** | **set[character]** | The file sets linked to this sample. | [optional] 
 **multiplexed_in** | **set[character]** | The multiplexed samples in which this sample is included. | [optional] 
 **sorted_fractions** | **set[character]** | The fractions into which this sample has been sorted. | [optional] 
-**origin_of** | **set[character]** | The samples which originate from this sample, such as through a process of cell differentiation. | [optional] 
+**origin_of** | **set[character]** | The samples which originate from this sample, such as through a process of cell fate change or the introduction of a genetic material. | [optional] 
 **institutional_certificates** | **set[character]** | The institutional certificates under which use of this sample is approved. | [optional] 
 **superseded_by** | **set[character]** | Sample(s) this sample is superseded by virtue of those sample(s) being newer, better, or a fixed version of etc. than this one. | [optional] 
 **sex** | **character** |  | [optional] [Enum: [female, male, mixed, unspecified]] 

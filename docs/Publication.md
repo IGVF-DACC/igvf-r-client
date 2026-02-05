@@ -30,6 +30,7 @@ Name | Type | Description | Notes
 **journal** | **character** | The journal of the publication. | [optional] 
 **publication_identifiers** | **set[character]** | The publication identifiers associated with this publication object. | [optional] 
 **published_by** | **set[character]** | The affiliation of the lab with a larger organization, such as IGVF. | [optional] [Enum: ] 
+**website_url** | **character** | A link to an external interactive website hosting data and analytic tools associated with the publication. | [optional] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** | A summary of the publication. | [optional] 

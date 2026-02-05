@@ -26,11 +26,13 @@ Name | Type | Description | Notes
 **study_sets** | **set[character]** | The studies of IGVF that this gene was a part of. | [optional] 
 **dbxrefs** | **set[character]** | Unique identifiers from external resources. | [optional] 
 **locations** | [**set[GeneLocation1]**](Gene_Location_1.md) | Gene locations specified using 1-based, closed coordinates for different versions of reference genome assemblies. | [optional] 
+**allele** | **character** | The allele of the gene. | [optional] [Enum: [major, minor]] 
 **version_number** | **character** | Current ENSEMBL GeneID version number of the gene. | [optional] [Pattern: ^\\d+?] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** |  | [optional] 
 **title** | **character** |  | [optional] 
 **geneid_with_version** | **character** | The ENSEMBL GeneID concatenated with its version number. | [optional] 
+**geneid_with_allele** | **character** | The ENSEMBL GeneID concatenated with its allele info. | [optional] 
 
 

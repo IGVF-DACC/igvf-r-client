@@ -28,12 +28,14 @@
 #' @field study_sets The studies of IGVF that this gene was a part of. list(character) [optional]
 #' @field dbxrefs Unique identifiers from external resources. list(character) [optional]
 #' @field locations Gene locations specified using 1-based, closed coordinates for different versions of reference genome assemblies. list(\link{GeneLocation1}) [optional]
+#' @field allele The allele of the gene. character [optional]
 #' @field version_number Current ENSEMBL GeneID version number of the gene. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary  character [optional]
 #' @field title  character [optional]
 #' @field geneid_with_version The ENSEMBL GeneID concatenated with its version number. character [optional]
+#' @field geneid_with_allele The ENSEMBL GeneID concatenated with its allele info. character [optional]
 #' @field _field_list a list of fields list(character)
 #' @field additional_properties additional properties list(character) [optional]
 #' @importFrom R6 R6Class
@@ -64,13 +66,15 @@ Gene <- R6::R6Class(
     `study_sets` = NULL,
     `dbxrefs` = NULL,
     `locations` = NULL,
+    `allele` = NULL,
     `version_number` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
     `title` = NULL,
     `geneid_with_version` = NULL,
-    `_field_list` = c("preview_timestamp", "release_timestamp", "transcriptome_annotation", "taxa", "status", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "collections", "geneid", "symbol", "name", "synonyms", "study_sets", "dbxrefs", "locations", "version_number", "@id", "@type", "summary", "title", "geneid_with_version"),
+    `geneid_with_allele` = NULL,
+    `_field_list` = c("preview_timestamp", "release_timestamp", "transcriptome_annotation", "taxa", "status", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "collections", "geneid", "symbol", "name", "synonyms", "study_sets", "dbxrefs", "locations", "allele", "version_number", "@id", "@type", "summary", "title", "geneid_with_version", "geneid_with_allele"),
     `additional_properties` = list(),
     #' Initialize a new Gene class.
     #'
@@ -98,16 +102,18 @@ Gene <- R6::R6Class(
     #' @param study_sets The studies of IGVF that this gene was a part of.
     #' @param dbxrefs Unique identifiers from external resources.
     #' @param locations Gene locations specified using 1-based, closed coordinates for different versions of reference genome assemblies.
+    #' @param allele The allele of the gene.
     #' @param version_number Current ENSEMBL GeneID version number of the gene.
     #' @param @id @id
     #' @param @type @type
     #' @param summary summary
     #' @param title title
     #' @param geneid_with_version The ENSEMBL GeneID concatenated with its version number.
+    #' @param geneid_with_allele The ENSEMBL GeneID concatenated with its allele info.
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `transcriptome_annotation` = NULL, `taxa` = NULL, `status` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `collections` = NULL, `geneid` = NULL, `symbol` = NULL, `name` = NULL, `synonyms` = NULL, `study_sets` = NULL, `dbxrefs` = NULL, `locations` = NULL, `version_number` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `title` = NULL, `geneid_with_version` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `transcriptome_annotation` = NULL, `taxa` = NULL, `status` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `collections` = NULL, `geneid` = NULL, `symbol` = NULL, `name` = NULL, `synonyms` = NULL, `study_sets` = NULL, `dbxrefs` = NULL, `locations` = NULL, `allele` = NULL, `version_number` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `title` = NULL, `geneid_with_version` = NULL, `geneid_with_allele` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -237,6 +243,15 @@ Gene <- R6::R6Class(
         sapply(`locations`, function(x) stopifnot(R6::is.R6(x)))
         self$`locations` <- `locations`
       }
+      if (!is.null(`allele`)) {
+        if (!(`allele` %in% c("major", "minor"))) {
+          stop(paste("Error! \"", `allele`, "\" cannot be assigned to `allele`. Must be \"major\", \"minor\".", sep = ""))
+        }
+        if (!(is.character(`allele`) && length(`allele`) == 1)) {
+          stop(paste("Error! Invalid data for `allele`. Must be a string:", `allele`))
+        }
+        self$`allele` <- `allele`
+      }
       if (!is.null(`version_number`)) {
         if (!(is.character(`version_number`) && length(`version_number`) == 1)) {
           stop(paste("Error! Invalid data for `version_number`. Must be a string:", `version_number`))
@@ -271,6 +286,12 @@ Gene <- R6::R6Class(
           stop(paste("Error! Invalid data for `geneid_with_version`. Must be a string:", `geneid_with_version`))
         }
         self$`geneid_with_version` <- `geneid_with_version`
+      }
+      if (!is.null(`geneid_with_allele`)) {
+        if (!(is.character(`geneid_with_allele`) && length(`geneid_with_allele`) == 1)) {
+          stop(paste("Error! Invalid data for `geneid_with_allele`. Must be a string:", `geneid_with_allele`))
+        }
+        self$`geneid_with_allele` <- `geneid_with_allele`
       }
       if (!is.null(additional_properties)) {
         for (key in names(additional_properties)) {
@@ -371,6 +392,10 @@ Gene <- R6::R6Class(
         GeneObject[["locations"]] <-
           lapply(self$`locations`, function(x) x$toJSON())
       }
+      if (!is.null(self$`allele`)) {
+        GeneObject[["allele"]] <-
+          self$`allele`
+      }
       if (!is.null(self$`version_number`)) {
         GeneObject[["version_number"]] <-
           self$`version_number`
@@ -394,6 +419,10 @@ Gene <- R6::R6Class(
       if (!is.null(self$`geneid_with_version`)) {
         GeneObject[["geneid_with_version"]] <-
           self$`geneid_with_version`
+      }
+      if (!is.null(self$`geneid_with_allele`)) {
+        GeneObject[["geneid_with_allele"]] <-
+          self$`geneid_with_allele`
       }
       for (key in names(self$additional_properties)) {
         GeneObject[[key]] <- self$additional_properties[[key]]
@@ -483,6 +512,12 @@ Gene <- R6::R6Class(
       if (!is.null(this_object$`locations`)) {
         self$`locations` <- ApiClient$new()$deserializeObj(this_object$`locations`, "set[GeneLocation1]", loadNamespace("igvfclient"))
       }
+      if (!is.null(this_object$`allele`)) {
+        if (!is.null(this_object$`allele`) && !(this_object$`allele` %in% c("major", "minor"))) {
+          stop(paste("Error! \"", this_object$`allele`, "\" cannot be assigned to `allele`. Must be \"major\", \"minor\".", sep = ""))
+        }
+        self$`allele` <- this_object$`allele`
+      }
       if (!is.null(this_object$`version_number`)) {
         self$`version_number` <- this_object$`version_number`
       }
@@ -500,6 +535,9 @@ Gene <- R6::R6Class(
       }
       if (!is.null(this_object$`geneid_with_version`)) {
         self$`geneid_with_version` <- this_object$`geneid_with_version`
+      }
+      if (!is.null(this_object$`geneid_with_allele`)) {
+        self$`geneid_with_allele` <- this_object$`geneid_with_allele`
       }
       # process additional properties/fields in the payload
       for (key in names(this_object)) {
@@ -687,6 +725,14 @@ Gene <- R6::R6Class(
           paste(sapply(self$`locations`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox = TRUE, digits = NA)), collapse = ",")
           )
         },
+        if (!is.null(self$`allele`)) {
+          sprintf(
+          '"allele":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`allele`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`version_number`)) {
           sprintf(
           '"version_number":
@@ -733,6 +779,14 @@ Gene <- R6::R6Class(
             "%s"
                     ',
           gsub('(?<!\\\\)\\"', '\\\\"', self$`geneid_with_version`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`geneid_with_allele`)) {
+          sprintf(
+          '"geneid_with_allele":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`geneid_with_allele`, perl=TRUE)
           )
         }
       )
@@ -784,12 +838,17 @@ Gene <- R6::R6Class(
       self$`study_sets` <- ApiClient$new()$deserializeObj(this_object$`study_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
       self$`locations` <- ApiClient$new()$deserializeObj(this_object$`locations`, "set[GeneLocation1]", loadNamespace("igvfclient"))
+      if (!is.null(this_object$`allele`) && !(this_object$`allele` %in% c("major", "minor"))) {
+        stop(paste("Error! \"", this_object$`allele`, "\" cannot be assigned to `allele`. Must be \"major\", \"minor\".", sep = ""))
+      }
+      self$`allele` <- this_object$`allele`
       self$`version_number` <- this_object$`version_number`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
       self$`title` <- this_object$`title`
       self$`geneid_with_version` <- this_object$`geneid_with_version`
+      self$`geneid_with_allele` <- this_object$`geneid_with_allele`
       # process additional properties/fields in the payload
       for (key in names(this_object)) {
         if (!(key %in% self$`_field_list`)) { # json key not in list of fields
