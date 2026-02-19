@@ -51,8 +51,10 @@
 #' @field upload_status The upload/validation status of the file. character [optional]
 #' @field validation_error_detail Explanation of why the file failed the automated content checks. character [optional]
 #' @field checkfiles_version The Checkfiles GitHub version release the file was validated with. character [optional]
+#' @field checkfiles_timestamp The date and time the file object was last checked by the Checkfiles script. character [optional]
 #' @field supersedes The file(s) that this file supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
 #' @field catalog_adapters IGVF Catalog Adapters that ingests this file list(character) [optional]
+#' @field catalog_method The method curated in the IGVF catalog that the non-IGVF data in this file processed with character [optional]
 #' @field sources The originating lab(s) or vendor(s). list(character) [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
@@ -119,8 +121,10 @@ ReferenceFile <- R6::R6Class(
     `upload_status` = NULL,
     `validation_error_detail` = NULL,
     `checkfiles_version` = NULL,
+    `checkfiles_timestamp` = NULL,
     `supersedes` = NULL,
     `catalog_adapters` = NULL,
+    `catalog_method` = NULL,
     `sources` = NULL,
     `@id` = NULL,
     `@type` = NULL,
@@ -186,8 +190,10 @@ ReferenceFile <- R6::R6Class(
     #' @param upload_status The upload/validation status of the file.
     #' @param validation_error_detail Explanation of why the file failed the automated content checks.
     #' @param checkfiles_version The Checkfiles GitHub version release the file was validated with.
+    #' @param checkfiles_timestamp The date and time the file object was last checked by the Checkfiles script.
     #' @param supersedes The file(s) that this file supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
     #' @param catalog_adapters IGVF Catalog Adapters that ingests this file
+    #' @param catalog_method The method curated in the IGVF catalog that the non-IGVF data in this file processed with
     #' @param sources The originating lab(s) or vendor(s).
     #' @param @id @id
     #' @param @type @type
@@ -206,7 +212,7 @@ ReferenceFile <- R6::R6Class(
     #' @param upload_credentials The upload credentials for S3 to submit the file content.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`externally_hosted` = NULL, `external_host_url` = NULL, `anvil_url` = NULL, `catalog_collections` = NULL, `catalog_class` = NULL, `catalog_notes` = NULL, `preview_timestamp` = NULL, `source_url` = NULL, `controlled_access` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `supersedes` = NULL, `catalog_adapters` = NULL, `sources` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `superseded_by` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
+    initialize = function(`externally_hosted` = NULL, `external_host_url` = NULL, `anvil_url` = NULL, `catalog_collections` = NULL, `catalog_class` = NULL, `catalog_notes` = NULL, `preview_timestamp` = NULL, `source_url` = NULL, `controlled_access` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `checkfiles_timestamp` = NULL, `supersedes` = NULL, `catalog_adapters` = NULL, `catalog_method` = NULL, `sources` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `superseded_by` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
       if (!is.null(`externally_hosted`)) {
         if (!(is.logical(`externally_hosted`) && length(`externally_hosted`) == 1)) {
           stop(paste("Error! Invalid data for `externally_hosted`. Must be a boolean:", `externally_hosted`))
@@ -484,6 +490,12 @@ ReferenceFile <- R6::R6Class(
         }
         self$`checkfiles_version` <- `checkfiles_version`
       }
+      if (!is.null(`checkfiles_timestamp`)) {
+        if (!(is.character(`checkfiles_timestamp`) && length(`checkfiles_timestamp`) == 1)) {
+          stop(paste("Error! Invalid data for `checkfiles_timestamp`. Must be a string:", `checkfiles_timestamp`))
+        }
+        self$`checkfiles_timestamp` <- `checkfiles_timestamp`
+      }
       if (!is.null(`supersedes`)) {
         stopifnot(is.vector(`supersedes`), length(`supersedes`) != 0)
         sapply(`supersedes`, function(x) stopifnot(is.character(x)))
@@ -493,6 +505,15 @@ ReferenceFile <- R6::R6Class(
         stopifnot(is.vector(`catalog_adapters`), length(`catalog_adapters`) != 0)
         sapply(`catalog_adapters`, function(x) stopifnot(is.character(x)))
         self$`catalog_adapters` <- `catalog_adapters`
+      }
+      if (!is.null(`catalog_method`)) {
+        if (!(`catalog_method` %in% c("ADASTRA", "COXPRESdb", "eQTL", "GWAS", "GVATdb", "pQTL", "splice_QTL"))) {
+          stop(paste("Error! \"", `catalog_method`, "\" cannot be assigned to `catalog_method`. Must be \"ADASTRA\", \"COXPRESdb\", \"eQTL\", \"GWAS\", \"GVATdb\", \"pQTL\", \"splice_QTL\".", sep = ""))
+        }
+        if (!(is.character(`catalog_method`) && length(`catalog_method`) == 1)) {
+          stop(paste("Error! Invalid data for `catalog_method`. Must be a string:", `catalog_method`))
+        }
+        self$`catalog_method` <- `catalog_method`
       }
       if (!is.null(`sources`)) {
         stopifnot(is.vector(`sources`), length(`sources`) != 0)
@@ -762,6 +783,10 @@ ReferenceFile <- R6::R6Class(
         ReferenceFileObject[["checkfiles_version"]] <-
           self$`checkfiles_version`
       }
+      if (!is.null(self$`checkfiles_timestamp`)) {
+        ReferenceFileObject[["checkfiles_timestamp"]] <-
+          self$`checkfiles_timestamp`
+      }
       if (!is.null(self$`supersedes`)) {
         ReferenceFileObject[["supersedes"]] <-
           self$`supersedes`
@@ -769,6 +794,10 @@ ReferenceFile <- R6::R6Class(
       if (!is.null(self$`catalog_adapters`)) {
         ReferenceFileObject[["catalog_adapters"]] <-
           self$`catalog_adapters`
+      }
+      if (!is.null(self$`catalog_method`)) {
+        ReferenceFileObject[["catalog_method"]] <-
+          self$`catalog_method`
       }
       if (!is.null(self$`sources`)) {
         ReferenceFileObject[["sources"]] <-
@@ -999,11 +1028,20 @@ ReferenceFile <- R6::R6Class(
       if (!is.null(this_object$`checkfiles_version`)) {
         self$`checkfiles_version` <- this_object$`checkfiles_version`
       }
+      if (!is.null(this_object$`checkfiles_timestamp`)) {
+        self$`checkfiles_timestamp` <- this_object$`checkfiles_timestamp`
+      }
       if (!is.null(this_object$`supersedes`)) {
         self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`catalog_adapters`)) {
         self$`catalog_adapters` <- ApiClient$new()$deserializeObj(this_object$`catalog_adapters`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`catalog_method`)) {
+        if (!is.null(this_object$`catalog_method`) && !(this_object$`catalog_method` %in% c("ADASTRA", "COXPRESdb", "eQTL", "GWAS", "GVATdb", "pQTL", "splice_QTL"))) {
+          stop(paste("Error! \"", this_object$`catalog_method`, "\" cannot be assigned to `catalog_method`. Must be \"ADASTRA\", \"COXPRESdb\", \"eQTL\", \"GWAS\", \"GVATdb\", \"pQTL\", \"splice_QTL\".", sep = ""))
+        }
+        self$`catalog_method` <- this_object$`catalog_method`
       }
       if (!is.null(this_object$`sources`)) {
         self$`sources` <- ApiClient$new()$deserializeObj(this_object$`sources`, "set[character]", loadNamespace("igvfclient"))
@@ -1416,6 +1454,14 @@ ReferenceFile <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`checkfiles_version`, perl=TRUE)
           )
         },
+        if (!is.null(self$`checkfiles_timestamp`)) {
+          sprintf(
+          '"checkfiles_timestamp":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`checkfiles_timestamp`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`supersedes`)) {
           sprintf(
           '"supersedes":
@@ -1430,6 +1476,14 @@ ReferenceFile <- R6::R6Class(
              [%s]
           ',
           paste(unlist(lapply(self$`catalog_adapters`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`catalog_method`)) {
+          sprintf(
+          '"catalog_method":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`catalog_method`, perl=TRUE)
           )
         },
         if (!is.null(self$`sources`)) {
@@ -1639,8 +1693,13 @@ ReferenceFile <- R6::R6Class(
       self$`upload_status` <- this_object$`upload_status`
       self$`validation_error_detail` <- this_object$`validation_error_detail`
       self$`checkfiles_version` <- this_object$`checkfiles_version`
+      self$`checkfiles_timestamp` <- this_object$`checkfiles_timestamp`
       self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
       self$`catalog_adapters` <- ApiClient$new()$deserializeObj(this_object$`catalog_adapters`, "set[character]", loadNamespace("igvfclient"))
+      if (!is.null(this_object$`catalog_method`) && !(this_object$`catalog_method` %in% c("ADASTRA", "COXPRESdb", "eQTL", "GWAS", "GVATdb", "pQTL", "splice_QTL"))) {
+        stop(paste("Error! \"", this_object$`catalog_method`, "\" cannot be assigned to `catalog_method`. Must be \"ADASTRA\", \"COXPRESdb\", \"eQTL\", \"GWAS\", \"GVATdb\", \"pQTL\", \"splice_QTL\".", sep = ""))
+      }
+      self$`catalog_method` <- this_object$`catalog_method`
       self$`sources` <- ApiClient$new()$deserializeObj(this_object$`sources`, "set[character]", loadNamespace("igvfclient"))
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))

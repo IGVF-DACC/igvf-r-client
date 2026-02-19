@@ -7,6 +7,7 @@
 #' @title AuxiliarySet
 #' @description AuxiliarySet Class
 #' @format An \code{R6Class} generator object
+#' @field is_on_anvil Indicates whether the data object has been submitted to AnVIL. character [optional]
 #' @field doi The Digital Object Identifier (DOI) associated with this object. character [optional]
 #' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
@@ -54,6 +55,7 @@
 AuxiliarySet <- R6::R6Class(
   "AuxiliarySet",
   public = list(
+    `is_on_anvil` = NULL,
     `doi` = NULL,
     `preview_timestamp` = NULL,
     `release_timestamp` = NULL,
@@ -100,6 +102,7 @@ AuxiliarySet <- R6::R6Class(
     #' @description
     #' Initialize a new AuxiliarySet class.
     #'
+    #' @param is_on_anvil Indicates whether the data object has been submitted to AnVIL.
     #' @param doi The Digital Object Identifier (DOI) associated with this object.
     #' @param preview_timestamp The date the object was previewed.
     #' @param release_timestamp The date the object was released.
@@ -143,7 +146,13 @@ AuxiliarySet <- R6::R6Class(
     #' @param assay_titles Ontology term names from Ontology of Biomedical Investigations (OBI) for assays
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`doi` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `barcode_map` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `measurement_sets` = NULL, `preferred_assay_titles` = NULL, `assay_titles` = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `barcode_map` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `measurement_sets` = NULL, `preferred_assay_titles` = NULL, `assay_titles` = NULL, ...) {
+      if (!is.null(`is_on_anvil`)) {
+        if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
+          stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
+        }
+        self$`is_on_anvil` <- `is_on_anvil`
+      }
       if (!is.null(`doi`)) {
         if (!(is.character(`doi`) && length(`doi`) == 1)) {
           stop(paste("Error! Invalid data for `doi`. Must be a string:", `doi`))
@@ -387,6 +396,10 @@ AuxiliarySet <- R6::R6Class(
     #' @export
     toJSON = function() {
       AuxiliarySetObject <- list()
+      if (!is.null(self$`is_on_anvil`)) {
+        AuxiliarySetObject[["is_on_anvil"]] <-
+          self$`is_on_anvil`
+      }
       if (!is.null(self$`doi`)) {
         AuxiliarySetObject[["doi"]] <-
           self$`doi`
@@ -563,6 +576,9 @@ AuxiliarySet <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`is_on_anvil`)) {
+        self$`is_on_anvil` <- this_object$`is_on_anvil`
+      }
       if (!is.null(this_object$`doi`)) {
         self$`doi` <- this_object$`doi`
       }
@@ -703,6 +719,14 @@ AuxiliarySet <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`is_on_anvil`)) {
+          sprintf(
+          '"is_on_anvil":
+            %s
+                    ',
+          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`is_on_anvil`, perl=TRUE))
+          )
+        },
         if (!is.null(self$`doi`)) {
           sprintf(
           '"doi":
@@ -1045,6 +1069,7 @@ AuxiliarySet <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`is_on_anvil` <- this_object$`is_on_anvil`
       self$`doi` <- this_object$`doi`
       self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`release_timestamp` <- this_object$`release_timestamp`

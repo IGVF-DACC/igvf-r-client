@@ -43,6 +43,7 @@ Name | Type | Description | Notes
 **upload_status** | **character** | The upload/validation status of the file. | [optional] [Enum: [pending, file not found, invalidated, validated, validation exempted]] 
 **validation_error_detail** | **character** | Explanation of why the file failed the automated content checks. | [optional] 
 **checkfiles_version** | **character** | The Checkfiles GitHub version release the file was validated with. | [optional] 
+**checkfiles_timestamp** | **character** | The date and time the file object was last checked by the Checkfiles script. | [optional] 
 **supersedes** | **set[character]** | The file(s) that this file supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. | [optional] 
 **flowcell_id** | **character** | The alphanumeric identifier for the flowcell of a sequencing machine. | [optional] [Pattern: ^[a-zA-Z0-9-]+$] 
 **lane** | **integer** | An integer identifying the lane of a sequencing machine. | [optional] [Min: 1] 

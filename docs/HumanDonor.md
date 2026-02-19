@@ -5,6 +5,7 @@ A human donor of any biosample, including cell lines. Submission of any sample o
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**is_on_anvil** | **character** | Indicates whether the data object has been submitted to AnVIL. | [optional] 
 **preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **taxa** | **character** | The species of the organism. | [optional] [Enum: [Homo sapiens]] 

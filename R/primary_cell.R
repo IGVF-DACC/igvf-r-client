@@ -7,6 +7,7 @@
 #' @title PrimaryCell
 #' @description PrimaryCell Class
 #' @format An \code{R6Class} generator object
+#' @field is_on_anvil Indicates whether the data object has been submitted to AnVIL. character [optional]
 #' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field publications The publications associated with this object. list(character) [optional]
@@ -38,7 +39,6 @@
 #' @field sample_terms Ontology terms identifying a biosample. list(character) [optional]
 #' @field disease_terms Ontology term of the disease associated with the biosample. list(character) [optional]
 #' @field pooled_from The biosamples this biosample is pooled from. list(character) [optional]
-#' @field part_of Links to a biosample which represents a larger sample from which this sample was taken regardless of whether it is a tissue taken from an organism or smaller slices of a piece of tissue or aliquots of a cell growth. character [optional]
 #' @field originated_from Links to a biosample that was originated from due to differentiation, dedifferentiation, reprogramming, or the introduction of a genetic modification. character [optional]
 #' @field treatments A list of treatments applied to the biosample with the purpose of perturbation. list(character) [optional]
 #' @field donors Donor(s) the sample was derived from. list(character) [optional]
@@ -50,6 +50,7 @@
 #' @field starting_amount_units The units used to quantify the amount of samples obtained. character [optional]
 #' @field dbxrefs Biosample identifiers from external resources, such as Biosample database or Cellosaurus. list(character) [optional]
 #' @field date_obtained The date the sample was harvested, dissected or created, depending on the type of the sample. character [optional]
+#' @field part_of Links to a sample which represents a larger sample from which this sample was taken regardless of whether it is a tissue taken from an organism or smaller slices of a piece of tissue or aliquots of a cell growth. character [optional]
 #' @field sorted_from Links to a larger sample from which this sample was obtained through sorting. character [optional]
 #' @field sorted_from_detail Detail for sample sorted into fractions capturing information about sorting. character [optional]
 #' @field virtual Virtual samples are not representing actual physical entities from experiments, but rather capturing metadata about hypothetical samples that the reported analysis results are relevant for. character [optional]
@@ -68,6 +69,7 @@
 #' @field summary A summary of the sample. character [optional]
 #' @field file_sets The file sets linked to this sample. list(character) [optional]
 #' @field multiplexed_in The multiplexed samples in which this sample is included. list(character) [optional]
+#' @field parts The parts into which this sample has been divided. list(character) [optional]
 #' @field sorted_fractions The fractions into which this sample has been sorted. list(character) [optional]
 #' @field origin_of The samples which originate from this sample, such as through a process of cell fate change or the introduction of a genetic material. list(character) [optional]
 #' @field institutional_certificates The institutional certificates under which use of this sample is approved. list(character) [optional]
@@ -76,7 +78,6 @@
 #' @field age Age of organism at the time of collection of the sample. character [optional]
 #' @field upper_bound_age_in_hours Upper bound of age of organism in hours at the time of collection of the sample. numeric [optional]
 #' @field lower_bound_age_in_hours Lower bound of age of organism in hours at the time of collection of the sample . numeric [optional]
-#' @field parts The parts into which this sample has been divided. list(character) [optional]
 #' @field pooled_in The pooled samples in which this sample is included. list(character) [optional]
 #' @field classifications The general category of this type of sample. list(character) [optional]
 #' @importFrom R6 R6Class
@@ -85,6 +86,7 @@
 PrimaryCell <- R6::R6Class(
   "PrimaryCell",
   public = list(
+    `is_on_anvil` = NULL,
     `preview_timestamp` = NULL,
     `release_timestamp` = NULL,
     `publications` = NULL,
@@ -116,7 +118,6 @@ PrimaryCell <- R6::R6Class(
     `sample_terms` = NULL,
     `disease_terms` = NULL,
     `pooled_from` = NULL,
-    `part_of` = NULL,
     `originated_from` = NULL,
     `treatments` = NULL,
     `donors` = NULL,
@@ -128,6 +129,7 @@ PrimaryCell <- R6::R6Class(
     `starting_amount_units` = NULL,
     `dbxrefs` = NULL,
     `date_obtained` = NULL,
+    `part_of` = NULL,
     `sorted_from` = NULL,
     `sorted_from_detail` = NULL,
     `virtual` = NULL,
@@ -146,6 +148,7 @@ PrimaryCell <- R6::R6Class(
     `summary` = NULL,
     `file_sets` = NULL,
     `multiplexed_in` = NULL,
+    `parts` = NULL,
     `sorted_fractions` = NULL,
     `origin_of` = NULL,
     `institutional_certificates` = NULL,
@@ -154,7 +157,6 @@ PrimaryCell <- R6::R6Class(
     `age` = NULL,
     `upper_bound_age_in_hours` = NULL,
     `lower_bound_age_in_hours` = NULL,
-    `parts` = NULL,
     `pooled_in` = NULL,
     `classifications` = NULL,
     #' Initialize a new PrimaryCell class.
@@ -162,6 +164,7 @@ PrimaryCell <- R6::R6Class(
     #' @description
     #' Initialize a new PrimaryCell class.
     #'
+    #' @param is_on_anvil Indicates whether the data object has been submitted to AnVIL.
     #' @param preview_timestamp The date the object was previewed.
     #' @param release_timestamp The date the object was released.
     #' @param publications The publications associated with this object.
@@ -193,7 +196,6 @@ PrimaryCell <- R6::R6Class(
     #' @param sample_terms Ontology terms identifying a biosample.
     #' @param disease_terms Ontology term of the disease associated with the biosample.
     #' @param pooled_from The biosamples this biosample is pooled from.
-    #' @param part_of Links to a biosample which represents a larger sample from which this sample was taken regardless of whether it is a tissue taken from an organism or smaller slices of a piece of tissue or aliquots of a cell growth.
     #' @param originated_from Links to a biosample that was originated from due to differentiation, dedifferentiation, reprogramming, or the introduction of a genetic modification.
     #' @param treatments A list of treatments applied to the biosample with the purpose of perturbation.
     #' @param donors Donor(s) the sample was derived from.
@@ -205,6 +207,7 @@ PrimaryCell <- R6::R6Class(
     #' @param starting_amount_units The units used to quantify the amount of samples obtained.
     #' @param dbxrefs Biosample identifiers from external resources, such as Biosample database or Cellosaurus.
     #' @param date_obtained The date the sample was harvested, dissected or created, depending on the type of the sample.
+    #' @param part_of Links to a sample which represents a larger sample from which this sample was taken regardless of whether it is a tissue taken from an organism or smaller slices of a piece of tissue or aliquots of a cell growth.
     #' @param sorted_from Links to a larger sample from which this sample was obtained through sorting.
     #' @param sorted_from_detail Detail for sample sorted into fractions capturing information about sorting.
     #' @param virtual Virtual samples are not representing actual physical entities from experiments, but rather capturing metadata about hypothetical samples that the reported analysis results are relevant for.
@@ -223,6 +226,7 @@ PrimaryCell <- R6::R6Class(
     #' @param summary A summary of the sample.
     #' @param file_sets The file sets linked to this sample.
     #' @param multiplexed_in The multiplexed samples in which this sample is included.
+    #' @param parts The parts into which this sample has been divided.
     #' @param sorted_fractions The fractions into which this sample has been sorted.
     #' @param origin_of The samples which originate from this sample, such as through a process of cell fate change or the introduction of a genetic material.
     #' @param institutional_certificates The institutional certificates under which use of this sample is approved.
@@ -231,12 +235,17 @@ PrimaryCell <- R6::R6Class(
     #' @param age Age of organism at the time of collection of the sample.
     #' @param upper_bound_age_in_hours Upper bound of age of organism in hours at the time of collection of the sample.
     #' @param lower_bound_age_in_hours Lower bound of age of organism in hours at the time of collection of the sample .
-    #' @param parts The parts into which this sample has been divided.
     #' @param pooled_in The pooled samples in which this sample is included.
     #' @param classifications The general category of this type of sample.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `taxa` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `annotated_from` = NULL, `lower_bound_age` = NULL, `upper_bound_age` = NULL, `age_units` = NULL, `sample_terms` = NULL, `disease_terms` = NULL, `pooled_from` = NULL, `part_of` = NULL, `originated_from` = NULL, `treatments` = NULL, `donors` = NULL, `biomarkers` = NULL, `embryonic` = NULL, `modifications` = NULL, `cellular_sub_pool` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `selection_conditions` = NULL, `passage_number` = NULL, `biosample_qualifiers` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `sex` = NULL, `age` = NULL, `upper_bound_age_in_hours` = NULL, `lower_bound_age_in_hours` = NULL, `parts` = NULL, `pooled_in` = NULL, `classifications` = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `taxa` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `annotated_from` = NULL, `lower_bound_age` = NULL, `upper_bound_age` = NULL, `age_units` = NULL, `sample_terms` = NULL, `disease_terms` = NULL, `pooled_from` = NULL, `originated_from` = NULL, `treatments` = NULL, `donors` = NULL, `biomarkers` = NULL, `embryonic` = NULL, `modifications` = NULL, `cellular_sub_pool` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `part_of` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `selection_conditions` = NULL, `passage_number` = NULL, `biosample_qualifiers` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `parts` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `sex` = NULL, `age` = NULL, `upper_bound_age_in_hours` = NULL, `lower_bound_age_in_hours` = NULL, `pooled_in` = NULL, `classifications` = NULL, ...) {
+      if (!is.null(`is_on_anvil`)) {
+        if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
+          stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
+        }
+        self$`is_on_anvil` <- `is_on_anvil`
+      }
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -417,12 +426,6 @@ PrimaryCell <- R6::R6Class(
         sapply(`pooled_from`, function(x) stopifnot(is.character(x)))
         self$`pooled_from` <- `pooled_from`
       }
-      if (!is.null(`part_of`)) {
-        if (!(is.character(`part_of`) && length(`part_of`) == 1)) {
-          stop(paste("Error! Invalid data for `part_of`. Must be a string:", `part_of`))
-        }
-        self$`part_of` <- `part_of`
-      }
       if (!is.null(`originated_from`)) {
         if (!(is.character(`originated_from`) && length(`originated_from`) == 1)) {
           stop(paste("Error! Invalid data for `originated_from`. Must be a string:", `originated_from`))
@@ -483,6 +486,12 @@ PrimaryCell <- R6::R6Class(
           stop(paste("Error! Invalid data for `date_obtained`. Must be a string:", `date_obtained`))
         }
         self$`date_obtained` <- `date_obtained`
+      }
+      if (!is.null(`part_of`)) {
+        if (!(is.character(`part_of`) && length(`part_of`) == 1)) {
+          stop(paste("Error! Invalid data for `part_of`. Must be a string:", `part_of`))
+        }
+        self$`part_of` <- `part_of`
       }
       if (!is.null(`sorted_from`)) {
         if (!(is.character(`sorted_from`) && length(`sorted_from`) == 1)) {
@@ -584,6 +593,11 @@ PrimaryCell <- R6::R6Class(
         sapply(`multiplexed_in`, function(x) stopifnot(is.character(x)))
         self$`multiplexed_in` <- `multiplexed_in`
       }
+      if (!is.null(`parts`)) {
+        stopifnot(is.vector(`parts`), length(`parts`) != 0)
+        sapply(`parts`, function(x) stopifnot(is.character(x)))
+        self$`parts` <- `parts`
+      }
       if (!is.null(`sorted_fractions`)) {
         stopifnot(is.vector(`sorted_fractions`), length(`sorted_fractions`) != 0)
         sapply(`sorted_fractions`, function(x) stopifnot(is.character(x)))
@@ -625,11 +639,6 @@ PrimaryCell <- R6::R6Class(
       if (!is.null(`lower_bound_age_in_hours`)) {
         self$`lower_bound_age_in_hours` <- `lower_bound_age_in_hours`
       }
-      if (!is.null(`parts`)) {
-        stopifnot(is.vector(`parts`), length(`parts`) != 0)
-        sapply(`parts`, function(x) stopifnot(is.character(x)))
-        self$`parts` <- `parts`
-      }
       if (!is.null(`pooled_in`)) {
         stopifnot(is.vector(`pooled_in`), length(`pooled_in`) != 0)
         sapply(`pooled_in`, function(x) stopifnot(is.character(x)))
@@ -650,6 +659,10 @@ PrimaryCell <- R6::R6Class(
     #' @export
     toJSON = function() {
       PrimaryCellObject <- list()
+      if (!is.null(self$`is_on_anvil`)) {
+        PrimaryCellObject[["is_on_anvil"]] <-
+          self$`is_on_anvil`
+      }
       if (!is.null(self$`preview_timestamp`)) {
         PrimaryCellObject[["preview_timestamp"]] <-
           self$`preview_timestamp`
@@ -774,10 +787,6 @@ PrimaryCell <- R6::R6Class(
         PrimaryCellObject[["pooled_from"]] <-
           self$`pooled_from`
       }
-      if (!is.null(self$`part_of`)) {
-        PrimaryCellObject[["part_of"]] <-
-          self$`part_of`
-      }
       if (!is.null(self$`originated_from`)) {
         PrimaryCellObject[["originated_from"]] <-
           self$`originated_from`
@@ -821,6 +830,10 @@ PrimaryCell <- R6::R6Class(
       if (!is.null(self$`date_obtained`)) {
         PrimaryCellObject[["date_obtained"]] <-
           self$`date_obtained`
+      }
+      if (!is.null(self$`part_of`)) {
+        PrimaryCellObject[["part_of"]] <-
+          self$`part_of`
       }
       if (!is.null(self$`sorted_from`)) {
         PrimaryCellObject[["sorted_from"]] <-
@@ -894,6 +907,10 @@ PrimaryCell <- R6::R6Class(
         PrimaryCellObject[["multiplexed_in"]] <-
           self$`multiplexed_in`
       }
+      if (!is.null(self$`parts`)) {
+        PrimaryCellObject[["parts"]] <-
+          self$`parts`
+      }
       if (!is.null(self$`sorted_fractions`)) {
         PrimaryCellObject[["sorted_fractions"]] <-
           self$`sorted_fractions`
@@ -926,10 +943,6 @@ PrimaryCell <- R6::R6Class(
         PrimaryCellObject[["lower_bound_age_in_hours"]] <-
           self$`lower_bound_age_in_hours`
       }
-      if (!is.null(self$`parts`)) {
-        PrimaryCellObject[["parts"]] <-
-          self$`parts`
-      }
       if (!is.null(self$`pooled_in`)) {
         PrimaryCellObject[["pooled_in"]] <-
           self$`pooled_in`
@@ -950,6 +963,9 @@ PrimaryCell <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`is_on_anvil`)) {
+        self$`is_on_anvil` <- this_object$`is_on_anvil`
+      }
       if (!is.null(this_object$`preview_timestamp`)) {
         self$`preview_timestamp` <- this_object$`preview_timestamp`
       }
@@ -1052,9 +1068,6 @@ PrimaryCell <- R6::R6Class(
       if (!is.null(this_object$`pooled_from`)) {
         self$`pooled_from` <- ApiClient$new()$deserializeObj(this_object$`pooled_from`, "set[character]", loadNamespace("igvfclient"))
       }
-      if (!is.null(this_object$`part_of`)) {
-        self$`part_of` <- this_object$`part_of`
-      }
       if (!is.null(this_object$`originated_from`)) {
         self$`originated_from` <- this_object$`originated_from`
       }
@@ -1090,6 +1103,9 @@ PrimaryCell <- R6::R6Class(
       }
       if (!is.null(this_object$`date_obtained`)) {
         self$`date_obtained` <- this_object$`date_obtained`
+      }
+      if (!is.null(this_object$`part_of`)) {
+        self$`part_of` <- this_object$`part_of`
       }
       if (!is.null(this_object$`sorted_from`)) {
         self$`sorted_from` <- this_object$`sorted_from`
@@ -1151,6 +1167,9 @@ PrimaryCell <- R6::R6Class(
       if (!is.null(this_object$`multiplexed_in`)) {
         self$`multiplexed_in` <- ApiClient$new()$deserializeObj(this_object$`multiplexed_in`, "set[character]", loadNamespace("igvfclient"))
       }
+      if (!is.null(this_object$`parts`)) {
+        self$`parts` <- ApiClient$new()$deserializeObj(this_object$`parts`, "set[character]", loadNamespace("igvfclient"))
+      }
       if (!is.null(this_object$`sorted_fractions`)) {
         self$`sorted_fractions` <- ApiClient$new()$deserializeObj(this_object$`sorted_fractions`, "set[character]", loadNamespace("igvfclient"))
       }
@@ -1178,9 +1197,6 @@ PrimaryCell <- R6::R6Class(
       if (!is.null(this_object$`lower_bound_age_in_hours`)) {
         self$`lower_bound_age_in_hours` <- this_object$`lower_bound_age_in_hours`
       }
-      if (!is.null(this_object$`parts`)) {
-        self$`parts` <- ApiClient$new()$deserializeObj(this_object$`parts`, "set[character]", loadNamespace("igvfclient"))
-      }
       if (!is.null(this_object$`pooled_in`)) {
         self$`pooled_in` <- ApiClient$new()$deserializeObj(this_object$`pooled_in`, "set[character]", loadNamespace("igvfclient"))
       }
@@ -1198,6 +1214,14 @@ PrimaryCell <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`is_on_anvil`)) {
+          sprintf(
+          '"is_on_anvil":
+            %s
+                    ',
+          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`is_on_anvil`, perl=TRUE))
+          )
+        },
         if (!is.null(self$`preview_timestamp`)) {
           sprintf(
           '"preview_timestamp":
@@ -1446,14 +1470,6 @@ PrimaryCell <- R6::R6Class(
           paste(unlist(lapply(self$`pooled_from`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
-        if (!is.null(self$`part_of`)) {
-          sprintf(
-          '"part_of":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`part_of`, perl=TRUE)
-          )
-        },
         if (!is.null(self$`originated_from`)) {
           sprintf(
           '"originated_from":
@@ -1540,6 +1556,14 @@ PrimaryCell <- R6::R6Class(
             "%s"
                     ',
           gsub('(?<!\\\\)\\"', '\\\\"', self$`date_obtained`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`part_of`)) {
+          sprintf(
+          '"part_of":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`part_of`, perl=TRUE)
           )
         },
         if (!is.null(self$`sorted_from`)) {
@@ -1686,6 +1710,14 @@ PrimaryCell <- R6::R6Class(
           paste(unlist(lapply(self$`multiplexed_in`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`parts`)) {
+          sprintf(
+          '"parts":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`parts`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`sorted_fractions`)) {
           sprintf(
           '"sorted_fractions":
@@ -1750,14 +1782,6 @@ PrimaryCell <- R6::R6Class(
           self$`lower_bound_age_in_hours`
           )
         },
-        if (!is.null(self$`parts`)) {
-          sprintf(
-          '"parts":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`parts`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
         if (!is.null(self$`pooled_in`)) {
           sprintf(
           '"pooled_in":
@@ -1788,6 +1812,7 @@ PrimaryCell <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`is_on_anvil` <- this_object$`is_on_anvil`
       self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`release_timestamp` <- this_object$`release_timestamp`
       self$`publications` <- ApiClient$new()$deserializeObj(this_object$`publications`, "set[character]", loadNamespace("igvfclient"))
@@ -1828,7 +1853,6 @@ PrimaryCell <- R6::R6Class(
       self$`sample_terms` <- ApiClient$new()$deserializeObj(this_object$`sample_terms`, "set[character]", loadNamespace("igvfclient"))
       self$`disease_terms` <- ApiClient$new()$deserializeObj(this_object$`disease_terms`, "set[character]", loadNamespace("igvfclient"))
       self$`pooled_from` <- ApiClient$new()$deserializeObj(this_object$`pooled_from`, "set[character]", loadNamespace("igvfclient"))
-      self$`part_of` <- this_object$`part_of`
       self$`originated_from` <- this_object$`originated_from`
       self$`treatments` <- ApiClient$new()$deserializeObj(this_object$`treatments`, "set[character]", loadNamespace("igvfclient"))
       self$`donors` <- ApiClient$new()$deserializeObj(this_object$`donors`, "set[character]", loadNamespace("igvfclient"))
@@ -1843,6 +1867,7 @@ PrimaryCell <- R6::R6Class(
       self$`starting_amount_units` <- this_object$`starting_amount_units`
       self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
       self$`date_obtained` <- this_object$`date_obtained`
+      self$`part_of` <- this_object$`part_of`
       self$`sorted_from` <- this_object$`sorted_from`
       self$`sorted_from_detail` <- this_object$`sorted_from_detail`
       self$`virtual` <- this_object$`virtual`
@@ -1867,6 +1892,7 @@ PrimaryCell <- R6::R6Class(
       self$`summary` <- this_object$`summary`
       self$`file_sets` <- ApiClient$new()$deserializeObj(this_object$`file_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`multiplexed_in` <- ApiClient$new()$deserializeObj(this_object$`multiplexed_in`, "set[character]", loadNamespace("igvfclient"))
+      self$`parts` <- ApiClient$new()$deserializeObj(this_object$`parts`, "set[character]", loadNamespace("igvfclient"))
       self$`sorted_fractions` <- ApiClient$new()$deserializeObj(this_object$`sorted_fractions`, "set[character]", loadNamespace("igvfclient"))
       self$`origin_of` <- ApiClient$new()$deserializeObj(this_object$`origin_of`, "set[character]", loadNamespace("igvfclient"))
       self$`institutional_certificates` <- ApiClient$new()$deserializeObj(this_object$`institutional_certificates`, "set[character]", loadNamespace("igvfclient"))
@@ -1878,7 +1904,6 @@ PrimaryCell <- R6::R6Class(
       self$`age` <- this_object$`age`
       self$`upper_bound_age_in_hours` <- this_object$`upper_bound_age_in_hours`
       self$`lower_bound_age_in_hours` <- this_object$`lower_bound_age_in_hours`
-      self$`parts` <- ApiClient$new()$deserializeObj(this_object$`parts`, "set[character]", loadNamespace("igvfclient"))
       self$`pooled_in` <- ApiClient$new()$deserializeObj(this_object$`pooled_in`, "set[character]", loadNamespace("igvfclient"))
       self$`classifications` <- ApiClient$new()$deserializeObj(this_object$`classifications`, "set[character]", loadNamespace("igvfclient"))
       self
@@ -1976,10 +2001,10 @@ PrimaryCell <- R6::R6Class(
 
 
 
+
       if (!str_detect(self$`age`, "^((\\d+(\\.[1-9])?(\\-\\d+(\\.[1-9])?)?)|(unknown)|([1-8]?\\d)|(90 or above))$")) {
         return(FALSE)
       }
-
 
 
 
@@ -2059,10 +2084,10 @@ PrimaryCell <- R6::R6Class(
 
 
 
+
       if (!str_detect(self$`age`, "^((\\d+(\\.[1-9])?(\\-\\d+(\\.[1-9])?)?)|(unknown)|([1-8]?\\d)|(90 or above))$")) {
         invalid_fields["age"] <- "Invalid value for `age`, must conform to the pattern ^((\\d+(\\.[1-9])?(\\-\\d+(\\.[1-9])?)?)|(unknown)|([1-8]?\\d)|(90 or above))$."
       }
-
 
 
 

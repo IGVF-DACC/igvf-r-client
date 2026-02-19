@@ -44,6 +44,7 @@ Name | Type | Description | Notes
 **upload_status** | **character** | The upload/validation status of the file. | [optional] [Enum: [pending, file not found, invalidated, validated, validation exempted]] 
 **validation_error_detail** | **character** | Explanation of why the file failed the automated content checks. | [optional] 
 **checkfiles_version** | **character** | The Checkfiles GitHub version release the file was validated with. | [optional] 
+**checkfiles_timestamp** | **character** | The date and time the file object was last checked by the Checkfiles script. | [optional] 
 **supersedes** | **set[character]** | The file(s) that this file supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. | [optional] 
 **principal_dimension** | **character** | The principal dimension of the matrix. | [optional] [Enum: [cell, CRISPR guide capture, fragment, gene, mitochondrial variants, time, treatment, variant, genomic position, spot barcode]] 
 **secondary_dimensions** | **set[character]** | The secondary, tertiary....n levels of dimensions of the matrix. | [optional] [Enum: ] 

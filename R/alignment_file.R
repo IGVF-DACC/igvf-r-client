@@ -45,6 +45,7 @@
 #' @field upload_status The upload/validation status of the file. character [optional]
 #' @field validation_error_detail Explanation of why the file failed the automated content checks. character [optional]
 #' @field checkfiles_version The Checkfiles GitHub version release the file was validated with. character [optional]
+#' @field checkfiles_timestamp The date and time the file object was last checked by the Checkfiles script. character [optional]
 #' @field supersedes The file(s) that this file supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
 #' @field read_count Number of reads in a bam file. Including both mapped, unmapped, and multi-mapped read counts. integer [optional]
 #' @field redacted Indicates whether the alignments data have been sanitized (redacted) to prevent leakage of private and potentially identifying genomic information. character [optional]
@@ -110,6 +111,7 @@ AlignmentFile <- R6::R6Class(
     `upload_status` = NULL,
     `validation_error_detail` = NULL,
     `checkfiles_version` = NULL,
+    `checkfiles_timestamp` = NULL,
     `supersedes` = NULL,
     `read_count` = NULL,
     `redacted` = NULL,
@@ -174,6 +176,7 @@ AlignmentFile <- R6::R6Class(
     #' @param upload_status The upload/validation status of the file.
     #' @param validation_error_detail Explanation of why the file failed the automated content checks.
     #' @param checkfiles_version The Checkfiles GitHub version release the file was validated with.
+    #' @param checkfiles_timestamp The date and time the file object was last checked by the Checkfiles script.
     #' @param supersedes The file(s) that this file supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
     #' @param read_count Number of reads in a bam file. Including both mapped, unmapped, and multi-mapped read counts.
     #' @param redacted Indicates whether the alignments data have been sanitized (redacted) to prevent leakage of private and potentially identifying genomic information.
@@ -197,7 +200,7 @@ AlignmentFile <- R6::R6Class(
     #' @param assembly The assembly associated with the alignment file.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`anvil_url` = NULL, `base_modifications` = NULL, `preview_timestamp` = NULL, `controlled_access` = NULL, `release_timestamp` = NULL, `reference_files` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `supersedes` = NULL, `read_count` = NULL, `redacted` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `superseded_by` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `content_summary` = NULL, `transcriptome_annotation` = NULL, `assembly` = NULL, ...) {
+    initialize = function(`anvil_url` = NULL, `base_modifications` = NULL, `preview_timestamp` = NULL, `controlled_access` = NULL, `release_timestamp` = NULL, `reference_files` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `checkfiles_timestamp` = NULL, `supersedes` = NULL, `read_count` = NULL, `redacted` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `superseded_by` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `content_summary` = NULL, `transcriptome_annotation` = NULL, `assembly` = NULL, ...) {
       if (!is.null(`anvil_url`)) {
         if (!(is.character(`anvil_url`) && length(`anvil_url`) == 1)) {
           stop(paste("Error! Invalid data for `anvil_url`. Must be a string:", `anvil_url`))
@@ -425,6 +428,12 @@ AlignmentFile <- R6::R6Class(
           stop(paste("Error! Invalid data for `checkfiles_version`. Must be a string:", `checkfiles_version`))
         }
         self$`checkfiles_version` <- `checkfiles_version`
+      }
+      if (!is.null(`checkfiles_timestamp`)) {
+        if (!(is.character(`checkfiles_timestamp`) && length(`checkfiles_timestamp`) == 1)) {
+          stop(paste("Error! Invalid data for `checkfiles_timestamp`. Must be a string:", `checkfiles_timestamp`))
+        }
+        self$`checkfiles_timestamp` <- `checkfiles_timestamp`
       }
       if (!is.null(`supersedes`)) {
         stopifnot(is.vector(`supersedes`), length(`supersedes`) != 0)
@@ -700,6 +709,10 @@ AlignmentFile <- R6::R6Class(
         AlignmentFileObject[["checkfiles_version"]] <-
           self$`checkfiles_version`
       }
+      if (!is.null(self$`checkfiles_timestamp`)) {
+        AlignmentFileObject[["checkfiles_timestamp"]] <-
+          self$`checkfiles_timestamp`
+      }
       if (!is.null(self$`supersedes`)) {
         AlignmentFileObject[["supersedes"]] <-
           self$`supersedes`
@@ -918,6 +931,9 @@ AlignmentFile <- R6::R6Class(
       }
       if (!is.null(this_object$`checkfiles_version`)) {
         self$`checkfiles_version` <- this_object$`checkfiles_version`
+      }
+      if (!is.null(this_object$`checkfiles_timestamp`)) {
+        self$`checkfiles_timestamp` <- this_object$`checkfiles_timestamp`
       }
       if (!is.null(this_object$`supersedes`)) {
         self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
@@ -1297,6 +1313,14 @@ AlignmentFile <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`checkfiles_version`, perl=TRUE)
           )
         },
+        if (!is.null(self$`checkfiles_timestamp`)) {
+          sprintf(
+          '"checkfiles_timestamp":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`checkfiles_timestamp`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`supersedes`)) {
           sprintf(
           '"supersedes":
@@ -1526,6 +1550,7 @@ AlignmentFile <- R6::R6Class(
       self$`upload_status` <- this_object$`upload_status`
       self$`validation_error_detail` <- this_object$`validation_error_detail`
       self$`checkfiles_version` <- this_object$`checkfiles_version`
+      self$`checkfiles_timestamp` <- this_object$`checkfiles_timestamp`
       self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
       self$`read_count` <- this_object$`read_count`
       self$`redacted` <- this_object$`redacted`

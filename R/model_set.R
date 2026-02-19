@@ -7,6 +7,7 @@
 #' @title ModelSet
 #' @description ModelSet Class
 #' @format An \code{R6Class} generator object
+#' @field is_on_anvil Indicates whether the data object has been submitted to AnVIL. character [optional]
 #' @field doi The Digital Object Identifier (DOI) associated with this object. character [optional]
 #' @field preferred_assay_titles The assay(s) that served as input tranining data for the derivation of this model set. list(character) [optional]
 #' @field preview_timestamp The date the object was previewed. character [optional]
@@ -60,6 +61,7 @@
 ModelSet <- R6::R6Class(
   "ModelSet",
   public = list(
+    `is_on_anvil` = NULL,
     `doi` = NULL,
     `preferred_assay_titles` = NULL,
     `preview_timestamp` = NULL,
@@ -112,6 +114,7 @@ ModelSet <- R6::R6Class(
     #' @description
     #' Initialize a new ModelSet class.
     #'
+    #' @param is_on_anvil Indicates whether the data object has been submitted to AnVIL.
     #' @param doi The Digital Object Identifier (DOI) associated with this object.
     #' @param preferred_assay_titles The assay(s) that served as input tranining data for the derivation of this model set.
     #' @param preview_timestamp The date the object was previewed.
@@ -161,7 +164,13 @@ ModelSet <- R6::R6Class(
     #' @param software_versions The software versions used to produce this predictive model.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`doi` = NULL, `preferred_assay_titles` = NULL, `preview_timestamp` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `model_name` = NULL, `model_version` = NULL, `prediction_objects` = NULL, `model_zoo_location` = NULL, `assessed_genes` = NULL, `external_input_data` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `externally_hosted` = NULL, `software_versions` = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `preferred_assay_titles` = NULL, `preview_timestamp` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `model_name` = NULL, `model_version` = NULL, `prediction_objects` = NULL, `model_zoo_location` = NULL, `assessed_genes` = NULL, `external_input_data` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `externally_hosted` = NULL, `software_versions` = NULL, ...) {
+      if (!is.null(`is_on_anvil`)) {
+        if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
+          stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
+        }
+        self$`is_on_anvil` <- `is_on_anvil`
+      }
       if (!is.null(`doi`)) {
         if (!(is.character(`doi`) && length(`doi`) == 1)) {
           stop(paste("Error! Invalid data for `doi`. Must be a string:", `doi`))
@@ -439,6 +448,10 @@ ModelSet <- R6::R6Class(
     #' @export
     toJSON = function() {
       ModelSetObject <- list()
+      if (!is.null(self$`is_on_anvil`)) {
+        ModelSetObject[["is_on_anvil"]] <-
+          self$`is_on_anvil`
+      }
       if (!is.null(self$`doi`)) {
         ModelSetObject[["doi"]] <-
           self$`doi`
@@ -639,6 +652,9 @@ ModelSet <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`is_on_anvil`)) {
+        self$`is_on_anvil` <- this_object$`is_on_anvil`
+      }
       if (!is.null(this_object$`doi`)) {
         self$`doi` <- this_object$`doi`
       }
@@ -797,6 +813,14 @@ ModelSet <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`is_on_anvil`)) {
+          sprintf(
+          '"is_on_anvil":
+            %s
+                    ',
+          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`is_on_anvil`, perl=TRUE))
+          )
+        },
         if (!is.null(self$`doi`)) {
           sprintf(
           '"doi":
@@ -1187,6 +1211,7 @@ ModelSet <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`is_on_anvil` <- this_object$`is_on_anvil`
       self$`doi` <- this_object$`doi`
       self$`preferred_assay_titles` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_titles`, "array[character]", loadNamespace("igvfclient"))
       self$`preview_timestamp` <- this_object$`preview_timestamp`

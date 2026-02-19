@@ -7,6 +7,7 @@
 #' @title RodentDonor
 #' @description RodentDonor Class
 #' @format An \code{R6Class} generator object
+#' @field is_on_anvil Indicates whether the data object has been submitted to AnVIL. character [optional]
 #' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field taxa The species of the organism. character [optional]
@@ -51,6 +52,7 @@
 RodentDonor <- R6::R6Class(
   "RodentDonor",
   public = list(
+    `is_on_anvil` = NULL,
     `preview_timestamp` = NULL,
     `release_timestamp` = NULL,
     `taxa` = NULL,
@@ -94,6 +96,7 @@ RodentDonor <- R6::R6Class(
     #' @description
     #' Initialize a new RodentDonor class.
     #'
+    #' @param is_on_anvil Indicates whether the data object has been submitted to AnVIL.
     #' @param preview_timestamp The date the object was previewed.
     #' @param release_timestamp The date the object was released.
     #' @param taxa The species of the organism.
@@ -134,7 +137,13 @@ RodentDonor <- R6::R6Class(
     #' @param superseded_by Donor(s) this donor is superseded by virtue of those donor(s) being newer, better, or a fixed version of etc. than this one.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `taxa` = NULL, `publications` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `sex` = NULL, `phenotypic_features` = NULL, `virtual` = NULL, `supersedes` = NULL, `strain_background` = NULL, `strain` = NULL, `genotype` = NULL, `individual_rodent` = NULL, `rodent_identifier` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `superseded_by` = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `taxa` = NULL, `publications` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `sex` = NULL, `phenotypic_features` = NULL, `virtual` = NULL, `supersedes` = NULL, `strain_background` = NULL, `strain` = NULL, `genotype` = NULL, `individual_rodent` = NULL, `rodent_identifier` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `superseded_by` = NULL, ...) {
+      if (!is.null(`is_on_anvil`)) {
+        if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
+          stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
+        }
+        self$`is_on_anvil` <- `is_on_anvil`
+      }
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -374,6 +383,10 @@ RodentDonor <- R6::R6Class(
     #' @export
     toJSON = function() {
       RodentDonorObject <- list()
+      if (!is.null(self$`is_on_anvil`)) {
+        RodentDonorObject[["is_on_anvil"]] <-
+          self$`is_on_anvil`
+      }
       if (!is.null(self$`preview_timestamp`)) {
         RodentDonorObject[["preview_timestamp"]] <-
           self$`preview_timestamp`
@@ -538,6 +551,9 @@ RodentDonor <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`is_on_anvil`)) {
+        self$`is_on_anvil` <- this_object$`is_on_anvil`
+      }
       if (!is.null(this_object$`preview_timestamp`)) {
         self$`preview_timestamp` <- this_object$`preview_timestamp`
       }
@@ -675,6 +691,14 @@ RodentDonor <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`is_on_anvil`)) {
+          sprintf(
+          '"is_on_anvil":
+            %s
+                    ',
+          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`is_on_anvil`, perl=TRUE))
+          )
+        },
         if (!is.null(self$`preview_timestamp`)) {
           sprintf(
           '"preview_timestamp":
@@ -993,6 +1017,7 @@ RodentDonor <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`is_on_anvil` <- this_object$`is_on_anvil`
       self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`release_timestamp` <- this_object$`release_timestamp`
       if (!is.null(this_object$`taxa`) && !(this_object$`taxa` %in% c("Mus musculus"))) {

@@ -5,6 +5,7 @@ A file set for analyses. Analysis sets represent the results of a computational 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**is_on_anvil** | **character** | Indicates whether the data object has been submitted to AnVIL. | [optional] 
 **doi** | **character** | The Digital Object Identifier (DOI) associated with this object. | [optional] [Pattern: ^(10.65695/IGVFDS\\d{4}[A-Z]{4})$] 
 **preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **input_file_sets** | **set[character]** | The file set(s) required for this analysis. | [optional] 

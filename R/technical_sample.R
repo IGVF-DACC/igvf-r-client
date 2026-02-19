@@ -7,6 +7,7 @@
 #' @title TechnicalSample
 #' @description TechnicalSample Class
 #' @format An \code{R6Class} generator object
+#' @field is_on_anvil Indicates whether the data object has been submitted to AnVIL. character [optional]
 #' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field publications The publications associated with this object. list(character) [optional]
@@ -34,6 +35,7 @@
 #' @field starting_amount_units The units used to quantify the amount of samples obtained. character [optional]
 #' @field dbxrefs Biosample identifiers from external resources, such as Biosample database or Cellosaurus. list(character) [optional]
 #' @field date_obtained The date the sample was harvested, dissected or created, depending on the type of the sample. character [optional]
+#' @field part_of Links to a sample which represents a larger sample from which this sample was taken regardless of whether it is a tissue taken from an organism or smaller slices of a piece of tissue or aliquots of a cell growth. character [optional]
 #' @field sorted_from Links to a larger sample from which this sample was obtained through sorting. character [optional]
 #' @field sorted_from_detail Detail for sample sorted into fractions capturing information about sorting. character [optional]
 #' @field virtual Virtual samples are not representing actual physical entities from experiments, but rather capturing metadata about hypothetical samples that the reported analysis results are relevant for. character [optional]
@@ -49,25 +51,25 @@
 #' @field taxa  character [optional]
 #' @field sample_terms Ontology terms identifying a technical sample. list(character) [optional]
 #' @field treatments A list of treatments applied to the technical sample with the purpose of perturbation. list(character) [optional]
-#' @field part_of Links to technical sample which represents a larger sample from which this sample was taken. character [optional]
 #' @field originated_from Links to a technical sample that was originated from due to the introduction of a genetic modification. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of this sample. character [optional]
 #' @field file_sets The file sets linked to this sample. list(character) [optional]
 #' @field multiplexed_in The multiplexed samples in which this sample is included. list(character) [optional]
+#' @field parts The parts into which this sample has been divided. list(character) [optional]
 #' @field sorted_fractions The fractions into which this sample has been sorted. list(character) [optional]
 #' @field origin_of The samples which originate from this sample, such as through a process of cell fate change or the introduction of a genetic material. list(character) [optional]
 #' @field institutional_certificates The institutional certificates under which use of this sample is approved. list(character) [optional]
 #' @field superseded_by Sample(s) this sample is superseded by virtue of those sample(s) being newer, better, or a fixed version of etc. than this one. list(character) [optional]
 #' @field classifications The general category of this type of sample. list(character) [optional]
-#' @field parts The parts into which this sample has been divided. list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
 TechnicalSample <- R6::R6Class(
   "TechnicalSample",
   public = list(
+    `is_on_anvil` = NULL,
     `preview_timestamp` = NULL,
     `release_timestamp` = NULL,
     `publications` = NULL,
@@ -95,6 +97,7 @@ TechnicalSample <- R6::R6Class(
     `starting_amount_units` = NULL,
     `dbxrefs` = NULL,
     `date_obtained` = NULL,
+    `part_of` = NULL,
     `sorted_from` = NULL,
     `sorted_from_detail` = NULL,
     `virtual` = NULL,
@@ -110,24 +113,24 @@ TechnicalSample <- R6::R6Class(
     `taxa` = NULL,
     `sample_terms` = NULL,
     `treatments` = NULL,
-    `part_of` = NULL,
     `originated_from` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
     `file_sets` = NULL,
     `multiplexed_in` = NULL,
+    `parts` = NULL,
     `sorted_fractions` = NULL,
     `origin_of` = NULL,
     `institutional_certificates` = NULL,
     `superseded_by` = NULL,
     `classifications` = NULL,
-    `parts` = NULL,
     #' Initialize a new TechnicalSample class.
     #'
     #' @description
     #' Initialize a new TechnicalSample class.
     #'
+    #' @param is_on_anvil Indicates whether the data object has been submitted to AnVIL.
     #' @param preview_timestamp The date the object was previewed.
     #' @param release_timestamp The date the object was released.
     #' @param publications The publications associated with this object.
@@ -155,6 +158,7 @@ TechnicalSample <- R6::R6Class(
     #' @param starting_amount_units The units used to quantify the amount of samples obtained.
     #' @param dbxrefs Biosample identifiers from external resources, such as Biosample database or Cellosaurus.
     #' @param date_obtained The date the sample was harvested, dissected or created, depending on the type of the sample.
+    #' @param part_of Links to a sample which represents a larger sample from which this sample was taken regardless of whether it is a tissue taken from an organism or smaller slices of a piece of tissue or aliquots of a cell growth.
     #' @param sorted_from Links to a larger sample from which this sample was obtained through sorting.
     #' @param sorted_from_detail Detail for sample sorted into fractions capturing information about sorting.
     #' @param virtual Virtual samples are not representing actual physical entities from experiments, but rather capturing metadata about hypothetical samples that the reported analysis results are relevant for.
@@ -170,22 +174,27 @@ TechnicalSample <- R6::R6Class(
     #' @param taxa taxa
     #' @param sample_terms Ontology terms identifying a technical sample.
     #' @param treatments A list of treatments applied to the technical sample with the purpose of perturbation.
-    #' @param part_of Links to technical sample which represents a larger sample from which this sample was taken.
     #' @param originated_from Links to a technical sample that was originated from due to the introduction of a genetic modification.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of this sample.
     #' @param file_sets The file sets linked to this sample.
     #' @param multiplexed_in The multiplexed samples in which this sample is included.
+    #' @param parts The parts into which this sample has been divided.
     #' @param sorted_fractions The fractions into which this sample has been sorted.
     #' @param origin_of The samples which originate from this sample, such as through a process of cell fate change or the introduction of a genetic material.
     #' @param institutional_certificates The institutional certificates under which use of this sample is approved.
     #' @param superseded_by Sample(s) this sample is superseded by virtue of those sample(s) being newer, better, or a fixed version of etc. than this one.
     #' @param classifications The general category of this type of sample.
-    #' @param parts The parts into which this sample has been divided.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `selection_conditions` = NULL, `sample_material` = NULL, `taxa` = NULL, `sample_terms` = NULL, `treatments` = NULL, `part_of` = NULL, `originated_from` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `classifications` = NULL, `parts` = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `part_of` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `selection_conditions` = NULL, `sample_material` = NULL, `taxa` = NULL, `sample_terms` = NULL, `treatments` = NULL, `originated_from` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `parts` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `classifications` = NULL, ...) {
+      if (!is.null(`is_on_anvil`)) {
+        if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
+          stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
+        }
+        self$`is_on_anvil` <- `is_on_anvil`
+      }
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -344,6 +353,12 @@ TechnicalSample <- R6::R6Class(
         }
         self$`date_obtained` <- `date_obtained`
       }
+      if (!is.null(`part_of`)) {
+        if (!(is.character(`part_of`) && length(`part_of`) == 1)) {
+          stop(paste("Error! Invalid data for `part_of`. Must be a string:", `part_of`))
+        }
+        self$`part_of` <- `part_of`
+      }
       if (!is.null(`sorted_from`)) {
         if (!(is.character(`sorted_from`) && length(`sorted_from`) == 1)) {
           stop(paste("Error! Invalid data for `sorted_from`. Must be a string:", `sorted_from`))
@@ -434,12 +449,6 @@ TechnicalSample <- R6::R6Class(
         sapply(`treatments`, function(x) stopifnot(is.character(x)))
         self$`treatments` <- `treatments`
       }
-      if (!is.null(`part_of`)) {
-        if (!(is.character(`part_of`) && length(`part_of`) == 1)) {
-          stop(paste("Error! Invalid data for `part_of`. Must be a string:", `part_of`))
-        }
-        self$`part_of` <- `part_of`
-      }
       if (!is.null(`originated_from`)) {
         if (!(is.character(`originated_from`) && length(`originated_from`) == 1)) {
           stop(paste("Error! Invalid data for `originated_from`. Must be a string:", `originated_from`))
@@ -473,6 +482,11 @@ TechnicalSample <- R6::R6Class(
         sapply(`multiplexed_in`, function(x) stopifnot(is.character(x)))
         self$`multiplexed_in` <- `multiplexed_in`
       }
+      if (!is.null(`parts`)) {
+        stopifnot(is.vector(`parts`), length(`parts`) != 0)
+        sapply(`parts`, function(x) stopifnot(is.character(x)))
+        self$`parts` <- `parts`
+      }
       if (!is.null(`sorted_fractions`)) {
         stopifnot(is.vector(`sorted_fractions`), length(`sorted_fractions`) != 0)
         sapply(`sorted_fractions`, function(x) stopifnot(is.character(x)))
@@ -498,11 +512,6 @@ TechnicalSample <- R6::R6Class(
         sapply(`classifications`, function(x) stopifnot(is.character(x)))
         self$`classifications` <- `classifications`
       }
-      if (!is.null(`parts`)) {
-        stopifnot(is.vector(`parts`), length(`parts`) != 0)
-        sapply(`parts`, function(x) stopifnot(is.character(x)))
-        self$`parts` <- `parts`
-      }
     },
     #' To JSON string
     #'
@@ -513,6 +522,10 @@ TechnicalSample <- R6::R6Class(
     #' @export
     toJSON = function() {
       TechnicalSampleObject <- list()
+      if (!is.null(self$`is_on_anvil`)) {
+        TechnicalSampleObject[["is_on_anvil"]] <-
+          self$`is_on_anvil`
+      }
       if (!is.null(self$`preview_timestamp`)) {
         TechnicalSampleObject[["preview_timestamp"]] <-
           self$`preview_timestamp`
@@ -621,6 +634,10 @@ TechnicalSample <- R6::R6Class(
         TechnicalSampleObject[["date_obtained"]] <-
           self$`date_obtained`
       }
+      if (!is.null(self$`part_of`)) {
+        TechnicalSampleObject[["part_of"]] <-
+          self$`part_of`
+      }
       if (!is.null(self$`sorted_from`)) {
         TechnicalSampleObject[["sorted_from"]] <-
           self$`sorted_from`
@@ -681,10 +698,6 @@ TechnicalSample <- R6::R6Class(
         TechnicalSampleObject[["treatments"]] <-
           self$`treatments`
       }
-      if (!is.null(self$`part_of`)) {
-        TechnicalSampleObject[["part_of"]] <-
-          self$`part_of`
-      }
       if (!is.null(self$`originated_from`)) {
         TechnicalSampleObject[["originated_from"]] <-
           self$`originated_from`
@@ -709,6 +722,10 @@ TechnicalSample <- R6::R6Class(
         TechnicalSampleObject[["multiplexed_in"]] <-
           self$`multiplexed_in`
       }
+      if (!is.null(self$`parts`)) {
+        TechnicalSampleObject[["parts"]] <-
+          self$`parts`
+      }
       if (!is.null(self$`sorted_fractions`)) {
         TechnicalSampleObject[["sorted_fractions"]] <-
           self$`sorted_fractions`
@@ -729,10 +746,6 @@ TechnicalSample <- R6::R6Class(
         TechnicalSampleObject[["classifications"]] <-
           self$`classifications`
       }
-      if (!is.null(self$`parts`)) {
-        TechnicalSampleObject[["parts"]] <-
-          self$`parts`
-      }
       TechnicalSampleObject
     },
     #' Deserialize JSON string into an instance of TechnicalSample
@@ -745,6 +758,9 @@ TechnicalSample <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`is_on_anvil`)) {
+        self$`is_on_anvil` <- this_object$`is_on_anvil`
+      }
       if (!is.null(this_object$`preview_timestamp`)) {
         self$`preview_timestamp` <- this_object$`preview_timestamp`
       }
@@ -832,6 +848,9 @@ TechnicalSample <- R6::R6Class(
       if (!is.null(this_object$`date_obtained`)) {
         self$`date_obtained` <- this_object$`date_obtained`
       }
+      if (!is.null(this_object$`part_of`)) {
+        self$`part_of` <- this_object$`part_of`
+      }
       if (!is.null(this_object$`sorted_from`)) {
         self$`sorted_from` <- this_object$`sorted_from`
       }
@@ -889,9 +908,6 @@ TechnicalSample <- R6::R6Class(
       if (!is.null(this_object$`treatments`)) {
         self$`treatments` <- ApiClient$new()$deserializeObj(this_object$`treatments`, "set[character]", loadNamespace("igvfclient"))
       }
-      if (!is.null(this_object$`part_of`)) {
-        self$`part_of` <- this_object$`part_of`
-      }
       if (!is.null(this_object$`originated_from`)) {
         self$`originated_from` <- this_object$`originated_from`
       }
@@ -910,6 +926,9 @@ TechnicalSample <- R6::R6Class(
       if (!is.null(this_object$`multiplexed_in`)) {
         self$`multiplexed_in` <- ApiClient$new()$deserializeObj(this_object$`multiplexed_in`, "set[character]", loadNamespace("igvfclient"))
       }
+      if (!is.null(this_object$`parts`)) {
+        self$`parts` <- ApiClient$new()$deserializeObj(this_object$`parts`, "set[character]", loadNamespace("igvfclient"))
+      }
       if (!is.null(this_object$`sorted_fractions`)) {
         self$`sorted_fractions` <- ApiClient$new()$deserializeObj(this_object$`sorted_fractions`, "set[character]", loadNamespace("igvfclient"))
       }
@@ -925,9 +944,6 @@ TechnicalSample <- R6::R6Class(
       if (!is.null(this_object$`classifications`)) {
         self$`classifications` <- ApiClient$new()$deserializeObj(this_object$`classifications`, "set[character]", loadNamespace("igvfclient"))
       }
-      if (!is.null(this_object$`parts`)) {
-        self$`parts` <- ApiClient$new()$deserializeObj(this_object$`parts`, "set[character]", loadNamespace("igvfclient"))
-      }
       self
     },
     #' To JSON string
@@ -939,6 +955,14 @@ TechnicalSample <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`is_on_anvil`)) {
+          sprintf(
+          '"is_on_anvil":
+            %s
+                    ',
+          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`is_on_anvil`, perl=TRUE))
+          )
+        },
         if (!is.null(self$`preview_timestamp`)) {
           sprintf(
           '"preview_timestamp":
@@ -1155,6 +1179,14 @@ TechnicalSample <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`date_obtained`, perl=TRUE)
           )
         },
+        if (!is.null(self$`part_of`)) {
+          sprintf(
+          '"part_of":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`part_of`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`sorted_from`)) {
           sprintf(
           '"sorted_from":
@@ -1275,14 +1307,6 @@ TechnicalSample <- R6::R6Class(
           paste(unlist(lapply(self$`treatments`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
-        if (!is.null(self$`part_of`)) {
-          sprintf(
-          '"part_of":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`part_of`, perl=TRUE)
-          )
-        },
         if (!is.null(self$`originated_from`)) {
           sprintf(
           '"originated_from":
@@ -1331,6 +1355,14 @@ TechnicalSample <- R6::R6Class(
           paste(unlist(lapply(self$`multiplexed_in`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`parts`)) {
+          sprintf(
+          '"parts":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`parts`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`sorted_fractions`)) {
           sprintf(
           '"sorted_fractions":
@@ -1370,14 +1402,6 @@ TechnicalSample <- R6::R6Class(
           ',
           paste(unlist(lapply(self$`classifications`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
-        },
-        if (!is.null(self$`parts`)) {
-          sprintf(
-          '"parts":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`parts`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -1393,6 +1417,7 @@ TechnicalSample <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`is_on_anvil` <- this_object$`is_on_anvil`
       self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`release_timestamp` <- this_object$`release_timestamp`
       self$`publications` <- ApiClient$new()$deserializeObj(this_object$`publications`, "set[character]", loadNamespace("igvfclient"))
@@ -1426,6 +1451,7 @@ TechnicalSample <- R6::R6Class(
       self$`starting_amount_units` <- this_object$`starting_amount_units`
       self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
       self$`date_obtained` <- this_object$`date_obtained`
+      self$`part_of` <- this_object$`part_of`
       self$`sorted_from` <- this_object$`sorted_from`
       self$`sorted_from_detail` <- this_object$`sorted_from_detail`
       self$`virtual` <- this_object$`virtual`
@@ -1453,19 +1479,18 @@ TechnicalSample <- R6::R6Class(
       self$`taxa` <- this_object$`taxa`
       self$`sample_terms` <- ApiClient$new()$deserializeObj(this_object$`sample_terms`, "set[character]", loadNamespace("igvfclient"))
       self$`treatments` <- ApiClient$new()$deserializeObj(this_object$`treatments`, "set[character]", loadNamespace("igvfclient"))
-      self$`part_of` <- this_object$`part_of`
       self$`originated_from` <- this_object$`originated_from`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
       self$`file_sets` <- ApiClient$new()$deserializeObj(this_object$`file_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`multiplexed_in` <- ApiClient$new()$deserializeObj(this_object$`multiplexed_in`, "set[character]", loadNamespace("igvfclient"))
+      self$`parts` <- ApiClient$new()$deserializeObj(this_object$`parts`, "set[character]", loadNamespace("igvfclient"))
       self$`sorted_fractions` <- ApiClient$new()$deserializeObj(this_object$`sorted_fractions`, "set[character]", loadNamespace("igvfclient"))
       self$`origin_of` <- ApiClient$new()$deserializeObj(this_object$`origin_of`, "set[character]", loadNamespace("igvfclient"))
       self$`institutional_certificates` <- ApiClient$new()$deserializeObj(this_object$`institutional_certificates`, "set[character]", loadNamespace("igvfclient"))
       self$`superseded_by` <- ApiClient$new()$deserializeObj(this_object$`superseded_by`, "set[character]", loadNamespace("igvfclient"))
       self$`classifications` <- ApiClient$new()$deserializeObj(this_object$`classifications`, "set[character]", loadNamespace("igvfclient"))
-      self$`parts` <- ApiClient$new()$deserializeObj(this_object$`parts`, "set[character]", loadNamespace("igvfclient"))
       self
     },
     #' Validate JSON input with respect to TechnicalSample

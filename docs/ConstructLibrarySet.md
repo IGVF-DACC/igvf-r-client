@@ -5,6 +5,7 @@ Construct library set is a file set that hosts raw data files (e.g. FASTQs) resu
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**is_on_anvil** | **character** | Indicates whether the data object has been submitted to AnVIL. | [optional] 
 **doi** | **character** | The Digital Object Identifier (DOI) associated with this object. | [optional] [Pattern: ^(10.65695/IGVFDS\\d{4}[A-Z]{4})$] 
 **preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **control_file_sets** | **set[character]** | File sets that can serve as scientific controls for this file set. | [optional] 
@@ -33,7 +34,7 @@ Name | Type | Description | Notes
 **submitted_by** | **character** | The user who submitted the object. | [optional] 
 **submitter_comment** | **character** | Additional information specified by the submitter to be displayed as a comment on the portal. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **description** | **character** | A plain text description of the object. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
-**file_set_type** | **character** | The type or category of this construct library set. | [optional] [Enum: [guide library, reporter library, expression vector library, editing template library]] 
+**file_set_type** | **character** | The type or category of this construct library set. | [optional] [Enum: [guide library, reporter library, expression vector library, overexpression vector library, editing template library]] 
 **control_types** | **set[character]** | The types of control this construct library set set represents. | [optional] [Enum: ] 
 **scope** | **character** | The scope or scale that this construct library is designed to target. | [optional] [Enum: [tile, exon, genes, loci, genome-wide, interactors, alleles, targeton, control]] 
 **selection_criteria** | **set[character]** | The criteria used to select the sequence material cloned into the library. | [optional] [Enum: ] 

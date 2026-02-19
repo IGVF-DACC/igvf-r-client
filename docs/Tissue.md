@@ -5,6 +5,7 @@ A biosample that is directly harvested from a donor, typically a dissection from
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**is_on_anvil** | **character** | Indicates whether the data object has been submitted to AnVIL. | [optional] 
 **preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **publications** | **set[character]** | The publications associated with this object. | [optional] 
@@ -36,7 +37,6 @@ Name | Type | Description | Notes
 **sample_terms** | **set[character]** | Ontology terms identifying a biosample. | [optional] 
 **disease_terms** | **set[character]** | Ontology term of the disease associated with the biosample. | [optional] 
 **pooled_from** | **set[character]** | The biosamples this biosample is pooled from. | [optional] 
-**part_of** | **character** | Links to a biosample which represents a larger sample from which this sample was taken regardless of whether it is a tissue taken from an organism or smaller slices of a piece of tissue or aliquots of a cell growth. | [optional] 
 **originated_from** | **character** | Links to a biosample that was originated from due to differentiation, dedifferentiation, reprogramming, or the introduction of a genetic modification. | [optional] 
 **treatments** | **set[character]** | A list of treatments applied to the biosample with the purpose of perturbation. | [optional] 
 **donors** | **set[character]** | Donor(s) the sample was derived from. | [optional] 
@@ -48,6 +48,7 @@ Name | Type | Description | Notes
 **starting_amount_units** | **character** | The units used to quantify the amount of samples obtained. | [optional] [Enum: [cells, cells/ml, g, items, mg, whole animals, whole embryos, μg, ng]] 
 **dbxrefs** | **set[character]** | Biosample identifiers from external resources, such as Biosample database or Cellosaurus. | [optional] 
 **date_obtained** | **character** | The date the sample was harvested, dissected or created, depending on the type of the sample. | [optional] 
+**part_of** | **character** | Links to a sample which represents a larger sample from which this sample was taken regardless of whether it is a tissue taken from an organism or smaller slices of a piece of tissue or aliquots of a cell growth. | [optional] 
 **sorted_from** | **character** | Links to a larger sample from which this sample was obtained through sorting. | [optional] 
 **sorted_from_detail** | **character** | Detail for sample sorted into fractions capturing information about sorting. | [optional] 
 **virtual** | **character** | Virtual samples are not representing actual physical entities from experiments, but rather capturing metadata about hypothetical samples that the reported analysis results are relevant for. | [optional] 
@@ -68,6 +69,7 @@ Name | Type | Description | Notes
 **summary** | **character** | A summary of the sample. | [optional] 
 **file_sets** | **set[character]** | The file sets linked to this sample. | [optional] 
 **multiplexed_in** | **set[character]** | The multiplexed samples in which this sample is included. | [optional] 
+**parts** | **set[character]** | The parts into which this sample has been divided. | [optional] 
 **sorted_fractions** | **set[character]** | The fractions into which this sample has been sorted. | [optional] 
 **origin_of** | **set[character]** | The samples which originate from this sample, such as through a process of cell fate change or the introduction of a genetic material. | [optional] 
 **institutional_certificates** | **set[character]** | The institutional certificates under which use of this sample is approved. | [optional] 
@@ -76,7 +78,6 @@ Name | Type | Description | Notes
 **age** | **character** | Age of organism at the time of collection of the sample. | [optional] [Pattern: ^((\\d+(\\.[1-9])?(\\-\\d+(\\.[1-9])?)?)|(unknown)|([1-8]?\\d)|(90 or above))$] 
 **upper_bound_age_in_hours** | **numeric** | Upper bound of age of organism in hours at the time of collection of the sample. | [optional] 
 **lower_bound_age_in_hours** | **numeric** | Lower bound of age of organism in hours at the time of collection of the sample . | [optional] 
-**parts** | **set[character]** | The parts into which this sample has been divided. | [optional] 
 **pooled_in** | **set[character]** | The pooled samples in which this sample is included. | [optional] 
 **classifications** | **set[character]** | The general category of this type of sample. | [optional] 
 

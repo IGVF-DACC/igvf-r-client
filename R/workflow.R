@@ -36,7 +36,7 @@
 #' @field analysis_step_versions The available versions of the analysis steps linked to this workflow. list(character) [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
-#' @field summary A summary of the object. character [optional]
+#' @field summary  character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -107,7 +107,7 @@ Workflow <- R6::R6Class(
     #' @param analysis_step_versions The available versions of the analysis steps linked to this workflow.
     #' @param @id @id
     #' @param @type @type
-    #' @param summary A summary of the object.
+    #' @param summary summary
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(`preferred_assay_titles` = NULL, `preview_timestamp` = NULL, `source_url` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `name` = NULL, `workflow_repositories` = NULL, `standards_page` = NULL, `workflow_version` = NULL, `uniform_pipeline` = NULL, `analysis_step_versions` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, ...) {

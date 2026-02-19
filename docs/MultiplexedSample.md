@@ -5,6 +5,7 @@ A sample that is made by multiplexing multiple distinct samples.
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**is_on_anvil** | **character** | Indicates whether the data object has been submitted to AnVIL. | [optional] 
 **preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **publications** | **set[character]** | The publications associated with this object. | [optional] 
@@ -29,6 +30,7 @@ Name | Type | Description | Notes
 **starting_amount_units** | **character** | The units used to quantify the amount of samples obtained. | [optional] [Enum: [cells, cells/ml, g, items, mg, whole animals, whole embryos, μg, ng]] 
 **dbxrefs** | **set[character]** | Biosample identifiers from external resources, such as Biosample database or Cellosaurus. | [optional] 
 **date_obtained** | **character** | The date the sample was harvested, dissected or created, depending on the type of the sample. | [optional] 
+**part_of** | **character** | Links to a sample which represents a larger sample from which this sample was taken regardless of whether it is a tissue taken from an organism or smaller slices of a piece of tissue or aliquots of a cell growth. | [optional] 
 **sorted_from** | **character** | Links to a larger sample from which this sample was obtained through sorting. | [optional] 
 **sorted_from_detail** | **character** | Detail for sample sorted into fractions capturing information about sorting. | [optional] 
 **virtual** | **character** | Virtual samples are not representing actual physical entities from experiments, but rather capturing metadata about hypothetical samples that the reported analysis results are relevant for. | [optional] 
@@ -49,6 +51,7 @@ Name | Type | Description | Notes
 **summary** | **character** | A summary of this sample. | [optional] 
 **file_sets** | **set[character]** | The file sets linked to this sample. | [optional] 
 **multiplexed_in** | **set[character]** | The multiplexed samples in which this sample is included. | [optional] 
+**parts** | **set[character]** | The parts into which this sample has been divided. | [optional] 
 **sorted_fractions** | **set[character]** | The fractions into which this sample has been sorted. | [optional] 
 **origin_of** | **set[character]** | The samples which originate from this sample, such as through a process of cell fate change or the introduction of a genetic material. | [optional] 
 **institutional_certificates** | **set[character]** | The institutional certificates of the samples included in this multiplexed sample. | [optional] 

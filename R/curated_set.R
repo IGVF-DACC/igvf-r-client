@@ -7,6 +7,7 @@
 #' @title CuratedSet
 #' @description CuratedSet Class
 #' @format An \code{R6Class} generator object
+#' @field is_on_anvil Indicates whether the data object has been submitted to AnVIL. character [optional]
 #' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field taxa The species of the organism. character [optional]
@@ -52,6 +53,7 @@
 CuratedSet <- R6::R6Class(
   "CuratedSet",
   public = list(
+    `is_on_anvil` = NULL,
     `preview_timestamp` = NULL,
     `release_timestamp` = NULL,
     `taxa` = NULL,
@@ -96,6 +98,7 @@ CuratedSet <- R6::R6Class(
     #' @description
     #' Initialize a new CuratedSet class.
     #'
+    #' @param is_on_anvil Indicates whether the data object has been submitted to AnVIL.
     #' @param preview_timestamp The date the object was previewed.
     #' @param release_timestamp The date the object was released.
     #' @param taxa The species of the organism.
@@ -137,7 +140,13 @@ CuratedSet <- R6::R6Class(
     #' @param transcriptome_annotations The annotation versions of the reference resource.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `taxa` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `assemblies` = NULL, `transcriptome_annotations` = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `taxa` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `assemblies` = NULL, `transcriptome_annotations` = NULL, ...) {
+      if (!is.null(`is_on_anvil`)) {
+        if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
+          stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
+        }
+        self$`is_on_anvil` <- `is_on_anvil`
+      }
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -281,8 +290,8 @@ CuratedSet <- R6::R6Class(
         self$`donors` <- `donors`
       }
       if (!is.null(`file_set_type`)) {
-        if (!(`file_set_type` %in% c("barcodes", "editing templates", "elements", "external data for catalog", "functional effect", "genome", "genes", "guide RNAs", "pipeline parameters", "enrichment designs", "QTL", "training data for predictive models", "transcriptome", "variants"))) {
-          stop(paste("Error! \"", `file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"barcodes\", \"editing templates\", \"elements\", \"external data for catalog\", \"functional effect\", \"genome\", \"genes\", \"guide RNAs\", \"pipeline parameters\", \"enrichment designs\", \"QTL\", \"training data for predictive models\", \"transcriptome\", \"variants\".", sep = ""))
+        if (!(`file_set_type` %in% c("barcodes", "editing templates", "elements", "external data for catalog", "external sequencing data", "functional effect", "genome", "genes", "guide RNAs", "pipeline parameters", "enrichment designs", "QTL", "training data for predictive models", "transcriptome", "variants"))) {
+          stop(paste("Error! \"", `file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"barcodes\", \"editing templates\", \"elements\", \"external data for catalog\", \"external sequencing data\", \"functional effect\", \"genome\", \"genes\", \"guide RNAs\", \"pipeline parameters\", \"enrichment designs\", \"QTL\", \"training data for predictive models\", \"transcriptome\", \"variants\".", sep = ""))
         }
         if (!(is.character(`file_set_type`) && length(`file_set_type`) == 1)) {
           stop(paste("Error! Invalid data for `file_set_type`. Must be a string:", `file_set_type`))
@@ -373,6 +382,10 @@ CuratedSet <- R6::R6Class(
     #' @export
     toJSON = function() {
       CuratedSetObject <- list()
+      if (!is.null(self$`is_on_anvil`)) {
+        CuratedSetObject[["is_on_anvil"]] <-
+          self$`is_on_anvil`
+      }
       if (!is.null(self$`preview_timestamp`)) {
         CuratedSetObject[["preview_timestamp"]] <-
           self$`preview_timestamp`
@@ -541,6 +554,9 @@ CuratedSet <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`is_on_anvil`)) {
+        self$`is_on_anvil` <- this_object$`is_on_anvil`
+      }
       if (!is.null(this_object$`preview_timestamp`)) {
         self$`preview_timestamp` <- this_object$`preview_timestamp`
       }
@@ -620,8 +636,8 @@ CuratedSet <- R6::R6Class(
         self$`donors` <- ApiClient$new()$deserializeObj(this_object$`donors`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`file_set_type`)) {
-        if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("barcodes", "editing templates", "elements", "external data for catalog", "functional effect", "genome", "genes", "guide RNAs", "pipeline parameters", "enrichment designs", "QTL", "training data for predictive models", "transcriptome", "variants"))) {
-          stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"barcodes\", \"editing templates\", \"elements\", \"external data for catalog\", \"functional effect\", \"genome\", \"genes\", \"guide RNAs\", \"pipeline parameters\", \"enrichment designs\", \"QTL\", \"training data for predictive models\", \"transcriptome\", \"variants\".", sep = ""))
+        if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("barcodes", "editing templates", "elements", "external data for catalog", "external sequencing data", "functional effect", "genome", "genes", "guide RNAs", "pipeline parameters", "enrichment designs", "QTL", "training data for predictive models", "transcriptome", "variants"))) {
+          stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"barcodes\", \"editing templates\", \"elements\", \"external data for catalog\", \"external sequencing data\", \"functional effect\", \"genome\", \"genes\", \"guide RNAs\", \"pipeline parameters\", \"enrichment designs\", \"QTL\", \"training data for predictive models\", \"transcriptome\", \"variants\".", sep = ""))
         }
         self$`file_set_type` <- this_object$`file_set_type`
       }
@@ -678,6 +694,14 @@ CuratedSet <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`is_on_anvil`)) {
+          sprintf(
+          '"is_on_anvil":
+            %s
+                    ',
+          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`is_on_anvil`, perl=TRUE))
+          )
+        },
         if (!is.null(self$`preview_timestamp`)) {
           sprintf(
           '"preview_timestamp":
@@ -1004,6 +1028,7 @@ CuratedSet <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`is_on_anvil` <- this_object$`is_on_anvil`
       self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`release_timestamp` <- this_object$`release_timestamp`
       if (!is.null(this_object$`taxa`) && !(this_object$`taxa` %in% c("Homo sapiens", "Mus musculus"))) {
@@ -1034,8 +1059,8 @@ CuratedSet <- R6::R6Class(
       self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
       self$`samples` <- ApiClient$new()$deserializeObj(this_object$`samples`, "set[character]", loadNamespace("igvfclient"))
       self$`donors` <- ApiClient$new()$deserializeObj(this_object$`donors`, "set[character]", loadNamespace("igvfclient"))
-      if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("barcodes", "editing templates", "elements", "external data for catalog", "functional effect", "genome", "genes", "guide RNAs", "pipeline parameters", "enrichment designs", "QTL", "training data for predictive models", "transcriptome", "variants"))) {
-        stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"barcodes\", \"editing templates\", \"elements\", \"external data for catalog\", \"functional effect\", \"genome\", \"genes\", \"guide RNAs\", \"pipeline parameters\", \"enrichment designs\", \"QTL\", \"training data for predictive models\", \"transcriptome\", \"variants\".", sep = ""))
+      if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("barcodes", "editing templates", "elements", "external data for catalog", "external sequencing data", "functional effect", "genome", "genes", "guide RNAs", "pipeline parameters", "enrichment designs", "QTL", "training data for predictive models", "transcriptome", "variants"))) {
+        stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"barcodes\", \"editing templates\", \"elements\", \"external data for catalog\", \"external sequencing data\", \"functional effect\", \"genome\", \"genes\", \"guide RNAs\", \"pipeline parameters\", \"enrichment designs\", \"QTL\", \"training data for predictive models\", \"transcriptome\", \"variants\".", sep = ""))
       }
       self$`file_set_type` <- this_object$`file_set_type`
       self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))

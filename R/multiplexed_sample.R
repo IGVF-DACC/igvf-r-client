@@ -7,6 +7,7 @@
 #' @title MultiplexedSample
 #' @description MultiplexedSample Class
 #' @format An \code{R6Class} generator object
+#' @field is_on_anvil Indicates whether the data object has been submitted to AnVIL. character [optional]
 #' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field publications The publications associated with this object. list(character) [optional]
@@ -31,6 +32,7 @@
 #' @field starting_amount_units The units used to quantify the amount of samples obtained. character [optional]
 #' @field dbxrefs Biosample identifiers from external resources, such as Biosample database or Cellosaurus. list(character) [optional]
 #' @field date_obtained The date the sample was harvested, dissected or created, depending on the type of the sample. character [optional]
+#' @field part_of Links to a sample which represents a larger sample from which this sample was taken regardless of whether it is a tissue taken from an organism or smaller slices of a piece of tissue or aliquots of a cell growth. character [optional]
 #' @field sorted_from Links to a larger sample from which this sample was obtained through sorting. character [optional]
 #' @field sorted_from_detail Detail for sample sorted into fractions capturing information about sorting. character [optional]
 #' @field virtual Virtual samples are not representing actual physical entities from experiments, but rather capturing metadata about hypothetical samples that the reported analysis results are relevant for. character [optional]
@@ -51,6 +53,7 @@
 #' @field summary A summary of this sample. character [optional]
 #' @field file_sets The file sets linked to this sample. list(character) [optional]
 #' @field multiplexed_in The multiplexed samples in which this sample is included. list(character) [optional]
+#' @field parts The parts into which this sample has been divided. list(character) [optional]
 #' @field sorted_fractions The fractions into which this sample has been sorted. list(character) [optional]
 #' @field origin_of The samples which originate from this sample, such as through a process of cell fate change or the introduction of a genetic material. list(character) [optional]
 #' @field institutional_certificates The institutional certificates of the samples included in this multiplexed sample. list(character) [optional]
@@ -70,6 +73,7 @@
 MultiplexedSample <- R6::R6Class(
   "MultiplexedSample",
   public = list(
+    `is_on_anvil` = NULL,
     `preview_timestamp` = NULL,
     `release_timestamp` = NULL,
     `publications` = NULL,
@@ -94,6 +98,7 @@ MultiplexedSample <- R6::R6Class(
     `starting_amount_units` = NULL,
     `dbxrefs` = NULL,
     `date_obtained` = NULL,
+    `part_of` = NULL,
     `sorted_from` = NULL,
     `sorted_from_detail` = NULL,
     `virtual` = NULL,
@@ -114,6 +119,7 @@ MultiplexedSample <- R6::R6Class(
     `summary` = NULL,
     `file_sets` = NULL,
     `multiplexed_in` = NULL,
+    `parts` = NULL,
     `sorted_fractions` = NULL,
     `origin_of` = NULL,
     `institutional_certificates` = NULL,
@@ -132,6 +138,7 @@ MultiplexedSample <- R6::R6Class(
     #' @description
     #' Initialize a new MultiplexedSample class.
     #'
+    #' @param is_on_anvil Indicates whether the data object has been submitted to AnVIL.
     #' @param preview_timestamp The date the object was previewed.
     #' @param release_timestamp The date the object was released.
     #' @param publications The publications associated with this object.
@@ -156,6 +163,7 @@ MultiplexedSample <- R6::R6Class(
     #' @param starting_amount_units The units used to quantify the amount of samples obtained.
     #' @param dbxrefs Biosample identifiers from external resources, such as Biosample database or Cellosaurus.
     #' @param date_obtained The date the sample was harvested, dissected or created, depending on the type of the sample.
+    #' @param part_of Links to a sample which represents a larger sample from which this sample was taken regardless of whether it is a tissue taken from an organism or smaller slices of a piece of tissue or aliquots of a cell growth.
     #' @param sorted_from Links to a larger sample from which this sample was obtained through sorting.
     #' @param sorted_from_detail Detail for sample sorted into fractions capturing information about sorting.
     #' @param virtual Virtual samples are not representing actual physical entities from experiments, but rather capturing metadata about hypothetical samples that the reported analysis results are relevant for.
@@ -176,6 +184,7 @@ MultiplexedSample <- R6::R6Class(
     #' @param summary A summary of this sample.
     #' @param file_sets The file sets linked to this sample.
     #' @param multiplexed_in The multiplexed samples in which this sample is included.
+    #' @param parts The parts into which this sample has been divided.
     #' @param sorted_fractions The fractions into which this sample has been sorted.
     #' @param origin_of The samples which originate from this sample, such as through a process of cell fate change or the introduction of a genetic material.
     #' @param institutional_certificates The institutional certificates of the samples included in this multiplexed sample.
@@ -191,7 +200,13 @@ MultiplexedSample <- R6::R6Class(
     #' @param classifications The general category of this type of sample.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `url` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `selection_conditions` = NULL, `multiplexed_samples` = NULL, `multiplexing_methods` = NULL, `cellular_sub_pool` = NULL, `barcode_map` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `sample_terms` = NULL, `taxa` = NULL, `disease_terms` = NULL, `treatments` = NULL, `modifications` = NULL, `donors` = NULL, `biomarkers` = NULL, `sources` = NULL, `classifications` = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `url` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `part_of` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `selection_conditions` = NULL, `multiplexed_samples` = NULL, `multiplexing_methods` = NULL, `cellular_sub_pool` = NULL, `barcode_map` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `parts` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `sample_terms` = NULL, `taxa` = NULL, `disease_terms` = NULL, `treatments` = NULL, `modifications` = NULL, `donors` = NULL, `biomarkers` = NULL, `sources` = NULL, `classifications` = NULL, ...) {
+      if (!is.null(`is_on_anvil`)) {
+        if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
+          stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
+        }
+        self$`is_on_anvil` <- `is_on_anvil`
+      }
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -333,6 +348,12 @@ MultiplexedSample <- R6::R6Class(
         }
         self$`date_obtained` <- `date_obtained`
       }
+      if (!is.null(`part_of`)) {
+        if (!(is.character(`part_of`) && length(`part_of`) == 1)) {
+          stop(paste("Error! Invalid data for `part_of`. Must be a string:", `part_of`))
+        }
+        self$`part_of` <- `part_of`
+      }
       if (!is.null(`sorted_from`)) {
         if (!(is.character(`sorted_from`) && length(`sorted_from`) == 1)) {
           stop(paste("Error! Invalid data for `sorted_from`. Must be a string:", `sorted_from`))
@@ -444,6 +465,11 @@ MultiplexedSample <- R6::R6Class(
         sapply(`multiplexed_in`, function(x) stopifnot(is.character(x)))
         self$`multiplexed_in` <- `multiplexed_in`
       }
+      if (!is.null(`parts`)) {
+        stopifnot(is.vector(`parts`), length(`parts`) != 0)
+        sapply(`parts`, function(x) stopifnot(is.character(x)))
+        self$`parts` <- `parts`
+      }
       if (!is.null(`sorted_fractions`)) {
         stopifnot(is.vector(`sorted_fractions`), length(`sorted_fractions`) != 0)
         sapply(`sorted_fractions`, function(x) stopifnot(is.character(x)))
@@ -523,6 +549,10 @@ MultiplexedSample <- R6::R6Class(
     #' @export
     toJSON = function() {
       MultiplexedSampleObject <- list()
+      if (!is.null(self$`is_on_anvil`)) {
+        MultiplexedSampleObject[["is_on_anvil"]] <-
+          self$`is_on_anvil`
+      }
       if (!is.null(self$`preview_timestamp`)) {
         MultiplexedSampleObject[["preview_timestamp"]] <-
           self$`preview_timestamp`
@@ -619,6 +649,10 @@ MultiplexedSample <- R6::R6Class(
         MultiplexedSampleObject[["date_obtained"]] <-
           self$`date_obtained`
       }
+      if (!is.null(self$`part_of`)) {
+        MultiplexedSampleObject[["part_of"]] <-
+          self$`part_of`
+      }
       if (!is.null(self$`sorted_from`)) {
         MultiplexedSampleObject[["sorted_from"]] <-
           self$`sorted_from`
@@ -699,6 +733,10 @@ MultiplexedSample <- R6::R6Class(
         MultiplexedSampleObject[["multiplexed_in"]] <-
           self$`multiplexed_in`
       }
+      if (!is.null(self$`parts`)) {
+        MultiplexedSampleObject[["parts"]] <-
+          self$`parts`
+      }
       if (!is.null(self$`sorted_fractions`)) {
         MultiplexedSampleObject[["sorted_fractions"]] <-
           self$`sorted_fractions`
@@ -763,6 +801,9 @@ MultiplexedSample <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`is_on_anvil`)) {
+        self$`is_on_anvil` <- this_object$`is_on_anvil`
+      }
       if (!is.null(this_object$`preview_timestamp`)) {
         self$`preview_timestamp` <- this_object$`preview_timestamp`
       }
@@ -841,6 +882,9 @@ MultiplexedSample <- R6::R6Class(
       if (!is.null(this_object$`date_obtained`)) {
         self$`date_obtained` <- this_object$`date_obtained`
       }
+      if (!is.null(this_object$`part_of`)) {
+        self$`part_of` <- this_object$`part_of`
+      }
       if (!is.null(this_object$`sorted_from`)) {
         self$`sorted_from` <- this_object$`sorted_from`
       }
@@ -907,6 +951,9 @@ MultiplexedSample <- R6::R6Class(
       if (!is.null(this_object$`multiplexed_in`)) {
         self$`multiplexed_in` <- ApiClient$new()$deserializeObj(this_object$`multiplexed_in`, "set[character]", loadNamespace("igvfclient"))
       }
+      if (!is.null(this_object$`parts`)) {
+        self$`parts` <- ApiClient$new()$deserializeObj(this_object$`parts`, "set[character]", loadNamespace("igvfclient"))
+      }
       if (!is.null(this_object$`sorted_fractions`)) {
         self$`sorted_fractions` <- ApiClient$new()$deserializeObj(this_object$`sorted_fractions`, "set[character]", loadNamespace("igvfclient"))
       }
@@ -960,6 +1007,14 @@ MultiplexedSample <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`is_on_anvil`)) {
+          sprintf(
+          '"is_on_anvil":
+            %s
+                    ',
+          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`is_on_anvil`, perl=TRUE))
+          )
+        },
         if (!is.null(self$`preview_timestamp`)) {
           sprintf(
           '"preview_timestamp":
@@ -1152,6 +1207,14 @@ MultiplexedSample <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`date_obtained`, perl=TRUE)
           )
         },
+        if (!is.null(self$`part_of`)) {
+          sprintf(
+          '"part_of":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`part_of`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`sorted_from`)) {
           sprintf(
           '"sorted_from":
@@ -1312,6 +1375,14 @@ MultiplexedSample <- R6::R6Class(
           paste(unlist(lapply(self$`multiplexed_in`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`parts`)) {
+          sprintf(
+          '"parts":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`parts`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`sorted_fractions`)) {
           sprintf(
           '"sorted_fractions":
@@ -1430,6 +1501,7 @@ MultiplexedSample <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`is_on_anvil` <- this_object$`is_on_anvil`
       self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`release_timestamp` <- this_object$`release_timestamp`
       self$`publications` <- ApiClient$new()$deserializeObj(this_object$`publications`, "set[character]", loadNamespace("igvfclient"))
@@ -1460,6 +1532,7 @@ MultiplexedSample <- R6::R6Class(
       self$`starting_amount_units` <- this_object$`starting_amount_units`
       self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
       self$`date_obtained` <- this_object$`date_obtained`
+      self$`part_of` <- this_object$`part_of`
       self$`sorted_from` <- this_object$`sorted_from`
       self$`sorted_from_detail` <- this_object$`sorted_from_detail`
       self$`virtual` <- this_object$`virtual`
@@ -1486,6 +1559,7 @@ MultiplexedSample <- R6::R6Class(
       self$`summary` <- this_object$`summary`
       self$`file_sets` <- ApiClient$new()$deserializeObj(this_object$`file_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`multiplexed_in` <- ApiClient$new()$deserializeObj(this_object$`multiplexed_in`, "set[character]", loadNamespace("igvfclient"))
+      self$`parts` <- ApiClient$new()$deserializeObj(this_object$`parts`, "set[character]", loadNamespace("igvfclient"))
       self$`sorted_fractions` <- ApiClient$new()$deserializeObj(this_object$`sorted_fractions`, "set[character]", loadNamespace("igvfclient"))
       self$`origin_of` <- ApiClient$new()$deserializeObj(this_object$`origin_of`, "set[character]", loadNamespace("igvfclient"))
       self$`institutional_certificates` <- ApiClient$new()$deserializeObj(this_object$`institutional_certificates`, "set[character]", loadNamespace("igvfclient"))
@@ -1586,6 +1660,7 @@ MultiplexedSample <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1636,6 +1711,7 @@ MultiplexedSample <- R6::R6Class(
       if (!str_detect(self$`cellular_sub_pool`, "^[a-zA-Z\\d_.()-]+(?:\\s[a-zA-Z\\d_.()-]+)*$")) {
         invalid_fields["cellular_sub_pool"] <- "Invalid value for `cellular_sub_pool`, must conform to the pattern ^[a-zA-Z\\d_.()-]+(?:\\s[a-zA-Z\\d_.()-]+)*$."
       }
+
 
 
 

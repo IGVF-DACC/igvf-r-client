@@ -34,6 +34,6 @@ Name | Type | Description | Notes
 **analysis_step_versions** | **set[character]** | The available versions of the analysis steps linked to this workflow. | [optional] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
-**summary** | **character** | A summary of the object. | [optional] 
+**summary** | **character** |  | [optional] 
 
 

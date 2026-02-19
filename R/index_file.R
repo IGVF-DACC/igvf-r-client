@@ -45,6 +45,7 @@
 #' @field upload_status The upload/validation status of the file. character [optional]
 #' @field validation_error_detail Explanation of why the file failed the automated content checks. character [optional]
 #' @field checkfiles_version The Checkfiles GitHub version release the file was validated with. character [optional]
+#' @field checkfiles_timestamp The date and time the file object was last checked by the Checkfiles script. character [optional]
 #' @field supersedes The file(s) that this file supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
@@ -110,6 +111,7 @@ IndexFile <- R6::R6Class(
     `upload_status` = NULL,
     `validation_error_detail` = NULL,
     `checkfiles_version` = NULL,
+    `checkfiles_timestamp` = NULL,
     `supersedes` = NULL,
     `@id` = NULL,
     `@type` = NULL,
@@ -174,6 +176,7 @@ IndexFile <- R6::R6Class(
     #' @param upload_status The upload/validation status of the file.
     #' @param validation_error_detail Explanation of why the file failed the automated content checks.
     #' @param checkfiles_version The Checkfiles GitHub version release the file was validated with.
+    #' @param checkfiles_timestamp The date and time the file object was last checked by the Checkfiles script.
     #' @param supersedes The file(s) that this file supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
     #' @param @id @id
     #' @param @type @type
@@ -197,7 +200,7 @@ IndexFile <- R6::R6Class(
     #' @param reference_files The reference files of the file that this index file is derived from.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`anvil_url` = NULL, `catalog_collections` = NULL, `catalog_class` = NULL, `catalog_notes` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `controlled_access` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `supersedes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `superseded_by` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `assembly` = NULL, `transcriptome_annotation` = NULL, `filtered` = NULL, `redacted` = NULL, `reference_files` = NULL, ...) {
+    initialize = function(`anvil_url` = NULL, `catalog_collections` = NULL, `catalog_class` = NULL, `catalog_notes` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `controlled_access` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `checkfiles_timestamp` = NULL, `supersedes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `superseded_by` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `assembly` = NULL, `transcriptome_annotation` = NULL, `filtered` = NULL, `redacted` = NULL, `reference_files` = NULL, ...) {
       if (!is.null(`anvil_url`)) {
         if (!(is.character(`anvil_url`) && length(`anvil_url`) == 1)) {
           stop(paste("Error! Invalid data for `anvil_url`. Must be a string:", `anvil_url`))
@@ -429,6 +432,12 @@ IndexFile <- R6::R6Class(
           stop(paste("Error! Invalid data for `checkfiles_version`. Must be a string:", `checkfiles_version`))
         }
         self$`checkfiles_version` <- `checkfiles_version`
+      }
+      if (!is.null(`checkfiles_timestamp`)) {
+        if (!(is.character(`checkfiles_timestamp`) && length(`checkfiles_timestamp`) == 1)) {
+          stop(paste("Error! Invalid data for `checkfiles_timestamp`. Must be a string:", `checkfiles_timestamp`))
+        }
+        self$`checkfiles_timestamp` <- `checkfiles_timestamp`
       }
       if (!is.null(`supersedes`)) {
         stopifnot(is.vector(`supersedes`), length(`supersedes`) != 0)
@@ -703,6 +712,10 @@ IndexFile <- R6::R6Class(
         IndexFileObject[["checkfiles_version"]] <-
           self$`checkfiles_version`
       }
+      if (!is.null(self$`checkfiles_timestamp`)) {
+        IndexFileObject[["checkfiles_timestamp"]] <-
+          self$`checkfiles_timestamp`
+      }
       if (!is.null(self$`supersedes`)) {
         IndexFileObject[["supersedes"]] <-
           self$`supersedes`
@@ -924,6 +937,9 @@ IndexFile <- R6::R6Class(
       }
       if (!is.null(this_object$`checkfiles_version`)) {
         self$`checkfiles_version` <- this_object$`checkfiles_version`
+      }
+      if (!is.null(this_object$`checkfiles_timestamp`)) {
+        self$`checkfiles_timestamp` <- this_object$`checkfiles_timestamp`
       }
       if (!is.null(this_object$`supersedes`)) {
         self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
@@ -1303,6 +1319,14 @@ IndexFile <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`checkfiles_version`, perl=TRUE)
           )
         },
+        if (!is.null(self$`checkfiles_timestamp`)) {
+          sprintf(
+          '"checkfiles_timestamp":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`checkfiles_timestamp`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`supersedes`)) {
           sprintf(
           '"supersedes":
@@ -1535,6 +1559,7 @@ IndexFile <- R6::R6Class(
       self$`upload_status` <- this_object$`upload_status`
       self$`validation_error_detail` <- this_object$`validation_error_detail`
       self$`checkfiles_version` <- this_object$`checkfiles_version`
+      self$`checkfiles_timestamp` <- this_object$`checkfiles_timestamp`
       self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
