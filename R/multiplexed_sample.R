@@ -35,7 +35,7 @@
 #' @field part_of Links to a sample which represents a larger sample from which this sample was taken regardless of whether it is a tissue taken from an organism or smaller slices of a piece of tissue or aliquots of a cell growth. character [optional]
 #' @field sorted_from Links to a larger sample from which this sample was obtained through sorting. character [optional]
 #' @field sorted_from_detail Detail for sample sorted into fractions capturing information about sorting. character [optional]
-#' @field virtual Virtual samples are not representing actual physical entities from experiments, but rather capturing metadata about hypothetical samples that the reported analysis results are relevant for. character [optional]
+#' @field virtual Virtual samples do not represent actual physical entities from experiments, but instead capture metadata about hypothetical or inferred samples relevant to reported analysis results, including those derived through demultiplexing. character [optional]
 #' @field construct_library_sets The construct library sets of the samples included in this multiplexed sample. list(character) [optional]
 #' @field moi The actual multiplicity of infection (MOI) for vectors introduced to this sample. At least one construct library set must be specified in order to specify MOI. This property should capture the actual MOI, and not the targeted MOI. numeric [optional]
 #' @field nucleic_acid_delivery Method of introduction of nucleic acid into the cell. character [optional]
@@ -58,6 +58,7 @@
 #' @field origin_of The samples which originate from this sample, such as through a process of cell fate change or the introduction of a genetic material. list(character) [optional]
 #' @field institutional_certificates The institutional certificates of the samples included in this multiplexed sample. list(character) [optional]
 #' @field superseded_by Sample(s) this sample is superseded by virtue of those sample(s) being newer, better, or a fixed version of etc. than this one. list(character) [optional]
+#' @field demultiplexed_to The in vitro system samples this multiplexed sample has been demultiplexed into. list(character) [optional]
 #' @field sample_terms The sample terms of the samples included in this multiplexed sample. list(character) [optional]
 #' @field taxa The species of the organism. character [optional]
 #' @field disease_terms The disease terms of the samples included in this multiplexed sample. list(character) [optional]
@@ -124,6 +125,7 @@ MultiplexedSample <- R6::R6Class(
     `origin_of` = NULL,
     `institutional_certificates` = NULL,
     `superseded_by` = NULL,
+    `demultiplexed_to` = NULL,
     `sample_terms` = NULL,
     `taxa` = NULL,
     `disease_terms` = NULL,
@@ -166,7 +168,7 @@ MultiplexedSample <- R6::R6Class(
     #' @param part_of Links to a sample which represents a larger sample from which this sample was taken regardless of whether it is a tissue taken from an organism or smaller slices of a piece of tissue or aliquots of a cell growth.
     #' @param sorted_from Links to a larger sample from which this sample was obtained through sorting.
     #' @param sorted_from_detail Detail for sample sorted into fractions capturing information about sorting.
-    #' @param virtual Virtual samples are not representing actual physical entities from experiments, but rather capturing metadata about hypothetical samples that the reported analysis results are relevant for.
+    #' @param virtual Virtual samples do not represent actual physical entities from experiments, but instead capture metadata about hypothetical or inferred samples relevant to reported analysis results, including those derived through demultiplexing.
     #' @param construct_library_sets The construct library sets of the samples included in this multiplexed sample.
     #' @param moi The actual multiplicity of infection (MOI) for vectors introduced to this sample. At least one construct library set must be specified in order to specify MOI. This property should capture the actual MOI, and not the targeted MOI.
     #' @param nucleic_acid_delivery Method of introduction of nucleic acid into the cell.
@@ -189,6 +191,7 @@ MultiplexedSample <- R6::R6Class(
     #' @param origin_of The samples which originate from this sample, such as through a process of cell fate change or the introduction of a genetic material.
     #' @param institutional_certificates The institutional certificates of the samples included in this multiplexed sample.
     #' @param superseded_by Sample(s) this sample is superseded by virtue of those sample(s) being newer, better, or a fixed version of etc. than this one.
+    #' @param demultiplexed_to The in vitro system samples this multiplexed sample has been demultiplexed into.
     #' @param sample_terms The sample terms of the samples included in this multiplexed sample.
     #' @param taxa The species of the organism.
     #' @param disease_terms The disease terms of the samples included in this multiplexed sample.
@@ -200,7 +203,7 @@ MultiplexedSample <- R6::R6Class(
     #' @param classifications The general category of this type of sample.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`is_on_anvil` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `url` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `part_of` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `selection_conditions` = NULL, `multiplexed_samples` = NULL, `multiplexing_methods` = NULL, `cellular_sub_pool` = NULL, `barcode_map` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `parts` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `sample_terms` = NULL, `taxa` = NULL, `disease_terms` = NULL, `treatments` = NULL, `modifications` = NULL, `donors` = NULL, `biomarkers` = NULL, `sources` = NULL, `classifications` = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `url` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `part_of` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `selection_conditions` = NULL, `multiplexed_samples` = NULL, `multiplexing_methods` = NULL, `cellular_sub_pool` = NULL, `barcode_map` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `parts` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `demultiplexed_to` = NULL, `sample_terms` = NULL, `taxa` = NULL, `disease_terms` = NULL, `treatments` = NULL, `modifications` = NULL, `donors` = NULL, `biomarkers` = NULL, `sources` = NULL, `classifications` = NULL, ...) {
       if (!is.null(`is_on_anvil`)) {
         if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
           stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
@@ -490,6 +493,11 @@ MultiplexedSample <- R6::R6Class(
         sapply(`superseded_by`, function(x) stopifnot(is.character(x)))
         self$`superseded_by` <- `superseded_by`
       }
+      if (!is.null(`demultiplexed_to`)) {
+        stopifnot(is.vector(`demultiplexed_to`), length(`demultiplexed_to`) != 0)
+        sapply(`demultiplexed_to`, function(x) stopifnot(is.character(x)))
+        self$`demultiplexed_to` <- `demultiplexed_to`
+      }
       if (!is.null(`sample_terms`)) {
         stopifnot(is.vector(`sample_terms`), length(`sample_terms`) != 0)
         sapply(`sample_terms`, function(x) stopifnot(is.character(x)))
@@ -753,6 +761,10 @@ MultiplexedSample <- R6::R6Class(
         MultiplexedSampleObject[["superseded_by"]] <-
           self$`superseded_by`
       }
+      if (!is.null(self$`demultiplexed_to`)) {
+        MultiplexedSampleObject[["demultiplexed_to"]] <-
+          self$`demultiplexed_to`
+      }
       if (!is.null(self$`sample_terms`)) {
         MultiplexedSampleObject[["sample_terms"]] <-
           self$`sample_terms`
@@ -965,6 +977,9 @@ MultiplexedSample <- R6::R6Class(
       }
       if (!is.null(this_object$`superseded_by`)) {
         self$`superseded_by` <- ApiClient$new()$deserializeObj(this_object$`superseded_by`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`demultiplexed_to`)) {
+        self$`demultiplexed_to` <- ApiClient$new()$deserializeObj(this_object$`demultiplexed_to`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`sample_terms`)) {
         self$`sample_terms` <- ApiClient$new()$deserializeObj(this_object$`sample_terms`, "set[character]", loadNamespace("igvfclient"))
@@ -1415,6 +1430,14 @@ MultiplexedSample <- R6::R6Class(
           paste(unlist(lapply(self$`superseded_by`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`demultiplexed_to`)) {
+          sprintf(
+          '"demultiplexed_to":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`demultiplexed_to`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`sample_terms`)) {
           sprintf(
           '"sample_terms":
@@ -1564,6 +1587,7 @@ MultiplexedSample <- R6::R6Class(
       self$`origin_of` <- ApiClient$new()$deserializeObj(this_object$`origin_of`, "set[character]", loadNamespace("igvfclient"))
       self$`institutional_certificates` <- ApiClient$new()$deserializeObj(this_object$`institutional_certificates`, "set[character]", loadNamespace("igvfclient"))
       self$`superseded_by` <- ApiClient$new()$deserializeObj(this_object$`superseded_by`, "set[character]", loadNamespace("igvfclient"))
+      self$`demultiplexed_to` <- ApiClient$new()$deserializeObj(this_object$`demultiplexed_to`, "set[character]", loadNamespace("igvfclient"))
       self$`sample_terms` <- ApiClient$new()$deserializeObj(this_object$`sample_terms`, "set[character]", loadNamespace("igvfclient"))
       if (!is.null(this_object$`taxa`) && !(this_object$`taxa` %in% c("Homo sapiens", "Mus musculus", "Mixed species", "Saccharomyces cerevisiae"))) {
         stop(paste("Error! \"", this_object$`taxa`, "\" cannot be assigned to `taxa`. Must be \"Homo sapiens\", \"Mus musculus\", \"Mixed species\", \"Saccharomyces cerevisiae\".", sep = ""))
@@ -1661,6 +1685,7 @@ MultiplexedSample <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1711,6 +1736,7 @@ MultiplexedSample <- R6::R6Class(
       if (!str_detect(self$`cellular_sub_pool`, "^[a-zA-Z\\d_.()-]+(?:\\s[a-zA-Z\\d_.()-]+)*$")) {
         invalid_fields["cellular_sub_pool"] <- "Invalid value for `cellular_sub_pool`, must conform to the pattern ^[a-zA-Z\\d_.()-]+(?:\\s[a-zA-Z\\d_.()-]+)*$."
       }
+
 
 
 

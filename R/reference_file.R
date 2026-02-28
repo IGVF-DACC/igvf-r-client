@@ -507,8 +507,8 @@ ReferenceFile <- R6::R6Class(
         self$`catalog_adapters` <- `catalog_adapters`
       }
       if (!is.null(`catalog_method`)) {
-        if (!(`catalog_method` %in% c("ADASTRA", "COXPRESdb", "eQTL", "GWAS", "GVATdb", "pQTL", "splice_QTL"))) {
-          stop(paste("Error! \"", `catalog_method`, "\" cannot be assigned to `catalog_method`. Must be \"ADASTRA\", \"COXPRESdb\", \"eQTL\", \"GWAS\", \"GVATdb\", \"pQTL\", \"splice_QTL\".", sep = ""))
+        if (!(`catalog_method` %in% c("ADASTRA", "caQTL", "COXPRESdb", "eQTL", "GWAS", "GVATdb", "pQTL", "splice_QTL"))) {
+          stop(paste("Error! \"", `catalog_method`, "\" cannot be assigned to `catalog_method`. Must be \"ADASTRA\", \"caQTL\", \"COXPRESdb\", \"eQTL\", \"GWAS\", \"GVATdb\", \"pQTL\", \"splice_QTL\".", sep = ""))
         }
         if (!(is.character(`catalog_method`) && length(`catalog_method`) == 1)) {
           stop(paste("Error! Invalid data for `catalog_method`. Must be a string:", `catalog_method`))
@@ -1038,8 +1038,8 @@ ReferenceFile <- R6::R6Class(
         self$`catalog_adapters` <- ApiClient$new()$deserializeObj(this_object$`catalog_adapters`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`catalog_method`)) {
-        if (!is.null(this_object$`catalog_method`) && !(this_object$`catalog_method` %in% c("ADASTRA", "COXPRESdb", "eQTL", "GWAS", "GVATdb", "pQTL", "splice_QTL"))) {
-          stop(paste("Error! \"", this_object$`catalog_method`, "\" cannot be assigned to `catalog_method`. Must be \"ADASTRA\", \"COXPRESdb\", \"eQTL\", \"GWAS\", \"GVATdb\", \"pQTL\", \"splice_QTL\".", sep = ""))
+        if (!is.null(this_object$`catalog_method`) && !(this_object$`catalog_method` %in% c("ADASTRA", "caQTL", "COXPRESdb", "eQTL", "GWAS", "GVATdb", "pQTL", "splice_QTL"))) {
+          stop(paste("Error! \"", this_object$`catalog_method`, "\" cannot be assigned to `catalog_method`. Must be \"ADASTRA\", \"caQTL\", \"COXPRESdb\", \"eQTL\", \"GWAS\", \"GVATdb\", \"pQTL\", \"splice_QTL\".", sep = ""))
         }
         self$`catalog_method` <- this_object$`catalog_method`
       }
@@ -1696,8 +1696,8 @@ ReferenceFile <- R6::R6Class(
       self$`checkfiles_timestamp` <- this_object$`checkfiles_timestamp`
       self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
       self$`catalog_adapters` <- ApiClient$new()$deserializeObj(this_object$`catalog_adapters`, "set[character]", loadNamespace("igvfclient"))
-      if (!is.null(this_object$`catalog_method`) && !(this_object$`catalog_method` %in% c("ADASTRA", "COXPRESdb", "eQTL", "GWAS", "GVATdb", "pQTL", "splice_QTL"))) {
-        stop(paste("Error! \"", this_object$`catalog_method`, "\" cannot be assigned to `catalog_method`. Must be \"ADASTRA\", \"COXPRESdb\", \"eQTL\", \"GWAS\", \"GVATdb\", \"pQTL\", \"splice_QTL\".", sep = ""))
+      if (!is.null(this_object$`catalog_method`) && !(this_object$`catalog_method` %in% c("ADASTRA", "caQTL", "COXPRESdb", "eQTL", "GWAS", "GVATdb", "pQTL", "splice_QTL"))) {
+        stop(paste("Error! \"", this_object$`catalog_method`, "\" cannot be assigned to `catalog_method`. Must be \"ADASTRA\", \"caQTL\", \"COXPRESdb\", \"eQTL\", \"GWAS\", \"GVATdb\", \"pQTL\", \"splice_QTL\".", sep = ""))
       }
       self$`catalog_method` <- this_object$`catalog_method`
       self$`sources` <- ApiClient$new()$deserializeObj(this_object$`sources`, "set[character]", loadNamespace("igvfclient"))

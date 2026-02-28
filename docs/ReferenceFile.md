@@ -52,7 +52,7 @@ Name | Type | Description | Notes
 **checkfiles_timestamp** | **character** | The date and time the file object was last checked by the Checkfiles script. | [optional] 
 **supersedes** | **set[character]** | The file(s) that this file supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. | [optional] 
 **catalog_adapters** | **set[character]** | IGVF Catalog Adapters that ingests this file | [optional] 
-**catalog_method** | **character** | The method curated in the IGVF catalog that the non-IGVF data in this file processed with | [optional] [Enum: [ADASTRA, COXPRESdb, eQTL, GWAS, GVATdb, pQTL, splice_QTL]] 
+**catalog_method** | **character** | The method curated in the IGVF catalog that the non-IGVF data in this file processed with | [optional] [Enum: [ADASTRA, caQTL, COXPRESdb, eQTL, GWAS, GVATdb, pQTL, splice_QTL]] 
 **sources** | **set[character]** | The originating lab(s) or vendor(s). | [optional] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 

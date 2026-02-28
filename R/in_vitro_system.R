@@ -53,7 +53,7 @@
 #' @field part_of Links to a sample which represents a larger sample from which this sample was taken regardless of whether it is a tissue taken from an organism or smaller slices of a piece of tissue or aliquots of a cell growth. character [optional]
 #' @field sorted_from Links to a larger sample from which this sample was obtained through sorting. character [optional]
 #' @field sorted_from_detail Detail for sample sorted into fractions capturing information about sorting. character [optional]
-#' @field virtual Virtual samples are not representing actual physical entities from experiments, but rather capturing metadata about hypothetical samples that the reported analysis results are relevant for. character [optional]
+#' @field virtual Virtual samples do not represent actual physical entities from experiments, but instead capture metadata about hypothetical or inferred samples relevant to reported analysis results, including those derived through demultiplexing. character [optional]
 #' @field construct_library_sets The construct library sets of vectors introduced to this sample prior to performing an assay. list(character) [optional]
 #' @field moi The actual multiplicity of infection (MOI) for vectors introduced to this sample. At least one construct library set must be specified in order to specify MOI. This property should capture the actual MOI, and not the targeted MOI. numeric [optional]
 #' @field nucleic_acid_delivery Method of introduction of nucleic acid into the cell. character [optional]
@@ -88,7 +88,7 @@
 #' @field upper_bound_age_in_hours Upper bound of age of organism in hours at the time of collection of the sample. numeric [optional]
 #' @field lower_bound_age_in_hours Lower bound of age of organism in hours at the time of collection of the sample . numeric [optional]
 #' @field pooled_in The pooled samples in which this sample is included. list(character) [optional]
-#' @field demultiplexed_to The parts into which this sample has been demultiplexed. list(character) [optional]
+#' @field demultiplexed_to The in vitro system samples this in vitro system sample has been demultiplexed into. list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -228,7 +228,7 @@ InVitroSystem <- R6::R6Class(
     #' @param part_of Links to a sample which represents a larger sample from which this sample was taken regardless of whether it is a tissue taken from an organism or smaller slices of a piece of tissue or aliquots of a cell growth.
     #' @param sorted_from Links to a larger sample from which this sample was obtained through sorting.
     #' @param sorted_from_detail Detail for sample sorted into fractions capturing information about sorting.
-    #' @param virtual Virtual samples are not representing actual physical entities from experiments, but rather capturing metadata about hypothetical samples that the reported analysis results are relevant for.
+    #' @param virtual Virtual samples do not represent actual physical entities from experiments, but instead capture metadata about hypothetical or inferred samples relevant to reported analysis results, including those derived through demultiplexing.
     #' @param construct_library_sets The construct library sets of vectors introduced to this sample prior to performing an assay.
     #' @param moi The actual multiplicity of infection (MOI) for vectors introduced to this sample. At least one construct library set must be specified in order to specify MOI. This property should capture the actual MOI, and not the targeted MOI.
     #' @param nucleic_acid_delivery Method of introduction of nucleic acid into the cell.
@@ -263,7 +263,7 @@ InVitroSystem <- R6::R6Class(
     #' @param upper_bound_age_in_hours Upper bound of age of organism in hours at the time of collection of the sample.
     #' @param lower_bound_age_in_hours Lower bound of age of organism in hours at the time of collection of the sample .
     #' @param pooled_in The pooled samples in which this sample is included.
-    #' @param demultiplexed_to The parts into which this sample has been demultiplexed.
+    #' @param demultiplexed_to The in vitro system samples this in vitro system sample has been demultiplexed into.
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(`is_on_anvil` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `taxa` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `annotated_from` = NULL, `lower_bound_age` = NULL, `upper_bound_age` = NULL, `age_units` = NULL, `sample_terms` = NULL, `disease_terms` = NULL, `pooled_from` = NULL, `originated_from` = NULL, `treatments` = NULL, `donors` = NULL, `biomarkers` = NULL, `embryonic` = NULL, `modifications` = NULL, `cellular_sub_pool` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `part_of` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `selection_conditions` = NULL, `classifications` = NULL, `time_post_change` = NULL, `time_post_change_units` = NULL, `cell_fate_change_protocol` = NULL, `demultiplexed_from` = NULL, `passage_number` = NULL, `targeted_sample_term` = NULL, `growth_medium` = NULL, `biosample_qualifiers` = NULL, `time_post_culture` = NULL, `time_post_culture_units` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `parts` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `sex` = NULL, `age` = NULL, `upper_bound_age_in_hours` = NULL, `lower_bound_age_in_hours` = NULL, `pooled_in` = NULL, `demultiplexed_to` = NULL, ...) {

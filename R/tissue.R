@@ -53,7 +53,7 @@
 #' @field part_of Links to a sample which represents a larger sample from which this sample was taken regardless of whether it is a tissue taken from an organism or smaller slices of a piece of tissue or aliquots of a cell growth. character [optional]
 #' @field sorted_from Links to a larger sample from which this sample was obtained through sorting. character [optional]
 #' @field sorted_from_detail Detail for sample sorted into fractions capturing information about sorting. character [optional]
-#' @field virtual Virtual samples are not representing actual physical entities from experiments, but rather capturing metadata about hypothetical samples that the reported analysis results are relevant for. character [optional]
+#' @field virtual Virtual samples do not represent actual physical entities from experiments, but instead capture metadata about hypothetical or inferred samples relevant to reported analysis results, including those derived through demultiplexing. character [optional]
 #' @field construct_library_sets The construct library sets of vectors introduced to this sample prior to performing an assay. list(character) [optional]
 #' @field moi The actual multiplicity of infection (MOI) for vectors introduced to this sample. At least one construct library set must be specified in order to specify MOI. This property should capture the actual MOI, and not the targeted MOI. numeric [optional]
 #' @field nucleic_acid_delivery Method of introduction of nucleic acid into the cell. character [optional]
@@ -64,7 +64,6 @@
 #' @field selection_conditions The conditions used for selecting the sample. list(character) [optional]
 #' @field pmi The amount of time elapsed since death. integer [optional]
 #' @field pmi_units The unit in which the PMI time was reported. character [optional]
-#' @field ccf_id HubMap Common Coordinate Framework unique identifier corresponding to the organ, biological structure, and spatial location of the tissue specimen within an organ. character [optional]
 #' @field preservation_method The method by which the tissue/organ was preserved: cryopreservation (slow-freeze) or flash-freezing. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
@@ -145,7 +144,6 @@ Tissue <- R6::R6Class(
     `selection_conditions` = NULL,
     `pmi` = NULL,
     `pmi_units` = NULL,
-    `ccf_id` = NULL,
     `preservation_method` = NULL,
     `@id` = NULL,
     `@type` = NULL,
@@ -214,7 +212,7 @@ Tissue <- R6::R6Class(
     #' @param part_of Links to a sample which represents a larger sample from which this sample was taken regardless of whether it is a tissue taken from an organism or smaller slices of a piece of tissue or aliquots of a cell growth.
     #' @param sorted_from Links to a larger sample from which this sample was obtained through sorting.
     #' @param sorted_from_detail Detail for sample sorted into fractions capturing information about sorting.
-    #' @param virtual Virtual samples are not representing actual physical entities from experiments, but rather capturing metadata about hypothetical samples that the reported analysis results are relevant for.
+    #' @param virtual Virtual samples do not represent actual physical entities from experiments, but instead capture metadata about hypothetical or inferred samples relevant to reported analysis results, including those derived through demultiplexing.
     #' @param construct_library_sets The construct library sets of vectors introduced to this sample prior to performing an assay.
     #' @param moi The actual multiplicity of infection (MOI) for vectors introduced to this sample. At least one construct library set must be specified in order to specify MOI. This property should capture the actual MOI, and not the targeted MOI.
     #' @param nucleic_acid_delivery Method of introduction of nucleic acid into the cell.
@@ -225,7 +223,6 @@ Tissue <- R6::R6Class(
     #' @param selection_conditions The conditions used for selecting the sample.
     #' @param pmi The amount of time elapsed since death.
     #' @param pmi_units The unit in which the PMI time was reported.
-    #' @param ccf_id HubMap Common Coordinate Framework unique identifier corresponding to the organ, biological structure, and spatial location of the tissue specimen within an organ.
     #' @param preservation_method The method by which the tissue/organ was preserved: cryopreservation (slow-freeze) or flash-freezing.
     #' @param @id @id
     #' @param @type @type
@@ -245,7 +242,7 @@ Tissue <- R6::R6Class(
     #' @param classifications The general category of this type of sample.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`is_on_anvil` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `taxa` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `annotated_from` = NULL, `lower_bound_age` = NULL, `upper_bound_age` = NULL, `age_units` = NULL, `sample_terms` = NULL, `disease_terms` = NULL, `pooled_from` = NULL, `originated_from` = NULL, `treatments` = NULL, `donors` = NULL, `biomarkers` = NULL, `embryonic` = NULL, `modifications` = NULL, `cellular_sub_pool` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `part_of` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `selection_conditions` = NULL, `pmi` = NULL, `pmi_units` = NULL, `ccf_id` = NULL, `preservation_method` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `parts` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `sex` = NULL, `age` = NULL, `upper_bound_age_in_hours` = NULL, `lower_bound_age_in_hours` = NULL, `pooled_in` = NULL, `classifications` = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `taxa` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `annotated_from` = NULL, `lower_bound_age` = NULL, `upper_bound_age` = NULL, `age_units` = NULL, `sample_terms` = NULL, `disease_terms` = NULL, `pooled_from` = NULL, `originated_from` = NULL, `treatments` = NULL, `donors` = NULL, `biomarkers` = NULL, `embryonic` = NULL, `modifications` = NULL, `cellular_sub_pool` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `part_of` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `selection_conditions` = NULL, `pmi` = NULL, `pmi_units` = NULL, `preservation_method` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `parts` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `sex` = NULL, `age` = NULL, `upper_bound_age_in_hours` = NULL, `lower_bound_age_in_hours` = NULL, `pooled_in` = NULL, `classifications` = NULL, ...) {
       if (!is.null(`is_on_anvil`)) {
         if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
           stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
@@ -575,12 +572,6 @@ Tissue <- R6::R6Class(
           stop(paste("Error! Invalid data for `pmi_units`. Must be a string:", `pmi_units`))
         }
         self$`pmi_units` <- `pmi_units`
-      }
-      if (!is.null(`ccf_id`)) {
-        if (!(is.character(`ccf_id`) && length(`ccf_id`) == 1)) {
-          stop(paste("Error! Invalid data for `ccf_id`. Must be a string:", `ccf_id`))
-        }
-        self$`ccf_id` <- `ccf_id`
       }
       if (!is.null(`preservation_method`)) {
         if (!(`preservation_method` %in% c("cryopreservation", "flash-freezing"))) {
@@ -912,10 +903,6 @@ Tissue <- R6::R6Class(
         TissueObject[["pmi_units"]] <-
           self$`pmi_units`
       }
-      if (!is.null(self$`ccf_id`)) {
-        TissueObject[["ccf_id"]] <-
-          self$`ccf_id`
-      }
       if (!is.null(self$`preservation_method`)) {
         TissueObject[["preservation_method"]] <-
           self$`preservation_method`
@@ -1187,9 +1174,6 @@ Tissue <- R6::R6Class(
           stop(paste("Error! \"", this_object$`pmi_units`, "\" cannot be assigned to `pmi_units`. Must be \"second\", \"minute\", \"hour\", \"day\", \"week\".", sep = ""))
         }
         self$`pmi_units` <- this_object$`pmi_units`
-      }
-      if (!is.null(this_object$`ccf_id`)) {
-        self$`ccf_id` <- this_object$`ccf_id`
       }
       if (!is.null(this_object$`preservation_method`)) {
         if (!is.null(this_object$`preservation_method`) && !(this_object$`preservation_method` %in% c("cryopreservation", "flash-freezing"))) {
@@ -1715,14 +1699,6 @@ Tissue <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`pmi_units`, perl=TRUE)
           )
         },
-        if (!is.null(self$`ccf_id`)) {
-          sprintf(
-          '"ccf_id":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`ccf_id`, perl=TRUE)
-          )
-        },
         if (!is.null(self$`preservation_method`)) {
           sprintf(
           '"preservation_method":
@@ -1951,7 +1927,6 @@ Tissue <- R6::R6Class(
         stop(paste("Error! \"", this_object$`pmi_units`, "\" cannot be assigned to `pmi_units`. Must be \"second\", \"minute\", \"hour\", \"day\", \"week\".", sep = ""))
       }
       self$`pmi_units` <- this_object$`pmi_units`
-      self$`ccf_id` <- this_object$`ccf_id`
       if (!is.null(this_object$`preservation_method`) && !(this_object$`preservation_method` %in% c("cryopreservation", "flash-freezing"))) {
         stop(paste("Error! \"", this_object$`preservation_method`, "\" cannot be assigned to `preservation_method`. Must be \"cryopreservation\", \"flash-freezing\".", sep = ""))
       }

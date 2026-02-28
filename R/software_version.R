@@ -24,7 +24,6 @@
 #' @field description A plain text description of the object. character [optional]
 #' @field software Unique name of the software package. character [optional]
 #' @field version The version of a particular software. character [optional]
-#' @field download_id The MD5 checksum, SHA-1 commit ID, image hash, or similar permanent identifier of the particular version of software used. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary  character [optional]
@@ -52,7 +51,6 @@ SoftwareVersion <- R6::R6Class(
     `description` = NULL,
     `software` = NULL,
     `version` = NULL,
-    `download_id` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -79,14 +77,13 @@ SoftwareVersion <- R6::R6Class(
     #' @param description A plain text description of the object.
     #' @param software Unique name of the software package.
     #' @param version The version of a particular software.
-    #' @param download_id The MD5 checksum, SHA-1 commit ID, image hash, or similar permanent identifier of the particular version of software used.
     #' @param @id @id
     #' @param @type @type
     #' @param summary summary
     #' @param name A unique identifier for a software version.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `source_url` = NULL, `release_timestamp` = NULL, `publications` = NULL, `lab` = NULL, `award` = NULL, `status` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `software` = NULL, `version` = NULL, `download_id` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `name` = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `source_url` = NULL, `release_timestamp` = NULL, `publications` = NULL, `lab` = NULL, `award` = NULL, `status` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `software` = NULL, `version` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `name` = NULL, ...) {
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -190,12 +187,6 @@ SoftwareVersion <- R6::R6Class(
         }
         self$`version` <- `version`
       }
-      if (!is.null(`download_id`)) {
-        if (!(is.character(`download_id`) && length(`download_id`) == 1)) {
-          stop(paste("Error! Invalid data for `download_id`. Must be a string:", `download_id`))
-        }
-        self$`download_id` <- `download_id`
-      }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
           stop(paste("Error! Invalid data for `@id`. Must be a string:", `@id`))
@@ -297,10 +288,6 @@ SoftwareVersion <- R6::R6Class(
         SoftwareVersionObject[["version"]] <-
           self$`version`
       }
-      if (!is.null(self$`download_id`)) {
-        SoftwareVersionObject[["download_id"]] <-
-          self$`download_id`
-      }
       if (!is.null(self$`@id`)) {
         SoftwareVersionObject[["@id"]] <-
           self$`@id`
@@ -382,9 +369,6 @@ SoftwareVersion <- R6::R6Class(
       }
       if (!is.null(this_object$`version`)) {
         self$`version` <- this_object$`version`
-      }
-      if (!is.null(this_object$`download_id`)) {
-        self$`download_id` <- this_object$`download_id`
       }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
@@ -545,14 +529,6 @@ SoftwareVersion <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`version`, perl=TRUE)
           )
         },
-        if (!is.null(self$`download_id`)) {
-          sprintf(
-          '"download_id":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`download_id`, perl=TRUE)
-          )
-        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -619,7 +595,6 @@ SoftwareVersion <- R6::R6Class(
       self$`description` <- this_object$`description`
       self$`software` <- this_object$`software`
       self$`version` <- this_object$`version`
-      self$`download_id` <- this_object$`download_id`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
