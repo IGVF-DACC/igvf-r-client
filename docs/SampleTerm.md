@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 **submitted_by** | **character** | The user who submitted the object. | [optional] 
 **submitter_comment** | **character** | Additional information specified by the submitter to be displayed as a comment on the portal. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **description** | **character** | A plain text description of the object. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
-**term_id** | **character** | An ontology identifier describing a biological sample | [optional] [Pattern: ^(UBERON|EFO|CL|CLO|NTR):[0-9]{2,8}$] 
+**term_id** | **character** | An ontology identifier describing a biological sample | [optional] [Pattern: ^(UBERON|EFO|CL|CLO|NTR|PCL):[0-9]{2,8}$] 
 **term_name** | **character** | Ontology term describing a biological sample, assay, trait, or disease. | [optional] [Pattern: ^(?![\\s\&quot;&#39;])[\\S|\\s]*[^\\s\&quot;&#39;]$] 
 **deprecated_ntr_terms** | **set[character]** | A list of deprecated NTR terms previously associated with this ontology term. | [optional] 
 **is_a** | **set[character]** | A list of ontology terms which are the nearest ancestor to this ontology term. | [optional] 

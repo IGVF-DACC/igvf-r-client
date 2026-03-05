@@ -837,7 +837,7 @@ SampleTerm <- R6::R6Class(
         return(FALSE)
       }
 
-      if (!str_detect(self$`term_id`, "^(UBERON|EFO|CL|CLO|NTR):[0-9]{2,8}$")) {
+      if (!str_detect(self$`term_id`, "^(UBERON|EFO|CL|CLO|NTR|PCL):[0-9]{2,8}$")) {
         return(FALSE)
       }
 
@@ -883,8 +883,8 @@ SampleTerm <- R6::R6Class(
         invalid_fields["description"] <- "Invalid value for `description`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
 
-      if (!str_detect(self$`term_id`, "^(UBERON|EFO|CL|CLO|NTR):[0-9]{2,8}$")) {
-        invalid_fields["term_id"] <- "Invalid value for `term_id`, must conform to the pattern ^(UBERON|EFO|CL|CLO|NTR):[0-9]{2,8}$."
+      if (!str_detect(self$`term_id`, "^(UBERON|EFO|CL|CLO|NTR|PCL):[0-9]{2,8}$")) {
+        invalid_fields["term_id"] <- "Invalid value for `term_id`, must conform to the pattern ^(UBERON|EFO|CL|CLO|NTR|PCL):[0-9]{2,8}$."
       }
 
       if (!str_detect(self$`term_name`, "^(?![\\s\"'])[\\S|\\s]*[^\\s\"']$")) {

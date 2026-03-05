@@ -101,6 +101,8 @@ R/prediction_set.R
 R/prediction_set_results.R
 R/primary_cell.R
 R/primary_cell_results.R
+R/pseudobulk_set.R
+R/pseudobulk_set_results.R
 R/publication.R
 R/publication_results.R
 R/reference_file.R
@@ -242,6 +244,8 @@ docs/PredictionSet.md
 docs/PredictionSetResults.md
 docs/PrimaryCell.md
 docs/PrimaryCellResults.md
+docs/PseudobulkSet.md
+docs/PseudobulkSetResults.md
 docs/Publication.md
 docs/PublicationResults.md
 docs/RNASeqKBInfo.md

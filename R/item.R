@@ -16,13 +16,13 @@ Item <- R6::R6Class(
     #' @field actual_type the type of the object stored in this instance.
     actual_type = NULL,
     #' @field one_of  a list of types defined in the oneOf schema.
-    one_of = list("AccessKey", "AlignmentFile", "AnalysisSet", "AnalysisStep", "AnalysisStepVersion", "AssayTerm", "AuxiliarySet", "Award", "Biomarker", "ConfigurationFile", "ConstructLibrarySet", "CrisprModification", "CuratedSet", "DegronModification", "Document", "Gene", "HumanDonor", "Image", "ImageFile", "InVitroSystem", "IndexFile", "InstitutionalCertificate", "Lab", "MatrixFile", "MeasurementSet", "ModelFile", "ModelSet", "MpraQualityMetric", "MultiplexedSample", "OpenReadingFrame", "Page", "PerturbSeqQualityMetric", "PhenotypeTerm", "PhenotypicFeature", "PlatformTerm", "PredictionSet", "PrimaryCell", "Publication", "ReferenceFile", "RodentDonor", "SampleTerm", "SequenceFile", "SignalFile", "SingleCellAtacSeqQualityMetric", "SingleCellRnaSeqQualityMetric", "Software", "SoftwareVersion", "Source", "StarrSeqQualityMetric", "TabularFile", "TechnicalSample", "Tissue", "Treatment", "User", "WholeOrganism", "Workflow"),
+    one_of = list("AccessKey", "AlignmentFile", "AnalysisSet", "AnalysisStep", "AnalysisStepVersion", "AssayTerm", "AuxiliarySet", "Award", "Biomarker", "ConfigurationFile", "ConstructLibrarySet", "CrisprModification", "CuratedSet", "DegronModification", "Document", "Gene", "HumanDonor", "Image", "ImageFile", "InVitroSystem", "IndexFile", "InstitutionalCertificate", "Lab", "MatrixFile", "MeasurementSet", "ModelFile", "ModelSet", "MpraQualityMetric", "MultiplexedSample", "OpenReadingFrame", "Page", "PerturbSeqQualityMetric", "PhenotypeTerm", "PhenotypicFeature", "PlatformTerm", "PredictionSet", "PrimaryCell", "PseudobulkSet", "Publication", "ReferenceFile", "RodentDonor", "SampleTerm", "SequenceFile", "SignalFile", "SingleCellAtacSeqQualityMetric", "SingleCellRnaSeqQualityMetric", "Software", "SoftwareVersion", "Source", "StarrSeqQualityMetric", "TabularFile", "TechnicalSample", "Tissue", "Treatment", "User", "WholeOrganism", "Workflow"),
     #' Initialize a new Item.
     #'
     #' @description
     #' Initialize a new Item.
     #'
-    #' @param instance an instance of the object defined in the oneOf schemas: "AccessKey", "AlignmentFile", "AnalysisSet", "AnalysisStep", "AnalysisStepVersion", "AssayTerm", "AuxiliarySet", "Award", "Biomarker", "ConfigurationFile", "ConstructLibrarySet", "CrisprModification", "CuratedSet", "DegronModification", "Document", "Gene", "HumanDonor", "Image", "ImageFile", "InVitroSystem", "IndexFile", "InstitutionalCertificate", "Lab", "MatrixFile", "MeasurementSet", "ModelFile", "ModelSet", "MpraQualityMetric", "MultiplexedSample", "OpenReadingFrame", "Page", "PerturbSeqQualityMetric", "PhenotypeTerm", "PhenotypicFeature", "PlatformTerm", "PredictionSet", "PrimaryCell", "Publication", "ReferenceFile", "RodentDonor", "SampleTerm", "SequenceFile", "SignalFile", "SingleCellAtacSeqQualityMetric", "SingleCellRnaSeqQualityMetric", "Software", "SoftwareVersion", "Source", "StarrSeqQualityMetric", "TabularFile", "TechnicalSample", "Tissue", "Treatment", "User", "WholeOrganism", "Workflow"
+    #' @param instance an instance of the object defined in the oneOf schemas: "AccessKey", "AlignmentFile", "AnalysisSet", "AnalysisStep", "AnalysisStepVersion", "AssayTerm", "AuxiliarySet", "Award", "Biomarker", "ConfigurationFile", "ConstructLibrarySet", "CrisprModification", "CuratedSet", "DegronModification", "Document", "Gene", "HumanDonor", "Image", "ImageFile", "InVitroSystem", "IndexFile", "InstitutionalCertificate", "Lab", "MatrixFile", "MeasurementSet", "ModelFile", "ModelSet", "MpraQualityMetric", "MultiplexedSample", "OpenReadingFrame", "Page", "PerturbSeqQualityMetric", "PhenotypeTerm", "PhenotypicFeature", "PlatformTerm", "PredictionSet", "PrimaryCell", "PseudobulkSet", "Publication", "ReferenceFile", "RodentDonor", "SampleTerm", "SequenceFile", "SignalFile", "SingleCellAtacSeqQualityMetric", "SingleCellRnaSeqQualityMetric", "Software", "SoftwareVersion", "Source", "StarrSeqQualityMetric", "TabularFile", "TechnicalSample", "Tissue", "Treatment", "User", "WholeOrganism", "Workflow"
     #' @export
     initialize = function(instance = NULL) {
       if (is.null(instance)) {
@@ -138,6 +138,9 @@ Item <- R6::R6Class(
       } else if (get(class(instance)[[1]], pos = -1)$classname ==  "PrimaryCell") {
         self$actual_instance <- instance
         self$actual_type <- "PrimaryCell"
+      } else if (get(class(instance)[[1]], pos = -1)$classname ==  "PseudobulkSet") {
+        self$actual_instance <- instance
+        self$actual_type <- "PseudobulkSet"
       } else if (get(class(instance)[[1]], pos = -1)$classname ==  "Publication") {
         self$actual_instance <- instance
         self$actual_type <- "Publication"
@@ -196,7 +199,7 @@ Item <- R6::R6Class(
         self$actual_instance <- instance
         self$actual_type <- "Workflow"
       } else {
-        stop(paste("Failed to initialize Item with oneOf schemas AccessKey, AlignmentFile, AnalysisSet, AnalysisStep, AnalysisStepVersion, AssayTerm, AuxiliarySet, Award, Biomarker, ConfigurationFile, ConstructLibrarySet, CrisprModification, CuratedSet, DegronModification, Document, Gene, HumanDonor, Image, ImageFile, InVitroSystem, IndexFile, InstitutionalCertificate, Lab, MatrixFile, MeasurementSet, ModelFile, ModelSet, MpraQualityMetric, MultiplexedSample, OpenReadingFrame, Page, PerturbSeqQualityMetric, PhenotypeTerm, PhenotypicFeature, PlatformTerm, PredictionSet, PrimaryCell, Publication, ReferenceFile, RodentDonor, SampleTerm, SequenceFile, SignalFile, SingleCellAtacSeqQualityMetric, SingleCellRnaSeqQualityMetric, Software, SoftwareVersion, Source, StarrSeqQualityMetric, TabularFile, TechnicalSample, Tissue, Treatment, User, WholeOrganism, Workflow. Provided class name: ",
+        stop(paste("Failed to initialize Item with oneOf schemas AccessKey, AlignmentFile, AnalysisSet, AnalysisStep, AnalysisStepVersion, AssayTerm, AuxiliarySet, Award, Biomarker, ConfigurationFile, ConstructLibrarySet, CrisprModification, CuratedSet, DegronModification, Document, Gene, HumanDonor, Image, ImageFile, InVitroSystem, IndexFile, InstitutionalCertificate, Lab, MatrixFile, MeasurementSet, ModelFile, ModelSet, MpraQualityMetric, MultiplexedSample, OpenReadingFrame, Page, PerturbSeqQualityMetric, PhenotypeTerm, PhenotypicFeature, PlatformTerm, PredictionSet, PrimaryCell, PseudobulkSet, Publication, ReferenceFile, RodentDonor, SampleTerm, SequenceFile, SignalFile, SingleCellAtacSeqQualityMetric, SingleCellRnaSeqQualityMetric, Software, SoftwareVersion, Source, StarrSeqQualityMetric, TabularFile, TechnicalSample, Tissue, Treatment, User, WholeOrganism, Workflow. Provided class name: ",
                    get(class(instance)[[1]], pos = -1)$classname))
       }
     },
@@ -494,6 +497,13 @@ Item <- R6::R6Class(
             PrimaryCell_instance <- PrimaryCell$new()
             self$actual_instance <- PrimaryCell_instance$fromJSON(input)
             self$actual_type <- "PrimaryCell"
+            return(self)
+          },
+          PseudobulkSet={
+            PseudobulkSet$public_methods$validateJSON(input)
+            PseudobulkSet_instance <- PseudobulkSet$new()
+            self$actual_instance <- PseudobulkSet_instance$fromJSON(input)
+            self$actual_type <- "PseudobulkSet"
             return(self)
           },
           Publication={
@@ -1010,6 +1020,21 @@ Item <- R6::R6Class(
         error_messages <- append(error_messages, `PredictionSet_result`["message"])
       }
 
+      `PseudobulkSet_result` <- tryCatch({
+          `PseudobulkSet`$public_methods$validateJSON(input)
+          `PseudobulkSet_instance` <- `PseudobulkSet`$new()
+          instance <- `PseudobulkSet_instance`$fromJSON(input)
+          instance_type <- "PseudobulkSet"
+          matched_schemas <- append(matched_schemas, "PseudobulkSet")
+          matched <- matched + 1
+        },
+        error = function(err) err
+      )
+
+      if (!is.null(`PseudobulkSet_result`["error"])) {
+        error_messages <- append(error_messages, `PseudobulkSet_result`["message"])
+      }
+
       `Gene_result` <- tryCatch({
           `Gene`$public_methods$validateJSON(input)
           `Gene_instance` <- `Gene`$new()
@@ -1481,11 +1506,11 @@ Item <- R6::R6Class(
         self$actual_type <- instance_type
       } else if (matched > 1) {
         # more than 1 match
-        stop(paste(error_messages, collapse = " >> "), paste("Multiple matches found when deserializing the input into Item with oneOf schemas AccessKey, AlignmentFile, AnalysisSet, AnalysisStep, AnalysisStepVersion, AssayTerm, AuxiliarySet, Award, Biomarker, ConfigurationFile, ConstructLibrarySet, CrisprModification, CuratedSet, DegronModification, Document, Gene, HumanDonor, Image, ImageFile, InVitroSystem, IndexFile, InstitutionalCertificate, Lab, MatrixFile, MeasurementSet, ModelFile, ModelSet, MpraQualityMetric, MultiplexedSample, OpenReadingFrame, Page, PerturbSeqQualityMetric, PhenotypeTerm, PhenotypicFeature, PlatformTerm, PredictionSet, PrimaryCell, Publication, ReferenceFile, RodentDonor, SampleTerm, SequenceFile, SignalFile, SingleCellAtacSeqQualityMetric, SingleCellRnaSeqQualityMetric, Software, SoftwareVersion, Source, StarrSeqQualityMetric, TabularFile, TechnicalSample, Tissue, Treatment, User, WholeOrganism, Workflow. Matched schemas: ",
+        stop(paste(error_messages, collapse = " >> "), paste("Multiple matches found when deserializing the input into Item with oneOf schemas AccessKey, AlignmentFile, AnalysisSet, AnalysisStep, AnalysisStepVersion, AssayTerm, AuxiliarySet, Award, Biomarker, ConfigurationFile, ConstructLibrarySet, CrisprModification, CuratedSet, DegronModification, Document, Gene, HumanDonor, Image, ImageFile, InVitroSystem, IndexFile, InstitutionalCertificate, Lab, MatrixFile, MeasurementSet, ModelFile, ModelSet, MpraQualityMetric, MultiplexedSample, OpenReadingFrame, Page, PerturbSeqQualityMetric, PhenotypeTerm, PhenotypicFeature, PlatformTerm, PredictionSet, PrimaryCell, PseudobulkSet, Publication, ReferenceFile, RodentDonor, SampleTerm, SequenceFile, SignalFile, SingleCellAtacSeqQualityMetric, SingleCellRnaSeqQualityMetric, Software, SoftwareVersion, Source, StarrSeqQualityMetric, TabularFile, TechnicalSample, Tissue, Treatment, User, WholeOrganism, Workflow. Matched schemas: ",
                    paste(matched_schemas, collapse = ", ")))
       } else {
         # no match
-        stop(paste("No match found when deserializing the input into Item with oneOf schemas AccessKey, AlignmentFile, AnalysisSet, AnalysisStep, AnalysisStepVersion, AssayTerm, AuxiliarySet, Award, Biomarker, ConfigurationFile, ConstructLibrarySet, CrisprModification, CuratedSet, DegronModification, Document, Gene, HumanDonor, Image, ImageFile, InVitroSystem, IndexFile, InstitutionalCertificate, Lab, MatrixFile, MeasurementSet, ModelFile, ModelSet, MpraQualityMetric, MultiplexedSample, OpenReadingFrame, Page, PerturbSeqQualityMetric, PhenotypeTerm, PhenotypicFeature, PlatformTerm, PredictionSet, PrimaryCell, Publication, ReferenceFile, RodentDonor, SampleTerm, SequenceFile, SignalFile, SingleCellAtacSeqQualityMetric, SingleCellRnaSeqQualityMetric, Software, SoftwareVersion, Source, StarrSeqQualityMetric, TabularFile, TechnicalSample, Tissue, Treatment, User, WholeOrganism, Workflow. Details: >>",
+        stop(paste("No match found when deserializing the input into Item with oneOf schemas AccessKey, AlignmentFile, AnalysisSet, AnalysisStep, AnalysisStepVersion, AssayTerm, AuxiliarySet, Award, Biomarker, ConfigurationFile, ConstructLibrarySet, CrisprModification, CuratedSet, DegronModification, Document, Gene, HumanDonor, Image, ImageFile, InVitroSystem, IndexFile, InstitutionalCertificate, Lab, MatrixFile, MeasurementSet, ModelFile, ModelSet, MpraQualityMetric, MultiplexedSample, OpenReadingFrame, Page, PerturbSeqQualityMetric, PhenotypeTerm, PhenotypicFeature, PlatformTerm, PredictionSet, PrimaryCell, PseudobulkSet, Publication, ReferenceFile, RodentDonor, SampleTerm, SequenceFile, SignalFile, SingleCellAtacSeqQualityMetric, SingleCellRnaSeqQualityMetric, Software, SoftwareVersion, Source, StarrSeqQualityMetric, TabularFile, TechnicalSample, Tissue, Treatment, User, WholeOrganism, Workflow. Details: >>",
                    paste(error_messages, collapse = " >> ")))
       }
 

@@ -1,15 +1,14 @@
-#' Create a new AuxiliarySet
+#' Create a new PseudobulkSet
 #'
 #' @description
-#' Auxiliary set is a file set that hosts raw data files (e.g. FASTQs) resulting from sequencing of nucleic acids of a sample that are a proxy to some vital information and necessary for the analysis of an associated measurement set. Auxiliary sets usually would not provide any information about the transcriptome or the genome of the sample in question. For example auxiliary sets would include the sequencing of barcodes that correspond to the elements introduced into cells, or sequencing of guide RNA coding sequences in the cells. The files hosted in the auxiliary sets are relevant for the analysis, but they by themselves are not assessing much of the biology of the sample being analyzed.
+#' 
 #'
 #' @docType class
-#' @title AuxiliarySet
-#' @description AuxiliarySet Class
+#' @title PseudobulkSet
+#' @description PseudobulkSet Class
 #' @format An \code{R6Class} generator object
-#' @field is_on_anvil Indicates whether the data object has been submitted to AnVIL. character [optional]
 #' @field doi The Digital Object Identifier (DOI) associated with this object. character [optional]
-#' @field preview_timestamp The date the object was previewed. character [optional]
+#' @field input_file_sets The file set(s) required for this pseudobulking analysis. list(character) [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field publications The publications associated with this object. list(character) [optional]
 #' @field documents Documents that provide additional information (not data file). list(character) [optional]
@@ -20,7 +19,6 @@
 #' @field collections Some samples are part of particular data collections. list(character) [optional]
 #' @field status The status of the metadata object. character [optional]
 #' @field revoke_detail Explanation of why an object was transitioned to the revoked status. character [optional]
-#' @field url An external resource with additional information. character [optional]
 #' @field schema_version The version of the JSON schema that the server uses to validate the object. character [optional]
 #' @field uuid The unique identifier associated with every object. character [optional]
 #' @field notes DACC internal notes. character [optional]
@@ -30,11 +28,12 @@
 #' @field submitter_comment Additional information specified by the submitter to be displayed as a comment on the portal. character [optional]
 #' @field description A plain text description of the object. character [optional]
 #' @field dbxrefs Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file sets. list(character) [optional]
-#' @field samples The sample(s) associated with this file set. list(character) [optional]
-#' @field donors The donors of the samples associated with this auxiliary set. list(character) [optional]
-#' @field file_set_type The category that best describes this auxiliary file set. character [optional]
+#' @field samples The sample(s) from which the cells in this pseudobulk originated. list(character) [optional]
+#' @field donors The donor(s) associated with this file set. list(character) [optional]
+#' @field file_set_type The level of this analysis set. character [optional]
 #' @field supersedes The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
-#' @field barcode_map The link to the barcode mapping tabular file. character [optional]
+#' @field cell_type The ontology term that describes the cell type of the cells in this pseudobulk. character [optional]
+#' @field cell_qualifier A qualifier that provides additional detail about the cell type annotation or the source biosample. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary  character [optional]
@@ -46,18 +45,17 @@
 #' @field construct_library_sets The construct library sets associated with the samples of this file set. list(character) [optional]
 #' @field data_use_limitation_summaries The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. list(character) [optional]
 #' @field controlled_access The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. character [optional]
-#' @field measurement_sets The measurement sets that link to this auxiliary set. list(character) [optional]
-#' @field preferred_assay_titles The preferred assay titles of the measurement sets that used this auxiliary set. list(character) [optional]
-#' @field assay_titles Ontology term names from Ontology of Biomedical Investigations (OBI) for assays list(character) [optional]
+#' @field workflows A workflow for computational analysis of genomic data. A workflow is made up of analysis steps. list(character) [optional]
+#' @field preferred_assay_titles Preferred Assay Title(s) of assays that produced data analyzed in the pseudobulk set. list(character) [optional]
+#' @field assay_titles Ontology term names from Ontology of Biomedical Investigations (OBI) for assays. list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
-AuxiliarySet <- R6::R6Class(
-  "AuxiliarySet",
+PseudobulkSet <- R6::R6Class(
+  "PseudobulkSet",
   public = list(
-    `is_on_anvil` = NULL,
     `doi` = NULL,
-    `preview_timestamp` = NULL,
+    `input_file_sets` = NULL,
     `release_timestamp` = NULL,
     `publications` = NULL,
     `documents` = NULL,
@@ -68,7 +66,6 @@ AuxiliarySet <- R6::R6Class(
     `collections` = NULL,
     `status` = NULL,
     `revoke_detail` = NULL,
-    `url` = NULL,
     `schema_version` = NULL,
     `uuid` = NULL,
     `notes` = NULL,
@@ -82,7 +79,8 @@ AuxiliarySet <- R6::R6Class(
     `donors` = NULL,
     `file_set_type` = NULL,
     `supersedes` = NULL,
-    `barcode_map` = NULL,
+    `cell_type` = NULL,
+    `cell_qualifier` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -94,17 +92,16 @@ AuxiliarySet <- R6::R6Class(
     `construct_library_sets` = NULL,
     `data_use_limitation_summaries` = NULL,
     `controlled_access` = NULL,
-    `measurement_sets` = NULL,
+    `workflows` = NULL,
     `preferred_assay_titles` = NULL,
     `assay_titles` = NULL,
-    #' Initialize a new AuxiliarySet class.
+    #' Initialize a new PseudobulkSet class.
     #'
     #' @description
-    #' Initialize a new AuxiliarySet class.
+    #' Initialize a new PseudobulkSet class.
     #'
-    #' @param is_on_anvil Indicates whether the data object has been submitted to AnVIL.
     #' @param doi The Digital Object Identifier (DOI) associated with this object.
-    #' @param preview_timestamp The date the object was previewed.
+    #' @param input_file_sets The file set(s) required for this pseudobulking analysis.
     #' @param release_timestamp The date the object was released.
     #' @param publications The publications associated with this object.
     #' @param documents Documents that provide additional information (not data file).
@@ -115,7 +112,6 @@ AuxiliarySet <- R6::R6Class(
     #' @param collections Some samples are part of particular data collections.
     #' @param status The status of the metadata object.
     #' @param revoke_detail Explanation of why an object was transitioned to the revoked status.
-    #' @param url An external resource with additional information.
     #' @param schema_version The version of the JSON schema that the server uses to validate the object.
     #' @param uuid The unique identifier associated with every object.
     #' @param notes DACC internal notes.
@@ -125,11 +121,12 @@ AuxiliarySet <- R6::R6Class(
     #' @param submitter_comment Additional information specified by the submitter to be displayed as a comment on the portal.
     #' @param description A plain text description of the object.
     #' @param dbxrefs Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file sets.
-    #' @param samples The sample(s) associated with this file set.
-    #' @param donors The donors of the samples associated with this auxiliary set.
-    #' @param file_set_type The category that best describes this auxiliary file set.
+    #' @param samples The sample(s) from which the cells in this pseudobulk originated.
+    #' @param donors The donor(s) associated with this file set.
+    #' @param file_set_type The level of this analysis set.
     #' @param supersedes The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
-    #' @param barcode_map The link to the barcode mapping tabular file.
+    #' @param cell_type The ontology term that describes the cell type of the cells in this pseudobulk.
+    #' @param cell_qualifier A qualifier that provides additional detail about the cell type annotation or the source biosample.
     #' @param @id @id
     #' @param @type @type
     #' @param summary summary
@@ -141,29 +138,22 @@ AuxiliarySet <- R6::R6Class(
     #' @param construct_library_sets The construct library sets associated with the samples of this file set.
     #' @param data_use_limitation_summaries The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set.
     #' @param controlled_access The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set.
-    #' @param measurement_sets The measurement sets that link to this auxiliary set.
-    #' @param preferred_assay_titles The preferred assay titles of the measurement sets that used this auxiliary set.
-    #' @param assay_titles Ontology term names from Ontology of Biomedical Investigations (OBI) for assays
+    #' @param workflows A workflow for computational analysis of genomic data. A workflow is made up of analysis steps.
+    #' @param preferred_assay_titles Preferred Assay Title(s) of assays that produced data analyzed in the pseudobulk set.
+    #' @param assay_titles Ontology term names from Ontology of Biomedical Investigations (OBI) for assays.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `barcode_map` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `measurement_sets` = NULL, `preferred_assay_titles` = NULL, `assay_titles` = NULL, ...) {
-      if (!is.null(`is_on_anvil`)) {
-        if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
-          stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
-        }
-        self$`is_on_anvil` <- `is_on_anvil`
-      }
+    initialize = function(`doi` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `cell_type` = NULL, `cell_qualifier` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `workflows` = NULL, `preferred_assay_titles` = NULL, `assay_titles` = NULL, ...) {
       if (!is.null(`doi`)) {
         if (!(is.character(`doi`) && length(`doi`) == 1)) {
           stop(paste("Error! Invalid data for `doi`. Must be a string:", `doi`))
         }
         self$`doi` <- `doi`
       }
-      if (!is.null(`preview_timestamp`)) {
-        if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
-          stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
-        }
-        self$`preview_timestamp` <- `preview_timestamp`
+      if (!is.null(`input_file_sets`)) {
+        stopifnot(is.vector(`input_file_sets`), length(`input_file_sets`) != 0)
+        sapply(`input_file_sets`, function(x) stopifnot(is.character(x)))
+        self$`input_file_sets` <- `input_file_sets`
       }
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
@@ -223,12 +213,6 @@ AuxiliarySet <- R6::R6Class(
           stop(paste("Error! Invalid data for `revoke_detail`. Must be a string:", `revoke_detail`))
         }
         self$`revoke_detail` <- `revoke_detail`
-      }
-      if (!is.null(`url`)) {
-        if (!(is.character(`url`) && length(`url`) == 1)) {
-          stop(paste("Error! Invalid data for `url`. Must be a string:", `url`))
-        }
-        self$`url` <- `url`
       }
       if (!is.null(`schema_version`)) {
         if (!(is.character(`schema_version`) && length(`schema_version`) == 1)) {
@@ -293,8 +277,8 @@ AuxiliarySet <- R6::R6Class(
         self$`donors` <- `donors`
       }
       if (!is.null(`file_set_type`)) {
-        if (!(`file_set_type` %in% c("cell hashing barcode sequencing", "cell sorting", "circularized RNA barcode detection", "full-length DNA sequencing", "gRNA sequencing", "lipid-conjugated oligo sequencing", "MORF barcode sequencing", "quantification DNA barcode sequencing"))) {
-          stop(paste("Error! \"", `file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"cell hashing barcode sequencing\", \"cell sorting\", \"circularized RNA barcode detection\", \"full-length DNA sequencing\", \"gRNA sequencing\", \"lipid-conjugated oligo sequencing\", \"MORF barcode sequencing\", \"quantification DNA barcode sequencing\".", sep = ""))
+        if (!(`file_set_type` %in% c("pseudobulk analysis"))) {
+          stop(paste("Error! \"", `file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"pseudobulk analysis\".", sep = ""))
         }
         if (!(is.character(`file_set_type`) && length(`file_set_type`) == 1)) {
           stop(paste("Error! Invalid data for `file_set_type`. Must be a string:", `file_set_type`))
@@ -306,11 +290,17 @@ AuxiliarySet <- R6::R6Class(
         sapply(`supersedes`, function(x) stopifnot(is.character(x)))
         self$`supersedes` <- `supersedes`
       }
-      if (!is.null(`barcode_map`)) {
-        if (!(is.character(`barcode_map`) && length(`barcode_map`) == 1)) {
-          stop(paste("Error! Invalid data for `barcode_map`. Must be a string:", `barcode_map`))
+      if (!is.null(`cell_type`)) {
+        if (!(is.character(`cell_type`) && length(`cell_type`) == 1)) {
+          stop(paste("Error! Invalid data for `cell_type`. Must be a string:", `cell_type`))
         }
-        self$`barcode_map` <- `barcode_map`
+        self$`cell_type` <- `cell_type`
+      }
+      if (!is.null(`cell_qualifier`)) {
+        if (!(is.character(`cell_qualifier`) && length(`cell_qualifier`) == 1)) {
+          stop(paste("Error! Invalid data for `cell_qualifier`. Must be a string:", `cell_qualifier`))
+        }
+        self$`cell_qualifier` <- `cell_qualifier`
       }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
@@ -371,10 +361,10 @@ AuxiliarySet <- R6::R6Class(
         }
         self$`controlled_access` <- `controlled_access`
       }
-      if (!is.null(`measurement_sets`)) {
-        stopifnot(is.vector(`measurement_sets`), length(`measurement_sets`) != 0)
-        sapply(`measurement_sets`, function(x) stopifnot(is.character(x)))
-        self$`measurement_sets` <- `measurement_sets`
+      if (!is.null(`workflows`)) {
+        stopifnot(is.vector(`workflows`), length(`workflows`) != 0)
+        sapply(`workflows`, function(x) stopifnot(is.character(x)))
+        self$`workflows` <- `workflows`
       }
       if (!is.null(`preferred_assay_titles`)) {
         stopifnot(is.vector(`preferred_assay_titles`), length(`preferred_assay_titles`) != 0)
@@ -392,198 +382,191 @@ AuxiliarySet <- R6::R6Class(
     #' @description
     #' To JSON String
     #'
-    #' @return AuxiliarySet in JSON format
+    #' @return PseudobulkSet in JSON format
     #' @export
     toJSON = function() {
-      AuxiliarySetObject <- list()
-      if (!is.null(self$`is_on_anvil`)) {
-        AuxiliarySetObject[["is_on_anvil"]] <-
-          self$`is_on_anvil`
-      }
+      PseudobulkSetObject <- list()
       if (!is.null(self$`doi`)) {
-        AuxiliarySetObject[["doi"]] <-
+        PseudobulkSetObject[["doi"]] <-
           self$`doi`
       }
-      if (!is.null(self$`preview_timestamp`)) {
-        AuxiliarySetObject[["preview_timestamp"]] <-
-          self$`preview_timestamp`
+      if (!is.null(self$`input_file_sets`)) {
+        PseudobulkSetObject[["input_file_sets"]] <-
+          self$`input_file_sets`
       }
       if (!is.null(self$`release_timestamp`)) {
-        AuxiliarySetObject[["release_timestamp"]] <-
+        PseudobulkSetObject[["release_timestamp"]] <-
           self$`release_timestamp`
       }
       if (!is.null(self$`publications`)) {
-        AuxiliarySetObject[["publications"]] <-
+        PseudobulkSetObject[["publications"]] <-
           self$`publications`
       }
       if (!is.null(self$`documents`)) {
-        AuxiliarySetObject[["documents"]] <-
+        PseudobulkSetObject[["documents"]] <-
           self$`documents`
       }
       if (!is.null(self$`lab`)) {
-        AuxiliarySetObject[["lab"]] <-
+        PseudobulkSetObject[["lab"]] <-
           self$`lab`
       }
       if (!is.null(self$`award`)) {
-        AuxiliarySetObject[["award"]] <-
+        PseudobulkSetObject[["award"]] <-
           self$`award`
       }
       if (!is.null(self$`accession`)) {
-        AuxiliarySetObject[["accession"]] <-
+        PseudobulkSetObject[["accession"]] <-
           self$`accession`
       }
       if (!is.null(self$`alternate_accessions`)) {
-        AuxiliarySetObject[["alternate_accessions"]] <-
+        PseudobulkSetObject[["alternate_accessions"]] <-
           self$`alternate_accessions`
       }
       if (!is.null(self$`collections`)) {
-        AuxiliarySetObject[["collections"]] <-
+        PseudobulkSetObject[["collections"]] <-
           self$`collections`
       }
       if (!is.null(self$`status`)) {
-        AuxiliarySetObject[["status"]] <-
+        PseudobulkSetObject[["status"]] <-
           self$`status`
       }
       if (!is.null(self$`revoke_detail`)) {
-        AuxiliarySetObject[["revoke_detail"]] <-
+        PseudobulkSetObject[["revoke_detail"]] <-
           self$`revoke_detail`
       }
-      if (!is.null(self$`url`)) {
-        AuxiliarySetObject[["url"]] <-
-          self$`url`
-      }
       if (!is.null(self$`schema_version`)) {
-        AuxiliarySetObject[["schema_version"]] <-
+        PseudobulkSetObject[["schema_version"]] <-
           self$`schema_version`
       }
       if (!is.null(self$`uuid`)) {
-        AuxiliarySetObject[["uuid"]] <-
+        PseudobulkSetObject[["uuid"]] <-
           self$`uuid`
       }
       if (!is.null(self$`notes`)) {
-        AuxiliarySetObject[["notes"]] <-
+        PseudobulkSetObject[["notes"]] <-
           self$`notes`
       }
       if (!is.null(self$`aliases`)) {
-        AuxiliarySetObject[["aliases"]] <-
+        PseudobulkSetObject[["aliases"]] <-
           self$`aliases`
       }
       if (!is.null(self$`creation_timestamp`)) {
-        AuxiliarySetObject[["creation_timestamp"]] <-
+        PseudobulkSetObject[["creation_timestamp"]] <-
           self$`creation_timestamp`
       }
       if (!is.null(self$`submitted_by`)) {
-        AuxiliarySetObject[["submitted_by"]] <-
+        PseudobulkSetObject[["submitted_by"]] <-
           self$`submitted_by`
       }
       if (!is.null(self$`submitter_comment`)) {
-        AuxiliarySetObject[["submitter_comment"]] <-
+        PseudobulkSetObject[["submitter_comment"]] <-
           self$`submitter_comment`
       }
       if (!is.null(self$`description`)) {
-        AuxiliarySetObject[["description"]] <-
+        PseudobulkSetObject[["description"]] <-
           self$`description`
       }
       if (!is.null(self$`dbxrefs`)) {
-        AuxiliarySetObject[["dbxrefs"]] <-
+        PseudobulkSetObject[["dbxrefs"]] <-
           self$`dbxrefs`
       }
       if (!is.null(self$`samples`)) {
-        AuxiliarySetObject[["samples"]] <-
+        PseudobulkSetObject[["samples"]] <-
           self$`samples`
       }
       if (!is.null(self$`donors`)) {
-        AuxiliarySetObject[["donors"]] <-
+        PseudobulkSetObject[["donors"]] <-
           self$`donors`
       }
       if (!is.null(self$`file_set_type`)) {
-        AuxiliarySetObject[["file_set_type"]] <-
+        PseudobulkSetObject[["file_set_type"]] <-
           self$`file_set_type`
       }
       if (!is.null(self$`supersedes`)) {
-        AuxiliarySetObject[["supersedes"]] <-
+        PseudobulkSetObject[["supersedes"]] <-
           self$`supersedes`
       }
-      if (!is.null(self$`barcode_map`)) {
-        AuxiliarySetObject[["barcode_map"]] <-
-          self$`barcode_map`
+      if (!is.null(self$`cell_type`)) {
+        PseudobulkSetObject[["cell_type"]] <-
+          self$`cell_type`
+      }
+      if (!is.null(self$`cell_qualifier`)) {
+        PseudobulkSetObject[["cell_qualifier"]] <-
+          self$`cell_qualifier`
       }
       if (!is.null(self$`@id`)) {
-        AuxiliarySetObject[["@id"]] <-
+        PseudobulkSetObject[["@id"]] <-
           self$`@id`
       }
       if (!is.null(self$`@type`)) {
-        AuxiliarySetObject[["@type"]] <-
+        PseudobulkSetObject[["@type"]] <-
           self$`@type`
       }
       if (!is.null(self$`summary`)) {
-        AuxiliarySetObject[["summary"]] <-
+        PseudobulkSetObject[["summary"]] <-
           self$`summary`
       }
       if (!is.null(self$`files`)) {
-        AuxiliarySetObject[["files"]] <-
+        PseudobulkSetObject[["files"]] <-
           self$`files`
       }
       if (!is.null(self$`control_for`)) {
-        AuxiliarySetObject[["control_for"]] <-
+        PseudobulkSetObject[["control_for"]] <-
           self$`control_for`
       }
       if (!is.null(self$`superseded_by`)) {
-        AuxiliarySetObject[["superseded_by"]] <-
+        PseudobulkSetObject[["superseded_by"]] <-
           self$`superseded_by`
       }
       if (!is.null(self$`submitted_files_timestamp`)) {
-        AuxiliarySetObject[["submitted_files_timestamp"]] <-
+        PseudobulkSetObject[["submitted_files_timestamp"]] <-
           self$`submitted_files_timestamp`
       }
       if (!is.null(self$`input_for`)) {
-        AuxiliarySetObject[["input_for"]] <-
+        PseudobulkSetObject[["input_for"]] <-
           self$`input_for`
       }
       if (!is.null(self$`construct_library_sets`)) {
-        AuxiliarySetObject[["construct_library_sets"]] <-
+        PseudobulkSetObject[["construct_library_sets"]] <-
           self$`construct_library_sets`
       }
       if (!is.null(self$`data_use_limitation_summaries`)) {
-        AuxiliarySetObject[["data_use_limitation_summaries"]] <-
+        PseudobulkSetObject[["data_use_limitation_summaries"]] <-
           self$`data_use_limitation_summaries`
       }
       if (!is.null(self$`controlled_access`)) {
-        AuxiliarySetObject[["controlled_access"]] <-
+        PseudobulkSetObject[["controlled_access"]] <-
           self$`controlled_access`
       }
-      if (!is.null(self$`measurement_sets`)) {
-        AuxiliarySetObject[["measurement_sets"]] <-
-          self$`measurement_sets`
+      if (!is.null(self$`workflows`)) {
+        PseudobulkSetObject[["workflows"]] <-
+          self$`workflows`
       }
       if (!is.null(self$`preferred_assay_titles`)) {
-        AuxiliarySetObject[["preferred_assay_titles"]] <-
+        PseudobulkSetObject[["preferred_assay_titles"]] <-
           self$`preferred_assay_titles`
       }
       if (!is.null(self$`assay_titles`)) {
-        AuxiliarySetObject[["assay_titles"]] <-
+        PseudobulkSetObject[["assay_titles"]] <-
           self$`assay_titles`
       }
-      AuxiliarySetObject
+      PseudobulkSetObject
     },
-    #' Deserialize JSON string into an instance of AuxiliarySet
+    #' Deserialize JSON string into an instance of PseudobulkSet
     #'
     #' @description
-    #' Deserialize JSON string into an instance of AuxiliarySet
+    #' Deserialize JSON string into an instance of PseudobulkSet
     #'
     #' @param input_json the JSON input
-    #' @return the instance of AuxiliarySet
+    #' @return the instance of PseudobulkSet
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
-      if (!is.null(this_object$`is_on_anvil`)) {
-        self$`is_on_anvil` <- this_object$`is_on_anvil`
-      }
       if (!is.null(this_object$`doi`)) {
         self$`doi` <- this_object$`doi`
       }
-      if (!is.null(this_object$`preview_timestamp`)) {
-        self$`preview_timestamp` <- this_object$`preview_timestamp`
+      if (!is.null(this_object$`input_file_sets`)) {
+        self$`input_file_sets` <- ApiClient$new()$deserializeObj(this_object$`input_file_sets`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`release_timestamp`)) {
         self$`release_timestamp` <- this_object$`release_timestamp`
@@ -617,9 +600,6 @@ AuxiliarySet <- R6::R6Class(
       }
       if (!is.null(this_object$`revoke_detail`)) {
         self$`revoke_detail` <- this_object$`revoke_detail`
-      }
-      if (!is.null(this_object$`url`)) {
-        self$`url` <- this_object$`url`
       }
       if (!is.null(this_object$`schema_version`)) {
         self$`schema_version` <- this_object$`schema_version`
@@ -655,16 +635,19 @@ AuxiliarySet <- R6::R6Class(
         self$`donors` <- ApiClient$new()$deserializeObj(this_object$`donors`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`file_set_type`)) {
-        if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("cell hashing barcode sequencing", "cell sorting", "circularized RNA barcode detection", "full-length DNA sequencing", "gRNA sequencing", "lipid-conjugated oligo sequencing", "MORF barcode sequencing", "quantification DNA barcode sequencing"))) {
-          stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"cell hashing barcode sequencing\", \"cell sorting\", \"circularized RNA barcode detection\", \"full-length DNA sequencing\", \"gRNA sequencing\", \"lipid-conjugated oligo sequencing\", \"MORF barcode sequencing\", \"quantification DNA barcode sequencing\".", sep = ""))
+        if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("pseudobulk analysis"))) {
+          stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"pseudobulk analysis\".", sep = ""))
         }
         self$`file_set_type` <- this_object$`file_set_type`
       }
       if (!is.null(this_object$`supersedes`)) {
         self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
       }
-      if (!is.null(this_object$`barcode_map`)) {
-        self$`barcode_map` <- this_object$`barcode_map`
+      if (!is.null(this_object$`cell_type`)) {
+        self$`cell_type` <- this_object$`cell_type`
+      }
+      if (!is.null(this_object$`cell_qualifier`)) {
+        self$`cell_qualifier` <- this_object$`cell_qualifier`
       }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
@@ -699,8 +682,8 @@ AuxiliarySet <- R6::R6Class(
       if (!is.null(this_object$`controlled_access`)) {
         self$`controlled_access` <- this_object$`controlled_access`
       }
-      if (!is.null(this_object$`measurement_sets`)) {
-        self$`measurement_sets` <- ApiClient$new()$deserializeObj(this_object$`measurement_sets`, "set[character]", loadNamespace("igvfclient"))
+      if (!is.null(this_object$`workflows`)) {
+        self$`workflows` <- ApiClient$new()$deserializeObj(this_object$`workflows`, "array[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`preferred_assay_titles`)) {
         self$`preferred_assay_titles` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_titles`, "set[character]", loadNamespace("igvfclient"))
@@ -715,18 +698,10 @@ AuxiliarySet <- R6::R6Class(
     #' @description
     #' To JSON String
     #'
-    #' @return AuxiliarySet in JSON format
+    #' @return PseudobulkSet in JSON format
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
-        if (!is.null(self$`is_on_anvil`)) {
-          sprintf(
-          '"is_on_anvil":
-            %s
-                    ',
-          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`is_on_anvil`, perl=TRUE))
-          )
-        },
         if (!is.null(self$`doi`)) {
           sprintf(
           '"doi":
@@ -735,12 +710,12 @@ AuxiliarySet <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`doi`, perl=TRUE)
           )
         },
-        if (!is.null(self$`preview_timestamp`)) {
+        if (!is.null(self$`input_file_sets`)) {
           sprintf(
-          '"preview_timestamp":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`preview_timestamp`, perl=TRUE)
+          '"input_file_sets":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`input_file_sets`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`release_timestamp`)) {
@@ -821,14 +796,6 @@ AuxiliarySet <- R6::R6Class(
             "%s"
                     ',
           gsub('(?<!\\\\)\\"', '\\\\"', self$`revoke_detail`, perl=TRUE)
-          )
-        },
-        if (!is.null(self$`url`)) {
-          sprintf(
-          '"url":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`url`, perl=TRUE)
           )
         },
         if (!is.null(self$`schema_version`)) {
@@ -935,12 +902,20 @@ AuxiliarySet <- R6::R6Class(
           paste(unlist(lapply(self$`supersedes`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
-        if (!is.null(self$`barcode_map`)) {
+        if (!is.null(self$`cell_type`)) {
           sprintf(
-          '"barcode_map":
+          '"cell_type":
             "%s"
                     ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`barcode_map`, perl=TRUE)
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`cell_type`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`cell_qualifier`)) {
+          sprintf(
+          '"cell_qualifier":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`cell_qualifier`, perl=TRUE)
           )
         },
         if (!is.null(self$`@id`)) {
@@ -1031,12 +1006,12 @@ AuxiliarySet <- R6::R6Class(
           tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`controlled_access`, perl=TRUE))
           )
         },
-        if (!is.null(self$`measurement_sets`)) {
+        if (!is.null(self$`workflows`)) {
           sprintf(
-          '"measurement_sets":
+          '"workflows":
              [%s]
           ',
-          paste(unlist(lapply(self$`measurement_sets`, function(x) paste0('"', x, '"'))), collapse = ",")
+          paste(unlist(lapply(self$`workflows`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`preferred_assay_titles`)) {
@@ -1059,19 +1034,18 @@ AuxiliarySet <- R6::R6Class(
       jsoncontent <- paste(jsoncontent, collapse = ",")
       json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
     },
-    #' Deserialize JSON string into an instance of AuxiliarySet
+    #' Deserialize JSON string into an instance of PseudobulkSet
     #'
     #' @description
-    #' Deserialize JSON string into an instance of AuxiliarySet
+    #' Deserialize JSON string into an instance of PseudobulkSet
     #'
     #' @param input_json the JSON input
-    #' @return the instance of AuxiliarySet
+    #' @return the instance of PseudobulkSet
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
-      self$`is_on_anvil` <- this_object$`is_on_anvil`
       self$`doi` <- this_object$`doi`
-      self$`preview_timestamp` <- this_object$`preview_timestamp`
+      self$`input_file_sets` <- ApiClient$new()$deserializeObj(this_object$`input_file_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`release_timestamp` <- this_object$`release_timestamp`
       self$`publications` <- ApiClient$new()$deserializeObj(this_object$`publications`, "set[character]", loadNamespace("igvfclient"))
       self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
@@ -1085,7 +1059,6 @@ AuxiliarySet <- R6::R6Class(
       }
       self$`status` <- this_object$`status`
       self$`revoke_detail` <- this_object$`revoke_detail`
-      self$`url` <- this_object$`url`
       self$`schema_version` <- this_object$`schema_version`
       self$`uuid` <- this_object$`uuid`
       self$`notes` <- this_object$`notes`
@@ -1097,12 +1070,13 @@ AuxiliarySet <- R6::R6Class(
       self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
       self$`samples` <- ApiClient$new()$deserializeObj(this_object$`samples`, "set[character]", loadNamespace("igvfclient"))
       self$`donors` <- ApiClient$new()$deserializeObj(this_object$`donors`, "set[character]", loadNamespace("igvfclient"))
-      if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("cell hashing barcode sequencing", "cell sorting", "circularized RNA barcode detection", "full-length DNA sequencing", "gRNA sequencing", "lipid-conjugated oligo sequencing", "MORF barcode sequencing", "quantification DNA barcode sequencing"))) {
-        stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"cell hashing barcode sequencing\", \"cell sorting\", \"circularized RNA barcode detection\", \"full-length DNA sequencing\", \"gRNA sequencing\", \"lipid-conjugated oligo sequencing\", \"MORF barcode sequencing\", \"quantification DNA barcode sequencing\".", sep = ""))
+      if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("pseudobulk analysis"))) {
+        stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"pseudobulk analysis\".", sep = ""))
       }
       self$`file_set_type` <- this_object$`file_set_type`
       self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
-      self$`barcode_map` <- this_object$`barcode_map`
+      self$`cell_type` <- this_object$`cell_type`
+      self$`cell_qualifier` <- this_object$`cell_qualifier`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
@@ -1114,15 +1088,15 @@ AuxiliarySet <- R6::R6Class(
       self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`data_use_limitation_summaries` <- ApiClient$new()$deserializeObj(this_object$`data_use_limitation_summaries`, "set[character]", loadNamespace("igvfclient"))
       self$`controlled_access` <- this_object$`controlled_access`
-      self$`measurement_sets` <- ApiClient$new()$deserializeObj(this_object$`measurement_sets`, "set[character]", loadNamespace("igvfclient"))
+      self$`workflows` <- ApiClient$new()$deserializeObj(this_object$`workflows`, "array[character]", loadNamespace("igvfclient"))
       self$`preferred_assay_titles` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_titles`, "set[character]", loadNamespace("igvfclient"))
       self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
       self
     },
-    #' Validate JSON input with respect to AuxiliarySet
+    #' Validate JSON input with respect to PseudobulkSet
     #'
     #' @description
-    #' Validate JSON input with respect to AuxiliarySet and throw an exception if invalid
+    #' Validate JSON input with respect to PseudobulkSet and throw an exception if invalid
     #'
     #' @param input the JSON input
     #' @export
@@ -1134,7 +1108,7 @@ AuxiliarySet <- R6::R6Class(
     #' @description
     #' To string (JSON format)
     #'
-    #' @return String representation of AuxiliarySet
+    #' @return String representation of PseudobulkSet
     #' @export
     toString = function() {
       self$toJSONString()
@@ -1150,6 +1124,7 @@ AuxiliarySet <- R6::R6Class(
       if (!str_detect(self$`doi`, "^(10.65695/IGVFDS\\d{4}[A-Z]{4})$")) {
         return(FALSE)
       }
+
 
 
 
@@ -1188,7 +1163,6 @@ AuxiliarySet <- R6::R6Class(
 
 
 
-
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1203,6 +1177,7 @@ AuxiliarySet <- R6::R6Class(
       if (!str_detect(self$`doi`, "^(10.65695/IGVFDS\\d{4}[A-Z]{4})$")) {
         invalid_fields["doi"] <- "Invalid value for `doi`, must conform to the pattern ^(10.65695/IGVFDS\\d{4}[A-Z]{4})$."
       }
+
 
 
 
@@ -1241,7 +1216,6 @@ AuxiliarySet <- R6::R6Class(
 
 
 
-
       invalid_fields
     },
     #' Print the object
@@ -1259,13 +1233,13 @@ AuxiliarySet <- R6::R6Class(
   lock_class = TRUE
 )
 ## Uncomment below to unlock the class to allow modifications of the method or field
-# AuxiliarySet$unlock()
+# PseudobulkSet$unlock()
 #
 ## Below is an example to define the print function
-# AuxiliarySet$set("public", "print", function(...) {
+# PseudobulkSet$set("public", "print", function(...) {
 #   print(jsonlite::prettify(self$toJSONString()))
 #   invisible(self)
 # })
 ## Uncomment below to lock the class to prevent modifications to the method or field
-# AuxiliarySet$lock()
+# PseudobulkSet$lock()
 
