@@ -46,6 +46,7 @@
 #' @field embryonic Biosample is embryonic. character [optional]
 #' @field modifications Links to modifications applied to this biosample. list(character) [optional]
 #' @field cellular_sub_pool Cellular sub-pool fraction of the sample. Also known as PKR and sub-library. character [optional]
+#' @field phenotypic_features A list of associated phenotypic features of the sample. list(character) [optional]
 #' @field starting_amount The initial quantity of samples obtained. numeric [optional]
 #' @field starting_amount_units The units used to quantify the amount of samples obtained. character [optional]
 #' @field dbxrefs Biosample identifiers from external resources, such as Biosample database or Cellosaurus. list(character) [optional]
@@ -126,6 +127,7 @@ Tissue <- R6::R6Class(
     `embryonic` = NULL,
     `modifications` = NULL,
     `cellular_sub_pool` = NULL,
+    `phenotypic_features` = NULL,
     `starting_amount` = NULL,
     `starting_amount_units` = NULL,
     `dbxrefs` = NULL,
@@ -205,6 +207,7 @@ Tissue <- R6::R6Class(
     #' @param embryonic Biosample is embryonic.
     #' @param modifications Links to modifications applied to this biosample.
     #' @param cellular_sub_pool Cellular sub-pool fraction of the sample. Also known as PKR and sub-library.
+    #' @param phenotypic_features A list of associated phenotypic features of the sample.
     #' @param starting_amount The initial quantity of samples obtained.
     #' @param starting_amount_units The units used to quantify the amount of samples obtained.
     #' @param dbxrefs Biosample identifiers from external resources, such as Biosample database or Cellosaurus.
@@ -242,7 +245,7 @@ Tissue <- R6::R6Class(
     #' @param classifications The general category of this type of sample.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`is_on_anvil` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `taxa` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `annotated_from` = NULL, `lower_bound_age` = NULL, `upper_bound_age` = NULL, `age_units` = NULL, `sample_terms` = NULL, `disease_terms` = NULL, `pooled_from` = NULL, `originated_from` = NULL, `treatments` = NULL, `donors` = NULL, `biomarkers` = NULL, `embryonic` = NULL, `modifications` = NULL, `cellular_sub_pool` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `part_of` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `selection_conditions` = NULL, `pmi` = NULL, `pmi_units` = NULL, `preservation_method` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `parts` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `sex` = NULL, `age` = NULL, `upper_bound_age_in_hours` = NULL, `lower_bound_age_in_hours` = NULL, `pooled_in` = NULL, `classifications` = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `taxa` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `annotated_from` = NULL, `lower_bound_age` = NULL, `upper_bound_age` = NULL, `age_units` = NULL, `sample_terms` = NULL, `disease_terms` = NULL, `pooled_from` = NULL, `originated_from` = NULL, `treatments` = NULL, `donors` = NULL, `biomarkers` = NULL, `embryonic` = NULL, `modifications` = NULL, `cellular_sub_pool` = NULL, `phenotypic_features` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `part_of` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `selection_conditions` = NULL, `pmi` = NULL, `pmi_units` = NULL, `preservation_method` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `parts` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `sex` = NULL, `age` = NULL, `upper_bound_age_in_hours` = NULL, `lower_bound_age_in_hours` = NULL, `pooled_in` = NULL, `classifications` = NULL, ...) {
       if (!is.null(`is_on_anvil`)) {
         if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
           stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
@@ -466,6 +469,11 @@ Tissue <- R6::R6Class(
           stop(paste("Error! Invalid data for `cellular_sub_pool`. Must be a string:", `cellular_sub_pool`))
         }
         self$`cellular_sub_pool` <- `cellular_sub_pool`
+      }
+      if (!is.null(`phenotypic_features`)) {
+        stopifnot(is.vector(`phenotypic_features`), length(`phenotypic_features`) != 0)
+        sapply(`phenotypic_features`, function(x) stopifnot(is.character(x)))
+        self$`phenotypic_features` <- `phenotypic_features`
       }
       if (!is.null(`starting_amount`)) {
         self$`starting_amount` <- `starting_amount`
@@ -831,6 +839,10 @@ Tissue <- R6::R6Class(
         TissueObject[["cellular_sub_pool"]] <-
           self$`cellular_sub_pool`
       }
+      if (!is.null(self$`phenotypic_features`)) {
+        TissueObject[["phenotypic_features"]] <-
+          self$`phenotypic_features`
+      }
       if (!is.null(self$`starting_amount`)) {
         TissueObject[["starting_amount"]] <-
           self$`starting_amount`
@@ -1108,6 +1120,9 @@ Tissue <- R6::R6Class(
       }
       if (!is.null(this_object$`cellular_sub_pool`)) {
         self$`cellular_sub_pool` <- this_object$`cellular_sub_pool`
+      }
+      if (!is.null(this_object$`phenotypic_features`)) {
+        self$`phenotypic_features` <- ApiClient$new()$deserializeObj(this_object$`phenotypic_features`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`starting_amount`)) {
         self$`starting_amount` <- this_object$`starting_amount`
@@ -1555,6 +1570,14 @@ Tissue <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`cellular_sub_pool`, perl=TRUE)
           )
         },
+        if (!is.null(self$`phenotypic_features`)) {
+          sprintf(
+          '"phenotypic_features":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`phenotypic_features`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`starting_amount`)) {
           sprintf(
           '"starting_amount":
@@ -1897,6 +1920,7 @@ Tissue <- R6::R6Class(
       self$`embryonic` <- this_object$`embryonic`
       self$`modifications` <- ApiClient$new()$deserializeObj(this_object$`modifications`, "set[character]", loadNamespace("igvfclient"))
       self$`cellular_sub_pool` <- this_object$`cellular_sub_pool`
+      self$`phenotypic_features` <- ApiClient$new()$deserializeObj(this_object$`phenotypic_features`, "set[character]", loadNamespace("igvfclient"))
       self$`starting_amount` <- this_object$`starting_amount`
       if (!is.null(this_object$`starting_amount_units`) && !(this_object$`starting_amount_units` %in% c("cells", "cells/ml", "g", "items", "mg", "whole animals", "whole embryos", "μg", "ng"))) {
         stop(paste("Error! \"", this_object$`starting_amount_units`, "\" cannot be assigned to `starting_amount_units`. Must be \"cells\", \"cells/ml\", \"g\", \"items\", \"mg\", \"whole animals\", \"whole embryos\", \"μg\", \"ng\".", sep = ""))
@@ -2027,6 +2051,7 @@ Tissue <- R6::R6Class(
 
 
 
+
       if (self$`moi` < 0) {
         return(FALSE)
       }
@@ -2106,6 +2131,7 @@ Tissue <- R6::R6Class(
       if (!str_detect(self$`cellular_sub_pool`, "^[a-zA-Z\\d_.()-]+(?:\\s[a-zA-Z\\d_.()-]+)*$")) {
         invalid_fields["cellular_sub_pool"] <- "Invalid value for `cellular_sub_pool`, must conform to the pattern ^[a-zA-Z\\d_.()-]+(?:\\s[a-zA-Z\\d_.()-]+)*$."
       }
+
 
 
 

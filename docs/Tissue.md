@@ -44,6 +44,7 @@ Name | Type | Description | Notes
 **embryonic** | **character** | Biosample is embryonic. | [optional] 
 **modifications** | **set[character]** | Links to modifications applied to this biosample. | [optional] 
 **cellular_sub_pool** | **character** | Cellular sub-pool fraction of the sample. Also known as PKR and sub-library. | [optional] [Pattern: ^[a-zA-Z\\d_.()-]+(?:\\s[a-zA-Z\\d_.()-]+)*$] 
+**phenotypic_features** | **set[character]** | A list of associated phenotypic features of the sample. | [optional] 
 **starting_amount** | **numeric** | The initial quantity of samples obtained. | [optional] 
 **starting_amount_units** | **character** | The units used to quantify the amount of samples obtained. | [optional] [Enum: [cells, cells/ml, g, items, mg, whole animals, whole embryos, μg, ng]] 
 **dbxrefs** | **set[character]** | Biosample identifiers from external resources, such as Biosample database or Cellosaurus. | [optional] 

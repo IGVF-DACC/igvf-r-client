@@ -5,6 +5,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**is_on_anvil** | **character** | Indicates whether the data object has been submitted to AnVIL. | [optional] 
 **doi** | **character** | The Digital Object Identifier (DOI) associated with this object. | [optional] [Pattern: ^(10.65695/IGVFDS\\d{4}[A-Z]{4})$] 
 **input_file_sets** | **set[character]** | The file set(s) required for this pseudobulking analysis. | [optional] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 

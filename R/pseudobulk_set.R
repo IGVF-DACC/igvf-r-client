@@ -7,6 +7,7 @@
 #' @title PseudobulkSet
 #' @description PseudobulkSet Class
 #' @format An \code{R6Class} generator object
+#' @field is_on_anvil Indicates whether the data object has been submitted to AnVIL. character [optional]
 #' @field doi The Digital Object Identifier (DOI) associated with this object. character [optional]
 #' @field input_file_sets The file set(s) required for this pseudobulking analysis. list(character) [optional]
 #' @field release_timestamp The date the object was released. character [optional]
@@ -54,6 +55,7 @@
 PseudobulkSet <- R6::R6Class(
   "PseudobulkSet",
   public = list(
+    `is_on_anvil` = NULL,
     `doi` = NULL,
     `input_file_sets` = NULL,
     `release_timestamp` = NULL,
@@ -100,6 +102,7 @@ PseudobulkSet <- R6::R6Class(
     #' @description
     #' Initialize a new PseudobulkSet class.
     #'
+    #' @param is_on_anvil Indicates whether the data object has been submitted to AnVIL.
     #' @param doi The Digital Object Identifier (DOI) associated with this object.
     #' @param input_file_sets The file set(s) required for this pseudobulking analysis.
     #' @param release_timestamp The date the object was released.
@@ -143,7 +146,13 @@ PseudobulkSet <- R6::R6Class(
     #' @param assay_titles Ontology term names from Ontology of Biomedical Investigations (OBI) for assays.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`doi` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `cell_type` = NULL, `cell_qualifier` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `workflows` = NULL, `preferred_assay_titles` = NULL, `assay_titles` = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `cell_type` = NULL, `cell_qualifier` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `workflows` = NULL, `preferred_assay_titles` = NULL, `assay_titles` = NULL, ...) {
+      if (!is.null(`is_on_anvil`)) {
+        if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
+          stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
+        }
+        self$`is_on_anvil` <- `is_on_anvil`
+      }
       if (!is.null(`doi`)) {
         if (!(is.character(`doi`) && length(`doi`) == 1)) {
           stop(paste("Error! Invalid data for `doi`. Must be a string:", `doi`))
@@ -386,6 +395,10 @@ PseudobulkSet <- R6::R6Class(
     #' @export
     toJSON = function() {
       PseudobulkSetObject <- list()
+      if (!is.null(self$`is_on_anvil`)) {
+        PseudobulkSetObject[["is_on_anvil"]] <-
+          self$`is_on_anvil`
+      }
       if (!is.null(self$`doi`)) {
         PseudobulkSetObject[["doi"]] <-
           self$`doi`
@@ -562,6 +575,9 @@ PseudobulkSet <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`is_on_anvil`)) {
+        self$`is_on_anvil` <- this_object$`is_on_anvil`
+      }
       if (!is.null(this_object$`doi`)) {
         self$`doi` <- this_object$`doi`
       }
@@ -702,6 +718,14 @@ PseudobulkSet <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`is_on_anvil`)) {
+          sprintf(
+          '"is_on_anvil":
+            %s
+                    ',
+          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`is_on_anvil`, perl=TRUE))
+          )
+        },
         if (!is.null(self$`doi`)) {
           sprintf(
           '"doi":
@@ -1044,6 +1068,7 @@ PseudobulkSet <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`is_on_anvil` <- this_object$`is_on_anvil`
       self$`doi` <- this_object$`doi`
       self$`input_file_sets` <- ApiClient$new()$deserializeObj(this_object$`input_file_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`release_timestamp` <- this_object$`release_timestamp`
