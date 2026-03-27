@@ -11,7 +11,6 @@ Name | Type | Description | Notes
 **catalog_notes** | **character** | DACC notes for data loading in the IGVF catalog | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **base_modifications** | **set[character]** | The chemical modifications to bases in a DNA sequence that are detected in this file. | [optional] [Enum: ] 
 **preview_timestamp** | **character** | The date the object was previewed. | [optional] 
-**cell_type_annotation** | **character** | The inferred cell type this file is associated with based on single-cell expression profiling. | [optional] 
 **controlled_access** | **character** | Boolean value, indicating the file being controlled access, if true. | [optional] 
 **assembly** | **character** | Genome assembly applicable for the tabular data. | [optional] [Enum: [GRCh38, hg19, Cast - GRCm39, GRCm39, mm10, GRCh38, GRCm39, GRCh38, mm10, C57BL_6J_T2T_v1 + GRCm39_X, CAST_EiJ_T2T_v1, custom]] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 

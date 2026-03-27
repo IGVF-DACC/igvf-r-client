@@ -13,7 +13,6 @@
 #' @field catalog_notes DACC notes for data loading in the IGVF catalog character [optional]
 #' @field base_modifications The chemical modifications to bases in a DNA sequence that are detected in this file. list(character) [optional]
 #' @field preview_timestamp The date the object was previewed. character [optional]
-#' @field cell_type_annotation The inferred cell type this file is associated with based on single-cell expression profiling. character [optional]
 #' @field controlled_access Boolean value, indicating the file being controlled access, if true. character [optional]
 #' @field assembly Genome assembly applicable for the tabular data. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
@@ -84,7 +83,6 @@ TabularFile <- R6::R6Class(
     `catalog_notes` = NULL,
     `base_modifications` = NULL,
     `preview_timestamp` = NULL,
-    `cell_type_annotation` = NULL,
     `controlled_access` = NULL,
     `assembly` = NULL,
     `release_timestamp` = NULL,
@@ -154,7 +152,6 @@ TabularFile <- R6::R6Class(
     #' @param catalog_notes DACC notes for data loading in the IGVF catalog
     #' @param base_modifications The chemical modifications to bases in a DNA sequence that are detected in this file.
     #' @param preview_timestamp The date the object was previewed.
-    #' @param cell_type_annotation The inferred cell type this file is associated with based on single-cell expression profiling.
     #' @param controlled_access Boolean value, indicating the file being controlled access, if true.
     #' @param assembly Genome assembly applicable for the tabular data.
     #' @param release_timestamp The date the object was released.
@@ -215,7 +212,7 @@ TabularFile <- R6::R6Class(
     #' @param enrichment_design_for Link(s) to the measurement sets using this file as a enrichment design.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`anvil_url` = NULL, `catalog_collections` = NULL, `catalog_class` = NULL, `catalog_notes` = NULL, `base_modifications` = NULL, `preview_timestamp` = NULL, `cell_type_annotation` = NULL, `controlled_access` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `reference_files` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `checkfiles_timestamp` = NULL, `supersedes` = NULL, `catalog_adapters` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `superseded_by` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `barcode_map_for` = NULL, `enrichment_design_for` = NULL, ...) {
+    initialize = function(`anvil_url` = NULL, `catalog_collections` = NULL, `catalog_class` = NULL, `catalog_notes` = NULL, `base_modifications` = NULL, `preview_timestamp` = NULL, `controlled_access` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `reference_files` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `checkfiles_timestamp` = NULL, `supersedes` = NULL, `catalog_adapters` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `superseded_by` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `barcode_map_for` = NULL, `enrichment_design_for` = NULL, ...) {
       if (!is.null(`anvil_url`)) {
         if (!(is.character(`anvil_url`) && length(`anvil_url`) == 1)) {
           stop(paste("Error! Invalid data for `anvil_url`. Must be a string:", `anvil_url`))
@@ -252,12 +249,6 @@ TabularFile <- R6::R6Class(
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
         }
         self$`preview_timestamp` <- `preview_timestamp`
-      }
-      if (!is.null(`cell_type_annotation`)) {
-        if (!(is.character(`cell_type_annotation`) && length(`cell_type_annotation`) == 1)) {
-          stop(paste("Error! Invalid data for `cell_type_annotation`. Must be a string:", `cell_type_annotation`))
-        }
-        self$`cell_type_annotation` <- `cell_type_annotation`
       }
       if (!is.null(`controlled_access`)) {
         if (!(is.logical(`controlled_access`) && length(`controlled_access`) == 1)) {
@@ -634,10 +625,6 @@ TabularFile <- R6::R6Class(
         TabularFileObject[["preview_timestamp"]] <-
           self$`preview_timestamp`
       }
-      if (!is.null(self$`cell_type_annotation`)) {
-        TabularFileObject[["cell_type_annotation"]] <-
-          self$`cell_type_annotation`
-      }
       if (!is.null(self$`controlled_access`)) {
         TabularFileObject[["controlled_access"]] <-
           self$`controlled_access`
@@ -903,9 +890,6 @@ TabularFile <- R6::R6Class(
       if (!is.null(this_object$`preview_timestamp`)) {
         self$`preview_timestamp` <- this_object$`preview_timestamp`
       }
-      if (!is.null(this_object$`cell_type_annotation`)) {
-        self$`cell_type_annotation` <- this_object$`cell_type_annotation`
-      }
       if (!is.null(this_object$`controlled_access`)) {
         self$`controlled_access` <- this_object$`controlled_access`
       }
@@ -1155,14 +1139,6 @@ TabularFile <- R6::R6Class(
             "%s"
                     ',
           gsub('(?<!\\\\)\\"', '\\\\"', self$`preview_timestamp`, perl=TRUE)
-          )
-        },
-        if (!is.null(self$`cell_type_annotation`)) {
-          sprintf(
-          '"cell_type_annotation":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`cell_type_annotation`, perl=TRUE)
           )
         },
         if (!is.null(self$`controlled_access`)) {
@@ -1652,7 +1628,6 @@ TabularFile <- R6::R6Class(
       self$`catalog_notes` <- this_object$`catalog_notes`
       self$`base_modifications` <- ApiClient$new()$deserializeObj(this_object$`base_modifications`, "set[character]", loadNamespace("igvfclient"))
       self$`preview_timestamp` <- this_object$`preview_timestamp`
-      self$`cell_type_annotation` <- this_object$`cell_type_annotation`
       self$`controlled_access` <- this_object$`controlled_access`
       if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, GRCm39", "GRCh38, mm10", "C57BL_6J_T2T_v1 + GRCm39_X", "CAST_EiJ_T2T_v1", "custom"))) {
         stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, GRCm39\", \"GRCh38, mm10\", \"C57BL_6J_T2T_v1 + GRCm39_X\", \"CAST_EiJ_T2T_v1\", \"custom\".", sep = ""))

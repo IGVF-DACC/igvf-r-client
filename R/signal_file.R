@@ -12,7 +12,6 @@
 #' @field catalog_class The class curated in the IGVF catalog that the data in this file belongs to. character [optional]
 #' @field catalog_notes DACC notes for data loading in the IGVF catalog character [optional]
 #' @field preview_timestamp The date the object was previewed. character [optional]
-#' @field cell_type_annotation The inferred cell type this file is associated with based on single-cell expression profiling. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field reference_files Link to the reference files used to generate this file. list(character) [optional]
 #' @field filtered Indicates whether the file has gone through some filtering step, for example, removal of PCR duplicates or filtering based on significance calling. character [optional]
@@ -81,7 +80,6 @@ SignalFile <- R6::R6Class(
     `catalog_class` = NULL,
     `catalog_notes` = NULL,
     `preview_timestamp` = NULL,
-    `cell_type_annotation` = NULL,
     `release_timestamp` = NULL,
     `reference_files` = NULL,
     `filtered` = NULL,
@@ -149,7 +147,6 @@ SignalFile <- R6::R6Class(
     #' @param catalog_class The class curated in the IGVF catalog that the data in this file belongs to.
     #' @param catalog_notes DACC notes for data loading in the IGVF catalog
     #' @param preview_timestamp The date the object was previewed.
-    #' @param cell_type_annotation The inferred cell type this file is associated with based on single-cell expression profiling.
     #' @param release_timestamp The date the object was released.
     #' @param reference_files Link to the reference files used to generate this file.
     #' @param filtered Indicates whether the file has gone through some filtering step, for example, removal of PCR duplicates or filtering based on significance calling.
@@ -209,7 +206,7 @@ SignalFile <- R6::R6Class(
     #' @param assembly The assembly associated with the signal file.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`anvil_url` = NULL, `catalog_collections` = NULL, `catalog_class` = NULL, `catalog_notes` = NULL, `preview_timestamp` = NULL, `cell_type_annotation` = NULL, `release_timestamp` = NULL, `reference_files` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `checkfiles_timestamp` = NULL, `supersedes` = NULL, `strand_specificity` = NULL, `normalized` = NULL, `start_view_position` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `superseded_by` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `content_summary` = NULL, `transcriptome_annotation` = NULL, `assembly` = NULL, ...) {
+    initialize = function(`anvil_url` = NULL, `catalog_collections` = NULL, `catalog_class` = NULL, `catalog_notes` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `reference_files` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `checkfiles_timestamp` = NULL, `supersedes` = NULL, `strand_specificity` = NULL, `normalized` = NULL, `start_view_position` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `superseded_by` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `content_summary` = NULL, `transcriptome_annotation` = NULL, `assembly` = NULL, ...) {
       if (!is.null(`anvil_url`)) {
         if (!(is.character(`anvil_url`) && length(`anvil_url`) == 1)) {
           stop(paste("Error! Invalid data for `anvil_url`. Must be a string:", `anvil_url`))
@@ -241,12 +238,6 @@ SignalFile <- R6::R6Class(
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
         }
         self$`preview_timestamp` <- `preview_timestamp`
-      }
-      if (!is.null(`cell_type_annotation`)) {
-        if (!(is.character(`cell_type_annotation`) && length(`cell_type_annotation`) == 1)) {
-          stop(paste("Error! Invalid data for `cell_type_annotation`. Must be a string:", `cell_type_annotation`))
-        }
-        self$`cell_type_annotation` <- `cell_type_annotation`
       }
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
@@ -610,10 +601,6 @@ SignalFile <- R6::R6Class(
         SignalFileObject[["preview_timestamp"]] <-
           self$`preview_timestamp`
       }
-      if (!is.null(self$`cell_type_annotation`)) {
-        SignalFileObject[["cell_type_annotation"]] <-
-          self$`cell_type_annotation`
-      }
       if (!is.null(self$`release_timestamp`)) {
         SignalFileObject[["release_timestamp"]] <-
           self$`release_timestamp`
@@ -872,9 +859,6 @@ SignalFile <- R6::R6Class(
       if (!is.null(this_object$`preview_timestamp`)) {
         self$`preview_timestamp` <- this_object$`preview_timestamp`
       }
-      if (!is.null(this_object$`cell_type_annotation`)) {
-        self$`cell_type_annotation` <- this_object$`cell_type_annotation`
-      }
       if (!is.null(this_object$`release_timestamp`)) {
         self$`release_timestamp` <- this_object$`release_timestamp`
       }
@@ -1107,14 +1091,6 @@ SignalFile <- R6::R6Class(
             "%s"
                     ',
           gsub('(?<!\\\\)\\"', '\\\\"', self$`preview_timestamp`, perl=TRUE)
-          )
-        },
-        if (!is.null(self$`cell_type_annotation`)) {
-          sprintf(
-          '"cell_type_annotation":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`cell_type_annotation`, perl=TRUE)
           )
         },
         if (!is.null(self$`release_timestamp`)) {
@@ -1595,7 +1571,6 @@ SignalFile <- R6::R6Class(
       self$`catalog_class` <- this_object$`catalog_class`
       self$`catalog_notes` <- this_object$`catalog_notes`
       self$`preview_timestamp` <- this_object$`preview_timestamp`
-      self$`cell_type_annotation` <- this_object$`cell_type_annotation`
       self$`release_timestamp` <- this_object$`release_timestamp`
       self$`reference_files` <- ApiClient$new()$deserializeObj(this_object$`reference_files`, "set[character]", loadNamespace("igvfclient"))
       self$`filtered` <- this_object$`filtered`

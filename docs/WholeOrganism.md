@@ -55,7 +55,7 @@ Name | Type | Description | Notes
 **virtual** | **character** | Virtual samples do not represent actual physical entities from experiments, but instead capture metadata about hypothetical or inferred samples relevant to reported analysis results, including those derived through demultiplexing. | [optional] 
 **construct_library_sets** | **set[character]** | The construct library sets of vectors introduced to this sample prior to performing an assay. | [optional] 
 **moi** | **numeric** | The actual multiplicity of infection (MOI) for vectors introduced to this sample. At least one construct library set must be specified in order to specify MOI. This property should capture the actual MOI, and not the targeted MOI. | [optional] [Min: 0] 
-**nucleic_acid_delivery** | **character** | Method of introduction of nucleic acid into the cell. | [optional] [Enum: [adenoviral transduction, lipofectamine, electroporation, lentiviral transduction, transfection, transformation, nucleofection]] 
+**nucleic_acid_delivery** | **character** | Method of introduction of nucleic acid into the cell. | [optional] [Enum: [adenoviral transduction, adeno-associated viral (AAV) transduction, lipofectamine, electroporation, lentiviral transduction, transfection, transformation, nucleofection]] 
 **time_post_library_delivery** | **numeric** | The time that elapsed past the time-point when the construct library sets were introduced. | [optional] 
 **time_post_library_delivery_units** | **character** | The units of time that elapsed past the point when the construct library sets were introduced. | [optional] [Enum: [minute, hour, day, week, month]] 
 **protocols** | **set[character]** | Links to the protocol(s) for preparing the samples on Protocols.io. | [optional] 
