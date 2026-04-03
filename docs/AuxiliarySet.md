@@ -32,7 +32,7 @@ Name | Type | Description | Notes
 **donors** | **set[character]** | The donors of the samples associated with this auxiliary set. | [optional] 
 **file_set_type** | **character** | The category that best describes this auxiliary file set. | [optional] [Enum: [cell hashing barcode sequencing, cell sorting, circularized RNA barcode detection, full-length DNA sequencing, gRNA sequencing, lipid-conjugated oligo sequencing, MORF barcode sequencing, quantification DNA barcode sequencing]] 
 **supersedes** | **set[character]** | The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. | [optional] 
-**barcode_map** | **character** | The link to the barcode mapping tabular file. | [optional] 
+**hashtag_barcode_map** | **character** | The link to the hashtag barcode mapping tabular file. | [optional] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** |  | [optional] 
@@ -47,5 +47,6 @@ Name | Type | Description | Notes
 **measurement_sets** | **set[character]** | The measurement sets that link to this auxiliary set. | [optional] 
 **preferred_assay_titles** | **set[character]** | The preferred assay titles of the measurement sets that used this auxiliary set. | [optional] 
 **assay_titles** | **set[character]** | Ontology term names from Ontology of Biomedical Investigations (OBI) for assays | [optional] 
+**assay_slims** | **set[character]** | A broad categorization of the assay term. | [optional] 
 
 

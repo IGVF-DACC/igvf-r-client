@@ -60,6 +60,7 @@ Name | Type | Description | Notes
 **data_use_limitation_summaries** | **set[character]** | The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
 **controlled_access** | **character** | The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
 **assay_titles** | **array[character]** | Ontology term names from Ontology of Biomedical Investigations (OBI) for assays | [optional] 
+**assay_slims** | **set[character]** | A broad categorization of the assay term. | [optional] 
 **related_measurement_sets** | [**set[RelatedMeasurementSetGroup]**](Related_Measurement_Set_Group.md) | Measurement sets related to this one, grouped by relationship type. | [optional] 
 **externally_hosted** | **character** |  | [optional] 
 

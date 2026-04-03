@@ -49,6 +49,7 @@
 #' @field workflows A workflow for computational analysis of genomic data. A workflow is made up of analysis steps. list(character) [optional]
 #' @field preferred_assay_titles Preferred Assay Title(s) of assays that produced data analyzed in the pseudobulk set. list(character) [optional]
 #' @field assay_titles Ontology term names from Ontology of Biomedical Investigations (OBI) for assays. list(character) [optional]
+#' @field assay_slims A broad categorization of the assay term. list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -97,6 +98,7 @@ PseudobulkSet <- R6::R6Class(
     `workflows` = NULL,
     `preferred_assay_titles` = NULL,
     `assay_titles` = NULL,
+    `assay_slims` = NULL,
     #' Initialize a new PseudobulkSet class.
     #'
     #' @description
@@ -144,9 +146,10 @@ PseudobulkSet <- R6::R6Class(
     #' @param workflows A workflow for computational analysis of genomic data. A workflow is made up of analysis steps.
     #' @param preferred_assay_titles Preferred Assay Title(s) of assays that produced data analyzed in the pseudobulk set.
     #' @param assay_titles Ontology term names from Ontology of Biomedical Investigations (OBI) for assays.
+    #' @param assay_slims A broad categorization of the assay term.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `cell_type` = NULL, `cell_qualifier` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `workflows` = NULL, `preferred_assay_titles` = NULL, `assay_titles` = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `cell_type` = NULL, `cell_qualifier` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `workflows` = NULL, `preferred_assay_titles` = NULL, `assay_titles` = NULL, `assay_slims` = NULL, ...) {
       if (!is.null(`is_on_anvil`)) {
         if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
           stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
@@ -385,6 +388,11 @@ PseudobulkSet <- R6::R6Class(
         sapply(`assay_titles`, function(x) stopifnot(is.character(x)))
         self$`assay_titles` <- `assay_titles`
       }
+      if (!is.null(`assay_slims`)) {
+        stopifnot(is.vector(`assay_slims`), length(`assay_slims`) != 0)
+        sapply(`assay_slims`, function(x) stopifnot(is.character(x)))
+        self$`assay_slims` <- `assay_slims`
+      }
     },
     #' To JSON string
     #'
@@ -563,6 +571,10 @@ PseudobulkSet <- R6::R6Class(
         PseudobulkSetObject[["assay_titles"]] <-
           self$`assay_titles`
       }
+      if (!is.null(self$`assay_slims`)) {
+        PseudobulkSetObject[["assay_slims"]] <-
+          self$`assay_slims`
+      }
       PseudobulkSetObject
     },
     #' Deserialize JSON string into an instance of PseudobulkSet
@@ -706,6 +718,9 @@ PseudobulkSet <- R6::R6Class(
       }
       if (!is.null(this_object$`assay_titles`)) {
         self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`assay_slims`)) {
+        self$`assay_slims` <- ApiClient$new()$deserializeObj(this_object$`assay_slims`, "set[character]", loadNamespace("igvfclient"))
       }
       self
     },
@@ -1053,6 +1068,14 @@ PseudobulkSet <- R6::R6Class(
           ',
           paste(unlist(lapply(self$`assay_titles`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
+        },
+        if (!is.null(self$`assay_slims`)) {
+          sprintf(
+          '"assay_slims":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`assay_slims`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -1116,6 +1139,7 @@ PseudobulkSet <- R6::R6Class(
       self$`workflows` <- ApiClient$new()$deserializeObj(this_object$`workflows`, "array[character]", loadNamespace("igvfclient"))
       self$`preferred_assay_titles` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_titles`, "set[character]", loadNamespace("igvfclient"))
       self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
+      self$`assay_slims` <- ApiClient$new()$deserializeObj(this_object$`assay_slims`, "set[character]", loadNamespace("igvfclient"))
       self
     },
     #' Validate JSON input with respect to PseudobulkSet
@@ -1188,6 +1212,7 @@ PseudobulkSet <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1228,6 +1253,7 @@ PseudobulkSet <- R6::R6Class(
       if (!str_detect(self$`description`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         invalid_fields["description"] <- "Invalid value for `description`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
+
 
 
 

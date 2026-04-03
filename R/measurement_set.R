@@ -62,6 +62,7 @@
 #' @field data_use_limitation_summaries The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. list(character) [optional]
 #' @field controlled_access The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. character [optional]
 #' @field assay_titles Ontology term names from Ontology of Biomedical Investigations (OBI) for assays list(character) [optional]
+#' @field assay_slims A broad categorization of the assay term. list(character) [optional]
 #' @field related_measurement_sets Measurement sets related to this one, grouped by relationship type. list(\link{RelatedMeasurementSetGroup}) [optional]
 #' @field externally_hosted  character [optional]
 #' @field _field_list a list of fields list(character)
@@ -128,9 +129,10 @@ MeasurementSet <- R6::R6Class(
     `data_use_limitation_summaries` = NULL,
     `controlled_access` = NULL,
     `assay_titles` = NULL,
+    `assay_slims` = NULL,
     `related_measurement_sets` = NULL,
     `externally_hosted` = NULL,
-    `_field_list` = c("is_on_anvil", "doi", "preferred_assay_titles", "preview_timestamp", "control_file_sets", "release_timestamp", "publications", "documents", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "dbxrefs", "samples", "donors", "file_set_type", "supersedes", "assay_term", "protocols", "multiome_size", "control_types", "sequencing_library_types", "enrichment_designs", "strand_specificity", "auxiliary_sets", "external_image_urls", "targeted_genes", "functional_assay_mechanisms", "onlist_method", "onlist_files", "barcode_replacement_file", "library_preparation_kit", "@id", "@type", "summary", "files", "control_for", "superseded_by", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access", "assay_titles", "related_measurement_sets", "externally_hosted"),
+    `_field_list` = c("is_on_anvil", "doi", "preferred_assay_titles", "preview_timestamp", "control_file_sets", "release_timestamp", "publications", "documents", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "dbxrefs", "samples", "donors", "file_set_type", "supersedes", "assay_term", "protocols", "multiome_size", "control_types", "sequencing_library_types", "enrichment_designs", "strand_specificity", "auxiliary_sets", "external_image_urls", "targeted_genes", "functional_assay_mechanisms", "onlist_method", "onlist_files", "barcode_replacement_file", "library_preparation_kit", "@id", "@type", "summary", "files", "control_for", "superseded_by", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access", "assay_titles", "assay_slims", "related_measurement_sets", "externally_hosted"),
     `additional_properties` = list(),
     #' Initialize a new MeasurementSet class.
     #'
@@ -192,12 +194,13 @@ MeasurementSet <- R6::R6Class(
     #' @param data_use_limitation_summaries The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set.
     #' @param controlled_access The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set.
     #' @param assay_titles Ontology term names from Ontology of Biomedical Investigations (OBI) for assays
+    #' @param assay_slims A broad categorization of the assay term.
     #' @param related_measurement_sets Measurement sets related to this one, grouped by relationship type.
     #' @param externally_hosted externally_hosted
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `preferred_assay_titles` = NULL, `preview_timestamp` = NULL, `control_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `assay_term` = NULL, `protocols` = NULL, `multiome_size` = NULL, `control_types` = NULL, `sequencing_library_types` = NULL, `enrichment_designs` = NULL, `strand_specificity` = NULL, `auxiliary_sets` = NULL, `external_image_urls` = NULL, `targeted_genes` = NULL, `functional_assay_mechanisms` = NULL, `onlist_method` = NULL, `onlist_files` = NULL, `barcode_replacement_file` = NULL, `library_preparation_kit` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `assay_titles` = NULL, `related_measurement_sets` = NULL, `externally_hosted` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `preferred_assay_titles` = NULL, `preview_timestamp` = NULL, `control_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `assay_term` = NULL, `protocols` = NULL, `multiome_size` = NULL, `control_types` = NULL, `sequencing_library_types` = NULL, `enrichment_designs` = NULL, `strand_specificity` = NULL, `auxiliary_sets` = NULL, `external_image_urls` = NULL, `targeted_genes` = NULL, `functional_assay_mechanisms` = NULL, `onlist_method` = NULL, `onlist_files` = NULL, `barcode_replacement_file` = NULL, `library_preparation_kit` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `assay_titles` = NULL, `assay_slims` = NULL, `related_measurement_sets` = NULL, `externally_hosted` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`is_on_anvil`)) {
         if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
           stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
@@ -515,6 +518,11 @@ MeasurementSet <- R6::R6Class(
         sapply(`assay_titles`, function(x) stopifnot(is.character(x)))
         self$`assay_titles` <- `assay_titles`
       }
+      if (!is.null(`assay_slims`)) {
+        stopifnot(is.vector(`assay_slims`), length(`assay_slims`) != 0)
+        sapply(`assay_slims`, function(x) stopifnot(is.character(x)))
+        self$`assay_slims` <- `assay_slims`
+      }
       if (!is.null(`related_measurement_sets`)) {
         stopifnot(is.vector(`related_measurement_sets`), length(`related_measurement_sets`) != 0)
         sapply(`related_measurement_sets`, function(x) stopifnot(R6::is.R6(x)))
@@ -761,6 +769,10 @@ MeasurementSet <- R6::R6Class(
         MeasurementSetObject[["assay_titles"]] <-
           self$`assay_titles`
       }
+      if (!is.null(self$`assay_slims`)) {
+        MeasurementSetObject[["assay_slims"]] <-
+          self$`assay_slims`
+      }
       if (!is.null(self$`related_measurement_sets`)) {
         MeasurementSetObject[["related_measurement_sets"]] <-
           lapply(self$`related_measurement_sets`, function(x) x$toJSON())
@@ -964,6 +976,9 @@ MeasurementSet <- R6::R6Class(
       }
       if (!is.null(this_object$`assay_titles`)) {
         self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "array[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`assay_slims`)) {
+        self$`assay_slims` <- ApiClient$new()$deserializeObj(this_object$`assay_slims`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`related_measurement_sets`)) {
         self$`related_measurement_sets` <- ApiClient$new()$deserializeObj(this_object$`related_measurement_sets`, "set[RelatedMeasurementSetGroup]", loadNamespace("igvfclient"))
@@ -1429,6 +1444,14 @@ MeasurementSet <- R6::R6Class(
           paste(unlist(lapply(self$`assay_titles`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`assay_slims`)) {
+          sprintf(
+          '"assay_slims":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`assay_slims`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`related_measurement_sets`)) {
           sprintf(
           '"related_measurement_sets":
@@ -1534,6 +1557,7 @@ MeasurementSet <- R6::R6Class(
       self$`data_use_limitation_summaries` <- ApiClient$new()$deserializeObj(this_object$`data_use_limitation_summaries`, "set[character]", loadNamespace("igvfclient"))
       self$`controlled_access` <- this_object$`controlled_access`
       self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "array[character]", loadNamespace("igvfclient"))
+      self$`assay_slims` <- ApiClient$new()$deserializeObj(this_object$`assay_slims`, "set[character]", loadNamespace("igvfclient"))
       self$`related_measurement_sets` <- ApiClient$new()$deserializeObj(this_object$`related_measurement_sets`, "set[RelatedMeasurementSetGroup]", loadNamespace("igvfclient"))
       self$`externally_hosted` <- this_object$`externally_hosted`
       # process additional properties/fields in the payload
@@ -1626,6 +1650,7 @@ MeasurementSet <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1675,6 +1700,7 @@ MeasurementSet <- R6::R6Class(
       if (self$`multiome_size` < 1) {
         invalid_fields["multiome_size"] <- "Invalid value for `multiome_size`, must be bigger than or equal to 1."
       }
+
 
 
 

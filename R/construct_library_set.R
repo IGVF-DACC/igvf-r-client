@@ -70,6 +70,7 @@
 #' @field file_sets The file sets that used this construct library set. list(character) [optional]
 #' @field preferred_assay_titles The preferred assay titles of the file sets that used this construct library set. list(character) [optional]
 #' @field assay_titles Ontology term names from Ontology of Biomedical Investigations (OBI) for assays. list(character) [optional]
+#' @field assay_slims A broad categorization of the assay term. list(character) [optional]
 #' @field donors The donors of the samples associated with this auxiliary set. list(character) [optional]
 #' @field _field_list a list of fields list(character)
 #' @field additional_properties additional properties list(character) [optional]
@@ -143,8 +144,9 @@ ConstructLibrarySet <- R6::R6Class(
     `file_sets` = NULL,
     `preferred_assay_titles` = NULL,
     `assay_titles` = NULL,
+    `assay_slims` = NULL,
     `donors` = NULL,
-    `_field_list` = c("is_on_anvil", "doi", "preview_timestamp", "control_file_sets", "small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "sources", "lot_id", "product_id", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "file_set_type", "control_types", "scope", "selection_criteria", "integrated_content_files", "associated_phenotypes", "orf_list", "exon", "tile", "guide_type", "tiling_modality", "average_guide_coverage", "lower_bound_guide_coverage", "upper_bound_guide_coverage", "average_insert_size", "lower_bound_insert_size", "upper_bound_insert_size", "targeton", "supersedes", "@id", "@type", "summary", "files", "control_for", "superseded_by", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access", "samples", "file_sets", "preferred_assay_titles", "assay_titles", "donors"),
+    `_field_list` = c("is_on_anvil", "doi", "preview_timestamp", "control_file_sets", "small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "sources", "lot_id", "product_id", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "file_set_type", "control_types", "scope", "selection_criteria", "integrated_content_files", "associated_phenotypes", "orf_list", "exon", "tile", "guide_type", "tiling_modality", "average_guide_coverage", "lower_bound_guide_coverage", "upper_bound_guide_coverage", "average_insert_size", "lower_bound_insert_size", "upper_bound_insert_size", "targeton", "supersedes", "@id", "@type", "summary", "files", "control_for", "superseded_by", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access", "samples", "file_sets", "preferred_assay_titles", "assay_titles", "assay_slims", "donors"),
     `additional_properties` = list(),
     #' Initialize a new ConstructLibrarySet class.
     #'
@@ -214,11 +216,12 @@ ConstructLibrarySet <- R6::R6Class(
     #' @param file_sets The file sets that used this construct library set.
     #' @param preferred_assay_titles The preferred assay titles of the file sets that used this construct library set.
     #' @param assay_titles Ontology term names from Ontology of Biomedical Investigations (OBI) for assays.
+    #' @param assay_slims A broad categorization of the assay term.
     #' @param donors The donors of the samples associated with this auxiliary set.
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `preview_timestamp` = NULL, `control_file_sets` = NULL, `small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `file_set_type` = NULL, `control_types` = NULL, `scope` = NULL, `selection_criteria` = NULL, `integrated_content_files` = NULL, `associated_phenotypes` = NULL, `orf_list` = NULL, `exon` = NULL, `tile` = NULL, `guide_type` = NULL, `tiling_modality` = NULL, `average_guide_coverage` = NULL, `lower_bound_guide_coverage` = NULL, `upper_bound_guide_coverage` = NULL, `average_insert_size` = NULL, `lower_bound_insert_size` = NULL, `upper_bound_insert_size` = NULL, `targeton` = NULL, `supersedes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `samples` = NULL, `file_sets` = NULL, `preferred_assay_titles` = NULL, `assay_titles` = NULL, `donors` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `preview_timestamp` = NULL, `control_file_sets` = NULL, `small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `file_set_type` = NULL, `control_types` = NULL, `scope` = NULL, `selection_criteria` = NULL, `integrated_content_files` = NULL, `associated_phenotypes` = NULL, `orf_list` = NULL, `exon` = NULL, `tile` = NULL, `guide_type` = NULL, `tiling_modality` = NULL, `average_guide_coverage` = NULL, `lower_bound_guide_coverage` = NULL, `upper_bound_guide_coverage` = NULL, `average_insert_size` = NULL, `lower_bound_insert_size` = NULL, `upper_bound_insert_size` = NULL, `targeton` = NULL, `supersedes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `samples` = NULL, `file_sets` = NULL, `preferred_assay_titles` = NULL, `assay_titles` = NULL, `assay_slims` = NULL, `donors` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`is_on_anvil`)) {
         if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
           stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
@@ -578,6 +581,11 @@ ConstructLibrarySet <- R6::R6Class(
         sapply(`assay_titles`, function(x) stopifnot(is.character(x)))
         self$`assay_titles` <- `assay_titles`
       }
+      if (!is.null(`assay_slims`)) {
+        stopifnot(is.vector(`assay_slims`), length(`assay_slims`) != 0)
+        sapply(`assay_slims`, function(x) stopifnot(is.character(x)))
+        self$`assay_slims` <- `assay_slims`
+      }
       if (!is.null(`donors`)) {
         stopifnot(is.vector(`donors`), length(`donors`) != 0)
         sapply(`donors`, function(x) stopifnot(is.character(x)))
@@ -850,6 +858,10 @@ ConstructLibrarySet <- R6::R6Class(
         ConstructLibrarySetObject[["assay_titles"]] <-
           self$`assay_titles`
       }
+      if (!is.null(self$`assay_slims`)) {
+        ConstructLibrarySetObject[["assay_slims"]] <-
+          self$`assay_slims`
+      }
       if (!is.null(self$`donors`)) {
         ConstructLibrarySetObject[["donors"]] <-
           self$`donors`
@@ -1075,6 +1087,9 @@ ConstructLibrarySet <- R6::R6Class(
       }
       if (!is.null(this_object$`assay_titles`)) {
         self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`assay_slims`)) {
+        self$`assay_slims` <- ApiClient$new()$deserializeObj(this_object$`assay_slims`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`donors`)) {
         self$`donors` <- ApiClient$new()$deserializeObj(this_object$`donors`, "set[character]", loadNamespace("igvfclient"))
@@ -1601,6 +1616,14 @@ ConstructLibrarySet <- R6::R6Class(
           paste(unlist(lapply(self$`assay_titles`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`assay_slims`)) {
+          sprintf(
+          '"assay_slims":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`assay_slims`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`donors`)) {
           sprintf(
           '"donors":
@@ -1706,6 +1729,7 @@ ConstructLibrarySet <- R6::R6Class(
       self$`file_sets` <- ApiClient$new()$deserializeObj(this_object$`file_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`preferred_assay_titles` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_titles`, "set[character]", loadNamespace("igvfclient"))
       self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
+      self$`assay_slims` <- ApiClient$new()$deserializeObj(this_object$`assay_slims`, "set[character]", loadNamespace("igvfclient"))
       self$`donors` <- ApiClient$new()$deserializeObj(this_object$`donors`, "set[character]", loadNamespace("igvfclient"))
       # process additional properties/fields in the payload
       for (key in names(this_object)) {
@@ -1818,6 +1842,7 @@ ConstructLibrarySet <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1890,6 +1915,7 @@ ConstructLibrarySet <- R6::R6Class(
       if (!str_detect(self$`targeton`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         invalid_fields["targeton"] <- "Invalid value for `targeton`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
+
 
 
 

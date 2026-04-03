@@ -34,7 +34,7 @@
 #' @field donors The donors of the samples associated with this auxiliary set. list(character) [optional]
 #' @field file_set_type The category that best describes this auxiliary file set. character [optional]
 #' @field supersedes The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
-#' @field barcode_map The link to the barcode mapping tabular file. character [optional]
+#' @field hashtag_barcode_map The link to the hashtag barcode mapping tabular file. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary  character [optional]
@@ -49,6 +49,7 @@
 #' @field measurement_sets The measurement sets that link to this auxiliary set. list(character) [optional]
 #' @field preferred_assay_titles The preferred assay titles of the measurement sets that used this auxiliary set. list(character) [optional]
 #' @field assay_titles Ontology term names from Ontology of Biomedical Investigations (OBI) for assays list(character) [optional]
+#' @field assay_slims A broad categorization of the assay term. list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -82,7 +83,7 @@ AuxiliarySet <- R6::R6Class(
     `donors` = NULL,
     `file_set_type` = NULL,
     `supersedes` = NULL,
-    `barcode_map` = NULL,
+    `hashtag_barcode_map` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -97,6 +98,7 @@ AuxiliarySet <- R6::R6Class(
     `measurement_sets` = NULL,
     `preferred_assay_titles` = NULL,
     `assay_titles` = NULL,
+    `assay_slims` = NULL,
     #' Initialize a new AuxiliarySet class.
     #'
     #' @description
@@ -129,7 +131,7 @@ AuxiliarySet <- R6::R6Class(
     #' @param donors The donors of the samples associated with this auxiliary set.
     #' @param file_set_type The category that best describes this auxiliary file set.
     #' @param supersedes The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
-    #' @param barcode_map The link to the barcode mapping tabular file.
+    #' @param hashtag_barcode_map The link to the hashtag barcode mapping tabular file.
     #' @param @id @id
     #' @param @type @type
     #' @param summary summary
@@ -144,9 +146,10 @@ AuxiliarySet <- R6::R6Class(
     #' @param measurement_sets The measurement sets that link to this auxiliary set.
     #' @param preferred_assay_titles The preferred assay titles of the measurement sets that used this auxiliary set.
     #' @param assay_titles Ontology term names from Ontology of Biomedical Investigations (OBI) for assays
+    #' @param assay_slims A broad categorization of the assay term.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `barcode_map` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `measurement_sets` = NULL, `preferred_assay_titles` = NULL, `assay_titles` = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `hashtag_barcode_map` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `measurement_sets` = NULL, `preferred_assay_titles` = NULL, `assay_titles` = NULL, `assay_slims` = NULL, ...) {
       if (!is.null(`is_on_anvil`)) {
         if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
           stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
@@ -306,11 +309,11 @@ AuxiliarySet <- R6::R6Class(
         sapply(`supersedes`, function(x) stopifnot(is.character(x)))
         self$`supersedes` <- `supersedes`
       }
-      if (!is.null(`barcode_map`)) {
-        if (!(is.character(`barcode_map`) && length(`barcode_map`) == 1)) {
-          stop(paste("Error! Invalid data for `barcode_map`. Must be a string:", `barcode_map`))
+      if (!is.null(`hashtag_barcode_map`)) {
+        if (!(is.character(`hashtag_barcode_map`) && length(`hashtag_barcode_map`) == 1)) {
+          stop(paste("Error! Invalid data for `hashtag_barcode_map`. Must be a string:", `hashtag_barcode_map`))
         }
-        self$`barcode_map` <- `barcode_map`
+        self$`hashtag_barcode_map` <- `hashtag_barcode_map`
       }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
@@ -385,6 +388,11 @@ AuxiliarySet <- R6::R6Class(
         stopifnot(is.vector(`assay_titles`), length(`assay_titles`) != 0)
         sapply(`assay_titles`, function(x) stopifnot(is.character(x)))
         self$`assay_titles` <- `assay_titles`
+      }
+      if (!is.null(`assay_slims`)) {
+        stopifnot(is.vector(`assay_slims`), length(`assay_slims`) != 0)
+        sapply(`assay_slims`, function(x) stopifnot(is.character(x)))
+        self$`assay_slims` <- `assay_slims`
       }
     },
     #' To JSON string
@@ -504,9 +512,9 @@ AuxiliarySet <- R6::R6Class(
         AuxiliarySetObject[["supersedes"]] <-
           self$`supersedes`
       }
-      if (!is.null(self$`barcode_map`)) {
-        AuxiliarySetObject[["barcode_map"]] <-
-          self$`barcode_map`
+      if (!is.null(self$`hashtag_barcode_map`)) {
+        AuxiliarySetObject[["hashtag_barcode_map"]] <-
+          self$`hashtag_barcode_map`
       }
       if (!is.null(self$`@id`)) {
         AuxiliarySetObject[["@id"]] <-
@@ -563,6 +571,10 @@ AuxiliarySet <- R6::R6Class(
       if (!is.null(self$`assay_titles`)) {
         AuxiliarySetObject[["assay_titles"]] <-
           self$`assay_titles`
+      }
+      if (!is.null(self$`assay_slims`)) {
+        AuxiliarySetObject[["assay_slims"]] <-
+          self$`assay_slims`
       }
       AuxiliarySetObject
     },
@@ -663,8 +675,8 @@ AuxiliarySet <- R6::R6Class(
       if (!is.null(this_object$`supersedes`)) {
         self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
       }
-      if (!is.null(this_object$`barcode_map`)) {
-        self$`barcode_map` <- this_object$`barcode_map`
+      if (!is.null(this_object$`hashtag_barcode_map`)) {
+        self$`hashtag_barcode_map` <- this_object$`hashtag_barcode_map`
       }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
@@ -707,6 +719,9 @@ AuxiliarySet <- R6::R6Class(
       }
       if (!is.null(this_object$`assay_titles`)) {
         self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`assay_slims`)) {
+        self$`assay_slims` <- ApiClient$new()$deserializeObj(this_object$`assay_slims`, "set[character]", loadNamespace("igvfclient"))
       }
       self
     },
@@ -935,12 +950,12 @@ AuxiliarySet <- R6::R6Class(
           paste(unlist(lapply(self$`supersedes`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
-        if (!is.null(self$`barcode_map`)) {
+        if (!is.null(self$`hashtag_barcode_map`)) {
           sprintf(
-          '"barcode_map":
+          '"hashtag_barcode_map":
             "%s"
                     ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`barcode_map`, perl=TRUE)
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`hashtag_barcode_map`, perl=TRUE)
           )
         },
         if (!is.null(self$`@id`)) {
@@ -1054,6 +1069,14 @@ AuxiliarySet <- R6::R6Class(
           ',
           paste(unlist(lapply(self$`assay_titles`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
+        },
+        if (!is.null(self$`assay_slims`)) {
+          sprintf(
+          '"assay_slims":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`assay_slims`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -1102,7 +1125,7 @@ AuxiliarySet <- R6::R6Class(
       }
       self$`file_set_type` <- this_object$`file_set_type`
       self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
-      self$`barcode_map` <- this_object$`barcode_map`
+      self$`hashtag_barcode_map` <- this_object$`hashtag_barcode_map`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
@@ -1117,6 +1140,7 @@ AuxiliarySet <- R6::R6Class(
       self$`measurement_sets` <- ApiClient$new()$deserializeObj(this_object$`measurement_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`preferred_assay_titles` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_titles`, "set[character]", loadNamespace("igvfclient"))
       self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
+      self$`assay_slims` <- ApiClient$new()$deserializeObj(this_object$`assay_slims`, "set[character]", loadNamespace("igvfclient"))
       self
     },
     #' Validate JSON input with respect to AuxiliarySet
@@ -1189,6 +1213,7 @@ AuxiliarySet <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1228,6 +1253,7 @@ AuxiliarySet <- R6::R6Class(
       if (!str_detect(self$`description`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         invalid_fields["description"] <- "Invalid value for `description`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
+
 
 
 
