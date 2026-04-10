@@ -6,6 +6,7 @@ A file set for reference files which are utilized in the analysis of IGVF experi
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **is_on_anvil** | **character** | Indicates whether the data object has been submitted to AnVIL. | [optional] 
+**preferred_assay_titles** | **array[character]** | The custom lab preferred label for the experiment performed. | [optional] [Enum: ] 
 **preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
 **taxa** | **character** | The species of the organism. | [optional] [Enum: [Homo sapiens, Mus musculus]] 
@@ -32,6 +33,7 @@ Name | Type | Description | Notes
 **donors** | **set[character]** | The donor(s) associated with this file set. | [optional] 
 **file_set_type** | **character** | The category that best describes this curated file set. | [optional] [Enum: [barcodes, editing templates, elements, external data for catalog, external sequencing data, functional effect, genome, genes, guide RNAs, pipeline parameters, enrichment designs, QTL, training data for predictive models, transcriptome, variants]] 
 **supersedes** | **set[character]** | The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. | [optional] 
+**assay_term** | **character** | The assay used to produce data in this curated set. | [optional] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** |  | [optional] 
@@ -43,6 +45,7 @@ Name | Type | Description | Notes
 **construct_library_sets** | **set[character]** | The construct library sets associated with the samples of this file set. | [optional] 
 **data_use_limitation_summaries** | **set[character]** | The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
 **controlled_access** | **character** | The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
+**assay_titles** | **array[character]** | Ontology term names from Ontology of Biomedical Investigations (OBI) for assays | [optional] 
 **assemblies** | **set[character]** | The genome assemblies to which the referencing files in the file set are utilizing (e.g., GRCh38). | [optional] 
 **transcriptome_annotations** | **set[character]** | The annotation versions of the reference resource. | [optional] 
 

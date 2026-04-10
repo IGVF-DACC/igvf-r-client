@@ -1043,7 +1043,7 @@ Treatment <- R6::R6Class(
         return(FALSE)
       }
 
-      if (!str_detect(self$`treatment_term_id`, "^((CHEBI:[0-9]{1,7})|(UniProtKB:[A-Z0-9]{6})|(NTR:[0-9]{2,8}))$")) {
+      if (!str_detect(self$`treatment_term_id`, "^((CHEBI:[0-9]{1,7})|(UniProtKB:[A-Z0-9]{6})|(NTR:[0-9]{2,8})|(NCIT:C[0-9]{2,8}))$")) {
         return(FALSE)
       }
 
@@ -1086,8 +1086,8 @@ Treatment <- R6::R6Class(
         invalid_fields["description"] <- "Invalid value for `description`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
 
-      if (!str_detect(self$`treatment_term_id`, "^((CHEBI:[0-9]{1,7})|(UniProtKB:[A-Z0-9]{6})|(NTR:[0-9]{2,8}))$")) {
-        invalid_fields["treatment_term_id"] <- "Invalid value for `treatment_term_id`, must conform to the pattern ^((CHEBI:[0-9]{1,7})|(UniProtKB:[A-Z0-9]{6})|(NTR:[0-9]{2,8}))$."
+      if (!str_detect(self$`treatment_term_id`, "^((CHEBI:[0-9]{1,7})|(UniProtKB:[A-Z0-9]{6})|(NTR:[0-9]{2,8})|(NCIT:C[0-9]{2,8}))$")) {
+        invalid_fields["treatment_term_id"] <- "Invalid value for `treatment_term_id`, must conform to the pattern ^((CHEBI:[0-9]{1,7})|(UniProtKB:[A-Z0-9]{6})|(NTR:[0-9]{2,8})|(NCIT:C[0-9]{2,8}))$."
       }
 
 

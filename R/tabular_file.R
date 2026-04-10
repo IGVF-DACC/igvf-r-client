@@ -71,6 +71,7 @@
 #' @field upload_credentials The upload credentials for S3 to submit the file content. object [optional]
 #' @field barcode_map_for Link(s) to the Multiplexed samples using this file as barcode map. list(character) [optional]
 #' @field enrichment_design_for Link(s) to the measurement sets using this file as a enrichment design. list(character) [optional]
+#' @field hashtag_barcode_map_for Link(s) to the auxiliary sets using this file as a hashtag barcode map. list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -141,6 +142,7 @@ TabularFile <- R6::R6Class(
     `upload_credentials` = NULL,
     `barcode_map_for` = NULL,
     `enrichment_design_for` = NULL,
+    `hashtag_barcode_map_for` = NULL,
     #' Initialize a new TabularFile class.
     #'
     #' @description
@@ -210,9 +212,10 @@ TabularFile <- R6::R6Class(
     #' @param upload_credentials The upload credentials for S3 to submit the file content.
     #' @param barcode_map_for Link(s) to the Multiplexed samples using this file as barcode map.
     #' @param enrichment_design_for Link(s) to the measurement sets using this file as a enrichment design.
+    #' @param hashtag_barcode_map_for Link(s) to the auxiliary sets using this file as a hashtag barcode map.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`anvil_url` = NULL, `catalog_collections` = NULL, `catalog_class` = NULL, `catalog_notes` = NULL, `base_modifications` = NULL, `preview_timestamp` = NULL, `controlled_access` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `reference_files` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `checkfiles_timestamp` = NULL, `supersedes` = NULL, `catalog_adapters` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `superseded_by` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `barcode_map_for` = NULL, `enrichment_design_for` = NULL, ...) {
+    initialize = function(`anvil_url` = NULL, `catalog_collections` = NULL, `catalog_class` = NULL, `catalog_notes` = NULL, `base_modifications` = NULL, `preview_timestamp` = NULL, `controlled_access` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `reference_files` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `checkfiles_timestamp` = NULL, `supersedes` = NULL, `catalog_adapters` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `superseded_by` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `barcode_map_for` = NULL, `enrichment_design_for` = NULL, `hashtag_barcode_map_for` = NULL, ...) {
       if (!is.null(`anvil_url`)) {
         if (!(is.character(`anvil_url`) && length(`anvil_url`) == 1)) {
           stop(paste("Error! Invalid data for `anvil_url`. Must be a string:", `anvil_url`))
@@ -591,6 +594,11 @@ TabularFile <- R6::R6Class(
         sapply(`enrichment_design_for`, function(x) stopifnot(is.character(x)))
         self$`enrichment_design_for` <- `enrichment_design_for`
       }
+      if (!is.null(`hashtag_barcode_map_for`)) {
+        stopifnot(is.vector(`hashtag_barcode_map_for`), length(`hashtag_barcode_map_for`) != 0)
+        sapply(`hashtag_barcode_map_for`, function(x) stopifnot(is.character(x)))
+        self$`hashtag_barcode_map_for` <- `hashtag_barcode_map_for`
+      }
     },
     #' To JSON string
     #'
@@ -857,6 +865,10 @@ TabularFile <- R6::R6Class(
         TabularFileObject[["enrichment_design_for"]] <-
           self$`enrichment_design_for`
       }
+      if (!is.null(self$`hashtag_barcode_map_for`)) {
+        TabularFileObject[["hashtag_barcode_map_for"]] <-
+          self$`hashtag_barcode_map_for`
+      }
       TabularFileObject
     },
     #' Deserialize JSON string into an instance of TabularFile
@@ -1081,6 +1093,9 @@ TabularFile <- R6::R6Class(
       }
       if (!is.null(this_object$`enrichment_design_for`)) {
         self$`enrichment_design_for` <- ApiClient$new()$deserializeObj(this_object$`enrichment_design_for`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`hashtag_barcode_map_for`)) {
+        self$`hashtag_barcode_map_for` <- ApiClient$new()$deserializeObj(this_object$`hashtag_barcode_map_for`, "set[character]", loadNamespace("igvfclient"))
       }
       self
     },
@@ -1604,6 +1619,14 @@ TabularFile <- R6::R6Class(
           ',
           paste(unlist(lapply(self$`enrichment_design_for`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
+        },
+        if (!is.null(self$`hashtag_barcode_map_for`)) {
+          sprintf(
+          '"hashtag_barcode_map_for":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`hashtag_barcode_map_for`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -1704,6 +1727,7 @@ TabularFile <- R6::R6Class(
       self$`upload_credentials` <- this_object$`upload_credentials`
       self$`barcode_map_for` <- ApiClient$new()$deserializeObj(this_object$`barcode_map_for`, "set[character]", loadNamespace("igvfclient"))
       self$`enrichment_design_for` <- ApiClient$new()$deserializeObj(this_object$`enrichment_design_for`, "set[character]", loadNamespace("igvfclient"))
+      self$`hashtag_barcode_map_for` <- ApiClient$new()$deserializeObj(this_object$`hashtag_barcode_map_for`, "set[character]", loadNamespace("igvfclient"))
       self
     },
     #' Validate JSON input with respect to TabularFile
@@ -1799,6 +1823,7 @@ TabularFile <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1861,6 +1886,7 @@ TabularFile <- R6::R6Class(
       if (!str_detect(self$`md5sum`, "[a-f\\d]{32}|[A-F\\d]{32}")) {
         invalid_fields["md5sum"] <- "Invalid value for `md5sum`, must conform to the pattern [a-f\\d]{32}|[A-F\\d]{32}."
       }
+
 
 
 
