@@ -1,7 +1,7 @@
 #' Create a new PseudobulkSet
 #'
 #' @description
-#' 
+#' A file set for pseudobulks. Pseudobulk sets represent the results of a computational analysis of multiple single cells that share a cell type.
 #'
 #' @docType class
 #' @title PseudobulkSet

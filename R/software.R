@@ -22,7 +22,7 @@
 #' @field submitted_by The user who submitted the object. character [optional]
 #' @field submitter_comment Additional information specified by the submitter to be displayed as a comment on the portal. character [optional]
 #' @field description A plain text description of the object. character [optional]
-#' @field name Unique name of the software package; a lowercase version of the title. character [optional]
+#' @field name Unique name of the software package; a version of the title without white spaces. character [optional]
 #' @field title The preferred viewable name of the software. character [optional]
 #' @field used_by The component(s) of the IGVF consortium that utilize this software. list(character) [optional]
 #' @field categories The general categories of this software. list(character) [optional]
@@ -79,7 +79,7 @@ Software <- R6::R6Class(
     #' @param submitted_by The user who submitted the object.
     #' @param submitter_comment Additional information specified by the submitter to be displayed as a comment on the portal.
     #' @param description A plain text description of the object.
-    #' @param name Unique name of the software package; a lowercase version of the title.
+    #' @param name Unique name of the software package; a version of the title without white spaces.
     #' @param title The preferred viewable name of the software.
     #' @param used_by The component(s) of the IGVF consortium that utilize this software.
     #' @param categories The general categories of this software.
@@ -694,7 +694,7 @@ Software <- R6::R6Class(
         return(FALSE)
       }
 
-      if (!str_detect(self$`name`, "^[a-z0-9\\-_]+")) {
+      if (!str_detect(self$`name`, "^[A-Za-z0-9\\-_@.]+$")) {
         return(FALSE)
       }
 
@@ -734,8 +734,8 @@ Software <- R6::R6Class(
         invalid_fields["description"] <- "Invalid value for `description`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
 
-      if (!str_detect(self$`name`, "^[a-z0-9\\-_]+")) {
-        invalid_fields["name"] <- "Invalid value for `name`, must conform to the pattern ^[a-z0-9\\-_]+."
+      if (!str_detect(self$`name`, "^[A-Za-z0-9\\-_@.]+$")) {
+        invalid_fields["name"] <- "Invalid value for `name`, must conform to the pattern ^[A-Za-z0-9\\-_@.]+$."
       }
 
       if (!str_detect(self$`title`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {

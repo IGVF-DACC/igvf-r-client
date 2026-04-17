@@ -31,7 +31,6 @@
 #' @field description A plain text description of the object. character [optional]
 #' @field dbxrefs Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF donors. list(character) [optional]
 #' @field sex Sex of the donor. character [optional]
-#' @field phenotypic_features A list of associated phenotypic features of the donor. list(character) [optional]
 #' @field virtual Virtual donors are not representing actual human or model organism donors, samples coming from which were used in experiments, but rather capturing metadata about hypothetical donors that the reported analysis results are relevant for. character [optional]
 #' @field supersedes The donor(s) that this donor supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
 #' @field related_donors Familial relations of this donor. list(\link{RelatedDonor}) [optional]
@@ -74,7 +73,6 @@ HumanDonor <- R6::R6Class(
     `description` = NULL,
     `dbxrefs` = NULL,
     `sex` = NULL,
-    `phenotypic_features` = NULL,
     `virtual` = NULL,
     `supersedes` = NULL,
     `related_donors` = NULL,
@@ -84,7 +82,7 @@ HumanDonor <- R6::R6Class(
     `@type` = NULL,
     `summary` = NULL,
     `superseded_by` = NULL,
-    `_field_list` = c("is_on_anvil", "preview_timestamp", "release_timestamp", "taxa", "publications", "url", "documents", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "dbxrefs", "sex", "phenotypic_features", "virtual", "supersedes", "related_donors", "ethnicities", "human_donor_identifiers", "@id", "@type", "summary", "superseded_by"),
+    `_field_list` = c("is_on_anvil", "preview_timestamp", "release_timestamp", "taxa", "publications", "url", "documents", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "dbxrefs", "sex", "virtual", "supersedes", "related_donors", "ethnicities", "human_donor_identifiers", "@id", "@type", "summary", "superseded_by"),
     `additional_properties` = list(),
     #' Initialize a new HumanDonor class.
     #'
@@ -115,7 +113,6 @@ HumanDonor <- R6::R6Class(
     #' @param description A plain text description of the object.
     #' @param dbxrefs Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF donors.
     #' @param sex Sex of the donor.
-    #' @param phenotypic_features A list of associated phenotypic features of the donor.
     #' @param virtual Virtual donors are not representing actual human or model organism donors, samples coming from which were used in experiments, but rather capturing metadata about hypothetical donors that the reported analysis results are relevant for.
     #' @param supersedes The donor(s) that this donor supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
     #' @param related_donors Familial relations of this donor.
@@ -128,7 +125,7 @@ HumanDonor <- R6::R6Class(
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`is_on_anvil` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `taxa` = NULL, `publications` = NULL, `url` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `sex` = NULL, `phenotypic_features` = NULL, `virtual` = NULL, `supersedes` = NULL, `related_donors` = NULL, `ethnicities` = NULL, `human_donor_identifiers` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `superseded_by` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `taxa` = NULL, `publications` = NULL, `url` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `sex` = NULL, `virtual` = NULL, `supersedes` = NULL, `related_donors` = NULL, `ethnicities` = NULL, `human_donor_identifiers` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `superseded_by` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`is_on_anvil`)) {
         if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
           stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
@@ -275,11 +272,6 @@ HumanDonor <- R6::R6Class(
           stop(paste("Error! Invalid data for `sex`. Must be a string:", `sex`))
         }
         self$`sex` <- `sex`
-      }
-      if (!is.null(`phenotypic_features`)) {
-        stopifnot(is.vector(`phenotypic_features`), length(`phenotypic_features`) != 0)
-        sapply(`phenotypic_features`, function(x) stopifnot(is.character(x)))
-        self$`phenotypic_features` <- `phenotypic_features`
       }
       if (!is.null(`virtual`)) {
         if (!(is.logical(`virtual`) && length(`virtual`) == 1)) {
@@ -440,10 +432,6 @@ HumanDonor <- R6::R6Class(
         HumanDonorObject[["sex"]] <-
           self$`sex`
       }
-      if (!is.null(self$`phenotypic_features`)) {
-        HumanDonorObject[["phenotypic_features"]] <-
-          self$`phenotypic_features`
-      }
       if (!is.null(self$`virtual`)) {
         HumanDonorObject[["virtual"]] <-
           self$`virtual`
@@ -576,9 +564,6 @@ HumanDonor <- R6::R6Class(
           stop(paste("Error! \"", this_object$`sex`, "\" cannot be assigned to `sex`. Must be \"male\", \"female\", \"unspecified\".", sep = ""))
         }
         self$`sex` <- this_object$`sex`
-      }
-      if (!is.null(this_object$`phenotypic_features`)) {
-        self$`phenotypic_features` <- ApiClient$new()$deserializeObj(this_object$`phenotypic_features`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`virtual`)) {
         self$`virtual` <- this_object$`virtual`
@@ -817,14 +802,6 @@ HumanDonor <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`sex`, perl=TRUE)
           )
         },
-        if (!is.null(self$`phenotypic_features`)) {
-          sprintf(
-          '"phenotypic_features":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`phenotypic_features`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
         if (!is.null(self$`virtual`)) {
           sprintf(
           '"virtual":
@@ -949,7 +926,6 @@ HumanDonor <- R6::R6Class(
         stop(paste("Error! \"", this_object$`sex`, "\" cannot be assigned to `sex`. Must be \"male\", \"female\", \"unspecified\".", sep = ""))
       }
       self$`sex` <- this_object$`sex`
-      self$`phenotypic_features` <- ApiClient$new()$deserializeObj(this_object$`phenotypic_features`, "set[character]", loadNamespace("igvfclient"))
       self$`virtual` <- this_object$`virtual`
       self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
       self$`related_donors` <- ApiClient$new()$deserializeObj(this_object$`related_donors`, "set[RelatedDonor]", loadNamespace("igvfclient"))
@@ -1027,7 +1003,6 @@ HumanDonor <- R6::R6Class(
 
 
 
-
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1063,7 +1038,6 @@ HumanDonor <- R6::R6Class(
       if (!str_detect(self$`description`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         invalid_fields["description"] <- "Invalid value for `description`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
-
 
 
 

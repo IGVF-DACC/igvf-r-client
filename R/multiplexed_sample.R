@@ -38,7 +38,7 @@
 #' @field virtual Virtual samples do not represent actual physical entities from experiments, but instead capture metadata about hypothetical or inferred samples relevant to reported analysis results, including those derived through demultiplexing. character [optional]
 #' @field construct_library_sets The construct library sets of the samples included in this multiplexed sample. list(character) [optional]
 #' @field moi The actual multiplicity of infection (MOI) for vectors introduced to this sample. At least one construct library set must be specified in order to specify MOI. This property should capture the actual MOI, and not the targeted MOI. numeric [optional]
-#' @field nucleic_acid_delivery Method of introduction of nucleic acid into the cell. character [optional]
+#' @field construct_delivery_methods The construct delivery methods of the samples included in this multiplexed sample. list(character) [optional]
 #' @field time_post_library_delivery The time that elapsed past the time-point when the construct library sets were introduced. numeric [optional]
 #' @field time_post_library_delivery_units The units of time that elapsed past the point when the construct library sets were introduced. character [optional]
 #' @field protocols Links to the protocol(s) for preparing the samples on Protocols.io. list(character) [optional]
@@ -61,7 +61,7 @@
 #' @field demultiplexed_to The in vitro system samples this multiplexed sample has been demultiplexed into. list(character) [optional]
 #' @field sample_terms The sample terms of the samples included in this multiplexed sample. list(character) [optional]
 #' @field taxa The species of the organism. character [optional]
-#' @field disease_terms The disease terms of the samples included in this multiplexed sample. list(character) [optional]
+#' @field phenotypic_features The phenotypic features of the samples included in this multiplexed sample. list(character) [optional]
 #' @field treatments The treatments of the samples included in this multiplexed sample. list(character) [optional]
 #' @field modifications The modifications of the samples included in this multiplexed sample. list(character) [optional]
 #' @field donors The donors of the samples included in this multiplexed sample. list(character) [optional]
@@ -105,7 +105,7 @@ MultiplexedSample <- R6::R6Class(
     `virtual` = NULL,
     `construct_library_sets` = NULL,
     `moi` = NULL,
-    `nucleic_acid_delivery` = NULL,
+    `construct_delivery_methods` = NULL,
     `time_post_library_delivery` = NULL,
     `time_post_library_delivery_units` = NULL,
     `protocols` = NULL,
@@ -128,7 +128,7 @@ MultiplexedSample <- R6::R6Class(
     `demultiplexed_to` = NULL,
     `sample_terms` = NULL,
     `taxa` = NULL,
-    `disease_terms` = NULL,
+    `phenotypic_features` = NULL,
     `treatments` = NULL,
     `modifications` = NULL,
     `donors` = NULL,
@@ -171,7 +171,7 @@ MultiplexedSample <- R6::R6Class(
     #' @param virtual Virtual samples do not represent actual physical entities from experiments, but instead capture metadata about hypothetical or inferred samples relevant to reported analysis results, including those derived through demultiplexing.
     #' @param construct_library_sets The construct library sets of the samples included in this multiplexed sample.
     #' @param moi The actual multiplicity of infection (MOI) for vectors introduced to this sample. At least one construct library set must be specified in order to specify MOI. This property should capture the actual MOI, and not the targeted MOI.
-    #' @param nucleic_acid_delivery Method of introduction of nucleic acid into the cell.
+    #' @param construct_delivery_methods The construct delivery methods of the samples included in this multiplexed sample.
     #' @param time_post_library_delivery The time that elapsed past the time-point when the construct library sets were introduced.
     #' @param time_post_library_delivery_units The units of time that elapsed past the point when the construct library sets were introduced.
     #' @param protocols Links to the protocol(s) for preparing the samples on Protocols.io.
@@ -194,7 +194,7 @@ MultiplexedSample <- R6::R6Class(
     #' @param demultiplexed_to The in vitro system samples this multiplexed sample has been demultiplexed into.
     #' @param sample_terms The sample terms of the samples included in this multiplexed sample.
     #' @param taxa The species of the organism.
-    #' @param disease_terms The disease terms of the samples included in this multiplexed sample.
+    #' @param phenotypic_features The phenotypic features of the samples included in this multiplexed sample.
     #' @param treatments The treatments of the samples included in this multiplexed sample.
     #' @param modifications The modifications of the samples included in this multiplexed sample.
     #' @param donors The donors of the samples included in this multiplexed sample.
@@ -203,7 +203,7 @@ MultiplexedSample <- R6::R6Class(
     #' @param classifications The general category of this type of sample.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`is_on_anvil` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `url` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `part_of` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `selection_conditions` = NULL, `multiplexed_samples` = NULL, `multiplexing_methods` = NULL, `cellular_sub_pool` = NULL, `barcode_map` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `parts` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `demultiplexed_to` = NULL, `sample_terms` = NULL, `taxa` = NULL, `disease_terms` = NULL, `treatments` = NULL, `modifications` = NULL, `donors` = NULL, `biomarkers` = NULL, `sources` = NULL, `classifications` = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `url` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `part_of` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `construct_delivery_methods` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `selection_conditions` = NULL, `multiplexed_samples` = NULL, `multiplexing_methods` = NULL, `cellular_sub_pool` = NULL, `barcode_map` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `parts` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `demultiplexed_to` = NULL, `sample_terms` = NULL, `taxa` = NULL, `phenotypic_features` = NULL, `treatments` = NULL, `modifications` = NULL, `donors` = NULL, `biomarkers` = NULL, `sources` = NULL, `classifications` = NULL, ...) {
       if (!is.null(`is_on_anvil`)) {
         if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
           stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
@@ -383,14 +383,10 @@ MultiplexedSample <- R6::R6Class(
       if (!is.null(`moi`)) {
         self$`moi` <- `moi`
       }
-      if (!is.null(`nucleic_acid_delivery`)) {
-        if (!(`nucleic_acid_delivery` %in% c("adenoviral transduction", "adeno-associated viral (AAV) transduction", "lipofectamine", "electroporation", "lentiviral transduction", "transfection", "transformation", "nucleofection"))) {
-          stop(paste("Error! \"", `nucleic_acid_delivery`, "\" cannot be assigned to `nucleic_acid_delivery`. Must be \"adenoviral transduction\", \"adeno-associated viral (AAV) transduction\", \"lipofectamine\", \"electroporation\", \"lentiviral transduction\", \"transfection\", \"transformation\", \"nucleofection\".", sep = ""))
-        }
-        if (!(is.character(`nucleic_acid_delivery`) && length(`nucleic_acid_delivery`) == 1)) {
-          stop(paste("Error! Invalid data for `nucleic_acid_delivery`. Must be a string:", `nucleic_acid_delivery`))
-        }
-        self$`nucleic_acid_delivery` <- `nucleic_acid_delivery`
+      if (!is.null(`construct_delivery_methods`)) {
+        stopifnot(is.vector(`construct_delivery_methods`), length(`construct_delivery_methods`) != 0)
+        sapply(`construct_delivery_methods`, function(x) stopifnot(is.character(x)))
+        self$`construct_delivery_methods` <- `construct_delivery_methods`
       }
       if (!is.null(`time_post_library_delivery`)) {
         self$`time_post_library_delivery` <- `time_post_library_delivery`
@@ -512,10 +508,10 @@ MultiplexedSample <- R6::R6Class(
         }
         self$`taxa` <- `taxa`
       }
-      if (!is.null(`disease_terms`)) {
-        stopifnot(is.vector(`disease_terms`), length(`disease_terms`) != 0)
-        sapply(`disease_terms`, function(x) stopifnot(is.character(x)))
-        self$`disease_terms` <- `disease_terms`
+      if (!is.null(`phenotypic_features`)) {
+        stopifnot(is.vector(`phenotypic_features`), length(`phenotypic_features`) != 0)
+        sapply(`phenotypic_features`, function(x) stopifnot(is.character(x)))
+        self$`phenotypic_features` <- `phenotypic_features`
       }
       if (!is.null(`treatments`)) {
         stopifnot(is.vector(`treatments`), length(`treatments`) != 0)
@@ -681,9 +677,9 @@ MultiplexedSample <- R6::R6Class(
         MultiplexedSampleObject[["moi"]] <-
           self$`moi`
       }
-      if (!is.null(self$`nucleic_acid_delivery`)) {
-        MultiplexedSampleObject[["nucleic_acid_delivery"]] <-
-          self$`nucleic_acid_delivery`
+      if (!is.null(self$`construct_delivery_methods`)) {
+        MultiplexedSampleObject[["construct_delivery_methods"]] <-
+          self$`construct_delivery_methods`
       }
       if (!is.null(self$`time_post_library_delivery`)) {
         MultiplexedSampleObject[["time_post_library_delivery"]] <-
@@ -773,9 +769,9 @@ MultiplexedSample <- R6::R6Class(
         MultiplexedSampleObject[["taxa"]] <-
           self$`taxa`
       }
-      if (!is.null(self$`disease_terms`)) {
-        MultiplexedSampleObject[["disease_terms"]] <-
-          self$`disease_terms`
+      if (!is.null(self$`phenotypic_features`)) {
+        MultiplexedSampleObject[["phenotypic_features"]] <-
+          self$`phenotypic_features`
       }
       if (!is.null(self$`treatments`)) {
         MultiplexedSampleObject[["treatments"]] <-
@@ -912,11 +908,8 @@ MultiplexedSample <- R6::R6Class(
       if (!is.null(this_object$`moi`)) {
         self$`moi` <- this_object$`moi`
       }
-      if (!is.null(this_object$`nucleic_acid_delivery`)) {
-        if (!is.null(this_object$`nucleic_acid_delivery`) && !(this_object$`nucleic_acid_delivery` %in% c("adenoviral transduction", "adeno-associated viral (AAV) transduction", "lipofectamine", "electroporation", "lentiviral transduction", "transfection", "transformation", "nucleofection"))) {
-          stop(paste("Error! \"", this_object$`nucleic_acid_delivery`, "\" cannot be assigned to `nucleic_acid_delivery`. Must be \"adenoviral transduction\", \"adeno-associated viral (AAV) transduction\", \"lipofectamine\", \"electroporation\", \"lentiviral transduction\", \"transfection\", \"transformation\", \"nucleofection\".", sep = ""))
-        }
-        self$`nucleic_acid_delivery` <- this_object$`nucleic_acid_delivery`
+      if (!is.null(this_object$`construct_delivery_methods`)) {
+        self$`construct_delivery_methods` <- ApiClient$new()$deserializeObj(this_object$`construct_delivery_methods`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`time_post_library_delivery`)) {
         self$`time_post_library_delivery` <- this_object$`time_post_library_delivery`
@@ -990,8 +983,8 @@ MultiplexedSample <- R6::R6Class(
         }
         self$`taxa` <- this_object$`taxa`
       }
-      if (!is.null(this_object$`disease_terms`)) {
-        self$`disease_terms` <- ApiClient$new()$deserializeObj(this_object$`disease_terms`, "set[character]", loadNamespace("igvfclient"))
+      if (!is.null(this_object$`phenotypic_features`)) {
+        self$`phenotypic_features` <- ApiClient$new()$deserializeObj(this_object$`phenotypic_features`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`treatments`)) {
         self$`treatments` <- ApiClient$new()$deserializeObj(this_object$`treatments`, "set[character]", loadNamespace("igvfclient"))
@@ -1270,12 +1263,12 @@ MultiplexedSample <- R6::R6Class(
           self$`moi`
           )
         },
-        if (!is.null(self$`nucleic_acid_delivery`)) {
+        if (!is.null(self$`construct_delivery_methods`)) {
           sprintf(
-          '"nucleic_acid_delivery":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`nucleic_acid_delivery`, perl=TRUE)
+          '"construct_delivery_methods":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`construct_delivery_methods`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`time_post_library_delivery`)) {
@@ -1454,12 +1447,12 @@ MultiplexedSample <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`taxa`, perl=TRUE)
           )
         },
-        if (!is.null(self$`disease_terms`)) {
+        if (!is.null(self$`phenotypic_features`)) {
           sprintf(
-          '"disease_terms":
+          '"phenotypic_features":
              [%s]
           ',
-          paste(unlist(lapply(self$`disease_terms`, function(x) paste0('"', x, '"'))), collapse = ",")
+          paste(unlist(lapply(self$`phenotypic_features`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`treatments`)) {
@@ -1561,10 +1554,7 @@ MultiplexedSample <- R6::R6Class(
       self$`virtual` <- this_object$`virtual`
       self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`moi` <- this_object$`moi`
-      if (!is.null(this_object$`nucleic_acid_delivery`) && !(this_object$`nucleic_acid_delivery` %in% c("adenoviral transduction", "adeno-associated viral (AAV) transduction", "lipofectamine", "electroporation", "lentiviral transduction", "transfection", "transformation", "nucleofection"))) {
-        stop(paste("Error! \"", this_object$`nucleic_acid_delivery`, "\" cannot be assigned to `nucleic_acid_delivery`. Must be \"adenoviral transduction\", \"adeno-associated viral (AAV) transduction\", \"lipofectamine\", \"electroporation\", \"lentiviral transduction\", \"transfection\", \"transformation\", \"nucleofection\".", sep = ""))
-      }
-      self$`nucleic_acid_delivery` <- this_object$`nucleic_acid_delivery`
+      self$`construct_delivery_methods` <- ApiClient$new()$deserializeObj(this_object$`construct_delivery_methods`, "set[character]", loadNamespace("igvfclient"))
       self$`time_post_library_delivery` <- this_object$`time_post_library_delivery`
       if (!is.null(this_object$`time_post_library_delivery_units`) && !(this_object$`time_post_library_delivery_units` %in% c("minute", "hour", "day", "week", "month"))) {
         stop(paste("Error! \"", this_object$`time_post_library_delivery_units`, "\" cannot be assigned to `time_post_library_delivery_units`. Must be \"minute\", \"hour\", \"day\", \"week\", \"month\".", sep = ""))
@@ -1593,7 +1583,7 @@ MultiplexedSample <- R6::R6Class(
         stop(paste("Error! \"", this_object$`taxa`, "\" cannot be assigned to `taxa`. Must be \"Homo sapiens\", \"Mus musculus\", \"Mixed species\", \"Saccharomyces cerevisiae\".", sep = ""))
       }
       self$`taxa` <- this_object$`taxa`
-      self$`disease_terms` <- ApiClient$new()$deserializeObj(this_object$`disease_terms`, "set[character]", loadNamespace("igvfclient"))
+      self$`phenotypic_features` <- ApiClient$new()$deserializeObj(this_object$`phenotypic_features`, "set[character]", loadNamespace("igvfclient"))
       self$`treatments` <- ApiClient$new()$deserializeObj(this_object$`treatments`, "set[character]", loadNamespace("igvfclient"))
       self$`modifications` <- ApiClient$new()$deserializeObj(this_object$`modifications`, "set[character]", loadNamespace("igvfclient"))
       self$`donors` <- ApiClient$new()$deserializeObj(this_object$`donors`, "set[character]", loadNamespace("igvfclient"))
@@ -1666,6 +1656,7 @@ MultiplexedSample <- R6::R6Class(
 
 
 
+
       if (!str_detect(self$`cellular_sub_pool`, "^[a-zA-Z\\d_.()-]+(?:\\s[a-zA-Z\\d_.()-]+)*$")) {
         return(FALSE)
       }
@@ -1727,6 +1718,7 @@ MultiplexedSample <- R6::R6Class(
       if (self$`moi` < 0) {
         invalid_fields["moi"] <- "Invalid value for `moi`, must be bigger than or equal to 0."
       }
+
 
 
 

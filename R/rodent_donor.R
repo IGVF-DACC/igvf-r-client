@@ -34,7 +34,6 @@
 #' @field description A plain text description of the object. character [optional]
 #' @field dbxrefs Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF donors. list(character) [optional]
 #' @field sex Sex of the donor. character [optional]
-#' @field phenotypic_features A list of associated phenotypic features of the donor. list(character) [optional]
 #' @field virtual Virtual donors are not representing actual human or model organism donors, samples coming from which were used in experiments, but rather capturing metadata about hypothetical donors that the reported analysis results are relevant for. character [optional]
 #' @field supersedes The donor(s) that this donor supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
 #' @field strain_background The specific parent strain designation of a non-human donor. character [optional]
@@ -79,7 +78,6 @@ RodentDonor <- R6::R6Class(
     `description` = NULL,
     `dbxrefs` = NULL,
     `sex` = NULL,
-    `phenotypic_features` = NULL,
     `virtual` = NULL,
     `supersedes` = NULL,
     `strain_background` = NULL,
@@ -123,7 +121,6 @@ RodentDonor <- R6::R6Class(
     #' @param description A plain text description of the object.
     #' @param dbxrefs Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF donors.
     #' @param sex Sex of the donor.
-    #' @param phenotypic_features A list of associated phenotypic features of the donor.
     #' @param virtual Virtual donors are not representing actual human or model organism donors, samples coming from which were used in experiments, but rather capturing metadata about hypothetical donors that the reported analysis results are relevant for.
     #' @param supersedes The donor(s) that this donor supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
     #' @param strain_background The specific parent strain designation of a non-human donor.
@@ -137,7 +134,7 @@ RodentDonor <- R6::R6Class(
     #' @param superseded_by Donor(s) this donor is superseded by virtue of those donor(s) being newer, better, or a fixed version of etc. than this one.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`is_on_anvil` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `taxa` = NULL, `publications` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `sex` = NULL, `phenotypic_features` = NULL, `virtual` = NULL, `supersedes` = NULL, `strain_background` = NULL, `strain` = NULL, `genotype` = NULL, `individual_rodent` = NULL, `rodent_identifier` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `superseded_by` = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `taxa` = NULL, `publications` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `sex` = NULL, `virtual` = NULL, `supersedes` = NULL, `strain_background` = NULL, `strain` = NULL, `genotype` = NULL, `individual_rodent` = NULL, `rodent_identifier` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `superseded_by` = NULL, ...) {
       if (!is.null(`is_on_anvil`)) {
         if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
           stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
@@ -301,11 +298,6 @@ RodentDonor <- R6::R6Class(
           stop(paste("Error! Invalid data for `sex`. Must be a string:", `sex`))
         }
         self$`sex` <- `sex`
-      }
-      if (!is.null(`phenotypic_features`)) {
-        stopifnot(is.vector(`phenotypic_features`), length(`phenotypic_features`) != 0)
-        sapply(`phenotypic_features`, function(x) stopifnot(is.character(x)))
-        self$`phenotypic_features` <- `phenotypic_features`
       }
       if (!is.null(`virtual`)) {
         if (!(is.logical(`virtual`) && length(`virtual`) == 1)) {
@@ -491,10 +483,6 @@ RodentDonor <- R6::R6Class(
         RodentDonorObject[["sex"]] <-
           self$`sex`
       }
-      if (!is.null(self$`phenotypic_features`)) {
-        RodentDonorObject[["phenotypic_features"]] <-
-          self$`phenotypic_features`
-      }
       if (!is.null(self$`virtual`)) {
         RodentDonorObject[["virtual"]] <-
           self$`virtual`
@@ -640,9 +628,6 @@ RodentDonor <- R6::R6Class(
           stop(paste("Error! \"", this_object$`sex`, "\" cannot be assigned to `sex`. Must be \"male\", \"female\", \"unspecified\".", sep = ""))
         }
         self$`sex` <- this_object$`sex`
-      }
-      if (!is.null(this_object$`phenotypic_features`)) {
-        self$`phenotypic_features` <- ApiClient$new()$deserializeObj(this_object$`phenotypic_features`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`virtual`)) {
         self$`virtual` <- this_object$`virtual`
@@ -907,14 +892,6 @@ RodentDonor <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`sex`, perl=TRUE)
           )
         },
-        if (!is.null(self$`phenotypic_features`)) {
-          sprintf(
-          '"phenotypic_features":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`phenotypic_features`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
         if (!is.null(self$`virtual`)) {
           sprintf(
           '"virtual":
@@ -1053,7 +1030,6 @@ RodentDonor <- R6::R6Class(
         stop(paste("Error! \"", this_object$`sex`, "\" cannot be assigned to `sex`. Must be \"male\", \"female\", \"unspecified\".", sep = ""))
       }
       self$`sex` <- this_object$`sex`
-      self$`phenotypic_features` <- ApiClient$new()$deserializeObj(this_object$`phenotypic_features`, "set[character]", loadNamespace("igvfclient"))
       self$`virtual` <- this_object$`virtual`
       self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
       if (!is.null(this_object$`strain_background`) && !(this_object$`strain_background` %in% c("A/J (AJ)", "B6129S1F1/J", "B6AF1/J", "B6CASTF1/J", "B6NODF1/J", "B6NZOF1/J", "B6PWKF1/J", "B6WSBF1/J", "C57BL/6J (B6)", "129S1/SvImJ (129)", "NOD/ShiLtJ (NOD)", "NZO/H1LtJ (NZO)", "CAST/EiJ (CAST)", "PWK/PhJ (PWK)", "WSB/EiJ (WSB)", "CAST (M. m. castaneus)", "WSB (M. m. domesticus)", "PWK (M. m. musculus)", "CC001/Unc", "CC002/Unc", "CC003/Unc", "CC004/TauUnc", "CC005/TauUnc", "CC006/TauUnc", "CC007/Unc", "CC008/GeniUnc", "CC009/Unc", "CC010/GeniUnc", "CC011/Unc", "CC012/GeniUnc", "CC013/GeniUnc", "CC015/Unc", "CC017/Unc", "CC018/Unc", "CC024/GeniUnc", "CC025/GeniUnc", "CC028/GeniUnc", "CC029/Unc", "CC030/GeniUnc", "CC032/GeniUnc", "CC036/Unc", "CC037/TauUnc", "CC038/GeniUnc", "CC041/TauUnc", "CC043/GeniUnc", "CC055/TauUnc", "CC057/Unc", "CC060/Unc", "CC062/Unc", "CC065/Unc", "CC071/TauUnc", "CC074/Unc"))) {
@@ -1135,7 +1111,6 @@ RodentDonor <- R6::R6Class(
 
 
 
-
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1180,7 +1155,6 @@ RodentDonor <- R6::R6Class(
       if (!str_detect(self$`description`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         invalid_fields["description"] <- "Invalid value for `description`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
-
 
 
 

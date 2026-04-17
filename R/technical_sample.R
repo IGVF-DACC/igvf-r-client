@@ -41,7 +41,7 @@
 #' @field virtual Virtual samples do not represent actual physical entities from experiments, but instead capture metadata about hypothetical or inferred samples relevant to reported analysis results, including those derived through demultiplexing. character [optional]
 #' @field construct_library_sets The construct library sets of vectors introduced to this sample prior to performing an assay. list(character) [optional]
 #' @field moi The actual multiplicity of infection (MOI) for vectors introduced to this sample. At least one construct library set must be specified in order to specify MOI. This property should capture the actual MOI, and not the targeted MOI. numeric [optional]
-#' @field nucleic_acid_delivery Method of introduction of nucleic acid into the cell. character [optional]
+#' @field construct_delivery_methods Methods used to deliver construct libraries into the sample. list(character) [optional]
 #' @field time_post_library_delivery The time that elapsed past the time-point when the construct library sets were introduced. numeric [optional]
 #' @field time_post_library_delivery_units The units of time that elapsed past the point when the construct library sets were introduced. character [optional]
 #' @field protocols Links to the protocol(s) for preparing the samples on Protocols.io. list(character) [optional]
@@ -103,7 +103,7 @@ TechnicalSample <- R6::R6Class(
     `virtual` = NULL,
     `construct_library_sets` = NULL,
     `moi` = NULL,
-    `nucleic_acid_delivery` = NULL,
+    `construct_delivery_methods` = NULL,
     `time_post_library_delivery` = NULL,
     `time_post_library_delivery_units` = NULL,
     `protocols` = NULL,
@@ -164,7 +164,7 @@ TechnicalSample <- R6::R6Class(
     #' @param virtual Virtual samples do not represent actual physical entities from experiments, but instead capture metadata about hypothetical or inferred samples relevant to reported analysis results, including those derived through demultiplexing.
     #' @param construct_library_sets The construct library sets of vectors introduced to this sample prior to performing an assay.
     #' @param moi The actual multiplicity of infection (MOI) for vectors introduced to this sample. At least one construct library set must be specified in order to specify MOI. This property should capture the actual MOI, and not the targeted MOI.
-    #' @param nucleic_acid_delivery Method of introduction of nucleic acid into the cell.
+    #' @param construct_delivery_methods Methods used to deliver construct libraries into the sample.
     #' @param time_post_library_delivery The time that elapsed past the time-point when the construct library sets were introduced.
     #' @param time_post_library_delivery_units The units of time that elapsed past the point when the construct library sets were introduced.
     #' @param protocols Links to the protocol(s) for preparing the samples on Protocols.io.
@@ -188,7 +188,7 @@ TechnicalSample <- R6::R6Class(
     #' @param classifications The general category of this type of sample.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`is_on_anvil` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `part_of` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `nucleic_acid_delivery` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `selection_conditions` = NULL, `sample_material` = NULL, `taxa` = NULL, `sample_terms` = NULL, `treatments` = NULL, `originated_from` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `parts` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `classifications` = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `part_of` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `construct_delivery_methods` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `selection_conditions` = NULL, `sample_material` = NULL, `taxa` = NULL, `sample_terms` = NULL, `treatments` = NULL, `originated_from` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `parts` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `classifications` = NULL, ...) {
       if (!is.null(`is_on_anvil`)) {
         if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
           stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
@@ -385,14 +385,10 @@ TechnicalSample <- R6::R6Class(
       if (!is.null(`moi`)) {
         self$`moi` <- `moi`
       }
-      if (!is.null(`nucleic_acid_delivery`)) {
-        if (!(`nucleic_acid_delivery` %in% c("adenoviral transduction", "adeno-associated viral (AAV) transduction", "lipofectamine", "electroporation", "lentiviral transduction", "transfection", "transformation", "nucleofection"))) {
-          stop(paste("Error! \"", `nucleic_acid_delivery`, "\" cannot be assigned to `nucleic_acid_delivery`. Must be \"adenoviral transduction\", \"adeno-associated viral (AAV) transduction\", \"lipofectamine\", \"electroporation\", \"lentiviral transduction\", \"transfection\", \"transformation\", \"nucleofection\".", sep = ""))
-        }
-        if (!(is.character(`nucleic_acid_delivery`) && length(`nucleic_acid_delivery`) == 1)) {
-          stop(paste("Error! Invalid data for `nucleic_acid_delivery`. Must be a string:", `nucleic_acid_delivery`))
-        }
-        self$`nucleic_acid_delivery` <- `nucleic_acid_delivery`
+      if (!is.null(`construct_delivery_methods`)) {
+        stopifnot(is.vector(`construct_delivery_methods`), length(`construct_delivery_methods`) != 0)
+        sapply(`construct_delivery_methods`, function(x) stopifnot(is.character(x)))
+        self$`construct_delivery_methods` <- `construct_delivery_methods`
       }
       if (!is.null(`time_post_library_delivery`)) {
         self$`time_post_library_delivery` <- `time_post_library_delivery`
@@ -658,9 +654,9 @@ TechnicalSample <- R6::R6Class(
         TechnicalSampleObject[["moi"]] <-
           self$`moi`
       }
-      if (!is.null(self$`nucleic_acid_delivery`)) {
-        TechnicalSampleObject[["nucleic_acid_delivery"]] <-
-          self$`nucleic_acid_delivery`
+      if (!is.null(self$`construct_delivery_methods`)) {
+        TechnicalSampleObject[["construct_delivery_methods"]] <-
+          self$`construct_delivery_methods`
       }
       if (!is.null(self$`time_post_library_delivery`)) {
         TechnicalSampleObject[["time_post_library_delivery"]] <-
@@ -866,11 +862,8 @@ TechnicalSample <- R6::R6Class(
       if (!is.null(this_object$`moi`)) {
         self$`moi` <- this_object$`moi`
       }
-      if (!is.null(this_object$`nucleic_acid_delivery`)) {
-        if (!is.null(this_object$`nucleic_acid_delivery`) && !(this_object$`nucleic_acid_delivery` %in% c("adenoviral transduction", "adeno-associated viral (AAV) transduction", "lipofectamine", "electroporation", "lentiviral transduction", "transfection", "transformation", "nucleofection"))) {
-          stop(paste("Error! \"", this_object$`nucleic_acid_delivery`, "\" cannot be assigned to `nucleic_acid_delivery`. Must be \"adenoviral transduction\", \"adeno-associated viral (AAV) transduction\", \"lipofectamine\", \"electroporation\", \"lentiviral transduction\", \"transfection\", \"transformation\", \"nucleofection\".", sep = ""))
-        }
-        self$`nucleic_acid_delivery` <- this_object$`nucleic_acid_delivery`
+      if (!is.null(this_object$`construct_delivery_methods`)) {
+        self$`construct_delivery_methods` <- ApiClient$new()$deserializeObj(this_object$`construct_delivery_methods`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`time_post_library_delivery`)) {
         self$`time_post_library_delivery` <- this_object$`time_post_library_delivery`
@@ -1227,12 +1220,12 @@ TechnicalSample <- R6::R6Class(
           self$`moi`
           )
         },
-        if (!is.null(self$`nucleic_acid_delivery`)) {
+        if (!is.null(self$`construct_delivery_methods`)) {
           sprintf(
-          '"nucleic_acid_delivery":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`nucleic_acid_delivery`, perl=TRUE)
+          '"construct_delivery_methods":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`construct_delivery_methods`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`time_post_library_delivery`)) {
@@ -1457,10 +1450,7 @@ TechnicalSample <- R6::R6Class(
       self$`virtual` <- this_object$`virtual`
       self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`moi` <- this_object$`moi`
-      if (!is.null(this_object$`nucleic_acid_delivery`) && !(this_object$`nucleic_acid_delivery` %in% c("adenoviral transduction", "adeno-associated viral (AAV) transduction", "lipofectamine", "electroporation", "lentiviral transduction", "transfection", "transformation", "nucleofection"))) {
-        stop(paste("Error! \"", this_object$`nucleic_acid_delivery`, "\" cannot be assigned to `nucleic_acid_delivery`. Must be \"adenoviral transduction\", \"adeno-associated viral (AAV) transduction\", \"lipofectamine\", \"electroporation\", \"lentiviral transduction\", \"transfection\", \"transformation\", \"nucleofection\".", sep = ""))
-      }
-      self$`nucleic_acid_delivery` <- this_object$`nucleic_acid_delivery`
+      self$`construct_delivery_methods` <- ApiClient$new()$deserializeObj(this_object$`construct_delivery_methods`, "set[character]", loadNamespace("igvfclient"))
       self$`time_post_library_delivery` <- this_object$`time_post_library_delivery`
       if (!is.null(this_object$`time_post_library_delivery_units`) && !(this_object$`time_post_library_delivery_units` %in% c("minute", "hour", "day", "week", "month"))) {
         stop(paste("Error! \"", this_object$`time_post_library_delivery_units`, "\" cannot be assigned to `time_post_library_delivery_units`. Must be \"minute\", \"hour\", \"day\", \"week\", \"month\".", sep = ""))
@@ -1574,6 +1564,7 @@ TechnicalSample <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1624,6 +1615,7 @@ TechnicalSample <- R6::R6Class(
       if (self$`moi` < 0) {
         invalid_fields["moi"] <- "Invalid value for `moi`, must be bigger than or equal to 0."
       }
+
 
 
 
