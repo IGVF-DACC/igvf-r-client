@@ -39,6 +39,7 @@
 #' @field model_name The custom lab name given to this predictive model set. character [optional]
 #' @field model_version The semantic version number for this predictive model set. character [optional]
 #' @field prediction_objects The objects this predictive model set is targeting. list(character) [optional]
+#' @field assay_terms The assay terms used to produce data in this model set. list(character) [optional]
 #' @field model_zoo_location The link to the model on the Kipoi repository. character [optional]
 #' @field assessed_genes A list of genes assessed in this model set. list(character) [optional]
 #' @field external_input_data A tabular file with links to external data utilized for this model. character [optional]
@@ -53,8 +54,10 @@
 #' @field construct_library_sets The construct library sets associated with the samples of this file set. list(character) [optional]
 #' @field data_use_limitation_summaries The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. list(character) [optional]
 #' @field controlled_access The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. character [optional]
+#' @field assay_titles Ontology term names from Ontology of Biomedical Investigations (OBI) for assays list(character) [optional]
 #' @field externally_hosted  character [optional]
 #' @field software_versions The software versions used to produce this predictive model. list(character) [optional]
+#' @field preferred_assay_slims Preferred Assay Slim(s) of assays that produced data analyzed in the analysis set. list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -93,6 +96,7 @@ ModelSet <- R6::R6Class(
     `model_name` = NULL,
     `model_version` = NULL,
     `prediction_objects` = NULL,
+    `assay_terms` = NULL,
     `model_zoo_location` = NULL,
     `assessed_genes` = NULL,
     `external_input_data` = NULL,
@@ -107,8 +111,10 @@ ModelSet <- R6::R6Class(
     `construct_library_sets` = NULL,
     `data_use_limitation_summaries` = NULL,
     `controlled_access` = NULL,
+    `assay_titles` = NULL,
     `externally_hosted` = NULL,
     `software_versions` = NULL,
+    `preferred_assay_slims` = NULL,
     #' Initialize a new ModelSet class.
     #'
     #' @description
@@ -146,6 +152,7 @@ ModelSet <- R6::R6Class(
     #' @param model_name The custom lab name given to this predictive model set.
     #' @param model_version The semantic version number for this predictive model set.
     #' @param prediction_objects The objects this predictive model set is targeting.
+    #' @param assay_terms The assay terms used to produce data in this model set.
     #' @param model_zoo_location The link to the model on the Kipoi repository.
     #' @param assessed_genes A list of genes assessed in this model set.
     #' @param external_input_data A tabular file with links to external data utilized for this model.
@@ -160,11 +167,13 @@ ModelSet <- R6::R6Class(
     #' @param construct_library_sets The construct library sets associated with the samples of this file set.
     #' @param data_use_limitation_summaries The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set.
     #' @param controlled_access The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set.
+    #' @param assay_titles Ontology term names from Ontology of Biomedical Investigations (OBI) for assays
     #' @param externally_hosted externally_hosted
     #' @param software_versions The software versions used to produce this predictive model.
+    #' @param preferred_assay_slims Preferred Assay Slim(s) of assays that produced data analyzed in the analysis set.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `preferred_assay_titles` = NULL, `preview_timestamp` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `model_name` = NULL, `model_version` = NULL, `prediction_objects` = NULL, `model_zoo_location` = NULL, `assessed_genes` = NULL, `external_input_data` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `externally_hosted` = NULL, `software_versions` = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `preferred_assay_titles` = NULL, `preview_timestamp` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `model_name` = NULL, `model_version` = NULL, `prediction_objects` = NULL, `assay_terms` = NULL, `model_zoo_location` = NULL, `assessed_genes` = NULL, `external_input_data` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `assay_titles` = NULL, `externally_hosted` = NULL, `software_versions` = NULL, `preferred_assay_slims` = NULL, ...) {
       if (!is.null(`is_on_anvil`)) {
         if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
           stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
@@ -351,6 +360,11 @@ ModelSet <- R6::R6Class(
         sapply(`prediction_objects`, function(x) stopifnot(is.character(x)))
         self$`prediction_objects` <- `prediction_objects`
       }
+      if (!is.null(`assay_terms`)) {
+        stopifnot(is.vector(`assay_terms`), length(`assay_terms`) != 0)
+        sapply(`assay_terms`, function(x) stopifnot(is.character(x)))
+        self$`assay_terms` <- `assay_terms`
+      }
       if (!is.null(`model_zoo_location`)) {
         if (!(is.character(`model_zoo_location`) && length(`model_zoo_location`) == 1)) {
           stop(paste("Error! Invalid data for `model_zoo_location`. Must be a string:", `model_zoo_location`))
@@ -427,6 +441,11 @@ ModelSet <- R6::R6Class(
         }
         self$`controlled_access` <- `controlled_access`
       }
+      if (!is.null(`assay_titles`)) {
+        stopifnot(is.vector(`assay_titles`), length(`assay_titles`) != 0)
+        sapply(`assay_titles`, function(x) stopifnot(is.character(x)))
+        self$`assay_titles` <- `assay_titles`
+      }
       if (!is.null(`externally_hosted`)) {
         if (!(is.logical(`externally_hosted`) && length(`externally_hosted`) == 1)) {
           stop(paste("Error! Invalid data for `externally_hosted`. Must be a boolean:", `externally_hosted`))
@@ -437,6 +456,11 @@ ModelSet <- R6::R6Class(
         stopifnot(is.vector(`software_versions`), length(`software_versions`) != 0)
         sapply(`software_versions`, function(x) stopifnot(is.character(x)))
         self$`software_versions` <- `software_versions`
+      }
+      if (!is.null(`preferred_assay_slims`)) {
+        stopifnot(is.vector(`preferred_assay_slims`), length(`preferred_assay_slims`) != 0)
+        sapply(`preferred_assay_slims`, function(x) stopifnot(is.character(x)))
+        self$`preferred_assay_slims` <- `preferred_assay_slims`
       }
     },
     #' To JSON string
@@ -576,6 +600,10 @@ ModelSet <- R6::R6Class(
         ModelSetObject[["prediction_objects"]] <-
           self$`prediction_objects`
       }
+      if (!is.null(self$`assay_terms`)) {
+        ModelSetObject[["assay_terms"]] <-
+          self$`assay_terms`
+      }
       if (!is.null(self$`model_zoo_location`)) {
         ModelSetObject[["model_zoo_location"]] <-
           self$`model_zoo_location`
@@ -632,6 +660,10 @@ ModelSet <- R6::R6Class(
         ModelSetObject[["controlled_access"]] <-
           self$`controlled_access`
       }
+      if (!is.null(self$`assay_titles`)) {
+        ModelSetObject[["assay_titles"]] <-
+          self$`assay_titles`
+      }
       if (!is.null(self$`externally_hosted`)) {
         ModelSetObject[["externally_hosted"]] <-
           self$`externally_hosted`
@@ -639,6 +671,10 @@ ModelSet <- R6::R6Class(
       if (!is.null(self$`software_versions`)) {
         ModelSetObject[["software_versions"]] <-
           self$`software_versions`
+      }
+      if (!is.null(self$`preferred_assay_slims`)) {
+        ModelSetObject[["preferred_assay_slims"]] <-
+          self$`preferred_assay_slims`
       }
       ModelSetObject
     },
@@ -754,6 +790,9 @@ ModelSet <- R6::R6Class(
       if (!is.null(this_object$`prediction_objects`)) {
         self$`prediction_objects` <- ApiClient$new()$deserializeObj(this_object$`prediction_objects`, "set[character]", loadNamespace("igvfclient"))
       }
+      if (!is.null(this_object$`assay_terms`)) {
+        self$`assay_terms` <- ApiClient$new()$deserializeObj(this_object$`assay_terms`, "set[character]", loadNamespace("igvfclient"))
+      }
       if (!is.null(this_object$`model_zoo_location`)) {
         self$`model_zoo_location` <- this_object$`model_zoo_location`
       }
@@ -796,11 +835,17 @@ ModelSet <- R6::R6Class(
       if (!is.null(this_object$`controlled_access`)) {
         self$`controlled_access` <- this_object$`controlled_access`
       }
+      if (!is.null(this_object$`assay_titles`)) {
+        self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "array[character]", loadNamespace("igvfclient"))
+      }
       if (!is.null(this_object$`externally_hosted`)) {
         self$`externally_hosted` <- this_object$`externally_hosted`
       }
       if (!is.null(this_object$`software_versions`)) {
         self$`software_versions` <- ApiClient$new()$deserializeObj(this_object$`software_versions`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`preferred_assay_slims`)) {
+        self$`preferred_assay_slims` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_slims`, "set[character]", loadNamespace("igvfclient"))
       }
       self
     },
@@ -1069,6 +1114,14 @@ ModelSet <- R6::R6Class(
           paste(unlist(lapply(self$`prediction_objects`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`assay_terms`)) {
+          sprintf(
+          '"assay_terms":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`assay_terms`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`model_zoo_location`)) {
           sprintf(
           '"model_zoo_location":
@@ -1181,6 +1234,14 @@ ModelSet <- R6::R6Class(
           tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`controlled_access`, perl=TRUE))
           )
         },
+        if (!is.null(self$`assay_titles`)) {
+          sprintf(
+          '"assay_titles":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`assay_titles`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`externally_hosted`)) {
           sprintf(
           '"externally_hosted":
@@ -1195,6 +1256,14 @@ ModelSet <- R6::R6Class(
              [%s]
           ',
           paste(unlist(lapply(self$`software_versions`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`preferred_assay_slims`)) {
+          sprintf(
+          '"preferred_assay_slims":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`preferred_assay_slims`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         }
       )
@@ -1249,6 +1318,7 @@ ModelSet <- R6::R6Class(
       self$`model_name` <- this_object$`model_name`
       self$`model_version` <- this_object$`model_version`
       self$`prediction_objects` <- ApiClient$new()$deserializeObj(this_object$`prediction_objects`, "set[character]", loadNamespace("igvfclient"))
+      self$`assay_terms` <- ApiClient$new()$deserializeObj(this_object$`assay_terms`, "set[character]", loadNamespace("igvfclient"))
       self$`model_zoo_location` <- this_object$`model_zoo_location`
       self$`assessed_genes` <- ApiClient$new()$deserializeObj(this_object$`assessed_genes`, "set[character]", loadNamespace("igvfclient"))
       self$`external_input_data` <- this_object$`external_input_data`
@@ -1263,8 +1333,10 @@ ModelSet <- R6::R6Class(
       self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`data_use_limitation_summaries` <- ApiClient$new()$deserializeObj(this_object$`data_use_limitation_summaries`, "set[character]", loadNamespace("igvfclient"))
       self$`controlled_access` <- this_object$`controlled_access`
+      self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "array[character]", loadNamespace("igvfclient"))
       self$`externally_hosted` <- this_object$`externally_hosted`
       self$`software_versions` <- ApiClient$new()$deserializeObj(this_object$`software_versions`, "set[character]", loadNamespace("igvfclient"))
+      self$`preferred_assay_slims` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_slims`, "set[character]", loadNamespace("igvfclient"))
       self
     },
     #' Validate JSON input with respect to ModelSet
@@ -1334,9 +1406,11 @@ ModelSet <- R6::R6Class(
       }
 
 
+
       if (!str_detect(self$`model_zoo_location`, "^https?://kipoi\\.org/models/(\\S+)$")) {
         return(FALSE)
       }
+
 
 
 
@@ -1396,9 +1470,11 @@ ModelSet <- R6::R6Class(
       }
 
 
+
       if (!str_detect(self$`model_zoo_location`, "^https?://kipoi\\.org/models/(\\S+)$")) {
         invalid_fields["model_zoo_location"] <- "Invalid value for `model_zoo_location`, must conform to the pattern ^https?://kipoi\\.org/models/(\\S+)$."
       }
+
 
 
 

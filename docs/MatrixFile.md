@@ -59,6 +59,7 @@ Name | Type | Description | Notes
 **superseded_by** | **set[character]** | File(s) this file is superseded by virtue of those file(s) being newer, better, or a fixed version of etc. than this one. | [optional] 
 **assay_titles** | **set[character]** | Title(s) of assay from the file set this file belongs to. | [optional] 
 **preferred_assay_titles** | **set[character]** | Preferred assay titles from the file set this file belongs to. | [optional] 
+**preferred_assay_slims** | **set[character]** | Preferred assay slims from the file set this file belongs to. | [optional] 
 **workflows** | **set[character]** | The workflows associated with the analysis step version used to produce this file. | [optional] 
 **href** | **character** | The download path to obtain file. | [optional] 
 **s3_uri** | **character** | The S3 URI of public file object. | [optional] 

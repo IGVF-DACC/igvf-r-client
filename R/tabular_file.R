@@ -14,10 +14,8 @@
 #' @field base_modifications The chemical modifications to bases in a DNA sequence that are detected in this file. list(character) [optional]
 #' @field preview_timestamp The date the object was previewed. character [optional]
 #' @field controlled_access Boolean value, indicating the file being controlled access, if true. character [optional]
-#' @field assembly Genome assembly applicable for the tabular data. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field file_format_type The subtype of bed files. character [optional]
-#' @field transcriptome_annotation The annotation and version of the reference resource. character [optional]
 #' @field reference_files Link to the reference files used to generate this file. list(character) [optional]
 #' @field filtered Indicates whether the file has gone through some filtering step, for example, removal of PCR duplicates or filtering based on significance calling. character [optional]
 #' @field documents Documents that provide additional information (not data file). list(character) [optional]
@@ -54,6 +52,8 @@
 #' @field checkfiles_timestamp The date and time the file object was last checked by the Checkfiles script. character [optional]
 #' @field supersedes The file(s) that this file supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
 #' @field catalog_adapters IGVF Catalog Adapters that ingests this file list(character) [optional]
+#' @field submitted_assembly Genome assembly for a tabular file. character [optional]
+#' @field submitted_transcriptome_annotation The annotation and version of the reference resource. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the tabular file. character [optional]
@@ -65,6 +65,7 @@
 #' @field superseded_by File(s) this file is superseded by virtue of those file(s) being newer, better, or a fixed version of etc. than this one. list(character) [optional]
 #' @field assay_titles Title(s) of assay from the file set this file belongs to. list(character) [optional]
 #' @field preferred_assay_titles Preferred assay titles from the file set this file belongs to. list(character) [optional]
+#' @field preferred_assay_slims Preferred assay slims from the file set this file belongs to. list(character) [optional]
 #' @field workflows The workflows associated with the analysis step version used to produce this file. list(character) [optional]
 #' @field href The download path to obtain file. character [optional]
 #' @field s3_uri The S3 URI of public file object. character [optional]
@@ -72,6 +73,8 @@
 #' @field barcode_map_for Link(s) to the Multiplexed samples using this file as barcode map. list(character) [optional]
 #' @field enrichment_design_for Link(s) to the measurement sets using this file as a enrichment design. list(character) [optional]
 #' @field hashtag_barcode_map_for Link(s) to the auxiliary sets using this file as a hashtag barcode map. list(character) [optional]
+#' @field transcriptome_annotation The annotation and version of the reference resource. character [optional]
+#' @field assembly The assembly associated with the alignment file. character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -85,10 +88,8 @@ TabularFile <- R6::R6Class(
     `base_modifications` = NULL,
     `preview_timestamp` = NULL,
     `controlled_access` = NULL,
-    `assembly` = NULL,
     `release_timestamp` = NULL,
     `file_format_type` = NULL,
-    `transcriptome_annotation` = NULL,
     `reference_files` = NULL,
     `filtered` = NULL,
     `documents` = NULL,
@@ -125,6 +126,8 @@ TabularFile <- R6::R6Class(
     `checkfiles_timestamp` = NULL,
     `supersedes` = NULL,
     `catalog_adapters` = NULL,
+    `submitted_assembly` = NULL,
+    `submitted_transcriptome_annotation` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -136,6 +139,7 @@ TabularFile <- R6::R6Class(
     `superseded_by` = NULL,
     `assay_titles` = NULL,
     `preferred_assay_titles` = NULL,
+    `preferred_assay_slims` = NULL,
     `workflows` = NULL,
     `href` = NULL,
     `s3_uri` = NULL,
@@ -143,6 +147,8 @@ TabularFile <- R6::R6Class(
     `barcode_map_for` = NULL,
     `enrichment_design_for` = NULL,
     `hashtag_barcode_map_for` = NULL,
+    `transcriptome_annotation` = NULL,
+    `assembly` = NULL,
     #' Initialize a new TabularFile class.
     #'
     #' @description
@@ -155,10 +161,8 @@ TabularFile <- R6::R6Class(
     #' @param base_modifications The chemical modifications to bases in a DNA sequence that are detected in this file.
     #' @param preview_timestamp The date the object was previewed.
     #' @param controlled_access Boolean value, indicating the file being controlled access, if true.
-    #' @param assembly Genome assembly applicable for the tabular data.
     #' @param release_timestamp The date the object was released.
     #' @param file_format_type The subtype of bed files.
-    #' @param transcriptome_annotation The annotation and version of the reference resource.
     #' @param reference_files Link to the reference files used to generate this file.
     #' @param filtered Indicates whether the file has gone through some filtering step, for example, removal of PCR duplicates or filtering based on significance calling.
     #' @param documents Documents that provide additional information (not data file).
@@ -195,6 +199,8 @@ TabularFile <- R6::R6Class(
     #' @param checkfiles_timestamp The date and time the file object was last checked by the Checkfiles script.
     #' @param supersedes The file(s) that this file supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
     #' @param catalog_adapters IGVF Catalog Adapters that ingests this file
+    #' @param submitted_assembly Genome assembly for a tabular file.
+    #' @param submitted_transcriptome_annotation The annotation and version of the reference resource.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the tabular file.
@@ -206,6 +212,7 @@ TabularFile <- R6::R6Class(
     #' @param superseded_by File(s) this file is superseded by virtue of those file(s) being newer, better, or a fixed version of etc. than this one.
     #' @param assay_titles Title(s) of assay from the file set this file belongs to.
     #' @param preferred_assay_titles Preferred assay titles from the file set this file belongs to.
+    #' @param preferred_assay_slims Preferred assay slims from the file set this file belongs to.
     #' @param workflows The workflows associated with the analysis step version used to produce this file.
     #' @param href The download path to obtain file.
     #' @param s3_uri The S3 URI of public file object.
@@ -213,9 +220,11 @@ TabularFile <- R6::R6Class(
     #' @param barcode_map_for Link(s) to the Multiplexed samples using this file as barcode map.
     #' @param enrichment_design_for Link(s) to the measurement sets using this file as a enrichment design.
     #' @param hashtag_barcode_map_for Link(s) to the auxiliary sets using this file as a hashtag barcode map.
+    #' @param transcriptome_annotation The annotation and version of the reference resource.
+    #' @param assembly The assembly associated with the alignment file.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`anvil_url` = NULL, `catalog_collections` = NULL, `catalog_class` = NULL, `catalog_notes` = NULL, `base_modifications` = NULL, `preview_timestamp` = NULL, `controlled_access` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `reference_files` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `checkfiles_timestamp` = NULL, `supersedes` = NULL, `catalog_adapters` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `superseded_by` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `barcode_map_for` = NULL, `enrichment_design_for` = NULL, `hashtag_barcode_map_for` = NULL, ...) {
+    initialize = function(`anvil_url` = NULL, `catalog_collections` = NULL, `catalog_class` = NULL, `catalog_notes` = NULL, `base_modifications` = NULL, `preview_timestamp` = NULL, `controlled_access` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `reference_files` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `checkfiles_timestamp` = NULL, `supersedes` = NULL, `catalog_adapters` = NULL, `submitted_assembly` = NULL, `submitted_transcriptome_annotation` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `superseded_by` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `barcode_map_for` = NULL, `enrichment_design_for` = NULL, `hashtag_barcode_map_for` = NULL, `transcriptome_annotation` = NULL, `assembly` = NULL, ...) {
       if (!is.null(`anvil_url`)) {
         if (!(is.character(`anvil_url`) && length(`anvil_url`) == 1)) {
           stop(paste("Error! Invalid data for `anvil_url`. Must be a string:", `anvil_url`))
@@ -259,15 +268,6 @@ TabularFile <- R6::R6Class(
         }
         self$`controlled_access` <- `controlled_access`
       }
-      if (!is.null(`assembly`)) {
-        if (!(`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, GRCm39", "GRCh38, mm10", "C57BL_6J_T2T_v1 + GRCm39_X", "CAST_EiJ_T2T_v1", "custom"))) {
-          stop(paste("Error! \"", `assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, GRCm39\", \"GRCh38, mm10\", \"C57BL_6J_T2T_v1 + GRCm39_X\", \"CAST_EiJ_T2T_v1\", \"custom\".", sep = ""))
-        }
-        if (!(is.character(`assembly`) && length(`assembly`) == 1)) {
-          stop(paste("Error! Invalid data for `assembly`. Must be a string:", `assembly`))
-        }
-        self$`assembly` <- `assembly`
-      }
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `release_timestamp`. Must be a string:", `release_timestamp`))
@@ -282,15 +282,6 @@ TabularFile <- R6::R6Class(
           stop(paste("Error! Invalid data for `file_format_type`. Must be a string:", `file_format_type`))
         }
         self$`file_format_type` <- `file_format_type`
-      }
-      if (!is.null(`transcriptome_annotation`)) {
-        if (!(`transcriptome_annotation` %in% c("GENCODE 22", "GENCODE 24", "GENCODE 28", "GENCODE 32", "GENCODE 38", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M17", "GENCODE M25", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36", "GENCODE 32, GENCODE M23", "GENCODE 41, GENCODE M25", "GENCODE 44, GENCODE M33", "CAST_EiJ_T2T_v1_TA1", "C57BL_6J_T2T_v1_TA1 + M36_X"))) {
-          stop(paste("Error! \"", `transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 22\", \"GENCODE 24\", \"GENCODE 28\", \"GENCODE 32\", \"GENCODE 38\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M17\", \"GENCODE M25\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\", \"GENCODE 32, GENCODE M23\", \"GENCODE 41, GENCODE M25\", \"GENCODE 44, GENCODE M33\", \"CAST_EiJ_T2T_v1_TA1\", \"C57BL_6J_T2T_v1_TA1 + M36_X\".", sep = ""))
-        }
-        if (!(is.character(`transcriptome_annotation`) && length(`transcriptome_annotation`) == 1)) {
-          stop(paste("Error! Invalid data for `transcriptome_annotation`. Must be a string:", `transcriptome_annotation`))
-        }
-        self$`transcriptome_annotation` <- `transcriptome_annotation`
       }
       if (!is.null(`reference_files`)) {
         stopifnot(is.vector(`reference_files`), length(`reference_files`) != 0)
@@ -507,6 +498,24 @@ TabularFile <- R6::R6Class(
         sapply(`catalog_adapters`, function(x) stopifnot(is.character(x)))
         self$`catalog_adapters` <- `catalog_adapters`
       }
+      if (!is.null(`submitted_assembly`)) {
+        if (!(`submitted_assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, GRCm39", "GRCh38, mm10", "C57BL_6J_T2T_v1 + GRCm39_X", "CAST_EiJ_T2T_v1", "custom", "unknown"))) {
+          stop(paste("Error! \"", `submitted_assembly`, "\" cannot be assigned to `submitted_assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, GRCm39\", \"GRCh38, mm10\", \"C57BL_6J_T2T_v1 + GRCm39_X\", \"CAST_EiJ_T2T_v1\", \"custom\", \"unknown\".", sep = ""))
+        }
+        if (!(is.character(`submitted_assembly`) && length(`submitted_assembly`) == 1)) {
+          stop(paste("Error! Invalid data for `submitted_assembly`. Must be a string:", `submitted_assembly`))
+        }
+        self$`submitted_assembly` <- `submitted_assembly`
+      }
+      if (!is.null(`submitted_transcriptome_annotation`)) {
+        if (!(`submitted_transcriptome_annotation` %in% c("GENCODE 22", "GENCODE 24", "GENCODE 28", "GENCODE 32", "GENCODE 38", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M17", "GENCODE M25", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36", "GENCODE 32, GENCODE M23", "GENCODE 41, GENCODE M25", "GENCODE 44, GENCODE M33", "CAST_EiJ_T2T_v1_TA1", "C57BL_6J_T2T_v1_TA1 + M36_X", "unknown"))) {
+          stop(paste("Error! \"", `submitted_transcriptome_annotation`, "\" cannot be assigned to `submitted_transcriptome_annotation`. Must be \"GENCODE 22\", \"GENCODE 24\", \"GENCODE 28\", \"GENCODE 32\", \"GENCODE 38\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M17\", \"GENCODE M25\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\", \"GENCODE 32, GENCODE M23\", \"GENCODE 41, GENCODE M25\", \"GENCODE 44, GENCODE M33\", \"CAST_EiJ_T2T_v1_TA1\", \"C57BL_6J_T2T_v1_TA1 + M36_X\", \"unknown\".", sep = ""))
+        }
+        if (!(is.character(`submitted_transcriptome_annotation`) && length(`submitted_transcriptome_annotation`) == 1)) {
+          stop(paste("Error! Invalid data for `submitted_transcriptome_annotation`. Must be a string:", `submitted_transcriptome_annotation`))
+        }
+        self$`submitted_transcriptome_annotation` <- `submitted_transcriptome_annotation`
+      }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
           stop(paste("Error! Invalid data for `@id`. Must be a string:", `@id`))
@@ -564,6 +573,11 @@ TabularFile <- R6::R6Class(
         sapply(`preferred_assay_titles`, function(x) stopifnot(is.character(x)))
         self$`preferred_assay_titles` <- `preferred_assay_titles`
       }
+      if (!is.null(`preferred_assay_slims`)) {
+        stopifnot(is.vector(`preferred_assay_slims`), length(`preferred_assay_slims`) != 0)
+        sapply(`preferred_assay_slims`, function(x) stopifnot(is.character(x)))
+        self$`preferred_assay_slims` <- `preferred_assay_slims`
+      }
       if (!is.null(`workflows`)) {
         stopifnot(is.vector(`workflows`), length(`workflows`) != 0)
         sapply(`workflows`, function(x) stopifnot(is.character(x)))
@@ -598,6 +612,18 @@ TabularFile <- R6::R6Class(
         stopifnot(is.vector(`hashtag_barcode_map_for`), length(`hashtag_barcode_map_for`) != 0)
         sapply(`hashtag_barcode_map_for`, function(x) stopifnot(is.character(x)))
         self$`hashtag_barcode_map_for` <- `hashtag_barcode_map_for`
+      }
+      if (!is.null(`transcriptome_annotation`)) {
+        if (!(is.character(`transcriptome_annotation`) && length(`transcriptome_annotation`) == 1)) {
+          stop(paste("Error! Invalid data for `transcriptome_annotation`. Must be a string:", `transcriptome_annotation`))
+        }
+        self$`transcriptome_annotation` <- `transcriptome_annotation`
+      }
+      if (!is.null(`assembly`)) {
+        if (!(is.character(`assembly`) && length(`assembly`) == 1)) {
+          stop(paste("Error! Invalid data for `assembly`. Must be a string:", `assembly`))
+        }
+        self$`assembly` <- `assembly`
       }
     },
     #' To JSON string
@@ -637,10 +663,6 @@ TabularFile <- R6::R6Class(
         TabularFileObject[["controlled_access"]] <-
           self$`controlled_access`
       }
-      if (!is.null(self$`assembly`)) {
-        TabularFileObject[["assembly"]] <-
-          self$`assembly`
-      }
       if (!is.null(self$`release_timestamp`)) {
         TabularFileObject[["release_timestamp"]] <-
           self$`release_timestamp`
@@ -648,10 +670,6 @@ TabularFile <- R6::R6Class(
       if (!is.null(self$`file_format_type`)) {
         TabularFileObject[["file_format_type"]] <-
           self$`file_format_type`
-      }
-      if (!is.null(self$`transcriptome_annotation`)) {
-        TabularFileObject[["transcriptome_annotation"]] <-
-          self$`transcriptome_annotation`
       }
       if (!is.null(self$`reference_files`)) {
         TabularFileObject[["reference_files"]] <-
@@ -797,6 +815,14 @@ TabularFile <- R6::R6Class(
         TabularFileObject[["catalog_adapters"]] <-
           self$`catalog_adapters`
       }
+      if (!is.null(self$`submitted_assembly`)) {
+        TabularFileObject[["submitted_assembly"]] <-
+          self$`submitted_assembly`
+      }
+      if (!is.null(self$`submitted_transcriptome_annotation`)) {
+        TabularFileObject[["submitted_transcriptome_annotation"]] <-
+          self$`submitted_transcriptome_annotation`
+      }
       if (!is.null(self$`@id`)) {
         TabularFileObject[["@id"]] <-
           self$`@id`
@@ -841,6 +867,10 @@ TabularFile <- R6::R6Class(
         TabularFileObject[["preferred_assay_titles"]] <-
           self$`preferred_assay_titles`
       }
+      if (!is.null(self$`preferred_assay_slims`)) {
+        TabularFileObject[["preferred_assay_slims"]] <-
+          self$`preferred_assay_slims`
+      }
       if (!is.null(self$`workflows`)) {
         TabularFileObject[["workflows"]] <-
           self$`workflows`
@@ -868,6 +898,14 @@ TabularFile <- R6::R6Class(
       if (!is.null(self$`hashtag_barcode_map_for`)) {
         TabularFileObject[["hashtag_barcode_map_for"]] <-
           self$`hashtag_barcode_map_for`
+      }
+      if (!is.null(self$`transcriptome_annotation`)) {
+        TabularFileObject[["transcriptome_annotation"]] <-
+          self$`transcriptome_annotation`
+      }
+      if (!is.null(self$`assembly`)) {
+        TabularFileObject[["assembly"]] <-
+          self$`assembly`
       }
       TabularFileObject
     },
@@ -905,12 +943,6 @@ TabularFile <- R6::R6Class(
       if (!is.null(this_object$`controlled_access`)) {
         self$`controlled_access` <- this_object$`controlled_access`
       }
-      if (!is.null(this_object$`assembly`)) {
-        if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, GRCm39", "GRCh38, mm10", "C57BL_6J_T2T_v1 + GRCm39_X", "CAST_EiJ_T2T_v1", "custom"))) {
-          stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, GRCm39\", \"GRCh38, mm10\", \"C57BL_6J_T2T_v1 + GRCm39_X\", \"CAST_EiJ_T2T_v1\", \"custom\".", sep = ""))
-        }
-        self$`assembly` <- this_object$`assembly`
-      }
       if (!is.null(this_object$`release_timestamp`)) {
         self$`release_timestamp` <- this_object$`release_timestamp`
       }
@@ -919,12 +951,6 @@ TabularFile <- R6::R6Class(
           stop(paste("Error! \"", this_object$`file_format_type`, "\" cannot be assigned to `file_format_type`. Must be \"bed12\", \"bed3\", \"bed3+\", \"bed5\", \"bed6\", \"bed6+\", \"bed9\", \"bed9+\", \"mpra_starr\", \"mpra_element\", \"mpra_variant\".", sep = ""))
         }
         self$`file_format_type` <- this_object$`file_format_type`
-      }
-      if (!is.null(this_object$`transcriptome_annotation`)) {
-        if (!is.null(this_object$`transcriptome_annotation`) && !(this_object$`transcriptome_annotation` %in% c("GENCODE 22", "GENCODE 24", "GENCODE 28", "GENCODE 32", "GENCODE 38", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M17", "GENCODE M25", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36", "GENCODE 32, GENCODE M23", "GENCODE 41, GENCODE M25", "GENCODE 44, GENCODE M33", "CAST_EiJ_T2T_v1_TA1", "C57BL_6J_T2T_v1_TA1 + M36_X"))) {
-          stop(paste("Error! \"", this_object$`transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 22\", \"GENCODE 24\", \"GENCODE 28\", \"GENCODE 32\", \"GENCODE 38\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M17\", \"GENCODE M25\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\", \"GENCODE 32, GENCODE M23\", \"GENCODE 41, GENCODE M25\", \"GENCODE 44, GENCODE M33\", \"CAST_EiJ_T2T_v1_TA1\", \"C57BL_6J_T2T_v1_TA1 + M36_X\".", sep = ""))
-        }
-        self$`transcriptome_annotation` <- this_object$`transcriptome_annotation`
       }
       if (!is.null(this_object$`reference_files`)) {
         self$`reference_files` <- ApiClient$new()$deserializeObj(this_object$`reference_files`, "set[character]", loadNamespace("igvfclient"))
@@ -1043,6 +1069,18 @@ TabularFile <- R6::R6Class(
       if (!is.null(this_object$`catalog_adapters`)) {
         self$`catalog_adapters` <- ApiClient$new()$deserializeObj(this_object$`catalog_adapters`, "set[character]", loadNamespace("igvfclient"))
       }
+      if (!is.null(this_object$`submitted_assembly`)) {
+        if (!is.null(this_object$`submitted_assembly`) && !(this_object$`submitted_assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, GRCm39", "GRCh38, mm10", "C57BL_6J_T2T_v1 + GRCm39_X", "CAST_EiJ_T2T_v1", "custom", "unknown"))) {
+          stop(paste("Error! \"", this_object$`submitted_assembly`, "\" cannot be assigned to `submitted_assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, GRCm39\", \"GRCh38, mm10\", \"C57BL_6J_T2T_v1 + GRCm39_X\", \"CAST_EiJ_T2T_v1\", \"custom\", \"unknown\".", sep = ""))
+        }
+        self$`submitted_assembly` <- this_object$`submitted_assembly`
+      }
+      if (!is.null(this_object$`submitted_transcriptome_annotation`)) {
+        if (!is.null(this_object$`submitted_transcriptome_annotation`) && !(this_object$`submitted_transcriptome_annotation` %in% c("GENCODE 22", "GENCODE 24", "GENCODE 28", "GENCODE 32", "GENCODE 38", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M17", "GENCODE M25", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36", "GENCODE 32, GENCODE M23", "GENCODE 41, GENCODE M25", "GENCODE 44, GENCODE M33", "CAST_EiJ_T2T_v1_TA1", "C57BL_6J_T2T_v1_TA1 + M36_X", "unknown"))) {
+          stop(paste("Error! \"", this_object$`submitted_transcriptome_annotation`, "\" cannot be assigned to `submitted_transcriptome_annotation`. Must be \"GENCODE 22\", \"GENCODE 24\", \"GENCODE 28\", \"GENCODE 32\", \"GENCODE 38\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M17\", \"GENCODE M25\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\", \"GENCODE 32, GENCODE M23\", \"GENCODE 41, GENCODE M25\", \"GENCODE 44, GENCODE M33\", \"CAST_EiJ_T2T_v1_TA1\", \"C57BL_6J_T2T_v1_TA1 + M36_X\", \"unknown\".", sep = ""))
+        }
+        self$`submitted_transcriptome_annotation` <- this_object$`submitted_transcriptome_annotation`
+      }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
       }
@@ -1076,6 +1114,9 @@ TabularFile <- R6::R6Class(
       if (!is.null(this_object$`preferred_assay_titles`)) {
         self$`preferred_assay_titles` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_titles`, "set[character]", loadNamespace("igvfclient"))
       }
+      if (!is.null(this_object$`preferred_assay_slims`)) {
+        self$`preferred_assay_slims` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_slims`, "set[character]", loadNamespace("igvfclient"))
+      }
       if (!is.null(this_object$`workflows`)) {
         self$`workflows` <- ApiClient$new()$deserializeObj(this_object$`workflows`, "set[character]", loadNamespace("igvfclient"))
       }
@@ -1096,6 +1137,12 @@ TabularFile <- R6::R6Class(
       }
       if (!is.null(this_object$`hashtag_barcode_map_for`)) {
         self$`hashtag_barcode_map_for` <- ApiClient$new()$deserializeObj(this_object$`hashtag_barcode_map_for`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`transcriptome_annotation`)) {
+        self$`transcriptome_annotation` <- this_object$`transcriptome_annotation`
+      }
+      if (!is.null(this_object$`assembly`)) {
+        self$`assembly` <- this_object$`assembly`
       }
       self
     },
@@ -1164,14 +1211,6 @@ TabularFile <- R6::R6Class(
           tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`controlled_access`, perl=TRUE))
           )
         },
-        if (!is.null(self$`assembly`)) {
-          sprintf(
-          '"assembly":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`assembly`, perl=TRUE)
-          )
-        },
         if (!is.null(self$`release_timestamp`)) {
           sprintf(
           '"release_timestamp":
@@ -1186,14 +1225,6 @@ TabularFile <- R6::R6Class(
             "%s"
                     ',
           gsub('(?<!\\\\)\\"', '\\\\"', self$`file_format_type`, perl=TRUE)
-          )
-        },
-        if (!is.null(self$`transcriptome_annotation`)) {
-          sprintf(
-          '"transcriptome_annotation":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`transcriptome_annotation`, perl=TRUE)
           )
         },
         if (!is.null(self$`reference_files`)) {
@@ -1484,6 +1515,22 @@ TabularFile <- R6::R6Class(
           paste(unlist(lapply(self$`catalog_adapters`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`submitted_assembly`)) {
+          sprintf(
+          '"submitted_assembly":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`submitted_assembly`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`submitted_transcriptome_annotation`)) {
+          sprintf(
+          '"submitted_transcriptome_annotation":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`submitted_transcriptome_annotation`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -1572,6 +1619,14 @@ TabularFile <- R6::R6Class(
           paste(unlist(lapply(self$`preferred_assay_titles`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`preferred_assay_slims`)) {
+          sprintf(
+          '"preferred_assay_slims":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`preferred_assay_slims`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`workflows`)) {
           sprintf(
           '"workflows":
@@ -1627,6 +1682,22 @@ TabularFile <- R6::R6Class(
           ',
           paste(unlist(lapply(self$`hashtag_barcode_map_for`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
+        },
+        if (!is.null(self$`transcriptome_annotation`)) {
+          sprintf(
+          '"transcriptome_annotation":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`transcriptome_annotation`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`assembly`)) {
+          sprintf(
+          '"assembly":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`assembly`, perl=TRUE)
+          )
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -1652,19 +1723,11 @@ TabularFile <- R6::R6Class(
       self$`base_modifications` <- ApiClient$new()$deserializeObj(this_object$`base_modifications`, "set[character]", loadNamespace("igvfclient"))
       self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`controlled_access` <- this_object$`controlled_access`
-      if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, GRCm39", "GRCh38, mm10", "C57BL_6J_T2T_v1 + GRCm39_X", "CAST_EiJ_T2T_v1", "custom"))) {
-        stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, GRCm39\", \"GRCh38, mm10\", \"C57BL_6J_T2T_v1 + GRCm39_X\", \"CAST_EiJ_T2T_v1\", \"custom\".", sep = ""))
-      }
-      self$`assembly` <- this_object$`assembly`
       self$`release_timestamp` <- this_object$`release_timestamp`
       if (!is.null(this_object$`file_format_type`) && !(this_object$`file_format_type` %in% c("bed12", "bed3", "bed3+", "bed5", "bed6", "bed6+", "bed9", "bed9+", "mpra_starr", "mpra_element", "mpra_variant"))) {
         stop(paste("Error! \"", this_object$`file_format_type`, "\" cannot be assigned to `file_format_type`. Must be \"bed12\", \"bed3\", \"bed3+\", \"bed5\", \"bed6\", \"bed6+\", \"bed9\", \"bed9+\", \"mpra_starr\", \"mpra_element\", \"mpra_variant\".", sep = ""))
       }
       self$`file_format_type` <- this_object$`file_format_type`
-      if (!is.null(this_object$`transcriptome_annotation`) && !(this_object$`transcriptome_annotation` %in% c("GENCODE 22", "GENCODE 24", "GENCODE 28", "GENCODE 32", "GENCODE 38", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M17", "GENCODE M25", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36", "GENCODE 32, GENCODE M23", "GENCODE 41, GENCODE M25", "GENCODE 44, GENCODE M33", "CAST_EiJ_T2T_v1_TA1", "C57BL_6J_T2T_v1_TA1 + M36_X"))) {
-        stop(paste("Error! \"", this_object$`transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 22\", \"GENCODE 24\", \"GENCODE 28\", \"GENCODE 32\", \"GENCODE 38\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M17\", \"GENCODE M25\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\", \"GENCODE 32, GENCODE M23\", \"GENCODE 41, GENCODE M25\", \"GENCODE 44, GENCODE M33\", \"CAST_EiJ_T2T_v1_TA1\", \"C57BL_6J_T2T_v1_TA1 + M36_X\".", sep = ""))
-      }
-      self$`transcriptome_annotation` <- this_object$`transcriptome_annotation`
       self$`reference_files` <- ApiClient$new()$deserializeObj(this_object$`reference_files`, "set[character]", loadNamespace("igvfclient"))
       self$`filtered` <- this_object$`filtered`
       self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
@@ -1710,6 +1773,14 @@ TabularFile <- R6::R6Class(
       self$`checkfiles_timestamp` <- this_object$`checkfiles_timestamp`
       self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
       self$`catalog_adapters` <- ApiClient$new()$deserializeObj(this_object$`catalog_adapters`, "set[character]", loadNamespace("igvfclient"))
+      if (!is.null(this_object$`submitted_assembly`) && !(this_object$`submitted_assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, GRCm39", "GRCh38, mm10", "C57BL_6J_T2T_v1 + GRCm39_X", "CAST_EiJ_T2T_v1", "custom", "unknown"))) {
+        stop(paste("Error! \"", this_object$`submitted_assembly`, "\" cannot be assigned to `submitted_assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, GRCm39\", \"GRCh38, mm10\", \"C57BL_6J_T2T_v1 + GRCm39_X\", \"CAST_EiJ_T2T_v1\", \"custom\", \"unknown\".", sep = ""))
+      }
+      self$`submitted_assembly` <- this_object$`submitted_assembly`
+      if (!is.null(this_object$`submitted_transcriptome_annotation`) && !(this_object$`submitted_transcriptome_annotation` %in% c("GENCODE 22", "GENCODE 24", "GENCODE 28", "GENCODE 32", "GENCODE 38", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M17", "GENCODE M25", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36", "GENCODE 32, GENCODE M23", "GENCODE 41, GENCODE M25", "GENCODE 44, GENCODE M33", "CAST_EiJ_T2T_v1_TA1", "C57BL_6J_T2T_v1_TA1 + M36_X", "unknown"))) {
+        stop(paste("Error! \"", this_object$`submitted_transcriptome_annotation`, "\" cannot be assigned to `submitted_transcriptome_annotation`. Must be \"GENCODE 22\", \"GENCODE 24\", \"GENCODE 28\", \"GENCODE 32\", \"GENCODE 38\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M17\", \"GENCODE M25\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\", \"GENCODE 32, GENCODE M23\", \"GENCODE 41, GENCODE M25\", \"GENCODE 44, GENCODE M33\", \"CAST_EiJ_T2T_v1_TA1\", \"C57BL_6J_T2T_v1_TA1 + M36_X\", \"unknown\".", sep = ""))
+      }
+      self$`submitted_transcriptome_annotation` <- this_object$`submitted_transcriptome_annotation`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
@@ -1721,6 +1792,7 @@ TabularFile <- R6::R6Class(
       self$`superseded_by` <- ApiClient$new()$deserializeObj(this_object$`superseded_by`, "set[character]", loadNamespace("igvfclient"))
       self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
       self$`preferred_assay_titles` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_titles`, "set[character]", loadNamespace("igvfclient"))
+      self$`preferred_assay_slims` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_slims`, "set[character]", loadNamespace("igvfclient"))
       self$`workflows` <- ApiClient$new()$deserializeObj(this_object$`workflows`, "set[character]", loadNamespace("igvfclient"))
       self$`href` <- this_object$`href`
       self$`s3_uri` <- this_object$`s3_uri`
@@ -1728,6 +1800,8 @@ TabularFile <- R6::R6Class(
       self$`barcode_map_for` <- ApiClient$new()$deserializeObj(this_object$`barcode_map_for`, "set[character]", loadNamespace("igvfclient"))
       self$`enrichment_design_for` <- ApiClient$new()$deserializeObj(this_object$`enrichment_design_for`, "set[character]", loadNamespace("igvfclient"))
       self$`hashtag_barcode_map_for` <- ApiClient$new()$deserializeObj(this_object$`hashtag_barcode_map_for`, "set[character]", loadNamespace("igvfclient"))
+      self$`transcriptome_annotation` <- this_object$`transcriptome_annotation`
+      self$`assembly` <- this_object$`assembly`
       self
     },
     #' Validate JSON input with respect to TabularFile
@@ -1824,6 +1898,7 @@ TabularFile <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1886,6 +1961,7 @@ TabularFile <- R6::R6Class(
       if (!str_detect(self$`md5sum`, "[a-f\\d]{32}|[A-F\\d]{32}")) {
         invalid_fields["md5sum"] <- "Invalid value for `md5sum`, must conform to the pattern [a-f\\d]{32}|[A-F\\d]{32}."
       }
+
 
 
 
