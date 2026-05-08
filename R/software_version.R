@@ -647,7 +647,7 @@ SoftwareVersion <- R6::R6Class(
         return(FALSE)
       }
 
-      if (!str_detect(self$`version`, "^v(?!0\\.0\\.0$)([0-9]+\\.[0-9]+\\.[0-9]+(\\.[0-9]+)?|0\\.0\\.0\\.[1-9][0-9]*)$")) {
+      if (!str_detect(self$`version`, "^v(?!0\\.0\\.0$)([0-9]+[a-zA-Z0-9]*(\\.[0-9]+[a-zA-Z0-9]*){0,3})$")) {
         return(FALSE)
       }
 
@@ -680,8 +680,8 @@ SoftwareVersion <- R6::R6Class(
         invalid_fields["description"] <- "Invalid value for `description`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
 
-      if (!str_detect(self$`version`, "^v(?!0\\.0\\.0$)([0-9]+\\.[0-9]+\\.[0-9]+(\\.[0-9]+)?|0\\.0\\.0\\.[1-9][0-9]*)$")) {
-        invalid_fields["version"] <- "Invalid value for `version`, must conform to the pattern ^v(?!0\\.0\\.0$)([0-9]+\\.[0-9]+\\.[0-9]+(\\.[0-9]+)?|0\\.0\\.0\\.[1-9][0-9]*)$."
+      if (!str_detect(self$`version`, "^v(?!0\\.0\\.0$)([0-9]+[a-zA-Z0-9]*(\\.[0-9]+[a-zA-Z0-9]*){0,3})$")) {
+        invalid_fields["version"] <- "Invalid value for `version`, must conform to the pattern ^v(?!0\\.0\\.0$)([0-9]+[a-zA-Z0-9]*(\\.[0-9]+[a-zA-Z0-9]*){0,3})$."
       }
 
       invalid_fields

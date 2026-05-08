@@ -47,7 +47,7 @@ Name | Type | Description | Notes
 **onlist_method** | **character** | The method by which the onlist files will be combined by the seqspec onlist tool to generate the final barcode inclusion list for the single cell uniform pipeline. | [optional] [Enum: [no combination, product, multi]] 
 **onlist_files** | **set[character]** | The barcode region onlist files listed in associated seqspec yaml files. | [optional] 
 **barcode_replacement_file** | **character** | A file containing original barcodes and the new barcodes used to replace the original barcodes. One common application is to use in preprocessing Parse SPLiT-seq data with the single cell uniform pipeline. | [optional] 
-**library_preparation_kit** | **character** | A kit utilized in the library preparation procedure. | [optional] [Enum: [10X Chromium Single Cell 3 prime v1, 10X Chromium Single Cell 3 prime v2, 10X Chromium Single Cell 3 prime v3, 10X Chromium Single Cell 3 prime v3.1, 10X Chromium Single Cell 3 prime v4, 10X Chromium Single Cell 5 prime v1, 10X Chromium Single Cell 5 prime v2, 10X Chromium Single Cell 5 prime v3]] 
+**library_preparation_kit** | **character** | A kit utilized in the library preparation procedure. | [optional] [Enum: [10X Chromium Single Cell 3 prime v1, 10X Chromium Single Cell 3 prime v2, 10X Chromium Single Cell 3 prime v3, 10X Chromium Single Cell 3 prime v3.1, 10X Chromium Single Cell 3 prime v4, 10X Chromium Single Cell 5 prime v1, 10X Chromium Single Cell 5 prime v2, 10X Chromium Single Cell 5 prime v3, 10X Chromium Single Cell Multiome ATAC + Gene Expression]] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** |  | [optional] 

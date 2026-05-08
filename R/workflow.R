@@ -882,7 +882,7 @@ Workflow <- R6::R6Class(
       }
 
 
-      if (!str_detect(self$`workflow_version`, "^v(?!0\\.0\\.0$)([0-9]+\\.[0-9]+\\.[0-9]+(\\.[0-9]+)?|0\\.0\\.0\\.[1-9][0-9]*)$")) {
+      if (!str_detect(self$`workflow_version`, "^v(?!0\\.0\\.0$)([0-9]+[a-zA-Z0-9]*(\\.[0-9]+[a-zA-Z0-9]*){0,3})$")) {
         return(FALSE)
       }
 
@@ -932,8 +932,8 @@ Workflow <- R6::R6Class(
       }
 
 
-      if (!str_detect(self$`workflow_version`, "^v(?!0\\.0\\.0$)([0-9]+\\.[0-9]+\\.[0-9]+(\\.[0-9]+)?|0\\.0\\.0\\.[1-9][0-9]*)$")) {
-        invalid_fields["workflow_version"] <- "Invalid value for `workflow_version`, must conform to the pattern ^v(?!0\\.0\\.0$)([0-9]+\\.[0-9]+\\.[0-9]+(\\.[0-9]+)?|0\\.0\\.0\\.[1-9][0-9]*)$."
+      if (!str_detect(self$`workflow_version`, "^v(?!0\\.0\\.0$)([0-9]+[a-zA-Z0-9]*(\\.[0-9]+[a-zA-Z0-9]*){0,3})$")) {
+        invalid_fields["workflow_version"] <- "Invalid value for `workflow_version`, must conform to the pattern ^v(?!0\\.0\\.0$)([0-9]+[a-zA-Z0-9]*(\\.[0-9]+[a-zA-Z0-9]*){0,3})$."
       }
 
 

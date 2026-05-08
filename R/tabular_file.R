@@ -74,7 +74,7 @@
 #' @field enrichment_design_for Link(s) to the measurement sets using this file as a enrichment design. list(character) [optional]
 #' @field hashtag_barcode_map_for Link(s) to the auxiliary sets using this file as a hashtag barcode map. list(character) [optional]
 #' @field transcriptome_annotation The annotation and version of the reference resource. character [optional]
-#' @field assembly The assembly associated with the alignment file. character [optional]
+#' @field assembly The assembly associated with the tabular file. character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -221,7 +221,7 @@ TabularFile <- R6::R6Class(
     #' @param enrichment_design_for Link(s) to the measurement sets using this file as a enrichment design.
     #' @param hashtag_barcode_map_for Link(s) to the auxiliary sets using this file as a hashtag barcode map.
     #' @param transcriptome_annotation The annotation and version of the reference resource.
-    #' @param assembly The assembly associated with the alignment file.
+    #' @param assembly The assembly associated with the tabular file.
     #' @param ... Other optional arguments.
     #' @export
     initialize = function(`anvil_url` = NULL, `catalog_collections` = NULL, `catalog_class` = NULL, `catalog_notes` = NULL, `base_modifications` = NULL, `preview_timestamp` = NULL, `controlled_access` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `reference_files` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `checkfiles_timestamp` = NULL, `supersedes` = NULL, `catalog_adapters` = NULL, `submitted_assembly` = NULL, `submitted_transcriptome_annotation` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `superseded_by` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `barcode_map_for` = NULL, `enrichment_design_for` = NULL, `hashtag_barcode_map_for` = NULL, `transcriptome_annotation` = NULL, `assembly` = NULL, ...) {

@@ -29,7 +29,7 @@ Name | Type | Description | Notes
 **name** | **character** | The preferred viewable name of the workflow. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **workflow_repositories** | **set[character]** | Resources hosting the workflow. | [optional] 
 **standards_page** | **character** | A link to a page describing the standards for this workflow. | [optional] 
-**workflow_version** | **character** | The version of this workflow. | [optional] [Pattern: ^v(?!0\\.0\\.0$)([0-9]+\\.[0-9]+\\.[0-9]+(\\.[0-9]+)?|0\\.0\\.0\\.[1-9][0-9]*)$] 
+**workflow_version** | **character** | The version of this workflow. | [optional] [Pattern: ^v(?!0\\.0\\.0$)([0-9]+[a-zA-Z0-9]*(\\.[0-9]+[a-zA-Z0-9]*){0,3})$] 
 **uniform_pipeline** | **character** | Indicates whether the pipeline is developed by the IGVF consortium. | [optional] 
 **analysis_step_versions** | **set[character]** | The available versions of the analysis steps linked to this workflow. | [optional] 
 **@id** | **character** |  | [optional] 
