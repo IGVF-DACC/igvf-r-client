@@ -45,6 +45,7 @@
 #' @field auxiliary_sets The auxiliary sets of files produced alongside raw data from this measurement set. list(character) [optional]
 #' @field external_image_urls Links to the external site where images produced by this measurement are stored. list(character) [optional]
 #' @field targeted_genes A list of genes targeted in this assay. For example, TF ChIP-seq attempts to identify binding sites of a protein encoded by a specific gene. In CRISPR FlowFISH, the modified samples are sorted based on expression of a specific gene. This property differs from small_scale_gene_list in Construct Library Set, which describes genes targeted by the content integrated in the constructs (such as guide RNAs.) list(character) [optional]
+#' @field targeted_proteins Immunoprecipitated protein targets or controls for chromatin binding assays, such as histone post-translational modifications profiled by Histone ChIP-seq or CUT&RUN. list(character) [optional]
 #' @field functional_assay_mechanisms The biological processes measured by this functional assay. For example, a VAMP-seq (MultiSTEP) assay measures the effects of variants on protein carboxylation and secretion processes. list(character) [optional]
 #' @field onlist_method The method by which the onlist files will be combined by the seqspec onlist tool to generate the final barcode inclusion list for the single cell uniform pipeline. character [optional]
 #' @field onlist_files The barcode region onlist files listed in associated seqspec yaml files. list(character) [optional]
@@ -113,6 +114,7 @@ MeasurementSet <- R6::R6Class(
     `auxiliary_sets` = NULL,
     `external_image_urls` = NULL,
     `targeted_genes` = NULL,
+    `targeted_proteins` = NULL,
     `functional_assay_mechanisms` = NULL,
     `onlist_method` = NULL,
     `onlist_files` = NULL,
@@ -134,7 +136,7 @@ MeasurementSet <- R6::R6Class(
     `related_measurement_sets` = NULL,
     `externally_hosted` = NULL,
     `preferred_assay_slims` = NULL,
-    `_field_list` = c("is_on_anvil", "doi", "preferred_assay_titles", "preview_timestamp", "control_file_sets", "release_timestamp", "publications", "documents", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "dbxrefs", "samples", "donors", "file_set_type", "supersedes", "assay_term", "protocols", "multiome_size", "control_types", "sequencing_library_types", "enrichment_designs", "strand_specificity", "auxiliary_sets", "external_image_urls", "targeted_genes", "functional_assay_mechanisms", "onlist_method", "onlist_files", "barcode_replacement_file", "library_preparation_kit", "@id", "@type", "summary", "files", "control_for", "superseded_by", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access", "assay_titles", "assay_slims", "related_measurement_sets", "externally_hosted", "preferred_assay_slims"),
+    `_field_list` = c("is_on_anvil", "doi", "preferred_assay_titles", "preview_timestamp", "control_file_sets", "release_timestamp", "publications", "documents", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "dbxrefs", "samples", "donors", "file_set_type", "supersedes", "assay_term", "protocols", "multiome_size", "control_types", "sequencing_library_types", "enrichment_designs", "strand_specificity", "auxiliary_sets", "external_image_urls", "targeted_genes", "targeted_proteins", "functional_assay_mechanisms", "onlist_method", "onlist_files", "barcode_replacement_file", "library_preparation_kit", "@id", "@type", "summary", "files", "control_for", "superseded_by", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access", "assay_titles", "assay_slims", "related_measurement_sets", "externally_hosted", "preferred_assay_slims"),
     `additional_properties` = list(),
     #' Initialize a new MeasurementSet class.
     #'
@@ -179,6 +181,7 @@ MeasurementSet <- R6::R6Class(
     #' @param auxiliary_sets The auxiliary sets of files produced alongside raw data from this measurement set.
     #' @param external_image_urls Links to the external site where images produced by this measurement are stored.
     #' @param targeted_genes A list of genes targeted in this assay. For example, TF ChIP-seq attempts to identify binding sites of a protein encoded by a specific gene. In CRISPR FlowFISH, the modified samples are sorted based on expression of a specific gene. This property differs from small_scale_gene_list in Construct Library Set, which describes genes targeted by the content integrated in the constructs (such as guide RNAs.)
+    #' @param targeted_proteins Immunoprecipitated protein targets or controls for chromatin binding assays, such as histone post-translational modifications profiled by Histone ChIP-seq or CUT&RUN.
     #' @param functional_assay_mechanisms The biological processes measured by this functional assay. For example, a VAMP-seq (MultiSTEP) assay measures the effects of variants on protein carboxylation and secretion processes.
     #' @param onlist_method The method by which the onlist files will be combined by the seqspec onlist tool to generate the final barcode inclusion list for the single cell uniform pipeline.
     #' @param onlist_files The barcode region onlist files listed in associated seqspec yaml files.
@@ -203,7 +206,7 @@ MeasurementSet <- R6::R6Class(
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `preferred_assay_titles` = NULL, `preview_timestamp` = NULL, `control_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `assay_term` = NULL, `protocols` = NULL, `multiome_size` = NULL, `control_types` = NULL, `sequencing_library_types` = NULL, `enrichment_designs` = NULL, `strand_specificity` = NULL, `auxiliary_sets` = NULL, `external_image_urls` = NULL, `targeted_genes` = NULL, `functional_assay_mechanisms` = NULL, `onlist_method` = NULL, `onlist_files` = NULL, `barcode_replacement_file` = NULL, `library_preparation_kit` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `assay_titles` = NULL, `assay_slims` = NULL, `related_measurement_sets` = NULL, `externally_hosted` = NULL, `preferred_assay_slims` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `preferred_assay_titles` = NULL, `preview_timestamp` = NULL, `control_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `assay_term` = NULL, `protocols` = NULL, `multiome_size` = NULL, `control_types` = NULL, `sequencing_library_types` = NULL, `enrichment_designs` = NULL, `strand_specificity` = NULL, `auxiliary_sets` = NULL, `external_image_urls` = NULL, `targeted_genes` = NULL, `targeted_proteins` = NULL, `functional_assay_mechanisms` = NULL, `onlist_method` = NULL, `onlist_files` = NULL, `barcode_replacement_file` = NULL, `library_preparation_kit` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `assay_titles` = NULL, `assay_slims` = NULL, `related_measurement_sets` = NULL, `externally_hosted` = NULL, `preferred_assay_slims` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`is_on_anvil`)) {
         if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
           stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
@@ -422,6 +425,11 @@ MeasurementSet <- R6::R6Class(
         stopifnot(is.vector(`targeted_genes`), length(`targeted_genes`) != 0)
         sapply(`targeted_genes`, function(x) stopifnot(is.character(x)))
         self$`targeted_genes` <- `targeted_genes`
+      }
+      if (!is.null(`targeted_proteins`)) {
+        stopifnot(is.vector(`targeted_proteins`), length(`targeted_proteins`) != 0)
+        sapply(`targeted_proteins`, function(x) stopifnot(is.character(x)))
+        self$`targeted_proteins` <- `targeted_proteins`
       }
       if (!is.null(`functional_assay_mechanisms`)) {
         stopifnot(is.vector(`functional_assay_mechanisms`), length(`functional_assay_mechanisms`) != 0)
@@ -709,6 +717,10 @@ MeasurementSet <- R6::R6Class(
         MeasurementSetObject[["targeted_genes"]] <-
           self$`targeted_genes`
       }
+      if (!is.null(self$`targeted_proteins`)) {
+        MeasurementSetObject[["targeted_proteins"]] <-
+          self$`targeted_proteins`
+      }
       if (!is.null(self$`functional_assay_mechanisms`)) {
         MeasurementSetObject[["functional_assay_mechanisms"]] <-
           self$`functional_assay_mechanisms`
@@ -931,6 +943,9 @@ MeasurementSet <- R6::R6Class(
       }
       if (!is.null(this_object$`targeted_genes`)) {
         self$`targeted_genes` <- ApiClient$new()$deserializeObj(this_object$`targeted_genes`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`targeted_proteins`)) {
+        self$`targeted_proteins` <- ApiClient$new()$deserializeObj(this_object$`targeted_proteins`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`functional_assay_mechanisms`)) {
         self$`functional_assay_mechanisms` <- ApiClient$new()$deserializeObj(this_object$`functional_assay_mechanisms`, "set[character]", loadNamespace("igvfclient"))
@@ -1323,6 +1338,14 @@ MeasurementSet <- R6::R6Class(
           paste(unlist(lapply(self$`targeted_genes`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`targeted_proteins`)) {
+          sprintf(
+          '"targeted_proteins":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`targeted_proteins`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`functional_assay_mechanisms`)) {
           sprintf(
           '"functional_assay_mechanisms":
@@ -1557,6 +1580,7 @@ MeasurementSet <- R6::R6Class(
       self$`auxiliary_sets` <- ApiClient$new()$deserializeObj(this_object$`auxiliary_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`external_image_urls` <- ApiClient$new()$deserializeObj(this_object$`external_image_urls`, "array[character]", loadNamespace("igvfclient"))
       self$`targeted_genes` <- ApiClient$new()$deserializeObj(this_object$`targeted_genes`, "set[character]", loadNamespace("igvfclient"))
+      self$`targeted_proteins` <- ApiClient$new()$deserializeObj(this_object$`targeted_proteins`, "set[character]", loadNamespace("igvfclient"))
       self$`functional_assay_mechanisms` <- ApiClient$new()$deserializeObj(this_object$`functional_assay_mechanisms`, "set[character]", loadNamespace("igvfclient"))
       if (!is.null(this_object$`onlist_method`) && !(this_object$`onlist_method` %in% c("no combination", "product", "multi"))) {
         stop(paste("Error! \"", this_object$`onlist_method`, "\" cannot be assigned to `onlist_method`. Must be \"no combination\", \"product\", \"multi\".", sep = ""))
@@ -1676,6 +1700,7 @@ MeasurementSet <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1725,6 +1750,7 @@ MeasurementSet <- R6::R6Class(
       if (self$`multiome_size` < 1) {
         invalid_fields["multiome_size"] <- "Invalid value for `multiome_size`, must be bigger than or equal to 1."
       }
+
 
 
 

@@ -56,6 +56,7 @@ Name | Type | Description | Notes
 **functional_assay_mechanisms** | **set[character]** | The biological processes measured by the functional assays. | [optional] 
 **workflows** | **array[character]** | A workflow for computational analysis of genomic data. A workflow is made up of analysis steps. | [optional] 
 **targeted_genes** | **array[character]** | A list of genes targeted by the input measurement sets assays. | [optional] 
+**targeted_proteins** | **set[character]** | Immunoprecipitated protein targets or controls aggregated from the input measurement sets and analysis sets. | [optional] [Enum: ] 
 **enrichment_designs** | **array[character]** | The enrichment designs used by the inputs of this analysis set. | [optional] 
 
 

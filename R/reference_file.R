@@ -273,8 +273,8 @@ ReferenceFile <- R6::R6Class(
         self$`controlled_access` <- `controlled_access`
       }
       if (!is.null(`assembly`)) {
-        if (!(`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, GRCm39", "GRCh38, mm10", "C57BL_6J_T2T_v1 + GRCm39_X", "CAST_EiJ_T2T_v1", "custom"))) {
-          stop(paste("Error! \"", `assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, GRCm39\", \"GRCh38, mm10\", \"C57BL_6J_T2T_v1 + GRCm39_X\", \"CAST_EiJ_T2T_v1\", \"custom\".", sep = ""))
+        if (!(`assembly` %in% c("GRCh38", "hg19", "129S1/SvImJ - GRCm39", "A/J - GRCm39", "Cast/EiJ - GRCm39", "NOD/ShiLtJ - GRCm39", "NZO/H1LtJ - GRCm39", "PWK/PhJ - GRCm39", "WSB/EiJ - GRCm39", "GRCm39", "mm10", "GRCh38, GRCm39", "GRCh38, mm10", "C57BL_6J_T2T_v1 + GRCm39_X", "CAST_EiJ_T2T_v1", "custom"))) {
+          stop(paste("Error! \"", `assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"129S1/SvImJ - GRCm39\", \"A/J - GRCm39\", \"Cast/EiJ - GRCm39\", \"NOD/ShiLtJ - GRCm39\", \"NZO/H1LtJ - GRCm39\", \"PWK/PhJ - GRCm39\", \"WSB/EiJ - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, GRCm39\", \"GRCh38, mm10\", \"C57BL_6J_T2T_v1 + GRCm39_X\", \"CAST_EiJ_T2T_v1\", \"custom\".", sep = ""))
         }
         if (!(is.character(`assembly`) && length(`assembly`) == 1)) {
           stop(paste("Error! Invalid data for `assembly`. Must be a string:", `assembly`))
@@ -918,8 +918,8 @@ ReferenceFile <- R6::R6Class(
         self$`controlled_access` <- this_object$`controlled_access`
       }
       if (!is.null(this_object$`assembly`)) {
-        if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, GRCm39", "GRCh38, mm10", "C57BL_6J_T2T_v1 + GRCm39_X", "CAST_EiJ_T2T_v1", "custom"))) {
-          stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, GRCm39\", \"GRCh38, mm10\", \"C57BL_6J_T2T_v1 + GRCm39_X\", \"CAST_EiJ_T2T_v1\", \"custom\".", sep = ""))
+        if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "hg19", "129S1/SvImJ - GRCm39", "A/J - GRCm39", "Cast/EiJ - GRCm39", "NOD/ShiLtJ - GRCm39", "NZO/H1LtJ - GRCm39", "PWK/PhJ - GRCm39", "WSB/EiJ - GRCm39", "GRCm39", "mm10", "GRCh38, GRCm39", "GRCh38, mm10", "C57BL_6J_T2T_v1 + GRCm39_X", "CAST_EiJ_T2T_v1", "custom"))) {
+          stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"129S1/SvImJ - GRCm39\", \"A/J - GRCm39\", \"Cast/EiJ - GRCm39\", \"NOD/ShiLtJ - GRCm39\", \"NZO/H1LtJ - GRCm39\", \"PWK/PhJ - GRCm39\", \"WSB/EiJ - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, GRCm39\", \"GRCh38, mm10\", \"C57BL_6J_T2T_v1 + GRCm39_X\", \"CAST_EiJ_T2T_v1\", \"custom\".", sep = ""))
         }
         self$`assembly` <- this_object$`assembly`
       }
@@ -1663,8 +1663,8 @@ ReferenceFile <- R6::R6Class(
       self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`source_url` <- this_object$`source_url`
       self$`controlled_access` <- this_object$`controlled_access`
-      if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, GRCm39", "GRCh38, mm10", "C57BL_6J_T2T_v1 + GRCm39_X", "CAST_EiJ_T2T_v1", "custom"))) {
-        stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, GRCm39\", \"GRCh38, mm10\", \"C57BL_6J_T2T_v1 + GRCm39_X\", \"CAST_EiJ_T2T_v1\", \"custom\".", sep = ""))
+      if (!is.null(this_object$`assembly`) && !(this_object$`assembly` %in% c("GRCh38", "hg19", "129S1/SvImJ - GRCm39", "A/J - GRCm39", "Cast/EiJ - GRCm39", "NOD/ShiLtJ - GRCm39", "NZO/H1LtJ - GRCm39", "PWK/PhJ - GRCm39", "WSB/EiJ - GRCm39", "GRCm39", "mm10", "GRCh38, GRCm39", "GRCh38, mm10", "C57BL_6J_T2T_v1 + GRCm39_X", "CAST_EiJ_T2T_v1", "custom"))) {
+        stop(paste("Error! \"", this_object$`assembly`, "\" cannot be assigned to `assembly`. Must be \"GRCh38\", \"hg19\", \"129S1/SvImJ - GRCm39\", \"A/J - GRCm39\", \"Cast/EiJ - GRCm39\", \"NOD/ShiLtJ - GRCm39\", \"NZO/H1LtJ - GRCm39\", \"PWK/PhJ - GRCm39\", \"WSB/EiJ - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, GRCm39\", \"GRCh38, mm10\", \"C57BL_6J_T2T_v1 + GRCm39_X\", \"CAST_EiJ_T2T_v1\", \"custom\".", sep = ""))
       }
       self$`assembly` <- this_object$`assembly`
       self$`release_timestamp` <- this_object$`release_timestamp`

@@ -58,6 +58,7 @@
 #' @field functional_assay_mechanisms The biological processes measured by the functional assays. list(character) [optional]
 #' @field workflows A workflow for computational analysis of genomic data. A workflow is made up of analysis steps. list(character) [optional]
 #' @field targeted_genes A list of genes targeted by the input measurement sets assays. list(character) [optional]
+#' @field targeted_proteins Immunoprecipitated protein targets or controls aggregated from the input measurement sets and analysis sets. list(character) [optional]
 #' @field enrichment_designs The enrichment designs used by the inputs of this analysis set. list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -116,6 +117,7 @@ AnalysisSet <- R6::R6Class(
     `functional_assay_mechanisms` = NULL,
     `workflows` = NULL,
     `targeted_genes` = NULL,
+    `targeted_proteins` = NULL,
     `enrichment_designs` = NULL,
     #' Initialize a new AnalysisSet class.
     #'
@@ -173,10 +175,11 @@ AnalysisSet <- R6::R6Class(
     #' @param functional_assay_mechanisms The biological processes measured by the functional assays.
     #' @param workflows A workflow for computational analysis of genomic data. A workflow is made up of analysis steps.
     #' @param targeted_genes A list of genes targeted by the input measurement sets assays.
+    #' @param targeted_proteins Immunoprecipitated protein targets or controls aggregated from the input measurement sets and analysis sets.
     #' @param enrichment_designs The enrichment designs used by the inputs of this analysis set.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `preview_timestamp` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `external_image_data_url` = NULL, `demultiplexed_samples` = NULL, `uniform_pipeline_status` = NULL, `pipeline_parameters` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `assay_titles` = NULL, `assay_slims` = NULL, `protocols` = NULL, `sample_summary` = NULL, `functional_assay_mechanisms` = NULL, `workflows` = NULL, `targeted_genes` = NULL, `enrichment_designs` = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `preview_timestamp` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `external_image_data_url` = NULL, `demultiplexed_samples` = NULL, `uniform_pipeline_status` = NULL, `pipeline_parameters` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `assay_titles` = NULL, `assay_slims` = NULL, `protocols` = NULL, `sample_summary` = NULL, `functional_assay_mechanisms` = NULL, `workflows` = NULL, `targeted_genes` = NULL, `targeted_proteins` = NULL, `enrichment_designs` = NULL, ...) {
       if (!is.null(`is_on_anvil`)) {
         if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
           stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
@@ -465,6 +468,11 @@ AnalysisSet <- R6::R6Class(
         sapply(`targeted_genes`, function(x) stopifnot(is.character(x)))
         self$`targeted_genes` <- `targeted_genes`
       }
+      if (!is.null(`targeted_proteins`)) {
+        stopifnot(is.vector(`targeted_proteins`), length(`targeted_proteins`) != 0)
+        sapply(`targeted_proteins`, function(x) stopifnot(is.character(x)))
+        self$`targeted_proteins` <- `targeted_proteins`
+      }
       if (!is.null(`enrichment_designs`)) {
         stopifnot(is.vector(`enrichment_designs`), length(`enrichment_designs`) != 0)
         sapply(`enrichment_designs`, function(x) stopifnot(is.character(x)))
@@ -684,6 +692,10 @@ AnalysisSet <- R6::R6Class(
         AnalysisSetObject[["targeted_genes"]] <-
           self$`targeted_genes`
       }
+      if (!is.null(self$`targeted_proteins`)) {
+        AnalysisSetObject[["targeted_proteins"]] <-
+          self$`targeted_proteins`
+      }
       if (!is.null(self$`enrichment_designs`)) {
         AnalysisSetObject[["enrichment_designs"]] <-
           self$`enrichment_designs`
@@ -861,6 +873,9 @@ AnalysisSet <- R6::R6Class(
       }
       if (!is.null(this_object$`targeted_genes`)) {
         self$`targeted_genes` <- ApiClient$new()$deserializeObj(this_object$`targeted_genes`, "array[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`targeted_proteins`)) {
+        self$`targeted_proteins` <- ApiClient$new()$deserializeObj(this_object$`targeted_proteins`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`enrichment_designs`)) {
         self$`enrichment_designs` <- ApiClient$new()$deserializeObj(this_object$`enrichment_designs`, "array[character]", loadNamespace("igvfclient"))
@@ -1284,6 +1299,14 @@ AnalysisSet <- R6::R6Class(
           paste(unlist(lapply(self$`targeted_genes`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`targeted_proteins`)) {
+          sprintf(
+          '"targeted_proteins":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`targeted_proteins`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`enrichment_designs`)) {
           sprintf(
           '"enrichment_designs":
@@ -1366,6 +1389,7 @@ AnalysisSet <- R6::R6Class(
       self$`functional_assay_mechanisms` <- ApiClient$new()$deserializeObj(this_object$`functional_assay_mechanisms`, "set[character]", loadNamespace("igvfclient"))
       self$`workflows` <- ApiClient$new()$deserializeObj(this_object$`workflows`, "array[character]", loadNamespace("igvfclient"))
       self$`targeted_genes` <- ApiClient$new()$deserializeObj(this_object$`targeted_genes`, "array[character]", loadNamespace("igvfclient"))
+      self$`targeted_proteins` <- ApiClient$new()$deserializeObj(this_object$`targeted_proteins`, "set[character]", loadNamespace("igvfclient"))
       self$`enrichment_designs` <- ApiClient$new()$deserializeObj(this_object$`enrichment_designs`, "array[character]", loadNamespace("igvfclient"))
       self
     },
@@ -1449,6 +1473,7 @@ AnalysisSet <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1497,6 +1522,7 @@ AnalysisSet <- R6::R6Class(
       if (!str_detect(self$`external_image_data_url`, "^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$")) {
         invalid_fields["external_image_data_url"] <- "Invalid value for `external_image_data_url`, must conform to the pattern ^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$."
       }
+
 
 
 
