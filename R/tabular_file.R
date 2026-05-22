@@ -275,8 +275,8 @@ TabularFile <- R6::R6Class(
         self$`release_timestamp` <- `release_timestamp`
       }
       if (!is.null(`file_format_type`)) {
-        if (!(`file_format_type` %in% c("bed12", "bed3", "bed3+", "bed5", "bed6", "bed6+", "bed9", "bed9+", "mpra_starr", "mpra_element", "mpra_variant"))) {
-          stop(paste("Error! \"", `file_format_type`, "\" cannot be assigned to `file_format_type`. Must be \"bed12\", \"bed3\", \"bed3+\", \"bed5\", \"bed6\", \"bed6+\", \"bed9\", \"bed9+\", \"mpra_starr\", \"mpra_element\", \"mpra_variant\".", sep = ""))
+        if (!(`file_format_type` %in% c("bed12", "bed3", "bed3+", "bed5", "bed6", "bed6+", "bed9", "bed9+", "mpra_element", "mpra_variant"))) {
+          stop(paste("Error! \"", `file_format_type`, "\" cannot be assigned to `file_format_type`. Must be \"bed12\", \"bed3\", \"bed3+\", \"bed5\", \"bed6\", \"bed6+\", \"bed9\", \"bed9+\", \"mpra_element\", \"mpra_variant\".", sep = ""))
         }
         if (!(is.character(`file_format_type`) && length(`file_format_type`) == 1)) {
           stop(paste("Error! Invalid data for `file_format_type`. Must be a string:", `file_format_type`))
@@ -947,8 +947,8 @@ TabularFile <- R6::R6Class(
         self$`release_timestamp` <- this_object$`release_timestamp`
       }
       if (!is.null(this_object$`file_format_type`)) {
-        if (!is.null(this_object$`file_format_type`) && !(this_object$`file_format_type` %in% c("bed12", "bed3", "bed3+", "bed5", "bed6", "bed6+", "bed9", "bed9+", "mpra_starr", "mpra_element", "mpra_variant"))) {
-          stop(paste("Error! \"", this_object$`file_format_type`, "\" cannot be assigned to `file_format_type`. Must be \"bed12\", \"bed3\", \"bed3+\", \"bed5\", \"bed6\", \"bed6+\", \"bed9\", \"bed9+\", \"mpra_starr\", \"mpra_element\", \"mpra_variant\".", sep = ""))
+        if (!is.null(this_object$`file_format_type`) && !(this_object$`file_format_type` %in% c("bed12", "bed3", "bed3+", "bed5", "bed6", "bed6+", "bed9", "bed9+", "mpra_element", "mpra_variant"))) {
+          stop(paste("Error! \"", this_object$`file_format_type`, "\" cannot be assigned to `file_format_type`. Must be \"bed12\", \"bed3\", \"bed3+\", \"bed5\", \"bed6\", \"bed6+\", \"bed9\", \"bed9+\", \"mpra_element\", \"mpra_variant\".", sep = ""))
         }
         self$`file_format_type` <- this_object$`file_format_type`
       }
@@ -1724,8 +1724,8 @@ TabularFile <- R6::R6Class(
       self$`preview_timestamp` <- this_object$`preview_timestamp`
       self$`controlled_access` <- this_object$`controlled_access`
       self$`release_timestamp` <- this_object$`release_timestamp`
-      if (!is.null(this_object$`file_format_type`) && !(this_object$`file_format_type` %in% c("bed12", "bed3", "bed3+", "bed5", "bed6", "bed6+", "bed9", "bed9+", "mpra_starr", "mpra_element", "mpra_variant"))) {
-        stop(paste("Error! \"", this_object$`file_format_type`, "\" cannot be assigned to `file_format_type`. Must be \"bed12\", \"bed3\", \"bed3+\", \"bed5\", \"bed6\", \"bed6+\", \"bed9\", \"bed9+\", \"mpra_starr\", \"mpra_element\", \"mpra_variant\".", sep = ""))
+      if (!is.null(this_object$`file_format_type`) && !(this_object$`file_format_type` %in% c("bed12", "bed3", "bed3+", "bed5", "bed6", "bed6+", "bed9", "bed9+", "mpra_element", "mpra_variant"))) {
+        stop(paste("Error! \"", this_object$`file_format_type`, "\" cannot be assigned to `file_format_type`. Must be \"bed12\", \"bed3\", \"bed3+\", \"bed5\", \"bed6\", \"bed6+\", \"bed9\", \"bed9+\", \"mpra_element\", \"mpra_variant\".", sep = ""))
       }
       self$`file_format_type` <- this_object$`file_format_type`
       self$`reference_files` <- ApiClient$new()$deserializeObj(this_object$`reference_files`, "set[character]", loadNamespace("igvfclient"))

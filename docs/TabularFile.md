@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **preview_timestamp** | **character** | The date the object was previewed. | [optional] 
 **controlled_access** | **character** | Boolean value, indicating the file being controlled access, if true. | [optional] 
 **release_timestamp** | **character** | The date the object was released. | [optional] 
-**file_format_type** | **character** | The subtype of bed files. | [optional] [Enum: [bed12, bed3, bed3+, bed5, bed6, bed6+, bed9, bed9+, mpra_starr, mpra_element, mpra_variant]] 
+**file_format_type** | **character** | The subtype of bed files. | [optional] [Enum: [bed12, bed3, bed3+, bed5, bed6, bed6+, bed9, bed9+, mpra_element, mpra_variant]] 
 **reference_files** | **set[character]** | Link to the reference files used to generate this file. | [optional] 
 **filtered** | **character** | Indicates whether the file has gone through some filtering step, for example, removal of PCR duplicates or filtering based on significance calling. | [optional] 
 **documents** | **set[character]** | Documents that provide additional information (not data file). | [optional] 

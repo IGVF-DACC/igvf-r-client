@@ -66,7 +66,6 @@
 #' @field href The download path to obtain file. character [optional]
 #' @field s3_uri The S3 URI of public file object. character [optional]
 #' @field upload_credentials The upload credentials for S3 to submit the file content. object [optional]
-#' @field content_summary A summary of the data in the matrix file. character [optional]
 #' @field transcriptome_annotation The annotation and version of the reference resource. character [optional]
 #' @field assembly The assembly associated with the matrix file. character [optional]
 #' @importFrom R6 R6Class
@@ -134,7 +133,6 @@ MatrixFile <- R6::R6Class(
     `href` = NULL,
     `s3_uri` = NULL,
     `upload_credentials` = NULL,
-    `content_summary` = NULL,
     `transcriptome_annotation` = NULL,
     `assembly` = NULL,
     #' Initialize a new MatrixFile class.
@@ -201,12 +199,11 @@ MatrixFile <- R6::R6Class(
     #' @param href The download path to obtain file.
     #' @param s3_uri The S3 URI of public file object.
     #' @param upload_credentials The upload credentials for S3 to submit the file content.
-    #' @param content_summary A summary of the data in the matrix file.
     #' @param transcriptome_annotation The annotation and version of the reference resource.
     #' @param assembly The assembly associated with the matrix file.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`anvil_url` = NULL, `catalog_collections` = NULL, `catalog_class` = NULL, `catalog_notes` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `reference_files` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `checkfiles_timestamp` = NULL, `supersedes` = NULL, `principal_dimension` = NULL, `secondary_dimensions` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `superseded_by` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `content_summary` = NULL, `transcriptome_annotation` = NULL, `assembly` = NULL, ...) {
+    initialize = function(`anvil_url` = NULL, `catalog_collections` = NULL, `catalog_class` = NULL, `catalog_notes` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `reference_files` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `checkfiles_timestamp` = NULL, `supersedes` = NULL, `principal_dimension` = NULL, `secondary_dimensions` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `superseded_by` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `transcriptome_annotation` = NULL, `assembly` = NULL, ...) {
       if (!is.null(`anvil_url`)) {
         if (!(is.character(`anvil_url`) && length(`anvil_url`) == 1)) {
           stop(paste("Error! Invalid data for `anvil_url`. Must be a string:", `anvil_url`))
@@ -551,12 +548,6 @@ MatrixFile <- R6::R6Class(
       if (!is.null(`upload_credentials`)) {
         self$`upload_credentials` <- `upload_credentials`
       }
-      if (!is.null(`content_summary`)) {
-        if (!(is.character(`content_summary`) && length(`content_summary`) == 1)) {
-          stop(paste("Error! Invalid data for `content_summary`. Must be a string:", `content_summary`))
-        }
-        self$`content_summary` <- `content_summary`
-      }
       if (!is.null(`transcriptome_annotation`)) {
         if (!(is.character(`transcriptome_annotation`) && length(`transcriptome_annotation`) == 1)) {
           stop(paste("Error! Invalid data for `transcriptome_annotation`. Must be a string:", `transcriptome_annotation`))
@@ -815,10 +806,6 @@ MatrixFile <- R6::R6Class(
         MatrixFileObject[["upload_credentials"]] <-
           self$`upload_credentials`
       }
-      if (!is.null(self$`content_summary`)) {
-        MatrixFileObject[["content_summary"]] <-
-          self$`content_summary`
-      }
       if (!is.null(self$`transcriptome_annotation`)) {
         MatrixFileObject[["transcriptome_annotation"]] <-
           self$`transcriptome_annotation`
@@ -1030,9 +1017,6 @@ MatrixFile <- R6::R6Class(
       }
       if (!is.null(this_object$`upload_credentials`)) {
         self$`upload_credentials` <- this_object$`upload_credentials`
-      }
-      if (!is.null(this_object$`content_summary`)) {
-        self$`content_summary` <- this_object$`content_summary`
       }
       if (!is.null(this_object$`transcriptome_annotation`)) {
         self$`transcriptome_annotation` <- this_object$`transcriptome_annotation`
@@ -1523,14 +1507,6 @@ MatrixFile <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`upload_credentials`, perl=TRUE)
           )
         },
-        if (!is.null(self$`content_summary`)) {
-          sprintf(
-          '"content_summary":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`content_summary`, perl=TRUE)
-          )
-        },
         if (!is.null(self$`transcriptome_annotation`)) {
           sprintf(
           '"transcriptome_annotation":
@@ -1635,7 +1611,6 @@ MatrixFile <- R6::R6Class(
       self$`href` <- this_object$`href`
       self$`s3_uri` <- this_object$`s3_uri`
       self$`upload_credentials` <- this_object$`upload_credentials`
-      self$`content_summary` <- this_object$`content_summary`
       self$`transcriptome_annotation` <- this_object$`transcriptome_annotation`
       self$`assembly` <- this_object$`assembly`
       self

@@ -288,8 +288,8 @@ ReferenceFile <- R6::R6Class(
         self$`release_timestamp` <- `release_timestamp`
       }
       if (!is.null(`file_format_type`)) {
-        if (!(`file_format_type` %in% c("bed12", "bed3", "bed3+", "bed5", "bed6", "bed6+", "bed9", "bed9+", "mpra_starr", "mpra_element", "mpra_variant"))) {
-          stop(paste("Error! \"", `file_format_type`, "\" cannot be assigned to `file_format_type`. Must be \"bed12\", \"bed3\", \"bed3+\", \"bed5\", \"bed6\", \"bed6+\", \"bed9\", \"bed9+\", \"mpra_starr\", \"mpra_element\", \"mpra_variant\".", sep = ""))
+        if (!(`file_format_type` %in% c("bed12", "bed3", "bed3+", "bed5", "bed6", "bed6+", "bed9", "bed9+", "mpra_element", "mpra_variant"))) {
+          stop(paste("Error! \"", `file_format_type`, "\" cannot be assigned to `file_format_type`. Must be \"bed12\", \"bed3\", \"bed3+\", \"bed5\", \"bed6\", \"bed6+\", \"bed9\", \"bed9+\", \"mpra_element\", \"mpra_variant\".", sep = ""))
         }
         if (!(is.character(`file_format_type`) && length(`file_format_type`) == 1)) {
           stop(paste("Error! Invalid data for `file_format_type`. Must be a string:", `file_format_type`))
@@ -927,8 +927,8 @@ ReferenceFile <- R6::R6Class(
         self$`release_timestamp` <- this_object$`release_timestamp`
       }
       if (!is.null(this_object$`file_format_type`)) {
-        if (!is.null(this_object$`file_format_type`) && !(this_object$`file_format_type` %in% c("bed12", "bed3", "bed3+", "bed5", "bed6", "bed6+", "bed9", "bed9+", "mpra_starr", "mpra_element", "mpra_variant"))) {
-          stop(paste("Error! \"", this_object$`file_format_type`, "\" cannot be assigned to `file_format_type`. Must be \"bed12\", \"bed3\", \"bed3+\", \"bed5\", \"bed6\", \"bed6+\", \"bed9\", \"bed9+\", \"mpra_starr\", \"mpra_element\", \"mpra_variant\".", sep = ""))
+        if (!is.null(this_object$`file_format_type`) && !(this_object$`file_format_type` %in% c("bed12", "bed3", "bed3+", "bed5", "bed6", "bed6+", "bed9", "bed9+", "mpra_element", "mpra_variant"))) {
+          stop(paste("Error! \"", this_object$`file_format_type`, "\" cannot be assigned to `file_format_type`. Must be \"bed12\", \"bed3\", \"bed3+\", \"bed5\", \"bed6\", \"bed6+\", \"bed9\", \"bed9+\", \"mpra_element\", \"mpra_variant\".", sep = ""))
         }
         self$`file_format_type` <- this_object$`file_format_type`
       }
@@ -1668,8 +1668,8 @@ ReferenceFile <- R6::R6Class(
       }
       self$`assembly` <- this_object$`assembly`
       self$`release_timestamp` <- this_object$`release_timestamp`
-      if (!is.null(this_object$`file_format_type`) && !(this_object$`file_format_type` %in% c("bed12", "bed3", "bed3+", "bed5", "bed6", "bed6+", "bed9", "bed9+", "mpra_starr", "mpra_element", "mpra_variant"))) {
-        stop(paste("Error! \"", this_object$`file_format_type`, "\" cannot be assigned to `file_format_type`. Must be \"bed12\", \"bed3\", \"bed3+\", \"bed5\", \"bed6\", \"bed6+\", \"bed9\", \"bed9+\", \"mpra_starr\", \"mpra_element\", \"mpra_variant\".", sep = ""))
+      if (!is.null(this_object$`file_format_type`) && !(this_object$`file_format_type` %in% c("bed12", "bed3", "bed3+", "bed5", "bed6", "bed6+", "bed9", "bed9+", "mpra_element", "mpra_variant"))) {
+        stop(paste("Error! \"", this_object$`file_format_type`, "\" cannot be assigned to `file_format_type`. Must be \"bed12\", \"bed3\", \"bed3+\", \"bed5\", \"bed6\", \"bed6+\", \"bed9\", \"bed9+\", \"mpra_element\", \"mpra_variant\".", sep = ""))
       }
       self$`file_format_type` <- this_object$`file_format_type`
       if (!is.null(this_object$`transcriptome_annotation`) && !(this_object$`transcriptome_annotation` %in% c("GENCODE 22", "GENCODE 24", "GENCODE 28", "GENCODE 32", "GENCODE 38", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M17", "GENCODE M25", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36", "GENCODE 32, GENCODE M23", "GENCODE 41, GENCODE M25", "GENCODE 44, GENCODE M33", "CAST_EiJ_T2T_v1_TA1", "C57BL_6J_T2T_v1_TA1 + M36_X"))) {
