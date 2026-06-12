@@ -66,5 +66,6 @@ Name | Type | Description | Notes
 **biomarkers** | **set[character]** | The biomarkers of the samples included in this multiplexed sample. | [optional] 
 **sources** | **set[character]** | The sources of the samples included in this multiplexed sample. | [optional] 
 **classifications** | **set[character]** | The general category of this type of sample. | [optional] 
+**targeted_sample_terms** | **set[character]** | The targeted sample terms of subsamples that are a part of this multiplexed sample. | [optional] 
 
 

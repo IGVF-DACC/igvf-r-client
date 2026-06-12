@@ -68,6 +68,7 @@
 #' @field biomarkers The biomarkers of the samples included in this multiplexed sample. list(character) [optional]
 #' @field sources The sources of the samples included in this multiplexed sample. list(character) [optional]
 #' @field classifications The general category of this type of sample. list(character) [optional]
+#' @field targeted_sample_terms The targeted sample terms of subsamples that are a part of this multiplexed sample. list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -135,6 +136,7 @@ MultiplexedSample <- R6::R6Class(
     `biomarkers` = NULL,
     `sources` = NULL,
     `classifications` = NULL,
+    `targeted_sample_terms` = NULL,
     #' Initialize a new MultiplexedSample class.
     #'
     #' @description
@@ -201,9 +203,10 @@ MultiplexedSample <- R6::R6Class(
     #' @param biomarkers The biomarkers of the samples included in this multiplexed sample.
     #' @param sources The sources of the samples included in this multiplexed sample.
     #' @param classifications The general category of this type of sample.
+    #' @param targeted_sample_terms The targeted sample terms of subsamples that are a part of this multiplexed sample.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`is_on_anvil` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `url` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `part_of` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `construct_delivery_methods` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `selection_conditions` = NULL, `multiplexed_samples` = NULL, `multiplexing_methods` = NULL, `cellular_sub_pool` = NULL, `barcode_map` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `parts` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `demultiplexed_to` = NULL, `sample_terms` = NULL, `taxa` = NULL, `phenotypic_features` = NULL, `treatments` = NULL, `modifications` = NULL, `donors` = NULL, `biomarkers` = NULL, `sources` = NULL, `classifications` = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `url` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `part_of` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `construct_delivery_methods` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `selection_conditions` = NULL, `multiplexed_samples` = NULL, `multiplexing_methods` = NULL, `cellular_sub_pool` = NULL, `barcode_map` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `parts` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `demultiplexed_to` = NULL, `sample_terms` = NULL, `taxa` = NULL, `phenotypic_features` = NULL, `treatments` = NULL, `modifications` = NULL, `donors` = NULL, `biomarkers` = NULL, `sources` = NULL, `classifications` = NULL, `targeted_sample_terms` = NULL, ...) {
       if (!is.null(`is_on_anvil`)) {
         if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
           stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
@@ -543,6 +546,11 @@ MultiplexedSample <- R6::R6Class(
         sapply(`classifications`, function(x) stopifnot(is.character(x)))
         self$`classifications` <- `classifications`
       }
+      if (!is.null(`targeted_sample_terms`)) {
+        stopifnot(is.vector(`targeted_sample_terms`), length(`targeted_sample_terms`) != 0)
+        sapply(`targeted_sample_terms`, function(x) stopifnot(is.character(x)))
+        self$`targeted_sample_terms` <- `targeted_sample_terms`
+      }
     },
     #' To JSON string
     #'
@@ -797,6 +805,10 @@ MultiplexedSample <- R6::R6Class(
         MultiplexedSampleObject[["classifications"]] <-
           self$`classifications`
       }
+      if (!is.null(self$`targeted_sample_terms`)) {
+        MultiplexedSampleObject[["targeted_sample_terms"]] <-
+          self$`targeted_sample_terms`
+      }
       MultiplexedSampleObject
     },
     #' Deserialize JSON string into an instance of MultiplexedSample
@@ -1003,6 +1015,9 @@ MultiplexedSample <- R6::R6Class(
       }
       if (!is.null(this_object$`classifications`)) {
         self$`classifications` <- ApiClient$new()$deserializeObj(this_object$`classifications`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`targeted_sample_terms`)) {
+        self$`targeted_sample_terms` <- ApiClient$new()$deserializeObj(this_object$`targeted_sample_terms`, "set[character]", loadNamespace("igvfclient"))
       }
       self
     },
@@ -1502,6 +1517,14 @@ MultiplexedSample <- R6::R6Class(
           ',
           paste(unlist(lapply(self$`classifications`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
+        },
+        if (!is.null(self$`targeted_sample_terms`)) {
+          sprintf(
+          '"targeted_sample_terms":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`targeted_sample_terms`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -1590,6 +1613,7 @@ MultiplexedSample <- R6::R6Class(
       self$`biomarkers` <- ApiClient$new()$deserializeObj(this_object$`biomarkers`, "set[character]", loadNamespace("igvfclient"))
       self$`sources` <- ApiClient$new()$deserializeObj(this_object$`sources`, "set[character]", loadNamespace("igvfclient"))
       self$`classifications` <- ApiClient$new()$deserializeObj(this_object$`classifications`, "set[character]", loadNamespace("igvfclient"))
+      self$`targeted_sample_terms` <- ApiClient$new()$deserializeObj(this_object$`targeted_sample_terms`, "set[character]", loadNamespace("igvfclient"))
       self
     },
     #' Validate JSON input with respect to MultiplexedSample
@@ -1677,6 +1701,7 @@ MultiplexedSample <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1728,6 +1753,7 @@ MultiplexedSample <- R6::R6Class(
       if (!str_detect(self$`cellular_sub_pool`, "^[a-zA-Z\\d_.()-]+(?:\\s[a-zA-Z\\d_.()-]+)*$")) {
         invalid_fields["cellular_sub_pool"] <- "Invalid value for `cellular_sub_pool`, must conform to the pattern ^[a-zA-Z\\d_.()-]+(?:\\s[a-zA-Z\\d_.()-]+)*$."
       }
+
 
 
 

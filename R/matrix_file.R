@@ -48,8 +48,6 @@
 #' @field checkfiles_version The Checkfiles GitHub version release the file was validated with. character [optional]
 #' @field checkfiles_timestamp The date and time the file object was last checked by the Checkfiles script. character [optional]
 #' @field supersedes The file(s) that this file supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
-#' @field principal_dimension The principal dimension of the matrix. character [optional]
-#' @field secondary_dimensions The secondary, tertiary....n levels of dimensions of the matrix. list(character) [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the matrix file. character [optional]
@@ -115,8 +113,6 @@ MatrixFile <- R6::R6Class(
     `checkfiles_version` = NULL,
     `checkfiles_timestamp` = NULL,
     `supersedes` = NULL,
-    `principal_dimension` = NULL,
-    `secondary_dimensions` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -181,8 +177,6 @@ MatrixFile <- R6::R6Class(
     #' @param checkfiles_version The Checkfiles GitHub version release the file was validated with.
     #' @param checkfiles_timestamp The date and time the file object was last checked by the Checkfiles script.
     #' @param supersedes The file(s) that this file supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
-    #' @param principal_dimension The principal dimension of the matrix.
-    #' @param secondary_dimensions The secondary, tertiary....n levels of dimensions of the matrix.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the matrix file.
@@ -203,7 +197,7 @@ MatrixFile <- R6::R6Class(
     #' @param assembly The assembly associated with the matrix file.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`anvil_url` = NULL, `catalog_collections` = NULL, `catalog_class` = NULL, `catalog_notes` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `reference_files` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `checkfiles_timestamp` = NULL, `supersedes` = NULL, `principal_dimension` = NULL, `secondary_dimensions` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `superseded_by` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `transcriptome_annotation` = NULL, `assembly` = NULL, ...) {
+    initialize = function(`anvil_url` = NULL, `catalog_collections` = NULL, `catalog_class` = NULL, `catalog_notes` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `reference_files` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `checkfiles_timestamp` = NULL, `supersedes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `superseded_by` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `transcriptome_annotation` = NULL, `assembly` = NULL, ...) {
       if (!is.null(`anvil_url`)) {
         if (!(is.character(`anvil_url`) && length(`anvil_url`) == 1)) {
           stop(paste("Error! Invalid data for `anvil_url`. Must be a string:", `anvil_url`))
@@ -451,20 +445,6 @@ MatrixFile <- R6::R6Class(
         stopifnot(is.vector(`supersedes`), length(`supersedes`) != 0)
         sapply(`supersedes`, function(x) stopifnot(is.character(x)))
         self$`supersedes` <- `supersedes`
-      }
-      if (!is.null(`principal_dimension`)) {
-        if (!(`principal_dimension` %in% c("cell", "CRISPR guide capture", "fragment", "gene", "mitochondrial variants", "time", "treatment", "variant", "genomic position", "spot barcode"))) {
-          stop(paste("Error! \"", `principal_dimension`, "\" cannot be assigned to `principal_dimension`. Must be \"cell\", \"CRISPR guide capture\", \"fragment\", \"gene\", \"mitochondrial variants\", \"time\", \"treatment\", \"variant\", \"genomic position\", \"spot barcode\".", sep = ""))
-        }
-        if (!(is.character(`principal_dimension`) && length(`principal_dimension`) == 1)) {
-          stop(paste("Error! Invalid data for `principal_dimension`. Must be a string:", `principal_dimension`))
-        }
-        self$`principal_dimension` <- `principal_dimension`
-      }
-      if (!is.null(`secondary_dimensions`)) {
-        stopifnot(is.vector(`secondary_dimensions`), length(`secondary_dimensions`) != 0)
-        sapply(`secondary_dimensions`, function(x) stopifnot(is.character(x)))
-        self$`secondary_dimensions` <- `secondary_dimensions`
       }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
@@ -734,14 +714,6 @@ MatrixFile <- R6::R6Class(
         MatrixFileObject[["supersedes"]] <-
           self$`supersedes`
       }
-      if (!is.null(self$`principal_dimension`)) {
-        MatrixFileObject[["principal_dimension"]] <-
-          self$`principal_dimension`
-      }
-      if (!is.null(self$`secondary_dimensions`)) {
-        MatrixFileObject[["secondary_dimensions"]] <-
-          self$`secondary_dimensions`
-      }
       if (!is.null(self$`@id`)) {
         MatrixFileObject[["@id"]] <-
           self$`@id`
@@ -960,15 +932,6 @@ MatrixFile <- R6::R6Class(
       }
       if (!is.null(this_object$`supersedes`)) {
         self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
-      }
-      if (!is.null(this_object$`principal_dimension`)) {
-        if (!is.null(this_object$`principal_dimension`) && !(this_object$`principal_dimension` %in% c("cell", "CRISPR guide capture", "fragment", "gene", "mitochondrial variants", "time", "treatment", "variant", "genomic position", "spot barcode"))) {
-          stop(paste("Error! \"", this_object$`principal_dimension`, "\" cannot be assigned to `principal_dimension`. Must be \"cell\", \"CRISPR guide capture\", \"fragment\", \"gene\", \"mitochondrial variants\", \"time\", \"treatment\", \"variant\", \"genomic position\", \"spot barcode\".", sep = ""))
-        }
-        self$`principal_dimension` <- this_object$`principal_dimension`
-      }
-      if (!is.null(this_object$`secondary_dimensions`)) {
-        self$`secondary_dimensions` <- ApiClient$new()$deserializeObj(this_object$`secondary_dimensions`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
@@ -1363,22 +1326,6 @@ MatrixFile <- R6::R6Class(
           paste(unlist(lapply(self$`supersedes`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
-        if (!is.null(self$`principal_dimension`)) {
-          sprintf(
-          '"principal_dimension":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`principal_dimension`, perl=TRUE)
-          )
-        },
-        if (!is.null(self$`secondary_dimensions`)) {
-          sprintf(
-          '"secondary_dimensions":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`secondary_dimensions`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -1590,11 +1537,6 @@ MatrixFile <- R6::R6Class(
       self$`checkfiles_version` <- this_object$`checkfiles_version`
       self$`checkfiles_timestamp` <- this_object$`checkfiles_timestamp`
       self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
-      if (!is.null(this_object$`principal_dimension`) && !(this_object$`principal_dimension` %in% c("cell", "CRISPR guide capture", "fragment", "gene", "mitochondrial variants", "time", "treatment", "variant", "genomic position", "spot barcode"))) {
-        stop(paste("Error! \"", this_object$`principal_dimension`, "\" cannot be assigned to `principal_dimension`. Must be \"cell\", \"CRISPR guide capture\", \"fragment\", \"gene\", \"mitochondrial variants\", \"time\", \"treatment\", \"variant\", \"genomic position\", \"spot barcode\".", sep = ""))
-      }
-      self$`principal_dimension` <- this_object$`principal_dimension`
-      self$`secondary_dimensions` <- ApiClient$new()$deserializeObj(this_object$`secondary_dimensions`, "set[character]", loadNamespace("igvfclient"))
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
@@ -1705,7 +1647,6 @@ MatrixFile <- R6::R6Class(
 
 
 
-
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1767,7 +1708,6 @@ MatrixFile <- R6::R6Class(
       if (!str_detect(self$`md5sum`, "[a-f\\d]{32}|[A-F\\d]{32}")) {
         invalid_fields["md5sum"] <- "Invalid value for `md5sum`, must conform to the pattern [a-f\\d]{32}|[A-F\\d]{32}."
       }
-
 
 
 

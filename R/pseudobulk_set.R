@@ -30,11 +30,12 @@
 #' @field description A plain text description of the object. character [optional]
 #' @field dbxrefs Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file sets. list(character) [optional]
 #' @field samples The sample(s) from which the cells in this pseudobulk originated. list(character) [optional]
-#' @field donors The donor(s) associated with this file set. list(character) [optional]
+#' @field donors The donors of the samples associated with this pseudobulk set. list(character) [optional]
 #' @field file_set_type The level of this analysis set. character [optional]
 #' @field supersedes The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
 #' @field cell_type The ontology term that describes the cell type of the cells in this pseudobulk. character [optional]
 #' @field cell_qualifier A qualifier that provides additional detail about the cell type annotation or the source biosample. character [optional]
+#' @field merged Indicates if the pseudobulk set has been merged from other pseudobulk sets. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary  character [optional]
@@ -46,6 +47,7 @@
 #' @field construct_library_sets The construct library sets associated with the samples of this file set. list(character) [optional]
 #' @field data_use_limitation_summaries The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. list(character) [optional]
 #' @field controlled_access The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. character [optional]
+#' @field cell_annotation  character [optional]
 #' @field workflows A workflow for computational analysis of genomic data. A workflow is made up of analysis steps. list(character) [optional]
 #' @field preferred_assay_titles Preferred Assay Title(s) of assays that produced data analyzed in the pseudobulk set. list(character) [optional]
 #' @field preferred_assay_slims Preferred Assay Slim(s) of assays that produced data analyzed in the analysis set. list(character) [optional]
@@ -85,6 +87,7 @@ PseudobulkSet <- R6::R6Class(
     `supersedes` = NULL,
     `cell_type` = NULL,
     `cell_qualifier` = NULL,
+    `merged` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -96,6 +99,7 @@ PseudobulkSet <- R6::R6Class(
     `construct_library_sets` = NULL,
     `data_use_limitation_summaries` = NULL,
     `controlled_access` = NULL,
+    `cell_annotation` = NULL,
     `workflows` = NULL,
     `preferred_assay_titles` = NULL,
     `preferred_assay_slims` = NULL,
@@ -129,11 +133,12 @@ PseudobulkSet <- R6::R6Class(
     #' @param description A plain text description of the object.
     #' @param dbxrefs Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file sets.
     #' @param samples The sample(s) from which the cells in this pseudobulk originated.
-    #' @param donors The donor(s) associated with this file set.
+    #' @param donors The donors of the samples associated with this pseudobulk set.
     #' @param file_set_type The level of this analysis set.
     #' @param supersedes The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
     #' @param cell_type The ontology term that describes the cell type of the cells in this pseudobulk.
     #' @param cell_qualifier A qualifier that provides additional detail about the cell type annotation or the source biosample.
+    #' @param merged Indicates if the pseudobulk set has been merged from other pseudobulk sets.
     #' @param @id @id
     #' @param @type @type
     #' @param summary summary
@@ -145,6 +150,7 @@ PseudobulkSet <- R6::R6Class(
     #' @param construct_library_sets The construct library sets associated with the samples of this file set.
     #' @param data_use_limitation_summaries The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set.
     #' @param controlled_access The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set.
+    #' @param cell_annotation cell_annotation
     #' @param workflows A workflow for computational analysis of genomic data. A workflow is made up of analysis steps.
     #' @param preferred_assay_titles Preferred Assay Title(s) of assays that produced data analyzed in the pseudobulk set.
     #' @param preferred_assay_slims Preferred Assay Slim(s) of assays that produced data analyzed in the analysis set.
@@ -152,7 +158,7 @@ PseudobulkSet <- R6::R6Class(
     #' @param assay_slims A broad categorization of the assay term.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `cell_type` = NULL, `cell_qualifier` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `workflows` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `assay_titles` = NULL, `assay_slims` = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `cell_type` = NULL, `cell_qualifier` = NULL, `merged` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `cell_annotation` = NULL, `workflows` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `assay_titles` = NULL, `assay_slims` = NULL, ...) {
       if (!is.null(`is_on_anvil`)) {
         if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
           stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
@@ -317,6 +323,12 @@ PseudobulkSet <- R6::R6Class(
         }
         self$`cell_qualifier` <- `cell_qualifier`
       }
+      if (!is.null(`merged`)) {
+        if (!(is.logical(`merged`) && length(`merged`) == 1)) {
+          stop(paste("Error! Invalid data for `merged`. Must be a boolean:", `merged`))
+        }
+        self$`merged` <- `merged`
+      }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
           stop(paste("Error! Invalid data for `@id`. Must be a string:", `@id`))
@@ -375,6 +387,12 @@ PseudobulkSet <- R6::R6Class(
           stop(paste("Error! Invalid data for `controlled_access`. Must be a boolean:", `controlled_access`))
         }
         self$`controlled_access` <- `controlled_access`
+      }
+      if (!is.null(`cell_annotation`)) {
+        if (!(is.character(`cell_annotation`) && length(`cell_annotation`) == 1)) {
+          stop(paste("Error! Invalid data for `cell_annotation`. Must be a string:", `cell_annotation`))
+        }
+        self$`cell_annotation` <- `cell_annotation`
       }
       if (!is.null(`workflows`)) {
         stopifnot(is.vector(`workflows`), length(`workflows`) != 0)
@@ -523,6 +541,10 @@ PseudobulkSet <- R6::R6Class(
         PseudobulkSetObject[["cell_qualifier"]] <-
           self$`cell_qualifier`
       }
+      if (!is.null(self$`merged`)) {
+        PseudobulkSetObject[["merged"]] <-
+          self$`merged`
+      }
       if (!is.null(self$`@id`)) {
         PseudobulkSetObject[["@id"]] <-
           self$`@id`
@@ -566,6 +588,10 @@ PseudobulkSet <- R6::R6Class(
       if (!is.null(self$`controlled_access`)) {
         PseudobulkSetObject[["controlled_access"]] <-
           self$`controlled_access`
+      }
+      if (!is.null(self$`cell_annotation`)) {
+        PseudobulkSetObject[["cell_annotation"]] <-
+          self$`cell_annotation`
       }
       if (!is.null(self$`workflows`)) {
         PseudobulkSetObject[["workflows"]] <-
@@ -689,6 +715,9 @@ PseudobulkSet <- R6::R6Class(
       if (!is.null(this_object$`cell_qualifier`)) {
         self$`cell_qualifier` <- this_object$`cell_qualifier`
       }
+      if (!is.null(this_object$`merged`)) {
+        self$`merged` <- this_object$`merged`
+      }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
       }
@@ -721,6 +750,9 @@ PseudobulkSet <- R6::R6Class(
       }
       if (!is.null(this_object$`controlled_access`)) {
         self$`controlled_access` <- this_object$`controlled_access`
+      }
+      if (!is.null(this_object$`cell_annotation`)) {
+        self$`cell_annotation` <- this_object$`cell_annotation`
       }
       if (!is.null(this_object$`workflows`)) {
         self$`workflows` <- ApiClient$new()$deserializeObj(this_object$`workflows`, "array[character]", loadNamespace("igvfclient"))
@@ -972,6 +1004,14 @@ PseudobulkSet <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`cell_qualifier`, perl=TRUE)
           )
         },
+        if (!is.null(self$`merged`)) {
+          sprintf(
+          '"merged":
+            %s
+                    ',
+          tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`merged`, perl=TRUE))
+          )
+        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -1058,6 +1098,14 @@ PseudobulkSet <- R6::R6Class(
             %s
                     ',
           tolower(gsub('(?<!\\\\)\\"', '\\\\"', self$`controlled_access`, perl=TRUE))
+          )
+        },
+        if (!is.null(self$`cell_annotation`)) {
+          sprintf(
+          '"cell_annotation":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`cell_annotation`, perl=TRUE)
           )
         },
         if (!is.null(self$`workflows`)) {
@@ -1148,6 +1196,7 @@ PseudobulkSet <- R6::R6Class(
       self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
       self$`cell_type` <- this_object$`cell_type`
       self$`cell_qualifier` <- this_object$`cell_qualifier`
+      self$`merged` <- this_object$`merged`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
@@ -1159,6 +1208,7 @@ PseudobulkSet <- R6::R6Class(
       self$`construct_library_sets` <- ApiClient$new()$deserializeObj(this_object$`construct_library_sets`, "set[character]", loadNamespace("igvfclient"))
       self$`data_use_limitation_summaries` <- ApiClient$new()$deserializeObj(this_object$`data_use_limitation_summaries`, "set[character]", loadNamespace("igvfclient"))
       self$`controlled_access` <- this_object$`controlled_access`
+      self$`cell_annotation` <- this_object$`cell_annotation`
       self$`workflows` <- ApiClient$new()$deserializeObj(this_object$`workflows`, "array[character]", loadNamespace("igvfclient"))
       self$`preferred_assay_titles` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_titles`, "set[character]", loadNamespace("igvfclient"))
       self$`preferred_assay_slims` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_slims`, "set[character]", loadNamespace("igvfclient"))

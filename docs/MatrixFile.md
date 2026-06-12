@@ -46,8 +46,6 @@ Name | Type | Description | Notes
 **checkfiles_version** | **character** | The Checkfiles GitHub version release the file was validated with. | [optional] 
 **checkfiles_timestamp** | **character** | The date and time the file object was last checked by the Checkfiles script. | [optional] 
 **supersedes** | **set[character]** | The file(s) that this file supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. | [optional] 
-**principal_dimension** | **character** | The principal dimension of the matrix. | [optional] [Enum: [cell, CRISPR guide capture, fragment, gene, mitochondrial variants, time, treatment, variant, genomic position, spot barcode]] 
-**secondary_dimensions** | **set[character]** | The secondary, tertiary....n levels of dimensions of the matrix. | [optional] [Enum: ] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** | A summary of the matrix file. | [optional] 

@@ -17,6 +17,7 @@
 #' @field lot_id The lot identifier provided by the originating lab or vendor. character [optional]
 #' @field product_id The product identifier provided by the originating lab or vendor. character [optional]
 #' @field documents Documents that provide additional information (not data file). list(character) [optional]
+#' @field biosample_qualifiers An array of various cell states. This property provides additional information about a cell at a finer-grained level compared to what ontologies currently capture. For example, exhausted T-cells. list(character) [optional]
 #' @field lab Lab associated with the submission. character [optional]
 #' @field award Grant associated with the submission. character [optional]
 #' @field accession A unique identifier to be used to reference the object prefixed with IGVF. character [optional]
@@ -63,7 +64,6 @@
 #' @field supersedes The sample(s) that this sample supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
 #' @field selection_conditions The conditions used for selecting the sample. list(character) [optional]
 #' @field passage_number Number of passages including the passages from the source. integer [optional]
-#' @field biosample_qualifiers An array of various cell states. This property provides additional information about a cell at a finer-grained level compared to what ontologies currently capture. For example, exhausted T-cells. list(character) [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the sample. character [optional]
@@ -96,6 +96,7 @@ PrimaryCell <- R6::R6Class(
     `lot_id` = NULL,
     `product_id` = NULL,
     `documents` = NULL,
+    `biosample_qualifiers` = NULL,
     `lab` = NULL,
     `award` = NULL,
     `accession` = NULL,
@@ -142,7 +143,6 @@ PrimaryCell <- R6::R6Class(
     `supersedes` = NULL,
     `selection_conditions` = NULL,
     `passage_number` = NULL,
-    `biosample_qualifiers` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -174,6 +174,7 @@ PrimaryCell <- R6::R6Class(
     #' @param lot_id The lot identifier provided by the originating lab or vendor.
     #' @param product_id The product identifier provided by the originating lab or vendor.
     #' @param documents Documents that provide additional information (not data file).
+    #' @param biosample_qualifiers An array of various cell states. This property provides additional information about a cell at a finer-grained level compared to what ontologies currently capture. For example, exhausted T-cells.
     #' @param lab Lab associated with the submission.
     #' @param award Grant associated with the submission.
     #' @param accession A unique identifier to be used to reference the object prefixed with IGVF.
@@ -220,7 +221,6 @@ PrimaryCell <- R6::R6Class(
     #' @param supersedes The sample(s) that this sample supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
     #' @param selection_conditions The conditions used for selecting the sample.
     #' @param passage_number Number of passages including the passages from the source.
-    #' @param biosample_qualifiers An array of various cell states. This property provides additional information about a cell at a finer-grained level compared to what ontologies currently capture. For example, exhausted T-cells.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the sample.
@@ -239,7 +239,7 @@ PrimaryCell <- R6::R6Class(
     #' @param classifications The general category of this type of sample.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`is_on_anvil` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `taxa` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `annotated_from` = NULL, `lower_bound_age` = NULL, `upper_bound_age` = NULL, `age_units` = NULL, `sample_terms` = NULL, `pooled_from` = NULL, `originated_from` = NULL, `treatments` = NULL, `donors` = NULL, `biomarkers` = NULL, `embryonic` = NULL, `modifications` = NULL, `cellular_sub_pool` = NULL, `phenotypic_features` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `part_of` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `construct_delivery_methods` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `selection_conditions` = NULL, `passage_number` = NULL, `biosample_qualifiers` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `parts` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `sex` = NULL, `age` = NULL, `upper_bound_age_in_hours` = NULL, `lower_bound_age_in_hours` = NULL, `pooled_in` = NULL, `classifications` = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `publications` = NULL, `taxa` = NULL, `url` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `documents` = NULL, `biosample_qualifiers` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `annotated_from` = NULL, `lower_bound_age` = NULL, `upper_bound_age` = NULL, `age_units` = NULL, `sample_terms` = NULL, `pooled_from` = NULL, `originated_from` = NULL, `treatments` = NULL, `donors` = NULL, `biomarkers` = NULL, `embryonic` = NULL, `modifications` = NULL, `cellular_sub_pool` = NULL, `phenotypic_features` = NULL, `starting_amount` = NULL, `starting_amount_units` = NULL, `dbxrefs` = NULL, `date_obtained` = NULL, `part_of` = NULL, `sorted_from` = NULL, `sorted_from_detail` = NULL, `virtual` = NULL, `construct_library_sets` = NULL, `moi` = NULL, `construct_delivery_methods` = NULL, `time_post_library_delivery` = NULL, `time_post_library_delivery_units` = NULL, `protocols` = NULL, `supersedes` = NULL, `selection_conditions` = NULL, `passage_number` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `file_sets` = NULL, `multiplexed_in` = NULL, `parts` = NULL, `sorted_fractions` = NULL, `origin_of` = NULL, `institutional_certificates` = NULL, `superseded_by` = NULL, `sex` = NULL, `age` = NULL, `upper_bound_age_in_hours` = NULL, `lower_bound_age_in_hours` = NULL, `pooled_in` = NULL, `classifications` = NULL, ...) {
       if (!is.null(`is_on_anvil`)) {
         if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
           stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
@@ -299,6 +299,11 @@ PrimaryCell <- R6::R6Class(
         stopifnot(is.vector(`documents`), length(`documents`) != 0)
         sapply(`documents`, function(x) stopifnot(is.character(x)))
         self$`documents` <- `documents`
+      }
+      if (!is.null(`biosample_qualifiers`)) {
+        stopifnot(is.vector(`biosample_qualifiers`), length(`biosample_qualifiers`) != 0)
+        sapply(`biosample_qualifiers`, function(x) stopifnot(is.character(x)))
+        self$`biosample_qualifiers` <- `biosample_qualifiers`
       }
       if (!is.null(`lab`)) {
         if (!(is.character(`lab`) && length(`lab`) == 1)) {
@@ -557,11 +562,6 @@ PrimaryCell <- R6::R6Class(
         }
         self$`passage_number` <- `passage_number`
       }
-      if (!is.null(`biosample_qualifiers`)) {
-        stopifnot(is.vector(`biosample_qualifiers`), length(`biosample_qualifiers`) != 0)
-        sapply(`biosample_qualifiers`, function(x) stopifnot(is.character(x)))
-        self$`biosample_qualifiers` <- `biosample_qualifiers`
-      }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
           stop(paste("Error! Invalid data for `@id`. Must be a string:", `@id`))
@@ -694,6 +694,10 @@ PrimaryCell <- R6::R6Class(
       if (!is.null(self$`documents`)) {
         PrimaryCellObject[["documents"]] <-
           self$`documents`
+      }
+      if (!is.null(self$`biosample_qualifiers`)) {
+        PrimaryCellObject[["biosample_qualifiers"]] <-
+          self$`biosample_qualifiers`
       }
       if (!is.null(self$`lab`)) {
         PrimaryCellObject[["lab"]] <-
@@ -879,10 +883,6 @@ PrimaryCell <- R6::R6Class(
         PrimaryCellObject[["passage_number"]] <-
           self$`passage_number`
       }
-      if (!is.null(self$`biosample_qualifiers`)) {
-        PrimaryCellObject[["biosample_qualifiers"]] <-
-          self$`biosample_qualifiers`
-      }
       if (!is.null(self$`@id`)) {
         PrimaryCellObject[["@id"]] <-
           self$`@id`
@@ -991,6 +991,9 @@ PrimaryCell <- R6::R6Class(
       }
       if (!is.null(this_object$`documents`)) {
         self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`biosample_qualifiers`)) {
+        self$`biosample_qualifiers` <- ApiClient$new()$deserializeObj(this_object$`biosample_qualifiers`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`lab`)) {
         self$`lab` <- this_object$`lab`
@@ -1142,9 +1145,6 @@ PrimaryCell <- R6::R6Class(
       if (!is.null(this_object$`passage_number`)) {
         self$`passage_number` <- this_object$`passage_number`
       }
-      if (!is.null(this_object$`biosample_qualifiers`)) {
-        self$`biosample_qualifiers` <- ApiClient$new()$deserializeObj(this_object$`biosample_qualifiers`, "set[character]", loadNamespace("igvfclient"))
-      }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
       }
@@ -1285,6 +1285,14 @@ PrimaryCell <- R6::R6Class(
              [%s]
           ',
           paste(unlist(lapply(self$`documents`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`biosample_qualifiers`)) {
+          sprintf(
+          '"biosample_qualifiers":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`biosample_qualifiers`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`lab`)) {
@@ -1655,14 +1663,6 @@ PrimaryCell <- R6::R6Class(
           self$`passage_number`
           )
         },
-        if (!is.null(self$`biosample_qualifiers`)) {
-          sprintf(
-          '"biosample_qualifiers":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`biosample_qualifiers`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -1818,6 +1818,7 @@ PrimaryCell <- R6::R6Class(
       self$`lot_id` <- this_object$`lot_id`
       self$`product_id` <- this_object$`product_id`
       self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
+      self$`biosample_qualifiers` <- ApiClient$new()$deserializeObj(this_object$`biosample_qualifiers`, "set[character]", loadNamespace("igvfclient"))
       self$`lab` <- this_object$`lab`
       self$`award` <- this_object$`award`
       self$`accession` <- this_object$`accession`
@@ -1876,7 +1877,6 @@ PrimaryCell <- R6::R6Class(
       self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
       self$`selection_conditions` <- ApiClient$new()$deserializeObj(this_object$`selection_conditions`, "set[character]", loadNamespace("igvfclient"))
       self$`passage_number` <- this_object$`passage_number`
-      self$`biosample_qualifiers` <- ApiClient$new()$deserializeObj(this_object$`biosample_qualifiers`, "set[character]", loadNamespace("igvfclient"))
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
@@ -1939,6 +1939,7 @@ PrimaryCell <- R6::R6Class(
 
 
 
+
       if (!str_detect(self$`revoke_detail`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         return(FALSE)
       }
@@ -1992,7 +1993,6 @@ PrimaryCell <- R6::R6Class(
 
 
 
-
       if (!str_detect(self$`age`, "^((\\d+(\\.[1-9])?(\\-\\d+(\\.[1-9])?)?)|(unknown)|([1-8]?\\d)|(90 or above))$")) {
         return(FALSE)
       }
@@ -2019,6 +2019,7 @@ PrimaryCell <- R6::R6Class(
       if (!str_detect(self$`product_id`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         invalid_fields["product_id"] <- "Invalid value for `product_id`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
+
 
 
 
@@ -2068,7 +2069,6 @@ PrimaryCell <- R6::R6Class(
       if (self$`passage_number` < 0) {
         invalid_fields["passage_number"] <- "Invalid value for `passage_number`, must be bigger than or equal to 0."
       }
-
 
 
 
