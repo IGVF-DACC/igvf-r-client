@@ -23,6 +23,10 @@
 #' @field orf_id Open reading frame ID. character [optional]
 #' @field genes ENSEMBL GeneIDs of official nomenclature approved genes. The GeneIDs do not include the current version number suffix. list(character) [optional]
 #' @field protein_id ENSEMBL ProteinID of official nomenclature approved protein. The ProteinID does not include the current version number suffix. character [optional]
+#' @field transcript_ids ENSEMBL TranscriptID of official nomenclature approved transcript/isoform of that gene list(character) [optional]
+#' @field barcode_sequence DNA sequence of the unique barcode identifier of the overexpressed construct character [optional]
+#' @field orf_sequence DNA sequence of the ORF specifically (this is a subset of the Insert DNA sequence) character [optional]
+#' @field insert_sequence DNA sequence of longer construct character [optional]
 #' @field dbxrefs Unique identifiers from the hORFeome database list(character) [optional]
 #' @field pct_identical_protein The percentage of identical matches to Ensembl protein. numeric [optional]
 #' @field pct_coverage_protein The percentage of ORF covered by Ensembl protein. numeric [optional]
@@ -52,6 +56,10 @@ OpenReadingFrame <- R6::R6Class(
     `orf_id` = NULL,
     `genes` = NULL,
     `protein_id` = NULL,
+    `transcript_ids` = NULL,
+    `barcode_sequence` = NULL,
+    `orf_sequence` = NULL,
+    `insert_sequence` = NULL,
     `dbxrefs` = NULL,
     `pct_identical_protein` = NULL,
     `pct_coverage_protein` = NULL,
@@ -80,6 +88,10 @@ OpenReadingFrame <- R6::R6Class(
     #' @param orf_id Open reading frame ID.
     #' @param genes ENSEMBL GeneIDs of official nomenclature approved genes. The GeneIDs do not include the current version number suffix.
     #' @param protein_id ENSEMBL ProteinID of official nomenclature approved protein. The ProteinID does not include the current version number suffix.
+    #' @param transcript_ids ENSEMBL TranscriptID of official nomenclature approved transcript/isoform of that gene
+    #' @param barcode_sequence DNA sequence of the unique barcode identifier of the overexpressed construct
+    #' @param orf_sequence DNA sequence of the ORF specifically (this is a subset of the Insert DNA sequence)
+    #' @param insert_sequence DNA sequence of longer construct
     #' @param dbxrefs Unique identifiers from the hORFeome database
     #' @param pct_identical_protein The percentage of identical matches to Ensembl protein.
     #' @param pct_coverage_protein The percentage of ORF covered by Ensembl protein.
@@ -89,7 +101,7 @@ OpenReadingFrame <- R6::R6Class(
     #' @param summary summary
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `status` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `lab` = NULL, `award` = NULL, `orf_id` = NULL, `genes` = NULL, `protein_id` = NULL, `dbxrefs` = NULL, `pct_identical_protein` = NULL, `pct_coverage_protein` = NULL, `pct_coverage_orf` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `status` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `lab` = NULL, `award` = NULL, `orf_id` = NULL, `genes` = NULL, `protein_id` = NULL, `transcript_ids` = NULL, `barcode_sequence` = NULL, `orf_sequence` = NULL, `insert_sequence` = NULL, `dbxrefs` = NULL, `pct_identical_protein` = NULL, `pct_coverage_protein` = NULL, `pct_coverage_orf` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, ...) {
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -186,6 +198,29 @@ OpenReadingFrame <- R6::R6Class(
           stop(paste("Error! Invalid data for `protein_id`. Must be a string:", `protein_id`))
         }
         self$`protein_id` <- `protein_id`
+      }
+      if (!is.null(`transcript_ids`)) {
+        stopifnot(is.vector(`transcript_ids`), length(`transcript_ids`) != 0)
+        sapply(`transcript_ids`, function(x) stopifnot(is.character(x)))
+        self$`transcript_ids` <- `transcript_ids`
+      }
+      if (!is.null(`barcode_sequence`)) {
+        if (!(is.character(`barcode_sequence`) && length(`barcode_sequence`) == 1)) {
+          stop(paste("Error! Invalid data for `barcode_sequence`. Must be a string:", `barcode_sequence`))
+        }
+        self$`barcode_sequence` <- `barcode_sequence`
+      }
+      if (!is.null(`orf_sequence`)) {
+        if (!(is.character(`orf_sequence`) && length(`orf_sequence`) == 1)) {
+          stop(paste("Error! Invalid data for `orf_sequence`. Must be a string:", `orf_sequence`))
+        }
+        self$`orf_sequence` <- `orf_sequence`
+      }
+      if (!is.null(`insert_sequence`)) {
+        if (!(is.character(`insert_sequence`) && length(`insert_sequence`) == 1)) {
+          stop(paste("Error! Invalid data for `insert_sequence`. Must be a string:", `insert_sequence`))
+        }
+        self$`insert_sequence` <- `insert_sequence`
       }
       if (!is.null(`dbxrefs`)) {
         stopifnot(is.vector(`dbxrefs`), length(`dbxrefs`) != 0)
@@ -292,6 +327,22 @@ OpenReadingFrame <- R6::R6Class(
         OpenReadingFrameObject[["protein_id"]] <-
           self$`protein_id`
       }
+      if (!is.null(self$`transcript_ids`)) {
+        OpenReadingFrameObject[["transcript_ids"]] <-
+          self$`transcript_ids`
+      }
+      if (!is.null(self$`barcode_sequence`)) {
+        OpenReadingFrameObject[["barcode_sequence"]] <-
+          self$`barcode_sequence`
+      }
+      if (!is.null(self$`orf_sequence`)) {
+        OpenReadingFrameObject[["orf_sequence"]] <-
+          self$`orf_sequence`
+      }
+      if (!is.null(self$`insert_sequence`)) {
+        OpenReadingFrameObject[["insert_sequence"]] <-
+          self$`insert_sequence`
+      }
       if (!is.null(self$`dbxrefs`)) {
         OpenReadingFrameObject[["dbxrefs"]] <-
           self$`dbxrefs`
@@ -382,6 +433,18 @@ OpenReadingFrame <- R6::R6Class(
       }
       if (!is.null(this_object$`protein_id`)) {
         self$`protein_id` <- this_object$`protein_id`
+      }
+      if (!is.null(this_object$`transcript_ids`)) {
+        self$`transcript_ids` <- ApiClient$new()$deserializeObj(this_object$`transcript_ids`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`barcode_sequence`)) {
+        self$`barcode_sequence` <- this_object$`barcode_sequence`
+      }
+      if (!is.null(this_object$`orf_sequence`)) {
+        self$`orf_sequence` <- this_object$`orf_sequence`
+      }
+      if (!is.null(this_object$`insert_sequence`)) {
+        self$`insert_sequence` <- this_object$`insert_sequence`
       }
       if (!is.null(this_object$`dbxrefs`)) {
         self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
@@ -543,6 +606,38 @@ OpenReadingFrame <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`protein_id`, perl=TRUE)
           )
         },
+        if (!is.null(self$`transcript_ids`)) {
+          sprintf(
+          '"transcript_ids":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`transcript_ids`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`barcode_sequence`)) {
+          sprintf(
+          '"barcode_sequence":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`barcode_sequence`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`orf_sequence`)) {
+          sprintf(
+          '"orf_sequence":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`orf_sequence`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`insert_sequence`)) {
+          sprintf(
+          '"insert_sequence":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`insert_sequence`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`dbxrefs`)) {
           sprintf(
           '"dbxrefs":
@@ -632,6 +727,10 @@ OpenReadingFrame <- R6::R6Class(
       self$`orf_id` <- this_object$`orf_id`
       self$`genes` <- ApiClient$new()$deserializeObj(this_object$`genes`, "set[character]", loadNamespace("igvfclient"))
       self$`protein_id` <- this_object$`protein_id`
+      self$`transcript_ids` <- ApiClient$new()$deserializeObj(this_object$`transcript_ids`, "set[character]", loadNamespace("igvfclient"))
+      self$`barcode_sequence` <- this_object$`barcode_sequence`
+      self$`orf_sequence` <- this_object$`orf_sequence`
+      self$`insert_sequence` <- this_object$`insert_sequence`
       self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
       self$`pct_identical_protein` <- this_object$`pct_identical_protein`
       self$`pct_coverage_protein` <- this_object$`pct_coverage_protein`
@@ -686,12 +785,25 @@ OpenReadingFrame <- R6::R6Class(
         return(FALSE)
       }
 
-      if (!str_detect(self$`orf_id`, "^CCSBORF[1-9][0-9]*$")) {
+      if (!str_detect(self$`orf_id`, "^(CCSBORF|TFORF)[1-9][0-9]*$")) {
         return(FALSE)
       }
 
 
       if (!str_detect(self$`protein_id`, "^ENSP\\d{11}.?\\d*?$")) {
+        return(FALSE)
+      }
+
+
+      if (!str_detect(self$`barcode_sequence`, "^[ACGT]+$")) {
+        return(FALSE)
+      }
+
+      if (!str_detect(self$`orf_sequence`, "^[ACGT]+$")) {
+        return(FALSE)
+      }
+
+      if (!str_detect(self$`insert_sequence`, "^[ACGT]+$")) {
         return(FALSE)
       }
 
@@ -745,13 +857,26 @@ OpenReadingFrame <- R6::R6Class(
         invalid_fields["description"] <- "Invalid value for `description`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
 
-      if (!str_detect(self$`orf_id`, "^CCSBORF[1-9][0-9]*$")) {
-        invalid_fields["orf_id"] <- "Invalid value for `orf_id`, must conform to the pattern ^CCSBORF[1-9][0-9]*$."
+      if (!str_detect(self$`orf_id`, "^(CCSBORF|TFORF)[1-9][0-9]*$")) {
+        invalid_fields["orf_id"] <- "Invalid value for `orf_id`, must conform to the pattern ^(CCSBORF|TFORF)[1-9][0-9]*$."
       }
 
 
       if (!str_detect(self$`protein_id`, "^ENSP\\d{11}.?\\d*?$")) {
         invalid_fields["protein_id"] <- "Invalid value for `protein_id`, must conform to the pattern ^ENSP\\d{11}.?\\d*?$."
+      }
+
+
+      if (!str_detect(self$`barcode_sequence`, "^[ACGT]+$")) {
+        invalid_fields["barcode_sequence"] <- "Invalid value for `barcode_sequence`, must conform to the pattern ^[ACGT]+$."
+      }
+
+      if (!str_detect(self$`orf_sequence`, "^[ACGT]+$")) {
+        invalid_fields["orf_sequence"] <- "Invalid value for `orf_sequence`, must conform to the pattern ^[ACGT]+$."
+      }
+
+      if (!str_detect(self$`insert_sequence`, "^[ACGT]+$")) {
+        invalid_fields["insert_sequence"] <- "Invalid value for `insert_sequence`, must conform to the pattern ^[ACGT]+$."
       }
 
 

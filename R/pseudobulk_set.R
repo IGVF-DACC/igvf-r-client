@@ -34,7 +34,7 @@
 #' @field file_set_type The level of this analysis set. character [optional]
 #' @field supersedes The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
 #' @field cell_type The ontology term that describes the cell type of the cells in this pseudobulk. character [optional]
-#' @field cell_qualifier A qualifier that provides additional detail about the cell type annotation or the source biosample. character [optional]
+#' @field cell_qualifier A qualifier that provides additional detail about the cell type annotation or the parent sample. character [optional]
 #' @field merged Indicates if the pseudobulk set has been merged from other pseudobulk sets. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
@@ -137,7 +137,7 @@ PseudobulkSet <- R6::R6Class(
     #' @param file_set_type The level of this analysis set.
     #' @param supersedes The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
     #' @param cell_type The ontology term that describes the cell type of the cells in this pseudobulk.
-    #' @param cell_qualifier A qualifier that provides additional detail about the cell type annotation or the source biosample.
+    #' @param cell_qualifier A qualifier that provides additional detail about the cell type annotation or the parent sample.
     #' @param merged Indicates if the pseudobulk set has been merged from other pseudobulk sets.
     #' @param @id @id
     #' @param @type @type

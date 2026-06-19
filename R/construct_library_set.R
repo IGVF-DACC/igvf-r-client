@@ -42,7 +42,8 @@
 #' @field selection_criteria The criteria used to select the sequence material cloned into the library. list(character) [optional]
 #' @field integrated_content_files The files containing sequence material of interest either used for insert design or directly cloned into vectors in this library. list(character) [optional]
 #' @field associated_phenotypes Ontological terms for diseases or phenotypes associated with the sequence material cloned in this construct library. list(character) [optional]
-#' @field orf_list List of Open Reading Frame this construct library was designed to target. list(character) [optional]
+#' @field small_scale_orf_list The specific, small scale list of (<=500) Open Reading Frame this construct library was designed to target. list(character) [optional]
+#' @field large_scale_orf_list The large scale list of (>100 ORF) this construct library was designed to target. character [optional]
 #' @field exon An identifier in plain text for the specific exon in an expression vector library. The associated gene must be listed in the small_scale_gene_list property. character [optional]
 #' @field tile  \link{Tile} [optional]
 #' @field guide_type The design of guides used in a CRISPR library, paired-guide (pgRNA) or single-guide (sgRNA). character [optional]
@@ -117,7 +118,8 @@ ConstructLibrarySet <- R6::R6Class(
     `selection_criteria` = NULL,
     `integrated_content_files` = NULL,
     `associated_phenotypes` = NULL,
-    `orf_list` = NULL,
+    `small_scale_orf_list` = NULL,
+    `large_scale_orf_list` = NULL,
     `exon` = NULL,
     `tile` = NULL,
     `guide_type` = NULL,
@@ -148,7 +150,7 @@ ConstructLibrarySet <- R6::R6Class(
     `assay_titles` = NULL,
     `assay_slims` = NULL,
     `donors` = NULL,
-    `_field_list` = c("is_on_anvil", "doi", "preview_timestamp", "control_file_sets", "small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "sources", "lot_id", "product_id", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "file_set_type", "control_types", "scope", "selection_criteria", "integrated_content_files", "associated_phenotypes", "orf_list", "exon", "tile", "guide_type", "tiling_modality", "average_guide_coverage", "lower_bound_guide_coverage", "upper_bound_guide_coverage", "average_insert_size", "lower_bound_insert_size", "upper_bound_insert_size", "targeton", "supersedes", "@id", "@type", "summary", "files", "control_for", "superseded_by", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access", "samples", "file_sets", "preferred_assay_titles", "preferred_assay_slims", "assay_titles", "assay_slims", "donors"),
+    `_field_list` = c("is_on_anvil", "doi", "preview_timestamp", "control_file_sets", "small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "sources", "lot_id", "product_id", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "file_set_type", "control_types", "scope", "selection_criteria", "integrated_content_files", "associated_phenotypes", "small_scale_orf_list", "large_scale_orf_list", "exon", "tile", "guide_type", "tiling_modality", "average_guide_coverage", "lower_bound_guide_coverage", "upper_bound_guide_coverage", "average_insert_size", "lower_bound_insert_size", "upper_bound_insert_size", "targeton", "supersedes", "@id", "@type", "summary", "files", "control_for", "superseded_by", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access", "samples", "file_sets", "preferred_assay_titles", "preferred_assay_slims", "assay_titles", "assay_slims", "donors"),
     `additional_properties` = list(),
     #' Initialize a new ConstructLibrarySet class.
     #'
@@ -190,7 +192,8 @@ ConstructLibrarySet <- R6::R6Class(
     #' @param selection_criteria The criteria used to select the sequence material cloned into the library.
     #' @param integrated_content_files The files containing sequence material of interest either used for insert design or directly cloned into vectors in this library.
     #' @param associated_phenotypes Ontological terms for diseases or phenotypes associated with the sequence material cloned in this construct library.
-    #' @param orf_list List of Open Reading Frame this construct library was designed to target.
+    #' @param small_scale_orf_list The specific, small scale list of (<=500) Open Reading Frame this construct library was designed to target.
+    #' @param large_scale_orf_list The large scale list of (>100 ORF) this construct library was designed to target.
     #' @param exon An identifier in plain text for the specific exon in an expression vector library. The associated gene must be listed in the small_scale_gene_list property.
     #' @param tile tile
     #' @param guide_type The design of guides used in a CRISPR library, paired-guide (pgRNA) or single-guide (sgRNA).
@@ -224,7 +227,7 @@ ConstructLibrarySet <- R6::R6Class(
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `preview_timestamp` = NULL, `control_file_sets` = NULL, `small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `file_set_type` = NULL, `control_types` = NULL, `scope` = NULL, `selection_criteria` = NULL, `integrated_content_files` = NULL, `associated_phenotypes` = NULL, `orf_list` = NULL, `exon` = NULL, `tile` = NULL, `guide_type` = NULL, `tiling_modality` = NULL, `average_guide_coverage` = NULL, `lower_bound_guide_coverage` = NULL, `upper_bound_guide_coverage` = NULL, `average_insert_size` = NULL, `lower_bound_insert_size` = NULL, `upper_bound_insert_size` = NULL, `targeton` = NULL, `supersedes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `samples` = NULL, `file_sets` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `assay_titles` = NULL, `assay_slims` = NULL, `donors` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `preview_timestamp` = NULL, `control_file_sets` = NULL, `small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `file_set_type` = NULL, `control_types` = NULL, `scope` = NULL, `selection_criteria` = NULL, `integrated_content_files` = NULL, `associated_phenotypes` = NULL, `small_scale_orf_list` = NULL, `large_scale_orf_list` = NULL, `exon` = NULL, `tile` = NULL, `guide_type` = NULL, `tiling_modality` = NULL, `average_guide_coverage` = NULL, `lower_bound_guide_coverage` = NULL, `upper_bound_guide_coverage` = NULL, `average_insert_size` = NULL, `lower_bound_insert_size` = NULL, `upper_bound_insert_size` = NULL, `targeton` = NULL, `supersedes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `samples` = NULL, `file_sets` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `assay_titles` = NULL, `assay_slims` = NULL, `donors` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`is_on_anvil`)) {
         if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
           stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
@@ -431,10 +434,16 @@ ConstructLibrarySet <- R6::R6Class(
         sapply(`associated_phenotypes`, function(x) stopifnot(is.character(x)))
         self$`associated_phenotypes` <- `associated_phenotypes`
       }
-      if (!is.null(`orf_list`)) {
-        stopifnot(is.vector(`orf_list`), length(`orf_list`) != 0)
-        sapply(`orf_list`, function(x) stopifnot(is.character(x)))
-        self$`orf_list` <- `orf_list`
+      if (!is.null(`small_scale_orf_list`)) {
+        stopifnot(is.vector(`small_scale_orf_list`), length(`small_scale_orf_list`) != 0)
+        sapply(`small_scale_orf_list`, function(x) stopifnot(is.character(x)))
+        self$`small_scale_orf_list` <- `small_scale_orf_list`
+      }
+      if (!is.null(`large_scale_orf_list`)) {
+        if (!(is.character(`large_scale_orf_list`) && length(`large_scale_orf_list`) == 1)) {
+          stop(paste("Error! Invalid data for `large_scale_orf_list`. Must be a string:", `large_scale_orf_list`))
+        }
+        self$`large_scale_orf_list` <- `large_scale_orf_list`
       }
       if (!is.null(`exon`)) {
         if (!(is.character(`exon`) && length(`exon`) == 1)) {
@@ -754,9 +763,13 @@ ConstructLibrarySet <- R6::R6Class(
         ConstructLibrarySetObject[["associated_phenotypes"]] <-
           self$`associated_phenotypes`
       }
-      if (!is.null(self$`orf_list`)) {
-        ConstructLibrarySetObject[["orf_list"]] <-
-          self$`orf_list`
+      if (!is.null(self$`small_scale_orf_list`)) {
+        ConstructLibrarySetObject[["small_scale_orf_list"]] <-
+          self$`small_scale_orf_list`
+      }
+      if (!is.null(self$`large_scale_orf_list`)) {
+        ConstructLibrarySetObject[["large_scale_orf_list"]] <-
+          self$`large_scale_orf_list`
       }
       if (!is.null(self$`exon`)) {
         ConstructLibrarySetObject[["exon"]] <-
@@ -1008,8 +1021,11 @@ ConstructLibrarySet <- R6::R6Class(
       if (!is.null(this_object$`associated_phenotypes`)) {
         self$`associated_phenotypes` <- ApiClient$new()$deserializeObj(this_object$`associated_phenotypes`, "set[character]", loadNamespace("igvfclient"))
       }
-      if (!is.null(this_object$`orf_list`)) {
-        self$`orf_list` <- ApiClient$new()$deserializeObj(this_object$`orf_list`, "set[character]", loadNamespace("igvfclient"))
+      if (!is.null(this_object$`small_scale_orf_list`)) {
+        self$`small_scale_orf_list` <- ApiClient$new()$deserializeObj(this_object$`small_scale_orf_list`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`large_scale_orf_list`)) {
+        self$`large_scale_orf_list` <- this_object$`large_scale_orf_list`
       }
       if (!is.null(this_object$`exon`)) {
         self$`exon` <- this_object$`exon`
@@ -1407,12 +1423,20 @@ ConstructLibrarySet <- R6::R6Class(
           paste(unlist(lapply(self$`associated_phenotypes`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
-        if (!is.null(self$`orf_list`)) {
+        if (!is.null(self$`small_scale_orf_list`)) {
           sprintf(
-          '"orf_list":
+          '"small_scale_orf_list":
              [%s]
           ',
-          paste(unlist(lapply(self$`orf_list`, function(x) paste0('"', x, '"'))), collapse = ",")
+          paste(unlist(lapply(self$`small_scale_orf_list`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
+        if (!is.null(self$`large_scale_orf_list`)) {
+          sprintf(
+          '"large_scale_orf_list":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`large_scale_orf_list`, perl=TRUE)
           )
         },
         if (!is.null(self$`exon`)) {
@@ -1718,7 +1742,8 @@ ConstructLibrarySet <- R6::R6Class(
       self$`selection_criteria` <- ApiClient$new()$deserializeObj(this_object$`selection_criteria`, "set[character]", loadNamespace("igvfclient"))
       self$`integrated_content_files` <- ApiClient$new()$deserializeObj(this_object$`integrated_content_files`, "set[character]", loadNamespace("igvfclient"))
       self$`associated_phenotypes` <- ApiClient$new()$deserializeObj(this_object$`associated_phenotypes`, "set[character]", loadNamespace("igvfclient"))
-      self$`orf_list` <- ApiClient$new()$deserializeObj(this_object$`orf_list`, "set[character]", loadNamespace("igvfclient"))
+      self$`small_scale_orf_list` <- ApiClient$new()$deserializeObj(this_object$`small_scale_orf_list`, "set[character]", loadNamespace("igvfclient"))
+      self$`large_scale_orf_list` <- this_object$`large_scale_orf_list`
       self$`exon` <- this_object$`exon`
       self$`tile` <- Tile$new()$fromJSON(jsonlite::toJSON(this_object$`tile`, auto_unbox = TRUE, digits = NA))
       if (!is.null(this_object$`guide_type`) && !(this_object$`guide_type` %in% c("sgRNA", "pgRNA"))) {

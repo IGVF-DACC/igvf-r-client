@@ -36,7 +36,8 @@
 #' @field file_set_type The category that best describes this measurement set. character [optional]
 #' @field supersedes The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
 #' @field assay_term The assay used to produce data in this measurement set. character [optional]
-#' @field crispr_readout The sequencing readout produced by this CRISPR measurement set. character [optional]
+#' @field crispr_screen_readout The sequencing readout produced by this CRISPR measurement set. character [optional]
+#' @field crispr_screen_biometric The phenotype used for selection or inference in this CRISPR screen, distinct from the sequencing readout. character [optional]
 #' @field protocols Links to the protocol(s) for conducting the assay on Protocols.io. list(character) [optional]
 #' @field multiome_size The number of datasets included in the multiome experiment this measurement set is a part of. integer [optional]
 #' @field control_types The types of control this measurement set represents. list(character) [optional]
@@ -106,7 +107,8 @@ MeasurementSet <- R6::R6Class(
     `file_set_type` = NULL,
     `supersedes` = NULL,
     `assay_term` = NULL,
-    `crispr_readout` = NULL,
+    `crispr_screen_readout` = NULL,
+    `crispr_screen_biometric` = NULL,
     `protocols` = NULL,
     `multiome_size` = NULL,
     `control_types` = NULL,
@@ -138,7 +140,7 @@ MeasurementSet <- R6::R6Class(
     `related_measurement_sets` = NULL,
     `externally_hosted` = NULL,
     `preferred_assay_slims` = NULL,
-    `_field_list` = c("is_on_anvil", "doi", "preferred_assay_titles", "preview_timestamp", "control_file_sets", "release_timestamp", "publications", "documents", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "dbxrefs", "samples", "donors", "file_set_type", "supersedes", "assay_term", "crispr_readout", "protocols", "multiome_size", "control_types", "sequencing_library_types", "enrichment_designs", "strand_specificity", "auxiliary_sets", "external_image_urls", "targeted_genes", "targeted_proteins", "functional_assay_mechanisms", "onlist_method", "onlist_files", "barcode_replacement_file", "library_preparation_kit", "@id", "@type", "summary", "files", "control_for", "superseded_by", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access", "assay_titles", "assay_slims", "related_measurement_sets", "externally_hosted", "preferred_assay_slims"),
+    `_field_list` = c("is_on_anvil", "doi", "preferred_assay_titles", "preview_timestamp", "control_file_sets", "release_timestamp", "publications", "documents", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "dbxrefs", "samples", "donors", "file_set_type", "supersedes", "assay_term", "crispr_screen_readout", "crispr_screen_biometric", "protocols", "multiome_size", "control_types", "sequencing_library_types", "enrichment_designs", "strand_specificity", "auxiliary_sets", "external_image_urls", "targeted_genes", "targeted_proteins", "functional_assay_mechanisms", "onlist_method", "onlist_files", "barcode_replacement_file", "library_preparation_kit", "@id", "@type", "summary", "files", "control_for", "superseded_by", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access", "assay_titles", "assay_slims", "related_measurement_sets", "externally_hosted", "preferred_assay_slims"),
     `additional_properties` = list(),
     #' Initialize a new MeasurementSet class.
     #'
@@ -174,7 +176,8 @@ MeasurementSet <- R6::R6Class(
     #' @param file_set_type The category that best describes this measurement set.
     #' @param supersedes The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
     #' @param assay_term The assay used to produce data in this measurement set.
-    #' @param crispr_readout The sequencing readout produced by this CRISPR measurement set.
+    #' @param crispr_screen_readout The sequencing readout produced by this CRISPR measurement set.
+    #' @param crispr_screen_biometric The phenotype used for selection or inference in this CRISPR screen, distinct from the sequencing readout.
     #' @param protocols Links to the protocol(s) for conducting the assay on Protocols.io.
     #' @param multiome_size The number of datasets included in the multiome experiment this measurement set is a part of.
     #' @param control_types The types of control this measurement set represents.
@@ -209,7 +212,7 @@ MeasurementSet <- R6::R6Class(
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `preferred_assay_titles` = NULL, `preview_timestamp` = NULL, `control_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `assay_term` = NULL, `crispr_readout` = NULL, `protocols` = NULL, `multiome_size` = NULL, `control_types` = NULL, `sequencing_library_types` = NULL, `enrichment_designs` = NULL, `strand_specificity` = NULL, `auxiliary_sets` = NULL, `external_image_urls` = NULL, `targeted_genes` = NULL, `targeted_proteins` = NULL, `functional_assay_mechanisms` = NULL, `onlist_method` = NULL, `onlist_files` = NULL, `barcode_replacement_file` = NULL, `library_preparation_kit` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `assay_titles` = NULL, `assay_slims` = NULL, `related_measurement_sets` = NULL, `externally_hosted` = NULL, `preferred_assay_slims` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `preferred_assay_titles` = NULL, `preview_timestamp` = NULL, `control_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `assay_term` = NULL, `crispr_screen_readout` = NULL, `crispr_screen_biometric` = NULL, `protocols` = NULL, `multiome_size` = NULL, `control_types` = NULL, `sequencing_library_types` = NULL, `enrichment_designs` = NULL, `strand_specificity` = NULL, `auxiliary_sets` = NULL, `external_image_urls` = NULL, `targeted_genes` = NULL, `targeted_proteins` = NULL, `functional_assay_mechanisms` = NULL, `onlist_method` = NULL, `onlist_files` = NULL, `barcode_replacement_file` = NULL, `library_preparation_kit` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `assay_titles` = NULL, `assay_slims` = NULL, `related_measurement_sets` = NULL, `externally_hosted` = NULL, `preferred_assay_slims` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`is_on_anvil`)) {
         if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
           stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
@@ -379,14 +382,20 @@ MeasurementSet <- R6::R6Class(
         }
         self$`assay_term` <- `assay_term`
       }
-      if (!is.null(`crispr_readout`)) {
-        if (!(`crispr_readout` %in% c("gRNA sequencing", "endogenous allelic sequencing", "exogenous allelic sequencing", "scRNA-seq", "scRNA-seq with guide capture", "scATAC-seq"))) {
-          stop(paste("Error! \"", `crispr_readout`, "\" cannot be assigned to `crispr_readout`. Must be \"gRNA sequencing\", \"endogenous allelic sequencing\", \"exogenous allelic sequencing\", \"scRNA-seq\", \"scRNA-seq with guide capture\", \"scATAC-seq\".", sep = ""))
+      if (!is.null(`crispr_screen_readout`)) {
+        if (!(`crispr_screen_readout` %in% c("gRNA sequencing", "endogenous allelic sequencing", "exogenous allelic sequencing", "scRNA-seq", "scRNA-seq with guide capture", "scATAC-seq"))) {
+          stop(paste("Error! \"", `crispr_screen_readout`, "\" cannot be assigned to `crispr_screen_readout`. Must be \"gRNA sequencing\", \"endogenous allelic sequencing\", \"exogenous allelic sequencing\", \"scRNA-seq\", \"scRNA-seq with guide capture\", \"scATAC-seq\".", sep = ""))
         }
-        if (!(is.character(`crispr_readout`) && length(`crispr_readout`) == 1)) {
-          stop(paste("Error! Invalid data for `crispr_readout`. Must be a string:", `crispr_readout`))
+        if (!(is.character(`crispr_screen_readout`) && length(`crispr_screen_readout`) == 1)) {
+          stop(paste("Error! Invalid data for `crispr_screen_readout`. Must be a string:", `crispr_screen_readout`))
         }
-        self$`crispr_readout` <- `crispr_readout`
+        self$`crispr_screen_readout` <- `crispr_screen_readout`
+      }
+      if (!is.null(`crispr_screen_biometric`)) {
+        if (!(is.character(`crispr_screen_biometric`) && length(`crispr_screen_biometric`) == 1)) {
+          stop(paste("Error! Invalid data for `crispr_screen_biometric`. Must be a string:", `crispr_screen_biometric`))
+        }
+        self$`crispr_screen_biometric` <- `crispr_screen_biometric`
       }
       if (!is.null(`protocols`)) {
         stopifnot(is.vector(`protocols`), length(`protocols`) != 0)
@@ -693,9 +702,13 @@ MeasurementSet <- R6::R6Class(
         MeasurementSetObject[["assay_term"]] <-
           self$`assay_term`
       }
-      if (!is.null(self$`crispr_readout`)) {
-        MeasurementSetObject[["crispr_readout"]] <-
-          self$`crispr_readout`
+      if (!is.null(self$`crispr_screen_readout`)) {
+        MeasurementSetObject[["crispr_screen_readout"]] <-
+          self$`crispr_screen_readout`
+      }
+      if (!is.null(self$`crispr_screen_biometric`)) {
+        MeasurementSetObject[["crispr_screen_biometric"]] <-
+          self$`crispr_screen_biometric`
       }
       if (!is.null(self$`protocols`)) {
         MeasurementSetObject[["protocols"]] <-
@@ -930,11 +943,14 @@ MeasurementSet <- R6::R6Class(
       if (!is.null(this_object$`assay_term`)) {
         self$`assay_term` <- this_object$`assay_term`
       }
-      if (!is.null(this_object$`crispr_readout`)) {
-        if (!is.null(this_object$`crispr_readout`) && !(this_object$`crispr_readout` %in% c("gRNA sequencing", "endogenous allelic sequencing", "exogenous allelic sequencing", "scRNA-seq", "scRNA-seq with guide capture", "scATAC-seq"))) {
-          stop(paste("Error! \"", this_object$`crispr_readout`, "\" cannot be assigned to `crispr_readout`. Must be \"gRNA sequencing\", \"endogenous allelic sequencing\", \"exogenous allelic sequencing\", \"scRNA-seq\", \"scRNA-seq with guide capture\", \"scATAC-seq\".", sep = ""))
+      if (!is.null(this_object$`crispr_screen_readout`)) {
+        if (!is.null(this_object$`crispr_screen_readout`) && !(this_object$`crispr_screen_readout` %in% c("gRNA sequencing", "endogenous allelic sequencing", "exogenous allelic sequencing", "scRNA-seq", "scRNA-seq with guide capture", "scATAC-seq"))) {
+          stop(paste("Error! \"", this_object$`crispr_screen_readout`, "\" cannot be assigned to `crispr_screen_readout`. Must be \"gRNA sequencing\", \"endogenous allelic sequencing\", \"exogenous allelic sequencing\", \"scRNA-seq\", \"scRNA-seq with guide capture\", \"scATAC-seq\".", sep = ""))
         }
-        self$`crispr_readout` <- this_object$`crispr_readout`
+        self$`crispr_screen_readout` <- this_object$`crispr_screen_readout`
+      }
+      if (!is.null(this_object$`crispr_screen_biometric`)) {
+        self$`crispr_screen_biometric` <- this_object$`crispr_screen_biometric`
       }
       if (!is.null(this_object$`protocols`)) {
         self$`protocols` <- ApiClient$new()$deserializeObj(this_object$`protocols`, "set[character]", loadNamespace("igvfclient"))
@@ -1288,12 +1304,20 @@ MeasurementSet <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`assay_term`, perl=TRUE)
           )
         },
-        if (!is.null(self$`crispr_readout`)) {
+        if (!is.null(self$`crispr_screen_readout`)) {
           sprintf(
-          '"crispr_readout":
+          '"crispr_screen_readout":
             "%s"
                     ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`crispr_readout`, perl=TRUE)
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`crispr_screen_readout`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`crispr_screen_biometric`)) {
+          sprintf(
+          '"crispr_screen_biometric":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`crispr_screen_biometric`, perl=TRUE)
           )
         },
         if (!is.null(self$`protocols`)) {
@@ -1598,10 +1622,11 @@ MeasurementSet <- R6::R6Class(
       self$`file_set_type` <- this_object$`file_set_type`
       self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
       self$`assay_term` <- this_object$`assay_term`
-      if (!is.null(this_object$`crispr_readout`) && !(this_object$`crispr_readout` %in% c("gRNA sequencing", "endogenous allelic sequencing", "exogenous allelic sequencing", "scRNA-seq", "scRNA-seq with guide capture", "scATAC-seq"))) {
-        stop(paste("Error! \"", this_object$`crispr_readout`, "\" cannot be assigned to `crispr_readout`. Must be \"gRNA sequencing\", \"endogenous allelic sequencing\", \"exogenous allelic sequencing\", \"scRNA-seq\", \"scRNA-seq with guide capture\", \"scATAC-seq\".", sep = ""))
+      if (!is.null(this_object$`crispr_screen_readout`) && !(this_object$`crispr_screen_readout` %in% c("gRNA sequencing", "endogenous allelic sequencing", "exogenous allelic sequencing", "scRNA-seq", "scRNA-seq with guide capture", "scATAC-seq"))) {
+        stop(paste("Error! \"", this_object$`crispr_screen_readout`, "\" cannot be assigned to `crispr_screen_readout`. Must be \"gRNA sequencing\", \"endogenous allelic sequencing\", \"exogenous allelic sequencing\", \"scRNA-seq\", \"scRNA-seq with guide capture\", \"scATAC-seq\".", sep = ""))
       }
-      self$`crispr_readout` <- this_object$`crispr_readout`
+      self$`crispr_screen_readout` <- this_object$`crispr_screen_readout`
+      self$`crispr_screen_biometric` <- this_object$`crispr_screen_biometric`
       self$`protocols` <- ApiClient$new()$deserializeObj(this_object$`protocols`, "set[character]", loadNamespace("igvfclient"))
       self$`multiome_size` <- this_object$`multiome_size`
       self$`control_types` <- ApiClient$new()$deserializeObj(this_object$`control_types`, "set[character]", loadNamespace("igvfclient"))

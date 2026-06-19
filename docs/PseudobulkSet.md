@@ -32,7 +32,7 @@ Name | Type | Description | Notes
 **file_set_type** | **character** | The level of this analysis set. | [optional] [Enum: [pseudobulk analysis]] 
 **supersedes** | **set[character]** | The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. | [optional] 
 **cell_type** | **character** | The ontology term that describes the cell type of the cells in this pseudobulk. | [optional] 
-**cell_qualifier** | **character** | A qualifier that provides additional detail about the cell type annotation or the source biosample. | [optional] 
+**cell_qualifier** | **character** | A qualifier that provides additional detail about the cell type annotation or the parent sample. | [optional] 
 **merged** | **character** | Indicates if the pseudobulk set has been merged from other pseudobulk sets. | [optional] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
