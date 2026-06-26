@@ -5,6 +5,8 @@ A file set for pseudobulks. Pseudobulk sets represent the results of a computati
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**cell_type** | **character** | The ontology term that describes the cell type of the cells in this pseudobulk and/or pseudobulk-derived prediction. | [optional] 
+**cell_qualifier** | **character** | A qualifier that provides additional detail about the cell type annotation or the parent sample. | [optional] 
 **is_on_anvil** | **character** | Indicates whether the data object has been submitted to AnVIL. | [optional] 
 **doi** | **character** | The Digital Object Identifier (DOI) associated with this object. | [optional] [Pattern: ^(10.65695/IGVFDS\\d{4}[A-Z]{4})$] 
 **input_file_sets** | **set[character]** | The file set(s) required for this pseudobulking analysis. | [optional] 
@@ -31,8 +33,6 @@ Name | Type | Description | Notes
 **donors** | **set[character]** | The donors of the samples associated with this pseudobulk set. | [optional] 
 **file_set_type** | **character** | The level of this analysis set. | [optional] [Enum: [pseudobulk analysis]] 
 **supersedes** | **set[character]** | The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. | [optional] 
-**cell_type** | **character** | The ontology term that describes the cell type of the cells in this pseudobulk. | [optional] 
-**cell_qualifier** | **character** | A qualifier that provides additional detail about the cell type annotation or the parent sample. | [optional] 
 **merged** | **character** | Indicates if the pseudobulk set has been merged from other pseudobulk sets. | [optional] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 

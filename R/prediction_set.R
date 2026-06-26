@@ -7,6 +7,8 @@
 #' @title PredictionSet
 #' @description PredictionSet Class
 #' @format An \code{R6Class} generator object
+#' @field cell_type The ontology term that describes the cell type of the cells in predictions derived from single cell pseudobulks. Other non-pseudobulk based predictions should not specify this property. character [optional]
+#' @field cell_qualifier A qualifier that provides additional detail about the cell type annotation in predictions derived from single cell pseudobulks. Other non-pseudobulk based predictions should not specify this property. character [optional]
 #' @field is_on_anvil Indicates whether the data object has been submitted to AnVIL. character [optional]
 #' @field doi The Digital Object Identifier (DOI) associated with this object. character [optional]
 #' @field preview_timestamp The date the object was previewed. character [optional]
@@ -54,6 +56,7 @@
 #' @field data_use_limitation_summaries The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. list(character) [optional]
 #' @field controlled_access The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. character [optional]
 #' @field software_versions The software versions used to produce this prediction. list(character) [optional]
+#' @field cell_annotation The cell annotation of this File Set. character [optional]
 #' @field _field_list a list of fields list(character)
 #' @field additional_properties additional properties list(character) [optional]
 #' @importFrom R6 R6Class
@@ -63,6 +66,8 @@ PredictionSet <- R6::R6Class(
   "PredictionSet",
   inherit = AnyType,
   public = list(
+    `cell_type` = NULL,
+    `cell_qualifier` = NULL,
     `is_on_anvil` = NULL,
     `doi` = NULL,
     `preview_timestamp` = NULL,
@@ -110,13 +115,16 @@ PredictionSet <- R6::R6Class(
     `data_use_limitation_summaries` = NULL,
     `controlled_access` = NULL,
     `software_versions` = NULL,
-    `_field_list` = c("is_on_anvil", "doi", "preview_timestamp", "input_file_sets", "small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "url", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "dbxrefs", "samples", "donors", "file_set_type", "supersedes", "scope", "assessed_genes", "associated_phenotypes", "@id", "@type", "summary", "files", "control_for", "superseded_by", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access", "software_versions"),
+    `cell_annotation` = NULL,
+    `_field_list` = c("cell_type", "cell_qualifier", "is_on_anvil", "doi", "preview_timestamp", "input_file_sets", "small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "url", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "dbxrefs", "samples", "donors", "file_set_type", "supersedes", "scope", "assessed_genes", "associated_phenotypes", "@id", "@type", "summary", "files", "control_for", "superseded_by", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access", "software_versions", "cell_annotation"),
     `additional_properties` = list(),
     #' Initialize a new PredictionSet class.
     #'
     #' @description
     #' Initialize a new PredictionSet class.
     #'
+    #' @param cell_type The ontology term that describes the cell type of the cells in predictions derived from single cell pseudobulks. Other non-pseudobulk based predictions should not specify this property.
+    #' @param cell_qualifier A qualifier that provides additional detail about the cell type annotation in predictions derived from single cell pseudobulks. Other non-pseudobulk based predictions should not specify this property.
     #' @param is_on_anvil Indicates whether the data object has been submitted to AnVIL.
     #' @param doi The Digital Object Identifier (DOI) associated with this object.
     #' @param preview_timestamp The date the object was previewed.
@@ -164,10 +172,23 @@ PredictionSet <- R6::R6Class(
     #' @param data_use_limitation_summaries The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set.
     #' @param controlled_access The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set.
     #' @param software_versions The software versions used to produce this prediction.
+    #' @param cell_annotation The cell annotation of this File Set.
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `preview_timestamp` = NULL, `input_file_sets` = NULL, `small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `scope` = NULL, `assessed_genes` = NULL, `associated_phenotypes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `software_versions` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`cell_type` = NULL, `cell_qualifier` = NULL, `is_on_anvil` = NULL, `doi` = NULL, `preview_timestamp` = NULL, `input_file_sets` = NULL, `small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `scope` = NULL, `assessed_genes` = NULL, `associated_phenotypes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `software_versions` = NULL, `cell_annotation` = NULL, additional_properties = NULL, ...) {
+      if (!is.null(`cell_type`)) {
+        if (!(is.character(`cell_type`) && length(`cell_type`) == 1)) {
+          stop(paste("Error! Invalid data for `cell_type`. Must be a string:", `cell_type`))
+        }
+        self$`cell_type` <- `cell_type`
+      }
+      if (!is.null(`cell_qualifier`)) {
+        if (!(is.character(`cell_qualifier`) && length(`cell_qualifier`) == 1)) {
+          stop(paste("Error! Invalid data for `cell_qualifier`. Must be a string:", `cell_qualifier`))
+        }
+        self$`cell_qualifier` <- `cell_qualifier`
+      }
       if (!is.null(`is_on_anvil`)) {
         if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
           stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
@@ -437,6 +458,12 @@ PredictionSet <- R6::R6Class(
         sapply(`software_versions`, function(x) stopifnot(is.character(x)))
         self$`software_versions` <- `software_versions`
       }
+      if (!is.null(`cell_annotation`)) {
+        if (!(is.character(`cell_annotation`) && length(`cell_annotation`) == 1)) {
+          stop(paste("Error! Invalid data for `cell_annotation`. Must be a string:", `cell_annotation`))
+        }
+        self$`cell_annotation` <- `cell_annotation`
+      }
       if (!is.null(additional_properties)) {
         for (key in names(additional_properties)) {
           self$additional_properties[[key]] <- additional_properties[[key]]
@@ -452,6 +479,14 @@ PredictionSet <- R6::R6Class(
     #' @export
     toJSON = function() {
       PredictionSetObject <- list()
+      if (!is.null(self$`cell_type`)) {
+        PredictionSetObject[["cell_type"]] <-
+          self$`cell_type`
+      }
+      if (!is.null(self$`cell_qualifier`)) {
+        PredictionSetObject[["cell_qualifier"]] <-
+          self$`cell_qualifier`
+      }
       if (!is.null(self$`is_on_anvil`)) {
         PredictionSetObject[["is_on_anvil"]] <-
           self$`is_on_anvil`
@@ -640,6 +675,10 @@ PredictionSet <- R6::R6Class(
         PredictionSetObject[["software_versions"]] <-
           self$`software_versions`
       }
+      if (!is.null(self$`cell_annotation`)) {
+        PredictionSetObject[["cell_annotation"]] <-
+          self$`cell_annotation`
+      }
       for (key in names(self$additional_properties)) {
         PredictionSetObject[[key]] <- self$additional_properties[[key]]
       }
@@ -656,6 +695,12 @@ PredictionSet <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`cell_type`)) {
+        self$`cell_type` <- this_object$`cell_type`
+      }
+      if (!is.null(this_object$`cell_qualifier`)) {
+        self$`cell_qualifier` <- this_object$`cell_qualifier`
+      }
       if (!is.null(this_object$`is_on_anvil`)) {
         self$`is_on_anvil` <- this_object$`is_on_anvil`
       }
@@ -806,6 +851,9 @@ PredictionSet <- R6::R6Class(
       if (!is.null(this_object$`software_versions`)) {
         self$`software_versions` <- ApiClient$new()$deserializeObj(this_object$`software_versions`, "set[character]", loadNamespace("igvfclient"))
       }
+      if (!is.null(this_object$`cell_annotation`)) {
+        self$`cell_annotation` <- this_object$`cell_annotation`
+      }
       # process additional properties/fields in the payload
       for (key in names(this_object)) {
         if (!(key %in% self$`_field_list`)) { # json key not in list of fields
@@ -824,6 +872,22 @@ PredictionSet <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`cell_type`)) {
+          sprintf(
+          '"cell_type":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`cell_type`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`cell_qualifier`)) {
+          sprintf(
+          '"cell_qualifier":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`cell_qualifier`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`is_on_anvil`)) {
           sprintf(
           '"is_on_anvil":
@@ -1199,6 +1263,14 @@ PredictionSet <- R6::R6Class(
           ',
           paste(unlist(lapply(self$`software_versions`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
+        },
+        if (!is.null(self$`cell_annotation`)) {
+          sprintf(
+          '"cell_annotation":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`cell_annotation`, perl=TRUE)
+          )
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -1219,6 +1291,8 @@ PredictionSet <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`cell_type` <- this_object$`cell_type`
+      self$`cell_qualifier` <- this_object$`cell_qualifier`
       self$`is_on_anvil` <- this_object$`is_on_anvil`
       self$`doi` <- this_object$`doi`
       self$`preview_timestamp` <- this_object$`preview_timestamp`
@@ -1275,6 +1349,7 @@ PredictionSet <- R6::R6Class(
       self$`data_use_limitation_summaries` <- ApiClient$new()$deserializeObj(this_object$`data_use_limitation_summaries`, "set[character]", loadNamespace("igvfclient"))
       self$`controlled_access` <- this_object$`controlled_access`
       self$`software_versions` <- ApiClient$new()$deserializeObj(this_object$`software_versions`, "set[character]", loadNamespace("igvfclient"))
+      self$`cell_annotation` <- this_object$`cell_annotation`
       # process additional properties/fields in the payload
       for (key in names(this_object)) {
         if (!(key %in% self$`_field_list`)) { # json key not in list of fields

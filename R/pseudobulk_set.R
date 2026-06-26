@@ -7,6 +7,8 @@
 #' @title PseudobulkSet
 #' @description PseudobulkSet Class
 #' @format An \code{R6Class} generator object
+#' @field cell_type The ontology term that describes the cell type of the cells in this pseudobulk and/or pseudobulk-derived prediction. character [optional]
+#' @field cell_qualifier A qualifier that provides additional detail about the cell type annotation or the parent sample. character [optional]
 #' @field is_on_anvil Indicates whether the data object has been submitted to AnVIL. character [optional]
 #' @field doi The Digital Object Identifier (DOI) associated with this object. character [optional]
 #' @field input_file_sets The file set(s) required for this pseudobulking analysis. list(character) [optional]
@@ -33,8 +35,6 @@
 #' @field donors The donors of the samples associated with this pseudobulk set. list(character) [optional]
 #' @field file_set_type The level of this analysis set. character [optional]
 #' @field supersedes The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
-#' @field cell_type The ontology term that describes the cell type of the cells in this pseudobulk. character [optional]
-#' @field cell_qualifier A qualifier that provides additional detail about the cell type annotation or the parent sample. character [optional]
 #' @field merged Indicates if the pseudobulk set has been merged from other pseudobulk sets. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
@@ -59,6 +59,8 @@
 PseudobulkSet <- R6::R6Class(
   "PseudobulkSet",
   public = list(
+    `cell_type` = NULL,
+    `cell_qualifier` = NULL,
     `is_on_anvil` = NULL,
     `doi` = NULL,
     `input_file_sets` = NULL,
@@ -85,8 +87,6 @@ PseudobulkSet <- R6::R6Class(
     `donors` = NULL,
     `file_set_type` = NULL,
     `supersedes` = NULL,
-    `cell_type` = NULL,
-    `cell_qualifier` = NULL,
     `merged` = NULL,
     `@id` = NULL,
     `@type` = NULL,
@@ -110,6 +110,8 @@ PseudobulkSet <- R6::R6Class(
     #' @description
     #' Initialize a new PseudobulkSet class.
     #'
+    #' @param cell_type The ontology term that describes the cell type of the cells in this pseudobulk and/or pseudobulk-derived prediction.
+    #' @param cell_qualifier A qualifier that provides additional detail about the cell type annotation or the parent sample.
     #' @param is_on_anvil Indicates whether the data object has been submitted to AnVIL.
     #' @param doi The Digital Object Identifier (DOI) associated with this object.
     #' @param input_file_sets The file set(s) required for this pseudobulking analysis.
@@ -136,8 +138,6 @@ PseudobulkSet <- R6::R6Class(
     #' @param donors The donors of the samples associated with this pseudobulk set.
     #' @param file_set_type The level of this analysis set.
     #' @param supersedes The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
-    #' @param cell_type The ontology term that describes the cell type of the cells in this pseudobulk.
-    #' @param cell_qualifier A qualifier that provides additional detail about the cell type annotation or the parent sample.
     #' @param merged Indicates if the pseudobulk set has been merged from other pseudobulk sets.
     #' @param @id @id
     #' @param @type @type
@@ -158,7 +158,19 @@ PseudobulkSet <- R6::R6Class(
     #' @param assay_slims A broad categorization of the assay term.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `cell_type` = NULL, `cell_qualifier` = NULL, `merged` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `cell_annotation` = NULL, `workflows` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `assay_titles` = NULL, `assay_slims` = NULL, ...) {
+    initialize = function(`cell_type` = NULL, `cell_qualifier` = NULL, `is_on_anvil` = NULL, `doi` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `merged` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `cell_annotation` = NULL, `workflows` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `assay_titles` = NULL, `assay_slims` = NULL, ...) {
+      if (!is.null(`cell_type`)) {
+        if (!(is.character(`cell_type`) && length(`cell_type`) == 1)) {
+          stop(paste("Error! Invalid data for `cell_type`. Must be a string:", `cell_type`))
+        }
+        self$`cell_type` <- `cell_type`
+      }
+      if (!is.null(`cell_qualifier`)) {
+        if (!(is.character(`cell_qualifier`) && length(`cell_qualifier`) == 1)) {
+          stop(paste("Error! Invalid data for `cell_qualifier`. Must be a string:", `cell_qualifier`))
+        }
+        self$`cell_qualifier` <- `cell_qualifier`
+      }
       if (!is.null(`is_on_anvil`)) {
         if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
           stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
@@ -311,18 +323,6 @@ PseudobulkSet <- R6::R6Class(
         sapply(`supersedes`, function(x) stopifnot(is.character(x)))
         self$`supersedes` <- `supersedes`
       }
-      if (!is.null(`cell_type`)) {
-        if (!(is.character(`cell_type`) && length(`cell_type`) == 1)) {
-          stop(paste("Error! Invalid data for `cell_type`. Must be a string:", `cell_type`))
-        }
-        self$`cell_type` <- `cell_type`
-      }
-      if (!is.null(`cell_qualifier`)) {
-        if (!(is.character(`cell_qualifier`) && length(`cell_qualifier`) == 1)) {
-          stop(paste("Error! Invalid data for `cell_qualifier`. Must be a string:", `cell_qualifier`))
-        }
-        self$`cell_qualifier` <- `cell_qualifier`
-      }
       if (!is.null(`merged`)) {
         if (!(is.logical(`merged`) && length(`merged`) == 1)) {
           stop(paste("Error! Invalid data for `merged`. Must be a boolean:", `merged`))
@@ -429,6 +429,14 @@ PseudobulkSet <- R6::R6Class(
     #' @export
     toJSON = function() {
       PseudobulkSetObject <- list()
+      if (!is.null(self$`cell_type`)) {
+        PseudobulkSetObject[["cell_type"]] <-
+          self$`cell_type`
+      }
+      if (!is.null(self$`cell_qualifier`)) {
+        PseudobulkSetObject[["cell_qualifier"]] <-
+          self$`cell_qualifier`
+      }
       if (!is.null(self$`is_on_anvil`)) {
         PseudobulkSetObject[["is_on_anvil"]] <-
           self$`is_on_anvil`
@@ -533,14 +541,6 @@ PseudobulkSet <- R6::R6Class(
         PseudobulkSetObject[["supersedes"]] <-
           self$`supersedes`
       }
-      if (!is.null(self$`cell_type`)) {
-        PseudobulkSetObject[["cell_type"]] <-
-          self$`cell_type`
-      }
-      if (!is.null(self$`cell_qualifier`)) {
-        PseudobulkSetObject[["cell_qualifier"]] <-
-          self$`cell_qualifier`
-      }
       if (!is.null(self$`merged`)) {
         PseudobulkSetObject[["merged"]] <-
           self$`merged`
@@ -625,6 +625,12 @@ PseudobulkSet <- R6::R6Class(
     #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      if (!is.null(this_object$`cell_type`)) {
+        self$`cell_type` <- this_object$`cell_type`
+      }
+      if (!is.null(this_object$`cell_qualifier`)) {
+        self$`cell_qualifier` <- this_object$`cell_qualifier`
+      }
       if (!is.null(this_object$`is_on_anvil`)) {
         self$`is_on_anvil` <- this_object$`is_on_anvil`
       }
@@ -709,12 +715,6 @@ PseudobulkSet <- R6::R6Class(
       if (!is.null(this_object$`supersedes`)) {
         self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
       }
-      if (!is.null(this_object$`cell_type`)) {
-        self$`cell_type` <- this_object$`cell_type`
-      }
-      if (!is.null(this_object$`cell_qualifier`)) {
-        self$`cell_qualifier` <- this_object$`cell_qualifier`
-      }
       if (!is.null(this_object$`merged`)) {
         self$`merged` <- this_object$`merged`
       }
@@ -780,6 +780,22 @@ PseudobulkSet <- R6::R6Class(
     #' @export
     toJSONString = function() {
       jsoncontent <- c(
+        if (!is.null(self$`cell_type`)) {
+          sprintf(
+          '"cell_type":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`cell_type`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`cell_qualifier`)) {
+          sprintf(
+          '"cell_qualifier":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`cell_qualifier`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`is_on_anvil`)) {
           sprintf(
           '"is_on_anvil":
@@ -988,22 +1004,6 @@ PseudobulkSet <- R6::R6Class(
           paste(unlist(lapply(self$`supersedes`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
-        if (!is.null(self$`cell_type`)) {
-          sprintf(
-          '"cell_type":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`cell_type`, perl=TRUE)
-          )
-        },
-        if (!is.null(self$`cell_qualifier`)) {
-          sprintf(
-          '"cell_qualifier":
-            "%s"
-                    ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`cell_qualifier`, perl=TRUE)
-          )
-        },
         if (!is.null(self$`merged`)) {
           sprintf(
           '"merged":
@@ -1162,6 +1162,8 @@ PseudobulkSet <- R6::R6Class(
     #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
+      self$`cell_type` <- this_object$`cell_type`
+      self$`cell_qualifier` <- this_object$`cell_qualifier`
       self$`is_on_anvil` <- this_object$`is_on_anvil`
       self$`doi` <- this_object$`doi`
       self$`input_file_sets` <- ApiClient$new()$deserializeObj(this_object$`input_file_sets`, "set[character]", loadNamespace("igvfclient"))
@@ -1194,8 +1196,6 @@ PseudobulkSet <- R6::R6Class(
       }
       self$`file_set_type` <- this_object$`file_set_type`
       self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
-      self$`cell_type` <- this_object$`cell_type`
-      self$`cell_qualifier` <- this_object$`cell_qualifier`
       self$`merged` <- this_object$`merged`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
