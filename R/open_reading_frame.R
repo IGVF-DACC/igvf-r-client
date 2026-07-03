@@ -785,7 +785,7 @@ OpenReadingFrame <- R6::R6Class(
         return(FALSE)
       }
 
-      if (!str_detect(self$`orf_id`, "^(CCSBORF|TFORF)[1-9][0-9]*$")) {
+      if (!str_detect(self$`orf_id`, "^(CCSBORF|TFORF)[0-9]+$")) {
         return(FALSE)
       }
 
@@ -857,8 +857,8 @@ OpenReadingFrame <- R6::R6Class(
         invalid_fields["description"] <- "Invalid value for `description`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
 
-      if (!str_detect(self$`orf_id`, "^(CCSBORF|TFORF)[1-9][0-9]*$")) {
-        invalid_fields["orf_id"] <- "Invalid value for `orf_id`, must conform to the pattern ^(CCSBORF|TFORF)[1-9][0-9]*$."
+      if (!str_detect(self$`orf_id`, "^(CCSBORF|TFORF)[0-9]+$")) {
+        invalid_fields["orf_id"] <- "Invalid value for `orf_id`, must conform to the pattern ^(CCSBORF|TFORF)[0-9]+$."
       }
 
 

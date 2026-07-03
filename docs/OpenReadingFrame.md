@@ -18,7 +18,7 @@ Name | Type | Description | Notes
 **description** | **character** | A plain text description of the object. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **lab** | **character** | Lab associated with the submission. | [optional] 
 **award** | **character** | Grant associated with the submission. | [optional] 
-**orf_id** | **character** | Open reading frame ID. | [optional] [Pattern: ^(CCSBORF|TFORF)[1-9][0-9]*$] 
+**orf_id** | **character** | Open reading frame ID. | [optional] [Pattern: ^(CCSBORF|TFORF)[0-9]+$] 
 **genes** | **set[character]** | ENSEMBL GeneIDs of official nomenclature approved genes. The GeneIDs do not include the current version number suffix. | [optional] 
 **protein_id** | **character** | ENSEMBL ProteinID of official nomenclature approved protein. The ProteinID does not include the current version number suffix. | [optional] [Pattern: ^ENSP\\d{11}.?\\d*?$] 
 **transcript_ids** | **set[character]** | ENSEMBL TranscriptID of official nomenclature approved transcript/isoform of that gene | [optional] 

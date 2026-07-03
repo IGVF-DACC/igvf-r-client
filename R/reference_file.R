@@ -55,6 +55,7 @@
 #' @field supersedes The file(s) that this file supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
 #' @field catalog_adapters IGVF Catalog Adapters that ingests this file list(character) [optional]
 #' @field catalog_method The method curated in the IGVF catalog that the non-IGVF data in this file processed with character [optional]
+#' @field version The version of this reference file, used for external files loaded into the IGVF catalog. character [optional]
 #' @field sources The originating lab(s) or vendor(s). list(character) [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
@@ -126,6 +127,7 @@ ReferenceFile <- R6::R6Class(
     `supersedes` = NULL,
     `catalog_adapters` = NULL,
     `catalog_method` = NULL,
+    `version` = NULL,
     `sources` = NULL,
     `@id` = NULL,
     `@type` = NULL,
@@ -196,6 +198,7 @@ ReferenceFile <- R6::R6Class(
     #' @param supersedes The file(s) that this file supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
     #' @param catalog_adapters IGVF Catalog Adapters that ingests this file
     #' @param catalog_method The method curated in the IGVF catalog that the non-IGVF data in this file processed with
+    #' @param version The version of this reference file, used for external files loaded into the IGVF catalog.
     #' @param sources The originating lab(s) or vendor(s).
     #' @param @id @id
     #' @param @type @type
@@ -215,7 +218,7 @@ ReferenceFile <- R6::R6Class(
     #' @param upload_credentials The upload credentials for S3 to submit the file content.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`externally_hosted` = NULL, `external_host_url` = NULL, `anvil_url` = NULL, `catalog_collections` = NULL, `catalog_class` = NULL, `catalog_notes` = NULL, `preview_timestamp` = NULL, `source_url` = NULL, `controlled_access` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `checkfiles_timestamp` = NULL, `supersedes` = NULL, `catalog_adapters` = NULL, `catalog_method` = NULL, `sources` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `superseded_by` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
+    initialize = function(`externally_hosted` = NULL, `external_host_url` = NULL, `anvil_url` = NULL, `catalog_collections` = NULL, `catalog_class` = NULL, `catalog_notes` = NULL, `preview_timestamp` = NULL, `source_url` = NULL, `controlled_access` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `checkfiles_timestamp` = NULL, `supersedes` = NULL, `catalog_adapters` = NULL, `catalog_method` = NULL, `version` = NULL, `sources` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `superseded_by` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
       if (!is.null(`externally_hosted`)) {
         if (!(is.logical(`externally_hosted`) && length(`externally_hosted`) == 1)) {
           stop(paste("Error! Invalid data for `externally_hosted`. Must be a boolean:", `externally_hosted`))
@@ -518,6 +521,12 @@ ReferenceFile <- R6::R6Class(
         }
         self$`catalog_method` <- `catalog_method`
       }
+      if (!is.null(`version`)) {
+        if (!(is.character(`version`) && length(`version`) == 1)) {
+          stop(paste("Error! Invalid data for `version`. Must be a string:", `version`))
+        }
+        self$`version` <- `version`
+      }
       if (!is.null(`sources`)) {
         stopifnot(is.vector(`sources`), length(`sources`) != 0)
         sapply(`sources`, function(x) stopifnot(is.character(x)))
@@ -807,6 +816,10 @@ ReferenceFile <- R6::R6Class(
         ReferenceFileObject[["catalog_method"]] <-
           self$`catalog_method`
       }
+      if (!is.null(self$`version`)) {
+        ReferenceFileObject[["version"]] <-
+          self$`version`
+      }
       if (!is.null(self$`sources`)) {
         ReferenceFileObject[["sources"]] <-
           self$`sources`
@@ -1054,6 +1067,9 @@ ReferenceFile <- R6::R6Class(
           stop(paste("Error! \"", this_object$`catalog_method`, "\" cannot be assigned to `catalog_method`. Must be \"ADASTRA\", \"caQTL\", \"COXPRESdb\", \"eQTL\", \"GWAS\", \"GVATdb\", \"pQTL\", \"spliceQTL\".", sep = ""))
         }
         self$`catalog_method` <- this_object$`catalog_method`
+      }
+      if (!is.null(this_object$`version`)) {
+        self$`version` <- this_object$`version`
       }
       if (!is.null(this_object$`sources`)) {
         self$`sources` <- ApiClient$new()$deserializeObj(this_object$`sources`, "set[character]", loadNamespace("igvfclient"))
@@ -1501,6 +1517,14 @@ ReferenceFile <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`catalog_method`, perl=TRUE)
           )
         },
+        if (!is.null(self$`version`)) {
+          sprintf(
+          '"version":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`version`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`sources`)) {
           sprintf(
           '"sources":
@@ -1723,6 +1747,7 @@ ReferenceFile <- R6::R6Class(
         stop(paste("Error! \"", this_object$`catalog_method`, "\" cannot be assigned to `catalog_method`. Must be \"ADASTRA\", \"caQTL\", \"COXPRESdb\", \"eQTL\", \"GWAS\", \"GVATdb\", \"pQTL\", \"spliceQTL\".", sep = ""))
       }
       self$`catalog_method` <- this_object$`catalog_method`
+      self$`version` <- this_object$`version`
       self$`sources` <- ApiClient$new()$deserializeObj(this_object$`sources`, "set[character]", loadNamespace("igvfclient"))
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))

@@ -50,6 +50,7 @@
 #' @field assay_titles Ontology term names from Ontology of Biomedical Investigations (OBI) for assays list(character) [optional]
 #' @field assemblies The genome assemblies to which the referencing files in the file set are utilizing (e.g., GRCh38). list(character) [optional]
 #' @field transcriptome_annotations The annotation versions of the reference resource. list(character) [optional]
+#' @field versions The versions of the reference files for external data loaded into the IGVF catalog. list(character) [optional]
 #' @field preferred_assay_slims Preferred Assay Slim(s) of assays that produced data analyzed in the analysis set. list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -100,6 +101,7 @@ CuratedSet <- R6::R6Class(
     `assay_titles` = NULL,
     `assemblies` = NULL,
     `transcriptome_annotations` = NULL,
+    `versions` = NULL,
     `preferred_assay_slims` = NULL,
     #' Initialize a new CuratedSet class.
     #'
@@ -149,10 +151,11 @@ CuratedSet <- R6::R6Class(
     #' @param assay_titles Ontology term names from Ontology of Biomedical Investigations (OBI) for assays
     #' @param assemblies The genome assemblies to which the referencing files in the file set are utilizing (e.g., GRCh38).
     #' @param transcriptome_annotations The annotation versions of the reference resource.
+    #' @param versions The versions of the reference files for external data loaded into the IGVF catalog.
     #' @param preferred_assay_slims Preferred Assay Slim(s) of assays that produced data analyzed in the analysis set.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`is_on_anvil` = NULL, `preferred_assay_titles` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `taxa` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `assay_term` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `assay_titles` = NULL, `assemblies` = NULL, `transcriptome_annotations` = NULL, `preferred_assay_slims` = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `preferred_assay_titles` = NULL, `preview_timestamp` = NULL, `release_timestamp` = NULL, `taxa` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `assay_term` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `assay_titles` = NULL, `assemblies` = NULL, `transcriptome_annotations` = NULL, `versions` = NULL, `preferred_assay_slims` = NULL, ...) {
       if (!is.null(`is_on_anvil`)) {
         if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
           stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
@@ -400,6 +403,11 @@ CuratedSet <- R6::R6Class(
         sapply(`transcriptome_annotations`, function(x) stopifnot(is.character(x)))
         self$`transcriptome_annotations` <- `transcriptome_annotations`
       }
+      if (!is.null(`versions`)) {
+        stopifnot(is.vector(`versions`), length(`versions`) != 0)
+        sapply(`versions`, function(x) stopifnot(is.character(x)))
+        self$`versions` <- `versions`
+      }
       if (!is.null(`preferred_assay_slims`)) {
         stopifnot(is.vector(`preferred_assay_slims`), length(`preferred_assay_slims`) != 0)
         sapply(`preferred_assay_slims`, function(x) stopifnot(is.character(x)))
@@ -587,6 +595,10 @@ CuratedSet <- R6::R6Class(
         CuratedSetObject[["transcriptome_annotations"]] <-
           self$`transcriptome_annotations`
       }
+      if (!is.null(self$`versions`)) {
+        CuratedSetObject[["versions"]] <-
+          self$`versions`
+      }
       if (!is.null(self$`preferred_assay_slims`)) {
         CuratedSetObject[["preferred_assay_slims"]] <-
           self$`preferred_assay_slims`
@@ -740,6 +752,9 @@ CuratedSet <- R6::R6Class(
       }
       if (!is.null(this_object$`transcriptome_annotations`)) {
         self$`transcriptome_annotations` <- ApiClient$new()$deserializeObj(this_object$`transcriptome_annotations`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`versions`)) {
+        self$`versions` <- ApiClient$new()$deserializeObj(this_object$`versions`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`preferred_assay_slims`)) {
         self$`preferred_assay_slims` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_slims`, "set[character]", loadNamespace("igvfclient"))
@@ -1099,6 +1114,14 @@ CuratedSet <- R6::R6Class(
           paste(unlist(lapply(self$`transcriptome_annotations`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`versions`)) {
+          sprintf(
+          '"versions":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`versions`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`preferred_assay_slims`)) {
           sprintf(
           '"preferred_assay_slims":
@@ -1173,6 +1196,7 @@ CuratedSet <- R6::R6Class(
       self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "array[character]", loadNamespace("igvfclient"))
       self$`assemblies` <- ApiClient$new()$deserializeObj(this_object$`assemblies`, "set[character]", loadNamespace("igvfclient"))
       self$`transcriptome_annotations` <- ApiClient$new()$deserializeObj(this_object$`transcriptome_annotations`, "set[character]", loadNamespace("igvfclient"))
+      self$`versions` <- ApiClient$new()$deserializeObj(this_object$`versions`, "set[character]", loadNamespace("igvfclient"))
       self$`preferred_assay_slims` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_slims`, "set[character]", loadNamespace("igvfclient"))
       self
     },
@@ -1242,6 +1266,7 @@ CuratedSet <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1277,6 +1302,7 @@ CuratedSet <- R6::R6Class(
       if (!str_detect(self$`description`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         invalid_fields["description"] <- "Invalid value for `description`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
+
 
 
 

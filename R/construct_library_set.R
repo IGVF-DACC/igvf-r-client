@@ -46,6 +46,7 @@
 #' @field large_scale_orf_list The large scale list of (>100 ORF) this construct library was designed to target. character [optional]
 #' @field exon An identifier in plain text for the specific exon in an expression vector library. The associated gene must be listed in the small_scale_gene_list property. character [optional]
 #' @field tile  \link{Tile} [optional]
+#' @field chromosomes The list of chromosomes this construct library was designed to target. list(character) [optional]
 #' @field guide_type The design of guides used in a CRISPR library, paired-guide (pgRNA) or single-guide (sgRNA). character [optional]
 #' @field tiling_modality The tiling modality of guides across elements or loci in a CRISPR library. character [optional]
 #' @field average_guide_coverage The average number of guides targeting each element of interest in the library. numeric [optional]
@@ -122,6 +123,7 @@ ConstructLibrarySet <- R6::R6Class(
     `large_scale_orf_list` = NULL,
     `exon` = NULL,
     `tile` = NULL,
+    `chromosomes` = NULL,
     `guide_type` = NULL,
     `tiling_modality` = NULL,
     `average_guide_coverage` = NULL,
@@ -150,7 +152,7 @@ ConstructLibrarySet <- R6::R6Class(
     `assay_titles` = NULL,
     `assay_slims` = NULL,
     `donors` = NULL,
-    `_field_list` = c("is_on_anvil", "doi", "preview_timestamp", "control_file_sets", "small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "sources", "lot_id", "product_id", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "file_set_type", "control_types", "scope", "selection_criteria", "integrated_content_files", "associated_phenotypes", "small_scale_orf_list", "large_scale_orf_list", "exon", "tile", "guide_type", "tiling_modality", "average_guide_coverage", "lower_bound_guide_coverage", "upper_bound_guide_coverage", "average_insert_size", "lower_bound_insert_size", "upper_bound_insert_size", "targeton", "supersedes", "@id", "@type", "summary", "files", "control_for", "superseded_by", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access", "samples", "file_sets", "preferred_assay_titles", "preferred_assay_slims", "assay_titles", "assay_slims", "donors"),
+    `_field_list` = c("is_on_anvil", "doi", "preview_timestamp", "control_file_sets", "small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "sources", "lot_id", "product_id", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "file_set_type", "control_types", "scope", "selection_criteria", "integrated_content_files", "associated_phenotypes", "small_scale_orf_list", "large_scale_orf_list", "exon", "tile", "chromosomes", "guide_type", "tiling_modality", "average_guide_coverage", "lower_bound_guide_coverage", "upper_bound_guide_coverage", "average_insert_size", "lower_bound_insert_size", "upper_bound_insert_size", "targeton", "supersedes", "@id", "@type", "summary", "files", "control_for", "superseded_by", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access", "samples", "file_sets", "preferred_assay_titles", "preferred_assay_slims", "assay_titles", "assay_slims", "donors"),
     `additional_properties` = list(),
     #' Initialize a new ConstructLibrarySet class.
     #'
@@ -196,6 +198,7 @@ ConstructLibrarySet <- R6::R6Class(
     #' @param large_scale_orf_list The large scale list of (>100 ORF) this construct library was designed to target.
     #' @param exon An identifier in plain text for the specific exon in an expression vector library. The associated gene must be listed in the small_scale_gene_list property.
     #' @param tile tile
+    #' @param chromosomes The list of chromosomes this construct library was designed to target.
     #' @param guide_type The design of guides used in a CRISPR library, paired-guide (pgRNA) or single-guide (sgRNA).
     #' @param tiling_modality The tiling modality of guides across elements or loci in a CRISPR library.
     #' @param average_guide_coverage The average number of guides targeting each element of interest in the library.
@@ -227,7 +230,7 @@ ConstructLibrarySet <- R6::R6Class(
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `preview_timestamp` = NULL, `control_file_sets` = NULL, `small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `file_set_type` = NULL, `control_types` = NULL, `scope` = NULL, `selection_criteria` = NULL, `integrated_content_files` = NULL, `associated_phenotypes` = NULL, `small_scale_orf_list` = NULL, `large_scale_orf_list` = NULL, `exon` = NULL, `tile` = NULL, `guide_type` = NULL, `tiling_modality` = NULL, `average_guide_coverage` = NULL, `lower_bound_guide_coverage` = NULL, `upper_bound_guide_coverage` = NULL, `average_insert_size` = NULL, `lower_bound_insert_size` = NULL, `upper_bound_insert_size` = NULL, `targeton` = NULL, `supersedes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `samples` = NULL, `file_sets` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `assay_titles` = NULL, `assay_slims` = NULL, `donors` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `preview_timestamp` = NULL, `control_file_sets` = NULL, `small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `file_set_type` = NULL, `control_types` = NULL, `scope` = NULL, `selection_criteria` = NULL, `integrated_content_files` = NULL, `associated_phenotypes` = NULL, `small_scale_orf_list` = NULL, `large_scale_orf_list` = NULL, `exon` = NULL, `tile` = NULL, `chromosomes` = NULL, `guide_type` = NULL, `tiling_modality` = NULL, `average_guide_coverage` = NULL, `lower_bound_guide_coverage` = NULL, `upper_bound_guide_coverage` = NULL, `average_insert_size` = NULL, `lower_bound_insert_size` = NULL, `upper_bound_insert_size` = NULL, `targeton` = NULL, `supersedes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `samples` = NULL, `file_sets` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `assay_titles` = NULL, `assay_slims` = NULL, `donors` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`is_on_anvil`)) {
         if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
           stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
@@ -411,8 +414,8 @@ ConstructLibrarySet <- R6::R6Class(
         self$`control_types` <- `control_types`
       }
       if (!is.null(`scope`)) {
-        if (!(`scope` %in% c("tile", "exon", "genes", "loci", "genome-wide", "interactors", "alleles", "targeton", "control"))) {
-          stop(paste("Error! \"", `scope`, "\" cannot be assigned to `scope`. Must be \"tile\", \"exon\", \"genes\", \"loci\", \"genome-wide\", \"interactors\", \"alleles\", \"targeton\", \"control\".", sep = ""))
+        if (!(`scope` %in% c("tile", "exon", "genes", "loci", "genome-wide", "interactors", "alleles", "targeton", "chromosome", "control"))) {
+          stop(paste("Error! \"", `scope`, "\" cannot be assigned to `scope`. Must be \"tile\", \"exon\", \"genes\", \"loci\", \"genome-wide\", \"interactors\", \"alleles\", \"targeton\", \"chromosome\", \"control\".", sep = ""))
         }
         if (!(is.character(`scope`) && length(`scope`) == 1)) {
           stop(paste("Error! Invalid data for `scope`. Must be a string:", `scope`))
@@ -454,6 +457,11 @@ ConstructLibrarySet <- R6::R6Class(
       if (!is.null(`tile`)) {
         stopifnot(R6::is.R6(`tile`))
         self$`tile` <- `tile`
+      }
+      if (!is.null(`chromosomes`)) {
+        stopifnot(is.vector(`chromosomes`), length(`chromosomes`) != 0)
+        sapply(`chromosomes`, function(x) stopifnot(is.character(x)))
+        self$`chromosomes` <- `chromosomes`
       }
       if (!is.null(`guide_type`)) {
         if (!(`guide_type` %in% c("sgRNA", "pgRNA"))) {
@@ -779,6 +787,10 @@ ConstructLibrarySet <- R6::R6Class(
         ConstructLibrarySetObject[["tile"]] <-
           self$`tile`$toJSON()
       }
+      if (!is.null(self$`chromosomes`)) {
+        ConstructLibrarySetObject[["chromosomes"]] <-
+          self$`chromosomes`
+      }
       if (!is.null(self$`guide_type`)) {
         ConstructLibrarySetObject[["guide_type"]] <-
           self$`guide_type`
@@ -1007,8 +1019,8 @@ ConstructLibrarySet <- R6::R6Class(
         self$`control_types` <- ApiClient$new()$deserializeObj(this_object$`control_types`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`scope`)) {
-        if (!is.null(this_object$`scope`) && !(this_object$`scope` %in% c("tile", "exon", "genes", "loci", "genome-wide", "interactors", "alleles", "targeton", "control"))) {
-          stop(paste("Error! \"", this_object$`scope`, "\" cannot be assigned to `scope`. Must be \"tile\", \"exon\", \"genes\", \"loci\", \"genome-wide\", \"interactors\", \"alleles\", \"targeton\", \"control\".", sep = ""))
+        if (!is.null(this_object$`scope`) && !(this_object$`scope` %in% c("tile", "exon", "genes", "loci", "genome-wide", "interactors", "alleles", "targeton", "chromosome", "control"))) {
+          stop(paste("Error! \"", this_object$`scope`, "\" cannot be assigned to `scope`. Must be \"tile\", \"exon\", \"genes\", \"loci\", \"genome-wide\", \"interactors\", \"alleles\", \"targeton\", \"chromosome\", \"control\".", sep = ""))
         }
         self$`scope` <- this_object$`scope`
       }
@@ -1034,6 +1046,9 @@ ConstructLibrarySet <- R6::R6Class(
         `tile_object` <- Tile$new()
         `tile_object`$fromJSON(jsonlite::toJSON(this_object$`tile`, auto_unbox = TRUE, digits = NA))
         self$`tile` <- `tile_object`
+      }
+      if (!is.null(this_object$`chromosomes`)) {
+        self$`chromosomes` <- ApiClient$new()$deserializeObj(this_object$`chromosomes`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`guide_type`)) {
         if (!is.null(this_object$`guide_type`) && !(this_object$`guide_type` %in% c("sgRNA", "pgRNA"))) {
@@ -1455,6 +1470,14 @@ ConstructLibrarySet <- R6::R6Class(
           jsonlite::toJSON(self$`tile`$toJSON(), auto_unbox = TRUE, digits = NA)
           )
         },
+        if (!is.null(self$`chromosomes`)) {
+          sprintf(
+          '"chromosomes":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`chromosomes`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`guide_type`)) {
           sprintf(
           '"guide_type":
@@ -1735,8 +1758,8 @@ ConstructLibrarySet <- R6::R6Class(
       }
       self$`file_set_type` <- this_object$`file_set_type`
       self$`control_types` <- ApiClient$new()$deserializeObj(this_object$`control_types`, "set[character]", loadNamespace("igvfclient"))
-      if (!is.null(this_object$`scope`) && !(this_object$`scope` %in% c("tile", "exon", "genes", "loci", "genome-wide", "interactors", "alleles", "targeton", "control"))) {
-        stop(paste("Error! \"", this_object$`scope`, "\" cannot be assigned to `scope`. Must be \"tile\", \"exon\", \"genes\", \"loci\", \"genome-wide\", \"interactors\", \"alleles\", \"targeton\", \"control\".", sep = ""))
+      if (!is.null(this_object$`scope`) && !(this_object$`scope` %in% c("tile", "exon", "genes", "loci", "genome-wide", "interactors", "alleles", "targeton", "chromosome", "control"))) {
+        stop(paste("Error! \"", this_object$`scope`, "\" cannot be assigned to `scope`. Must be \"tile\", \"exon\", \"genes\", \"loci\", \"genome-wide\", \"interactors\", \"alleles\", \"targeton\", \"chromosome\", \"control\".", sep = ""))
       }
       self$`scope` <- this_object$`scope`
       self$`selection_criteria` <- ApiClient$new()$deserializeObj(this_object$`selection_criteria`, "set[character]", loadNamespace("igvfclient"))
@@ -1746,6 +1769,7 @@ ConstructLibrarySet <- R6::R6Class(
       self$`large_scale_orf_list` <- this_object$`large_scale_orf_list`
       self$`exon` <- this_object$`exon`
       self$`tile` <- Tile$new()$fromJSON(jsonlite::toJSON(this_object$`tile`, auto_unbox = TRUE, digits = NA))
+      self$`chromosomes` <- ApiClient$new()$deserializeObj(this_object$`chromosomes`, "set[character]", loadNamespace("igvfclient"))
       if (!is.null(this_object$`guide_type`) && !(this_object$`guide_type` %in% c("sgRNA", "pgRNA"))) {
         stop(paste("Error! \"", this_object$`guide_type`, "\" cannot be assigned to `guide_type`. Must be \"sgRNA\", \"pgRNA\".", sep = ""))
       }
@@ -1867,6 +1891,7 @@ ConstructLibrarySet <- R6::R6Class(
         return(FALSE)
       }
 
+
       if (self$`average_guide_coverage` < 0) {
         return(FALSE)
       }
@@ -1953,6 +1978,7 @@ ConstructLibrarySet <- R6::R6Class(
       if (!str_detect(self$`exon`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         invalid_fields["exon"] <- "Invalid value for `exon`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
+
 
       if (self$`average_guide_coverage` < 0) {
         invalid_fields["average_guide_coverage"] <- "Invalid value for `average_guide_coverage`, must be bigger than or equal to 0."

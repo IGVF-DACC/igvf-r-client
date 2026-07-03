@@ -48,6 +48,7 @@ Name | Type | Description | Notes
 **assay_titles** | **array[character]** | Ontology term names from Ontology of Biomedical Investigations (OBI) for assays | [optional] 
 **assemblies** | **set[character]** | The genome assemblies to which the referencing files in the file set are utilizing (e.g., GRCh38). | [optional] 
 **transcriptome_annotations** | **set[character]** | The annotation versions of the reference resource. | [optional] 
+**versions** | **set[character]** | The versions of the reference files for external data loaded into the IGVF catalog. | [optional] 
 **preferred_assay_slims** | **set[character]** | Preferred Assay Slim(s) of assays that produced data analyzed in the analysis set. | [optional] 
 
 

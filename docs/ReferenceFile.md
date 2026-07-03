@@ -53,6 +53,7 @@ Name | Type | Description | Notes
 **supersedes** | **set[character]** | The file(s) that this file supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. | [optional] 
 **catalog_adapters** | **set[character]** | IGVF Catalog Adapters that ingests this file | [optional] 
 **catalog_method** | **character** | The method curated in the IGVF catalog that the non-IGVF data in this file processed with | [optional] [Enum: [ADASTRA, caQTL, COXPRESdb, eQTL, GWAS, GVATdb, pQTL, spliceQTL]] 
+**version** | **character** | The version of this reference file, used for external files loaded into the IGVF catalog. | [optional] 
 **sources** | **set[character]** | The originating lab(s) or vendor(s). | [optional] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
