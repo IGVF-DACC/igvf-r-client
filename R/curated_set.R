@@ -310,8 +310,8 @@ CuratedSet <- R6::R6Class(
         self$`donors` <- `donors`
       }
       if (!is.null(`file_set_type`)) {
-        if (!(`file_set_type` %in% c("barcodes", "editing templates", "elements", "external data for catalog", "external sequencing data", "functional effect", "genome", "genes", "guide RNAs", "pipeline parameters", "enrichment designs", "QTL", "training data for predictive models", "transcriptome", "variants"))) {
-          stop(paste("Error! \"", `file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"barcodes\", \"editing templates\", \"elements\", \"external data for catalog\", \"external sequencing data\", \"functional effect\", \"genome\", \"genes\", \"guide RNAs\", \"pipeline parameters\", \"enrichment designs\", \"QTL\", \"training data for predictive models\", \"transcriptome\", \"variants\".", sep = ""))
+        if (!(`file_set_type` %in% c("barcodes", "editing templates", "elements", "external data for catalog", "external sequencing data", "functional effect", "genome", "genes", "guide RNAs", "pathway gene mapping", "pipeline parameters", "enrichment designs", "QTL", "training data for predictive models", "transcriptome", "variants"))) {
+          stop(paste("Error! \"", `file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"barcodes\", \"editing templates\", \"elements\", \"external data for catalog\", \"external sequencing data\", \"functional effect\", \"genome\", \"genes\", \"guide RNAs\", \"pathway gene mapping\", \"pipeline parameters\", \"enrichment designs\", \"QTL\", \"training data for predictive models\", \"transcriptome\", \"variants\".", sep = ""))
         }
         if (!(is.character(`file_set_type`) && length(`file_set_type`) == 1)) {
           stop(paste("Error! Invalid data for `file_set_type`. Must be a string:", `file_set_type`))
@@ -700,8 +700,8 @@ CuratedSet <- R6::R6Class(
         self$`donors` <- ApiClient$new()$deserializeObj(this_object$`donors`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`file_set_type`)) {
-        if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("barcodes", "editing templates", "elements", "external data for catalog", "external sequencing data", "functional effect", "genome", "genes", "guide RNAs", "pipeline parameters", "enrichment designs", "QTL", "training data for predictive models", "transcriptome", "variants"))) {
-          stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"barcodes\", \"editing templates\", \"elements\", \"external data for catalog\", \"external sequencing data\", \"functional effect\", \"genome\", \"genes\", \"guide RNAs\", \"pipeline parameters\", \"enrichment designs\", \"QTL\", \"training data for predictive models\", \"transcriptome\", \"variants\".", sep = ""))
+        if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("barcodes", "editing templates", "elements", "external data for catalog", "external sequencing data", "functional effect", "genome", "genes", "guide RNAs", "pathway gene mapping", "pipeline parameters", "enrichment designs", "QTL", "training data for predictive models", "transcriptome", "variants"))) {
+          stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"barcodes\", \"editing templates\", \"elements\", \"external data for catalog\", \"external sequencing data\", \"functional effect\", \"genome\", \"genes\", \"guide RNAs\", \"pathway gene mapping\", \"pipeline parameters\", \"enrichment designs\", \"QTL\", \"training data for predictive models\", \"transcriptome\", \"variants\".", sep = ""))
         }
         self$`file_set_type` <- this_object$`file_set_type`
       }
@@ -1176,8 +1176,8 @@ CuratedSet <- R6::R6Class(
       self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
       self$`samples` <- ApiClient$new()$deserializeObj(this_object$`samples`, "set[character]", loadNamespace("igvfclient"))
       self$`donors` <- ApiClient$new()$deserializeObj(this_object$`donors`, "set[character]", loadNamespace("igvfclient"))
-      if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("barcodes", "editing templates", "elements", "external data for catalog", "external sequencing data", "functional effect", "genome", "genes", "guide RNAs", "pipeline parameters", "enrichment designs", "QTL", "training data for predictive models", "transcriptome", "variants"))) {
-        stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"barcodes\", \"editing templates\", \"elements\", \"external data for catalog\", \"external sequencing data\", \"functional effect\", \"genome\", \"genes\", \"guide RNAs\", \"pipeline parameters\", \"enrichment designs\", \"QTL\", \"training data for predictive models\", \"transcriptome\", \"variants\".", sep = ""))
+      if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("barcodes", "editing templates", "elements", "external data for catalog", "external sequencing data", "functional effect", "genome", "genes", "guide RNAs", "pathway gene mapping", "pipeline parameters", "enrichment designs", "QTL", "training data for predictive models", "transcriptome", "variants"))) {
+        stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"barcodes\", \"editing templates\", \"elements\", \"external data for catalog\", \"external sequencing data\", \"functional effect\", \"genome\", \"genes\", \"guide RNAs\", \"pathway gene mapping\", \"pipeline parameters\", \"enrichment designs\", \"QTL\", \"training data for predictive models\", \"transcriptome\", \"variants\".", sep = ""))
       }
       self$`file_set_type` <- this_object$`file_set_type`
       self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
