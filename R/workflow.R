@@ -37,6 +37,7 @@
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary  character [optional]
+#' @field preferred_assay_slims Preferred Assay Slim(s) of assays that produced data analyzed in the analysis set. list(character) [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -73,6 +74,7 @@ Workflow <- R6::R6Class(
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
+    `preferred_assay_slims` = NULL,
     #' Initialize a new Workflow class.
     #'
     #' @description
@@ -108,9 +110,10 @@ Workflow <- R6::R6Class(
     #' @param @id @id
     #' @param @type @type
     #' @param summary summary
+    #' @param preferred_assay_slims Preferred Assay Slim(s) of assays that produced data analyzed in the analysis set.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preferred_assay_titles` = NULL, `preview_timestamp` = NULL, `source_url` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `name` = NULL, `workflow_repositories` = NULL, `standards_page` = NULL, `workflow_version` = NULL, `uniform_pipeline` = NULL, `analysis_step_versions` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, ...) {
+    initialize = function(`preferred_assay_titles` = NULL, `preview_timestamp` = NULL, `source_url` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `name` = NULL, `workflow_repositories` = NULL, `standards_page` = NULL, `workflow_version` = NULL, `uniform_pipeline` = NULL, `analysis_step_versions` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `preferred_assay_slims` = NULL, ...) {
       if (!is.null(`preferred_assay_titles`)) {
         stopifnot(is.vector(`preferred_assay_titles`), length(`preferred_assay_titles`) != 0)
         sapply(`preferred_assay_titles`, function(x) stopifnot(is.character(x)))
@@ -285,6 +288,11 @@ Workflow <- R6::R6Class(
         }
         self$`summary` <- `summary`
       }
+      if (!is.null(`preferred_assay_slims`)) {
+        stopifnot(is.vector(`preferred_assay_slims`), length(`preferred_assay_slims`) != 0)
+        sapply(`preferred_assay_slims`, function(x) stopifnot(is.character(x)))
+        self$`preferred_assay_slims` <- `preferred_assay_slims`
+      }
     },
     #' To JSON string
     #'
@@ -415,6 +423,10 @@ Workflow <- R6::R6Class(
         WorkflowObject[["summary"]] <-
           self$`summary`
       }
+      if (!is.null(self$`preferred_assay_slims`)) {
+        WorkflowObject[["preferred_assay_slims"]] <-
+          self$`preferred_assay_slims`
+      }
       WorkflowObject
     },
     #' Deserialize JSON string into an instance of Workflow
@@ -519,6 +531,9 @@ Workflow <- R6::R6Class(
       }
       if (!is.null(this_object$`summary`)) {
         self$`summary` <- this_object$`summary`
+      }
+      if (!is.null(this_object$`preferred_assay_slims`)) {
+        self$`preferred_assay_slims` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_slims`, "set[character]", loadNamespace("igvfclient"))
       }
       self
     },
@@ -770,6 +785,14 @@ Workflow <- R6::R6Class(
                     ',
           gsub('(?<!\\\\)\\"', '\\\\"', self$`summary`, perl=TRUE)
           )
+        },
+        if (!is.null(self$`preferred_assay_slims`)) {
+          sprintf(
+          '"preferred_assay_slims":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`preferred_assay_slims`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -818,6 +841,7 @@ Workflow <- R6::R6Class(
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
+      self$`preferred_assay_slims` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_slims`, "set[character]", loadNamespace("igvfclient"))
       self
     },
     #' Validate JSON input with respect to Workflow
@@ -887,6 +911,7 @@ Workflow <- R6::R6Class(
       }
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -935,6 +960,7 @@ Workflow <- R6::R6Class(
       if (!str_detect(self$`workflow_version`, "^v(?!0\\.0\\.0$)([0-9]+[a-zA-Z0-9]*(\\.[0-9]+[a-zA-Z0-9]*){0,3})$")) {
         invalid_fields["workflow_version"] <- "Invalid value for `workflow_version`, must conform to the pattern ^v(?!0\\.0\\.0$)([0-9]+[a-zA-Z0-9]*(\\.[0-9]+[a-zA-Z0-9]*){0,3})$."
       }
+
 
 
       invalid_fields

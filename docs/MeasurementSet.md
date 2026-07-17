@@ -34,7 +34,7 @@ Name | Type | Description | Notes
 **file_set_type** | **character** | The category that best describes this measurement set. | [optional] [Enum: [experimental data]] 
 **supersedes** | **set[character]** | The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. | [optional] 
 **assay_term** | **character** | The assay used to produce data in this measurement set. | [optional] 
-**crispr_screen_readout** | **character** | The sequencing readout produced by this CRISPR measurement set. | [optional] [Enum: [gRNA sequencing, endogenous allelic sequencing, exogenous allelic sequencing, scRNA-seq, scRNA-seq with guide capture, scATAC-seq]] 
+**crispr_screen_readout** | **character** | The sequencing readout produced by this CRISPR measurement set. | [optional] [Enum: [gRNA sequencing, endogenous allelic sequencing, exogenous allelic sequencing, scRNA-seq, scRNA-seq including guide capture, snATAC-seq]] 
 **crispr_screen_biometric** | **character** | The phenotype used for selection or inference in this CRISPR screen, distinct from the sequencing readout. | [optional] 
 **protocols** | **set[character]** | Links to the protocol(s) for conducting the assay on Protocols.io. | [optional] 
 **multiome_size** | **integer** | The number of datasets included in the multiome experiment this measurement set is a part of. | [optional] [Min: 1] 

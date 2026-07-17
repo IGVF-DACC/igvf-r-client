@@ -383,8 +383,8 @@ MeasurementSet <- R6::R6Class(
         self$`assay_term` <- `assay_term`
       }
       if (!is.null(`crispr_screen_readout`)) {
-        if (!(`crispr_screen_readout` %in% c("gRNA sequencing", "endogenous allelic sequencing", "exogenous allelic sequencing", "scRNA-seq", "scRNA-seq with guide capture", "scATAC-seq"))) {
-          stop(paste("Error! \"", `crispr_screen_readout`, "\" cannot be assigned to `crispr_screen_readout`. Must be \"gRNA sequencing\", \"endogenous allelic sequencing\", \"exogenous allelic sequencing\", \"scRNA-seq\", \"scRNA-seq with guide capture\", \"scATAC-seq\".", sep = ""))
+        if (!(`crispr_screen_readout` %in% c("gRNA sequencing", "endogenous allelic sequencing", "exogenous allelic sequencing", "scRNA-seq", "scRNA-seq including guide capture", "snATAC-seq"))) {
+          stop(paste("Error! \"", `crispr_screen_readout`, "\" cannot be assigned to `crispr_screen_readout`. Must be \"gRNA sequencing\", \"endogenous allelic sequencing\", \"exogenous allelic sequencing\", \"scRNA-seq\", \"scRNA-seq including guide capture\", \"snATAC-seq\".", sep = ""))
         }
         if (!(is.character(`crispr_screen_readout`) && length(`crispr_screen_readout`) == 1)) {
           stop(paste("Error! Invalid data for `crispr_screen_readout`. Must be a string:", `crispr_screen_readout`))
@@ -944,8 +944,8 @@ MeasurementSet <- R6::R6Class(
         self$`assay_term` <- this_object$`assay_term`
       }
       if (!is.null(this_object$`crispr_screen_readout`)) {
-        if (!is.null(this_object$`crispr_screen_readout`) && !(this_object$`crispr_screen_readout` %in% c("gRNA sequencing", "endogenous allelic sequencing", "exogenous allelic sequencing", "scRNA-seq", "scRNA-seq with guide capture", "scATAC-seq"))) {
-          stop(paste("Error! \"", this_object$`crispr_screen_readout`, "\" cannot be assigned to `crispr_screen_readout`. Must be \"gRNA sequencing\", \"endogenous allelic sequencing\", \"exogenous allelic sequencing\", \"scRNA-seq\", \"scRNA-seq with guide capture\", \"scATAC-seq\".", sep = ""))
+        if (!is.null(this_object$`crispr_screen_readout`) && !(this_object$`crispr_screen_readout` %in% c("gRNA sequencing", "endogenous allelic sequencing", "exogenous allelic sequencing", "scRNA-seq", "scRNA-seq including guide capture", "snATAC-seq"))) {
+          stop(paste("Error! \"", this_object$`crispr_screen_readout`, "\" cannot be assigned to `crispr_screen_readout`. Must be \"gRNA sequencing\", \"endogenous allelic sequencing\", \"exogenous allelic sequencing\", \"scRNA-seq\", \"scRNA-seq including guide capture\", \"snATAC-seq\".", sep = ""))
         }
         self$`crispr_screen_readout` <- this_object$`crispr_screen_readout`
       }
@@ -1622,8 +1622,8 @@ MeasurementSet <- R6::R6Class(
       self$`file_set_type` <- this_object$`file_set_type`
       self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
       self$`assay_term` <- this_object$`assay_term`
-      if (!is.null(this_object$`crispr_screen_readout`) && !(this_object$`crispr_screen_readout` %in% c("gRNA sequencing", "endogenous allelic sequencing", "exogenous allelic sequencing", "scRNA-seq", "scRNA-seq with guide capture", "scATAC-seq"))) {
-        stop(paste("Error! \"", this_object$`crispr_screen_readout`, "\" cannot be assigned to `crispr_screen_readout`. Must be \"gRNA sequencing\", \"endogenous allelic sequencing\", \"exogenous allelic sequencing\", \"scRNA-seq\", \"scRNA-seq with guide capture\", \"scATAC-seq\".", sep = ""))
+      if (!is.null(this_object$`crispr_screen_readout`) && !(this_object$`crispr_screen_readout` %in% c("gRNA sequencing", "endogenous allelic sequencing", "exogenous allelic sequencing", "scRNA-seq", "scRNA-seq including guide capture", "snATAC-seq"))) {
+        stop(paste("Error! \"", this_object$`crispr_screen_readout`, "\" cannot be assigned to `crispr_screen_readout`. Must be \"gRNA sequencing\", \"endogenous allelic sequencing\", \"exogenous allelic sequencing\", \"scRNA-seq\", \"scRNA-seq including guide capture\", \"snATAC-seq\".", sep = ""))
       }
       self$`crispr_screen_readout` <- this_object$`crispr_screen_readout`
       self$`crispr_screen_biometric` <- this_object$`crispr_screen_biometric`
