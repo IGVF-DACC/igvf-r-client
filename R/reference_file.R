@@ -513,8 +513,8 @@ ReferenceFile <- R6::R6Class(
         self$`catalog_adapters` <- `catalog_adapters`
       }
       if (!is.null(`catalog_method`)) {
-        if (!(`catalog_method` %in% c("ADASTRA", "caQTL", "COXPRESdb", "eQTL", "GWAS", "GVATdb", "pQTL", "spliceQTL"))) {
-          stop(paste("Error! \"", `catalog_method`, "\" cannot be assigned to `catalog_method`. Must be \"ADASTRA\", \"caQTL\", \"COXPRESdb\", \"eQTL\", \"GWAS\", \"GVATdb\", \"pQTL\", \"spliceQTL\".", sep = ""))
+        if (!(`catalog_method` %in% c("ADASTRA", "caQTL", "ClinGen", "COXPRESdb", "DepMap", "eQTL", "GenCC", "GVATdb", "GWAS", "HOCOMOCO", "Homology", "Orphanet", "PharmGKB", "pQTL", "spliceQTL", "TopLD"))) {
+          stop(paste("Error! \"", `catalog_method`, "\" cannot be assigned to `catalog_method`. Must be \"ADASTRA\", \"caQTL\", \"ClinGen\", \"COXPRESdb\", \"DepMap\", \"eQTL\", \"GenCC\", \"GVATdb\", \"GWAS\", \"HOCOMOCO\", \"Homology\", \"Orphanet\", \"PharmGKB\", \"pQTL\", \"spliceQTL\", \"TopLD\".", sep = ""))
         }
         if (!(is.character(`catalog_method`) && length(`catalog_method`) == 1)) {
           stop(paste("Error! Invalid data for `catalog_method`. Must be a string:", `catalog_method`))
@@ -1063,8 +1063,8 @@ ReferenceFile <- R6::R6Class(
         self$`catalog_adapters` <- ApiClient$new()$deserializeObj(this_object$`catalog_adapters`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`catalog_method`)) {
-        if (!is.null(this_object$`catalog_method`) && !(this_object$`catalog_method` %in% c("ADASTRA", "caQTL", "COXPRESdb", "eQTL", "GWAS", "GVATdb", "pQTL", "spliceQTL"))) {
-          stop(paste("Error! \"", this_object$`catalog_method`, "\" cannot be assigned to `catalog_method`. Must be \"ADASTRA\", \"caQTL\", \"COXPRESdb\", \"eQTL\", \"GWAS\", \"GVATdb\", \"pQTL\", \"spliceQTL\".", sep = ""))
+        if (!is.null(this_object$`catalog_method`) && !(this_object$`catalog_method` %in% c("ADASTRA", "caQTL", "ClinGen", "COXPRESdb", "DepMap", "eQTL", "GenCC", "GVATdb", "GWAS", "HOCOMOCO", "Homology", "Orphanet", "PharmGKB", "pQTL", "spliceQTL", "TopLD"))) {
+          stop(paste("Error! \"", this_object$`catalog_method`, "\" cannot be assigned to `catalog_method`. Must be \"ADASTRA\", \"caQTL\", \"ClinGen\", \"COXPRESdb\", \"DepMap\", \"eQTL\", \"GenCC\", \"GVATdb\", \"GWAS\", \"HOCOMOCO\", \"Homology\", \"Orphanet\", \"PharmGKB\", \"pQTL\", \"spliceQTL\", \"TopLD\".", sep = ""))
         }
         self$`catalog_method` <- this_object$`catalog_method`
       }
@@ -1743,8 +1743,8 @@ ReferenceFile <- R6::R6Class(
       self$`checkfiles_timestamp` <- this_object$`checkfiles_timestamp`
       self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
       self$`catalog_adapters` <- ApiClient$new()$deserializeObj(this_object$`catalog_adapters`, "set[character]", loadNamespace("igvfclient"))
-      if (!is.null(this_object$`catalog_method`) && !(this_object$`catalog_method` %in% c("ADASTRA", "caQTL", "COXPRESdb", "eQTL", "GWAS", "GVATdb", "pQTL", "spliceQTL"))) {
-        stop(paste("Error! \"", this_object$`catalog_method`, "\" cannot be assigned to `catalog_method`. Must be \"ADASTRA\", \"caQTL\", \"COXPRESdb\", \"eQTL\", \"GWAS\", \"GVATdb\", \"pQTL\", \"spliceQTL\".", sep = ""))
+      if (!is.null(this_object$`catalog_method`) && !(this_object$`catalog_method` %in% c("ADASTRA", "caQTL", "ClinGen", "COXPRESdb", "DepMap", "eQTL", "GenCC", "GVATdb", "GWAS", "HOCOMOCO", "Homology", "Orphanet", "PharmGKB", "pQTL", "spliceQTL", "TopLD"))) {
+        stop(paste("Error! \"", this_object$`catalog_method`, "\" cannot be assigned to `catalog_method`. Must be \"ADASTRA\", \"caQTL\", \"ClinGen\", \"COXPRESdb\", \"DepMap\", \"eQTL\", \"GenCC\", \"GVATdb\", \"GWAS\", \"HOCOMOCO\", \"Homology\", \"Orphanet\", \"PharmGKB\", \"pQTL\", \"spliceQTL\", \"TopLD\".", sep = ""))
       }
       self$`catalog_method` <- this_object$`catalog_method`
       self$`version` <- this_object$`version`

@@ -124,7 +124,7 @@ Name | Type | Description | Notes
 **catalog_adapters** | **set[character]** | IGVF Catalog Adapters that ingests this file | [optional] 
 **source_url** | **character** | An external resource to the code base of the workflow in github. | [optional] [Pattern: ^https?://(github\\.com/\\S+|support\\.parsebiosciences\\.com/\\S*|www\\.10xgenomics\\.com/\\S*|developer\\.illumina\\.com/\\S*)$] 
 **file_format_type** | **character** | The subtype of bed files. | [optional] [Enum: [bed12, bed3, bed3+, bed5, bed6, bed6+, bed9, bed9+, mpra_element, mpra_variant]] 
-**catalog_method** | **character** | The method curated in the IGVF catalog that the non-IGVF data in this file processed with | [optional] [Enum: [ADASTRA, caQTL, COXPRESdb, eQTL, GWAS, GVATdb, pQTL, spliceQTL]] 
+**catalog_method** | **character** | The method curated in the IGVF catalog that the non-IGVF data in this file processed with | [optional] [Enum: [ADASTRA, caQTL, ClinGen, COXPRESdb, DepMap, eQTL, GenCC, GVATdb, GWAS, HOCOMOCO, Homology, Orphanet, PharmGKB, pQTL, spliceQTL, TopLD]] 
 **version** | **character** | The version of a particular software. | [optional] [Pattern: ^v(?!0\\.0\\.0$)([0-9]+[a-zA-Z0-9]*(\\.[0-9]+[a-zA-Z0-9]*){0,3})$] 
 **flowcell_id** | **character** | The alphanumeric identifier for the flowcell of a sequencing machine. | [optional] [Pattern: ^[a-zA-Z0-9-]+$] 
 **lane** | **integer** | An integer identifying the lane of a sequencing machine. | [optional] [Min: 1] 
