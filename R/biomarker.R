@@ -24,7 +24,7 @@
 #' @field classification Sample specific biomarker. character [optional]
 #' @field quantification The biomarker association to the biosample, disease or other condition.  This can be the absence of the biomarker or the presence of the biomarker in some low, intermediate or high quantity. character [optional]
 #' @field synonyms Alternate names for this biomarker. list(character) [optional]
-#' @field gene Biomarker gene. character [optional]
+#' @field gene The gene associated with this biomarker. For flow cytometry assays such as CRISPR FACS or MACS screens, use this property when the gene is used for sample sorting or as a differentiation marker and is not the primary focus of the experiment. When the gene is the primary focus of the assay, use targeted_genes on the Measurement Set instead. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary  character [optional]
@@ -81,7 +81,7 @@ Biomarker <- R6::R6Class(
     #' @param classification Sample specific biomarker.
     #' @param quantification The biomarker association to the biosample, disease or other condition.  This can be the absence of the biomarker or the presence of the biomarker in some low, intermediate or high quantity.
     #' @param synonyms Alternate names for this biomarker.
-    #' @param gene Biomarker gene.
+    #' @param gene The gene associated with this biomarker. For flow cytometry assays such as CRISPR FACS or MACS screens, use this property when the gene is used for sample sorting or as a differentiation marker and is not the primary focus of the experiment. When the gene is the primary focus of the assay, use targeted_genes on the Measurement Set instead.
     #' @param @id @id
     #' @param @type @type
     #' @param summary summary

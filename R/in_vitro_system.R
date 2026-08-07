@@ -42,7 +42,7 @@
 #' @field originated_from Links to a biosample that was originated from due to differentiation, dedifferentiation, reprogramming, or the introduction of a genetic modification. character [optional]
 #' @field treatments A list of treatments applied to the biosample with the purpose of perturbation. list(character) [optional]
 #' @field donors Donor(s) the sample was derived from. list(character) [optional]
-#' @field biomarkers Biological markers that are associated with this sample. list(character) [optional]
+#' @field biomarkers Biological markers associated with this sample, such as cell surface proteins or marker genes used for sorting. For flow cytometry assays, when a gene is used for sorting but is not the primary focus of the experiment, link a biomarker with gene here rather than using targeted_genes on the Measurement Set. list(character) [optional]
 #' @field embryonic Biosample is embryonic. character [optional]
 #' @field modifications Links to modifications applied to this biosample. list(character) [optional]
 #' @field cellular_sub_pool Cellular sub-pool fraction of the sample. Also known as PKR and sub-library. character [optional]
@@ -217,7 +217,7 @@ InVitroSystem <- R6::R6Class(
     #' @param originated_from Links to a biosample that was originated from due to differentiation, dedifferentiation, reprogramming, or the introduction of a genetic modification.
     #' @param treatments A list of treatments applied to the biosample with the purpose of perturbation.
     #' @param donors Donor(s) the sample was derived from.
-    #' @param biomarkers Biological markers that are associated with this sample.
+    #' @param biomarkers Biological markers associated with this sample, such as cell surface proteins or marker genes used for sorting. For flow cytometry assays, when a gene is used for sorting but is not the primary focus of the experiment, link a biomarker with gene here rather than using targeted_genes on the Measurement Set.
     #' @param embryonic Biosample is embryonic.
     #' @param modifications Links to modifications applied to this biosample.
     #' @param cellular_sub_pool Cellular sub-pool fraction of the sample. Also known as PKR and sub-library.

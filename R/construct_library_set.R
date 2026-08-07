@@ -13,7 +13,7 @@
 #' @field control_file_sets File sets that can serve as scientific controls for this file set. list(character) [optional]
 #' @field small_scale_loci_list A small scale (<=100) list of specific chromosomal region(s). list(\link{Locus1}) [optional]
 #' @field large_scale_loci_list A large scale list (>100) of specific chromosomal regions. character [optional]
-#' @field small_scale_gene_list The specific, small scale list of (<=100) gene(s) this construct library was designed to target. This property differs from targeted_genes in Measurement Set, which describes genes targeted for binding sites or used for sorting by expression. list(character) [optional]
+#' @field small_scale_gene_list The specific, small scale list of (<=100) gene(s) this construct library was designed to target. This property differs from targeted_genes in Measurement Set, which describes genes that are the primary focus of an assay, and from biomarkers.gene on Sample, which describes genes used only as sort or differentiation markers. list(character) [optional]
 #' @field large_scale_gene_list The large scale list of (>100 genes) this construct library was designed to target. character [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field publications The publications associated with this object. list(character) [optional]
@@ -165,7 +165,7 @@ ConstructLibrarySet <- R6::R6Class(
     #' @param control_file_sets File sets that can serve as scientific controls for this file set.
     #' @param small_scale_loci_list A small scale (<=100) list of specific chromosomal region(s).
     #' @param large_scale_loci_list A large scale list (>100) of specific chromosomal regions.
-    #' @param small_scale_gene_list The specific, small scale list of (<=100) gene(s) this construct library was designed to target. This property differs from targeted_genes in Measurement Set, which describes genes targeted for binding sites or used for sorting by expression.
+    #' @param small_scale_gene_list The specific, small scale list of (<=100) gene(s) this construct library was designed to target. This property differs from targeted_genes in Measurement Set, which describes genes that are the primary focus of an assay, and from biomarkers.gene on Sample, which describes genes used only as sort or differentiation markers.
     #' @param large_scale_gene_list The large scale list of (>100 genes) this construct library was designed to target.
     #' @param release_timestamp The date the object was released.
     #' @param publications The publications associated with this object.
