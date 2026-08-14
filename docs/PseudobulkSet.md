@@ -20,6 +20,7 @@ Name | Type | Description | Notes
 **collections** | **set[character]** | Some samples are part of particular data collections. | [optional] [Enum: ] 
 **status** | **character** | The status of the metadata object. | [optional] [Enum: [in progress, preview, released, deleted, replaced, revoked, archived]] 
 **revoke_detail** | **character** | Explanation of why an object was transitioned to the revoked status. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
+**url** | **character** | An external resource with additional information. | [optional] 
 **schema_version** | **character** | The version of the JSON schema that the server uses to validate the object. | [optional] [Pattern: ^\\d+(\\.\\d+)*$] 
 **uuid** | **character** | The unique identifier associated with every object. | [optional] 
 **notes** | **character** | DACC internal notes. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 

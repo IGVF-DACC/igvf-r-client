@@ -22,6 +22,7 @@
 #' @field collections Some samples are part of particular data collections. list(character) [optional]
 #' @field status The status of the metadata object. character [optional]
 #' @field revoke_detail Explanation of why an object was transitioned to the revoked status. character [optional]
+#' @field url An external resource with additional information. character [optional]
 #' @field schema_version The version of the JSON schema that the server uses to validate the object. character [optional]
 #' @field uuid The unique identifier associated with every object. character [optional]
 #' @field notes DACC internal notes. character [optional]
@@ -74,6 +75,7 @@ PseudobulkSet <- R6::R6Class(
     `collections` = NULL,
     `status` = NULL,
     `revoke_detail` = NULL,
+    `url` = NULL,
     `schema_version` = NULL,
     `uuid` = NULL,
     `notes` = NULL,
@@ -125,6 +127,7 @@ PseudobulkSet <- R6::R6Class(
     #' @param collections Some samples are part of particular data collections.
     #' @param status The status of the metadata object.
     #' @param revoke_detail Explanation of why an object was transitioned to the revoked status.
+    #' @param url An external resource with additional information.
     #' @param schema_version The version of the JSON schema that the server uses to validate the object.
     #' @param uuid The unique identifier associated with every object.
     #' @param notes DACC internal notes.
@@ -158,7 +161,7 @@ PseudobulkSet <- R6::R6Class(
     #' @param assay_slims A broad categorization of the assay term.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`cell_type` = NULL, `cell_qualifier` = NULL, `is_on_anvil` = NULL, `doi` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `merged` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `cell_annotation` = NULL, `workflows` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `assay_titles` = NULL, `assay_slims` = NULL, ...) {
+    initialize = function(`cell_type` = NULL, `cell_qualifier` = NULL, `is_on_anvil` = NULL, `doi` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `merged` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `cell_annotation` = NULL, `workflows` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `assay_titles` = NULL, `assay_slims` = NULL, ...) {
       if (!is.null(`cell_type`)) {
         if (!(is.character(`cell_type`) && length(`cell_type`) == 1)) {
           stop(paste("Error! Invalid data for `cell_type`. Must be a string:", `cell_type`))
@@ -246,6 +249,12 @@ PseudobulkSet <- R6::R6Class(
           stop(paste("Error! Invalid data for `revoke_detail`. Must be a string:", `revoke_detail`))
         }
         self$`revoke_detail` <- `revoke_detail`
+      }
+      if (!is.null(`url`)) {
+        if (!(is.character(`url`) && length(`url`) == 1)) {
+          stop(paste("Error! Invalid data for `url`. Must be a string:", `url`))
+        }
+        self$`url` <- `url`
       }
       if (!is.null(`schema_version`)) {
         if (!(is.character(`schema_version`) && length(`schema_version`) == 1)) {
@@ -489,6 +498,10 @@ PseudobulkSet <- R6::R6Class(
         PseudobulkSetObject[["revoke_detail"]] <-
           self$`revoke_detail`
       }
+      if (!is.null(self$`url`)) {
+        PseudobulkSetObject[["url"]] <-
+          self$`url`
+      }
       if (!is.null(self$`schema_version`)) {
         PseudobulkSetObject[["schema_version"]] <-
           self$`schema_version`
@@ -672,6 +685,9 @@ PseudobulkSet <- R6::R6Class(
       }
       if (!is.null(this_object$`revoke_detail`)) {
         self$`revoke_detail` <- this_object$`revoke_detail`
+      }
+      if (!is.null(this_object$`url`)) {
+        self$`url` <- this_object$`url`
       }
       if (!is.null(this_object$`schema_version`)) {
         self$`schema_version` <- this_object$`schema_version`
@@ -898,6 +914,14 @@ PseudobulkSet <- R6::R6Class(
             "%s"
                     ',
           gsub('(?<!\\\\)\\"', '\\\\"', self$`revoke_detail`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`url`)) {
+          sprintf(
+          '"url":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`url`, perl=TRUE)
           )
         },
         if (!is.null(self$`schema_version`)) {
@@ -1180,6 +1204,7 @@ PseudobulkSet <- R6::R6Class(
       }
       self$`status` <- this_object$`status`
       self$`revoke_detail` <- this_object$`revoke_detail`
+      self$`url` <- this_object$`url`
       self$`schema_version` <- this_object$`schema_version`
       self$`uuid` <- this_object$`uuid`
       self$`notes` <- this_object$`notes`
