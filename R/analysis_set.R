@@ -35,7 +35,7 @@
 #' @field file_set_type The level of this analysis set. character [optional]
 #' @field supersedes The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
 #' @field external_image_data_url Links to the external site where images and related data produced by this analysis are stored. character [optional]
-#' @field demultiplexed_samples The sample(s) associated with this analysis set inferred through demultiplexing. list(character) [optional]
+#' @field subset_samples The subset of sample(s) this analysis set represents, such as demultiplexed constituents or a timepoint from a differentiation series. Takes priority over samples inferred from input_file_sets when calculating samples and sample_summary. list(character) [optional]
 #' @field uniform_pipeline_status The status of the single cell or Perturb-seq uniform pipeline processing for this analysis set, if applicable. character [optional]
 #' @field pipeline_parameters The document(s) or file(s) providing necessary configurations for reproducing the analysis. list(character) [optional]
 #' @field @id  character [optional]
@@ -94,7 +94,7 @@ AnalysisSet <- R6::R6Class(
     `file_set_type` = NULL,
     `supersedes` = NULL,
     `external_image_data_url` = NULL,
-    `demultiplexed_samples` = NULL,
+    `subset_samples` = NULL,
     `uniform_pipeline_status` = NULL,
     `pipeline_parameters` = NULL,
     `@id` = NULL,
@@ -152,7 +152,7 @@ AnalysisSet <- R6::R6Class(
     #' @param file_set_type The level of this analysis set.
     #' @param supersedes The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
     #' @param external_image_data_url Links to the external site where images and related data produced by this analysis are stored.
-    #' @param demultiplexed_samples The sample(s) associated with this analysis set inferred through demultiplexing.
+    #' @param subset_samples The subset of sample(s) this analysis set represents, such as demultiplexed constituents or a timepoint from a differentiation series. Takes priority over samples inferred from input_file_sets when calculating samples and sample_summary.
     #' @param uniform_pipeline_status The status of the single cell or Perturb-seq uniform pipeline processing for this analysis set, if applicable.
     #' @param pipeline_parameters The document(s) or file(s) providing necessary configurations for reproducing the analysis.
     #' @param @id @id
@@ -179,7 +179,7 @@ AnalysisSet <- R6::R6Class(
     #' @param enrichment_designs The enrichment designs used by the inputs of this analysis set.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `preview_timestamp` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `external_image_data_url` = NULL, `demultiplexed_samples` = NULL, `uniform_pipeline_status` = NULL, `pipeline_parameters` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `assay_titles` = NULL, `assay_slims` = NULL, `protocols` = NULL, `sample_summary` = NULL, `functional_assay_mechanisms` = NULL, `workflows` = NULL, `targeted_genes` = NULL, `targeted_proteins` = NULL, `enrichment_designs` = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `preview_timestamp` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `external_image_data_url` = NULL, `subset_samples` = NULL, `uniform_pipeline_status` = NULL, `pipeline_parameters` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `assay_titles` = NULL, `assay_slims` = NULL, `protocols` = NULL, `sample_summary` = NULL, `functional_assay_mechanisms` = NULL, `workflows` = NULL, `targeted_genes` = NULL, `targeted_proteins` = NULL, `enrichment_designs` = NULL, ...) {
       if (!is.null(`is_on_anvil`)) {
         if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
           stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
@@ -344,10 +344,10 @@ AnalysisSet <- R6::R6Class(
         }
         self$`external_image_data_url` <- `external_image_data_url`
       }
-      if (!is.null(`demultiplexed_samples`)) {
-        stopifnot(is.vector(`demultiplexed_samples`), length(`demultiplexed_samples`) != 0)
-        sapply(`demultiplexed_samples`, function(x) stopifnot(is.character(x)))
-        self$`demultiplexed_samples` <- `demultiplexed_samples`
+      if (!is.null(`subset_samples`)) {
+        stopifnot(is.vector(`subset_samples`), length(`subset_samples`) != 0)
+        sapply(`subset_samples`, function(x) stopifnot(is.character(x)))
+        self$`subset_samples` <- `subset_samples`
       }
       if (!is.null(`uniform_pipeline_status`)) {
         if (!(`uniform_pipeline_status` %in% c("preprocessing", "processing", "error", "completed"))) {
@@ -600,9 +600,9 @@ AnalysisSet <- R6::R6Class(
         AnalysisSetObject[["external_image_data_url"]] <-
           self$`external_image_data_url`
       }
-      if (!is.null(self$`demultiplexed_samples`)) {
-        AnalysisSetObject[["demultiplexed_samples"]] <-
-          self$`demultiplexed_samples`
+      if (!is.null(self$`subset_samples`)) {
+        AnalysisSetObject[["subset_samples"]] <-
+          self$`subset_samples`
       }
       if (!is.null(self$`uniform_pipeline_status`)) {
         AnalysisSetObject[["uniform_pipeline_status"]] <-
@@ -802,8 +802,8 @@ AnalysisSet <- R6::R6Class(
       if (!is.null(this_object$`external_image_data_url`)) {
         self$`external_image_data_url` <- this_object$`external_image_data_url`
       }
-      if (!is.null(this_object$`demultiplexed_samples`)) {
-        self$`demultiplexed_samples` <- ApiClient$new()$deserializeObj(this_object$`demultiplexed_samples`, "set[character]", loadNamespace("igvfclient"))
+      if (!is.null(this_object$`subset_samples`)) {
+        self$`subset_samples` <- ApiClient$new()$deserializeObj(this_object$`subset_samples`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`uniform_pipeline_status`)) {
         if (!is.null(this_object$`uniform_pipeline_status`) && !(this_object$`uniform_pipeline_status` %in% c("preprocessing", "processing", "error", "completed"))) {
@@ -1115,12 +1115,12 @@ AnalysisSet <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`external_image_data_url`, perl=TRUE)
           )
         },
-        if (!is.null(self$`demultiplexed_samples`)) {
+        if (!is.null(self$`subset_samples`)) {
           sprintf(
-          '"demultiplexed_samples":
+          '"subset_samples":
              [%s]
           ',
-          paste(unlist(lapply(self$`demultiplexed_samples`, function(x) paste0('"', x, '"'))), collapse = ",")
+          paste(unlist(lapply(self$`subset_samples`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
         if (!is.null(self$`uniform_pipeline_status`)) {
@@ -1363,7 +1363,7 @@ AnalysisSet <- R6::R6Class(
       self$`file_set_type` <- this_object$`file_set_type`
       self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
       self$`external_image_data_url` <- this_object$`external_image_data_url`
-      self$`demultiplexed_samples` <- ApiClient$new()$deserializeObj(this_object$`demultiplexed_samples`, "set[character]", loadNamespace("igvfclient"))
+      self$`subset_samples` <- ApiClient$new()$deserializeObj(this_object$`subset_samples`, "set[character]", loadNamespace("igvfclient"))
       if (!is.null(this_object$`uniform_pipeline_status`) && !(this_object$`uniform_pipeline_status` %in% c("preprocessing", "processing", "error", "completed"))) {
         stop(paste("Error! \"", this_object$`uniform_pipeline_status`, "\" cannot be assigned to `uniform_pipeline_status`. Must be \"preprocessing\", \"processing\", \"error\", \"completed\".", sep = ""))
       }

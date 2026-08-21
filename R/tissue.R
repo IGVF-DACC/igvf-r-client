@@ -53,7 +53,7 @@
 #' @field part_of Links to a sample which represents a larger sample from which this sample was taken regardless of whether it is a tissue taken from an organism or smaller slices of a piece of tissue or aliquots of a cell growth. character [optional]
 #' @field sorted_from Links to a larger sample from which this sample was obtained through sorting. character [optional]
 #' @field sorted_from_detail Detail for sample sorted into fractions capturing information about sorting. character [optional]
-#' @field virtual Virtual samples do not represent actual physical entities from experiments, but instead capture metadata about hypothetical or inferred samples relevant to reported analysis results, including those derived through demultiplexing. character [optional]
+#' @field virtual Virtual samples do not represent actual physical entities from experiments, but instead capture metadata about hypothetical or inferred samples relevant to reported analysis results. character [optional]
 #' @field construct_library_sets The construct library sets of vectors introduced to this sample prior to performing an assay. list(character) [optional]
 #' @field moi The actual multiplicity of infection (MOI) for vectors introduced to this sample. At least one construct library set must be specified in order to specify MOI. This property should capture the actual MOI, and not the targeted MOI. numeric [optional]
 #' @field construct_delivery_methods Methods used to deliver construct libraries into the sample. list(character) [optional]
@@ -212,7 +212,7 @@ Tissue <- R6::R6Class(
     #' @param part_of Links to a sample which represents a larger sample from which this sample was taken regardless of whether it is a tissue taken from an organism or smaller slices of a piece of tissue or aliquots of a cell growth.
     #' @param sorted_from Links to a larger sample from which this sample was obtained through sorting.
     #' @param sorted_from_detail Detail for sample sorted into fractions capturing information about sorting.
-    #' @param virtual Virtual samples do not represent actual physical entities from experiments, but instead capture metadata about hypothetical or inferred samples relevant to reported analysis results, including those derived through demultiplexing.
+    #' @param virtual Virtual samples do not represent actual physical entities from experiments, but instead capture metadata about hypothetical or inferred samples relevant to reported analysis results.
     #' @param construct_library_sets The construct library sets of vectors introduced to this sample prior to performing an assay.
     #' @param moi The actual multiplicity of infection (MOI) for vectors introduced to this sample. At least one construct library set must be specified in order to specify MOI. This property should capture the actual MOI, and not the targeted MOI.
     #' @param construct_delivery_methods Methods used to deliver construct libraries into the sample.
