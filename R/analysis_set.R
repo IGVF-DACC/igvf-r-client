@@ -35,7 +35,7 @@
 #' @field file_set_type The level of this analysis set. character [optional]
 #' @field supersedes The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
 #' @field external_image_data_url Links to the external site where images and related data produced by this analysis are stored. character [optional]
-#' @field subset_samples The subset of sample(s) this analysis set represents, such as demultiplexed constituents or a timepoint from a differentiation series. Takes priority over samples inferred from input_file_sets when calculating samples and sample_summary. list(character) [optional]
+#' @field subset_samples The subset of sample(s) this analysis set represents, such as demultiplexed constituents or a timepoint from a differentiation series. Takes priority over samples inferred from input_file_sets when calculating samples and simplified_sample_summary. list(character) [optional]
 #' @field uniform_pipeline_status The status of the single cell or Perturb-seq uniform pipeline processing for this analysis set, if applicable. character [optional]
 #' @field pipeline_parameters The document(s) or file(s) providing necessary configurations for reproducing the analysis. list(character) [optional]
 #' @field @id  character [optional]
@@ -54,7 +54,7 @@
 #' @field assay_titles Ontology term names from Ontology of Biomedical Investigations (OBI) for assays list(character) [optional]
 #' @field assay_slims A broad categorization of the assay term. list(character) [optional]
 #' @field protocols Links to the protocol(s) for conducting the assay on Protocols.io. list(character) [optional]
-#' @field sample_summary A summary of the samples associated with input file sets of this analysis set. character [optional]
+#' @field simplified_sample_summary A summary of the samples associated with input file sets of this analysis set. character [optional]
 #' @field functional_assay_mechanisms The biological processes measured by the functional assays. list(character) [optional]
 #' @field workflows A workflow for computational analysis of genomic data. A workflow is made up of analysis steps. list(character) [optional]
 #' @field targeted_genes A list of genes targeted by the input measurement sets assays. list(character) [optional]
@@ -113,7 +113,7 @@ AnalysisSet <- R6::R6Class(
     `assay_titles` = NULL,
     `assay_slims` = NULL,
     `protocols` = NULL,
-    `sample_summary` = NULL,
+    `simplified_sample_summary` = NULL,
     `functional_assay_mechanisms` = NULL,
     `workflows` = NULL,
     `targeted_genes` = NULL,
@@ -152,7 +152,7 @@ AnalysisSet <- R6::R6Class(
     #' @param file_set_type The level of this analysis set.
     #' @param supersedes The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
     #' @param external_image_data_url Links to the external site where images and related data produced by this analysis are stored.
-    #' @param subset_samples The subset of sample(s) this analysis set represents, such as demultiplexed constituents or a timepoint from a differentiation series. Takes priority over samples inferred from input_file_sets when calculating samples and sample_summary.
+    #' @param subset_samples The subset of sample(s) this analysis set represents, such as demultiplexed constituents or a timepoint from a differentiation series. Takes priority over samples inferred from input_file_sets when calculating samples and simplified_sample_summary.
     #' @param uniform_pipeline_status The status of the single cell or Perturb-seq uniform pipeline processing for this analysis set, if applicable.
     #' @param pipeline_parameters The document(s) or file(s) providing necessary configurations for reproducing the analysis.
     #' @param @id @id
@@ -171,7 +171,7 @@ AnalysisSet <- R6::R6Class(
     #' @param assay_titles Ontology term names from Ontology of Biomedical Investigations (OBI) for assays
     #' @param assay_slims A broad categorization of the assay term.
     #' @param protocols Links to the protocol(s) for conducting the assay on Protocols.io.
-    #' @param sample_summary A summary of the samples associated with input file sets of this analysis set.
+    #' @param simplified_sample_summary A summary of the samples associated with input file sets of this analysis set.
     #' @param functional_assay_mechanisms The biological processes measured by the functional assays.
     #' @param workflows A workflow for computational analysis of genomic data. A workflow is made up of analysis steps.
     #' @param targeted_genes A list of genes targeted by the input measurement sets assays.
@@ -179,7 +179,7 @@ AnalysisSet <- R6::R6Class(
     #' @param enrichment_designs The enrichment designs used by the inputs of this analysis set.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `preview_timestamp` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `external_image_data_url` = NULL, `subset_samples` = NULL, `uniform_pipeline_status` = NULL, `pipeline_parameters` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `assay_titles` = NULL, `assay_slims` = NULL, `protocols` = NULL, `sample_summary` = NULL, `functional_assay_mechanisms` = NULL, `workflows` = NULL, `targeted_genes` = NULL, `targeted_proteins` = NULL, `enrichment_designs` = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `preview_timestamp` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `external_image_data_url` = NULL, `subset_samples` = NULL, `uniform_pipeline_status` = NULL, `pipeline_parameters` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `assay_titles` = NULL, `assay_slims` = NULL, `protocols` = NULL, `simplified_sample_summary` = NULL, `functional_assay_mechanisms` = NULL, `workflows` = NULL, `targeted_genes` = NULL, `targeted_proteins` = NULL, `enrichment_designs` = NULL, ...) {
       if (!is.null(`is_on_anvil`)) {
         if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
           stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
@@ -447,11 +447,11 @@ AnalysisSet <- R6::R6Class(
         sapply(`protocols`, function(x) stopifnot(is.character(x)))
         self$`protocols` <- `protocols`
       }
-      if (!is.null(`sample_summary`)) {
-        if (!(is.character(`sample_summary`) && length(`sample_summary`) == 1)) {
-          stop(paste("Error! Invalid data for `sample_summary`. Must be a string:", `sample_summary`))
+      if (!is.null(`simplified_sample_summary`)) {
+        if (!(is.character(`simplified_sample_summary`) && length(`simplified_sample_summary`) == 1)) {
+          stop(paste("Error! Invalid data for `simplified_sample_summary`. Must be a string:", `simplified_sample_summary`))
         }
-        self$`sample_summary` <- `sample_summary`
+        self$`simplified_sample_summary` <- `simplified_sample_summary`
       }
       if (!is.null(`functional_assay_mechanisms`)) {
         stopifnot(is.vector(`functional_assay_mechanisms`), length(`functional_assay_mechanisms`) != 0)
@@ -676,9 +676,9 @@ AnalysisSet <- R6::R6Class(
         AnalysisSetObject[["protocols"]] <-
           self$`protocols`
       }
-      if (!is.null(self$`sample_summary`)) {
-        AnalysisSetObject[["sample_summary"]] <-
-          self$`sample_summary`
+      if (!is.null(self$`simplified_sample_summary`)) {
+        AnalysisSetObject[["simplified_sample_summary"]] <-
+          self$`simplified_sample_summary`
       }
       if (!is.null(self$`functional_assay_mechanisms`)) {
         AnalysisSetObject[["functional_assay_mechanisms"]] <-
@@ -862,8 +862,8 @@ AnalysisSet <- R6::R6Class(
       if (!is.null(this_object$`protocols`)) {
         self$`protocols` <- ApiClient$new()$deserializeObj(this_object$`protocols`, "set[character]", loadNamespace("igvfclient"))
       }
-      if (!is.null(this_object$`sample_summary`)) {
-        self$`sample_summary` <- this_object$`sample_summary`
+      if (!is.null(this_object$`simplified_sample_summary`)) {
+        self$`simplified_sample_summary` <- this_object$`simplified_sample_summary`
       }
       if (!is.null(this_object$`functional_assay_mechanisms`)) {
         self$`functional_assay_mechanisms` <- ApiClient$new()$deserializeObj(this_object$`functional_assay_mechanisms`, "set[character]", loadNamespace("igvfclient"))
@@ -1267,12 +1267,12 @@ AnalysisSet <- R6::R6Class(
           paste(unlist(lapply(self$`protocols`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
-        if (!is.null(self$`sample_summary`)) {
+        if (!is.null(self$`simplified_sample_summary`)) {
           sprintf(
-          '"sample_summary":
+          '"simplified_sample_summary":
             "%s"
                     ',
-          gsub('(?<!\\\\)\\"', '\\\\"', self$`sample_summary`, perl=TRUE)
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`simplified_sample_summary`, perl=TRUE)
           )
         },
         if (!is.null(self$`functional_assay_mechanisms`)) {
@@ -1385,7 +1385,7 @@ AnalysisSet <- R6::R6Class(
       self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
       self$`assay_slims` <- ApiClient$new()$deserializeObj(this_object$`assay_slims`, "set[character]", loadNamespace("igvfclient"))
       self$`protocols` <- ApiClient$new()$deserializeObj(this_object$`protocols`, "set[character]", loadNamespace("igvfclient"))
-      self$`sample_summary` <- this_object$`sample_summary`
+      self$`simplified_sample_summary` <- this_object$`simplified_sample_summary`
       self$`functional_assay_mechanisms` <- ApiClient$new()$deserializeObj(this_object$`functional_assay_mechanisms`, "set[character]", loadNamespace("igvfclient"))
       self$`workflows` <- ApiClient$new()$deserializeObj(this_object$`workflows`, "array[character]", loadNamespace("igvfclient"))
       self$`targeted_genes` <- ApiClient$new()$deserializeObj(this_object$`targeted_genes`, "array[character]", loadNamespace("igvfclient"))

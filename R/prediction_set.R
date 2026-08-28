@@ -362,8 +362,8 @@ PredictionSet <- R6::R6Class(
         self$`donors` <- `donors`
       }
       if (!is.null(`file_set_type`)) {
-        if (!(`file_set_type` %in% c("activity level", "binding effect", "functional effect", "protein-protein interaction", "protein stability"))) {
-          stop(paste("Error! \"", `file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"activity level\", \"binding effect\", \"functional effect\", \"protein-protein interaction\", \"protein stability\".", sep = ""))
+        if (!(`file_set_type` %in% c("TF binding", "activity level", "binding effect", "chromatin accessibility", "coding variant effects", "coding variant effects on PPI", "coding variants pathogenicity", "disease associations", "element-gene links", "functional effect", "gene regulatory networks", "genetic constraint", "meta analysis", "non-coding variant effects", "protein stability", "protein-protein interaction", "spatial gene expression variability", "variant TF binding effects"))) {
+          stop(paste("Error! \"", `file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"TF binding\", \"activity level\", \"binding effect\", \"chromatin accessibility\", \"coding variant effects\", \"coding variant effects on PPI\", \"coding variants pathogenicity\", \"disease associations\", \"element-gene links\", \"functional effect\", \"gene regulatory networks\", \"genetic constraint\", \"meta analysis\", \"non-coding variant effects\", \"protein stability\", \"protein-protein interaction\", \"spatial gene expression variability\", \"variant TF binding effects\".", sep = ""))
         }
         if (!(is.character(`file_set_type`) && length(`file_set_type`) == 1)) {
           stop(paste("Error! Invalid data for `file_set_type`. Must be a string:", `file_set_type`))
@@ -795,8 +795,8 @@ PredictionSet <- R6::R6Class(
         self$`donors` <- ApiClient$new()$deserializeObj(this_object$`donors`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`file_set_type`)) {
-        if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("activity level", "binding effect", "functional effect", "protein-protein interaction", "protein stability"))) {
-          stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"activity level\", \"binding effect\", \"functional effect\", \"protein-protein interaction\", \"protein stability\".", sep = ""))
+        if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("TF binding", "activity level", "binding effect", "chromatin accessibility", "coding variant effects", "coding variant effects on PPI", "coding variants pathogenicity", "disease associations", "element-gene links", "functional effect", "gene regulatory networks", "genetic constraint", "meta analysis", "non-coding variant effects", "protein stability", "protein-protein interaction", "spatial gene expression variability", "variant TF binding effects"))) {
+          stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"TF binding\", \"activity level\", \"binding effect\", \"chromatin accessibility\", \"coding variant effects\", \"coding variant effects on PPI\", \"coding variants pathogenicity\", \"disease associations\", \"element-gene links\", \"functional effect\", \"gene regulatory networks\", \"genetic constraint\", \"meta analysis\", \"non-coding variant effects\", \"protein stability\", \"protein-protein interaction\", \"spatial gene expression variability\", \"variant TF binding effects\".", sep = ""))
         }
         self$`file_set_type` <- this_object$`file_set_type`
       }
@@ -1326,8 +1326,8 @@ PredictionSet <- R6::R6Class(
       self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
       self$`samples` <- ApiClient$new()$deserializeObj(this_object$`samples`, "set[character]", loadNamespace("igvfclient"))
       self$`donors` <- ApiClient$new()$deserializeObj(this_object$`donors`, "set[character]", loadNamespace("igvfclient"))
-      if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("activity level", "binding effect", "functional effect", "protein-protein interaction", "protein stability"))) {
-        stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"activity level\", \"binding effect\", \"functional effect\", \"protein-protein interaction\", \"protein stability\".", sep = ""))
+      if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("TF binding", "activity level", "binding effect", "chromatin accessibility", "coding variant effects", "coding variant effects on PPI", "coding variants pathogenicity", "disease associations", "element-gene links", "functional effect", "gene regulatory networks", "genetic constraint", "meta analysis", "non-coding variant effects", "protein stability", "protein-protein interaction", "spatial gene expression variability", "variant TF binding effects"))) {
+        stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"TF binding\", \"activity level\", \"binding effect\", \"chromatin accessibility\", \"coding variant effects\", \"coding variant effects on PPI\", \"coding variants pathogenicity\", \"disease associations\", \"element-gene links\", \"functional effect\", \"gene regulatory networks\", \"genetic constraint\", \"meta analysis\", \"non-coding variant effects\", \"protein stability\", \"protein-protein interaction\", \"spatial gene expression variability\", \"variant TF binding effects\".", sep = ""))
       }
       self$`file_set_type` <- this_object$`file_set_type`
       self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
