@@ -24,18 +24,27 @@
 #' @field quality_metric_of The file(s) to which this quality metric applies. list(character) [optional]
 #' @field analysis_step_version The analysis step version of the quality metric. character [optional]
 #' @field total_cells_passing_filters Total Cells Passing Filters numeric [optional]
-#' @field pct_cells_assigned_guide Percent Cells Assigned Guide numeric [optional]
-#' @field avg_cells_per_target Average Cells Per Target numeric [optional]
+#' @field frac_cells_with_guide Fraction of cells with at least one assigned guide. numeric [optional]
+#' @field avg_cells_per_guide Average number of cells assigned to each guide. numeric [optional]
 #' @field moi Multiplicity Of Infection numeric [optional]
 #' @field avg_umis_per_cell Average UMIs Per Cell numeric [optional]
 #' @field total_guides Total Guides numeric [optional]
-#' @field total_targets Total Targets numeric [optional]
-#' @field guide_diversity Guide diversity (Gini index) numeric [optional]
-#' @field mean_mitochondrial_reads Mean mitochondrial reads. numeric [optional]
+#' @field umi_median Median total gene UMIs per cell after filtering. numeric [optional]
+#' @field genes_median Median number of expressed genes per cell after filtering. numeric [optional]
+#' @field n_cells_with_guide Number of cells with at least one assigned guide. numeric [optional]
+#' @field n_cells_exactly_1_guide Number of cells with exactly one assigned guide. numeric [optional]
+#' @field guide_umi_mean Mean total guide UMIs per cell after filtering. numeric [optional]
+#' @field mean_percent_mitochondrial Mean percent mitochondrial UMIs per cell. numeric [optional]
+#' @field n_targets Total number of target sequences (e.g., transcripts) in the index. numeric [optional]
 #' @field total_reads Total reads (n_processed) reported by Kallisto. numeric [optional]
 #' @field paired_reads_mapped Paired reads mapped (n_pseudoaligned) reported by Kallisto. numeric [optional]
 #' @field alignment_percentage Alignment percentage (p_pseudoaligned) reported by Kallisto. numeric [optional]
 #' @field total_detected_scrna_barcodes Unfiltered total detected scRNA barcodes (numBarcodes) reported by Kallisto. numeric [optional]
+#' @field n_unique Number of reads that could be pseudoaligned to a unique target sequence. numeric [optional]
+#' @field p_unique Percentage of reads that could be pseudoaligned to a unique target sequence. numeric [optional]
+#' @field percentage_barcodes_on_onlist Percentage of cell barcodes matching an expected list of barcodes (onlist). numeric [optional]
+#' @field percentage_reads_on_onlist Percentage of reads associated with barcodes on the onlist. numeric [optional]
+#' @field mean_umis_per_barcode Mean number of UMIs per cell barcode. numeric [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the quality metric. character [optional]
@@ -65,22 +74,31 @@ PerturbSeqQualityMetric <- R6::R6Class(
     `quality_metric_of` = NULL,
     `analysis_step_version` = NULL,
     `total_cells_passing_filters` = NULL,
-    `pct_cells_assigned_guide` = NULL,
-    `avg_cells_per_target` = NULL,
+    `frac_cells_with_guide` = NULL,
+    `avg_cells_per_guide` = NULL,
     `moi` = NULL,
     `avg_umis_per_cell` = NULL,
     `total_guides` = NULL,
-    `total_targets` = NULL,
-    `guide_diversity` = NULL,
-    `mean_mitochondrial_reads` = NULL,
+    `umi_median` = NULL,
+    `genes_median` = NULL,
+    `n_cells_with_guide` = NULL,
+    `n_cells_exactly_1_guide` = NULL,
+    `guide_umi_mean` = NULL,
+    `mean_percent_mitochondrial` = NULL,
+    `n_targets` = NULL,
     `total_reads` = NULL,
     `paired_reads_mapped` = NULL,
     `alignment_percentage` = NULL,
     `total_detected_scrna_barcodes` = NULL,
+    `n_unique` = NULL,
+    `p_unique` = NULL,
+    `percentage_barcodes_on_onlist` = NULL,
+    `percentage_reads_on_onlist` = NULL,
+    `mean_umis_per_barcode` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
-    `_field_list` = c("preview_timestamp", "status", "release_timestamp", "attachment", "lab", "award", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "quality_metric_of", "analysis_step_version", "total_cells_passing_filters", "pct_cells_assigned_guide", "avg_cells_per_target", "moi", "avg_umis_per_cell", "total_guides", "total_targets", "guide_diversity", "mean_mitochondrial_reads", "total_reads", "paired_reads_mapped", "alignment_percentage", "total_detected_scrna_barcodes", "@id", "@type", "summary"),
+    `_field_list` = c("preview_timestamp", "status", "release_timestamp", "attachment", "lab", "award", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "quality_metric_of", "analysis_step_version", "total_cells_passing_filters", "frac_cells_with_guide", "avg_cells_per_guide", "moi", "avg_umis_per_cell", "total_guides", "umi_median", "genes_median", "n_cells_with_guide", "n_cells_exactly_1_guide", "guide_umi_mean", "mean_percent_mitochondrial", "n_targets", "total_reads", "paired_reads_mapped", "alignment_percentage", "total_detected_scrna_barcodes", "n_unique", "p_unique", "percentage_barcodes_on_onlist", "percentage_reads_on_onlist", "mean_umis_per_barcode", "@id", "@type", "summary"),
     `additional_properties` = list(),
     #' Initialize a new PerturbSeqQualityMetric class.
     #'
@@ -104,25 +122,34 @@ PerturbSeqQualityMetric <- R6::R6Class(
     #' @param quality_metric_of The file(s) to which this quality metric applies.
     #' @param analysis_step_version The analysis step version of the quality metric.
     #' @param total_cells_passing_filters Total Cells Passing Filters
-    #' @param pct_cells_assigned_guide Percent Cells Assigned Guide
-    #' @param avg_cells_per_target Average Cells Per Target
+    #' @param frac_cells_with_guide Fraction of cells with at least one assigned guide.
+    #' @param avg_cells_per_guide Average number of cells assigned to each guide.
     #' @param moi Multiplicity Of Infection
     #' @param avg_umis_per_cell Average UMIs Per Cell
     #' @param total_guides Total Guides
-    #' @param total_targets Total Targets
-    #' @param guide_diversity Guide diversity (Gini index)
-    #' @param mean_mitochondrial_reads Mean mitochondrial reads.
+    #' @param umi_median Median total gene UMIs per cell after filtering.
+    #' @param genes_median Median number of expressed genes per cell after filtering.
+    #' @param n_cells_with_guide Number of cells with at least one assigned guide.
+    #' @param n_cells_exactly_1_guide Number of cells with exactly one assigned guide.
+    #' @param guide_umi_mean Mean total guide UMIs per cell after filtering.
+    #' @param mean_percent_mitochondrial Mean percent mitochondrial UMIs per cell.
+    #' @param n_targets Total number of target sequences (e.g., transcripts) in the index.
     #' @param total_reads Total reads (n_processed) reported by Kallisto.
     #' @param paired_reads_mapped Paired reads mapped (n_pseudoaligned) reported by Kallisto.
     #' @param alignment_percentage Alignment percentage (p_pseudoaligned) reported by Kallisto.
     #' @param total_detected_scrna_barcodes Unfiltered total detected scRNA barcodes (numBarcodes) reported by Kallisto.
+    #' @param n_unique Number of reads that could be pseudoaligned to a unique target sequence.
+    #' @param p_unique Percentage of reads that could be pseudoaligned to a unique target sequence.
+    #' @param percentage_barcodes_on_onlist Percentage of cell barcodes matching an expected list of barcodes (onlist).
+    #' @param percentage_reads_on_onlist Percentage of reads associated with barcodes on the onlist.
+    #' @param mean_umis_per_barcode Mean number of UMIs per cell barcode.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the quality metric.
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `status` = NULL, `release_timestamp` = NULL, `attachment` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `quality_metric_of` = NULL, `analysis_step_version` = NULL, `total_cells_passing_filters` = NULL, `pct_cells_assigned_guide` = NULL, `avg_cells_per_target` = NULL, `moi` = NULL, `avg_umis_per_cell` = NULL, `total_guides` = NULL, `total_targets` = NULL, `guide_diversity` = NULL, `mean_mitochondrial_reads` = NULL, `total_reads` = NULL, `paired_reads_mapped` = NULL, `alignment_percentage` = NULL, `total_detected_scrna_barcodes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `status` = NULL, `release_timestamp` = NULL, `attachment` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `quality_metric_of` = NULL, `analysis_step_version` = NULL, `total_cells_passing_filters` = NULL, `frac_cells_with_guide` = NULL, `avg_cells_per_guide` = NULL, `moi` = NULL, `avg_umis_per_cell` = NULL, `total_guides` = NULL, `umi_median` = NULL, `genes_median` = NULL, `n_cells_with_guide` = NULL, `n_cells_exactly_1_guide` = NULL, `guide_umi_mean` = NULL, `mean_percent_mitochondrial` = NULL, `n_targets` = NULL, `total_reads` = NULL, `paired_reads_mapped` = NULL, `alignment_percentage` = NULL, `total_detected_scrna_barcodes` = NULL, `n_unique` = NULL, `p_unique` = NULL, `percentage_barcodes_on_onlist` = NULL, `percentage_reads_on_onlist` = NULL, `mean_umis_per_barcode` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -221,11 +248,11 @@ PerturbSeqQualityMetric <- R6::R6Class(
       if (!is.null(`total_cells_passing_filters`)) {
         self$`total_cells_passing_filters` <- `total_cells_passing_filters`
       }
-      if (!is.null(`pct_cells_assigned_guide`)) {
-        self$`pct_cells_assigned_guide` <- `pct_cells_assigned_guide`
+      if (!is.null(`frac_cells_with_guide`)) {
+        self$`frac_cells_with_guide` <- `frac_cells_with_guide`
       }
-      if (!is.null(`avg_cells_per_target`)) {
-        self$`avg_cells_per_target` <- `avg_cells_per_target`
+      if (!is.null(`avg_cells_per_guide`)) {
+        self$`avg_cells_per_guide` <- `avg_cells_per_guide`
       }
       if (!is.null(`moi`)) {
         self$`moi` <- `moi`
@@ -236,14 +263,26 @@ PerturbSeqQualityMetric <- R6::R6Class(
       if (!is.null(`total_guides`)) {
         self$`total_guides` <- `total_guides`
       }
-      if (!is.null(`total_targets`)) {
-        self$`total_targets` <- `total_targets`
+      if (!is.null(`umi_median`)) {
+        self$`umi_median` <- `umi_median`
       }
-      if (!is.null(`guide_diversity`)) {
-        self$`guide_diversity` <- `guide_diversity`
+      if (!is.null(`genes_median`)) {
+        self$`genes_median` <- `genes_median`
       }
-      if (!is.null(`mean_mitochondrial_reads`)) {
-        self$`mean_mitochondrial_reads` <- `mean_mitochondrial_reads`
+      if (!is.null(`n_cells_with_guide`)) {
+        self$`n_cells_with_guide` <- `n_cells_with_guide`
+      }
+      if (!is.null(`n_cells_exactly_1_guide`)) {
+        self$`n_cells_exactly_1_guide` <- `n_cells_exactly_1_guide`
+      }
+      if (!is.null(`guide_umi_mean`)) {
+        self$`guide_umi_mean` <- `guide_umi_mean`
+      }
+      if (!is.null(`mean_percent_mitochondrial`)) {
+        self$`mean_percent_mitochondrial` <- `mean_percent_mitochondrial`
+      }
+      if (!is.null(`n_targets`)) {
+        self$`n_targets` <- `n_targets`
       }
       if (!is.null(`total_reads`)) {
         self$`total_reads` <- `total_reads`
@@ -256,6 +295,21 @@ PerturbSeqQualityMetric <- R6::R6Class(
       }
       if (!is.null(`total_detected_scrna_barcodes`)) {
         self$`total_detected_scrna_barcodes` <- `total_detected_scrna_barcodes`
+      }
+      if (!is.null(`n_unique`)) {
+        self$`n_unique` <- `n_unique`
+      }
+      if (!is.null(`p_unique`)) {
+        self$`p_unique` <- `p_unique`
+      }
+      if (!is.null(`percentage_barcodes_on_onlist`)) {
+        self$`percentage_barcodes_on_onlist` <- `percentage_barcodes_on_onlist`
+      }
+      if (!is.null(`percentage_reads_on_onlist`)) {
+        self$`percentage_reads_on_onlist` <- `percentage_reads_on_onlist`
+      }
+      if (!is.null(`mean_umis_per_barcode`)) {
+        self$`mean_umis_per_barcode` <- `mean_umis_per_barcode`
       }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
@@ -357,13 +411,13 @@ PerturbSeqQualityMetric <- R6::R6Class(
         PerturbSeqQualityMetricObject[["total_cells_passing_filters"]] <-
           self$`total_cells_passing_filters`
       }
-      if (!is.null(self$`pct_cells_assigned_guide`)) {
-        PerturbSeqQualityMetricObject[["pct_cells_assigned_guide"]] <-
-          self$`pct_cells_assigned_guide`
+      if (!is.null(self$`frac_cells_with_guide`)) {
+        PerturbSeqQualityMetricObject[["frac_cells_with_guide"]] <-
+          self$`frac_cells_with_guide`
       }
-      if (!is.null(self$`avg_cells_per_target`)) {
-        PerturbSeqQualityMetricObject[["avg_cells_per_target"]] <-
-          self$`avg_cells_per_target`
+      if (!is.null(self$`avg_cells_per_guide`)) {
+        PerturbSeqQualityMetricObject[["avg_cells_per_guide"]] <-
+          self$`avg_cells_per_guide`
       }
       if (!is.null(self$`moi`)) {
         PerturbSeqQualityMetricObject[["moi"]] <-
@@ -377,17 +431,33 @@ PerturbSeqQualityMetric <- R6::R6Class(
         PerturbSeqQualityMetricObject[["total_guides"]] <-
           self$`total_guides`
       }
-      if (!is.null(self$`total_targets`)) {
-        PerturbSeqQualityMetricObject[["total_targets"]] <-
-          self$`total_targets`
+      if (!is.null(self$`umi_median`)) {
+        PerturbSeqQualityMetricObject[["umi_median"]] <-
+          self$`umi_median`
       }
-      if (!is.null(self$`guide_diversity`)) {
-        PerturbSeqQualityMetricObject[["guide_diversity"]] <-
-          self$`guide_diversity`
+      if (!is.null(self$`genes_median`)) {
+        PerturbSeqQualityMetricObject[["genes_median"]] <-
+          self$`genes_median`
       }
-      if (!is.null(self$`mean_mitochondrial_reads`)) {
-        PerturbSeqQualityMetricObject[["mean_mitochondrial_reads"]] <-
-          self$`mean_mitochondrial_reads`
+      if (!is.null(self$`n_cells_with_guide`)) {
+        PerturbSeqQualityMetricObject[["n_cells_with_guide"]] <-
+          self$`n_cells_with_guide`
+      }
+      if (!is.null(self$`n_cells_exactly_1_guide`)) {
+        PerturbSeqQualityMetricObject[["n_cells_exactly_1_guide"]] <-
+          self$`n_cells_exactly_1_guide`
+      }
+      if (!is.null(self$`guide_umi_mean`)) {
+        PerturbSeqQualityMetricObject[["guide_umi_mean"]] <-
+          self$`guide_umi_mean`
+      }
+      if (!is.null(self$`mean_percent_mitochondrial`)) {
+        PerturbSeqQualityMetricObject[["mean_percent_mitochondrial"]] <-
+          self$`mean_percent_mitochondrial`
+      }
+      if (!is.null(self$`n_targets`)) {
+        PerturbSeqQualityMetricObject[["n_targets"]] <-
+          self$`n_targets`
       }
       if (!is.null(self$`total_reads`)) {
         PerturbSeqQualityMetricObject[["total_reads"]] <-
@@ -404,6 +474,26 @@ PerturbSeqQualityMetric <- R6::R6Class(
       if (!is.null(self$`total_detected_scrna_barcodes`)) {
         PerturbSeqQualityMetricObject[["total_detected_scrna_barcodes"]] <-
           self$`total_detected_scrna_barcodes`
+      }
+      if (!is.null(self$`n_unique`)) {
+        PerturbSeqQualityMetricObject[["n_unique"]] <-
+          self$`n_unique`
+      }
+      if (!is.null(self$`p_unique`)) {
+        PerturbSeqQualityMetricObject[["p_unique"]] <-
+          self$`p_unique`
+      }
+      if (!is.null(self$`percentage_barcodes_on_onlist`)) {
+        PerturbSeqQualityMetricObject[["percentage_barcodes_on_onlist"]] <-
+          self$`percentage_barcodes_on_onlist`
+      }
+      if (!is.null(self$`percentage_reads_on_onlist`)) {
+        PerturbSeqQualityMetricObject[["percentage_reads_on_onlist"]] <-
+          self$`percentage_reads_on_onlist`
+      }
+      if (!is.null(self$`mean_umis_per_barcode`)) {
+        PerturbSeqQualityMetricObject[["mean_umis_per_barcode"]] <-
+          self$`mean_umis_per_barcode`
       }
       if (!is.null(self$`@id`)) {
         PerturbSeqQualityMetricObject[["@id"]] <-
@@ -489,11 +579,11 @@ PerturbSeqQualityMetric <- R6::R6Class(
       if (!is.null(this_object$`total_cells_passing_filters`)) {
         self$`total_cells_passing_filters` <- this_object$`total_cells_passing_filters`
       }
-      if (!is.null(this_object$`pct_cells_assigned_guide`)) {
-        self$`pct_cells_assigned_guide` <- this_object$`pct_cells_assigned_guide`
+      if (!is.null(this_object$`frac_cells_with_guide`)) {
+        self$`frac_cells_with_guide` <- this_object$`frac_cells_with_guide`
       }
-      if (!is.null(this_object$`avg_cells_per_target`)) {
-        self$`avg_cells_per_target` <- this_object$`avg_cells_per_target`
+      if (!is.null(this_object$`avg_cells_per_guide`)) {
+        self$`avg_cells_per_guide` <- this_object$`avg_cells_per_guide`
       }
       if (!is.null(this_object$`moi`)) {
         self$`moi` <- this_object$`moi`
@@ -504,14 +594,26 @@ PerturbSeqQualityMetric <- R6::R6Class(
       if (!is.null(this_object$`total_guides`)) {
         self$`total_guides` <- this_object$`total_guides`
       }
-      if (!is.null(this_object$`total_targets`)) {
-        self$`total_targets` <- this_object$`total_targets`
+      if (!is.null(this_object$`umi_median`)) {
+        self$`umi_median` <- this_object$`umi_median`
       }
-      if (!is.null(this_object$`guide_diversity`)) {
-        self$`guide_diversity` <- this_object$`guide_diversity`
+      if (!is.null(this_object$`genes_median`)) {
+        self$`genes_median` <- this_object$`genes_median`
       }
-      if (!is.null(this_object$`mean_mitochondrial_reads`)) {
-        self$`mean_mitochondrial_reads` <- this_object$`mean_mitochondrial_reads`
+      if (!is.null(this_object$`n_cells_with_guide`)) {
+        self$`n_cells_with_guide` <- this_object$`n_cells_with_guide`
+      }
+      if (!is.null(this_object$`n_cells_exactly_1_guide`)) {
+        self$`n_cells_exactly_1_guide` <- this_object$`n_cells_exactly_1_guide`
+      }
+      if (!is.null(this_object$`guide_umi_mean`)) {
+        self$`guide_umi_mean` <- this_object$`guide_umi_mean`
+      }
+      if (!is.null(this_object$`mean_percent_mitochondrial`)) {
+        self$`mean_percent_mitochondrial` <- this_object$`mean_percent_mitochondrial`
+      }
+      if (!is.null(this_object$`n_targets`)) {
+        self$`n_targets` <- this_object$`n_targets`
       }
       if (!is.null(this_object$`total_reads`)) {
         self$`total_reads` <- this_object$`total_reads`
@@ -524,6 +626,21 @@ PerturbSeqQualityMetric <- R6::R6Class(
       }
       if (!is.null(this_object$`total_detected_scrna_barcodes`)) {
         self$`total_detected_scrna_barcodes` <- this_object$`total_detected_scrna_barcodes`
+      }
+      if (!is.null(this_object$`n_unique`)) {
+        self$`n_unique` <- this_object$`n_unique`
+      }
+      if (!is.null(this_object$`p_unique`)) {
+        self$`p_unique` <- this_object$`p_unique`
+      }
+      if (!is.null(this_object$`percentage_barcodes_on_onlist`)) {
+        self$`percentage_barcodes_on_onlist` <- this_object$`percentage_barcodes_on_onlist`
+      }
+      if (!is.null(this_object$`percentage_reads_on_onlist`)) {
+        self$`percentage_reads_on_onlist` <- this_object$`percentage_reads_on_onlist`
+      }
+      if (!is.null(this_object$`mean_umis_per_barcode`)) {
+        self$`mean_umis_per_barcode` <- this_object$`mean_umis_per_barcode`
       }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
@@ -688,20 +805,20 @@ PerturbSeqQualityMetric <- R6::R6Class(
           self$`total_cells_passing_filters`
           )
         },
-        if (!is.null(self$`pct_cells_assigned_guide`)) {
+        if (!is.null(self$`frac_cells_with_guide`)) {
           sprintf(
-          '"pct_cells_assigned_guide":
+          '"frac_cells_with_guide":
             %f
                     ',
-          self$`pct_cells_assigned_guide`
+          self$`frac_cells_with_guide`
           )
         },
-        if (!is.null(self$`avg_cells_per_target`)) {
+        if (!is.null(self$`avg_cells_per_guide`)) {
           sprintf(
-          '"avg_cells_per_target":
+          '"avg_cells_per_guide":
             %f
                     ',
-          self$`avg_cells_per_target`
+          self$`avg_cells_per_guide`
           )
         },
         if (!is.null(self$`moi`)) {
@@ -728,28 +845,60 @@ PerturbSeqQualityMetric <- R6::R6Class(
           self$`total_guides`
           )
         },
-        if (!is.null(self$`total_targets`)) {
+        if (!is.null(self$`umi_median`)) {
           sprintf(
-          '"total_targets":
+          '"umi_median":
             %f
                     ',
-          self$`total_targets`
+          self$`umi_median`
           )
         },
-        if (!is.null(self$`guide_diversity`)) {
+        if (!is.null(self$`genes_median`)) {
           sprintf(
-          '"guide_diversity":
+          '"genes_median":
             %f
                     ',
-          self$`guide_diversity`
+          self$`genes_median`
           )
         },
-        if (!is.null(self$`mean_mitochondrial_reads`)) {
+        if (!is.null(self$`n_cells_with_guide`)) {
           sprintf(
-          '"mean_mitochondrial_reads":
+          '"n_cells_with_guide":
             %f
                     ',
-          self$`mean_mitochondrial_reads`
+          self$`n_cells_with_guide`
+          )
+        },
+        if (!is.null(self$`n_cells_exactly_1_guide`)) {
+          sprintf(
+          '"n_cells_exactly_1_guide":
+            %f
+                    ',
+          self$`n_cells_exactly_1_guide`
+          )
+        },
+        if (!is.null(self$`guide_umi_mean`)) {
+          sprintf(
+          '"guide_umi_mean":
+            %f
+                    ',
+          self$`guide_umi_mean`
+          )
+        },
+        if (!is.null(self$`mean_percent_mitochondrial`)) {
+          sprintf(
+          '"mean_percent_mitochondrial":
+            %f
+                    ',
+          self$`mean_percent_mitochondrial`
+          )
+        },
+        if (!is.null(self$`n_targets`)) {
+          sprintf(
+          '"n_targets":
+            %f
+                    ',
+          self$`n_targets`
           )
         },
         if (!is.null(self$`total_reads`)) {
@@ -782,6 +931,46 @@ PerturbSeqQualityMetric <- R6::R6Class(
             %f
                     ',
           self$`total_detected_scrna_barcodes`
+          )
+        },
+        if (!is.null(self$`n_unique`)) {
+          sprintf(
+          '"n_unique":
+            %f
+                    ',
+          self$`n_unique`
+          )
+        },
+        if (!is.null(self$`p_unique`)) {
+          sprintf(
+          '"p_unique":
+            %f
+                    ',
+          self$`p_unique`
+          )
+        },
+        if (!is.null(self$`percentage_barcodes_on_onlist`)) {
+          sprintf(
+          '"percentage_barcodes_on_onlist":
+            %f
+                    ',
+          self$`percentage_barcodes_on_onlist`
+          )
+        },
+        if (!is.null(self$`percentage_reads_on_onlist`)) {
+          sprintf(
+          '"percentage_reads_on_onlist":
+            %f
+                    ',
+          self$`percentage_reads_on_onlist`
+          )
+        },
+        if (!is.null(self$`mean_umis_per_barcode`)) {
+          sprintf(
+          '"mean_umis_per_barcode":
+            %f
+                    ',
+          self$`mean_umis_per_barcode`
           )
         },
         if (!is.null(self$`@id`)) {
@@ -847,18 +1036,27 @@ PerturbSeqQualityMetric <- R6::R6Class(
       self$`quality_metric_of` <- ApiClient$new()$deserializeObj(this_object$`quality_metric_of`, "set[character]", loadNamespace("igvfclient"))
       self$`analysis_step_version` <- this_object$`analysis_step_version`
       self$`total_cells_passing_filters` <- this_object$`total_cells_passing_filters`
-      self$`pct_cells_assigned_guide` <- this_object$`pct_cells_assigned_guide`
-      self$`avg_cells_per_target` <- this_object$`avg_cells_per_target`
+      self$`frac_cells_with_guide` <- this_object$`frac_cells_with_guide`
+      self$`avg_cells_per_guide` <- this_object$`avg_cells_per_guide`
       self$`moi` <- this_object$`moi`
       self$`avg_umis_per_cell` <- this_object$`avg_umis_per_cell`
       self$`total_guides` <- this_object$`total_guides`
-      self$`total_targets` <- this_object$`total_targets`
-      self$`guide_diversity` <- this_object$`guide_diversity`
-      self$`mean_mitochondrial_reads` <- this_object$`mean_mitochondrial_reads`
+      self$`umi_median` <- this_object$`umi_median`
+      self$`genes_median` <- this_object$`genes_median`
+      self$`n_cells_with_guide` <- this_object$`n_cells_with_guide`
+      self$`n_cells_exactly_1_guide` <- this_object$`n_cells_exactly_1_guide`
+      self$`guide_umi_mean` <- this_object$`guide_umi_mean`
+      self$`mean_percent_mitochondrial` <- this_object$`mean_percent_mitochondrial`
+      self$`n_targets` <- this_object$`n_targets`
       self$`total_reads` <- this_object$`total_reads`
       self$`paired_reads_mapped` <- this_object$`paired_reads_mapped`
       self$`alignment_percentage` <- this_object$`alignment_percentage`
       self$`total_detected_scrna_barcodes` <- this_object$`total_detected_scrna_barcodes`
+      self$`n_unique` <- this_object$`n_unique`
+      self$`p_unique` <- this_object$`p_unique`
+      self$`percentage_barcodes_on_onlist` <- this_object$`percentage_barcodes_on_onlist`
+      self$`percentage_reads_on_onlist` <- this_object$`percentage_reads_on_onlist`
+      self$`mean_umis_per_barcode` <- this_object$`mean_umis_per_barcode`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
