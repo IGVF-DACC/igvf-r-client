@@ -34,6 +34,7 @@ Name | Type | Description | Notes
 **supersedes** | **set[character]** | The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. | [optional] 
 **external_image_data_url** | **character** | Links to the external site where images and related data produced by this analysis are stored. | [optional] [Pattern: ^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$] 
 **subset_samples** | **set[character]** | The subset of sample(s) this analysis set represents, such as demultiplexed constituents or a timepoint from a differentiation series. Takes priority over samples inferred from input_file_sets when calculating samples and simplified_sample_summary. | [optional] 
+**condition_treatments** | **set[character]** | Treatments that define the experimental condition(s) this analysis set represents. | [optional] 
 **uniform_pipeline_status** | **character** | The status of the single cell or Perturb-seq uniform pipeline processing for this analysis set, if applicable. | [optional] [Enum: [preprocessing, processing, error, completed]] 
 **pipeline_parameters** | **set[character]** | The document(s) or file(s) providing necessary configurations for reproducing the analysis. | [optional] 
 **@id** | **character** |  | [optional] 

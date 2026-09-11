@@ -36,6 +36,7 @@
 #' @field supersedes The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
 #' @field external_image_data_url Links to the external site where images and related data produced by this analysis are stored. character [optional]
 #' @field subset_samples The subset of sample(s) this analysis set represents, such as demultiplexed constituents or a timepoint from a differentiation series. Takes priority over samples inferred from input_file_sets when calculating samples and simplified_sample_summary. list(character) [optional]
+#' @field condition_treatments Treatments that define the experimental condition(s) this analysis set represents. list(character) [optional]
 #' @field uniform_pipeline_status The status of the single cell or Perturb-seq uniform pipeline processing for this analysis set, if applicable. character [optional]
 #' @field pipeline_parameters The document(s) or file(s) providing necessary configurations for reproducing the analysis. list(character) [optional]
 #' @field @id  character [optional]
@@ -95,6 +96,7 @@ AnalysisSet <- R6::R6Class(
     `supersedes` = NULL,
     `external_image_data_url` = NULL,
     `subset_samples` = NULL,
+    `condition_treatments` = NULL,
     `uniform_pipeline_status` = NULL,
     `pipeline_parameters` = NULL,
     `@id` = NULL,
@@ -153,6 +155,7 @@ AnalysisSet <- R6::R6Class(
     #' @param supersedes The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
     #' @param external_image_data_url Links to the external site where images and related data produced by this analysis are stored.
     #' @param subset_samples The subset of sample(s) this analysis set represents, such as demultiplexed constituents or a timepoint from a differentiation series. Takes priority over samples inferred from input_file_sets when calculating samples and simplified_sample_summary.
+    #' @param condition_treatments Treatments that define the experimental condition(s) this analysis set represents.
     #' @param uniform_pipeline_status The status of the single cell or Perturb-seq uniform pipeline processing for this analysis set, if applicable.
     #' @param pipeline_parameters The document(s) or file(s) providing necessary configurations for reproducing the analysis.
     #' @param @id @id
@@ -179,7 +182,7 @@ AnalysisSet <- R6::R6Class(
     #' @param enrichment_designs The enrichment designs used by the inputs of this analysis set.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `preview_timestamp` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `external_image_data_url` = NULL, `subset_samples` = NULL, `uniform_pipeline_status` = NULL, `pipeline_parameters` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `assay_titles` = NULL, `assay_slims` = NULL, `protocols` = NULL, `simplified_sample_summary` = NULL, `functional_assay_mechanisms` = NULL, `workflows` = NULL, `targeted_genes` = NULL, `targeted_proteins` = NULL, `enrichment_designs` = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `preview_timestamp` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `external_image_data_url` = NULL, `subset_samples` = NULL, `condition_treatments` = NULL, `uniform_pipeline_status` = NULL, `pipeline_parameters` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `assay_titles` = NULL, `assay_slims` = NULL, `protocols` = NULL, `simplified_sample_summary` = NULL, `functional_assay_mechanisms` = NULL, `workflows` = NULL, `targeted_genes` = NULL, `targeted_proteins` = NULL, `enrichment_designs` = NULL, ...) {
       if (!is.null(`is_on_anvil`)) {
         if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
           stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
@@ -348,6 +351,11 @@ AnalysisSet <- R6::R6Class(
         stopifnot(is.vector(`subset_samples`), length(`subset_samples`) != 0)
         sapply(`subset_samples`, function(x) stopifnot(is.character(x)))
         self$`subset_samples` <- `subset_samples`
+      }
+      if (!is.null(`condition_treatments`)) {
+        stopifnot(is.vector(`condition_treatments`), length(`condition_treatments`) != 0)
+        sapply(`condition_treatments`, function(x) stopifnot(is.character(x)))
+        self$`condition_treatments` <- `condition_treatments`
       }
       if (!is.null(`uniform_pipeline_status`)) {
         if (!(`uniform_pipeline_status` %in% c("preprocessing", "processing", "error", "completed"))) {
@@ -604,6 +612,10 @@ AnalysisSet <- R6::R6Class(
         AnalysisSetObject[["subset_samples"]] <-
           self$`subset_samples`
       }
+      if (!is.null(self$`condition_treatments`)) {
+        AnalysisSetObject[["condition_treatments"]] <-
+          self$`condition_treatments`
+      }
       if (!is.null(self$`uniform_pipeline_status`)) {
         AnalysisSetObject[["uniform_pipeline_status"]] <-
           self$`uniform_pipeline_status`
@@ -804,6 +816,9 @@ AnalysisSet <- R6::R6Class(
       }
       if (!is.null(this_object$`subset_samples`)) {
         self$`subset_samples` <- ApiClient$new()$deserializeObj(this_object$`subset_samples`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`condition_treatments`)) {
+        self$`condition_treatments` <- ApiClient$new()$deserializeObj(this_object$`condition_treatments`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`uniform_pipeline_status`)) {
         if (!is.null(this_object$`uniform_pipeline_status`) && !(this_object$`uniform_pipeline_status` %in% c("preprocessing", "processing", "error", "completed"))) {
@@ -1123,6 +1138,14 @@ AnalysisSet <- R6::R6Class(
           paste(unlist(lapply(self$`subset_samples`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`condition_treatments`)) {
+          sprintf(
+          '"condition_treatments":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`condition_treatments`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`uniform_pipeline_status`)) {
           sprintf(
           '"uniform_pipeline_status":
@@ -1364,6 +1387,7 @@ AnalysisSet <- R6::R6Class(
       self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
       self$`external_image_data_url` <- this_object$`external_image_data_url`
       self$`subset_samples` <- ApiClient$new()$deserializeObj(this_object$`subset_samples`, "set[character]", loadNamespace("igvfclient"))
+      self$`condition_treatments` <- ApiClient$new()$deserializeObj(this_object$`condition_treatments`, "set[character]", loadNamespace("igvfclient"))
       if (!is.null(this_object$`uniform_pipeline_status`) && !(this_object$`uniform_pipeline_status` %in% c("preprocessing", "processing", "error", "completed"))) {
         stop(paste("Error! \"", this_object$`uniform_pipeline_status`, "\" cannot be assigned to `uniform_pipeline_status`. Must be \"preprocessing\", \"processing\", \"error\", \"completed\".", sep = ""))
       }
@@ -1474,6 +1498,7 @@ AnalysisSet <- R6::R6Class(
 
 
 
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1522,6 +1547,7 @@ AnalysisSet <- R6::R6Class(
       if (!str_detect(self$`external_image_data_url`, "^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$")) {
         invalid_fields["external_image_data_url"] <- "Invalid value for `external_image_data_url`, must conform to the pattern ^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$."
       }
+
 
 
 

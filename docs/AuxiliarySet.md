@@ -30,7 +30,7 @@ Name | Type | Description | Notes
 **dbxrefs** | **set[character]** | Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file sets. | [optional] 
 **samples** | **set[character]** | The sample(s) associated with this file set. | [optional] 
 **donors** | **set[character]** | The donors of the samples associated with this auxiliary set. | [optional] 
-**file_set_type** | **character** | The category that best describes this auxiliary file set. | [optional] [Enum: [cell hashing barcode sequencing, cell sorting, circularized RNA barcode detection, full-length DNA sequencing, gRNA sequencing, lipid-conjugated oligo sequencing, MORF barcode sequencing, quantification DNA barcode sequencing]] 
+**file_set_type** | **character** | The category that best describes this auxiliary file set. | [optional] [Enum: [cell hashing barcode sequencing, cell sorting, circularized RNA barcode detection, exogenous allelic sequencing, full-length DNA sequencing, gRNA sequencing, lipid-conjugated oligo sequencing, MORF barcode sequencing, quantification DNA barcode sequencing]] 
 **supersedes** | **set[character]** | The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. | [optional] 
 **hashtag_barcode_map** | **character** | The link to the hashtag barcode mapping tabular file. | [optional] 
 **@id** | **character** |  | [optional] 
