@@ -19,6 +19,7 @@ Name | Type | Description | Notes
 **submitted_by** | **character** | The user who submitted the object. | [optional] 
 **submitter_comment** | **character** | Additional information specified by the submitter to be displayed as a comment on the portal. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
 **description** | **character** | A plain text description of the object. | [optional] [Pattern: ^(\\S+(\\s|\\S)*\\S+|\\S)$] 
+**supersedes** | **set[character]** | The document(s) that this document supersedes by virtue of being newer, better, or a fixed version. | [optional] 
 **document_type** | **character** | The category that best describes the document. | [optional] [Enum: [cell fate change protocol, cell marker file, characterization, computational model performance, computational protocol, donor characteristics, experimental protocol, file format specification, image, library structure seqspec, model source data, ontology term reference, pipeline log, pipeline parameters, plate map, plasmid map, plasmid sequence, quality control report, sequence motifs report, standards, tile coordinates]] 
 **characterization_method** | **character** | The method used for the characterization. | [optional] [Enum: [FACS, immunoblot, immunofluorescence, immunoprecipitation, mass spectrometry, PCR, restriction digest, RT-qPCR, sequencing]] 
 **urls** | **set[character]** | External resources with additional information to the document. | [optional] 
@@ -26,5 +27,6 @@ Name | Type | Description | Notes
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** | A summary of the document. | [optional] 
+**superseded_by** | **set[character]** | The document(s) that supersede this document by virtue of being newer, better, or a fixed version. | [optional] 
 
 

@@ -49,7 +49,6 @@
 #' @field checkfiles_version The Checkfiles GitHub version release the file was validated with. character [optional]
 #' @field checkfiles_timestamp The date and time the file object was last checked by the Checkfiles script. character [optional]
 #' @field supersedes The file(s) that this file supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
-#' @field catalog_adapters IGVF Catalog Adapters that ingests this file list(character) [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the model file. character [optional]
@@ -114,7 +113,6 @@ ModelFile <- R6::R6Class(
     `checkfiles_version` = NULL,
     `checkfiles_timestamp` = NULL,
     `supersedes` = NULL,
-    `catalog_adapters` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -178,7 +176,6 @@ ModelFile <- R6::R6Class(
     #' @param checkfiles_version The Checkfiles GitHub version release the file was validated with.
     #' @param checkfiles_timestamp The date and time the file object was last checked by the Checkfiles script.
     #' @param supersedes The file(s) that this file supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
-    #' @param catalog_adapters IGVF Catalog Adapters that ingests this file
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the model file.
@@ -197,7 +194,7 @@ ModelFile <- R6::R6Class(
     #' @param upload_credentials The upload credentials for S3 to submit the file content.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`anvil_url` = NULL, `catalog_collections` = NULL, `catalog_class` = NULL, `catalog_notes` = NULL, `preview_timestamp` = NULL, `externally_hosted` = NULL, `external_host_url` = NULL, `controlled_access` = NULL, `release_timestamp` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `checkfiles_timestamp` = NULL, `supersedes` = NULL, `catalog_adapters` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `superseded_by` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
+    initialize = function(`anvil_url` = NULL, `catalog_collections` = NULL, `catalog_class` = NULL, `catalog_notes` = NULL, `preview_timestamp` = NULL, `externally_hosted` = NULL, `external_host_url` = NULL, `controlled_access` = NULL, `release_timestamp` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `checkfiles_timestamp` = NULL, `supersedes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `superseded_by` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
       if (!is.null(`anvil_url`)) {
         if (!(is.character(`anvil_url`) && length(`anvil_url`) == 1)) {
           stop(paste("Error! Invalid data for `anvil_url`. Must be a string:", `anvil_url`))
@@ -452,11 +449,6 @@ ModelFile <- R6::R6Class(
         stopifnot(is.vector(`supersedes`), length(`supersedes`) != 0)
         sapply(`supersedes`, function(x) stopifnot(is.character(x)))
         self$`supersedes` <- `supersedes`
-      }
-      if (!is.null(`catalog_adapters`)) {
-        stopifnot(is.vector(`catalog_adapters`), length(`catalog_adapters`) != 0)
-        sapply(`catalog_adapters`, function(x) stopifnot(is.character(x)))
-        self$`catalog_adapters` <- `catalog_adapters`
       }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
@@ -718,10 +710,6 @@ ModelFile <- R6::R6Class(
         ModelFileObject[["supersedes"]] <-
           self$`supersedes`
       }
-      if (!is.null(self$`catalog_adapters`)) {
-        ModelFileObject[["catalog_adapters"]] <-
-          self$`catalog_adapters`
-      }
       if (!is.null(self$`@id`)) {
         ModelFileObject[["@id"]] <-
           self$`@id`
@@ -935,9 +923,6 @@ ModelFile <- R6::R6Class(
       }
       if (!is.null(this_object$`supersedes`)) {
         self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
-      }
-      if (!is.null(this_object$`catalog_adapters`)) {
-        self$`catalog_adapters` <- ApiClient$new()$deserializeObj(this_object$`catalog_adapters`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
@@ -1334,14 +1319,6 @@ ModelFile <- R6::R6Class(
           paste(unlist(lapply(self$`supersedes`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
-        if (!is.null(self$`catalog_adapters`)) {
-          sprintf(
-          '"catalog_adapters":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`catalog_adapters`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -1538,7 +1515,6 @@ ModelFile <- R6::R6Class(
       self$`checkfiles_version` <- this_object$`checkfiles_version`
       self$`checkfiles_timestamp` <- this_object$`checkfiles_timestamp`
       self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
-      self$`catalog_adapters` <- ApiClient$new()$deserializeObj(this_object$`catalog_adapters`, "set[character]", loadNamespace("igvfclient"))
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
@@ -1646,7 +1622,6 @@ ModelFile <- R6::R6Class(
 
 
 
-
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1707,7 +1682,6 @@ ModelFile <- R6::R6Class(
       if (!str_detect(self$`md5sum`, "[a-f\\d]{32}|[A-F\\d]{32}")) {
         invalid_fields["md5sum"] <- "Invalid value for `md5sum`, must conform to the pattern [a-f\\d]{32}|[A-F\\d]{32}."
       }
-
 
 
 

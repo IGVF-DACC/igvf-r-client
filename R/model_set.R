@@ -40,7 +40,7 @@
 #' @field model_version The semantic version number for this predictive model set. character [optional]
 #' @field prediction_objects The objects this predictive model set is targeting. list(character) [optional]
 #' @field assay_terms The assay terms used to produce data in this model set. list(character) [optional]
-#' @field model_zoo_location The link to the model on the Kipoi repository. character [optional]
+#' @field model_zoo_location The link to the model on the Kipoi repository or Hugging Face. character [optional]
 #' @field assessed_genes A list of genes assessed in this model set. list(character) [optional]
 #' @field external_input_data A tabular file with links to external data utilized for this model. character [optional]
 #' @field @id  character [optional]
@@ -153,7 +153,7 @@ ModelSet <- R6::R6Class(
     #' @param model_version The semantic version number for this predictive model set.
     #' @param prediction_objects The objects this predictive model set is targeting.
     #' @param assay_terms The assay terms used to produce data in this model set.
-    #' @param model_zoo_location The link to the model on the Kipoi repository.
+    #' @param model_zoo_location The link to the model on the Kipoi repository or Hugging Face.
     #' @param assessed_genes A list of genes assessed in this model set.
     #' @param external_input_data A tabular file with links to external data utilized for this model.
     #' @param @id @id
@@ -1407,7 +1407,7 @@ ModelSet <- R6::R6Class(
 
 
 
-      if (!str_detect(self$`model_zoo_location`, "^https?://kipoi\\.org/models/(\\S+)$")) {
+      if (!str_detect(self$`model_zoo_location`, "^https?://(kipoi\\.org/models/|huggingface\\.co/)(\\S+)$")) {
         return(FALSE)
       }
 
@@ -1471,8 +1471,8 @@ ModelSet <- R6::R6Class(
 
 
 
-      if (!str_detect(self$`model_zoo_location`, "^https?://kipoi\\.org/models/(\\S+)$")) {
-        invalid_fields["model_zoo_location"] <- "Invalid value for `model_zoo_location`, must conform to the pattern ^https?://kipoi\\.org/models/(\\S+)$."
+      if (!str_detect(self$`model_zoo_location`, "^https?://(kipoi\\.org/models/|huggingface\\.co/)(\\S+)$")) {
+        invalid_fields["model_zoo_location"] <- "Invalid value for `model_zoo_location`, must conform to the pattern ^https?://(kipoi\\.org/models/|huggingface\\.co/)(\\S+)$."
       }
 
 

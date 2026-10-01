@@ -47,7 +47,6 @@ Name | Type | Description | Notes
 **checkfiles_version** | **character** | The Checkfiles GitHub version release the file was validated with. | [optional] 
 **checkfiles_timestamp** | **character** | The date and time the file object was last checked by the Checkfiles script. | [optional] 
 **supersedes** | **set[character]** | The file(s) that this file supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. | [optional] 
-**catalog_adapters** | **set[character]** | IGVF Catalog Adapters that ingests this file | [optional] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** | A summary of the model file. | [optional] 

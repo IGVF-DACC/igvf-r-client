@@ -38,7 +38,7 @@ Name | Type | Description | Notes
 **model_version** | **character** | The semantic version number for this predictive model set. | [optional] [Pattern: ^v(?!0\\.0\\.0$)[0-9]+\\.[0-9]+\\.[0-9]+$] 
 **prediction_objects** | **set[character]** | The objects this predictive model set is targeting. | [optional] [Enum: ] 
 **assay_terms** | **set[character]** | The assay terms used to produce data in this model set. | [optional] 
-**model_zoo_location** | **character** | The link to the model on the Kipoi repository. | [optional] [Pattern: ^https?://kipoi\\.org/models/(\\S+)$] 
+**model_zoo_location** | **character** | The link to the model on the Kipoi repository or Hugging Face. | [optional] [Pattern: ^https?://(kipoi\\.org/models/|huggingface\\.co/)(\\S+)$] 
 **assessed_genes** | **set[character]** | A list of genes assessed in this model set. | [optional] 
 **external_input_data** | **character** | A tabular file with links to external data utilized for this model. | [optional] 
 **@id** | **character** |  | [optional] 

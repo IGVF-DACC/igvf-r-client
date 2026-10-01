@@ -51,7 +51,6 @@
 #' @field checkfiles_version The Checkfiles GitHub version release the file was validated with. character [optional]
 #' @field checkfiles_timestamp The date and time the file object was last checked by the Checkfiles script. character [optional]
 #' @field supersedes The file(s) that this file supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
-#' @field catalog_adapters IGVF Catalog Adapters that ingests this file list(character) [optional]
 #' @field submitted_assembly Genome assembly for a tabular file. character [optional]
 #' @field submitted_transcriptome_annotation The annotation and version of the reference resource. character [optional]
 #' @field @id  character [optional]
@@ -125,7 +124,6 @@ TabularFile <- R6::R6Class(
     `checkfiles_version` = NULL,
     `checkfiles_timestamp` = NULL,
     `supersedes` = NULL,
-    `catalog_adapters` = NULL,
     `submitted_assembly` = NULL,
     `submitted_transcriptome_annotation` = NULL,
     `@id` = NULL,
@@ -198,7 +196,6 @@ TabularFile <- R6::R6Class(
     #' @param checkfiles_version The Checkfiles GitHub version release the file was validated with.
     #' @param checkfiles_timestamp The date and time the file object was last checked by the Checkfiles script.
     #' @param supersedes The file(s) that this file supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
-    #' @param catalog_adapters IGVF Catalog Adapters that ingests this file
     #' @param submitted_assembly Genome assembly for a tabular file.
     #' @param submitted_transcriptome_annotation The annotation and version of the reference resource.
     #' @param @id @id
@@ -224,7 +221,7 @@ TabularFile <- R6::R6Class(
     #' @param assembly The assembly associated with the tabular file.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`anvil_url` = NULL, `catalog_collections` = NULL, `catalog_class` = NULL, `catalog_notes` = NULL, `base_modifications` = NULL, `preview_timestamp` = NULL, `controlled_access` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `reference_files` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `checkfiles_timestamp` = NULL, `supersedes` = NULL, `catalog_adapters` = NULL, `submitted_assembly` = NULL, `submitted_transcriptome_annotation` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `superseded_by` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `barcode_map_for` = NULL, `enrichment_design_for` = NULL, `hashtag_barcode_map_for` = NULL, `transcriptome_annotation` = NULL, `assembly` = NULL, ...) {
+    initialize = function(`anvil_url` = NULL, `catalog_collections` = NULL, `catalog_class` = NULL, `catalog_notes` = NULL, `base_modifications` = NULL, `preview_timestamp` = NULL, `controlled_access` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `reference_files` = NULL, `filtered` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `checkfiles_timestamp` = NULL, `supersedes` = NULL, `submitted_assembly` = NULL, `submitted_transcriptome_annotation` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `superseded_by` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, `barcode_map_for` = NULL, `enrichment_design_for` = NULL, `hashtag_barcode_map_for` = NULL, `transcriptome_annotation` = NULL, `assembly` = NULL, ...) {
       if (!is.null(`anvil_url`)) {
         if (!(is.character(`anvil_url`) && length(`anvil_url`) == 1)) {
           stop(paste("Error! Invalid data for `anvil_url`. Must be a string:", `anvil_url`))
@@ -492,11 +489,6 @@ TabularFile <- R6::R6Class(
         stopifnot(is.vector(`supersedes`), length(`supersedes`) != 0)
         sapply(`supersedes`, function(x) stopifnot(is.character(x)))
         self$`supersedes` <- `supersedes`
-      }
-      if (!is.null(`catalog_adapters`)) {
-        stopifnot(is.vector(`catalog_adapters`), length(`catalog_adapters`) != 0)
-        sapply(`catalog_adapters`, function(x) stopifnot(is.character(x)))
-        self$`catalog_adapters` <- `catalog_adapters`
       }
       if (!is.null(`submitted_assembly`)) {
         if (!(`submitted_assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, GRCm39", "GRCh38, mm10", "C57BL_6J_T2T_v1 + GRCm39_X", "CAST_EiJ_T2T_v1", "custom", "unknown"))) {
@@ -811,10 +803,6 @@ TabularFile <- R6::R6Class(
         TabularFileObject[["supersedes"]] <-
           self$`supersedes`
       }
-      if (!is.null(self$`catalog_adapters`)) {
-        TabularFileObject[["catalog_adapters"]] <-
-          self$`catalog_adapters`
-      }
       if (!is.null(self$`submitted_assembly`)) {
         TabularFileObject[["submitted_assembly"]] <-
           self$`submitted_assembly`
@@ -1065,9 +1053,6 @@ TabularFile <- R6::R6Class(
       }
       if (!is.null(this_object$`supersedes`)) {
         self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
-      }
-      if (!is.null(this_object$`catalog_adapters`)) {
-        self$`catalog_adapters` <- ApiClient$new()$deserializeObj(this_object$`catalog_adapters`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`submitted_assembly`)) {
         if (!is.null(this_object$`submitted_assembly`) && !(this_object$`submitted_assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, GRCm39", "GRCh38, mm10", "C57BL_6J_T2T_v1 + GRCm39_X", "CAST_EiJ_T2T_v1", "custom", "unknown"))) {
@@ -1507,14 +1492,6 @@ TabularFile <- R6::R6Class(
           paste(unlist(lapply(self$`supersedes`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
-        if (!is.null(self$`catalog_adapters`)) {
-          sprintf(
-          '"catalog_adapters":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`catalog_adapters`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
         if (!is.null(self$`submitted_assembly`)) {
           sprintf(
           '"submitted_assembly":
@@ -1772,7 +1749,6 @@ TabularFile <- R6::R6Class(
       self$`checkfiles_version` <- this_object$`checkfiles_version`
       self$`checkfiles_timestamp` <- this_object$`checkfiles_timestamp`
       self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
-      self$`catalog_adapters` <- ApiClient$new()$deserializeObj(this_object$`catalog_adapters`, "set[character]", loadNamespace("igvfclient"))
       if (!is.null(this_object$`submitted_assembly`) && !(this_object$`submitted_assembly` %in% c("GRCh38", "hg19", "Cast - GRCm39", "GRCm39", "mm10", "GRCh38, GRCm39", "GRCh38, mm10", "C57BL_6J_T2T_v1 + GRCm39_X", "CAST_EiJ_T2T_v1", "custom", "unknown"))) {
         stop(paste("Error! \"", this_object$`submitted_assembly`, "\" cannot be assigned to `submitted_assembly`. Must be \"GRCh38\", \"hg19\", \"Cast - GRCm39\", \"GRCm39\", \"mm10\", \"GRCh38, GRCm39\", \"GRCh38, mm10\", \"C57BL_6J_T2T_v1 + GRCm39_X\", \"CAST_EiJ_T2T_v1\", \"custom\", \"unknown\".", sep = ""))
       }
@@ -1898,7 +1874,6 @@ TabularFile <- R6::R6Class(
 
 
 
-
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1961,7 +1936,6 @@ TabularFile <- R6::R6Class(
       if (!str_detect(self$`md5sum`, "[a-f\\d]{32}|[A-F\\d]{32}")) {
         invalid_fields["md5sum"] <- "Invalid value for `md5sum`, must conform to the pattern [a-f\\d]{32}|[A-F\\d]{32}."
       }
-
 
 
 

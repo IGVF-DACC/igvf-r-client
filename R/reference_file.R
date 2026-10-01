@@ -53,7 +53,6 @@
 #' @field checkfiles_version The Checkfiles GitHub version release the file was validated with. character [optional]
 #' @field checkfiles_timestamp The date and time the file object was last checked by the Checkfiles script. character [optional]
 #' @field supersedes The file(s) that this file supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. list(character) [optional]
-#' @field catalog_adapters IGVF Catalog Adapters that ingests this file list(character) [optional]
 #' @field catalog_method The method curated in the IGVF catalog that the non-IGVF data in this file processed with character [optional]
 #' @field external_source The external, non-IGVF source of the data in this file. character [optional]
 #' @field version The version of this reference file, used for external files loaded into the IGVF catalog. character [optional]
@@ -126,7 +125,6 @@ ReferenceFile <- R6::R6Class(
     `checkfiles_version` = NULL,
     `checkfiles_timestamp` = NULL,
     `supersedes` = NULL,
-    `catalog_adapters` = NULL,
     `catalog_method` = NULL,
     `external_source` = NULL,
     `version` = NULL,
@@ -198,7 +196,6 @@ ReferenceFile <- R6::R6Class(
     #' @param checkfiles_version The Checkfiles GitHub version release the file was validated with.
     #' @param checkfiles_timestamp The date and time the file object was last checked by the Checkfiles script.
     #' @param supersedes The file(s) that this file supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes.
-    #' @param catalog_adapters IGVF Catalog Adapters that ingests this file
     #' @param catalog_method The method curated in the IGVF catalog that the non-IGVF data in this file processed with
     #' @param external_source The external, non-IGVF source of the data in this file.
     #' @param version The version of this reference file, used for external files loaded into the IGVF catalog.
@@ -221,7 +218,7 @@ ReferenceFile <- R6::R6Class(
     #' @param upload_credentials The upload credentials for S3 to submit the file content.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`externally_hosted` = NULL, `external_host_url` = NULL, `anvil_url` = NULL, `catalog_collections` = NULL, `catalog_class` = NULL, `catalog_notes` = NULL, `preview_timestamp` = NULL, `source_url` = NULL, `controlled_access` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `checkfiles_timestamp` = NULL, `supersedes` = NULL, `catalog_adapters` = NULL, `catalog_method` = NULL, `external_source` = NULL, `version` = NULL, `sources` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `superseded_by` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
+    initialize = function(`externally_hosted` = NULL, `external_host_url` = NULL, `anvil_url` = NULL, `catalog_collections` = NULL, `catalog_class` = NULL, `catalog_notes` = NULL, `preview_timestamp` = NULL, `source_url` = NULL, `controlled_access` = NULL, `assembly` = NULL, `release_timestamp` = NULL, `file_format_type` = NULL, `transcriptome_annotation` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `analysis_step_version` = NULL, `content_md5sum` = NULL, `content_type` = NULL, `dbxrefs` = NULL, `derived_from` = NULL, `derived_manually` = NULL, `file_format` = NULL, `file_format_specifications` = NULL, `file_set` = NULL, `file_size` = NULL, `md5sum` = NULL, `submitted_file_name` = NULL, `upload_status` = NULL, `validation_error_detail` = NULL, `checkfiles_version` = NULL, `checkfiles_timestamp` = NULL, `supersedes` = NULL, `catalog_method` = NULL, `external_source` = NULL, `version` = NULL, `sources` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `integrated_in` = NULL, `input_file_for` = NULL, `gene_list_for` = NULL, `loci_list_for` = NULL, `quality_metrics` = NULL, `superseded_by` = NULL, `assay_titles` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `workflows` = NULL, `href` = NULL, `s3_uri` = NULL, `upload_credentials` = NULL, ...) {
       if (!is.null(`externally_hosted`)) {
         if (!(is.logical(`externally_hosted`) && length(`externally_hosted`) == 1)) {
           stop(paste("Error! Invalid data for `externally_hosted`. Must be a boolean:", `externally_hosted`))
@@ -303,8 +300,8 @@ ReferenceFile <- R6::R6Class(
         self$`file_format_type` <- `file_format_type`
       }
       if (!is.null(`transcriptome_annotation`)) {
-        if (!(`transcriptome_annotation` %in% c("GENCODE 22", "GENCODE 24", "GENCODE 28", "GENCODE 32", "GENCODE 34", "GENCODE 38", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M17", "GENCODE M25", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36", "GENCODE 32, GENCODE M23", "GENCODE 41, GENCODE M25", "GENCODE 44, GENCODE M33", "CAST_EiJ_T2T_v1_TA1", "C57BL_6J_T2T_v1_TA1 + M36_X"))) {
-          stop(paste("Error! \"", `transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 22\", \"GENCODE 24\", \"GENCODE 28\", \"GENCODE 32\", \"GENCODE 34\", \"GENCODE 38\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M17\", \"GENCODE M25\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\", \"GENCODE 32, GENCODE M23\", \"GENCODE 41, GENCODE M25\", \"GENCODE 44, GENCODE M33\", \"CAST_EiJ_T2T_v1_TA1\", \"C57BL_6J_T2T_v1_TA1 + M36_X\".", sep = ""))
+        if (!(`transcriptome_annotation` %in% c("GENCODE 22", "GENCODE 24", "GENCODE 28", "GENCODE 32", "GENCODE 34", "GENCODE 38", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M17", "GENCODE M25", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36", "GENCODE 32, GENCODE M23", "GENCODE 41, GENCODE M25", "GENCODE 44, GENCODE M33", "GENCODE 50", "CAST_EiJ_T2T_v1_TA1", "C57BL_6J_T2T_v1_TA1 + M36_X"))) {
+          stop(paste("Error! \"", `transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 22\", \"GENCODE 24\", \"GENCODE 28\", \"GENCODE 32\", \"GENCODE 34\", \"GENCODE 38\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M17\", \"GENCODE M25\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\", \"GENCODE 32, GENCODE M23\", \"GENCODE 41, GENCODE M25\", \"GENCODE 44, GENCODE M33\", \"GENCODE 50\", \"CAST_EiJ_T2T_v1_TA1\", \"C57BL_6J_T2T_v1_TA1 + M36_X\".", sep = ""))
         }
         if (!(is.character(`transcriptome_annotation`) && length(`transcriptome_annotation`) == 1)) {
           stop(paste("Error! Invalid data for `transcriptome_annotation`. Must be a string:", `transcriptome_annotation`))
@@ -509,11 +506,6 @@ ReferenceFile <- R6::R6Class(
         stopifnot(is.vector(`supersedes`), length(`supersedes`) != 0)
         sapply(`supersedes`, function(x) stopifnot(is.character(x)))
         self$`supersedes` <- `supersedes`
-      }
-      if (!is.null(`catalog_adapters`)) {
-        stopifnot(is.vector(`catalog_adapters`), length(`catalog_adapters`) != 0)
-        sapply(`catalog_adapters`, function(x) stopifnot(is.character(x)))
-        self$`catalog_adapters` <- `catalog_adapters`
       }
       if (!is.null(`catalog_method`)) {
         if (!(`catalog_method` %in% c("ADASTRA", "caQTL", "ClinGen", "COXPRESdb", "DepMap", "eQTL", "GenCC", "GVATdb", "GWAS", "HOCOMOCO", "Homology", "Orphanet", "PharmGKB", "pQTL", "spliceQTL", "TopLD"))) {
@@ -820,10 +812,6 @@ ReferenceFile <- R6::R6Class(
         ReferenceFileObject[["supersedes"]] <-
           self$`supersedes`
       }
-      if (!is.null(self$`catalog_adapters`)) {
-        ReferenceFileObject[["catalog_adapters"]] <-
-          self$`catalog_adapters`
-      }
       if (!is.null(self$`catalog_method`)) {
         ReferenceFileObject[["catalog_method"]] <-
           self$`catalog_method`
@@ -962,8 +950,8 @@ ReferenceFile <- R6::R6Class(
         self$`file_format_type` <- this_object$`file_format_type`
       }
       if (!is.null(this_object$`transcriptome_annotation`)) {
-        if (!is.null(this_object$`transcriptome_annotation`) && !(this_object$`transcriptome_annotation` %in% c("GENCODE 22", "GENCODE 24", "GENCODE 28", "GENCODE 32", "GENCODE 34", "GENCODE 38", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M17", "GENCODE M25", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36", "GENCODE 32, GENCODE M23", "GENCODE 41, GENCODE M25", "GENCODE 44, GENCODE M33", "CAST_EiJ_T2T_v1_TA1", "C57BL_6J_T2T_v1_TA1 + M36_X"))) {
-          stop(paste("Error! \"", this_object$`transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 22\", \"GENCODE 24\", \"GENCODE 28\", \"GENCODE 32\", \"GENCODE 34\", \"GENCODE 38\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M17\", \"GENCODE M25\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\", \"GENCODE 32, GENCODE M23\", \"GENCODE 41, GENCODE M25\", \"GENCODE 44, GENCODE M33\", \"CAST_EiJ_T2T_v1_TA1\", \"C57BL_6J_T2T_v1_TA1 + M36_X\".", sep = ""))
+        if (!is.null(this_object$`transcriptome_annotation`) && !(this_object$`transcriptome_annotation` %in% c("GENCODE 22", "GENCODE 24", "GENCODE 28", "GENCODE 32", "GENCODE 34", "GENCODE 38", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M17", "GENCODE M25", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36", "GENCODE 32, GENCODE M23", "GENCODE 41, GENCODE M25", "GENCODE 44, GENCODE M33", "GENCODE 50", "CAST_EiJ_T2T_v1_TA1", "C57BL_6J_T2T_v1_TA1 + M36_X"))) {
+          stop(paste("Error! \"", this_object$`transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 22\", \"GENCODE 24\", \"GENCODE 28\", \"GENCODE 32\", \"GENCODE 34\", \"GENCODE 38\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M17\", \"GENCODE M25\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\", \"GENCODE 32, GENCODE M23\", \"GENCODE 41, GENCODE M25\", \"GENCODE 44, GENCODE M33\", \"GENCODE 50\", \"CAST_EiJ_T2T_v1_TA1\", \"C57BL_6J_T2T_v1_TA1 + M36_X\".", sep = ""))
         }
         self$`transcriptome_annotation` <- this_object$`transcriptome_annotation`
       }
@@ -1074,9 +1062,6 @@ ReferenceFile <- R6::R6Class(
       }
       if (!is.null(this_object$`supersedes`)) {
         self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
-      }
-      if (!is.null(this_object$`catalog_adapters`)) {
-        self$`catalog_adapters` <- ApiClient$new()$deserializeObj(this_object$`catalog_adapters`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`catalog_method`)) {
         if (!is.null(this_object$`catalog_method`) && !(this_object$`catalog_method` %in% c("ADASTRA", "caQTL", "ClinGen", "COXPRESdb", "DepMap", "eQTL", "GenCC", "GVATdb", "GWAS", "HOCOMOCO", "Homology", "Orphanet", "PharmGKB", "pQTL", "spliceQTL", "TopLD"))) {
@@ -1523,14 +1508,6 @@ ReferenceFile <- R6::R6Class(
           paste(unlist(lapply(self$`supersedes`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
-        if (!is.null(self$`catalog_adapters`)) {
-          sprintf(
-          '"catalog_adapters":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`catalog_adapters`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
         if (!is.null(self$`catalog_method`)) {
           sprintf(
           '"catalog_method":
@@ -1726,8 +1703,8 @@ ReferenceFile <- R6::R6Class(
         stop(paste("Error! \"", this_object$`file_format_type`, "\" cannot be assigned to `file_format_type`. Must be \"bed12\", \"bed3\", \"bed3+\", \"bed5\", \"bed6\", \"bed6+\", \"bed9\", \"bed9+\", \"mpra_element\", \"mpra_variant\".", sep = ""))
       }
       self$`file_format_type` <- this_object$`file_format_type`
-      if (!is.null(this_object$`transcriptome_annotation`) && !(this_object$`transcriptome_annotation` %in% c("GENCODE 22", "GENCODE 24", "GENCODE 28", "GENCODE 32", "GENCODE 34", "GENCODE 38", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M17", "GENCODE M25", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36", "GENCODE 32, GENCODE M23", "GENCODE 41, GENCODE M25", "GENCODE 44, GENCODE M33", "CAST_EiJ_T2T_v1_TA1", "C57BL_6J_T2T_v1_TA1 + M36_X"))) {
-        stop(paste("Error! \"", this_object$`transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 22\", \"GENCODE 24\", \"GENCODE 28\", \"GENCODE 32\", \"GENCODE 34\", \"GENCODE 38\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M17\", \"GENCODE M25\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\", \"GENCODE 32, GENCODE M23\", \"GENCODE 41, GENCODE M25\", \"GENCODE 44, GENCODE M33\", \"CAST_EiJ_T2T_v1_TA1\", \"C57BL_6J_T2T_v1_TA1 + M36_X\".", sep = ""))
+      if (!is.null(this_object$`transcriptome_annotation`) && !(this_object$`transcriptome_annotation` %in% c("GENCODE 22", "GENCODE 24", "GENCODE 28", "GENCODE 32", "GENCODE 34", "GENCODE 38", "GENCODE 40", "GENCODE 41", "GENCODE 42", "GENCODE 43", "GENCODE 44", "GENCODE 45", "GENCODE 47", "GENCODE Cast - M32", "GENCODE M17", "GENCODE M25", "GENCODE M30", "GENCODE M31", "GENCODE M32", "GENCODE M33", "GENCODE M34", "GENCODE M36", "GENCODE 32, GENCODE M23", "GENCODE 41, GENCODE M25", "GENCODE 44, GENCODE M33", "GENCODE 50", "CAST_EiJ_T2T_v1_TA1", "C57BL_6J_T2T_v1_TA1 + M36_X"))) {
+        stop(paste("Error! \"", this_object$`transcriptome_annotation`, "\" cannot be assigned to `transcriptome_annotation`. Must be \"GENCODE 22\", \"GENCODE 24\", \"GENCODE 28\", \"GENCODE 32\", \"GENCODE 34\", \"GENCODE 38\", \"GENCODE 40\", \"GENCODE 41\", \"GENCODE 42\", \"GENCODE 43\", \"GENCODE 44\", \"GENCODE 45\", \"GENCODE 47\", \"GENCODE Cast - M32\", \"GENCODE M17\", \"GENCODE M25\", \"GENCODE M30\", \"GENCODE M31\", \"GENCODE M32\", \"GENCODE M33\", \"GENCODE M34\", \"GENCODE M36\", \"GENCODE 32, GENCODE M23\", \"GENCODE 41, GENCODE M25\", \"GENCODE 44, GENCODE M33\", \"GENCODE 50\", \"CAST_EiJ_T2T_v1_TA1\", \"C57BL_6J_T2T_v1_TA1 + M36_X\".", sep = ""))
       }
       self$`transcriptome_annotation` <- this_object$`transcriptome_annotation`
       self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
@@ -1772,7 +1749,6 @@ ReferenceFile <- R6::R6Class(
       self$`checkfiles_version` <- this_object$`checkfiles_version`
       self$`checkfiles_timestamp` <- this_object$`checkfiles_timestamp`
       self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
-      self$`catalog_adapters` <- ApiClient$new()$deserializeObj(this_object$`catalog_adapters`, "set[character]", loadNamespace("igvfclient"))
       if (!is.null(this_object$`catalog_method`) && !(this_object$`catalog_method` %in% c("ADASTRA", "caQTL", "ClinGen", "COXPRESdb", "DepMap", "eQTL", "GenCC", "GVATdb", "GWAS", "HOCOMOCO", "Homology", "Orphanet", "PharmGKB", "pQTL", "spliceQTL", "TopLD"))) {
         stop(paste("Error! \"", this_object$`catalog_method`, "\" cannot be assigned to `catalog_method`. Must be \"ADASTRA\", \"caQTL\", \"ClinGen\", \"COXPRESdb\", \"DepMap\", \"eQTL\", \"GenCC\", \"GVATdb\", \"GWAS\", \"HOCOMOCO\", \"Homology\", \"Orphanet\", \"PharmGKB\", \"pQTL\", \"spliceQTL\", \"TopLD\".", sep = ""))
       }
@@ -1891,7 +1867,6 @@ ReferenceFile <- R6::R6Class(
 
 
 
-
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -1952,7 +1927,6 @@ ReferenceFile <- R6::R6Class(
       if (!str_detect(self$`md5sum`, "[a-f\\d]{32}|[A-F\\d]{32}")) {
         invalid_fields["md5sum"] <- "Invalid value for `md5sum`, must conform to the pattern [a-f\\d]{32}|[A-F\\d]{32}."
       }
-
 
 
 

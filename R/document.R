@@ -21,6 +21,7 @@
 #' @field submitted_by The user who submitted the object. character [optional]
 #' @field submitter_comment Additional information specified by the submitter to be displayed as a comment on the portal. character [optional]
 #' @field description A plain text description of the object. character [optional]
+#' @field supersedes The document(s) that this document supersedes by virtue of being newer, better, or a fixed version. list(character) [optional]
 #' @field document_type The category that best describes the document. character [optional]
 #' @field characterization_method The method used for the characterization. character [optional]
 #' @field urls External resources with additional information to the document. list(character) [optional]
@@ -28,6 +29,7 @@
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the document. character [optional]
+#' @field superseded_by The document(s) that supersede this document by virtue of being newer, better, or a fixed version. list(character) [optional]
 #' @field _field_list a list of fields list(character)
 #' @field additional_properties additional properties list(character) [optional]
 #' @importFrom R6 R6Class
@@ -51,6 +53,7 @@ Document <- R6::R6Class(
     `submitted_by` = NULL,
     `submitter_comment` = NULL,
     `description` = NULL,
+    `supersedes` = NULL,
     `document_type` = NULL,
     `characterization_method` = NULL,
     `urls` = NULL,
@@ -58,7 +61,8 @@ Document <- R6::R6Class(
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
-    `_field_list` = c("preview_timestamp", "release_timestamp", "status", "lab", "award", "attachment", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "document_type", "characterization_method", "urls", "standardized_file_format", "@id", "@type", "summary"),
+    `superseded_by` = NULL,
+    `_field_list` = c("preview_timestamp", "release_timestamp", "status", "lab", "award", "attachment", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "supersedes", "document_type", "characterization_method", "urls", "standardized_file_format", "@id", "@type", "summary", "superseded_by"),
     `additional_properties` = list(),
     #' Initialize a new Document class.
     #'
@@ -79,6 +83,7 @@ Document <- R6::R6Class(
     #' @param submitted_by The user who submitted the object.
     #' @param submitter_comment Additional information specified by the submitter to be displayed as a comment on the portal.
     #' @param description A plain text description of the object.
+    #' @param supersedes The document(s) that this document supersedes by virtue of being newer, better, or a fixed version.
     #' @param document_type The category that best describes the document.
     #' @param characterization_method The method used for the characterization.
     #' @param urls External resources with additional information to the document.
@@ -86,10 +91,11 @@ Document <- R6::R6Class(
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the document.
+    #' @param superseded_by The document(s) that supersede this document by virtue of being newer, better, or a fixed version.
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `status` = NULL, `lab` = NULL, `award` = NULL, `attachment` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `document_type` = NULL, `characterization_method` = NULL, `urls` = NULL, `standardized_file_format` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `release_timestamp` = NULL, `status` = NULL, `lab` = NULL, `award` = NULL, `attachment` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `supersedes` = NULL, `document_type` = NULL, `characterization_method` = NULL, `urls` = NULL, `standardized_file_format` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `superseded_by` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -174,6 +180,11 @@ Document <- R6::R6Class(
         }
         self$`description` <- `description`
       }
+      if (!is.null(`supersedes`)) {
+        stopifnot(is.vector(`supersedes`), length(`supersedes`) != 0)
+        sapply(`supersedes`, function(x) stopifnot(is.character(x)))
+        self$`supersedes` <- `supersedes`
+      }
       if (!is.null(`document_type`)) {
         if (!(`document_type` %in% c("cell fate change protocol", "cell marker file", "characterization", "computational model performance", "computational protocol", "donor characteristics", "experimental protocol", "file format specification", "image", "library structure seqspec", "model source data", "ontology term reference", "pipeline log", "pipeline parameters", "plate map", "plasmid map", "plasmid sequence", "quality control report", "sequence motifs report", "standards", "tile coordinates"))) {
           stop(paste("Error! \"", `document_type`, "\" cannot be assigned to `document_type`. Must be \"cell fate change protocol\", \"cell marker file\", \"characterization\", \"computational model performance\", \"computational protocol\", \"donor characteristics\", \"experimental protocol\", \"file format specification\", \"image\", \"library structure seqspec\", \"model source data\", \"ontology term reference\", \"pipeline log\", \"pipeline parameters\", \"plate map\", \"plasmid map\", \"plasmid sequence\", \"quality control report\", \"sequence motifs report\", \"standards\", \"tile coordinates\".", sep = ""))
@@ -219,6 +230,11 @@ Document <- R6::R6Class(
           stop(paste("Error! Invalid data for `summary`. Must be a string:", `summary`))
         }
         self$`summary` <- `summary`
+      }
+      if (!is.null(`superseded_by`)) {
+        stopifnot(is.vector(`superseded_by`), length(`superseded_by`) != 0)
+        sapply(`superseded_by`, function(x) stopifnot(is.character(x)))
+        self$`superseded_by` <- `superseded_by`
       }
       if (!is.null(additional_properties)) {
         for (key in names(additional_properties)) {
@@ -291,6 +307,10 @@ Document <- R6::R6Class(
         DocumentObject[["description"]] <-
           self$`description`
       }
+      if (!is.null(self$`supersedes`)) {
+        DocumentObject[["supersedes"]] <-
+          self$`supersedes`
+      }
       if (!is.null(self$`document_type`)) {
         DocumentObject[["document_type"]] <-
           self$`document_type`
@@ -318,6 +338,10 @@ Document <- R6::R6Class(
       if (!is.null(self$`summary`)) {
         DocumentObject[["summary"]] <-
           self$`summary`
+      }
+      if (!is.null(self$`superseded_by`)) {
+        DocumentObject[["superseded_by"]] <-
+          self$`superseded_by`
       }
       for (key in names(self$additional_properties)) {
         DocumentObject[[key]] <- self$additional_properties[[key]]
@@ -382,6 +406,9 @@ Document <- R6::R6Class(
       if (!is.null(this_object$`description`)) {
         self$`description` <- this_object$`description`
       }
+      if (!is.null(this_object$`supersedes`)) {
+        self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
+      }
       if (!is.null(this_object$`document_type`)) {
         if (!is.null(this_object$`document_type`) && !(this_object$`document_type` %in% c("cell fate change protocol", "cell marker file", "characterization", "computational model performance", "computational protocol", "donor characteristics", "experimental protocol", "file format specification", "image", "library structure seqspec", "model source data", "ontology term reference", "pipeline log", "pipeline parameters", "plate map", "plasmid map", "plasmid sequence", "quality control report", "sequence motifs report", "standards", "tile coordinates"))) {
           stop(paste("Error! \"", this_object$`document_type`, "\" cannot be assigned to `document_type`. Must be \"cell fate change protocol\", \"cell marker file\", \"characterization\", \"computational model performance\", \"computational protocol\", \"donor characteristics\", \"experimental protocol\", \"file format specification\", \"image\", \"library structure seqspec\", \"model source data\", \"ontology term reference\", \"pipeline log\", \"pipeline parameters\", \"plate map\", \"plasmid map\", \"plasmid sequence\", \"quality control report\", \"sequence motifs report\", \"standards\", \"tile coordinates\".", sep = ""))
@@ -408,6 +435,9 @@ Document <- R6::R6Class(
       }
       if (!is.null(this_object$`summary`)) {
         self$`summary` <- this_object$`summary`
+      }
+      if (!is.null(this_object$`superseded_by`)) {
+        self$`superseded_by` <- ApiClient$new()$deserializeObj(this_object$`superseded_by`, "set[character]", loadNamespace("igvfclient"))
       }
       # process additional properties/fields in the payload
       for (key in names(this_object)) {
@@ -539,6 +569,14 @@ Document <- R6::R6Class(
           gsub('(?<!\\\\)\\"', '\\\\"', self$`description`, perl=TRUE)
           )
         },
+        if (!is.null(self$`supersedes`)) {
+          sprintf(
+          '"supersedes":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`supersedes`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
+        },
         if (!is.null(self$`document_type`)) {
           sprintf(
           '"document_type":
@@ -594,6 +632,14 @@ Document <- R6::R6Class(
                     ',
           gsub('(?<!\\\\)\\"', '\\\\"', self$`summary`, perl=TRUE)
           )
+        },
+        if (!is.null(self$`superseded_by`)) {
+          sprintf(
+          '"superseded_by":
+             [%s]
+          ',
+          paste(unlist(lapply(self$`superseded_by`, function(x) paste0('"', x, '"'))), collapse = ",")
+          )
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -631,6 +677,7 @@ Document <- R6::R6Class(
       self$`submitted_by` <- this_object$`submitted_by`
       self$`submitter_comment` <- this_object$`submitter_comment`
       self$`description` <- this_object$`description`
+      self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))
       if (!is.null(this_object$`document_type`) && !(this_object$`document_type` %in% c("cell fate change protocol", "cell marker file", "characterization", "computational model performance", "computational protocol", "donor characteristics", "experimental protocol", "file format specification", "image", "library structure seqspec", "model source data", "ontology term reference", "pipeline log", "pipeline parameters", "plate map", "plasmid map", "plasmid sequence", "quality control report", "sequence motifs report", "standards", "tile coordinates"))) {
         stop(paste("Error! \"", this_object$`document_type`, "\" cannot be assigned to `document_type`. Must be \"cell fate change protocol\", \"cell marker file\", \"characterization\", \"computational model performance\", \"computational protocol\", \"donor characteristics\", \"experimental protocol\", \"file format specification\", \"image\", \"library structure seqspec\", \"model source data\", \"ontology term reference\", \"pipeline log\", \"pipeline parameters\", \"plate map\", \"plasmid map\", \"plasmid sequence\", \"quality control report\", \"sequence motifs report\", \"standards\", \"tile coordinates\".", sep = ""))
       }
@@ -644,6 +691,7 @@ Document <- R6::R6Class(
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
+      self$`superseded_by` <- ApiClient$new()$deserializeObj(this_object$`superseded_by`, "set[character]", loadNamespace("igvfclient"))
       # process additional properties/fields in the payload
       for (key in names(this_object)) {
         if (!(key %in% self$`_field_list`)) { # json key not in list of fields
@@ -699,6 +747,8 @@ Document <- R6::R6Class(
       }
 
 
+
+
       TRUE
     },
     #' Return a list of invalid fields (if any).
@@ -726,6 +776,8 @@ Document <- R6::R6Class(
       if (!str_detect(self$`description`, "^(\\S+(\\s|\\S)*\\S+|\\S)$")) {
         invalid_fields["description"] <- "Invalid value for `description`, must conform to the pattern ^(\\S+(\\s|\\S)*\\S+|\\S)$."
       }
+
+
 
 
       invalid_fields
