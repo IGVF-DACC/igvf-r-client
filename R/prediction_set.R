@@ -17,6 +17,7 @@
 #' @field large_scale_loci_list A large scale list (>100) of specific chromosomal regions whose functionality is investigated in this prediction set. This property describes the input variables of the prediction set. For example, this list consists of the genetic variants whose functionality is predicted in this prediction set. character [optional]
 #' @field small_scale_gene_list The specific, small scale list of (<=100) gene(s) whose functionality is investigated in this prediction set. This property describes the input variables of the prediction set. For example, this list consists of the genes whose expression level is predicted in this prediction set. It differs from assessed_genes (see more information under assessed_genes). list(character) [optional]
 #' @field large_scale_gene_list The large scale list of (>100 genes) whose functionality is investigated in this prediction set. This property describes the input variables of the prediction set. For example, this list consists of the genes whose expression level is predicted in this prediction set. It differs from assessed_genes (see more information under assessed_genes). character [optional]
+#' @field large_gene_count Number of genes in large_scale_gene_list integer [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field publications The publications associated with this object. list(character) [optional]
 #' @field documents Documents that provide additional information (not data file). list(character) [optional]
@@ -76,6 +77,7 @@ PredictionSet <- R6::R6Class(
     `large_scale_loci_list` = NULL,
     `small_scale_gene_list` = NULL,
     `large_scale_gene_list` = NULL,
+    `large_gene_count` = NULL,
     `release_timestamp` = NULL,
     `publications` = NULL,
     `documents` = NULL,
@@ -116,7 +118,7 @@ PredictionSet <- R6::R6Class(
     `controlled_access` = NULL,
     `software_versions` = NULL,
     `cell_annotation` = NULL,
-    `_field_list` = c("cell_type", "cell_qualifier", "is_on_anvil", "doi", "preview_timestamp", "input_file_sets", "small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "url", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "dbxrefs", "samples", "donors", "file_set_type", "supersedes", "scope", "assessed_genes", "associated_phenotypes", "@id", "@type", "summary", "files", "control_for", "superseded_by", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access", "software_versions", "cell_annotation"),
+    `_field_list` = c("cell_type", "cell_qualifier", "is_on_anvil", "doi", "preview_timestamp", "input_file_sets", "small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "large_gene_count", "release_timestamp", "publications", "documents", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "url", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "dbxrefs", "samples", "donors", "file_set_type", "supersedes", "scope", "assessed_genes", "associated_phenotypes", "@id", "@type", "summary", "files", "control_for", "superseded_by", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access", "software_versions", "cell_annotation"),
     `additional_properties` = list(),
     #' Initialize a new PredictionSet class.
     #'
@@ -133,6 +135,7 @@ PredictionSet <- R6::R6Class(
     #' @param large_scale_loci_list A large scale list (>100) of specific chromosomal regions whose functionality is investigated in this prediction set. This property describes the input variables of the prediction set. For example, this list consists of the genetic variants whose functionality is predicted in this prediction set.
     #' @param small_scale_gene_list The specific, small scale list of (<=100) gene(s) whose functionality is investigated in this prediction set. This property describes the input variables of the prediction set. For example, this list consists of the genes whose expression level is predicted in this prediction set. It differs from assessed_genes (see more information under assessed_genes).
     #' @param large_scale_gene_list The large scale list of (>100 genes) whose functionality is investigated in this prediction set. This property describes the input variables of the prediction set. For example, this list consists of the genes whose expression level is predicted in this prediction set. It differs from assessed_genes (see more information under assessed_genes).
+    #' @param large_gene_count Number of genes in large_scale_gene_list
     #' @param release_timestamp The date the object was released.
     #' @param publications The publications associated with this object.
     #' @param documents Documents that provide additional information (not data file).
@@ -176,7 +179,7 @@ PredictionSet <- R6::R6Class(
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`cell_type` = NULL, `cell_qualifier` = NULL, `is_on_anvil` = NULL, `doi` = NULL, `preview_timestamp` = NULL, `input_file_sets` = NULL, `small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `scope` = NULL, `assessed_genes` = NULL, `associated_phenotypes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `software_versions` = NULL, `cell_annotation` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`cell_type` = NULL, `cell_qualifier` = NULL, `is_on_anvil` = NULL, `doi` = NULL, `preview_timestamp` = NULL, `input_file_sets` = NULL, `small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `large_gene_count` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `scope` = NULL, `assessed_genes` = NULL, `associated_phenotypes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `software_versions` = NULL, `cell_annotation` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`cell_type`)) {
         if (!(is.character(`cell_type`) && length(`cell_type`) == 1)) {
           stop(paste("Error! Invalid data for `cell_type`. Must be a string:", `cell_type`))
@@ -233,6 +236,12 @@ PredictionSet <- R6::R6Class(
           stop(paste("Error! Invalid data for `large_scale_gene_list`. Must be a string:", `large_scale_gene_list`))
         }
         self$`large_scale_gene_list` <- `large_scale_gene_list`
+      }
+      if (!is.null(`large_gene_count`)) {
+        if (!(is.numeric(`large_gene_count`) && length(`large_gene_count`) == 1)) {
+          stop(paste("Error! Invalid data for `large_gene_count`. Must be an integer:", `large_gene_count`))
+        }
+        self$`large_gene_count` <- `large_gene_count`
       }
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
@@ -519,6 +528,10 @@ PredictionSet <- R6::R6Class(
         PredictionSetObject[["large_scale_gene_list"]] <-
           self$`large_scale_gene_list`
       }
+      if (!is.null(self$`large_gene_count`)) {
+        PredictionSetObject[["large_gene_count"]] <-
+          self$`large_gene_count`
+      }
       if (!is.null(self$`release_timestamp`)) {
         PredictionSetObject[["release_timestamp"]] <-
           self$`release_timestamp`
@@ -724,6 +737,9 @@ PredictionSet <- R6::R6Class(
       }
       if (!is.null(this_object$`large_scale_gene_list`)) {
         self$`large_scale_gene_list` <- this_object$`large_scale_gene_list`
+      }
+      if (!is.null(this_object$`large_gene_count`)) {
+        self$`large_gene_count` <- this_object$`large_gene_count`
       }
       if (!is.null(this_object$`release_timestamp`)) {
         self$`release_timestamp` <- this_object$`release_timestamp`
@@ -950,6 +966,14 @@ PredictionSet <- R6::R6Class(
             "%s"
                     ',
           gsub('(?<!\\\\)\\"', '\\\\"', self$`large_scale_gene_list`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`large_gene_count`)) {
+          sprintf(
+          '"large_gene_count":
+            %f
+                    ',
+          self$`large_gene_count`
           )
         },
         if (!is.null(self$`release_timestamp`)) {
@@ -1301,6 +1325,7 @@ PredictionSet <- R6::R6Class(
       self$`large_scale_loci_list` <- this_object$`large_scale_loci_list`
       self$`small_scale_gene_list` <- ApiClient$new()$deserializeObj(this_object$`small_scale_gene_list`, "set[character]", loadNamespace("igvfclient"))
       self$`large_scale_gene_list` <- this_object$`large_scale_gene_list`
+      self$`large_gene_count` <- this_object$`large_gene_count`
       self$`release_timestamp` <- this_object$`release_timestamp`
       self$`publications` <- ApiClient$new()$deserializeObj(this_object$`publications`, "set[character]", loadNamespace("igvfclient"))
       self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
@@ -1394,6 +1419,10 @@ PredictionSet <- R6::R6Class(
 
 
 
+      if (self$`large_gene_count` < 99) {
+        return(FALSE)
+      }
+
 
 
 
@@ -1449,6 +1478,10 @@ PredictionSet <- R6::R6Class(
 
 
 
+
+      if (self$`large_gene_count` < 99) {
+        invalid_fields["large_gene_count"] <- "Invalid value for `large_gene_count`, must be bigger than or equal to 99."
+      }
 
 
 

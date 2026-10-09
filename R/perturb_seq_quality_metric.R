@@ -26,7 +26,7 @@
 #' @field total_cells_passing_filters Total Cells Passing Filters numeric [optional]
 #' @field frac_cells_with_guide Fraction of cells with at least one assigned guide. numeric [optional]
 #' @field avg_cells_per_guide Average number of cells assigned to each guide. numeric [optional]
-#' @field moi Multiplicity Of Infection numeric [optional]
+#' @field observed_moi The multiplicity of infection (MOI) derived from the Perturb-seq pipeline output. This property is distinct from the experimentally reported `moi` property on the sample. numeric [optional]
 #' @field avg_umis_per_cell Average UMIs Per Cell numeric [optional]
 #' @field total_guides Total Guides numeric [optional]
 #' @field umi_median Median total gene UMIs per cell after filtering. numeric [optional]
@@ -76,7 +76,7 @@ PerturbSeqQualityMetric <- R6::R6Class(
     `total_cells_passing_filters` = NULL,
     `frac_cells_with_guide` = NULL,
     `avg_cells_per_guide` = NULL,
-    `moi` = NULL,
+    `observed_moi` = NULL,
     `avg_umis_per_cell` = NULL,
     `total_guides` = NULL,
     `umi_median` = NULL,
@@ -98,7 +98,7 @@ PerturbSeqQualityMetric <- R6::R6Class(
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
-    `_field_list` = c("preview_timestamp", "status", "release_timestamp", "attachment", "lab", "award", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "quality_metric_of", "analysis_step_version", "total_cells_passing_filters", "frac_cells_with_guide", "avg_cells_per_guide", "moi", "avg_umis_per_cell", "total_guides", "umi_median", "genes_median", "n_cells_with_guide", "n_cells_exactly_1_guide", "guide_umi_mean", "mean_percent_mitochondrial", "n_targets", "total_reads", "paired_reads_mapped", "alignment_percentage", "total_detected_scrna_barcodes", "n_unique", "p_unique", "percentage_barcodes_on_onlist", "percentage_reads_on_onlist", "mean_umis_per_barcode", "@id", "@type", "summary"),
+    `_field_list` = c("preview_timestamp", "status", "release_timestamp", "attachment", "lab", "award", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "quality_metric_of", "analysis_step_version", "total_cells_passing_filters", "frac_cells_with_guide", "avg_cells_per_guide", "observed_moi", "avg_umis_per_cell", "total_guides", "umi_median", "genes_median", "n_cells_with_guide", "n_cells_exactly_1_guide", "guide_umi_mean", "mean_percent_mitochondrial", "n_targets", "total_reads", "paired_reads_mapped", "alignment_percentage", "total_detected_scrna_barcodes", "n_unique", "p_unique", "percentage_barcodes_on_onlist", "percentage_reads_on_onlist", "mean_umis_per_barcode", "@id", "@type", "summary"),
     `additional_properties` = list(),
     #' Initialize a new PerturbSeqQualityMetric class.
     #'
@@ -124,7 +124,7 @@ PerturbSeqQualityMetric <- R6::R6Class(
     #' @param total_cells_passing_filters Total Cells Passing Filters
     #' @param frac_cells_with_guide Fraction of cells with at least one assigned guide.
     #' @param avg_cells_per_guide Average number of cells assigned to each guide.
-    #' @param moi Multiplicity Of Infection
+    #' @param observed_moi The multiplicity of infection (MOI) derived from the Perturb-seq pipeline output. This property is distinct from the experimentally reported `moi` property on the sample.
     #' @param avg_umis_per_cell Average UMIs Per Cell
     #' @param total_guides Total Guides
     #' @param umi_median Median total gene UMIs per cell after filtering.
@@ -149,7 +149,7 @@ PerturbSeqQualityMetric <- R6::R6Class(
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`preview_timestamp` = NULL, `status` = NULL, `release_timestamp` = NULL, `attachment` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `quality_metric_of` = NULL, `analysis_step_version` = NULL, `total_cells_passing_filters` = NULL, `frac_cells_with_guide` = NULL, `avg_cells_per_guide` = NULL, `moi` = NULL, `avg_umis_per_cell` = NULL, `total_guides` = NULL, `umi_median` = NULL, `genes_median` = NULL, `n_cells_with_guide` = NULL, `n_cells_exactly_1_guide` = NULL, `guide_umi_mean` = NULL, `mean_percent_mitochondrial` = NULL, `n_targets` = NULL, `total_reads` = NULL, `paired_reads_mapped` = NULL, `alignment_percentage` = NULL, `total_detected_scrna_barcodes` = NULL, `n_unique` = NULL, `p_unique` = NULL, `percentage_barcodes_on_onlist` = NULL, `percentage_reads_on_onlist` = NULL, `mean_umis_per_barcode` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`preview_timestamp` = NULL, `status` = NULL, `release_timestamp` = NULL, `attachment` = NULL, `lab` = NULL, `award` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `quality_metric_of` = NULL, `analysis_step_version` = NULL, `total_cells_passing_filters` = NULL, `frac_cells_with_guide` = NULL, `avg_cells_per_guide` = NULL, `observed_moi` = NULL, `avg_umis_per_cell` = NULL, `total_guides` = NULL, `umi_median` = NULL, `genes_median` = NULL, `n_cells_with_guide` = NULL, `n_cells_exactly_1_guide` = NULL, `guide_umi_mean` = NULL, `mean_percent_mitochondrial` = NULL, `n_targets` = NULL, `total_reads` = NULL, `paired_reads_mapped` = NULL, `alignment_percentage` = NULL, `total_detected_scrna_barcodes` = NULL, `n_unique` = NULL, `p_unique` = NULL, `percentage_barcodes_on_onlist` = NULL, `percentage_reads_on_onlist` = NULL, `mean_umis_per_barcode` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`preview_timestamp`)) {
         if (!(is.character(`preview_timestamp`) && length(`preview_timestamp`) == 1)) {
           stop(paste("Error! Invalid data for `preview_timestamp`. Must be a string:", `preview_timestamp`))
@@ -254,8 +254,8 @@ PerturbSeqQualityMetric <- R6::R6Class(
       if (!is.null(`avg_cells_per_guide`)) {
         self$`avg_cells_per_guide` <- `avg_cells_per_guide`
       }
-      if (!is.null(`moi`)) {
-        self$`moi` <- `moi`
+      if (!is.null(`observed_moi`)) {
+        self$`observed_moi` <- `observed_moi`
       }
       if (!is.null(`avg_umis_per_cell`)) {
         self$`avg_umis_per_cell` <- `avg_umis_per_cell`
@@ -419,9 +419,9 @@ PerturbSeqQualityMetric <- R6::R6Class(
         PerturbSeqQualityMetricObject[["avg_cells_per_guide"]] <-
           self$`avg_cells_per_guide`
       }
-      if (!is.null(self$`moi`)) {
-        PerturbSeqQualityMetricObject[["moi"]] <-
-          self$`moi`
+      if (!is.null(self$`observed_moi`)) {
+        PerturbSeqQualityMetricObject[["observed_moi"]] <-
+          self$`observed_moi`
       }
       if (!is.null(self$`avg_umis_per_cell`)) {
         PerturbSeqQualityMetricObject[["avg_umis_per_cell"]] <-
@@ -585,8 +585,8 @@ PerturbSeqQualityMetric <- R6::R6Class(
       if (!is.null(this_object$`avg_cells_per_guide`)) {
         self$`avg_cells_per_guide` <- this_object$`avg_cells_per_guide`
       }
-      if (!is.null(this_object$`moi`)) {
-        self$`moi` <- this_object$`moi`
+      if (!is.null(this_object$`observed_moi`)) {
+        self$`observed_moi` <- this_object$`observed_moi`
       }
       if (!is.null(this_object$`avg_umis_per_cell`)) {
         self$`avg_umis_per_cell` <- this_object$`avg_umis_per_cell`
@@ -821,12 +821,12 @@ PerturbSeqQualityMetric <- R6::R6Class(
           self$`avg_cells_per_guide`
           )
         },
-        if (!is.null(self$`moi`)) {
+        if (!is.null(self$`observed_moi`)) {
           sprintf(
-          '"moi":
+          '"observed_moi":
             %f
                     ',
-          self$`moi`
+          self$`observed_moi`
           )
         },
         if (!is.null(self$`avg_umis_per_cell`)) {
@@ -1038,7 +1038,7 @@ PerturbSeqQualityMetric <- R6::R6Class(
       self$`total_cells_passing_filters` <- this_object$`total_cells_passing_filters`
       self$`frac_cells_with_guide` <- this_object$`frac_cells_with_guide`
       self$`avg_cells_per_guide` <- this_object$`avg_cells_per_guide`
-      self$`moi` <- this_object$`moi`
+      self$`observed_moi` <- this_object$`observed_moi`
       self$`avg_umis_per_cell` <- this_object$`avg_umis_per_cell`
       self$`total_guides` <- this_object$`total_guides`
       self$`umi_median` <- this_object$`umi_median`

@@ -15,6 +15,7 @@
 #' @field large_scale_loci_list A large scale list (>100) of specific chromosomal regions. character [optional]
 #' @field small_scale_gene_list The specific, small scale list of (<=100) gene(s) this construct library was designed to target. This property differs from targeted_genes in Measurement Set, which describes genes that are the primary focus of an assay, and from biomarkers.gene on Sample, which describes genes used only as sort or differentiation markers. list(character) [optional]
 #' @field large_scale_gene_list The large scale list of (>100 genes) this construct library was designed to target. character [optional]
+#' @field large_gene_count Number of genes in large_scale_gene_list integer [optional]
 #' @field release_timestamp The date the object was released. character [optional]
 #' @field publications The publications associated with this object. list(character) [optional]
 #' @field documents Documents that provide additional information (not data file). list(character) [optional]
@@ -92,6 +93,7 @@ ConstructLibrarySet <- R6::R6Class(
     `large_scale_loci_list` = NULL,
     `small_scale_gene_list` = NULL,
     `large_scale_gene_list` = NULL,
+    `large_gene_count` = NULL,
     `release_timestamp` = NULL,
     `publications` = NULL,
     `documents` = NULL,
@@ -152,7 +154,7 @@ ConstructLibrarySet <- R6::R6Class(
     `assay_titles` = NULL,
     `assay_slims` = NULL,
     `donors` = NULL,
-    `_field_list` = c("is_on_anvil", "doi", "preview_timestamp", "control_file_sets", "small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "release_timestamp", "publications", "documents", "sources", "lot_id", "product_id", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "file_set_type", "control_types", "scope", "selection_criteria", "integrated_content_files", "associated_phenotypes", "small_scale_orf_list", "large_scale_orf_list", "exon", "tile", "chromosomes", "guide_type", "tiling_modality", "average_guide_coverage", "lower_bound_guide_coverage", "upper_bound_guide_coverage", "average_insert_size", "lower_bound_insert_size", "upper_bound_insert_size", "targeton", "supersedes", "@id", "@type", "summary", "files", "control_for", "superseded_by", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access", "samples", "file_sets", "preferred_assay_titles", "preferred_assay_slims", "assay_titles", "assay_slims", "donors"),
+    `_field_list` = c("is_on_anvil", "doi", "preview_timestamp", "control_file_sets", "small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "large_gene_count", "release_timestamp", "publications", "documents", "sources", "lot_id", "product_id", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "file_set_type", "control_types", "scope", "selection_criteria", "integrated_content_files", "associated_phenotypes", "small_scale_orf_list", "large_scale_orf_list", "exon", "tile", "chromosomes", "guide_type", "tiling_modality", "average_guide_coverage", "lower_bound_guide_coverage", "upper_bound_guide_coverage", "average_insert_size", "lower_bound_insert_size", "upper_bound_insert_size", "targeton", "supersedes", "@id", "@type", "summary", "files", "control_for", "superseded_by", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access", "samples", "file_sets", "preferred_assay_titles", "preferred_assay_slims", "assay_titles", "assay_slims", "donors"),
     `additional_properties` = list(),
     #' Initialize a new ConstructLibrarySet class.
     #'
@@ -167,6 +169,7 @@ ConstructLibrarySet <- R6::R6Class(
     #' @param large_scale_loci_list A large scale list (>100) of specific chromosomal regions.
     #' @param small_scale_gene_list The specific, small scale list of (<=100) gene(s) this construct library was designed to target. This property differs from targeted_genes in Measurement Set, which describes genes that are the primary focus of an assay, and from biomarkers.gene on Sample, which describes genes used only as sort or differentiation markers.
     #' @param large_scale_gene_list The large scale list of (>100 genes) this construct library was designed to target.
+    #' @param large_gene_count Number of genes in large_scale_gene_list
     #' @param release_timestamp The date the object was released.
     #' @param publications The publications associated with this object.
     #' @param documents Documents that provide additional information (not data file).
@@ -230,7 +233,7 @@ ConstructLibrarySet <- R6::R6Class(
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `preview_timestamp` = NULL, `control_file_sets` = NULL, `small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `file_set_type` = NULL, `control_types` = NULL, `scope` = NULL, `selection_criteria` = NULL, `integrated_content_files` = NULL, `associated_phenotypes` = NULL, `small_scale_orf_list` = NULL, `large_scale_orf_list` = NULL, `exon` = NULL, `tile` = NULL, `chromosomes` = NULL, `guide_type` = NULL, `tiling_modality` = NULL, `average_guide_coverage` = NULL, `lower_bound_guide_coverage` = NULL, `upper_bound_guide_coverage` = NULL, `average_insert_size` = NULL, `lower_bound_insert_size` = NULL, `upper_bound_insert_size` = NULL, `targeton` = NULL, `supersedes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `samples` = NULL, `file_sets` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `assay_titles` = NULL, `assay_slims` = NULL, `donors` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`is_on_anvil` = NULL, `doi` = NULL, `preview_timestamp` = NULL, `control_file_sets` = NULL, `small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `large_gene_count` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `sources` = NULL, `lot_id` = NULL, `product_id` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `file_set_type` = NULL, `control_types` = NULL, `scope` = NULL, `selection_criteria` = NULL, `integrated_content_files` = NULL, `associated_phenotypes` = NULL, `small_scale_orf_list` = NULL, `large_scale_orf_list` = NULL, `exon` = NULL, `tile` = NULL, `chromosomes` = NULL, `guide_type` = NULL, `tiling_modality` = NULL, `average_guide_coverage` = NULL, `lower_bound_guide_coverage` = NULL, `upper_bound_guide_coverage` = NULL, `average_insert_size` = NULL, `lower_bound_insert_size` = NULL, `upper_bound_insert_size` = NULL, `targeton` = NULL, `supersedes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `samples` = NULL, `file_sets` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `assay_titles` = NULL, `assay_slims` = NULL, `donors` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`is_on_anvil`)) {
         if (!(is.logical(`is_on_anvil`) && length(`is_on_anvil`) == 1)) {
           stop(paste("Error! Invalid data for `is_on_anvil`. Must be a boolean:", `is_on_anvil`))
@@ -275,6 +278,12 @@ ConstructLibrarySet <- R6::R6Class(
           stop(paste("Error! Invalid data for `large_scale_gene_list`. Must be a string:", `large_scale_gene_list`))
         }
         self$`large_scale_gene_list` <- `large_scale_gene_list`
+      }
+      if (!is.null(`large_gene_count`)) {
+        if (!(is.numeric(`large_gene_count`) && length(`large_gene_count`) == 1)) {
+          stop(paste("Error! Invalid data for `large_gene_count`. Must be an integer:", `large_gene_count`))
+        }
+        self$`large_gene_count` <- `large_gene_count`
       }
       if (!is.null(`release_timestamp`)) {
         if (!(is.character(`release_timestamp`) && length(`release_timestamp`) == 1)) {
@@ -663,6 +672,10 @@ ConstructLibrarySet <- R6::R6Class(
         ConstructLibrarySetObject[["large_scale_gene_list"]] <-
           self$`large_scale_gene_list`
       }
+      if (!is.null(self$`large_gene_count`)) {
+        ConstructLibrarySetObject[["large_gene_count"]] <-
+          self$`large_gene_count`
+      }
       if (!is.null(self$`release_timestamp`)) {
         ConstructLibrarySetObject[["release_timestamp"]] <-
           self$`release_timestamp`
@@ -943,6 +956,9 @@ ConstructLibrarySet <- R6::R6Class(
       if (!is.null(this_object$`large_scale_gene_list`)) {
         self$`large_scale_gene_list` <- this_object$`large_scale_gene_list`
       }
+      if (!is.null(this_object$`large_gene_count`)) {
+        self$`large_gene_count` <- this_object$`large_gene_count`
+      }
       if (!is.null(this_object$`release_timestamp`)) {
         self$`release_timestamp` <- this_object$`release_timestamp`
       }
@@ -1220,6 +1236,14 @@ ConstructLibrarySet <- R6::R6Class(
             "%s"
                     ',
           gsub('(?<!\\\\)\\"', '\\\\"', self$`large_scale_gene_list`, perl=TRUE)
+          )
+        },
+        if (!is.null(self$`large_gene_count`)) {
+          sprintf(
+          '"large_gene_count":
+            %f
+                    ',
+          self$`large_gene_count`
           )
         },
         if (!is.null(self$`release_timestamp`)) {
@@ -1729,6 +1753,7 @@ ConstructLibrarySet <- R6::R6Class(
       self$`large_scale_loci_list` <- this_object$`large_scale_loci_list`
       self$`small_scale_gene_list` <- ApiClient$new()$deserializeObj(this_object$`small_scale_gene_list`, "set[character]", loadNamespace("igvfclient"))
       self$`large_scale_gene_list` <- this_object$`large_scale_gene_list`
+      self$`large_gene_count` <- this_object$`large_gene_count`
       self$`release_timestamp` <- this_object$`release_timestamp`
       self$`publications` <- ApiClient$new()$deserializeObj(this_object$`publications`, "set[character]", loadNamespace("igvfclient"))
       self$`documents` <- ApiClient$new()$deserializeObj(this_object$`documents`, "set[character]", loadNamespace("igvfclient"))
@@ -1848,6 +1873,10 @@ ConstructLibrarySet <- R6::R6Class(
 
 
 
+      if (self$`large_gene_count` < 99) {
+        return(FALSE)
+      }
+
 
 
 
@@ -1935,6 +1964,10 @@ ConstructLibrarySet <- R6::R6Class(
 
 
 
+
+      if (self$`large_gene_count` < 99) {
+        invalid_fields["large_gene_count"] <- "Invalid value for `large_gene_count`, must be bigger than or equal to 99."
+      }
 
 
 

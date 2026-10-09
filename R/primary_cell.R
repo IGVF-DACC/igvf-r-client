@@ -56,7 +56,7 @@
 #' @field sorted_from_detail Detail for sample sorted into fractions capturing information about sorting. character [optional]
 #' @field virtual Virtual samples do not represent actual physical entities from experiments, but instead capture metadata about hypothetical or inferred samples relevant to reported analysis results. character [optional]
 #' @field construct_library_sets The construct library sets of vectors introduced to this sample prior to performing an assay. list(character) [optional]
-#' @field moi The actual multiplicity of infection (MOI) for vectors introduced to this sample. At least one construct library set must be specified in order to specify MOI. This property should capture the actual MOI, and not the targeted MOI. numeric [optional]
+#' @field moi The experimentally reported multiplicity of infection (MOI) for vectors introduced to this sample. This property captures the experimentally measured or estimated MOI, not the targeted MOI, and is distinct from the pipeline-derived observed_moi on a Perturb-seq quality metric. numeric [optional]
 #' @field construct_delivery_methods Methods used to deliver construct libraries into the sample. list(character) [optional]
 #' @field time_post_library_delivery The time that elapsed past the time-point when the construct library sets were introduced. numeric [optional]
 #' @field time_post_library_delivery_units The units of time that elapsed past the point when the construct library sets were introduced. character [optional]
@@ -213,7 +213,7 @@ PrimaryCell <- R6::R6Class(
     #' @param sorted_from_detail Detail for sample sorted into fractions capturing information about sorting.
     #' @param virtual Virtual samples do not represent actual physical entities from experiments, but instead capture metadata about hypothetical or inferred samples relevant to reported analysis results.
     #' @param construct_library_sets The construct library sets of vectors introduced to this sample prior to performing an assay.
-    #' @param moi The actual multiplicity of infection (MOI) for vectors introduced to this sample. At least one construct library set must be specified in order to specify MOI. This property should capture the actual MOI, and not the targeted MOI.
+    #' @param moi The experimentally reported multiplicity of infection (MOI) for vectors introduced to this sample. This property captures the experimentally measured or estimated MOI, not the targeted MOI, and is distinct from the pipeline-derived observed_moi on a Perturb-seq quality metric.
     #' @param construct_delivery_methods Methods used to deliver construct libraries into the sample.
     #' @param time_post_library_delivery The time that elapsed past the time-point when the construct library sets were introduced.
     #' @param time_post_library_delivery_units The units of time that elapsed past the point when the construct library sets were introduced.
