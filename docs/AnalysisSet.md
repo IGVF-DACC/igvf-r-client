@@ -52,6 +52,7 @@ Name | Type | Description | Notes
 **preferred_assay_slims** | **set[character]** | Preferred Assay Slim(s) of assays that produced data analyzed in the analysis set. | [optional] 
 **assay_titles** | **set[character]** | Ontology term names from Ontology of Biomedical Investigations (OBI) for assays | [optional] 
 **assay_slims** | **set[character]** | A broad categorization of the assay term. | [optional] 
+**samples_class** | **character** | Human-readable classification of samples associated with this analysis set. | [optional] 
 **protocols** | **set[character]** | Links to the protocol(s) for conducting the assay on Protocols.io. | [optional] 
 **simplified_sample_summary** | **character** | A summary of the samples associated with input file sets of this analysis set. | [optional] 
 **functional_assay_mechanisms** | **set[character]** | The biological processes measured by the functional assays. | [optional] 
