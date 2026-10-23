@@ -319,8 +319,8 @@ PseudobulkSet <- R6::R6Class(
         self$`donors` <- `donors`
       }
       if (!is.null(`file_set_type`)) {
-        if (!(`file_set_type` %in% c("pseudobulk analysis"))) {
-          stop(paste("Error! \"", `file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"pseudobulk analysis\".", sep = ""))
+        if (!(`file_set_type` %in% c("accessibility pseudobulk", "demultiplexed pseudobulk", "gene expression pseudobulk"))) {
+          stop(paste("Error! \"", `file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"accessibility pseudobulk\", \"demultiplexed pseudobulk\", \"gene expression pseudobulk\".", sep = ""))
         }
         if (!(is.character(`file_set_type`) && length(`file_set_type`) == 1)) {
           stop(paste("Error! Invalid data for `file_set_type`. Must be a string:", `file_set_type`))
@@ -723,8 +723,8 @@ PseudobulkSet <- R6::R6Class(
         self$`donors` <- ApiClient$new()$deserializeObj(this_object$`donors`, "set[character]", loadNamespace("igvfclient"))
       }
       if (!is.null(this_object$`file_set_type`)) {
-        if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("pseudobulk analysis"))) {
-          stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"pseudobulk analysis\".", sep = ""))
+        if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("accessibility pseudobulk", "demultiplexed pseudobulk", "gene expression pseudobulk"))) {
+          stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"accessibility pseudobulk\", \"demultiplexed pseudobulk\", \"gene expression pseudobulk\".", sep = ""))
         }
         self$`file_set_type` <- this_object$`file_set_type`
       }
@@ -1216,8 +1216,8 @@ PseudobulkSet <- R6::R6Class(
       self$`dbxrefs` <- ApiClient$new()$deserializeObj(this_object$`dbxrefs`, "set[character]", loadNamespace("igvfclient"))
       self$`samples` <- ApiClient$new()$deserializeObj(this_object$`samples`, "set[character]", loadNamespace("igvfclient"))
       self$`donors` <- ApiClient$new()$deserializeObj(this_object$`donors`, "set[character]", loadNamespace("igvfclient"))
-      if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("pseudobulk analysis"))) {
-        stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"pseudobulk analysis\".", sep = ""))
+      if (!is.null(this_object$`file_set_type`) && !(this_object$`file_set_type` %in% c("accessibility pseudobulk", "demultiplexed pseudobulk", "gene expression pseudobulk"))) {
+        stop(paste("Error! \"", this_object$`file_set_type`, "\" cannot be assigned to `file_set_type`. Must be \"accessibility pseudobulk\", \"demultiplexed pseudobulk\", \"gene expression pseudobulk\".", sep = ""))
       }
       self$`file_set_type` <- this_object$`file_set_type`
       self$`supersedes` <- ApiClient$new()$deserializeObj(this_object$`supersedes`, "set[character]", loadNamespace("igvfclient"))

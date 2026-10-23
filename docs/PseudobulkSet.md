@@ -32,7 +32,7 @@ Name | Type | Description | Notes
 **dbxrefs** | **set[character]** | Identifiers from external resources that may have 1-to-1 or 1-to-many relationships with IGVF file sets. | [optional] 
 **samples** | **set[character]** | The sample(s) from which the cells in this pseudobulk originated. | [optional] 
 **donors** | **set[character]** | The donors of the samples associated with this pseudobulk set. | [optional] 
-**file_set_type** | **character** | The level of this analysis set. | [optional] [Enum: [pseudobulk analysis]] 
+**file_set_type** | **character** | The level of this analysis set. | [optional] [Enum: [accessibility pseudobulk, demultiplexed pseudobulk, gene expression pseudobulk]] 
 **supersedes** | **set[character]** | The file set(s) that this file set supersedes by virtue of being newer, better, or a fixed version of etc. than the one(s) it supersedes. | [optional] 
 **merged** | **character** | Indicates if the pseudobulk set has been merged from other pseudobulk sets. | [optional] 
 **@id** | **character** |  | [optional] 

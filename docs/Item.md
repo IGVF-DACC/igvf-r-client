@@ -152,7 +152,7 @@ Name | Type | Description | Notes
 **input_file_sets** | **set[character]** | The file set(s) required for this pseudobulking analysis. | [optional] 
 **samples** | **set[character]** | The samples associated with this publication. | [optional] 
 **donors** | **set[character]** | Donor(s) the sample was derived from. | [optional] 
-**file_set_type** | **character** | The level of this analysis set. | [optional] [Enum: [pseudobulk analysis]] 
+**file_set_type** | **character** | The level of this analysis set. | [optional] [Enum: [accessibility pseudobulk, demultiplexed pseudobulk, gene expression pseudobulk]] 
 **external_image_data_url** | **character** | Links to the external site where images and related data produced by this analysis are stored. | [optional] [Pattern: ^https://cellpainting-gallery\\.s3\\.amazonaws\\.com(\\S+)$] 
 **subset_samples** | **set[character]** | The subset of sample(s) this analysis set represents, such as demultiplexed constituents or a timepoint from a differentiation series. Takes priority over samples inferred from input_file_sets when calculating samples and simplified_sample_summary. | [optional] 
 **condition_treatments** | **set[character]** | Treatments that define the experimental condition(s) this analysis set represents. | [optional] 
