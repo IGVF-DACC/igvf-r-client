@@ -43,6 +43,7 @@ Name | Type | Description | Notes
 **scope** | **character** | The scope or scale that this prediction set is designed to target. | [optional] [Enum: [genes, loci, genome-wide]] 
 **assessed_genes** | **set[character]** | A list of gene(s) assessed in this prediction set. This property is used to describe the gene(s) being investigated, especially how the input variables in the prediction set affect some critical functionality of the gene(s). For example, the effect could be predicted from genetic variants on the binding affinity of a transcription factor encoded by a gene (assessed_genes). It differs from small_scale_gene_list and large_scale_gene_list, as these are used when the input variables of the prediction set are genes. | [optional] 
 **associated_phenotypes** | **set[character]** | Ontological terms for diseases or phenotypes associated with this prediction set. | [optional] 
+**principal_software** | **character** | The software that represents the primary method used to produce this prediction set. | [optional] 
 **@id** | **character** |  | [optional] 
 **@type** | **array[character]** |  | [optional] 
 **summary** | **character** | A summary of the prediction set. | [optional] 
@@ -55,6 +56,7 @@ Name | Type | Description | Notes
 **data_use_limitation_summaries** | **set[character]** | The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
 **controlled_access** | **character** | The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. | [optional] 
 **software_versions** | **set[character]** | The software versions used to produce this prediction. | [optional] 
+**software** | **character** | The software representing the method used to produce this prediction. This is the principal software if specified, otherwise the software of the first software version. | [optional] 
 **cell_annotation** | **character** | The cell annotation of this File Set. | [optional] 
 
 

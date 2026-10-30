@@ -45,6 +45,7 @@
 #' @field scope The scope or scale that this prediction set is designed to target. character [optional]
 #' @field assessed_genes A list of gene(s) assessed in this prediction set. This property is used to describe the gene(s) being investigated, especially how the input variables in the prediction set affect some critical functionality of the gene(s). For example, the effect could be predicted from genetic variants on the binding affinity of a transcription factor encoded by a gene (assessed_genes). It differs from small_scale_gene_list and large_scale_gene_list, as these are used when the input variables of the prediction set are genes. list(character) [optional]
 #' @field associated_phenotypes Ontological terms for diseases or phenotypes associated with this prediction set. list(character) [optional]
+#' @field principal_software The software that represents the primary method used to produce this prediction set. character [optional]
 #' @field @id  character [optional]
 #' @field @type  list(character) [optional]
 #' @field summary A summary of the prediction set. character [optional]
@@ -57,6 +58,7 @@
 #' @field data_use_limitation_summaries The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. list(character) [optional]
 #' @field controlled_access The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set. character [optional]
 #' @field software_versions The software versions used to produce this prediction. list(character) [optional]
+#' @field software The software representing the method used to produce this prediction. This is the principal software if specified, otherwise the software of the first software version. character [optional]
 #' @field cell_annotation The cell annotation of this File Set. character [optional]
 #' @field _field_list a list of fields list(character)
 #' @field additional_properties additional properties list(character) [optional]
@@ -105,6 +107,7 @@ PredictionSet <- R6::R6Class(
     `scope` = NULL,
     `assessed_genes` = NULL,
     `associated_phenotypes` = NULL,
+    `principal_software` = NULL,
     `@id` = NULL,
     `@type` = NULL,
     `summary` = NULL,
@@ -117,8 +120,9 @@ PredictionSet <- R6::R6Class(
     `data_use_limitation_summaries` = NULL,
     `controlled_access` = NULL,
     `software_versions` = NULL,
+    `software` = NULL,
     `cell_annotation` = NULL,
-    `_field_list` = c("cell_type", "cell_qualifier", "is_on_anvil", "doi", "preview_timestamp", "input_file_sets", "small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "large_gene_count", "release_timestamp", "publications", "documents", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "url", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "dbxrefs", "samples", "donors", "file_set_type", "supersedes", "scope", "assessed_genes", "associated_phenotypes", "@id", "@type", "summary", "files", "control_for", "superseded_by", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access", "software_versions", "cell_annotation"),
+    `_field_list` = c("cell_type", "cell_qualifier", "is_on_anvil", "doi", "preview_timestamp", "input_file_sets", "small_scale_loci_list", "large_scale_loci_list", "small_scale_gene_list", "large_scale_gene_list", "large_gene_count", "release_timestamp", "publications", "documents", "lab", "award", "accession", "alternate_accessions", "collections", "status", "revoke_detail", "url", "schema_version", "uuid", "notes", "aliases", "creation_timestamp", "submitted_by", "submitter_comment", "description", "dbxrefs", "samples", "donors", "file_set_type", "supersedes", "scope", "assessed_genes", "associated_phenotypes", "principal_software", "@id", "@type", "summary", "files", "control_for", "superseded_by", "submitted_files_timestamp", "input_for", "construct_library_sets", "data_use_limitation_summaries", "controlled_access", "software_versions", "software", "cell_annotation"),
     `additional_properties` = list(),
     #' Initialize a new PredictionSet class.
     #'
@@ -163,6 +167,7 @@ PredictionSet <- R6::R6Class(
     #' @param scope The scope or scale that this prediction set is designed to target.
     #' @param assessed_genes A list of gene(s) assessed in this prediction set. This property is used to describe the gene(s) being investigated, especially how the input variables in the prediction set affect some critical functionality of the gene(s). For example, the effect could be predicted from genetic variants on the binding affinity of a transcription factor encoded by a gene (assessed_genes). It differs from small_scale_gene_list and large_scale_gene_list, as these are used when the input variables of the prediction set are genes.
     #' @param associated_phenotypes Ontological terms for diseases or phenotypes associated with this prediction set.
+    #' @param principal_software The software that represents the primary method used to produce this prediction set.
     #' @param @id @id
     #' @param @type @type
     #' @param summary A summary of the prediction set.
@@ -175,11 +180,12 @@ PredictionSet <- R6::R6Class(
     #' @param data_use_limitation_summaries The data use limitation summaries of institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set.
     #' @param controlled_access The controlled access of the institutional certificates covering the sample associated with this file set which are signed by the same lab (or their partner lab) as the lab that submitted this file set.
     #' @param software_versions The software versions used to produce this prediction.
+    #' @param software The software representing the method used to produce this prediction. This is the principal software if specified, otherwise the software of the first software version.
     #' @param cell_annotation The cell annotation of this File Set.
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`cell_type` = NULL, `cell_qualifier` = NULL, `is_on_anvil` = NULL, `doi` = NULL, `preview_timestamp` = NULL, `input_file_sets` = NULL, `small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `large_gene_count` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `scope` = NULL, `assessed_genes` = NULL, `associated_phenotypes` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `software_versions` = NULL, `cell_annotation` = NULL, additional_properties = NULL, ...) {
+    initialize = function(`cell_type` = NULL, `cell_qualifier` = NULL, `is_on_anvil` = NULL, `doi` = NULL, `preview_timestamp` = NULL, `input_file_sets` = NULL, `small_scale_loci_list` = NULL, `large_scale_loci_list` = NULL, `small_scale_gene_list` = NULL, `large_scale_gene_list` = NULL, `large_gene_count` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `scope` = NULL, `assessed_genes` = NULL, `associated_phenotypes` = NULL, `principal_software` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `software_versions` = NULL, `software` = NULL, `cell_annotation` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`cell_type`)) {
         if (!(is.character(`cell_type`) && length(`cell_type`) == 1)) {
           stop(paste("Error! Invalid data for `cell_type`. Must be a string:", `cell_type`))
@@ -403,6 +409,12 @@ PredictionSet <- R6::R6Class(
         sapply(`associated_phenotypes`, function(x) stopifnot(is.character(x)))
         self$`associated_phenotypes` <- `associated_phenotypes`
       }
+      if (!is.null(`principal_software`)) {
+        if (!(is.character(`principal_software`) && length(`principal_software`) == 1)) {
+          stop(paste("Error! Invalid data for `principal_software`. Must be a string:", `principal_software`))
+        }
+        self$`principal_software` <- `principal_software`
+      }
       if (!is.null(`@id`)) {
         if (!(is.character(`@id`) && length(`@id`) == 1)) {
           stop(paste("Error! Invalid data for `@id`. Must be a string:", `@id`))
@@ -466,6 +478,12 @@ PredictionSet <- R6::R6Class(
         stopifnot(is.vector(`software_versions`), length(`software_versions`) != 0)
         sapply(`software_versions`, function(x) stopifnot(is.character(x)))
         self$`software_versions` <- `software_versions`
+      }
+      if (!is.null(`software`)) {
+        if (!(is.character(`software`) && length(`software`) == 1)) {
+          stop(paste("Error! Invalid data for `software`. Must be a string:", `software`))
+        }
+        self$`software` <- `software`
       }
       if (!is.null(`cell_annotation`)) {
         if (!(is.character(`cell_annotation`) && length(`cell_annotation`) == 1)) {
@@ -640,6 +658,10 @@ PredictionSet <- R6::R6Class(
         PredictionSetObject[["associated_phenotypes"]] <-
           self$`associated_phenotypes`
       }
+      if (!is.null(self$`principal_software`)) {
+        PredictionSetObject[["principal_software"]] <-
+          self$`principal_software`
+      }
       if (!is.null(self$`@id`)) {
         PredictionSetObject[["@id"]] <-
           self$`@id`
@@ -687,6 +709,10 @@ PredictionSet <- R6::R6Class(
       if (!is.null(self$`software_versions`)) {
         PredictionSetObject[["software_versions"]] <-
           self$`software_versions`
+      }
+      if (!is.null(self$`software`)) {
+        PredictionSetObject[["software"]] <-
+          self$`software`
       }
       if (!is.null(self$`cell_annotation`)) {
         PredictionSetObject[["cell_annotation"]] <-
@@ -831,6 +857,9 @@ PredictionSet <- R6::R6Class(
       if (!is.null(this_object$`associated_phenotypes`)) {
         self$`associated_phenotypes` <- ApiClient$new()$deserializeObj(this_object$`associated_phenotypes`, "set[character]", loadNamespace("igvfclient"))
       }
+      if (!is.null(this_object$`principal_software`)) {
+        self$`principal_software` <- this_object$`principal_software`
+      }
       if (!is.null(this_object$`@id`)) {
         self$`@id` <- this_object$`@id`
       }
@@ -866,6 +895,9 @@ PredictionSet <- R6::R6Class(
       }
       if (!is.null(this_object$`software_versions`)) {
         self$`software_versions` <- ApiClient$new()$deserializeObj(this_object$`software_versions`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`software`)) {
+        self$`software` <- this_object$`software`
       }
       if (!is.null(this_object$`cell_annotation`)) {
         self$`cell_annotation` <- this_object$`cell_annotation`
@@ -1192,6 +1224,14 @@ PredictionSet <- R6::R6Class(
           paste(unlist(lapply(self$`associated_phenotypes`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`principal_software`)) {
+          sprintf(
+          '"principal_software":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`principal_software`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`@id`)) {
           sprintf(
           '"@id":
@@ -1288,6 +1328,14 @@ PredictionSet <- R6::R6Class(
           paste(unlist(lapply(self$`software_versions`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
         },
+        if (!is.null(self$`software`)) {
+          sprintf(
+          '"software":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`software`, perl=TRUE)
+          )
+        },
         if (!is.null(self$`cell_annotation`)) {
           sprintf(
           '"cell_annotation":
@@ -1362,6 +1410,7 @@ PredictionSet <- R6::R6Class(
       self$`scope` <- this_object$`scope`
       self$`assessed_genes` <- ApiClient$new()$deserializeObj(this_object$`assessed_genes`, "set[character]", loadNamespace("igvfclient"))
       self$`associated_phenotypes` <- ApiClient$new()$deserializeObj(this_object$`associated_phenotypes`, "set[character]", loadNamespace("igvfclient"))
+      self$`principal_software` <- this_object$`principal_software`
       self$`@id` <- this_object$`@id`
       self$`@type` <- ApiClient$new()$deserializeObj(this_object$`@type`, "array[character]", loadNamespace("igvfclient"))
       self$`summary` <- this_object$`summary`
@@ -1374,6 +1423,7 @@ PredictionSet <- R6::R6Class(
       self$`data_use_limitation_summaries` <- ApiClient$new()$deserializeObj(this_object$`data_use_limitation_summaries`, "set[character]", loadNamespace("igvfclient"))
       self$`controlled_access` <- this_object$`controlled_access`
       self$`software_versions` <- ApiClient$new()$deserializeObj(this_object$`software_versions`, "set[character]", loadNamespace("igvfclient"))
+      self$`software` <- this_object$`software`
       self$`cell_annotation` <- this_object$`cell_annotation`
       # process additional properties/fields in the payload
       for (key in names(this_object)) {
