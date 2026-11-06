@@ -54,7 +54,7 @@
 #' @field preferred_assay_slims Preferred Assay Slim(s) of assays that produced data analyzed in the analysis set. list(character) [optional]
 #' @field assay_titles Ontology term names from Ontology of Biomedical Investigations (OBI) for assays list(character) [optional]
 #' @field assay_slims A broad categorization of the assay term. list(character) [optional]
-#' @field samples_class Human-readable classification of samples associated with this analysis set. character [optional]
+#' @field samples_class Human-readable classification of samples associated with this file set. character [optional]
 #' @field protocols Links to the protocol(s) for conducting the assay on Protocols.io. list(character) [optional]
 #' @field simplified_sample_summary A summary of the samples associated with input file sets of this analysis set. character [optional]
 #' @field functional_assay_mechanisms The biological processes measured by the functional assays. list(character) [optional]
@@ -175,7 +175,7 @@ AnalysisSet <- R6::R6Class(
     #' @param preferred_assay_slims Preferred Assay Slim(s) of assays that produced data analyzed in the analysis set.
     #' @param assay_titles Ontology term names from Ontology of Biomedical Investigations (OBI) for assays
     #' @param assay_slims A broad categorization of the assay term.
-    #' @param samples_class Human-readable classification of samples associated with this analysis set.
+    #' @param samples_class Human-readable classification of samples associated with this file set.
     #' @param protocols Links to the protocol(s) for conducting the assay on Protocols.io.
     #' @param simplified_sample_summary A summary of the samples associated with input file sets of this analysis set.
     #' @param functional_assay_mechanisms The biological processes measured by the functional assays.

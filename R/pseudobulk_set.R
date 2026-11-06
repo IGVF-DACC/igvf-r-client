@@ -54,6 +54,7 @@
 #' @field preferred_assay_slims Preferred Assay Slim(s) of assays that produced data analyzed in the analysis set. list(character) [optional]
 #' @field assay_titles Ontology term names from Ontology of Biomedical Investigations (OBI) for assays. list(character) [optional]
 #' @field assay_slims A broad categorization of the assay term. list(character) [optional]
+#' @field samples_class Human-readable classification of samples associated with this file set. character [optional]
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -107,6 +108,7 @@ PseudobulkSet <- R6::R6Class(
     `preferred_assay_slims` = NULL,
     `assay_titles` = NULL,
     `assay_slims` = NULL,
+    `samples_class` = NULL,
     #' Initialize a new PseudobulkSet class.
     #'
     #' @description
@@ -159,9 +161,10 @@ PseudobulkSet <- R6::R6Class(
     #' @param preferred_assay_slims Preferred Assay Slim(s) of assays that produced data analyzed in the analysis set.
     #' @param assay_titles Ontology term names from Ontology of Biomedical Investigations (OBI) for assays.
     #' @param assay_slims A broad categorization of the assay term.
+    #' @param samples_class Human-readable classification of samples associated with this file set.
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(`cell_type` = NULL, `cell_qualifier` = NULL, `is_on_anvil` = NULL, `doi` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `merged` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `cell_annotation` = NULL, `workflows` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `assay_titles` = NULL, `assay_slims` = NULL, ...) {
+    initialize = function(`cell_type` = NULL, `cell_qualifier` = NULL, `is_on_anvil` = NULL, `doi` = NULL, `input_file_sets` = NULL, `release_timestamp` = NULL, `publications` = NULL, `documents` = NULL, `lab` = NULL, `award` = NULL, `accession` = NULL, `alternate_accessions` = NULL, `collections` = NULL, `status` = NULL, `revoke_detail` = NULL, `url` = NULL, `schema_version` = NULL, `uuid` = NULL, `notes` = NULL, `aliases` = NULL, `creation_timestamp` = NULL, `submitted_by` = NULL, `submitter_comment` = NULL, `description` = NULL, `dbxrefs` = NULL, `samples` = NULL, `donors` = NULL, `file_set_type` = NULL, `supersedes` = NULL, `merged` = NULL, `@id` = NULL, `@type` = NULL, `summary` = NULL, `files` = NULL, `control_for` = NULL, `superseded_by` = NULL, `submitted_files_timestamp` = NULL, `input_for` = NULL, `construct_library_sets` = NULL, `data_use_limitation_summaries` = NULL, `controlled_access` = NULL, `cell_annotation` = NULL, `workflows` = NULL, `preferred_assay_titles` = NULL, `preferred_assay_slims` = NULL, `assay_titles` = NULL, `assay_slims` = NULL, `samples_class` = NULL, ...) {
       if (!is.null(`cell_type`)) {
         if (!(is.character(`cell_type`) && length(`cell_type`) == 1)) {
           stop(paste("Error! Invalid data for `cell_type`. Must be a string:", `cell_type`))
@@ -428,6 +431,12 @@ PseudobulkSet <- R6::R6Class(
         sapply(`assay_slims`, function(x) stopifnot(is.character(x)))
         self$`assay_slims` <- `assay_slims`
       }
+      if (!is.null(`samples_class`)) {
+        if (!(is.character(`samples_class`) && length(`samples_class`) == 1)) {
+          stop(paste("Error! Invalid data for `samples_class`. Must be a string:", `samples_class`))
+        }
+        self$`samples_class` <- `samples_class`
+      }
     },
     #' To JSON string
     #'
@@ -626,6 +635,10 @@ PseudobulkSet <- R6::R6Class(
         PseudobulkSetObject[["assay_slims"]] <-
           self$`assay_slims`
       }
+      if (!is.null(self$`samples_class`)) {
+        PseudobulkSetObject[["samples_class"]] <-
+          self$`samples_class`
+      }
       PseudobulkSetObject
     },
     #' Deserialize JSON string into an instance of PseudobulkSet
@@ -784,6 +797,9 @@ PseudobulkSet <- R6::R6Class(
       }
       if (!is.null(this_object$`assay_slims`)) {
         self$`assay_slims` <- ApiClient$new()$deserializeObj(this_object$`assay_slims`, "set[character]", loadNamespace("igvfclient"))
+      }
+      if (!is.null(this_object$`samples_class`)) {
+        self$`samples_class` <- this_object$`samples_class`
       }
       self
     },
@@ -1171,6 +1187,14 @@ PseudobulkSet <- R6::R6Class(
           ',
           paste(unlist(lapply(self$`assay_slims`, function(x) paste0('"', x, '"'))), collapse = ",")
           )
+        },
+        if (!is.null(self$`samples_class`)) {
+          sprintf(
+          '"samples_class":
+            "%s"
+                    ',
+          gsub('(?<!\\\\)\\"', '\\\\"', self$`samples_class`, perl=TRUE)
+          )
         }
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -1239,6 +1263,7 @@ PseudobulkSet <- R6::R6Class(
       self$`preferred_assay_slims` <- ApiClient$new()$deserializeObj(this_object$`preferred_assay_slims`, "set[character]", loadNamespace("igvfclient"))
       self$`assay_titles` <- ApiClient$new()$deserializeObj(this_object$`assay_titles`, "set[character]", loadNamespace("igvfclient"))
       self$`assay_slims` <- ApiClient$new()$deserializeObj(this_object$`assay_slims`, "set[character]", loadNamespace("igvfclient"))
+      self$`samples_class` <- this_object$`samples_class`
       self
     },
     #' Validate JSON input with respect to PseudobulkSet
